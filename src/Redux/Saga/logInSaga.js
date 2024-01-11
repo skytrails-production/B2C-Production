@@ -13,13 +13,17 @@ function* userLoginRequest(action) {
     const user = yield call(userApi.userB2CLogin, action.payload);
     yield put(fetchLogIn(user));
   } catch (error) {
-    // console.log("Login Error", error?.response?.data)
+    console.log("Login Error saga", error?.response?.data)
     var userNotFound;
+    var inValidOTP = true;
     if (error?.response?.data?.message == 'User Not found.') {
       userNotFound = true
+      yield put(fetchLogIn({ userNotFound }));
+    }
+    else if (error?.response?.data?.message == 'Incorrect OTP') {
+      yield put(fetchLogIn( error?.response?.data ));
     }
 
-    yield put(fetchLogIn({ userNotFound }));
   }
 }
 

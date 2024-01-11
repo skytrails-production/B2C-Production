@@ -11,7 +11,7 @@ import loginGif from "../images/loginGif.gif";
 import loginOtp from "../images/login-01.jpg";
 import { LoginButton } from "../utility/CSS/Button/Button";
 import CloseIcon from "@mui/icons-material/Close";
-import { loginAction, logoutAction } from "../Redux/Auth/logIn/actionLogin";
+import { loginAction, logoutAction, LoginFail } from "../Redux/Auth/logIn/actionLogin";
 // import { loginAction, logoutAction, userData } from "../Redux/Auth/logIn/actionLogin";
 import EventIcon from "@mui/icons-material/Event";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -68,6 +68,9 @@ export default function LoginForm() {
   const [disableButton, setDisableButton] = useState(false);
   const [disableButtonVerifyOPT, setDisableButtonVerifyOPT] = useState(false);
   const [disableResendButton, setDisableResendButton] = useState(false);
+  const [error, setError] = useState(true);
+  const [sub, setSub] = useState(false);
+  // const [apiCallCount,setOptCallCount]=useState(0);
 
   const navigate = useNavigate();
 
@@ -135,9 +138,10 @@ export default function LoginForm() {
         },
       });
 
-      const newToken = res.data.result.token;
+      const newToken = await res.data.result.token;
       sessionStorage.setItem("jwtToken", newToken);
-      // console.log(newToken, "new token")
+      console.log(newToken, res.data, res.data.result.otpVerified, "new token")
+
       if (res.data.statusCode === 200 && res.data.result.firstTime === false) {
         handleClose();
         handleOtpModalOpen();
@@ -156,10 +160,12 @@ export default function LoginForm() {
         setCountdown(60);
       }
       setToken(newToken);
+
     } catch (error) {
       console.log('error', error);
     }
   };
+
 
   //  if user is already registered
 
@@ -252,7 +258,7 @@ export default function LoginForm() {
         },
       });
     } catch (error) {
-      console.error("Error resending OTP:", error);
+      console.warn("Error resending OTP:", error);
     }
   };
 
@@ -349,6 +355,18 @@ export default function LoginForm() {
   // if (status === 200) {
   //   loginSuccess();
   // }
+  useEffect(() => {
+    console.warn(reducerState?.logIn?.loginData, "error,sub ndbfjhdfbvufbyvubfyuv")
+    if (reducerState?.logIn?.loginData?.statusCode !== 200 && reducerState?.logIn?.loginData?.statusCode !== undefined) {
+      setError(false)
+    }
+  }, [reducerState?.logIn?.loginData])
+  function otpvalidReset() {
+    if (!error) {
+      setError(true);
+      dispatch(LoginFail());
+    }
+  }
 
   return (
     <div>
@@ -398,7 +416,7 @@ export default function LoginForm() {
 
       <Modal
         open={open}
-        onClose={()=>{handleClose();}}
+        onClose={() => { handleClose(); }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         sx={{ zIndex: "999999" }}
@@ -414,7 +432,7 @@ export default function LoginForm() {
                         {/* <h2 class="fs-1" >Send OTP</h2> */}
                         <CloseIcon
                           className="closeIncon"
-                          onClick={()=>{handleClose()}}
+                          onClick={() => { handleClose() }}
                         />
                         <div className="loginImg logg">
                           <img src={loginOtp} alt="loginGif" />
@@ -451,7 +469,7 @@ export default function LoginForm() {
                             <div class="col-12">
 
 
-                              {disableButton ? <button 
+                              {disableButton ? <button
                                 class="btn btn-primaryLogin px-4 float-end mt-2"><Typewriter /></button>
                                 : <button type="submit"
                                   onClick={requestSignIn} class="btn btn-primaryLogin px-4 float-end mt-2">Send OTP</button>
@@ -501,11 +519,15 @@ export default function LoginForm() {
                         <div>
                           <div class="row g-4">
                             <div class="col-12">
-                              <label className="mb-3">
-                                Enter OTP<span class="text-danger">*</span>
-                              </label>
-                              <div class="input-group">
-                                <div class="input-group-text">
+                              {error ?
+                                <label className="mb-3">
+                                  Enter OTP<span class="text-danger">*</span>
+                                </label> :
+                                <label className="mb-3">
+                                  <span class="text-danger">Invalid OTP</span>
+                                </label>}
+                              <div class="input-group ">
+                                <div class={`input-group-text ${!error && "invalidOptLogin"} `}>
                                   <i>
                                     <PasswordIcon />
                                   </i>
@@ -513,9 +535,12 @@ export default function LoginForm() {
                                 <input
                                   type="text"
                                   // value={mobileNumber}
-                                  onChange={(e) => setOtp(e.target.value)}
+                                  onChange={(e) => {
+                                    setOtp(e.target.value);
+                                    otpvalidReset();
+                                  }}
                                   name="phone"
-                                  class="form-control"
+                                  class={`form-control  ${!error && "invalidOptLogin"}`}
                                   placeholder="Enter OTP"
                                   autoComplete="off"
                                 />
@@ -538,13 +563,13 @@ export default function LoginForm() {
                               )}
                             </div>
                             <div class="col-12 mt-3">
-                            <button
-                                  // type="submit"
-                                  onClick={()=>{verifyOTP();setDisableButtonVerifyOPT(true)}}
-                                  class="btn btn-primaryLogin px-4 float-end mt-2"
-                                >
-                                  Verify OTP
-                                </button>
+                              <button
+                                // type="submit"
+                                onClick={(e) => { setSub(true); verifyOTP(e) }}
+                                class="btn btn-primaryLogin px-4 float-end mt-2"
+                              >
+                                Verify OTP
+                              </button>
                               {/* {disableButtonVerifyOPT ? <button
                               <button
                                   // type="submit"

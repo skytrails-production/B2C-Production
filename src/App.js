@@ -94,17 +94,12 @@ function App() {
   }, [scrollY, windowWidth]);
 
 
-  // if (!windowWidth) {
-  //   return (
-  //     <>
-  //       <Download />
-  //     </>
-  //   )
-  // }
-
   if (!windowWidth) {
-    window.location.href = "https://play.google.com/store/apps/details?id=com.skytrails";
-    return null;
+    return (
+      <>
+        <Download />
+      </>
+    )
   }
 
   return (

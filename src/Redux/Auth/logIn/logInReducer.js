@@ -36,6 +36,14 @@ export const logInReducer = (state = initialState, action) => {
         isLoading: true,
         isError: false,
       };
+    case types.LOGIN_FAILURE:
+      return {
+        loginData: [],
+        userData: [],
+        isLogin: false,
+        isLoading: false,
+        isError: false,
+      };
 
     default:
       return state;
