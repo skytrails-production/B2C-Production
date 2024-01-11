@@ -1,0 +1,215 @@
+.Bus_box {
+
+    opacity: 1;
+    padding: 15px;
+}
+
+.Bussmal_box {
+    background: #ffffff 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 20px;
+    opacity: 1;
+}
+
+.textarea_field {
+    width: auto;
+    height: auto;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+    padding: 0px 20px;
+    border: none;
+
+}
+
+
+
+.saleSummaryBus {
+    padding: 24px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 8px;
+    background: #FFF;
+    width: 100%;
+    border: 1px solid #999;
+}
+
+
+.fareSummary {
+    padding: 16px;
+    border-radius: 4px;
+    background: #B8CCFF;
+    color: #21325D;
+    width: 100%;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+}
+
+.publishedTax {
+    padding: 16px;
+    /* border-radius: 4px; */
+    background: #E4E4E4;
+    color: #21325D;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 10px;
+
+}
+
+.publishedTax>div {
+    display: flex;
+    width: 100%;
+
+    justify-content: space-between;
+    align-items: center;
+}
+
+.publishedTax p {
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.publishedTax span {
+    color: #071C2C;
+    font-family: 'Montserrat';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+
+.busGrandTotal {
+    padding: 16px;
+    border-radius: 4px;
+    background: #B8CCFF;
+    color: #21325D;
+    width: 100%;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.busGrandTotal p {
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.busGrandTotal span {
+    color: #071C2C;
+    font-family: 'Montserrat';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.pickUpBox {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 30px;
+    padding: 32px 16px;
+    border-radius: 8px;
+    border: 1px solid lightgray;
+    background: #FFF;
+    width: 100%;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.pickUpBox>div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.pickUpBox p {
+    /* color: #000; */
+    color: #d90429;
+    font-family: 'Montserrat';
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-wrap: nowrap;
+}
+
+.pickuppara p {
+    color: #333;
+    font-family: 'Montserrat';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    text-wrap: nowrap;
+}
+
+
+
+.pickUpBox span {
+    color: #000;
+    font-family: 'Montserrat';
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    text-wrap: nowrap;
+}
+
+
+
+.btn-busPassenger {
+    margin: 15px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-busPassenger button {
+    padding: 10px 24px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 700;
+    background-color: #d90429;
+    border: 2px solid #d90429;
+    transition: 0.3 all;
+}
+
+.btn-busPassenger button:hover {
+    background-color: transparent;
+    color: #d90429;
+}
+
+.notval {
+    background-color: #d90429b3 !important;
+}
+
+.error10 {
+    color: #d90429;
+    font-size: 12px !important;
+}

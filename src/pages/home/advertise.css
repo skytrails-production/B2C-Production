@@ -1,0 +1,60 @@
+/* Custom styles for Glider slider */
+
+/* Container styling */
+.glider-container {
+    max-width: 1100px;
+    /* Adjust the width as needed */
+    margin: 0 auto;
+}
+
+/* Slide styling */
+.glider-track {
+    display: flex;
+}
+
+.advertise-container {
+    margin-top: 30px;
+}
+
+.advertise-slide {
+    padding: 10px 2px;
+    box-sizing: border-box;
+}
+
+/* Image styling */
+.advertise-slide img {
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    /* Optional: Add border-radius for rounded corners */
+}
+
+/* Title styling */
+.advertise-slide .title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+
+
+
+.advertise-container .slick-dots li button:before {
+    font-family: 'slick' !important;
+    font-size: 6px !important;
+    line-height: 20px !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 20px !important;
+    height: 20px !important;
+    /* content: '•' !important; */
+    background-color: #21325d;
+    border-radius: 50%;
+    text-align: center !important;
+    opacity: .25 !important;
+    color: white !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}

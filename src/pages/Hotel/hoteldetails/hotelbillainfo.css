@@ -1,0 +1,211 @@
+.hotel_detail_main_container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.boxshaow {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 1px 6px #00000029;
+  border-radius: 10px;
+  opacity: 1;
+}
+
+.hotel-result-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column !important;
+  width: 100%;
+  gap: 10px !important;
+}
+
+.hotel-result-container>div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.price1 {
+  text-align: right;
+  text-decoration: line-through;
+  font: normal normal bold 16px/20px Quicksand !important;
+  letter-spacing: 0px;
+  color: #ff0000;
+}
+
+.price2 {
+  text-align: right;
+  font: normal normal bold 28px/20px Quicksand !important;
+  letter-spacing: 0px;
+  color: #006fff;
+}
+
+.price3 {
+  text-align: right;
+  font: normal normal bold 16px/20px Quicksand !important;
+  letter-spacing: 0px;
+  color: #666666;
+}
+
+.button-btn {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  color: #ff8900 !important;
+  border-radius: 20px !important;
+  opacity: 1;
+}
+
+.rating_icon {
+  background: 0% 0% no-repeat padding-box;
+  border-radius: 20px !important;
+  color: #ffffff !important;
+  background-color: #29b500 !important;
+  opacity: 1;
+}
+
+.borderleft {
+  border-left: 1px solid #666666;
+  height: 13px;
+  display: flex;
+  align-items: center;
+  padding: 3px;
+}
+
+.hotel_name1 {
+  color: #071c2c;
+  /* text-align: center; */
+  font-family: "Montserrat";
+  font-size: 16px !important;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.Free_Cancellation_div {
+  display: flex;
+  flex-direction: column;
+  align-content: space-between;
+}
+
+.hotel_address1 {
+  color: #071c2c;
+  /* text-align: center; */
+  font-family: "Montserrat";
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.Free_Cancellation {
+  color: #496a5b;
+  font-family: "Montserrat";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.hotel_name_container {
+  display: flex;
+  gap: 10px;
+}
+
+.hotel_right_left {
+  display: flex;
+  height: 100%;
+  align-content: space-between;
+  justify-content: space-between;
+  flex-direction: column;
+  /* background-color: #006fff; */
+}
+
+.hotel_Detail_Card_img {
+  border-radius: 4px !important;
+  height: 110px !important;
+}
+
+.Money_Back {
+  color: #a66969;
+  font-family: "Montserrat";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.OfferedPrice {
+  color: #5c85a4;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.PublishedPrice {
+  color: #d90429;
+  text-align: center;
+  font-family: "Montserrat" !important;
+  font-size: 24px !important;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.exclusive_discount {
+  border-radius: 0px 0px 8px 8px;
+  background: #d2f8e7;
+}
+
+.booking_card_left_left {
+  display: flex;
+  gap: 10px;
+}
+
+.booking_card_left {
+  display: flex;
+  justify-content: center;
+}
+
+.extra_price {
+  color: #9e9e9e;
+  text-align: right;
+  font-family: "Montserrat";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.hitel_detail_right {
+  display: flex;
+  align-content: space-between;
+  flex-direction: column;
+  justify-content: space-between;
+  /* height: 100%; */
+  align-items: flex-start;
+}
+
+.hotel_detail_no_cost {
+  color: #071c2c;
+  text-align: center;
+  font-family: "Montserrat";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.hotel_detail_no_cost>span {
+  color: #9e9e9e;
+  text-align: right;
+  font-family: "Montserrat";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}

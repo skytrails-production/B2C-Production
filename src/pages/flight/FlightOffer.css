@@ -1,0 +1,71 @@
+.offerSliderFLight {
+    margin-top: 30px;
+    /* max-width: 1100px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    /* margin: 30px 30px !important; */
+    /* background-color: white; */
+    position: relative;
+    /* top: -70px; */
+    text-align: left;
+    border-radius: 15px;
+    padding: 14px;
+    /* box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px; */
+
+}
+
+.offerText {
+    /* max-width: 1100px; */
+    /* display: flex; */
+    /* justify-content: flex-start; */
+
+    margin: 8px 0px;
+    width: 100%;
+    padding-left: 10px;
+
+}
+
+.offerText p {
+    font-weight: 700;
+    font-size: 24px;
+    color: #21325d;
+    font-family: "Montserrat";
+}
+
+.offerSliderFLight .glider-track {
+    column-gap: 19px;
+}
+
+
+.offerSliderFLight .glider.draggable .glider-slide img {
+    -webkit-user-select: none;
+    user-select: none;
+    pointer-events: none;
+    border-radius: 14px !important;
+    /* height: 178px !important; */
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.offerSliderFLight .glider-dots {
+    margin-top: 20px !important;
+}
+
+
+.offerSliderFLight .glider-dot.active {
+    background: #d90429;
+}
+
+
+.offerSliderFLight .glider.draggable {
+    -webkit-user-select: none;
+    user-select: none;
+    cursor: grab;
+    padding: 20px 0px 25px 0px !important;
+}
+
+
+.offerSliderFLight .glider-container {
+    max-width: unset !important;
+}

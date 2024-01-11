@@ -1,0 +1,43 @@
+.tempBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.tempBox h2 {
+    font-weight: 700;
+    color: #21325d;
+}
+
+.tempBox p {
+    font-weight: 700;
+    font-family: "Montserrat";
+    color: #d90429;
+}
+
+
+.tempBox button {
+    padding: 10px 28px;
+    border: 2px solid #d90429;
+    background-color: #d90429;
+    border-radius: 8px;
+    color: white;
+    font-weight: 700;
+    transition: all 0.2s;
+}
+
+.tempBox button:hover {
+    background-color: unset;
+    color: #d90429;
+
+
+}
+
+.tempBox .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+}

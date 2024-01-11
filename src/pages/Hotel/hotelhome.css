@@ -1,0 +1,546 @@
+/* banner image start */
+/* ::-webkit-scrollbar {
+  width: 2px;
+} */
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:wght@300;400;500;600;700;800&display=swap");
+
+.margin-pecentage {
+  margin: 0% 7%;
+  font-family: "Montserrat", sans-serif;
+}
+
+.hotelFormBg {
+  background-color: #fff;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-radius: 10px;
+  /* z-index: 1; */
+  position: relative;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.ddddd {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+.px4 {
+  padding: 0px 10px;
+}
+
+.yourHotel-container {
+  display: grid;
+  border: 1px #888 solid;
+  border-radius: 10px;
+  grid-template-columns: 20% 20% 20% 20% 20%;
+}
+
+.hotel-container {
+  padding: 12px 21px;
+  border-top-left-radius: 12px;
+  border-right: 1px #888 solid;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 7px;
+  display: inline-flex;
+  position: relative;
+}
+
+.hotel-container:nth-child(2) {
+  padding: 12px 34px;
+}
+
+.hotel-container span {
+  color: #071c2c;
+  font-family: "Montserrat";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.hotel-container input {
+  color: #071c2c;
+  font-family: Montserrat;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  /* width: 141px; */
+  width: 100%;
+  background-color: white !important;
+}
+
+.hotel-container label {
+  color: #071c2c;
+  font-family: Montserrat;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  /* width: 141px; */
+  width: 100%;
+}
+
+.react-datepicker-wrapper input {
+  border: none !important;
+  background-color: transparent;
+  width: 100%;
+  /* border: 2px solid black !important; */
+}
+
+.react-datepicker-wrapper input:active {
+  border: none !important;
+}
+
+.react-datepicker-wrapper input:focus-visible {
+  border: none !important;
+  outline: none !important;
+}
+
+.date-container {
+  /* width: 122px; */
+  /* height: 57px; */
+  padding: 4px;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.hotel-container span {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* backgroundColor: "white",
+borderRadius: "10px",
+zIndex: 1999900,
+width: "100%",
+boxShadow: "rgba(0, 0, 0, 0.09) 0px 3px 12px",
+textAlign: "left",
+cursor: "pointer", */
+
+.city-search-results {
+  position: absolute;
+  left: 0;
+  /* bottom: 30px; */
+  bottom: 50px;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 0px 0px 10px 10px;
+  z-index: 9999;
+  /* height: 400px; */
+  /* overflow: hidden; */
+}
+
+.city-inputtt-div {
+  display: flex;
+  background: #ffffff;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  /* padding-left: 8px; */
+  align-items: center;
+  height: 40px;
+  align-items: center;
+  box-shadow: inset 0px -48px 52px -18px rgba(0, 0, 0, 0.6);
+}
+
+.city-inputtt-div-div {
+  display: flex;
+  background: #ffffff;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  padding-left: 8px;
+  align-items: center;
+  /* background-color: aqua; */
+  height: 38px;
+
+}
+
+/* li:hover{
+  background:rgb(217 4 41 / 11%) !important;
+} */
+
+.city-inputtt {
+  text-align: left;
+  padding-left: 5px;
+  padding-top: 0px;
+  /* background: #ffffff;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1); */
+}
+
+.city-inputtt::placeholder {
+  font-size: 18px !important;
+}
+
+.city_Search_Container {
+  text-align: center;
+  color: black;
+  padding-left: 0;
+  width: 100%;
+  background: white;
+  /* border: 1px solid gray; */
+  border: none;
+  /* border-radius: ; */
+  z-index: 100;
+  position: absolute;
+  top: 40px;
+}
+
+.city-search-results ul li {
+  list-style-type: none;
+  text-align: left;
+  padding: 8px 14px;
+  background: #ffffff;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  /* border-bottom: 1px solid #999; */
+}
+
+/* .city_Search_Container li {
+
+} */
+
+.onewayResultBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+}
+
+.onewayResultFirst {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: left;
+  gap: 10px;
+}
+
+.resultOriginName p {
+  font-weight: 600;
+}
+
+.resultAirportCode p {
+  font-weight: 600;
+}
+
+.travellerButton {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  background-color: transparent;
+  /* gap: 4px; */
+  border: none;
+  outline: none;
+}
+
+.travellerButton span {
+  color: #071c2c;
+  font-family: "Montserrat";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.travellerContainer {
+  padding-top: 10px;
+  padding-bottom: 11px;
+  padding-left: 13px;
+  border-top-left-radius: 12px;
+  /* flex-direction: column; */
+  /* justify-content: space-between; */
+  /* align-items: flex-start; */
+  /* display: inline-flex; */
+}
+
+.travellerButton {
+  cursor: pointer;
+}
+
+.travellerButton p span {
+  color: #071c2c;
+  font-family: Montserrat;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.travellerButton p {
+  /* color: #071C2C;
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal; */
+  color: #071c2c;
+  font-family: Montserrat;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.wrapper_hotel {
+  background: #fff;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 5px;
+  display: flex;
+  width: 100%;
+  font-family: "Montserrat";
+  margin-top: 9px;
+}
+
+.wrapper_hotel>div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wrapper_hotel .option {
+  height: 35px;
+  /* width: 120px; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #f3f3f3;
+  transition: all 0.3s ease;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  font-family: "Montserrat";
+}
+
+/* .wrapper_hotel .wraOne {
+    width: 50%;
+} */
+
+.wrapper_hotel p {
+  /* width: 100px; */
+  font-weight: bold;
+  color: #21325d;
+  margin-bottom: 0 !important;
+  margin: 0px auto;
+}
+
+.wrapper_hotel text {
+  color: #071c2c;
+  font-family: Montserrat;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+#option-1:checked:checked~.option-1 {
+  border-color: #ff8900;
+  background: #21325d;
+}
+
+.fare_search_oneWay button {
+  border: 2px solid #d90429;
+  border-radius: 8px;
+  padding: 8px 20px;
+  background-color: #d90429;
+  color: white;
+  font-weight: 600;
+  transition: 0.3s all;
+}
+
+.fare_search_oneWay button:hover {
+  background-color: #fff;
+  color: #d90429;
+}
+
+/* traveller modal box design  */
+
+.travellerModal {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-between;
+}
+
+.travellerModal>div h3 {
+  font-weight: 600;
+  font-size: 20px;
+  color: #21325d;
+  font-family: "Montserrat";
+}
+
+.travellerPeople {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: center; */
+  /* align-items: center; */
+  gap: 15px;
+  padding: 20px 0px;
+}
+
+.travellerPeople>div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0px 30px;
+  align-items: center;
+}
+
+.TravelerCounter p {
+  color: #21325d;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.TravelerCounter button {
+  padding: 10px 15px;
+  background-color: #fff !important;
+  border: 1px solid #d90429 !important;
+  color: #d90429 !important;
+  border: none;
+  outline: none;
+  font-weight: 700;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.TravelerCounter>div {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  width: 100px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.TravelerCounter>div span {
+  font-weight: 700;
+}
+
+.classButtonTravel {
+  display: flex;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  flex-direction: row;
+  justify-content: space-between;
+  padding-left: 0;
+  margin-top: 15px;
+}
+
+.classButtonTravel li {
+  list-style-type: none;
+  padding: 6px 12px;
+  font-size: 12px;
+  margin: 0;
+  border: 1px solid #d90429 !important;
+  color: #d90429;
+  margin: 0px 5px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
+.classButtonTravel li:hover {
+  background-color: #d90429;
+  color: white;
+}
+
+.roomModal {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #999;
+  padding-bottom: 10px;
+}
+
+.roomModal .hotel_modal_form_input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* padding-top: 15px; */
+}
+
+.hotel_modal_form_input {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 10px;
+  /* padding-top: 15px; */
+}
+
+.hotel_modal_form_input select {
+  height: 40px !important;
+  width: 100px;
+}
+
+.travellerModal h5 {
+  font-weight: 600;
+  color: #21325d;
+  font-family: "Montserrat";
+  font-size: 16px;
+}
+
+.roomModal .hotel_modal_form_input .form_label {
+  font-weight: 600;
+  color: #21325d;
+  font-weight: "Montserrat";
+}
+
+select {
+  outline: none !important;
+}
+
+.room-modal-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.hotel_modal_form_input_child_age {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.hotel_modal_form_input_child_age>div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.hotel_modal_form_input_child_age select {
+  height: 40px !important;
+  width: 100px;
+  margin-right: 15px !important;
+}
+
+@media only screen and (max-width: 1000px) {
+  .hotel-container input {
+    font-size: 19px;
+  }
+
+  .hotel-container span {
+    font-size: 13px;
+  }
+
+  .travellerButton span {
+    font-size: 13px !important;
+  }
+}

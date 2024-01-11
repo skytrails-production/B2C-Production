@@ -1,0 +1,128 @@
+/* styles.css */
+
+/* Default styles for larger screens */
+.skycontainer {
+    width: 90%;
+    margin: auto;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 16px;
+    /* background-image: url('../images/Background.png'); */
+    /* background: #071C2C; */
+
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+.content-containersky {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    display: flex;
+    padding-left: 20px;
+    gap: 30px;
+}
+
+.text-containersky {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    display: flex;
+}
+
+.titlesky {
+    color: #CAB389;
+    font-size: 40px;
+    font-family: 'Montserrat';
+    font-weight: 800;
+    word-wrap: break-word;
+    line-height: normal;
+}
+
+.subtitlesky {
+    color: #CAB389;
+    font-size: 40px;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    word-wrap: break-word;
+}
+
+.descriptionsky {
+    width: 326px;
+    color: white;
+    font-size: 22px;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    word-wrap: break-word;
+}
+
+.image-containersky {
+    width: 70%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    display: flex;
+    padding-left: 20px;
+    gap: 30px;
+}
+
+.card {
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 50%;
+    display: flex;
+    border-radius: 12px;
+    height: 210px;
+}
+
+.card-image {
+    width: 100%;
+    background: #F9F7F7;
+    border-radius: 12px;
+}
+
+.card-title {
+    left: 10px;
+    top: 128px;
+    position: absolute;
+    color: #071C2C;
+    font-size: 16px;
+    font-family: 'Montserrat';
+    font-weight: 700;
+    word-wrap: break-word;
+}
+
+.card-text {
+    left: 12px;
+    top: 151px;
+    position: absolute;
+    color: black;
+    font-size: 13px;
+    font-family: 'Montserrat';
+    font-weight: 500;
+    word-wrap: break-word;
+}
+
+/* Media query for smaller screens */
+@media screen and (max-width: 1000px) {
+    .skycontainer {
+        width: 100%;
+        padding: 15px;
+    }
+
+    .titlesky,
+    .subtitlesky {
+        font-size: 30px;
+    }
+
+    .descriptionsky {
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .card {
+        width: 100%;
+    }
+}

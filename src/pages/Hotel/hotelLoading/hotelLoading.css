@@ -1,0 +1,19 @@
+.hotelLoading {
+    position: fixed;
+    /* position: relative; */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999 !important;
+    /* margin-top: 65px; */
+}
+
+.hotelLoading img {
+    width: 300px;
+    height: 238px;
+}

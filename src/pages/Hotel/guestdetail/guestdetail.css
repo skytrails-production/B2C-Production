@@ -1,0 +1,164 @@
+.Min_head {
+    text-align: center !important;
+    font-size: 20px !important;
+    font-weight: bold !important;
+    letter-spacing: 0px;
+    color: #252525 !important;
+    opacity: 1 !important;
+}
+
+.bookingDetailsGuest {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border-radius: 6px;
+}
+
+.bookingDetailsGuestHeader {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: #DFE6F7;
+    padding: 15px;
+    border-radius: 6px;
+}
+
+.bookingDetailsGuestHeader p {
+    color: #000;
+
+    font-family: 'Montserrat';
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.bookingDetailsGuestBody {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 15px;
+}
+
+.bookingDetailsGuestBody>div {
+    display: flex;
+    flex-direction: row;
+    column-gap: 30px;
+    align-items: center;
+}
+
+.bookingDetailsGuestBody>div:nth-last-child(1)>div {
+    display: flex;
+    gap: 20px;
+}
+
+.bookingDetailsGuestBody p {
+    color: #000;
+
+    font-family: 'Montserrat';
+    font-size: 16.144px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.bookingDetailsGuestBody span {
+    color: #000;
+
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+
+.bookingDetailsGuestBody>div:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+
+
+/* passenger details  */
+
+.passengerDetailsGuestBody {
+    border: 1px solid #ddd;
+    display: flex;
+    flex-direction: row;
+    /* gap: 10px; */
+    column-gap: 20px;
+    padding: 12px 15px;
+}
+
+.passengerDetailsGuestBody>div {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    row-gap: 15px;
+    align-items: flex-start;
+}
+
+.passengerDetailsGuestBody p {
+    color: #000;
+
+    font-family: 'Montserrat';
+    font-size: 16.144px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.passengerDetailsGuestBody span {
+    color: #000;
+
+    font-family: 'Montserrat';
+    font-size: 16.144px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+
+
+
+.otherDetailsDataGuest {
+    background-color: #DFE6F7;
+    border-radius: 8px;
+    padding: 15px;
+    /* background: #D8DFF2; */
+}
+
+
+.guestDetailsNorms {
+    /* background-color: ; */
+    border-radius: 8px;
+    padding: 8px 15px;
+}
+
+.guestDetailsHistory {
+    /* background-color: ; */
+    border-radius: 8px;
+    padding: 8px 0px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 15px;
+}
+
+.guestDetailsHistory button {
+
+    padding: 14px 42px;
+    border-radius: 5.302px;
+    background: #21325D;
+    border: 2px solid #21325D;
+    color: #FFF;
+
+    font-family: 'Montserrat';
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}

@@ -1,0 +1,22 @@
+.logo-back {
+  position: relative;
+  width: 200px;
+}
+
+.logo-front {
+  position: absolute;
+  width: 170px;
+  left: 28px;
+  top: 10px;
+}
+
+.seconddiv {
+  border-radius: 24px 0px 0px 24px;
+  /* background: #fff; */
+  /* background: #fff; */
+  /* padding: 0px 5px; */
+  align-items: center;
+  gap: 108px;
+
+  /* height: 70px; */
+}

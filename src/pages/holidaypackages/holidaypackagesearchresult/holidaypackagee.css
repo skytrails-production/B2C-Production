@@ -1,0 +1,516 @@
+/* yourComponentStyles.css */
+
+.mainpackage {
+  width: 100%;
+
+  margin-top: 20px;
+}
+
+.your-containerholi {
+  width: 100%;
+  margin: auto;
+  background: white;
+  border-radius: 12px;
+  border: 1px #071C2C solid;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.theme {
+  color: #B03737;
+  font-family: 'Montserrat' !important;
+  font-size: 16px !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  line-height: normal !important;
+}
+
+.left-sectionholi {
+  width: 550.41px;
+  display: flex;
+  align-self: stretch;
+  padding-left: 24px;
+  padding-right: 24px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  border-right: 0.50px black solid;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 28px;
+}
+
+.image-section {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 6px;
+
+}
+
+.main-image {
+  width: 200.41px;
+  height: 109px;
+
+
+}
+
+.icon-section {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.icon-section img {
+  width: 44.10px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.view-all {
+  position: absolute;
+  left: 161px;
+  top: 15px;
+  background: #F2F2F2;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  padding: 2px 4px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  display: flex;
+}
+
+.view-all-text {
+  text-align: center;
+  color: #071C2C;
+  font-size: 6px;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.empty-section {
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.right-sectionholi {
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  text-align: right;
+  gap: 34px;
+}
+
+.price-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.top-price {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.price-value {
+  width: 53.82px;
+  height: 15px;
+  position: relative;
+}
+
+.price-value div {
+  position: absolute;
+  left: 2.91px;
+  top: 0;
+  text-align: center;
+  color: #5C85A4;
+  font-size: 12px;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.price-line {
+  width: 54px;
+  height: 0;
+  left: 0;
+  top: 5.83px;
+  position: absolute;
+  transform: rotate(4.62deg);
+  transform-origin: 0 0;
+  background: #5C85A4;
+  border: 1px black solid;
+}
+
+.bottom-price {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.main-price {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+}
+
+.main-price-value {
+  text-align: right;
+  color: #d90429;
+  font-size: 24px;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.discount-icon {
+  width: 20px;
+  height: 20px;
+  position: relative;
+  transform: rotate(-90deg);
+  transform-origin: 0 0;
+}
+
+.discount-icon div {
+  width: 10.01px;
+  height: 6.01px;
+  left: 5px;
+  top: 6.99px;
+  position: absolute;
+  background: #d90429;
+}
+
+.taxes-and-fees {
+  text-align: right;
+  color: #9E9E9E;
+  font-size: 12px;
+  font-family: 'Montserrat';
+  font-weight: 400;
+  word-wrap: break-word;
+
+}
+
+.duration-section1 {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 24px;
+}
+
+.duration-value1 {
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background: #071C2C;
+  border-radius: 16px;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  display: flex;
+  color: white;
+  text-align: center;
+  color: white;
+  font-size: 16px;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+
+/* yourComponentStyles.css */
+
+.your-containerpackage {
+
+
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
+  display: inline-flex;
+}
+
+.header-sectionpackage {
+  width: 386px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  display: inline-flex;
+}
+
+.title-sectionpackage {
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 4px;
+  display: inline-flex;
+}
+
+.main-titlepackage {
+  width: 252px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
+  display: inline-flex;
+  text-align: center;
+  color: #071C2C;
+  font-size: 16px;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.subtitlepackage {
+  text-align: center;
+  color: #d90429;
+  font-size: 13px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.icons-sectionpackage {
+  height: 39px;
+  justify-content: space-between;
+  align-items: flex-end;
+  display: flex;
+}
+
+.activity-icon,
+.flight-icon,
+.hotel-icon,
+.transfer-icon {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+
+.icon-bg {
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.icon-bg::before {
+  width: 24px;
+  height: 24px;
+  left: 0;
+  top: 0;
+  position: absolute;
+  background: #D9D9D9;
+}
+
+.icon-bg::after {
+  width: 22px;
+  height: 16px;
+  left: 1px;
+  top: 4px;
+  position: absolute;
+  background: #071C2C;
+}
+
+.icon-text {
+  color: black;
+  font-size: 12px;
+  font-family: 'Montserrat';
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+.details-section {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 6px;
+  display: flex;
+}
+
+.bullet-points {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  display: inline-flex;
+}
+
+.bullet {
+  width: 8px;
+  height: 8px;
+  background: #BBBBBB;
+  border-radius: 9999px;
+}
+
+.point-text {
+  text-align: center;
+  color: #BBBBBB;
+  font-size: 12px;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+/* yourComponentStyles.css */
+
+/* .your-containerpackage {
+  width: 386px;
+  height: 39px;
+  justify-content: space-between;
+  align-items: flex-end;
+  display: inline-flex;
+}
+
+.icon-section {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  display: flex;
+}
+
+.activity-icon,
+.flight-icon,
+.hotel-icon,
+.transfer-icon {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+
+.icon-bg {
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.icon-bg::before {
+  width: 24px;
+  height: 24px;
+  left: 0;
+  top: 0;
+  position: absolute;
+  background: #D9D9D9;
+}
+
+.icon-bg::after {
+  width: 22px;
+  height: 16px;
+  left: 1px;
+  top: 4px;
+  position: absolute;
+  background: #071C2C;
+}
+
+.icon-text {
+  color: black;
+  font-size: 12px;
+  font-family: 'Montserrat';
+  font-weight: 500;
+  word-wrap: break-word;
+} */
+
+
+
+/* yourComponentStyles.css */
+
+.your-containerpack {
+  width: 285px;
+  height: 39px;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  display: inline-flex;
+
+}
+
+.icon-section {
+  justify-content: flex-start;
+  align-items: center;
+
+  display: flex;
+}
+
+.activity-icon,
+.flight-icon,
+.hotel-icon,
+.transfer-icon {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+}
+
+.icon-bg {
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.icon-bg::before {
+  width: 24px;
+  height: 24px;
+  left: 0;
+  top: 0;
+  position: absolute;
+  background: #D9D9D9;
+}
+
+.icon-bg::after {
+  width: 22px;
+  height: 16px;
+  left: 1px;
+  top: 4px;
+  position: absolute;
+  background: #071C2C;
+}
+
+.icon-text {
+  color: black;
+  fontSize: 12px;
+  fontFamily: 'Montserrat';
+  fontWeight: 500;
+  word-wrap: break-word;
+}
+
+.your-componentprice {
+
+  display: inline-flex;
+
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.price-container1 {
+  display: flex;
+
+
+}
+
+.price-value1 {
+
+  color: #d90429;
+  font-size: 24px;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.arrowicons {
+  align-items: center;
+}

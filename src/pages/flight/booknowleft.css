@@ -1,0 +1,118 @@
+.priceSummary {
+    border-radius: 8px;
+    /* border: 1px solid #5C85A4; */
+    background: #FFF;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    padding: 16px;
+}
+
+.headFlight {
+    border-radius: 4px 4px 0px 0px;
+    /* background: #B8CCFF; */
+    background: #d90429;
+
+    padding: 10px;
+    text-align: center;
+}
+
+.headFlight span {
+    color: #fff;
+    font-family: 'Montserrat';
+    font-size: 18px;
+    text-align: center;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.hotName {
+
+    margin: 12px 0px;
+}
+
+.hotName p {
+    color: #000;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    padding: 10px;
+}
+
+.priceChart {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 5px;
+}
+
+p {
+    margin-bottom: 0 !important;
+}
+
+
+
+.priceChart>div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.priceChart>div:not(:last-child) {
+    border-bottom: 1px solid #ddd;
+}
+
+.totCOmmFlight {
+    display: flex;
+    flex-direction: column;
+    background: #F9EDED;
+    gap: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+
+.totCOmmFlight>div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.totCOmmFlight>div span {
+    font-size: 13px;
+}
+
+.totCOmmFlight>div p {
+    font-size: 13px;
+}
+
+
+
+.TotGstFlight {
+    display: flex;
+    flex-direction: column;
+    /* background: #B8CCFF; */
+    background: #d90429;
+    padding: 10px;
+    gap: 5px;
+}
+
+.TotGstFlight>div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: white !important;
+}
+
+
+
+
+.text-bold {
+    font-weight: 600;
+}

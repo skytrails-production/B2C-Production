@@ -1,0 +1,38 @@
+.package_slider_card{
+    background: #FFFFFF 0% 0% no-repeat padding-box !important;
+    box-shadow: 0px 3px 6px #00000029 !important;
+    border: 1px solid #7070703B !important;
+    border-radius: 10px !important;
+}
+
+.package_slider_card_img{
+    width: 100%;
+    height: 100%;
+    border-radius: 10px !important;
+}
+
+.package_small_tst{
+    text-align: center !important;
+    font: normal normal bold 8px/1px Quicksand !important;
+    letter-spacing: 0px;
+    color: #FF951A;
+}
+
+.package_head_tst{
+    text-align: left;
+    font: normal normal bold 12px/15px Quicksand !important;
+    color: #252525;
+}
+
+.List_pack{
+    text-align: left !important;
+    font: normal normal bold 10px/18px Quicksand !important;
+    color: #666666;
+}
+
+.List_price{
+    text-align: right !important;
+    font: normal normal bold 18px/18px Quicksand !important;
+    letter-spacing: 0px;
+    color: #006FFF;
+}

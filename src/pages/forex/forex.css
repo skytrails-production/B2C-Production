@@ -1,0 +1,13 @@
+.Forex_form{
+    display: flex;
+    justify-content: center !important;
+    text-align: center !important;
+    background-color: #F5F5F5;
+    border-radius: 15px;
+}
+
+.left_change{
+    margin:0;
+    padding: 15px ;
+    border-radius: 20px;
+}

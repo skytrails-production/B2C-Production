@@ -1,0 +1,435 @@
+/* .slick-prev {
+    left: 25px;
+}
+
+.slick-next {
+    right: 25px;
+}
+
+.slick-prev,
+.slick-next {
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+    background: orange;
+    z-index: 10;
+    border-radius: 50%;
+}
+
+.slick-arrow.slick-prev:hover,
+.slick-arrow.slick-next:hover {
+    background: orange;
+}
+ */
+.roundtrip {
+
+
+  background: white;
+  border-radius: 20px;
+
+  height: 100px;
+  border: 1px solid grey;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  margin: auto
+}
+
+@media only screen and (max-width: 1000px) {
+  .wrapper {
+    background: #fff;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 5px;
+    display: flex;
+    width: "80%";
+    flex-wrap: wrap;
+    margin-top: -100px;
+  }
+
+  .form_input {
+    border: 1px solid grey;
+
+  }
+
+  .form_input {
+    margin-bottom: 10px;
+  }
+
+  .wrapper .option {
+    height: 30px;
+    width: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 5px 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 0 5px;
+    background: #f3f3f3;
+    transition: all 0.3s ease;
+
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+
+  .form_input {
+    border: 1px solid grey !important;
+    border-radius: 20px;
+    margin-bottom: 5px;
+
+  }
+
+  .roundtrip {
+
+
+    background: white;
+    border-radius: 20px;
+
+    height: 100px;
+    border: none !important;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto
+  }
+
+  .oneway {
+
+
+    background: white;
+    border-radius: 20px;
+
+    height: 100px;
+    border: none !important;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: auto
+  }
+}
+
+.background_login {
+  /* background: url("../images/screen-train.gif"); */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+/*  input start */
+
+.login_input {
+  height: 53px;
+  position: relative;
+  width: 100%;
+}
+
+.login_input input {
+  width: 100%;
+  height: 100%;
+  padding-left: 25px;
+  border-radius: 20px;
+  border: 3px solid #70707069;
+}
+
+.phone_input lable {
+  font-size: 12px !important;
+  color: #4e4c4c;
+  font-weight: 700;
+  font-family: "Quicksand", sans-serif;
+}
+
+.login_input ::placeholder,
+.phone_input::placeholder {
+  color: #4e4c4c 1;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: "Quicksand", sans-serif;
+}
+
+.login_lable {
+  color: #4e4c4c;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: "Quicksand", sans-serif;
+  left: 10px;
+  line-height: 14px;
+  pointer-events: none;
+  position: absolute;
+  transform-origin: 0 50%;
+  top: 24px;
+  transform: translateY(-30px) translateX(10px);
+  background: #fff;
+  padding: 0px 2px;
+}
+
+/* login input end */
+
+/* PopupModal start */
+
+.model_content {
+  width: 329px;
+  height: 455px;
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: 2px 2px 8px black;
+}
+
+/* PopupModal end */
+
+/* one way start */
+
+.wrapper {
+  background: #fff;
+  align-items: center;
+  justify-content: space-evenly;
+  border-radius: 5px;
+  display: flex;
+  width: 100%;
+  font-family: "Montserrat";
+}
+
+.wrapper1 {
+  background: #fff;
+  align-items: center;
+  justify-content: space-evenly;
+  border-radius: 5px;
+  display: flex;
+  width: 73%;
+  font-family: "Montserrat";
+}
+
+.wrapper .option {
+  height: 30px;
+  width: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 5px 5px;
+  border-radius: 10px;
+  cursor: pointer;
+
+  background: #f3f3f3;
+  transition: all 0.3s ease;
+
+
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  font-family: "Montserrat";
+}
+
+.wrapper1 .option1 {
+  height: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 5px 5px;
+  border-radius: 10px;
+  cursor: pointer;
+
+  background: #f3f3f3;
+  transition: all 0.3s ease;
+
+
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  font-family: "Montserrat";
+}
+
+.wrapper .option .dot {
+  height: 15px;
+  width: 15px;
+  background: #f9f8f8;
+  color: #ff8900;
+  border-radius: 50%;
+  font-family: "Montserrat";
+}
+
+/* .wrapper .option .dot::before {
+  position: absolute;
+  content: "";
+  top: 3.5px;
+  left: 3.5px;
+  width: 5px;
+  height: 8px;
+  background: #ff8900;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(1.5);
+  transition: all 0.1s ease;
+} */
+
+/* input[type="radio"] {
+  display: none;
+} */
+
+#option-1:checked:checked~.option-1,
+#option-2:checked:checked~.option-2,
+#option-3:checked:checked~.option-3,
+#option-4:checked:checked~.option-4,
+#option-5:checked:checked~.option-5,
+#option-6:checked:checked~.option-6 {
+  border-color: #ff8900;
+  background: #21325d;
+}
+
+#option-1:checked:checked~.option-1 .dot,
+#option-2:checked:checked~.option-2 .dot,
+#option-3:checked:checked~.option-3 .dot,
+#option-4:checked:checked~.option-4 .dot,
+#option-5:checked:checked~.option-5 .dot,
+#option-6:checked:checked~.option-6 .dot {
+  background: #fff;
+}
+
+#option-1:checked:checked~.option-1 .dot::before,
+#option-2:checked:checked~.option-2 .dot::before,
+#option-3:checked:checked~.option-3 .dot::before,
+#option-4:checked:checked~.option-4 .dot::before,
+#option-5:checked:checked~.option-5 .dot::before,
+#option-6:checked:checked~.option-6 .dot::before {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.wrapper .option text {
+  font-size: 12px;
+  color: #0f0f0f;
+  font-family: "Montserrat";
+
+}
+
+#option-1:checked:checked~.option-1 text,
+#option-2:checked:checked~.option-2 text,
+#option-3:checked:checked~.option-3 text,
+#option-4:checked:checked~.option-4 text,
+#option-5:checked:checked~.option-5 text,
+#option-6:checked:checked~.option-6 text {
+  color: #fff;
+}
+
+/* search button */
+
+.search {
+  width: 100px;
+  height: 34px;
+  background: #d90429 0% 0% no-repeat padding-box;
+  border-radius: 30px;
+  opacity: 1;
+  border: none;
+  text-align: center;
+  font: normal normal bold 32px/1px Quicksand;
+  letter-spacing: 0px;
+
+  color: #fffbfb;
+  text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  font-family: Montserrat;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+}
+
+/* one way start */
+
+.download_info {
+  border: "2px solid red";
+}
+
+.lastimg {
+  width: "50px";
+  height: "50px";
+}
+
+.para {
+  color: #071c2c;
+
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+/* Add border right to form_input class */
+.form_input {
+  border-right: 1px solid grey;
+  height: 100%;
+}
+
+/* Add border right to classButton class */
+/* .classButton {
+  border-right: 1px solid grey;
+} */
+
+.css-cp483d-MuiButtonBase-root-MuiTab-root.Mui-selected {
+  border-radius: 24px !important;
+  background: #21325d !important;
+  color: white !important;
+}
+
+.wrapper {
+  margin-top: 20px;
+}
+
+text {
+  color: #071C2C;
+  font-family: Montserrat;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.adult-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.adult-dropdown button {
+  background-color: #4caf50;
+  /* Green background color */
+  color: white;
+  /* White text color */
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.adult-dropdown ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: none;
+}
+
+.adult-dropdown ul li {
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.adult-dropdown ul li:hover {
+  background-color: #4caf50;
+  /* Green background color on hover */
+  color: white;
+  /* White text color on hover */
+}
+
+.adult-dropdown.show ul {
+  display: block;
+}

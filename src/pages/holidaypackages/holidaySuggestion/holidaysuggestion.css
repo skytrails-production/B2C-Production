@@ -1,0 +1,81 @@
+.trending {
+    background-position: top right;
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+
+.theme1 {
+    color: #fff !important;
+    font-size: 13px;
+    /* text-shadow: 1px 1px 2px #000; */
+    text-decoration: none;
+    font-weight: 500;
+    font-family: Montserrat;
+}
+
+.theme {
+    color: #d90429 !important;
+    font-family: Montserrat;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.trending .trend-item,
+.trending .trend-item1,
+.trending .trend-item2 {
+    position: relative;
+    transition: all ease-in-out 0.5s;
+    overflow: hidden;
+}
+
+.trending .trend-item .trend-image,
+.trending .trend-item .trend-image1,
+.trending .trend-item1 .trend-image,
+.trending .trend-item1 .trend-image1,
+.trending .trend-item2 .trend-image,
+.trending .trend-item2 .trend-image1 {
+    transition: all ease-in-out 0.5s;
+    overflow: hidden;
+    height: 250px;
+}
+
+.trending .trend-item .trend-image img,
+.trending .trend-item1 .trend-image img,
+.trending .trend-item2 .trend-image img {
+    transition: all ease-in-out 0.5s;
+    width: 100%;
+    height: 100%;
+    /* object-fit: cover; */
+    background-size: cover;
+}
+
+.bg-theme {
+    background: #d90429 !important;
+}
+
+.white {
+    color: #fff !important;
+    font-family: Montserrat;
+}
+
+
+.color-overlay {
+    top: inherit;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent, #000000, #000000);
+    height: 50%;
+    opacity: 0.6;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all ease-in-out 0.5s;
+}
+
+.trending .trend-item .trend-image .trend-content,
+.trending .trend-item1 .trend-image .trend-content,
+.trending .trend-item2 .trend-image .trend-content {
+    z-index: 1;
+}

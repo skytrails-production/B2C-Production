@@ -1,0 +1,546 @@
+.slider-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.main-container1 {
+  width: 75%;
+  margin: auto;
+  margin-top: 20px;
+  background: #fafafa;
+  /* background: #e64242; */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+}
+
+.offers-section {
+  justify-content: flex-start;
+  align-items: center;
+  /* gap: 48px; */
+  display: inline-flex;
+  padding: 10px;
+  width: 100% !important;
+}
+
+.offers-header-container {
+  width: 100%;
+  height: 40px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+}
+
+.title {
+  color: black;
+  font-size: 32px;
+  font-family: "Montserrat";
+  font-weight: 700;
+  word-wrap: break-word;
+  width: 270px;
+}
+
+.maintitle {
+  color: black;
+  font-size: 28px;
+  font-family: "Montserrat";
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.options-container {
+  border-bottom: 1px black solid;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: aqua; */
+  width: 100%;
+}
+
+.option {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+}
+
+.option-label {
+  color: #071c2c;
+  font-size: 16px;
+  font-family: "Montserrat";
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+/* SpecialOffer.css */
+
+.special-offer-container {
+  width: 70%;
+  margin: auto;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 56px;
+
+  margin-top: 20px;
+  padding-bottom: 40px;
+}
+
+.offer-card {
+  padding: 20px;
+  background: #f8f4f4;
+
+  border-radius: 12px;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.offer-details {
+  display: flex;
+  gap: 23px;
+}
+
+.image-container {
+  width: 200px;
+
+  border-radius: 8px;
+}
+
+.offer-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.code-details {
+  display: flex;
+  margin-top: 20px;
+  gap: 50px;
+}
+
+.code-label {
+  color: #071c2c;
+  font-size: 16px;
+  font-family: "Montserrat";
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+.code-value {
+  color: #d90429;
+  font-size: 16px;
+  font-family: "Montserrat";
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+.offer-description {
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.title {
+  color: #071c2c;
+  font-size: 24px;
+  font-family: "Montserrat";
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.discount {
+  color: #071c2c;
+  font-size: 16px;
+  font-family: "Montserrat";
+  font-weight: 500;
+  word-wrap: break-word;
+  margin-left: 11px;
+}
+
+.view-details {
+  color: #d90429;
+  font-size: 16px;
+  font-family: "Montserrat";
+  font-weight: 800;
+  word-wrap: break-word;
+}
+
+.view-all-offers {
+  padding: 12px;
+  background: #f8f4f4;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+}
+
+.view-all-title {
+  text-align: center;
+  color: #071c2c;
+  font-size: 16px;
+  font-family: "Montserrat";
+  font-weight: 800;
+  word-wrap: break-word;
+}
+
+.view-all-subtitle {
+  text-align: center;
+  color: #071c2c;
+  font-size: 24px;
+  font-family: "Montserrat";
+  font-weight: 800;
+  word-wrap: break-word;
+}
+
+.click-here {
+  padding: 10px;
+  background: #d90429;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.click-here-text {
+  text-align: center;
+  color: white;
+  font-size: 12px;
+  font-family: "Montserrat";
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+/* SpecialOffer.css */
+
+.slider-container {
+  width: 100%;
+  /* Set the width as per your design */
+}
+
+/* Style your offer card as needed */
+.offer-card {
+  /* Your existing offer card styles */
+}
+
+/* Add any other styles for the slider dots or navigation as needed */
+.slick-dots {
+  bottom: 30px;
+}
+
+.slick-dots li button:before {
+  color: #fff;
+  /* Adjust the color as needed */
+}
+
+
+.slick-initialized .slick-slide {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+
+.slick-active .OfferCardImage {
+  position: relative !important;
+  left: -50px !important;
+  /* z-index: 10; */
+  border-radius: 20px;
+}
+
+.slick-active .OfferCardImage img {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.OfferMainBg {
+  /* background-image: radial-gradient(orange, #d90429, #d90429); */
+  /* background-image: url(../../images/offerCardBg.png); */
+  /* background-color: #febdc6; */
+  background-color: #fff;
+  border-radius: 9px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 20px;
+  position: relative;
+  z-index: -1;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  margin-bottom: 30px;
+}
+
+
+
+
+.OfferMainBg .col-lg-2 p {
+  color: #21325d;
+  padding-top: 7px;
+  font-family: 'Montserrat';
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.css-1wf8b0h-MuiTabs-flexContainer {
+  justify-content: space-evenly !important;
+}
+
+
+.offerCard {
+  background-color: lightgray;
+  border: 2px solid lightgray;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
+  display: flex !important;
+  flex-direction: row;
+  gap: 13px;
+  align-items: center;
+  width: 660px !important;
+  border-radius: 10px;
+}
+
+.offerCard .slick-slide {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+
+.offerCard .slick-slide {
+  outline: none !important;
+  width: 861px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 19px 100px;
+}
+
+.OfferCardImage img {
+  width: 350px !important;
+  display: block;
+}
+
+
+
+.custom .slick-dots li button {
+  font-size: 0;
+  line-height: 0;
+  display: block;
+  width: 20px;
+  height: 20px;
+  padding: 5px;
+  cursor: pointer;
+  color: transparent;
+  border: 0;
+  outline: none;
+  background: transparent;
+}
+
+
+.custom .slick-dots li button:before {
+  font-family: 'slick';
+  font-size: 15px;
+  line-height: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  content: '•';
+  text-align: center;
+  opacity: .25;
+  color: black;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.custom .slick-dots li.slick-active button:before {
+  opacity: 1;
+  color: #21325d;
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+
+.offerCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+
+.OfferMainBg .css-1h9z7r5-MuiButtonBase-root-MuiTab-root.Mui-selected {
+  color: #21325d !important;
+  font-weight: bold !important;
+}
+
+.OfferMainBg .css-1aquho2-MuiTabs-indicator {
+
+  background-color: #21325d !important;
+}
+
+.OfferMainBg .css-1h9z7r5-MuiButtonBase-root-MuiTab-root {
+  color: #21325d !important;
+}
+
+.offerCardContent p {
+  color: #071C2C;
+
+  font-family: 'Montserrat';
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.offerCardContent button {
+  width: 150px;
+  padding: 8px 0px;
+  border: 2px solid #d90429;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #d90429;
+  color: white;
+  font-weight: 600;
+}
+
+.offerCardContent button:hover {
+  color: #d90429;
+  background-color: white;
+}
+
+.offerCardContentOne {}
+
+
+
+
+@media(max-width:1170px) {
+  .offerCard {
+    display: flex !important;
+    flex-direction: row;
+    gap: 13px;
+    align-items: center;
+    width: 560px !important;
+    border-radius: 10px;
+  }
+}
+
+
+
+@media (min-width: 600px) and (max-width: 1000px) {
+  .option-label {
+    color: #071c2c;
+    font-size: 16px;
+    font-family: "Montserrat";
+    font-weight: 500;
+    word-wrap: break-word;
+  }
+
+  .offers-header-container {
+    width: 100%;
+    /* height: 40px; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0px;
+  }
+
+  .special-offer-container {
+    padding-right: 10px;
+  }
+
+  .main-container1 {
+    width: 92%;
+    margin: auto;
+    margin-top: 20px;
+    background: #fafafa;
+    /* background: #e64242; */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+    border-radius: 12px;
+  }
+
+  .option {
+    padding: 10px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 0px;
+  }
+
+  .option-label {
+    color: #071c2c;
+    font-size: 9px;
+    font-family: "Montserrat";
+    font-weight: 500;
+    word-wrap: break-word;
+  }
+
+  .special-offer-container {
+    width: 100%;
+    /* background-color: cadetblue; */
+    margin: auto;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* gap: 56px; */
+    margin-top: 20px;
+    padding-bottom: 40px;
+  }
+
+  .offer-details {
+    display: flex;
+    gap: 0px;
+  }
+
+  .offer-image {
+    min-width: 75px;
+  }
+
+  .containerTour {
+    width: 90%;
+    padding: 0px;
+    flex-direction: column;
+    gap: 0px;
+  }
+
+  .containerTour {
+    width: 90%;
+    /* padding: 12px; */
+    flex-direction: row;
+    /* gap: 16px; */
+  }
+
+  .item {
+    padding-top: 16px;
+    padding-bottom: 16px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0px;
+    display: flex;
+  }
+}

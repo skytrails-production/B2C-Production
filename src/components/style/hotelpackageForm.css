@@ -1,0 +1,204 @@
+@import url("https://fonts.googleapis.com/css2?family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:wght@300;400;500;600;700;800&display=swap");
+
+.margin-pecentage {
+  .margin-pecentage {
+    margin: 0% 7%;
+    font-family: "Montserrat", sans-serif;
+    /* max-width: 1000px; */
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.container-xxl {
+  max-width: 1200px !important;
+  width: 100% !important;
+}
+
+.packageBg {
+  background-color: #fff;
+  border-radius: 10px;
+  z-index: 1;
+  /* padding-top: 12px; */
+  /* padding-bottom: 12px; */
+  width: 100%;
+  max-width: 700px;
+  position: relative;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.packageBg>.col-12 {
+  /* padding: 0px 10px !important; */
+}
+
+.Package-container {
+  display: grid;
+  /* border: 1px #888 solid; */
+  border-radius: 10px;
+  grid-template-columns: 80% 20%;
+}
+
+.PackageInner {
+  padding: 25px 21px;
+  border-top-left-radius: 12px;
+  border-right: 1px #888 solid;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 7px;
+  display: inline-flex;
+  position: relative;
+}
+
+.PackageInner:last-child {
+  border-right: unset !important;
+  padding: 0 0 !important;
+}
+
+.PackageInner span {
+  color: #071c2c;
+  font-family: "Montserrat";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.PackageInner input {
+  color: #071c2c;
+  font-family: Montserrat;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  /* width: 141px; */
+  width: 100%;
+  /* background: #ffffff;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1); */
+  padding-left: 5px;
+  font-size: 16px;
+}
+
+.package_input_div_div input::placeholder {
+  color: #071c2c;
+  font-family: "Montserrat";
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  /* width: 141px; */
+  width: 100%;
+  border: none;
+  outline: none;
+  text-transform: capitalize;
+}
+
+.PackageInner label {
+  color: #071c2c;
+  font-family: Montserrat;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  /* width: 141px; */
+  width: 100%;
+  /* background: #ffffff;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1); */
+  padding-left: 5px;
+  font-size: 16px;
+}
+
+.PackageInner span {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.PackageInner .searchButt {
+  /* width: 100%; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d90429;
+  width: 100%;
+  height: 100%;
+  border-radius: 0px 10px 10px 0px;
+  cursor: pointer;
+  border: 2px solid #d90429;
+  transition: all 0.3s;
+}
+
+.searchButt svg {
+  color: white;
+  font-size: 1.3rem !important;
+  margin-left: 0px;
+  position: relative;
+  left: 0;
+  transition: all 0.3s;
+}
+
+.searchButt:hover svg {
+  color: white;
+  font-size: 34px;
+  /* left: 9px; */
+  /* padding-left: 9px; */
+}
+
+/* .PackageInner .searchButt:hover {
+  box-shadow: 0px 0px 15px #d90429;
+} */
+
+.PackageInner .searchButt h3 {
+  margin-bottom: 0 !important;
+  color: #fff;
+  font-weight: 600;
+}
+
+.wrapper_hotelPack {
+  background: #fff;
+  align-items: center;
+  justify-content: space-evenly;
+  border-radius: 5px;
+  display: flex;
+  width: 100%;
+  font-family: "Montserrat";
+  margin-top: 20px;
+}
+
+.wrapper_hotelPack .option {
+  height: 35px;
+  /* width: 120px; */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 5px 5px;
+  border-radius: 10px;
+  cursor: pointer;
+  background: #f3f3f3;
+  transition: all 0.3s ease;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  font-family: "Montserrat";
+}
+
+/* .wrapper_oneway .wraOne {
+    width: 50%;
+} */
+
+.wrapper_hotelPack p {
+  /* width: 100px; */
+  font-weight: 600;
+}
+
+.wrapper_hotelPack text {
+  color: #071c2c;
+  font-family: Montserrat;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}

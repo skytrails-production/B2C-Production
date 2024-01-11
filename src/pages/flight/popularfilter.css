@@ -1,0 +1,110 @@
+.flightFilterBox {
+    background-color: white;
+    /* border: 1px solid lightgray; */
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+
+
+}
+
+.flightFilterBox .filterTitle {
+    background-color: white;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    color: #071C2C;
+    text-align: center;
+    padding: 12px 0px;
+    font-family: 'Montserrat';
+    font-size: 21px;
+    font-style: normal;
+    font-weight: 600;
+    margin-bottom: 16px;
+    line-height: normal;
+}
+
+
+.innerFilter>p {
+    color: #B03737;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    margin: 8px 0px !important;
+    line-height: normal;
+}
+
+
+
+.sidebar-title {
+    font-weight: normal;
+    margin-bottom: 20px;
+    color: #d90429;
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.sidebar-items {
+    margin-top: 20px;
+}
+
+.sidebar-label-container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.sidebar-label-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 20px;
+    width: 20px;
+    background-color: #eee;
+    border-radius: 50%;
+    border: 2px solid rgb(165, 164, 164);
+}
+
+.checkmark .sidebar-label-container:hover input~.checkmark {
+    background-color: #ccc;
+
+}
+
+.sidebar-label-container input:checked~.checkmark {
+    background-color: #d90429;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.sidebar-label-container input:checked~.checkmark:after {
+    display: block;
+}
+
+.sidebar-label-container .checkmark:after {
+    top: 4.4px;
+    left: 4.4px;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: white;
+}

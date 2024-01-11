@@ -1,0 +1,6 @@
+.mainimgHotelSearch {
+    background-image: url(../../../images/hotelNavBg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat !important;
+    height: 300px;
+}

@@ -1,0 +1,421 @@
+.filterBox {
+  display: flex;
+  width: 100%;
+  padding: 10px;
+  justify-content: flex-start;
+  align-items: center;
+  border-radius: 4px;
+  /* border: 1px solid #c9caca; */
+  gap: 20px;
+  color: #21325D;
+  background-color: #fff;
+
+}
+
+.filterBox p {
+  color: #000;
+
+  font-family: Montserrat;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-bottom: 0 !important;
+}
+
+.filterBox label {
+  color: #21325D;
+  font-family: Montserrat;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.filterBox select {
+  padding: 4px !important;
+}
+
+
+.book-btn {
+  background-color: #21325D;
+  color: white;
+  padding: 8px 12px;
+}
+
+
+
+.ModifySearch {
+  padding: 10px;
+  border-radius: 10px;
+  /* background: white; */
+  background-color: #fff;
+  /* box-shadow: 0px 0px 24px -11px; */
+}
+
+.outerFilterBox {
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #fff;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+}
+
+
+.searchDestination b {
+  text-transform: capitalize;
+}
+
+
+.css-k008qs {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.filteredNotFound {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.filteredNotFound h1 {
+  color: #d90429;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+
+.filteredNotFound img {
+  width: 130px;
+  height: 130px;
+}
+
+
+
+
+
+
+
+
+.hotelResultBoxSearch {
+  display: flex;
+  justify-content: space-between;
+  border-radius: 8px;
+  border: 1px solid lightgray;
+  background: #FFFBFB;
+  margin-bottom: 17px;
+  cursor: pointer;
+  flex-wrap: nowrap;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+
+.highSelect {
+  height: 50px;
+  width: 180px;
+  margin-bottom: 20px;
+}
+
+.hotelResultBoxSearch>div {
+  display: flex;
+  flex-direction: row;
+}
+
+.hotelResultBoxSearch p {
+  margin-bottom: 0 !important;
+}
+
+.hotelImage {
+  padding: 15px;
+}
+
+.hotelImage img {
+  width: 250px;
+  height: 180px;
+}
+
+
+.hotelResultDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: flex-start;
+  padding: 15px;
+}
+
+.icon-box {
+  display: flex;
+  gap: 10px;
+  flex-direction: row;
+
+}
+
+.icon-box>div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+}
+
+.priceBookHotel {
+  /* flex: 28%; */
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 15px;
+  border-left: 1px solid lightgray;
+}
+
+.priceBookHotelOne {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  align-items: center;
+  min-width: 135px;
+  padding: 30px 0px;
+}
+
+.priceBookHotelOne span {
+  color: #000;
+  font-family: Montserrat;
+  font-size: 14.1px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.priceBookHotelOne p {
+  color: #d90429;
+
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.priceBookHotelOne h3 {
+  color: #FFF;
+
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  padding: 4px 12px;
+  border-radius: 16px;
+  background: #071C2C;
+  display: inline-block;
+}
+
+.priceBookHotelOne h4 {
+  color: #071C2C;
+
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  cursor: pointer;
+
+}
+
+.priceBookHotelOne h4 svg {
+  font-size: 13px !important;
+}
+
+.priceBookHotelOne b {
+  color: #000;
+  font-family: Montserrat;
+  font-size: 14.1px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.priceBookTwo button {
+  padding: 11.28px 28.199px;
+  border-radius: 5.64px;
+  font-weight: 600;
+  background: #21325D;
+  color: #fff;
+  border: 2px solid #21325D;
+  transition: 0.3s all;
+}
+
+.priceBookTwo button:hover {
+  background: transparent;
+  color: #21325D;
+
+}
+
+.hotleTitle {
+  color: #071C2C;
+  font-family: Montserrat;
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+
+}
+
+
+.css-i4bv87-MuiSvgIcon-root {
+  font-size: 1.1rem !important;
+}
+
+.customize {
+  color: #d90429;
+  font-family: Montserrat;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.hotAddress {
+  color: #071C2C;
+  font-family: Montserrat;
+  font-size: 14.1px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 5px;
+  font-weight: 600;
+}
+
+.icon-box p {
+  color: #000;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+
+.hotelRating {}
+
+.seeMore button {
+  color: #0048FF;
+
+  font-family: Montserrat;
+  font-size: 16.919px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration-line: underline;
+  background-color: transparent;
+  border: none;
+}
+
+.packageResult .container-fluid {
+  padding: 0px 20px !important;
+}
+
+
+/* style= {
+        {
+        width: 361,
+         height: 642,
+          background: 'white',
+           borderRadius: 8, 
+           border: '1px #5C85A4 solid', 
+           padding: "10px"
+    }
+} */
+
+.packResFilterBox {
+  width: 100%;
+  /* height: 100%; */
+  /* margin: 10px 0px; */
+  /* margin: 10px 0px; */
+  border-radius: 8px;
+  border: 1px solid #5C85A4;
+  background: #FFF;
+  padding-top: 8px;
+  margin-bottom: 10px;
+
+}
+
+.icon-box-inner>div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
+
+
+
+
+
+@media (max-width: 850px) {
+
+  .packageImage {
+    flex: 100% !important;
+  }
+
+  .hotelResultDetails {
+    flex: 50% !important;
+    width: 50%;
+    margin-top: 20px;
+  }
+
+  .priceBookHotel {
+    flex: 20% !important;
+    margin-top: 20px;
+
+  }
+
+  .filterBox p {
+    color: #000;
+    font-family: Montserrat;
+    font-size: 13px;
+
+  }
+
+  .filterBox {
+
+    gap: 12px;
+
+  }
+}
+
+
+
+
+.ratingStar img {
+  margin-right: 8px;
+}

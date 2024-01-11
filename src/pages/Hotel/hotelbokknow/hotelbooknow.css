@@ -1,0 +1,480 @@
+.book_content {
+
+    height: auto;
+    align-items: center;
+    text-align: center;
+
+
+}
+
+
+
+.main-txt {
+    align-items: left;
+    font-family: var(--bs-body-font-family);
+    font-weight: bold !important;
+    font-size: 20px;
+    letter-spacing: 0px;
+    color: #252525;
+    width: "150px"
+}
+
+
+
+.third-txt {
+    color: #252525;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.check-txt {
+    color: #FF8900;
+    font-family: var(--bs-body-font-family);
+    font-weight: bold;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.continue_btn {
+    background: #006FFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 10px;
+    color: white;
+    opacity: 1;
+}
+
+.input_area {
+    width: auto;
+    height: 35px;
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 10px;
+    opacity: 1;
+    padding: 0px 20px;
+    border: none;
+
+}
+
+Input {
+    text-decoration: none;
+}
+
+.offer_area {
+    width: 100%;
+    height: auto;
+    background: #F9EDED 0% 0% no-repeat padding-box;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 10px;
+    opacity: 1;
+    margin: 7px 0px 21px 0px !important;
+    border: 0.5px solid lightgray;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.offer_area .priceCheck {
+    min-width: 200px;
+    border-left: 1px solid lightgray;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.priceCheck h3 {
+    padding: 12px 24px;
+    border-radius: 32px;
+    background: #d90429;
+    color: #FFFBFB;
+    text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+    font-family: 'Montserrat';
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    cursor: pointer;
+}
+
+.form-check-input {
+    border-radius: 50% !important;
+}
+
+.form-check-input:checked {
+    background-color: #d90429 !important;
+    border-color: #d90429 !important;
+}
+
+.smolking p {
+    color: #071C2C;
+
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+
+.inneraccorHotel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px;
+}
+
+.accordian_area {
+    width: auto;
+    height: auto;
+    border-radius: 20px;
+    opacity: 1;
+    margin: 20px 32px !important;
+    border: none;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.acc_para {
+    text-align: left;
+    font: normal normal bold 16px/20px Quicksand;
+    letter-spacing: 0px;
+    color: #666666;
+    opacity: 1;
+}
+
+.jacuzzy_img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+
+.hotelBookNowHeader {
+    display: flex;
+    width: 100%;
+    padding: 10px;
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: 4px;
+    /* border: 1px solid #5C85A4; */
+    gap: 20px;
+    color: #21325D;
+    background-color: #DFE6F7;
+}
+
+.hotelBookNowHeader p {
+    margin-bottom: 0 !important;
+    font-weight: 700;
+}
+
+.hotelBookNowOuter {
+    padding: 5px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 0px 24px -11px;
+}
+
+
+.availabilityInner {
+    display: flex;
+    width: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 20px;
+
+}
+
+.availabilityInner>div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-direction: row;
+    padding: 6px;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0px 0px 24px -11px;
+}
+
+.availabilityInner>div>div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-direction: row;
+    padding: 6px;
+    border-radius: 4px;
+    background-color: #DFE6F7;
+}
+
+.availabilityInner p {
+    margin-bottom: 0 !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* design for accordian  */
+
+.css-1cdy1wm-MuiButtonBase-root-MuiAccordionSummary-root {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: relative !important;
+    box-sizing: border-box !important;
+    background-color: transparent !important;
+    outline: 0 !important;
+    border: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    vertical-align: middle !important;
+    text-decoration: none !important;
+    color: inherit !important;
+    display: flex !important;
+    min-height: 46px !important;
+    padding: 0px 16px !important;
+    transition: min-height 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms, background-color 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    background-color: rgba(0, 0, 0, .03) !important;
+    flex-direction: row !important;
+    border-radius: 8px !important;
+    box-shadow: 0px 3px 6px #00000029 !important;
+    background-color: lightgray !important;
+
+    /* border: 1px solid #21325D !important; */
+}
+
+
+
+.css-v84d5j-MuiSvgIcon-root {
+    user-select: none !important;
+    width: 1.5em !important;
+    height: 1.5em !important;
+    display: inline-block !important;
+    fill: currentColor !important;
+    flex-shrink: 0 !important;
+    transition: fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms !important;
+    font-size: 0.9rem !important;
+    color: white !important;
+    background: #21325D !important;
+    padding: 5px !important;
+    border-radius: 50% !important;
+}
+
+
+.css-1sg501g-MuiAccordionDetails-root {
+    padding: 16px 16px 16px 16px;
+    padding: 16px;
+    border-top: none !important;
+    border-radius: 20px;
+    box-shadow: none !important;
+    margin-top: 20px;
+}
+
+
+.css-70qvj9 {
+
+    display: flex !important;
+    align-items: center !important;
+    gap: 20px !important;
+}
+
+
+.roomTypeName {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.roomTypeName .first {
+    font-size: 17px;
+    font-weight: 600;
+    text-align: left;
+    color: #21325D;
+}
+
+.ratePlan {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: row;
+    gap: 33px;
+}
+
+.priceCheck {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 24px;
+}
+
+.priceCheck .second {
+    padding: 7px 12px;
+    background-color: #21325D;
+    color: white;
+    font-weight: 700;
+    border-radius: 8px;
+}
+
+
+.text {
+    text-align: left;
+}
+
+.price {
+    font-weight: 700;
+    font-size: 20px;
+    color: #21325D;
+}
+
+
+
+
+.roomCompo {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    column-gap: 15px;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* new design  */
+
+.hotelTitleBoxAccord {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    justify-content: center;
+    align-items: flex-start;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid lightgray;
+    padding: 15px;
+    width: 100%;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.hotelTitleBoxAccord h3 {
+    overflow: hidden;
+    width: inherit;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #071C2C;
+
+    font-family: Montserrat;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+
+.hotelImageBoxBook {
+    margin: 15px 0px;
+}
+
+.hotelImageBoxBook h4 {
+    color: #071C2C;
+    font-family: 'Montserrat';
+    font-size: 24px;
+    margin-bottom: 25px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+
+.hotelBookHighlight {
+    border-radius: 8px;
+    border: 1px solid lightgray;
+    padding: 12px;
+    max-width: 700px;
+    background-color: #fff;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+
+}
+
+.hotelBookHighlight h4 {
+    color: #071C2C;
+    font-family: Montserrat;
+    margin-bottom: 15px;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+
+}
+
+.hotelBookHighlight>div {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    row-gap: 10px;
+}
+
+
+.dynamicHotelimg img {
+    height: 117px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+
+.bookNowButton {
+    margin: 30px 0px;
+    border-radius: 16px;
+    background: #d90429;
+    padding: 10px 24px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    color: white;
+    font-weight: 700;
+    font-size: 18px;
+    border: 2px solid #d90429;
+    transition: 0.2s all;
+}
+
+.bookNowButton:hover {
+    background-color: white;
+    color: #d90429;
+
+}

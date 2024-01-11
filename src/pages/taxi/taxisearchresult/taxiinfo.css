@@ -1,0 +1,128 @@
+.taxi_container{
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 20px;
+    opacity: 1;
+    padding: 20px;
+
+}
+
+.book_cab{
+    text-align: left;
+    font: normal normal bold 32px/40px Quicksand !important;
+    letter-spacing: 0px;
+    color: #252525;
+    opacity: 1;
+}
+
+/* TaxiInfoComponent */
+.info_component{
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 20px;
+    opacity: 1;
+    padding: 20px;
+    margin: 20px 0px;
+}
+
+.taxi_img{
+    width: 100%;
+    height: 100%;
+    background-size: 100% 100%;
+    border-radius: 10px;
+}
+
+.taxi_offer{
+    text-align: right;
+    font: normal normal bold 18px/23px Quicksand !important;
+    letter-spacing: 0px;
+    color: #FF0000;
+    opacity: 1;
+}
+
+.low_price{
+    text-align: right;
+    text-decoration: line-through;
+    font: normal normal bold 18px/23px Quicksand !important;
+    letter-spacing: 0px;
+    color: #666666;
+    opacity: 1;
+}
+
+.pricintg_taxi{
+    display: flex;
+    align-items: baseline;
+    justify-content: end;
+}
+
+.exact_price{
+    text-align: right !important;
+    font: normal normal bold 34px/43px Quicksand !important;
+    letter-spacing: 0px;
+    color: #FF8900;
+    opacity: 1;
+}
+
+.toll_tax{
+    text-align: right;
+    font: normal normal bold 16px/20px Quicksand !important;
+    letter-spacing: 0px;
+    color: #666666;
+    opacity: 1;
+}
+
+.book_now_taxibtn{
+    text-align: right;
+    background: #006FFF 0% 0% no-repeat padding-box;
+    border-radius: 10px;
+    opacity: 1;
+}
+
+.Dzire{
+    text-align: left;
+    font: normal normal bold 24px/30px Quicksand !important;
+    letter-spacing: 0px;
+    color: #252525;
+    opacity: 1;
+}
+
+.or_similar{
+    text-align: left;
+    font: normal normal bold 16px/20px Quicksand !important;
+    letter-spacing: 0px;
+    color: #666666;
+    opacity: 1;
+}
+
+.taxi_name{
+    display: flex;
+    align-items: baseline;
+    justify-content: start;
+}
+
+.ac_container{
+    display: flex;
+    align-items: center;
+}
+
+.taxi_dot{
+    padding: 5px;
+    margin: 0px 5px;
+}
+
+.sedan_gp{
+    text-align: left;
+    font: normal normal bold 16px/23px Quicksand !important;
+    letter-spacing: 0px;
+    color: #252525;
+    opacity: 1;
+}
+
+.extra_fare{
+    text-align: left;
+    font: normal normal bold 14px/20px Quicksand !important;
+    letter-spacing: 0px;
+    color: #252525;
+    opacity: 1;
+}
+/* end */

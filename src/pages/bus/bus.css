@@ -1,0 +1,329 @@
+.swip_destination {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: #25b1ca;
+  display: flex;
+  align-items: center;
+}
+.scroll_style_bus{
+  
+    display: flex;
+    flex-direction: column;
+    max-height: 300px;
+    width: 100%;
+    overflow: hidden;
+    overflow-y: scroll;
+  
+}
+.from-container2 {
+  height: 109px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 24px;
+  padding-right: 25px;
+  width: 250px;
+
+  border-top-left-radius: 12px;
+
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  display: inline-flex;
+  position: relative;
+}
+
+.your-containerform {
+  width: 90%;
+  background: white;
+  border-radius: 12px;
+  border: 0.5px #071c2c solid;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin: auto;
+}
+
+.your-containerformholiday {
+  width: 70%;
+  background: white;
+  border-radius: 12px;
+  border: 0.5px #071c2c solid;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  margin: auto;
+}
+
+/* styles.css */
+
+.searchContainer {
+  width: 100%;
+  max-width: 1064px;
+  height: 44px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 30px;
+  margin: 0 auto;
+  /* Center the container */
+}
+
+.searchButton {
+  padding: 12px 24px;
+  background: #d90429;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+  border-radius: 32px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.validate {
+  background: #d90429b3 !important;
+  border: none;
+}
+
+.buttonText {
+  color: #fffbfb;
+  font-size: 16px;
+  font-family: "Montserrat";
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.select_fare1 {
+  width: 90%;
+  /* display: flex; */
+  justify-content: right;
+  align-items: right;
+  gap: 15px;
+  margin: 20px auto;
+}
+
+.BusForm label {
+  position: relative;
+}
+
+.busFormRes {
+  position: absolute;
+  border: 1px solid #ddd;
+  width: 362px;
+  border-radius: 0px 0px 5px 5px;
+  z-index: 3;
+}
+
+.busFormRes ul {
+  margin: 0 !important;
+  max-height: 180px;
+  overflow: hidden;
+  overflow-y: scroll;
+  padding-left: 0 !important;
+}
+
+.busFormRes ul li {
+  padding: 8px;
+  cursor: pointer;
+  list-style-type: none;
+  border-bottom: 1px solid #ddd;
+}
+.from-search-results-bus-bus {
+  position: absolute;
+  left: 0;
+  /* bottom: 30px; */
+  bottom: 33px;
+  cursor: pointer;
+  width: 100%;
+  border-radius: 0px 0px 10px 10px;
+  z-index: 9999;
+  border: none;
+  outline: none;
+}
+
+.busToRes {
+  position: absolute;
+  border: 1px solid #ddd;
+  width: 362px;
+  border-radius: 0px 0px 5px 5px;
+  z-index: 3;
+}
+
+.busToRes ul {
+  margin: 0 !important;
+  max-height: 180px;
+  overflow: hidden;
+  overflow-y: scroll;
+  padding-left: 0 !important;
+}
+
+.busToRes ul li {
+  padding: 8px;
+  cursor: pointer;
+  list-style-type: none;
+  border-bottom: 1px solid #ddd;
+}
+.bus_search_query_position {
+  bottom: 26px !important;
+}
+.input_position {
+  height: 34px !important;
+  width: 100%;
+}
+.form_search_Bus {
+  display: flex;
+  position: static;
+  padding-left: 5px;
+}
+.to_ul_bus{
+  padding-inline-start: 0px;width:100%;padding-inline-end: 0px;list-style: none;
+}
+.to_List_bus {
+  border: "none";
+
+  height: 32px;
+  width: 100%;
+  padding-left: 5px;
+}
+.to_List_bus:hover{
+  background-color: #ceeff55b;
+}
+.busResultBox {
+  display: flex;
+  gap: 5px;
+  height: 30px;
+  align-items: center;
+  /* background-color: #ffffff; */
+}
+.from_Search_container_position {
+  top: 26px !important;
+}
+.Package_innerDiv_Position {
+  position: absolute;
+  top: 40px;
+  left: 0px;
+  box-shadow: 1px 1px 5px gray;
+  width: 100%;
+  z-index: 110 !important;
+  background-color: #fff;
+  border-radius: 4px;
+}
+.package_input_div {
+  padding-left: 5px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+}
+.bus_lable{
+  color: #071c2c;
+    font-family: Montserrat;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    /* width: 141px; */
+    width: 100%;
+    padding-left: 5px;
+    font-size: 16px;
+}
+.busResultBox p{
+font-weight: 500;
+font-family: Montserrat;
+}
+.busResultBox span{
+  font-family: Montserrat;
+font-weight: 400;
+}
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .searchContainer {
+    justify-content: center;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  .your-containerform {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .from-container2,
+  .from-container2,
+  .to-container,
+  .departure-container,
+  .return-container {
+    width: 100%;
+    padding: 12px;
+    border-right: none;
+    border-bottom: none;
+  }
+
+  .from-container2,
+  .from-container2,
+  .to-container,
+  .departure-container,
+  .return-container {
+    padding-bottom: 20px;
+  }
+
+  .traveller-container {
+    width: 100%;
+    padding: 12px;
+    border-right: none;
+  }
+
+  /* .roundlogo {
+    position: absolute;
+    right: 50%;
+    top: 100%;
+    transform: translate(0%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  } */
+
+  .roundlogo svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* display: flex;
+        justify-content: center;
+        align-items: center; */
+  }
+}
+
+.BusSearchBg {
+  background-color: #fff;
+  border-radius: 10px;
+  /* z-index: 1; */
+  padding-top: 12px;
+  padding-bottom: 12px;
+  position: relative;
+  box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset,
+    rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+}
+
+.BusSearchBg > .col-12 {
+  padding: 0px 10px !important;
+  position: relative;
+  z-index: 5;
+}
+
+.busSearch-container {
+  display: grid;
+  border: 1px #888 solid;
+  border-radius: 10px;
+  grid-template-columns: 30% 30% 20% 20%;
+}
+.PackageInner_bus {
+  padding: 12px 21px;
+  border-top-left-radius: 12px;
+  border-right: 1px #888 solid;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 7px;
+  display: inline-flex;
+  position: relative;
+}

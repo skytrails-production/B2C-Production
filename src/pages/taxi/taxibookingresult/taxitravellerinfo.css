@@ -1,0 +1,244 @@
+
+
+.traveller_info_container{
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 20px;
+    opacity: 1;
+    margin: 20px 0px;
+    padding: 20px;
+    }
+
+.taxi_traveller{
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    box-shadow: 0px 3px 6px #00000029;
+    border-radius: 20px;
+    opacity: 1;
+    margin: 20px 0px;
+    padding: 20px;
+}
+
+.base_fare{
+    text-align: left;
+    font: normal normal bold 14px/25px Quicksand !important;
+    letter-spacing: 0px;
+    color: #666666;
+    opacity: 1;
+}
+.total_fare{
+    text-align: right;
+        font: normal normal bold 24px/30px Quicksand !important;
+        letter-spacing: 0px;
+        color: #FF8900;
+        opacity: 1
+}
+
+.taxi_continue_btn{
+    background: #4260D8 0% 0% no-repeat padding-box;
+    border-radius: 30px;
+    opacity: 1;
+    text-align: center;
+}
+
+.index_one{
+    border-right: 2px solid #707070;
+    height: 150px;
+}
+
+.inclusion_heading{
+    display: flex;
+    align-items: center;
+}
+
+.inclusion{
+    text-align: center;
+    font: normal normal bold 16px/20px Quicksand !important;
+    letter-spacing: 0px;
+    color: #252525;
+}
+
+.inclusion_price{
+    text-align: center;
+    font: normal normal bold 16px/20px Quicksand !important;
+    letter-spacing: 0px;
+    color: #666666;
+}
+
+.list_ul{
+    text-align: left;
+    font: normal normal bold 14px/18px Quicksand !important;
+    letter-spacing: 0px;
+    color: #252525;
+    opacity: 1;
+    margin-top: 5px;
+}
+
+.after_tym{
+    text-align: right;
+    font: normal normal bold 14px/18px Quicksand !important;
+    letter-spacing: 0px;
+    color: #252525;
+    opacity: 1;
+}
+
+.trip_detail{
+    text-align: left;
+    font: normal normal bold 16px/20px Quicksand !important;
+    letter-spacing: 0px;
+    color: #252525;
+    opacity: 1;
+}
+
+.pickup_add{
+    text-align: left;
+    font: normal normal bold 12px/40px Quicksand !important;
+    letter-spacing: 0px;
+    color: #252525;
+    opacity: 1;
+}
+
+.address_traveller{
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    border: 1px solid #7070707A;
+    border-radius: 10px;
+    opacity: 1;
+    width: 100% !important;
+}
+
+input::placeholder{
+    font: normal normal bold 15px/30px Quicksand !important;
+}
+
+/* input */
+
+.nhotel_form_input {
+    height: 100% !important;
+    position: relative;
+    width: 100% !important;
+}
+
+.nhotel_form_input input {
+    width: 100%;
+    height: 100%;
+    padding-left: 25px;
+    border-radius: 10px;
+    border: 3px solid #70707069;
+}
+  .hotel_form_input {
+    height: 50px !important;
+    position: relative;
+    width: 100% !important;
+}
+
+.hotel_form_input input {
+    /* width: 100%; */
+    height: 100%;
+    padding-left: 25px;
+    border-radius: 10px;
+    border: 3px solid #70707069;
+}
+
+.hotel_form_input .lable {
+    font-size: 13px;
+    color: #4E4C4C;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+
+}
+
+.hotel_form_input .from_input::placeholder, .to_input::placeholder {
+    color: #4E4C4CA1;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+
+}
+
+.form_lable {
+    color: #4E4C4C;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+    left: 10px;
+    line-height: 14px;
+    pointer-events: none;
+    position: absolute;
+    transform-origin: 0 50%;
+    top: 24px;
+    transform: translateY(-30px) translateX(10px);
+    background: #fff;
+    padding: 0px 8px;
+}
+
+
+.form_lable1{
+    color: #4E4C4C;
+    font-size: 13px;
+    font-weight: Bold;
+    margin-bottom: 1rem;
+ 
+}
+.hotel_input_select{
+    width: 100%;
+    border: 10PX;
+    border-radius: 10px;
+    height: 3.1rem; 
+    border: 3px solid #70707069; 
+    }
+.nhotel_input_select{
+    width: 100%;
+    border: 10px;
+    border-radius: 10px;
+    height: 3.1rem; 
+    border: 3px solid #70707069; 
+    }
+
+
+    .hotel_submit {
+      color: white;
+      background-color: #00BDC4;
+      width: 154px;
+      height: 36px;
+      box-shadow: 0px 3px 6px #00000029;
+      border: 1px solid #DFDFDF;
+      border-radius: 10px;
+      opacity: 1;
+  }
+  
+  .hotel_submit:hover{
+      background-color: rgb(61, 144, 144);
+      color: white;
+  }
+
+/* end */
+
+
+.privacy_link{
+    text-align: left;
+    font: normal normal bold 14px/18px Quicksand !important;
+    letter-spacing: 0px;
+    color: #006FFF !important;
+}
+
+.read_book{
+    text-align: left;
+    font: normal normal bold 18px/40px Quicksand !important;
+    letter-spacing: 0px;
+    color: #252525;
+    opacity: 1;
+}
+
+.cab_category{
+    text-align: left;
+    font: normal normal bold 16px/28px Quicksand !important;
+    letter-spacing: 0px;
+    padding: 5px 0px;
+    color: #252525;
+}
+
+.cab_para{
+    text-align: left;
+    font: normal normal bold 14px/18px Quicksand !important;
+    letter-spacing: 0px;
+    color: #666666;
+}

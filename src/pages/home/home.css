@@ -1,0 +1,672 @@
+/* google font link */
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap'); */
+
+/* banner image start */
+.home_banner {
+
+    background-position: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/* mainheader css start */
+.mainheader_wrapper {
+    margin: 0rem 0rem 1.3rem 0rem;
+    padding: 0rem 2rem 0rem;
+}
+
+.mainheader_container {
+    padding: 0px 12px;
+}
+
+.mainheader_row {
+    background: #fff;
+    border-radius: 0.7rem;
+    padding: 0.5rem 0;
+    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+
+    z-index: 1px;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
+}
+
+.mainhome_logos {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    text-align: center;
+}
+
+.mainhome_logos li {
+    list-style: none;
+    text-decoration: none;
+}
+
+.mainhome_logos li a {
+    text-decoration: none;
+}
+
+.mainhome_logos li a:hover {
+    text-decoration: none;
+    color: #252525;
+}
+
+.mainhome_logos .logo {
+    width: 4rem;
+    display: block;
+    margin: 0rem auto 11px;
+}
+
+.logoname {
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    margin-top: 7px;
+    color: #252525;
+}
+
+.active-nav {
+    position: relative;
+}
+
+.active-nav::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #d90429;
+    position: absolute;
+    left: 0%;
+    top: 69px;
+}
+
+
+/* home page form start  */
+
+.header_row {
+    display: inline;
+    background: #ffffff;
+    border-radius: 10px;
+}
+
+.header_row h5 {
+    font-size: 17px;
+    color: #141414;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.content_row {
+
+    margin: auto;
+    height: 280px;
+    border-radius: 12px;
+    background: #FFF;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
+}
+
+/* .header_row h5 {
+    width: fit-content;
+    margin: 0 auto;
+    background: #fff;
+    padding: 10px 41px;
+    font-size: 24px;
+    border-radius: 30px 30px 0px 0px;
+    color: #252525;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+} */
+.form_radio input {
+    border: 2px solid #000;
+    cursor: pointer;
+}
+
+.form_radio label {
+    font-size: 17px;
+    color: #141414;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.form_radio input:checked {
+    background-color: #FF8900;
+    border-color: #FF8900;
+}
+
+.form_radio input:checked~label {
+    color: #FF8900;
+}
+
+
+
+
+
+
+
+/* Download app css start */
+
+.downloadapp {
+    margin-top: 1.5rem;
+}
+
+.download_container {
+    background: #fff;
+    border-radius: 15px;
+
+}
+
+.download_header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.download_header h3 {
+    font-size: 34px;
+    color: #141414;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.download_header h5 {
+    font-size: 24px;
+    color: #FF8900;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.download_info {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0px 59px;
+
+}
+
+.download_info img {
+    width: 125px;
+    height: 125px;
+}
+
+.download_info h5,
+h6 {
+    font-size: 17px;
+    font-family: 'Quicksand', sans-serif;
+    color: #141414;
+    font-weight: 700;
+}
+
+.scan_wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}
+
+.scan_wrapper h6 {
+    text-align: center;
+}
+
+.scan_wrapper .scan_text {
+    text-align: end;
+    padding-right: 40px;
+}
+
+.scan_logo {
+    width: 320px;
+}
+
+.scan_logo img {
+    width: 100%;
+}
+
+
+/* phone number input */
+.form-field {
+    display: block;
+    width: 100%;
+    padding: 8px 16px;
+    line-height: 25px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: inherit;
+    border-radius: 30px 0px 0px 30px;
+    -webkit-appearance: none;
+    color: var(--input-color);
+    border: 1px solid #5DCBF9;
+    background: #FFFFFF;
+    transition: border .3s ease;
+
+}
+
+.form-field::placeholder {
+    color: #8A8686;
+    font-size: 17px;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.form-field:focus {
+    outline: none;
+    border-color: #5DCBF9;
+}
+
+.form-group {
+    position: relative;
+    display: flex;
+    width: 100%;
+
+}
+
+.form-group>span,
+.form-field {
+    white-space: nowrap;
+    display: block;
+
+}
+
+.form-group>span,
+.form-field :not(:first-child):not(:last-child) {
+    border-radius: 0;
+}
+
+.form-group>span,
+.form-field :first-child {
+    border-radius: 6px 0 0 6px;
+}
+
+.form-group>span,
+.form-field :last-child {
+    border-radius: 0 6px 6px 0;
+}
+
+.form-group>span,
+.form-field :not(:first-child) {
+    margin-left: -1px;
+}
+
+.form-field {
+    position: relative;
+    z-index: 1;
+    flex: 1 1 auto;
+    width: 1%;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.form-group>span,
+.form-field>span {
+    text-align: center;
+    padding: 8px 12px;
+    font-size: 17px;
+    line-height: 25px;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+    color: #252525;
+    background: #5DCBF9;
+    border: 1px solid #5DCBF9;
+    transition: background .3s ease, border .3s ease, color .3s ease;
+}
+
+.form-group>span,
+.form-field :focus-within>span {
+    color: #252525;
+    background: #5DCBF9;
+    border-color: #5DCBF9;
+}
+
+* {
+    box-sizing: inherit;
+}
+
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+body .form-group {
+    max-width: 610px;
+}
+
+body .form-group:not(:last-child) {
+    margin-bottom: 32px;
+}
+
+
+/* homeform css start */
+.select_fare {
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 20px auto;
+}
+
+.select_fare p {
+    color: #252525;
+    font-size: 16px;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+    margin-bottom: 0px;
+}
+
+.select_fare a {
+    text-decoration: none;
+}
+
+.select_fare span {
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-size: 9px;
+    color: #fff;
+    background: #8D8985;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.select_fare .fare_radio {
+    display: flex;
+    align-items: center;
+}
+
+.select_fare .fare_radio a {
+    text-decoration: none;
+    color: #FFFFFF;
+}
+
+.fare_radio .checkbox-round {
+    width: 1.3em;
+    height: 1.3em;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 4px solid #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+    margin-right: 4px;
+}
+
+.checkbox-round:checked {
+    background-color: #FF8900;
+}
+
+.checkbox-round:checked .select_fare span {
+    background-color: #FF8900;
+}
+
+.fare_submit {
+    background: blue !important;
+    padding: 0px 25px !important;
+}
+
+.fare_submit button {
+    font-size: 24px;
+    color: #fff;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+    border: none;
+    background: transparent;
+}
+
+.form_input {
+    height: 80px;
+    position: relative;
+    width: 100%;
+}
+
+.css-gcwvw8-MuiAutocomplete-root {
+    width: 250px !important;
+    padding: 5px 0 !important;
+}
+
+.css-gcwvw8-MuiAutocomplete-root .MuiOutlinedInput-root {
+    padding: 18px 0 !important;
+}
+
+.form_input input {
+
+    height: 101%;
+    padding-left: 25px;
+    border-radius: 10px;
+    border: 3px solid #70707069;
+}
+
+.form_input lable {
+    font-size: 13px;
+    color: #4E4C4C;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+
+}
+
+/* gender form */
+.hotel_form_input {
+    height: 50px !important;
+    position: relative;
+    width: 100% !important;
+
+}
+
+.hotel_form_input input {
+    /* width: 100%; */
+    height: 115%;
+    padding-left: 25px;
+    border-radius: 10px;
+
+    border: 0.5px solid #BBB !important;
+}
+
+.hotel_form_input .lable {
+    font-size: 13px;
+    color: #4e4c4c;
+    font-weight: 700;
+    font-family: "Quicksand", sans-serif;
+}
+
+.hotel_input_select {
+    width: 204px;
+    border: 10px;
+    border-radius: 10px;
+    border: 0.5px solid #BBB !important;
+    height: 56px;
+    padding-left: 15px;
+}
+
+.hotel_form_input .from_input::placeholder,
+.to_input::placeholder {
+    color: #4e4c4ca1;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: "Quicksand", sans-serif;
+}
+
+
+.form_input .from_input::placeholder,
+.to_input::placeholder {
+    color: #4E4C4CA1;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+
+}
+
+.form_lable {
+    color: #4E4C4C;
+    font-size: 13px;
+    font-weight: 700;
+    font-family: 'Quicksand', sans-serif;
+    left: 10px;
+    line-height: 14px;
+    pointer-events: none;
+    position: absolute;
+    transform-origin: 0 50%;
+    top: 24px;
+    transform: translateY(-30px) translateX(10px);
+    background: #fff;
+    padding: 0px 8px;
+}
+
+
+
+/* slider css start  */
+.card_container {
+    background: #ffffff;
+    border-radius: 0.7rem;
+    padding: 1.5rem 0rem 0.5rem 0rem;
+    margin: 1.5rem auto;
+}
+
+.card_header {
+    font-size: 24px;
+    font-family: 'Quicksand', sans-serif;
+    color: #141414;
+    font-weight: 700;
+    text-align: center;
+}
+
+.card_name {
+    font-size: 17px;
+    font-family: 'Quicksand', sans-serif;
+    color: #141414;
+    font-weight: 700;
+
+}
+
+
+/* offers card css start */
+.offer_header {
+    font-size: 34px;
+    color: #545454;
+    text-align: center;
+}
+
+.all_offers {
+    width: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* gap: 30px; */
+    margin: 20px auto;
+}
+
+.all_offers a {
+    text-decoration: none;
+}
+
+.all_offers span {
+    font-size: 17px;
+    color: #545454;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.all_offers span:nth-child(1) {
+    color: #FFFFFF;
+    background: #FF8900;
+    padding: 6px 15px;
+    border-radius: 20px;
+}
+
+.card_body {
+    margin: 0px 30px 30px;
+    padding: 0px 10px;
+    background: #D0DDFC;
+    width: 206px;
+    height: 281px;
+    box-shadow: 0px 7px 11px #00000045;
+    border-radius: 20px;
+}
+
+.card_wrapper h5 {
+    font-size: 11px;
+    color: #4A4A4A;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.card_wrapper span {
+    width: 20px;
+    height: 3px;
+}
+
+.card_wrapper p {
+    font-size: 8px;
+    color: #464646;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.card_wrapper button {
+    width: 100%;
+    font-size: 15px;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    background-color: #006FFF;
+    color: #FFFFFF;
+    border-radius: 20px 20px 20px 20px;
+    border: none;
+    padding: 7px 0px 6px;
+}
+
+
+
+
+
+
+/* media start Here */
+
+/* @media screen and (min-device-width: 1200px) and (max-device-width: 1400px){
+    .card_body{
+        margin: 0px 10px 30px;
+    }
+}
+@media screen and (min-device-width: 768px) and (max-device-width: 1200px){
+    .card_body{
+        margin: 0px 16px 30px;
+    }
+} */
+
+
+
+
+
+
+
+@media (max-width: 1000px) {
+    .mainheader_row {
+        background: #ffffff;
+        border-radius: 0.7rem;
+        padding: 0.5rem 0;
+        gap: 40px;
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 auto;
+        box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
+    }
+
+    .content_row {
+
+        margin: auto;
+        height: 780px !important;
+        border-radius: 12px;
+        background: #FFF;
+        box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.25);
+    }
+
+    /* .wrapper{
+        margin-top: -20px !important;
+    } */
+
+}

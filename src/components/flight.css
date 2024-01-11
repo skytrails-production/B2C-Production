@@ -1,0 +1,295 @@
+/* YourComponent.css */
+
+
+
+/* From Container */
+/* .from-container {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 24px;
+  padding-right: 39px;
+  border-top-left-radius: 12px;
+  border-right: 1px #888 solid;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  display: inline-flex;
+  position: relative;
+} */
+
+.from-containerholi {
+  height: 109px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 24px;
+  padding-right: 0px;
+  border-top-left-radius: 12px;
+  border-right: 0.50px black solid;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  display: inline-flex;
+  position: relative;
+}
+
+.from-containerholi1 {
+  height: 109px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 24px;
+  padding-right: 0px;
+  border-top-left-radius: 12px;
+
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  display: inline-flex;
+  position: relative;
+}
+
+
+.from-container1 {
+  /* height: 109px; */
+  padding-top: 12px;
+  padding-bottom: 12px;
+  padding-left: 24px;
+  padding-right: 25px;
+  width: 250px;
+
+  border-top-left-radius: 12px;
+  border-right: 0.50px black solid;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  display: inline-flex;
+  position: relative;
+}
+
+.from-label {
+  color: #071C2C;
+  font-size: 16px;
+  font-family: 'Montserrat';
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+.from-city {
+  color: #071C2C;
+  font-size: 24px;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.to-city {
+  color: #071C2C;
+  font-size: 24px;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.from-details {
+  color: #071C2C;
+  font-size: 16px;
+  font-family: 'Montserrat';
+  font-weight: 400;
+  word-wrap: break-word;
+  width: 180px;
+}
+
+.to-details {
+  color: #071C2C;
+  font-size: 16px;
+  font-family: 'Montserrat';
+  font-weight: 400;
+  word-wrap: break-word;
+  width: 290px;
+}
+
+.class-details {
+  color: #071C2C;
+  font-size: 16px;
+  font-family: 'Montserrat';
+  font-weight: 400;
+  word-wrap: break-word;
+
+}
+
+/* To Container */
+.to-container {
+  /* Add styles similar to From Container */
+}
+
+/* Departure Container */
+.departure-container {
+  /* Add styles similar to From Container */
+}
+
+/* Return Container */
+.return-container {
+  /* Add styles similar to From Container */
+}
+
+/* Traveller Container */
+.traveller-container {
+  /* height: 109px; */
+
+  padding-top: 10px;
+  padding-bottom: 24px;
+  padding-left: 13px;
+
+
+  border-top-left-radius: 12px;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  display: inline-flex;
+}
+
+.day {
+  color: #071C2C;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+/* YourComponent.css */
+
+/* Add your existing styles here */
+
+/* Styles for the provided section */
+
+.date-info {
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+
+}
+
+.day {
+
+  color: #071C2C;
+  font-size: 16px;
+  font-family: 'Montserrat';
+  font-weight: 400;
+  word-wrap: break-word;
+}
+
+.datee {
+
+  color: #071C2C;
+  font-size: 18px;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.roundlogo {
+  position: absolute;
+  right: 0px;
+  top: 50%;
+  transform: translate(0%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.roundlogo svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* display: flex;
+    justify-content: center;
+    align-items: center; */
+}
+
+
+
+/* Responsive Styles */
+/* YourComponent.css */
+
+/* Add your existing styles here */
+
+/* Responsive Styles */
+
+@media only screen and (max-width: 1000px) {
+  .your-container {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .from-container,
+  .from-container1,
+  .to-container,
+  .departure-container,
+  .return-container {
+    width: 100%;
+    padding: 12px;
+    border-right: none;
+    border-right: 1px #888 solid;
+    /* border-bottom: 0.50px black solid; */
+  }
+
+
+  .from-container,
+  .from-container1,
+  .to-container,
+  .departure-container,
+  .return-container {
+    padding-bottom: 20px;
+  }
+
+  .traveller-container {
+    width: 100%;
+    padding: 12px;
+    border-right: none;
+
+  }
+
+  /* .roundlogo {
+    position: absolute;
+    right: 50%; 
+    top: 100%;
+    transform: translate(0%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  } */
+
+  .roundlogo svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* display: flex;
+        justify-content: center;
+        align-items: center; */
+  }
+}
+
+/* Add additional responsive styles as needed */
+
+
+
+.toursection_text {
+  color: #333;
+  font-size: 16px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.toursection_text p {
+  color: #333;
+  font-size: 13px;
+  font-family: 'Montserrat';
+  font-weight: 500;
+  word-wrap: break-word;
+}

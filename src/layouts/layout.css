@@ -1,0 +1,80 @@
+/* google font link */
+/* @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap'); */
+
+/* footer css start */
+footer{
+    background: #0D1334;
+    margin-top: 1.5rem;
+    padding-top: 7rem;
+    font-size: 24px;
+    color:  #FFFFFF;
+}
+.footer_container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 18rem;
+    gap: 3rem;
+}
+
+
+@media only screen and (max-width: 600px) {
+    .footer_container{
+        display: block;
+        grid-template-columns: 1fr 1fr 1fr 1fr 18rem;
+        gap: 3rem;
+    }
+
+  }
+.footer_container article{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+}
+.footer_container article h4{
+    margin-bottom: 0.7rem;
+    font-size: 24px;
+    font-weight: 700;
+    font-family: Quicksand ;
+}
+.footer_container article a{
+    text-decoration: none;
+    font-family: Quicksand ;
+    font-size: 18px;
+    color: #FFFFFF;
+}
+.footer_socials{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.footer_socials a{
+    border: 1px solid transparent;
+    border-radius: 0.6rem;
+    text-decoration: none;
+    height: 30px;
+}
+.footer_socials a img{
+    height: 100%;
+}
+.payment{
+    height: 80px;
+}
+.payment img{
+    height: 100%;
+}
+footer article h4{
+    /* margin-bottom: 0.6rem; */
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    font-family: Quicksand ;
+}
+.footer_copyright{
+    color: #FFFFFF;
+    text-align: center;
+    padding: 1.5rem 0;
+    border-top: 2px solid #ccc;
+    margin-top: 1rem;
+}
+
+

@@ -1,0 +1,327 @@
+/* TripSecureComponent.css */
+
+.TripSecureContainer {
+  width: 100%;
+
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 28px;
+  padding-bottom: 38px;
+  background: #fff;
+
+  border-radius: 8px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 16px;
+  display: inline-flex;
+  margin-top: 20px;
+
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.HeaderContainer {
+  width: 508px;
+  justify-content: space-between;
+  align-items: flex-start;
+  display: inline-flex;
+}
+
+.BrandContainer {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  display: flex;
+}
+
+.BrandIcon {
+  width: 20px;
+  height: 22.31px;
+  background: #d90429;
+}
+
+.BrandText {
+  text-align: center;
+  color: #d90429;
+  font-size: 12px;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.LogoContainer {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  background: black;
+  flex-direction: column;
+
+  align-items: center;
+
+  display: inline-flex;
+}
+
+.LogoText {
+  text-align: center;
+  color: white;
+  font-size: 8px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.PriceContainer {
+  height: 74px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 20px;
+  display: flex;
+}
+
+.PriceTextContainer {
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  display: inline-flex;
+}
+
+.PriceText {
+  text-align: center;
+  color: #071C2C;
+  font-size: 12px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.GstText {
+  text-align: center;
+  color: #BBBBBB;
+  font-size: 12px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.FeaturesContainer {
+  align-self: stretch;
+  justify-content: space-between;
+  align-items: flex-start;
+  display: inline-flex;
+  gap: 13px;
+}
+
+.FeatureBox {
+  padding-left: 8px;
+  padding-right: 16px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  background: rgba(187, 187, 187, 0.20);
+  border-radius: 8px;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+  display: flex;
+}
+
+.IconContainer {
+  width: 24px;
+  height: 24px;
+  position: relative;
+}
+
+.IconBackground {
+  width: 24px;
+  height: 24px;
+  left: 0;
+  top: 0;
+  position: absolute;
+  margin-right: 5px;
+
+}
+
+.IconForeground {
+  width: 14px;
+  height: 20px;
+  left: 5px;
+  top: 2px;
+  position: absolute;
+
+}
+
+.FeatureTextContainer {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 4px;
+  display: inline-flex;
+}
+
+.FeatureTitle {
+  text-align: center;
+  color: #d90429;
+  font-size: 12px;
+  font-family: 'Montserrat';
+  font-weight: 700;
+  word-wrap: break-word;
+}
+
+.FeatureDescription {
+  text-align: center;
+  color: #071C2C;
+  font-size: 10px;
+  font-family: 'Montserrat';
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+.CustomerFeedbackContainer {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 20px;
+  display: flex;
+}
+
+.CustomerFeedbackTextContainer {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 12px;
+  display: flex;
+}
+
+.FeedbackTitle {
+  text-align: center;
+  color: #071C2C;
+  font-size: 14px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  word-wrap: break-word;
+  margin-top: 5px;
+}
+
+.FeedbackListContainer {
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 28px;
+  display: inline-flex;
+}
+
+.FeedbackItem {
+  padding: 15px;
+  background: rgba(187, 187, 187, 0.20);
+  border-radius: 8px;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  display: inline-flex;
+}
+
+.FeedbackMessage {
+  color: #071C2C;
+  font-size: 10px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+
+  word-wrap: break-word;
+}
+
+.ReadMoreLink {
+  color: #d90429;
+  font-size: 10px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  line-height: 8.40px;
+  word-wrap: break-word;
+}
+
+.CustomerName {
+  color: #071C2C;
+  font-size: 10px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.UserChoiceContainer {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 11px;
+  display: flex;
+}
+
+.UserChoiceGroup {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 11px;
+  display: flex;
+}
+
+.UserChoiceItem {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 12px;
+  display: inline-flex;
+}
+
+.UserChoiceIcon {
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  border: 2px #BBBBBB solid;
+}
+
+.UserChoiceText {
+  color: #071C2C;
+  font-size: 12px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.UserChoiceOption {
+  color: #BBBBBB;
+  font-size: 12px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.AgeConfirmationText {
+  color: #BBBBBB;
+  font-size: 8px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+.TermsAndConditionsLink {
+  color: #d90429;
+  font-size: 8px;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  word-wrap: break-word;
+}
+
+/* Default styles */
+
+/* ... (existing styles) */
+
+/* Responsive styles */
+@media only screen and (max-width: 768px) {
+  .TripSecureContainer {
+    width: 100%;
+    padding: 20px;
+    margin-bottom: 10px;
+  }
+
+  /* Adjust other styles as needed for smaller screens */
+  .HeaderContainer {
+    flex-direction: column;
+  }
+
+  /* ... (adjust other styles) */
+}

@@ -1,0 +1,58 @@
+
+.ticket_details {
+  background: #F5F5F5;
+  box-shadow: 0px 0px 10px #0D0D0D33;
+  border-radius: 10px;
+  opacity: 1;
+}
+
+.booknowp{
+  height: 1300px;
+  width:500px;
+  padding-left:20px;
+}
+.bgimg{
+  overflow: scroll;
+  height: 100%;
+}
+
+.sheetbook{
+  margin-top: -1000px;
+  display: flex;
+}
+.cart{
+  margin-left: 10px;
+}
+
+
+
+/* ========== */
+
+* clickablebutto */
+.toggle_button{
+    background-color: white;
+    border: none;
+    width: 30px;
+    height:33px;
+    border-radius: 5px;
+    margin: 2px !important;
+    cursor: pointer;
+ 
+    }
+    .toggle_close{
+    background-color:#FF8900;
+    border: none;
+    width: 10px;
+    height:10px;
+    border-radius: 5px;
+    /* margin: 2px !important; */
+    cursor: pointer;
+    }
+    .toggle_button{
+        padding: 8px;
+        box-shadow: 0px 3px 6px #00000029;
+border-radius: 5px;
+border: none;
+    }
+    /* end */
+

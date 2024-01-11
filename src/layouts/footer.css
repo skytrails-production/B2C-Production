@@ -1,0 +1,60 @@
+.footer {
+    /* margin-top: 50px; */
+    padding: 40px 40px 20px 40px;
+    background-color: #21325d;
+    color: white !important;
+    position: relative !important;
+    bottom: 0 !important;
+}
+
+.footer a:hover {
+    color: #fff !important;
+}
+
+.footer a {
+    color: white;
+    text-decoration: none;
+
+}
+
+.footer h5 {
+    font-size: 22px !important;
+}
+
+
+.addressFooter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* width: 40%; */
+    justify-content: center;
+}
+
+.addressFooter span {
+    width: 50%;
+    text-align: center;
+}
+
+.footer li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 7px 0px;
+    transition: all 0.2s;
+}
+
+.footer li:hover {
+    gap: 10px;
+}
+
+.footer .footerIconBox {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.footerIconBox svg {
+    font-size: 25px;
+}
