@@ -107,7 +107,7 @@ const LinksInner = () => {
 
 
                             <>
-                                <NavLink to={path} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textDecoration: 'none', color: "black", fontWeight: "600" }} className={({ isActive }) => isActive ? "active-nav logoname" : "logoname"}>
+                                <NavLink key={index} to={path} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textDecoration: 'none', color: "black", fontWeight: "600" }} className={({ isActive }) => isActive ? "active-nav logoname" : "logoname"}>
 
                                     <img src={avatar} alt="mainheaderlogo" className='mainheaderlogo' style={{ width: "21px" }} />
 

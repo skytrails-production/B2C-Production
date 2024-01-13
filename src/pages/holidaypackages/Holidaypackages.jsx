@@ -10,6 +10,8 @@ import Advertise from '../home/Advertise';
 import BigNavbar from '../../UI/BigNavbar/BigNavbar';
 import HolidaySuggestion from './holidaySuggestion/HolidaySuggestion';
 import HolidayCategory from './holidayCategory/HolidayCategory';
+import HolidayDomestic from './holidayCategory/HolidayDomestic'
+import WhyChooseUs from '../../components/WhyChooseUs';
 
 const variants = {
     initial: {
@@ -40,7 +42,10 @@ const Hotelpackages = () => {
                 <Hotelpackageform />
             </div>
 
-
+            <motion.div variants={variants} initial="initial"
+                whileInView="animate"  >
+                <HolidayCategory variants={variants} />
+            </motion.div>
             {/* <motion.div variants={variants} initial="initial"
                 whileInView="animate"  >
                 <FLightOffer variants={variants} />
@@ -50,17 +55,21 @@ const Hotelpackages = () => {
                 {/* <FLightOffer variants={variants} /> */}
                 <HolidaySuggestion variants={variants} />
             </motion.div>
-            <motion.div variants={variants} initial="initial"
-                whileInView="animate"  >
 
-                {/* <HolidayCategory variants={variants} /> */}
-            </motion.div>
             <motion.div variants={variants} initial="initial"
                 whileInView="animate" style={{ position: "relative", top: "-30px" }}>
                 <Advertise variants={variants} />
             </motion.div>
 
+
+            <motion.div variants={variants} initial="initial"
+                whileInView="animate"  >
+                <HolidayDomestic variants={variants} />
+            </motion.div>
+
+
             <Download />
+            <WhyChooseUs />
         </React.Fragment>
     )
 }

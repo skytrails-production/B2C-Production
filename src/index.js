@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from "react-redux";
 import { persistor, store } from "./Redux/store";
 import { PersistGate } from "redux-persist/lib/integration/react";
+import "react-loading-skeleton/dist/skeleton.css"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

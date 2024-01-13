@@ -43,7 +43,7 @@ import { useSelector } from "react-redux";
 import Accordion from "react-bootstrap/Accordion";
 import { Box, Typography } from "@mui/material";
 import "./holidayinfo.css";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 // import Modal from "@mui/material/Modal";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
@@ -62,13 +62,16 @@ import CloseIcon from "@mui/icons-material/Close";
 import loginGif from "../../../images/loginGif.gif"
 import Login from "../../../components/Login"
 
+import HolidayLoader from "../holidayLoader/HolidayLoader"
+import HolidaySimilar from "./HolidaySimilar";
+
 function Holidayinfo() {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const reducerState = useSelector((state) => state);
   const onePackage =
     reducerState?.searchOneResult?.OneSearchPackageResult?.data?.data;
   console.log("One Package", onePackage);
-  const [daysDetailsValues, setDaysDetails] = useState([]);
+  // const [daysDetailsValues, setDaysDetails] = useState([]);
 
   const [spinner, setSpinner] = useState(false);
 
@@ -86,11 +89,11 @@ function Holidayinfo() {
     boxShadow: 10,
   };
 
-  const [value, setValue] = React.useState("1");
+  // const [value, setValue] = React.useState("1");
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  // const handleChange = (event, newValue) => {
+  //   setValue(newValue);
+  // };
   const authenticUser = reducerState?.logIn?.loginData?.status;
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -110,7 +113,7 @@ function Holidayinfo() {
 
   const savedDataString = sessionStorage.getItem("searchPackageData");
   const savedData = JSON?.parse(savedDataString);
-  const savedDestination = savedData?.destination.toUpperCase();
+  const savedDestination = savedData?.destination?.toUpperCase();
   // const savedDays = savedData?.days;
 
   // useEffect(() => {
@@ -208,6 +211,16 @@ function Holidayinfo() {
 
   console.log(onePackage, "one package")
 
+
+  if (onePackage === undefined) {
+    return (
+      <div>
+        <HolidayLoader />
+      </div>
+    )
+  }
+
+
   return (
     <>
       <div className="holidayInfoBackWall">
@@ -246,14 +259,18 @@ function Holidayinfo() {
                       <FmdGoodIcon />
                     </div>
                     <div>
-                      <p>{savedDestination}</p>
+                      {/* {onePackage?.destination?.map((i, index) => (
+                        <p>{i}</p>
+                      ))} */}
+                      <p>{onePackage?.destination?.map(item => item.addMore).join(', ')}</p>
+
                       <span>{onePackage?.country !== "" ? `(${onePackage?.country})` : "(India)"}</span>
                     </div>
                   </div>
 
                   <div className="packPrice">
                     <p>
-                      ₹ {onePackage?.pakage_amount?.amount} /<span>Person</span>
+                      ₹ {onePackage?.pakage_amount?.amount}<span>/Person</span>
                     </p>
                   </div>
                 </div>
@@ -578,22 +595,7 @@ function Holidayinfo() {
               </div>
 
               <div className="col-lg-12 mb-4 p-0">
-                {/* <Timeline
-                  sx={{
-                    [`& .${timelineItemClasses.root}:before`]: {
-                      flex: 0,
-                      padding: 0,
-                    },
-                  }}
-                >
-                  <TimelineItem>
-                    <TimelineSeparator>
-                      <TimelineDot />
-                      <TimelineConnector />
-                    </TimelineSeparator>
-                    <TimelineContent>Eat</TimelineContent>
-                  </TimelineItem>
-                </Timeline> */}
+
 
                 {onePackage?.detailed_ltinerary?.map((item, index) => {
                   return (
@@ -711,58 +713,6 @@ function Holidayinfo() {
             </div>
           </div>
 
-          {/* <div className="col-lg-3">
-            <div className="sidePromo">
-              <div className="col-lg-12 sidePromoImg">
-                <img src={goa} alt="" />
-              </div>
-              <div className="promoBottom">
-                <div className="promoTitle">
-                  <p>Luxurious Dubai Trip</p>
-                  <div>
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                  </div>
-                </div>
-                <div className="promoIcons">
-                  <div className="singlePromoIcon">
-                    <span><TramIcon /></span>
-                    <p>Train</p>
-                  </div>
-                  <div className="singlePromoIcon">
-                    <span><ForestIcon /></span>
-                    <p>Nature</p>
-                  </div>
-                  <div className="singlePromoIcon">
-                    <span><LocalOfferIcon /></span>
-                    <p>50% Off</p>
-                  </div>
-
-                  <div className="singlePromoIcon">
-                    <span><WifiPasswordIcon /></span>
-                    <p>WIFI</p>
-                  </div>
-                </div>
-
-                <div className="promoDestination">
-                  <ul>
-                    <li>Mandovi river cruise</li>
-                    <li>North Dubai sightseeing</li>
-                  </ul>
-                  <div>
-                    <p>₹ 42,250 </p>
-                    <span>Per Person</span>
-                  </div>
-                </div>
-                <div className="promoBottomButton">
-                  <p>VIEW OTHER PACKAGES {" > "}</p>
-
-                  <button>View Package</button>
-                </div>
-              </div>
-            </div>
-          </div> */}
 
           <div className="col-lg-4 packageSideFormMain">
             <div
@@ -857,7 +807,7 @@ function Holidayinfo() {
                         <input
                           type="number"
                           name="number_of_child"
-                          min={1}
+                          // min={1}
                           value={formData.number_of_child}
                           onChange={handleInputChange}
                           className="form-control"
@@ -1043,186 +993,8 @@ function Holidayinfo() {
         <hr style={{ borderColor: "#999" }} />
       </div>
 
-      <div className="container marBot-100">
-        <div className="morPack">
-          <h2>More Packages we Provide</h2>
-        </div>
-        <div className="row p-0">
-          <div className="col-lg-4">
-            <div className="sidePromo">
-              <div className="col-lg-12 sidePromoImg">
-                <img src={goa} alt="" />
-              </div>
-              <div className="promoBottom">
-                <div className="promoTitle">
-                  <p>Luxurious Kerala Trip</p>
-                  <div>
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                  </div>
-                </div>
-                <div className="promoIcons">
-                  <div className="singlePromoIcon">
-                    <span>
-                      <TramIcon />
-                    </span>
-                    <p>Train</p>
-                  </div>
-                  <div className="singlePromoIcon">
-                    <span>
-                      <ForestIcon />
-                    </span>
-                    <p>Nature</p>
-                  </div>
-                  <div className="singlePromoIcon">
-                    <span>
-                      <LocalOfferIcon />
-                    </span>
-                    <p>50% Off</p>
-                  </div>
-
-                  <div className="singlePromoIcon">
-                    <span>
-                      <WifiPasswordIcon />
-                    </span>
-                    <p>WIFI</p>
-                  </div>
-                </div>
-
-                <div className="promoDestination">
-                  <ul>
-                    <li>Mandovi river cruise</li>
-                    <li>North Dubai sightseeing</li>
-                  </ul>
-                  <div>
-                    <p>₹ 42,250 </p>
-                    <span>Per Person</span>
-                  </div>
-                </div>
-                <div className="promoBottomButton">
-                  <button>View Package</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-4">
-            <div className="sidePromo">
-              <div className="col-lg-12 sidePromoImg">
-                <img src={goa} alt="" />
-              </div>
-              <div className="promoBottom">
-                <div className="promoTitle">
-                  <p>Luxurious Goa Trip</p>
-                  <div>
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                  </div>
-                </div>
-                <div className="promoIcons">
-                  <div className="singlePromoIcon">
-                    <span>
-                      <TramIcon />
-                    </span>
-                    <p>Train</p>
-                  </div>
-                  <div className="singlePromoIcon">
-                    <span>
-                      <ForestIcon />
-                    </span>
-                    <p>Nature</p>
-                  </div>
-                  <div className="singlePromoIcon">
-                    <span>
-                      <LocalOfferIcon />
-                    </span>
-                    <p>50% Off</p>
-                  </div>
-
-                  <div className="singlePromoIcon">
-                    <span>
-                      <WifiPasswordIcon />
-                    </span>
-                    <p>WIFI</p>
-                  </div>
-                </div>
-
-                <div className="promoDestination">
-                  <ul>
-                    <li>Mandovi river cruise</li>
-                    <li>North Dubai sightseeing</li>
-                  </ul>
-                  <div>
-                    <p>₹ 42,250 </p>
-                    <span>Per Person</span>
-                  </div>
-                </div>
-                <div className="promoBottomButton">
-                  <button>View Package</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-4">
-            <div className="sidePromo">
-              <div className="col-lg-12 sidePromoImg">
-                <img src={goa} alt="" />
-              </div>
-              <div className="promoBottom">
-                <div className="promoTitle">
-                  <p>Luxurious Shimla Trip</p>
-                  <div>
-                    <StarIcon />
-                    <StarIcon />
-                    <StarIcon />
-                  </div>
-                </div>
-                <div className="promoIcons">
-                  <div className="singlePromoIcon">
-                    <span>
-                      <TramIcon />
-                    </span>
-                    <p>Train</p>
-                  </div>
-                  <div className="singlePromoIcon">
-                    <span>
-                      <ForestIcon />
-                    </span>
-                    <p>Nature</p>
-                  </div>
-                  <div className="singlePromoIcon">
-                    <span>
-                      <LocalOfferIcon />
-                    </span>
-                    <p>50% Off</p>
-                  </div>
-
-                  <div className="singlePromoIcon">
-                    <span>
-                      <WifiPasswordIcon />
-                    </span>
-                    <p>WIFI</p>
-                  </div>
-                </div>
-
-                <div className="promoDestination">
-                  <ul>
-                    <li>Mandovi river cruise</li>
-                    <li>North Dubai sightseeing</li>
-                  </ul>
-                  <div>
-                    <p>₹ 42,250 </p>
-                    <span>Per Person</span>
-                  </div>
-                </div>
-                <div className="promoBottomButton">
-                  <button>View Package</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div>
+        <HolidaySimilar />
       </div>
 
 

@@ -156,7 +156,7 @@
     border-radius: 8px;
     /* border: 1px solid lightgray; */
     background: #FFFBFB;
-    margin: 10px 0px;
+    margin-bottom: 10px;
     cursor: pointer;
     flex-wrap: nowrap;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;

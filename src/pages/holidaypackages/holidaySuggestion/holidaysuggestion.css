@@ -15,6 +15,24 @@
     font-family: Montserrat;
 }
 
+.holiSuggSpan {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5px;
+    align-items: flex-end;
+}
+
+.holiSuggSpan .bg-theme {
+    display: inline-block;
+}
+
+.holiSugPrice {
+    right: 17px;
+    font-weight: 700;
+    font-size: 18px;
+}
+
 .theme {
     color: #d90429 !important;
     font-family: Montserrat;
@@ -38,6 +56,10 @@
 .trending .trend-item2 .trend-image1 {
     transition: all ease-in-out 0.5s;
     overflow: hidden;
+    height: 250px;
+}
+
+.h250 {
     height: 250px;
 }
 

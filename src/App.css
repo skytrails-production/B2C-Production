@@ -213,3 +213,27 @@ body {
   color: #212529;
   outline: 0;
 }
+
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* ::-webkit-scrollbar-thumb {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  width: 15px !important;
+  background-color: #212529 !important;
+} */
+
+.whyChoose p {
+  font-size: 14px;
+}
+
+
+.whyChoose i {
+  width: 102px !important;
+  height: 102px !important;
+}

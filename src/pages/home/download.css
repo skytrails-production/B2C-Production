@@ -181,6 +181,7 @@
   /* border-top-right-radius: 70px !important; */
   position: relative !important;
   border: 7px solid #fff !important;
+  height: 100%;
   /* margin-left: -40px !important; */
 }
 

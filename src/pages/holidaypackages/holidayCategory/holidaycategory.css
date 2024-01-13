@@ -1,0 +1,182 @@
+.holidayCatMainBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    flex-wrap: nowrap;
+}
+
+.holidayCatBox {
+    height: 100px;
+    background: #111;
+    padding: 10px 20px;
+    width: 200px;
+    position: relative;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.holidayCatBox h3 {
+    font-size: 20px;
+    font-weight: 600px;
+    color: white;
+    text-wrap: nowrap;
+}
+
+.packOuterBox {
+    display: flex;
+    flex-direction: row;
+    flex: 9;
+}
+
+.holidayCatBox h3 {
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.holidayCatBox img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 7px;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: .7;
+}
+
+
+
+
+
+/* holiday domestic  */
+
+
+.holidayCatBoxDomestic {
+    height: 250px;
+    background: #111;
+    padding: 10px 20px;
+    width: 100%;
+    position: relative;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.holidayCatBoxDomestic h3 {
+    font-size: 23px;
+    font-weight: 600;
+    color: white;
+    text-wrap: nowrap;
+}
+
+
+.holidayCatBoxDomestic h3 {
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}
+
+.holidayCatBoxDomestic img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 7px;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: .7;
+}
+
+
+/* holiday domestic  */
+
+
+
+.catDetailsAbout {
+    background: rgba(202, 199, 199, 0.35);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4.5px);
+    -webkit-backdrop-filter: blur(4.5px);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 20px 0px;
+}
+
+.catDetailsAbout p {
+    color: white;
+
+}
+
+
+
+.holidayCountryUnique {
+    background-image: linear-gradient(to left, #d90429, #d90427b9);
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.holidayCountryUnique h4 {
+    color: white;
+    font-weight: 700;
+}
+
+.holidayCountryUnique svg {
+    font-size: 25px;
+}
+
+
+.holidayCountryUniqueOe {
+    background-image: linear-gradient(to left, #d90429, #d90427b9);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.holidayCountryUniqueOe h4 {
+    color: white;
+    font-weight: 700;
+}
+
+.holidayCountryUniqueOe svg {
+    font-size: 25px;
+}
+
+
+.mt100 {
+    margin-top: 100px;
+}
+
+.mb100 {
+    margin-bottom: 100px;
+}
+
+
+.color-overlayCountry {
+    top: inherit;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent, #000000);
+    height: 50%;
+    opacity: 0.6;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all ease-in-out 0.5s;
+}
+
+/* grid design  */

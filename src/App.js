@@ -1,3 +1,4 @@
+import React, { useState, useEffect, useCallback } from 'react';
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
 import BookWrapper from "./pages/flight/Bookwrapper";
@@ -33,7 +34,7 @@ import { useLocation } from "react-router-dom";
 // import Conformation from "./pages/Return/Conformation";
 // import NonStopFlight from "./pages/Return/NonStopFlight";
 import BusResult from "./pages/bus/bussearchresult/BusResult";
-import Download from "./pages/home/Download";
+// import Download from "./pages/home/Download";
 import Holidayinfo from "./pages/holidaypackages/holidaypackagesearchresult/Holidayinfo";
 
 
@@ -41,7 +42,6 @@ import HotelSearch from './pages/Hotel/hotelsearch/HotelSearch';
 import HotelBooknow from './pages/Hotel/hotelbokknow/HotelBooknow'
 import Reviewbooking from './pages/Hotel/hotelreviewbooking/Reviewbooking'
 import { useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
 import { getMarkUpAction } from './Redux/markup/markupAction';
 import Guestdetail from "./pages/Hotel/guestdetail/Guestdetail";
 import HotelTicketGeneration from "./pages/Hotel/HotelTicketGeneration/HotelTicketGeneration";
@@ -51,7 +51,8 @@ import BookedTicket from "./pages/flight/BookedTicket";
 import Flighterror from "./pages/flight/Flighterror";
 import ContactUs from "./layouts/ContactUs";
 import BookingHistory from "./components/bookingHistory/BookingHistory"
-
+import HolidayCategoryDetails from "./pages/holidaypackages/holidayCategory/HolidayCategoryDetails";
+import { debounce } from 'lodash';
 
 
 function App() {
@@ -69,38 +70,43 @@ function App() {
 
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth > 750);
-  const [scrollY, setScrollY] = useState(0);
+
+  const updateDimensions = useCallback(
+    debounce(() => {
+      setWindowWidth(window.innerWidth > 750);
+    }, 200),
+    []
+  );
 
   useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth > 750);
+    const handleResizeScroll = () => {
+      updateDimensions();
     };
 
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-
-    window.addEventListener("resize", handleResize);
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener('resize', handleResizeScroll);
+    window.addEventListener('scroll', handleResizeScroll, { passive: true });
 
     return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener('resize', handleResizeScroll);
+      window.removeEventListener('scroll', handleResizeScroll);
     };
-  }, []);
+  }, [updateDimensions]);
 
   useEffect(() => {
+    if (!windowWidth) {
+      window.location.href = 'https://play.google.com/store/apps/details?id=com.skytrails';
+    }
+  }, [windowWidth]);
 
-  }, [scrollY, windowWidth]);
 
 
-  if (!windowWidth) {
-    return (
-      <>
-        <Download />
-      </>
-    )
-  }
+  // if (!windowWidth) {
+  //   return (
+
+  //     <Download />
+
+  //   )
+  // }
 
   return (
     <div className="background_gradient">
@@ -153,6 +159,8 @@ function App() {
         <Route path="holidaypackages" element={<Holidaypackages />}></Route>
 
         <Route path="/HolidayInfo" element={<Holidayinfo />} />
+
+        <Route path="/holidaycategorydetails/:category" element={<HolidayCategoryDetails />}></Route>
 
         {/* <Route path="/HolidaypackageInfo" element={<HolidaypackageInfo />} /> */}
 

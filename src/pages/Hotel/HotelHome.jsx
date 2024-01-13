@@ -9,6 +9,7 @@ import FLightOffer from "../flight/FLightOffer";
 import BigNavbar from "../../UI/BigNavbar/BigNavbar"
 // import onewayBG from "../../images/onewaybg.png"
 import onewayBG from "../../images/onewayBG.jpg"
+import WhyChooseUs from "../../components/WhyChooseUs";
 
 const variants = {
     initial: {
@@ -49,6 +50,10 @@ const Hotelhome = () => {
             <motion.div variants={variants} initial="initial"
                 whileInView="animate" >
                 <Download variants={variants} />
+            </motion.div>
+            <motion.div variants={variants} initial="initial"
+                whileInView="animate" >
+                <WhyChooseUs variants={variants} />
             </motion.div>
 
         </motion.div>

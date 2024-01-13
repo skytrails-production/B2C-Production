@@ -28,24 +28,24 @@ const variants = {
 };
 
 const BigNavbar = () => {
-    const [scrollY, setScrollY] = useState(0);
-    const [open, setOpen] = useState(true);
+    // const [scrollY, setScrollY] = useState(0);
+    // const [open, setOpen] = useState(true);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrollY(window.scrollY);
-        };
+    // useEffect(() => {
+    //     const handleScroll = () => {
+    //         setScrollY(window.scrollY);
+    //     };
 
-        window.addEventListener('scroll', handleScroll);
+    //     window.addEventListener('scroll', handleScroll);
 
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
+    //     return () => {
+    //         window.removeEventListener('scroll', handleScroll);
+    //     };
+    // }, []);
 
-    useEffect(() => {
-        setOpen(scrollY >= 70);
-    }, [scrollY]);
+    // useEffect(() => {
+    //     setOpen(scrollY >= 70);
+    // }, [scrollY]);
 
     return (
         // <motion.div className={` ${open ? 'bignavbar' : 'whiteBG'}`} variants={variants} initial="animate" whileInView="initial">

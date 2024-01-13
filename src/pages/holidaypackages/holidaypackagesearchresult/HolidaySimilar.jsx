@@ -1,79 +1,42 @@
-import React, { useEffect, useState, } from "react";
+import React, { useEffect } from 'react'
+import goa from "../../../images/goa.jpg";
+import StarIcon from "@mui/icons-material/Star";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import "./holidaysuggestion.css"
-import { apiURL } from "../../../Constants/constant";
-import { clearHolidayReducer, searchOnePackageAction } from "../../../Redux/OnePackageSearchResult/actionOneSearchPackage";
-// import Skeleton from "react-loading-skeleton";
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { searchPackageAction } from '../../../Redux/SearchPackage/actionSearchPackage';
+import { searchOnePackageAction } from '../../../Redux/OnePackageSearchResult/actionOneSearchPackage';
+import { useNavigate } from 'react-router-dom';
+const HolidaySimilar = () => {
 
-
-
-const HolidaySuggestion = () => {
-
-    const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [destination, setDestination] = useState("")
     const reducerState = useSelector((state) => state);
     const dispatch = useDispatch();
     const navigate = useNavigate()
+    const searchedData = sessionStorage.getItem("searchPackageData")
+    const Stringify = JSON.parse(searchedData)
+    const filteredPackage =
+        reducerState?.searchResult?.packageSearchResult?.data?.data?.pakage;
 
-
-
+    console.log(filteredPackage, "filtered")
 
     useEffect(() => {
-        if (destination) {
-            const payloadDestination = {
-                destination: destination,
-                days: 0,
-            };
-            sessionStorage.setItem("searchPackageData", JSON.stringify(payloadDestination));
-            navigate("/holidayInfo");
-        }
-    }, [destination]);
+        const payload = {
+            destination: Stringify?.destination,
+            days: 0,
+        };
+        dispatch(searchPackageAction(payload));
+        // sessionStorage.setItem("searchPackageData", JSON.stringify(payload));
+    }, [])
 
-    const searchOneHoliday = (item) => {
-        const id = item?._id;
-        setDestination(item?.country);
+
+
+    const searchOneHoliday = (id) => {
         const payload = {
             id,
         };
         dispatch(searchOnePackageAction(payload));
-
+        navigate("/holidayInfo");
     };
 
 
-
-    console.log(destination, "data desti")
-
-
-    const fetchData = async () => {
-        try {
-            const response = await fetch(
-                `${apiURL.baseURL}/skyTrails/latestPackages`,
-            );
-            const result = await response.json();
-
-            setData(result.data);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            setLoading(false);
-        }
-    };
-
-
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    console.log(data)
-
-    // if (loading) {
-    //     return (
-    //         <h1>my name is shaan</h1>
-    //     )
-    // }
     return (
         <div>
 
@@ -83,24 +46,15 @@ const HolidaySuggestion = () => {
                         <h2 class="mb-1">Explore <span class="theme">Top Trending Destinations</span></h2>
                     </div> */}
                     <div class="offerText my-5">
-                        <p>Explore Top Trending Destinations</p>
+                        <p>Suggested Destinations in {Stringify.destination} </p>
 
                     </div>
                     <div class="row p-0 align-items-center">
                         <div class="col-lg-12">
                             <div class="row">
-                                {loading ? (
-                                    // Show the skeleton for each item while data is being fetched
-                                    Array.from({ length: 6 }).map((_, index) => (
-                                        <SkeletonTheme baseColor="#e0e0e0" highlightColor="#facad0">
-                                            <div key={index} class="rounded col-lg-4 col-md-4 col-sm-4 mb-4">
-                                                <Skeleton height={250} />
-                                            </div>
-                                        </SkeletonTheme>
-                                    ))
-                                ) : (
-                                    data?.map((item, index) => (
-                                        <div key={index} onClick={(e) => searchOneHoliday(item)} class="col-lg-4 col-md-4 col-sm-4 mb-4" style={{ cursor: "pointer" }}>
+                                {
+                                    filteredPackage?.slice(0, 3).map((item, index) => (
+                                        <div key={index} onClick={(e) => searchOneHoliday(item?._id)} class="col-lg-4 col-md-4 col-sm-4 mb-4" style={{ cursor: "pointer" }}>
                                             <div class="trend-item1">
                                                 <div class="trend-image position-relative rounded">
                                                     <img src={item?.pakage_img} alt="package-img" />
@@ -123,8 +77,8 @@ const HolidaySuggestion = () => {
                                                 </div>
                                             </div>
                                         </div>
-                                    ))
-                                )}
+                                    )
+                                    )}
                             </div>
 
                         </div>
@@ -136,4 +90,4 @@ const HolidaySuggestion = () => {
     )
 }
 
-export default HolidaySuggestion
+export default HolidaySimilar

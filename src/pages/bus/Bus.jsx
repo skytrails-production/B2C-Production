@@ -16,6 +16,7 @@ import Advertise from '../home/Advertise';
 import FLightOffer from '../flight/FLightOffer';
 // import onewayBG from "../../images/onewaybg.png"
 import onewayBG from "../../images/onewayBG.jpg"
+import WhyChooseUs from "../../components/WhyChooseUs";
 
 const variants = {
     initial: {
@@ -55,6 +56,7 @@ const Taxi = () => {
                 <Advertise variants={variants} />
             </motion.div>
             <Download />
+            <WhyChooseUs />
         </div>
     )
 }

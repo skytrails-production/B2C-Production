@@ -84,12 +84,7 @@ const Homeform = (props) => {
   }
   useEffect(() => {
     const debouncerTimer = setTimeout(() => {
-      // if (searchTerm) {
-      //   fetchPackage()
-      // }
-      // else {
-      //   // setResult([])
-      // }
+
       fetchPackage()
     }, 300);
     return () => {
@@ -105,16 +100,7 @@ const Homeform = (props) => {
   }, [formInputRef])
 
 
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     setCityName(result[currentCityIndex]);
-  //     setCurrentCityIndex((prevIndex) =>
-  //       (prevIndex + 1) % popularCities.length
-  //     );
-  //   }, 2000);
-  //   return () => clearInterval(intervalId);
-  // }, [currentCityIndex]);
-  // formInputRef.current.focus()
+
 
 
 

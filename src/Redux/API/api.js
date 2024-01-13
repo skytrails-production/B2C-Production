@@ -238,9 +238,27 @@ function api() {
     const { destination, days } = payload;
     // ?filter=${days}&keyword=${destination}
     return axios.get(
-      `${apiURL.baseURL}/skyTrails/international/getAll?filter=${days}&keyword=${destination}`
+      `${apiURL.baseURL}/skyTrails/international/getAll?keyword=${destination}`
     );
   };
+
+
+
+  // holidayCategory details
+
+  // const holidayCategory = (payload) => {
+  //   // console.log("searchPackage" + payload.destination);
+  //   // console.log("searchPackage" + payload.days);
+  //   const { category } = payload;
+  //   // ?filter=${days}&keyword=${destination}
+  //   return axios.get(
+  //     `${apiURL.baseURL}/skyTrails/beachesPackages?${category}=true`
+  //   );
+  // };
+
+  // holidayCategory details 
+
+
 
   const getOnePackage = (payload) => {
     // console.log("getOnePacked", payload);
@@ -355,6 +373,7 @@ function api() {
     passengerData,
     hotelBookingDetailsSave,
     flightBookingDataSave,
+
   };
 }
 

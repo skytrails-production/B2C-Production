@@ -53,8 +53,8 @@ function HolidayPackagesDetail() {
     if (!filteredPackage) {
       navigate("/holidaypackages")
     }
-    console.warn(filteredPackage,"filtredfackage....")
-  },[])
+    console.warn(filteredPackage, "filtredfackage....")
+  }, [])
 
   const searchOneHoliday = (id) => {
     const payload = {
@@ -264,231 +264,232 @@ function HolidayPackagesDetail() {
                       <div className="col-lg-12">
 
                         <div onClick={(e) => searchOneHoliday(item?._id)} className="packageResultBox" key={index}>
-                          <div className="packageImage">
-                            <img src={item?.pakage_img} alt="package-img" />
+                          <div className="packOuterBox">
+                            <div className="packageImage">
+                              <img src={item?.pakage_img} alt="package-img" />
+                            </div>
+                            <div className="packageResultDetails">
+                              <div className="packageTitle">
+                                <p>{item?.pakage_title}</p>
+                              </div>
+                              <div>
+                                <p className="customize">{`${item?.days - 1}N`} / {`${item?.days}D`}</p>
+                                <p className="departure">
+                                  {item?.schedule?.flexible ? 'Flexible' : item?.schedule?.fixed_departure ? 'Fixed Departure' : ''}
+                                </p>
+                              </div>
+
+                              <div className="icon-box">
+                                {item?.insclusions?.slice(0, 4).map((ele, index) => {
+                                  return (
+                                    <div key={index} className="icon-box-inner">
+                                      {ele?.flexibility && (
+                                        <div>
+                                          <span><CommitIcon />
+                                          </span>
+                                          <p>Flexibility</p>
+                                        </div>
+                                      )}
+                                      {ele?.train && (
+                                        <div>
+                                          <span><TramIcon /></span>
+                                          <p>Train</p>
+                                        </div>
+                                      )}
+                                      {ele?.bus && (
+                                        <div>
+                                          <span><DirectionsBusIcon /></span>
+                                          <p>Bus</p>
+                                        </div>
+                                      )}
+                                      {ele?.cab && (
+                                        <div>
+                                          <span><DirectionsCarIcon /></span>
+                                          <p>Cab</p>
+                                        </div>
+                                      )}
+                                      {ele?.moterBike && (
+                                        <div>
+                                          <span><TwoWheelerIcon /></span>
+                                          <p>Moterbike</p>
+                                        </div>
+                                      )}
+                                      {ele?.hotel && (
+                                        <div>
+                                          <span><ApartmentIcon /></span>
+                                          <p>Hotel</p>
+                                        </div>
+                                      )}
+                                      {ele?.homeStays && (
+                                        <div>
+                                          <span><HolidayVillageIcon /></span>
+                                          <p>Homestays</p>
+                                        </div>
+                                      )}
+                                      {ele?.guestHouse && (
+                                        <div>
+                                          <span><LocationCityIcon /></span>
+                                          <p>Guesthouse</p>
+                                        </div>
+                                      )}
+                                      {ele?.camp && (
+                                        <div>
+                                          <span><CabinIcon /></span>
+                                          <p>Camp</p>
+                                        </div>
+                                      )}
+                                      {ele?.cruise && (
+                                        <div>
+                                          <span><BlurOnIcon /></span>
+                                          <p>Cruise</p>
+                                        </div>
+                                      )}
+                                      {ele?.sightSeeing && (
+                                        <div>
+                                          <span><DeckIcon /></span>
+                                          <p>Sightseeing</p>
+                                        </div>
+                                      )}
+                                      {ele?.guide && (
+                                        <div>
+                                          <span><EngineeringIcon /></span>
+                                          <p>Guide</p>
+                                        </div>
+                                      )}
+                                      {ele?.meals && (
+                                        <div>
+                                          <span><FastfoodIcon /></span>
+                                          <p>Meals</p>
+                                        </div>
+                                      )}
+                                      {ele?.breakfast && (
+                                        <div>
+                                          <span><DinnerDiningIcon /></span>
+                                          <p>Breakfast</p>
+                                        </div>
+                                      )}
+                                      {ele?.drink && (
+                                        <div>
+                                          <span><LiquorIcon /></span>
+                                          <p>Drink</p>
+                                        </div>
+                                      )}
+                                      {ele?.visa && (
+                                        <div>
+                                          <span><ArticleIcon /></span>
+                                          <p>Visa</p>
+                                        </div>
+                                      )}
+                                      {ele?.travelInsurance && (
+                                        <div>
+                                          <span><AccountBalanceIcon /></span>
+                                          <p>Travel Insurance</p>
+                                        </div>
+                                      )}
+                                      {ele?.safeTravel && (
+                                        <div>
+                                          <span><ParaglidingIcon /></span>
+                                          <p>Safe to Travel</p>
+                                        </div>
+                                      )}
+                                      {ele?.wildlife && (
+                                        <div>
+                                          <span><NaturePeopleIcon /></span>
+                                          <p>Wildlife</p>
+                                        </div>
+                                      )}
+                                      {ele?.heritage && (
+                                        <div>
+                                          <span><LandslideIcon /></span>
+                                          <p>Heritage</p>
+                                        </div>
+                                      )}
+                                      {ele?.adventure && (
+                                        <div>
+                                          <span><KitesurfingIcon /></span>
+                                          <p>Adventure</p>
+                                        </div>
+                                      )}
+                                      {ele?.beach && (
+                                        <div>
+                                          <span><PoolIcon /></span>
+                                          <p>Beach</p>
+                                        </div>
+                                      )}
+                                      {ele?.hillStation && (
+                                        <div>
+                                          <span><DownhillSkiingIcon /></span>
+                                          <p>Hill Station</p>
+                                        </div>
+                                      )}
+                                      {ele?.nature && (
+                                        <div>
+                                          <span><ForestIcon /></span>
+                                          <p>Nature</p>
+                                        </div>
+                                      )}
+                                      {ele?.wellness && (
+                                        <div>
+                                          <span><SelfImprovementIcon /></span>
+                                          <p>Wellness</p>
+                                        </div>
+                                      )}
+                                      {ele?.hiddenGem && (
+                                        <div>
+                                          <span><FitnessCenterIcon /></span>
+                                          <p>Hidden Gem</p>
+                                        </div>
+                                      )}
+                                      {ele?.tax && (
+                                        <div>
+                                          <span><FolderDeleteIcon /></span>
+                                          <p>Price Inclusive Tax</p>
+                                        </div>
+                                      )}
+                                      {ele?.discount && (
+                                        <div>
+                                          <span><LocalOfferIcon /></span>
+                                          <p>50% Off</p>
+                                        </div>
+                                      )}
+                                      {ele?.waterActivities && (
+                                        <div>
+                                          <span><KayakingIcon /></span>
+                                          <p>Water Activities</p>
+                                        </div>
+                                      )}
+                                      {ele?.optionalActivities && (
+                                        <div>
+                                          <span><SportsKabaddiIcon /></span>
+                                          <p>Optional Activities</p>
+                                        </div>
+                                      )}
+                                      {ele?.flexibleBooking && (
+                                        <div>
+                                          <span><BookmarkAddIcon /></span>
+                                          <p>Flexible Booking</p>
+                                        </div>
+                                      )}
+                                      {ele?.wifi && (
+                                        <div>
+                                          <span><WifiPasswordIcon /></span>
+                                          <p>WIFI</p>
+                                        </div>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </div>
+
+                              <div className="destination">
+                                <ul>
+                                  {item?.destination?.slice(0, 3).map((destinationItem, index) => (
+                                    <li key={index}>{destinationItem?.addMore}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
                           </div>
-                          <div className="packageResultDetails">
-                            <div className="packageTitle">
-                              <p>{item?.pakage_title}</p>
-                            </div>
-                            <div>
-                              <p className="customize">{`${item?.days - 1}N`} / {`${item?.days}D`}</p>
-                              <p className="departure">
-                                {item?.schedule?.flexible ? 'Flexible' : item?.schedule?.fixed_departure ? 'Fixed Departure' : ''}
-                              </p>
-                            </div>
-
-                            <div className="icon-box">
-                              {item?.insclusions?.slice(0, 4).map((ele, index) => {
-                                return (
-                                  <div key={index} className="icon-box-inner">
-                                    {ele?.flexibility && (
-                                      <div>
-                                        <span><CommitIcon />
-                                        </span>
-                                        <p>Flexibility</p>
-                                      </div>
-                                    )}
-                                    {ele?.train && (
-                                      <div>
-                                        <span><TramIcon /></span>
-                                        <p>Train</p>
-                                      </div>
-                                    )}
-                                    {ele?.bus && (
-                                      <div>
-                                        <span><DirectionsBusIcon /></span>
-                                        <p>Bus</p>
-                                      </div>
-                                    )}
-                                    {ele?.cab && (
-                                      <div>
-                                        <span><DirectionsCarIcon /></span>
-                                        <p>Cab</p>
-                                      </div>
-                                    )}
-                                    {ele?.moterBike && (
-                                      <div>
-                                        <span><TwoWheelerIcon /></span>
-                                        <p>Moterbike</p>
-                                      </div>
-                                    )}
-                                    {ele?.hotel && (
-                                      <div>
-                                        <span><ApartmentIcon /></span>
-                                        <p>Hotel</p>
-                                      </div>
-                                    )}
-                                    {ele?.homeStays && (
-                                      <div>
-                                        <span><HolidayVillageIcon /></span>
-                                        <p>Homestays</p>
-                                      </div>
-                                    )}
-                                    {ele?.guestHouse && (
-                                      <div>
-                                        <span><LocationCityIcon /></span>
-                                        <p>Guesthouse</p>
-                                      </div>
-                                    )}
-                                    {ele?.camp && (
-                                      <div>
-                                        <span><CabinIcon /></span>
-                                        <p>Camp</p>
-                                      </div>
-                                    )}
-                                    {ele?.cruise && (
-                                      <div>
-                                        <span><BlurOnIcon /></span>
-                                        <p>Cruise</p>
-                                      </div>
-                                    )}
-                                    {ele?.sightSeeing && (
-                                      <div>
-                                        <span><DeckIcon /></span>
-                                        <p>Sightseeing</p>
-                                      </div>
-                                    )}
-                                    {ele?.guide && (
-                                      <div>
-                                        <span><EngineeringIcon /></span>
-                                        <p>Guide</p>
-                                      </div>
-                                    )}
-                                    {ele?.meals && (
-                                      <div>
-                                        <span><FastfoodIcon /></span>
-                                        <p>Meals</p>
-                                      </div>
-                                    )}
-                                    {ele?.breakfast && (
-                                      <div>
-                                        <span><DinnerDiningIcon /></span>
-                                        <p>Breakfast</p>
-                                      </div>
-                                    )}
-                                    {ele?.drink && (
-                                      <div>
-                                        <span><LiquorIcon /></span>
-                                        <p>Drink</p>
-                                      </div>
-                                    )}
-                                    {ele?.visa && (
-                                      <div>
-                                        <span><ArticleIcon /></span>
-                                        <p>Visa</p>
-                                      </div>
-                                    )}
-                                    {ele?.travelInsurance && (
-                                      <div>
-                                        <span><AccountBalanceIcon /></span>
-                                        <p>Travel Insurance</p>
-                                      </div>
-                                    )}
-                                    {ele?.safeTravel && (
-                                      <div>
-                                        <span><ParaglidingIcon /></span>
-                                        <p>Safe to Travel</p>
-                                      </div>
-                                    )}
-                                    {ele?.wildlife && (
-                                      <div>
-                                        <span><NaturePeopleIcon /></span>
-                                        <p>Wildlife</p>
-                                      </div>
-                                    )}
-                                    {ele?.heritage && (
-                                      <div>
-                                        <span><LandslideIcon /></span>
-                                        <p>Heritage</p>
-                                      </div>
-                                    )}
-                                    {ele?.adventure && (
-                                      <div>
-                                        <span><KitesurfingIcon /></span>
-                                        <p>Adventure</p>
-                                      </div>
-                                    )}
-                                    {ele?.beach && (
-                                      <div>
-                                        <span><PoolIcon /></span>
-                                        <p>Beach</p>
-                                      </div>
-                                    )}
-                                    {ele?.hillStation && (
-                                      <div>
-                                        <span><DownhillSkiingIcon /></span>
-                                        <p>Hill Station</p>
-                                      </div>
-                                    )}
-                                    {ele?.nature && (
-                                      <div>
-                                        <span><ForestIcon /></span>
-                                        <p>Nature</p>
-                                      </div>
-                                    )}
-                                    {ele?.wellness && (
-                                      <div>
-                                        <span><SelfImprovementIcon /></span>
-                                        <p>Wellness</p>
-                                      </div>
-                                    )}
-                                    {ele?.hiddenGem && (
-                                      <div>
-                                        <span><FitnessCenterIcon /></span>
-                                        <p>Hidden Gem</p>
-                                      </div>
-                                    )}
-                                    {ele?.tax && (
-                                      <div>
-                                        <span><FolderDeleteIcon /></span>
-                                        <p>Price Inclusive Tax</p>
-                                      </div>
-                                    )}
-                                    {ele?.discount && (
-                                      <div>
-                                        <span><LocalOfferIcon /></span>
-                                        <p>50% Off</p>
-                                      </div>
-                                    )}
-                                    {ele?.waterActivities && (
-                                      <div>
-                                        <span><KayakingIcon /></span>
-                                        <p>Water Activities</p>
-                                      </div>
-                                    )}
-                                    {ele?.optionalActivities && (
-                                      <div>
-                                        <span><SportsKabaddiIcon /></span>
-                                        <p>Optional Activities</p>
-                                      </div>
-                                    )}
-                                    {ele?.flexibleBooking && (
-                                      <div>
-                                        <span><BookmarkAddIcon /></span>
-                                        <p>Flexible Booking</p>
-                                      </div>
-                                    )}
-                                    {ele?.wifi && (
-                                      <div>
-                                        <span><WifiPasswordIcon /></span>
-                                        <p>WIFI</p>
-                                      </div>
-                                    )}
-                                  </div>
-                                );
-                              })}
-                            </div>
-
-                            <div className="destination">
-                              <ul>
-                                {item?.destination?.slice(0, 3).map((destinationItem, index) => (
-                                  <li key={index}>{destinationItem?.addMore}</li>
-                                ))}
-                              </ul>
-                            </div>
-                          </div>
-
                           <div className="priceBook">
                             <div className="priceBookOne">
                               <h3>{`${item?.days - 1}N`} / {`${item?.days}D`}</h3>
