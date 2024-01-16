@@ -53,9 +53,22 @@ const BusPassengerDetail = () => {
   const boardingPoint = parsedSeatData?.selectedOrigin;
   const droppingPoint = parsedSeatData?.selectedDropPoint;
   const authenticUser = reducerState?.logIn?.loginData?.status;
+  const seatObject = parsedSeatData?.blockedSeatArray;
+  const published = seatObject.reduce(function (
+    accumulator,
+    currentValue,
+    currentIndex,
+    array
+  ) {
+    return accumulator + currentValue?.Price?.PublishedPriceRoundedOff;
+  },
+    0);
+  const markUpamount =
+    reducerState?.markup?.markUpData?.data?.result[0]?.busMarkup;
+  const grandTotal = published + markUpamount;
 
-  console.log(boardingPoint, "boarding point")
-  console.log(droppingPoint, "boarding point")
+  // console.log(boardingPoint, "boarding point")
+  // console.log(droppingPoint, "boarding point")
   // console.log(passengerCount);
   const passengerTemplate = {
     LeadPassenger: true,
@@ -140,7 +153,7 @@ const BusPassengerDetail = () => {
     };
     // console.log(payload);
     dispatch(busSeatBlockAction(payload));
-    console.log(payload, "bus passenger payload");
+    // console.log(payload, "bus passenger payload");
     sessionStorage.setItem("busPassName", JSON.stringify(passengerData));
     navigate("/BusReviewBooking");
   }
@@ -245,14 +258,14 @@ const BusPassengerDetail = () => {
 
     const result = await (!validatePhoneNumber(item.Phoneno) && !validateEmail(item.Email) && !filterValidation(item.FirstName) && !validateName(item.LastName) && item?.Address === "")
     const ph = await validateName(item.LastName)
-    console.warn("Please enter", ph, result)
+    // console.warn("Please enter", ph, result)
     return result
   }
   async function validtion() {
     // const res =await passengerData.filter(filterValidation)
     const res = await passengerData.filter((item) => (validatePhoneNumber(item.Phoneno) && validateEmail(item.Email) && filterValidation(item.FirstName) && validateName(item.LastName) && item?.Address !== ""))
     const result = res.length === passengerData.length ? true : false
-    console.warn(res, result, res.length, passengerData.length, "filter result", passengerData)
+    // console.warn(res, result, res.length, passengerData.length, "filter result", passengerData)
     return result
 
   }
@@ -266,7 +279,7 @@ const BusPassengerDetail = () => {
       await setShowBtn(false)
     }
 
-    console.warn("setShowBtn(true)", showBtn)
+    // console.warn("setShowBtn(true)", showBtn)
   }
   useEffect(() => {
     // const result = validtion()
@@ -286,7 +299,7 @@ const BusPassengerDetail = () => {
     )
   }
 
-  console.log(selectedBus, "selected bus")
+  // console.log(selectedBus, "selected bus");
   return (
     <>
       <div className="mainimgBusSearch">
@@ -348,7 +361,7 @@ const BusPassengerDetail = () => {
 
                       <div className="singleBusSearchBoxSeven">
                         <p>
-                          ₹ {selectedBus?.BusPrice?.PublishedPriceRoundedOff}
+                          ₹ {grandTotal}
                         </p>
                       </div>
                     </div>

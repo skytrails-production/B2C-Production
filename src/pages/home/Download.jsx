@@ -1,5 +1,5 @@
 import scan from "../../images/scan.png";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./download.css";
 import "../../components/card.css";
@@ -16,7 +16,7 @@ import "../../components/card.css";
 import step1 from "../../images/download/steps-1.png"
 import step2 from "../../images/download/steps-2.png"
 import step3 from "../../images/download/steps-3.png"
-import downloadBG from "../../images/download/downloadBG.png"
+// import downloadBG from "../../images/download/downloadBG.png"
 import apple from "../../images/download/apple.png"
 import google from "../../images/download/google.png"
 import mobil from "../../images/download/mobil.png"

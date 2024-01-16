@@ -253,7 +253,7 @@ const Flightdetail = () => {
 
   useEffect(() => {
     validation();
-    console.warn(passengerData, "passengerdata>>>>>>::::::::::::::::::::::::::::::::.")
+    // console.warn(passengerData, "passengerdata>>>>>>::::::::::::::::::::::::::::::::.")
   }, [setSub1, passengerData])
 
   const dateString = hotelData?.LastCancellationDate;
@@ -409,7 +409,7 @@ const Flightdetail = () => {
       if (validatePAN(item.PAN) && item.FirstName !== "" && item.LastName !== "" && toString(item.Age) !== "")
         return true;
     }
-    console.warn(passengerData, "passengerdata validation functionnnnnnnnnnn")
+    // console.warn(passengerData, "passengerdata validation functionnnnnnnnnnn")
     const other = await passengerData.filter(
       (trry)
       // =>
@@ -422,13 +422,13 @@ const Flightdetail = () => {
     );
     const result = await (other.length === passengerData.length && passengerData.length ? true : false);
     setValidationRes(result)
-    console.warn(other, "resulttryyy");
+    // console.warn(other, "resulttryyy");
     return result;
   }
   // console.warn("passengerDataNew", emailRef,"sss");
 
   useEffect(() => {
-    console.log(sub1, "sub1 JJJJJJJJJJJJJJJJJJJJJJJJJJJJj")
+    // console.log(sub1, "sub1 JJJJJJJJJJJJJJJJJJJJJJJJJJJJj")
     validation()
   }, [sub1])
 

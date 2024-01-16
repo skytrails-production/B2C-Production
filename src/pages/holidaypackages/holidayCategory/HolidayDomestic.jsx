@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import "./holidaycategory.css"
 import { useNavigate } from 'react-router-dom'
-import hill from "../../../images/packCategory/hill.jpg"
+// import hill from "../../../images/packCategory/hill.jpg"
 import one from "../../../images/destination/1.jpg"
 import two from "../../../images/destination/2.jpg"
 import three from "../../../images/destination/3.jpg"

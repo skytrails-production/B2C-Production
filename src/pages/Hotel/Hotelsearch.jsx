@@ -60,7 +60,7 @@ const Homeform = (props) => {
 
   const [room, setRoom] = useState([initialvalue, initialvalue])
   const [values, setValues] = React.useState(initialvalue);
-  console.warn(values, "child value")
+  // console.warn(values, "child value")
   const [value, setValue] = React.useState("1");
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -425,7 +425,7 @@ const Homeform = (props) => {
       setdisplayFrom(false);
     }
   };
-  console.warn(values, "child count")
+  // console.warn(values, "child count")
   async function handleMonthDayInEnglish1(e) {
     // await setDate(e.target.value)
     await setDate(`${e.$y}-${e.$M + 1}-${e.$D}`)

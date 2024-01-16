@@ -15,7 +15,7 @@ const HolidaySimilar = () => {
     const filteredPackage =
         reducerState?.searchResult?.packageSearchResult?.data?.data?.pakage;
 
-    console.log(filteredPackage, "filtered")
+    // console.log(filteredPackage, "filtered")
 
     useEffect(() => {
         const payload = {
@@ -34,6 +34,7 @@ const HolidaySimilar = () => {
         };
         dispatch(searchOnePackageAction(payload));
         navigate("/holidayInfo");
+        window.scrollTo(0,0)
     };
 
 

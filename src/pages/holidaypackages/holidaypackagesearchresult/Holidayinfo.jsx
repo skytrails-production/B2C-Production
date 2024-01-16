@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import goa from "../../../images/goa.jpg";
+// import goa from "../../../images/goa.jpg";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
-import StarIcon from "@mui/icons-material/Star";
+// import StarIcon from "@mui/icons-material/Star";
 import CommitIcon from "@mui/icons-material/Commit";
 import TramIcon from "@mui/icons-material/Tram";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
@@ -70,7 +70,7 @@ function Holidayinfo() {
   const reducerState = useSelector((state) => state);
   const onePackage =
     reducerState?.searchOneResult?.OneSearchPackageResult?.data?.data;
-  console.log("One Package", onePackage);
+  // console.log("One Package", onePackage);
   // const [daysDetailsValues, setDaysDetails] = useState([]);
 
   const [spinner, setSpinner] = useState(false);
@@ -111,9 +111,9 @@ function Holidayinfo() {
   }, [authenticUser])
 
 
-  const savedDataString = sessionStorage.getItem("searchPackageData");
-  const savedData = JSON?.parse(savedDataString);
-  const savedDestination = savedData?.destination?.toUpperCase();
+  // const savedDataString = sessionStorage.getItem("searchPackageData");
+  // const savedData = JSON?.parse(savedDataString);
+  // const savedDestination = savedData?.destination?.toUpperCase();
   // const savedDays = savedData?.days;
 
   // useEffect(() => {
@@ -128,7 +128,7 @@ function Holidayinfo() {
 
   // function of enquiry for booking
 
-  const [openModal, setOpenModal] = useState(false);
+  // const [openModal, setOpenModal] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     fullname: "",
@@ -148,9 +148,9 @@ function Holidayinfo() {
     });
   };
 
-  const handleClose = () => {
-    setOpenModal((prev) => !prev);
-  };
+  // const handleClose = () => {
+  //   setOpenModal((prev) => !prev);
+  // };
 
   const token = sessionStorage.getItem("jwtToken");
 
@@ -198,7 +198,7 @@ function Holidayinfo() {
         number_of_people: Number(),
         departure_date: "",
       });
-      setOpenModal((prev) => !prev);
+      // setOpenModal((prev) => !prev);
     }
   };
 
@@ -209,7 +209,7 @@ function Holidayinfo() {
 
   // function of enquiry for booking
 
-  console.log(onePackage, "one package")
+  // console.log(onePackage, "one package")
 
 
   if (onePackage === undefined) {

@@ -61,10 +61,10 @@ const quotes = [
   },
 ];
 
-const getRandomQuote = () => {
-  const randomIndex = Math.floor(Math.random() * quotes.length);
-  return quotes[randomIndex];
-};
+// const getRandomQuote = () => {
+//   const randomIndex = Math.floor(Math.random() * quotes.length);
+//   return quotes[randomIndex];
+// };
 
 const FlightLoader = () => {
   // const { text, img } = getRandomQuote();
@@ -73,32 +73,32 @@ const FlightLoader = () => {
   const [loading, setLoading] = useState(true);
   // const [currentImgIndex, setCurrentImgIndex] = useState(0);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = getRandomQuote();
-        setData(result);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const result = getRandomQuote();
+  //       setData(result);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       console.error("Error fetching data:", error);
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchData();
+  //   fetchData();
 
-    const intervalId = setInterval(() => {
-      setLoading(true);
-      fetchData();
-      // setCurrentImgIndex((prevIndex) => (prevIndex + 1) % quotes.length);
-    }, 4000);
+  //   const intervalId = setInterval(() => {
+  //     setLoading(true);
+  //     fetchData();
+  //     // setCurrentImgIndex((prevIndex) => (prevIndex + 1) % quotes.length);
+  //   }, 4000);
 
-    return () => clearInterval(intervalId);
-  }, []);
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
   return (
-    <div className="flightLoading">
-      <div className="imageflightcontent">
+    <div className="flightLoading" >
+      <div className="imageflightcontent" >
         {/* <AnimatePresence mode="wait">
           <motion.div
             key={currentImgIndex}

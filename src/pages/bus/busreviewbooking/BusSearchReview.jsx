@@ -25,7 +25,7 @@ const BusSearchReview = () => {
   const [error, setError] = useState(false);
   const [phone, setPhone] = useState("");
   const [bookingOption, setBookingOption] = useState("");
-  console.log(bookingOption);
+  // console.log(bookingOption);
 
   const navigate = useNavigate();
 

@@ -7,6 +7,7 @@ import beach from "../../../images/packCategory/beach.jpg"
 import cruise from "../../../images/packCategory/cruise.jpg"
 import wildlife from "../../../images/packCategory/wildlife.jpg"
 import { BsArrowRight } from "react-icons/bs";
+import { apiURL } from '../../../Constants/constant';
 
 const HolidayCategory = () => {
 
@@ -24,7 +25,7 @@ const HolidayCategory = () => {
         const queryParameter = `${category.toLowerCase()}=true`;
 
         try {
-            const response = await fetch(`http://localhost:8000/skyTrails/beachesPackages?${queryParameter}`);
+            const response = await fetch(`${apiURL.baseURL}/skyTrails/beachesPackages?${queryParameter}`);
             const data = await response.json();
 
             if (data.success === 1) {

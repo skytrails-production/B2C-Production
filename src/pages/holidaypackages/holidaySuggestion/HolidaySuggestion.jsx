@@ -44,7 +44,7 @@ const HolidaySuggestion = () => {
 
 
 
-    console.log(destination, "data desti")
+    // console.log(destination, "data desti")
 
 
     const fetchData = async () => {
@@ -67,7 +67,7 @@ const HolidaySuggestion = () => {
         fetchData();
     }, []);
 
-    console.log(data)
+    // console.log(data)
 
     // if (loading) {
     //     return (

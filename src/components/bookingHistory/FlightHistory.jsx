@@ -82,8 +82,8 @@ const FlightHistory = () => {
     // fetch api data
 
 
-    console.log(flightBookingData, "flight booking")
-    console.log(token, "flight booking")
+    // console.log(flightBookingData, "flight booking")
+    // console.log(token, "flight booking")
 
     const getFlightBooking = async () => {
         try {
@@ -117,7 +117,7 @@ const FlightHistory = () => {
                     }
                 });
                 setFlightBookingData(sortedData);
-                console.log('Flight History Response', response);
+                // console.log('Flight History Response', response);
             } else {
                 console.error('Request failed with status code:', response.status);
             }
@@ -139,7 +139,7 @@ const FlightHistory = () => {
     // change request flight
 
 
-    console.log(selectedFlight, "selected flight");
+    // console.log(selectedFlight, "selected flight");
 
     const handleSubmitFlightChange = async (event) => {
         event.preventDefault();

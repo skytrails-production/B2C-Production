@@ -76,7 +76,7 @@ const Homeform = (props) => {
     try {
       const response = await axios.get(`${apiURL.baseURL}/skyTrails/packagecitylist?keyword=${searchTerm}`)
       await setResult(response.data.data)
-      console.warn(result, "result", response.data.data, "response")
+      // console.warn(result, "result", response.data.data, "response")
 
     } catch (error) {
       console.error("Error fetching package", error, `${apiURL.baseURL}/skyTrails/packagecitylist?keyword=${searchTerm}`);

@@ -81,7 +81,7 @@ function BusResult() {
     reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult
       ?.BusResults;
   useEffect(() => {
-    console.warn(origin, destination, "origin destanition :::::::::::::::::")
+    // console.warn(origin, destination, "origin destanition :::::::::::::::::")
     if (origin.length > 0) {
       setSelectedOrigin(origin[0])
       setSelectedDropPoint(destination[0])
@@ -261,7 +261,7 @@ function BusResult() {
     //  setModal((prev) => !prev);
   }
   function handleContinue() {
-    console.warn(selectedOrigin, selectedDropPoint, "selectedOrigin,selectedDropPoint,")
+    // console.warn(selectedOrigin, selectedDropPoint, "selectedOrigin,selectedDropPoint,")
     if (
       blockedSeatArray.length === 0 ||
       selectedOrigin === "" ||

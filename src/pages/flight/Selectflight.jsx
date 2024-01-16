@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import ReactPaginate from "react-paginate";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Divider from "@mui/material/Divider";
-import "./selectflight.css"
+import "./selectflight.css";
 import { useLocation, useNavigate } from "react-router-dom";
 // import Paper from "@mui/material/Paper";
 import { motion } from "framer-motion";
@@ -14,9 +14,8 @@ import { clearbookTicketGDS } from "../../Redux/FlightBook/actionFlightBook";
 import { resetAllFareData } from "../../Redux/FlightFareQuoteRule/actionFlightQuote";
 import dayjs from "dayjs";
 // import hotelFilter from "../../images/hotelFilter.png"
-import flightNoResult from "../../images/img/flightnoresult.jpg"
-
-
+import flightNoResult from "../../images/img/flightnoresult.jpg";
+import { Skeleton } from "@mui/material";
 
 const variants = {
   initial: {
@@ -33,8 +32,6 @@ const variants = {
   },
 };
 
-
-
 function Items({ currentItems, selectedCategory, handleRadioChange }) {
   // const dispatch = useDispatch();
   const location = useLocation();
@@ -48,11 +45,10 @@ function Items({ currentItems, selectedCategory, handleRadioChange }) {
   const childCount = queryParams.get("child");
   const infantCount = queryParams.get("infant");
 
-
   useEffect(() => {
-    dispatch(clearbookTicketGDS())
-    dispatch(resetAllFareData())
-  }, [])
+    dispatch(clearbookTicketGDS());
+    dispatch(resetAllFareData());
+  }, []);
   // console.warn(reducerState)
 
   // const flightImg =
@@ -65,8 +61,25 @@ function Items({ currentItems, selectedCategory, handleRadioChange }) {
   // };
   const results =
     reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Results;
+  // useEffect(() => {
+  //   const uniqueData = results[0].filter((item, index, array) => {
+  //     const isUnique = !array
+  //       .slice(0, index)
+  //       .some(
+  //         prevItem =>
+  //           prevItem.AirlineCode === item.AirlineCode &&
+  //           prevItem.Segments?.[0]?.[prevItem.Segments[0].length - 1]?.Origin
+  //             ?.DepTime ===
+  //             item.Segments?.[0]?.[prevItem.Segments[0].length - 1]?.Origin
+  //               ?.DepTime,
+  //       );
+  //     return isUnique;
+  //   });
+  //   // currentItems=uniqueData;
+  //   console.warn("filter;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",uniqueData,"current items",currentItems)
+  // }, [results]);
+  
   // const items = [...Array(results?.[0].length).keys()];
-
 
   const handleIndexId = (ResultIndex) => {
     navigate(
@@ -78,51 +91,53 @@ function Items({ currentItems, selectedCategory, handleRadioChange }) {
   // const TicketDetails = reducerState?.flightFare?.flightQuoteData?.Results;
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-
-
   // console.warn("current data", currentItems)
 
-  const filteredData = currentItems && currentItems.filter((item) => {
-    const segmentLength = results?.[0][item]?.Segments?.[0].length;
-    const depTime = new Date(results?.[0][item]?.Segments?.[0][0]?.Origin?.DepTime);
-    const hour = depTime.getHours();
-    const airlineName = results?.[0][item]?.Segments?.[0][0]?.Airline?.AirlineName;
+  const filteredData =
+    currentItems &&
+    currentItems.filter((item) => {
+      const segmentLength = results?.[0][item]?.Segments?.[0].length;
+      const depTime = new Date(
+        results?.[0][item]?.Segments?.[0][0]?.Origin?.DepTime
+      );
+      const hour = depTime.getHours();
+      const airlineName =
+        results?.[0][item]?.Segments?.[0][0]?.Airline?.AirlineName;
 
-    // Check each selected category
-    const categoryFilters = selectedCategory.map((category) => {
-      switch (category) {
-        case "1":
-          return segmentLength === 1;
-        case "2":
-          return segmentLength === 2;
-        case "before6AM":
-          return hour < 6;
-        case "6AMto12PM":
-          return hour >= 6 && hour < 12;
-        case "12PMto6PM":
-          return hour >= 12 && hour < 18;
-        case "after6PM":
-          return hour >= 18;
-        default:
-          // For airline categories
-          return airlineName === category;
-      }
+      // Check each selected category
+      const categoryFilters = selectedCategory.map((category) => {
+        switch (category) {
+          case "1":
+            return segmentLength === 1;
+          case "2":
+            return segmentLength === 2;
+          case "before6AM":
+            return hour < 6;
+          case "6AMto12PM":
+            return hour >= 6 && hour < 12;
+          case "12PMto6PM":
+            return hour >= 12 && hour < 18;
+          case "after6PM":
+            return hour >= 18;
+          default:
+            // For airline categories
+            return airlineName === category;
+        }
+      });
+
+      // Apply AND logic for all selected categories
+      return categoryFilters.every((filter) => filter);
     });
-
-    // Apply AND logic for all selected categories
-    return categoryFilters.every((filter) => filter);
-  });
-
-
+   
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-
+  // useEffect(() => {
+  //   console.warn(results, "flight result", currentItems);
+  // }, [results, filteredData, currentItems]);
 
   return (
-
     <section className="margin-pecentage my-4">
       <div className="container-xxl">
         <div className="row">
@@ -136,34 +151,59 @@ function Items({ currentItems, selectedCategory, handleRadioChange }) {
                   <h2 className="sidebar-title">Suggesterd to you</h2>
 
                   <div>
-
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="All" name="test" />
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="All"
+                        name="test"
+                      />
                       <span className="checkmark"></span>All
                     </label>
 
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="1" name="test" />
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="1"
+                        name="test"
+                      />
                       <span className="checkmark"></span>Non Stop
                     </label>
 
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="2" name="test" />
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="2"
+                        name="test"
+                      />
                       <span className="checkmark"></span>One Stop
                     </label>
 
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="SpiceJet" name="test" />
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="SpiceJet"
+                        name="test"
+                      />
                       <span className="checkmark"></span>SpiceJet
                     </label>
 
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="Vistara" name="test" />
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="Vistara"
+                        name="test"
+                      />
                       <span className="checkmark"></span>Vistara
                     </label>
-
                   </div>
-                  <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
+                  <Divider
+                    sx={{ marginBottom: "15px", backgroundColor: "gray" }}
+                  />
                 </div>
 
                 <div>
@@ -172,7 +212,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange }) {
                   <div>
                     <label className="sidebar-label-container">
                       <input
-                        type="checkbox" onChange={handleRadioChange}
+                        type="checkbox"
+                        onChange={handleRadioChange}
                         value="before6AM"
                         name="test"
                       />
@@ -181,7 +222,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange }) {
 
                     <label className="sidebar-label-container">
                       <input
-                        type="checkbox" onChange={handleRadioChange}
+                        type="checkbox"
+                        onChange={handleRadioChange}
                         value="6AMto12PM"
                         name="test"
                       />
@@ -190,7 +232,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange }) {
 
                     <label className="sidebar-label-container">
                       <input
-                        type="checkbox" onChange={handleRadioChange}
+                        type="checkbox"
+                        onChange={handleRadioChange}
                         value="12PMto6PM"
                         name="test"
                       />
@@ -199,7 +242,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange }) {
 
                     <label className="sidebar-label-container">
                       <input
-                        type="checkbox" onChange={handleRadioChange}
+                        type="checkbox"
+                        onChange={handleRadioChange}
                         value="after6PM"
                         name="test"
                       />
@@ -207,7 +251,9 @@ function Items({ currentItems, selectedCategory, handleRadioChange }) {
                     </label>
                   </div>
 
-                  <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
+                  <Divider
+                    sx={{ marginBottom: "15px", backgroundColor: "gray" }}
+                  />
                 </div>
 
                 <div>
@@ -215,244 +261,458 @@ function Items({ currentItems, selectedCategory, handleRadioChange }) {
 
                   <div>
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="Air India" name="test" />
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="Air India"
+                        name="test"
+                      />
                       <span className="checkmark"></span>Air India
                     </label>
 
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="Indigo" name="test" />
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="Indigo"
+                        name="test"
+                      />
                       <span className="checkmark"></span>Indigo
                     </label>
 
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="SpiceJet" name="test" />
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="SpiceJet"
+                        name="test"
+                      />
                       <span className="checkmark"></span>SpiceJet
                     </label>
 
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="Vistara" name="test" />
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="Vistara"
+                        name="test"
+                      />
                       <span className="checkmark"></span>Vistara
                     </label>
-
                   </div>
-                  <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
+                  <Divider
+                    sx={{ marginBottom: "15px", backgroundColor: "gray" }}
+                  />
                 </div>
-
-
-
               </div>
             </div>
           </div>
 
+          {reducerState?.oneWay?.isLoading === true ? (
+            <div className="col-lg-9">
+              {[1, 2, 3, 5, 6, 7, 8].map((item) => (
+                <motion.div
+                  variants={variants}
+                  initial="initial"
+                  whileInView="animate"
+                >
+                  <motion.div
+                    variants={variants}
+                    className="singleFlightBox"
+                    style={{ height: "130px" }}
+                  >
+                    <div className="singleFlightBoxOne">
+                      <div>
+                        <Skeleton>
+                          <div style={{ height: "80px", width: "80px" }}></div>
+                        </Skeleton>
+                      </div>
+                      <span>
+                        {
+                          <Skeleton>
+                            <h1 style={{ height: "10px", width: "70px" }}></h1>
+                          </Skeleton>
+                        }
+                      </span>
+                      <p>
+                        {}
+                        {}
+                      </p>
+                    </div>
+                    <div className="singleFlightBoxTwo">
+                      <span>
+                        {
+                          <Skeleton>
+                            {" "}
+                            <h1 style={{ height: "10px", width: "70px" }}></h1>
+                          </Skeleton>
+                        }
+                      </span>
+                      <p>
+                        <Skeleton>
+                          <h1 style={{ height: "8px", width: "70px" }}></h1>
+                        </Skeleton>
+                      </p>
+                      <Skeleton>
+                        <h1 style={{ height: "8px", width: "70px" }}></h1>
+                      </Skeleton>
+                    </div>
 
-          <div className="col-lg-9">
+                    <div className="singleFlightBoxThree">
+                      <Skeleton>
+                        <h1 style={{ height: "8px", width: "70px" }}></h1>
+                      </Skeleton>
 
+                      <Skeleton>
+                        {" "}
+                        <h1 style={{ height: "8px", width: "70px" }}></h1>
+                      </Skeleton>
 
-            {
-              filteredData && filteredData.map((item) => {
-                // const handleClick = (event) => {
-                //   setAnchorEl(event.currentTarget);
-                // };
+                      <span></span>
+                    </div>
 
-                // const handleClose = () => {
-                //   setAnchorEl(null);
-                // };
+                    <div className="singleFlightBoxFour">
+                      <span>
+                        {
+                          <Skeleton>
+                            {" "}
+                            <h1 style={{ height: "8px", width: "70px" }}></h1>
+                          </Skeleton>
+                        }
+                      </span>
+                      <Skeleton>
+                        {" "}
+                        <h1
+                          style={{
+                            height: "50px",
+                            width: "70px",
+                            borderRadius: "25%",
+                          }}
+                        ></h1>
+                      </Skeleton>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="col-lg-9">
+              {filteredData &&
+                filteredData.map((item) => {
+                  // const handleClick = (event) => {
+                  //   setAnchorEl(event.currentTarget);
+                  // };
 
-                // const open = Boolean(anchorEl);
-                // const id = open ? "simple-popover" : undefined;
+                  // const handleClose = () => {
+                  //   setAnchorEl(null);
+                  // };
 
-                // const handleChange = (event, newValue) => {
-                //   setFlightDetailsValue(newValue);
-                // };
+                  // const open = Boolean(anchorEl);
+                  // const id = open ? "simple-popover" : undefined;
 
-                // Date
+                  // const handleChange = (event, newValue) => {
+                  //   setFlightDetailsValue(newValue);
+                  // };
 
-                const duration = `${Math.floor(results?.[0][item]?.Segments?.[0][0]?.Duration / 60)}hr ${results?.[0][item]?.Segments?.[0][0]?.Duration % 60
+                  // Date
+
+                  const duration = `${Math.floor(
+                    results?.[0][item]?.Segments?.[0][0]?.Duration / 60
+                  )}hr ${
+                    results?.[0][item]?.Segments?.[0][0]?.Duration % 60
                   }min`;
 
+                  // console.warn(reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode, "filtred data")
 
-                // console.warn(reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode, "filtred data")
-
-
-
-                if (reducerState?.oneWay?.isLoading === true) {
-                  return <FlightLoader />;
-                }
-                else if (reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode === 2 || reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode === undefined) {
-                  return (< div className="filteredNotFound">
-                    <img src={flightNoResult} alt="filter" />
-                    <h1>Result not found</h1>
-                  </div>)
-                }
-
-                return (
-                  <>
-
-
+                  if (reducerState?.oneWay?.isLoading === true) {
+                    return;
                     {
-                      results?.[0][item]?.Segments?.[0].length == 2 ?
-                        (
-                          <motion.div variants={variants} initial="initial"
-                            whileInView="animate">
-                            <motion.div variants={variants} className="singleFlightBox">
-                              <div className="singleFlightBoxOne">
-                                <div>
-                                  <img src={`${process.env.PUBLIC_URL}/FlightImages/${results[0][item]?.AirlineCode}.png`} alt="flight" />{" "}
-                                </div>
-                                <span>{results[0][item]?.Segments[0][0]?.Airline?.AirlineName}</span>
-                                <p>
-                                  {results[0][item]?.Segments[0][0]?.Airline?.AirlineCode}
-                                  {
-                                    results[0][item]?.Segments[0][0]?.Airline
-                                      ?.FlightNumber
-                                  }
-                                  {/* {results[0][item]?.IsLCC === false ? (
-                                    <span style={{ background: "green", color: "white" }}>
-                                      LCC
-                                    </span>
-                                  ) : (
-                                    ""
-                                  )} */}
-                                </p>
-                              </div>
-                              <div className="singleFlightBoxTwo">
-                                <span>{results[0][item]?.Segments[0][0]?.Origin?.Airport?.CityName}</span>
-                                <p>{dayjs(results?.[0][item]?.Segments[0][0]?.Origin?.DepTime).format("DD MMM, YY")}</p>
-                                <h5 style={{ fontSize: "14px" }}>{dayjs(results?.[0][item]?.Segments[0][0]?.Origin?.DepTime).format("h:mm A")}</h5>
-                              </div>
-
-                              <div className="singleFlightBoxThree">
-                                <h4>{`${Math.floor(results[0][item]?.Segments[0][0]?.Duration / 60)}hr ${results[0][item]?.Segments[0][0]?.Duration % 60
-                                  }min`}   - {`${Math.floor(results[0][item]?.Segments[0][1]?.Duration / 60)}hr ${results[0][item]?.Segments[0][0]?.Duration % 60
-                                    }min`}</h4>
-                                <div className="stopBef">
-                                  <Divider
-                                    orientation="vertical"
-                                    flexItem
-                                    sx={{
-                                      backgroundColor: "#21325d",
-                                      marginX: "8px",
-                                      height: "3px",
-                                    }}
-                                    className=""
-                                  />
-                                </div>
-                                <p>{`1 stop via ${results[0][item]?.Segments[0][0]?.Destination?.Airport?.CityName}`}</p>
-
-                                <span>{results[0][item]?.Segments[0][0]?.NoOfSeatAvailable} Seats Left</span>
-                              </div>
-
-                              <div className="singleFlightBoxFour">
-                                <span>{results[0][item]?.Segments[0][1]?.Destination?.Airport?.CityName}</span>
-                                <p>{dayjs(results?.[0][item]?.Segments?.[0][1]?.Destination?.ArrTime).format("DD MMM, YY")}</p>
-                                <h5 style={{ fontSize: "14px" }}>{dayjs(results?.[0][item]?.Segments?.[0][1]?.Destination?.ArrTime).format("h:mm A")}</h5>
-                              </div>
-
-
-                              <div className="singleFlightBoxSeven">
-                                <p>₹ {' '}{results[0][item]?.Fare?.PublishedFare}</p>
-                                <button
-                                  onClick={() => {
-                                    handleIndexId(
-                                      results[0][item]?.ResultIndex
-                                    );
-                                  }}
-                                >
-                                  View Details →
-                                </button>
-                              </div>
-                            </motion.div>
-                          </motion.div>
-                        )
-                        :
-                        (
-                          <motion.div variants={variants} initial="initial"
-                            whileInView="animate">
-                            <motion.div variants={variants} className="singleFlightBox">
-                              <div className="singleFlightBoxOne">
-                                <div>
-                                  <img src={`${process.env.PUBLIC_URL}/FlightImages/${results?.[0][item]?.AirlineCode}.png`} alt="flight" />{" "}
-                                </div>
-                                <span>{results?.[0][item]?.Segments[0][0]?.Airline?.AirlineName}</span>
-                                <p>
-                                  {results?.[0][item]?.Segments?.[0][0]?.Airline?.AirlineCode}
-                                  {
-                                    results?.[0][item]?.Segments?.[0][0]?.Airline
-                                      ?.FlightNumber
-                                  }
-                                  {/* {results?.[0][item]?.IsLCC === false ? (
-                                    <span style={{ background: "green", color: "white" }}>
-                                      LCC
-                                    </span>
-                                  ) : (
-                                    ""
-                                  )} */}
-                                </p>
-                              </div>
-                              <div className="singleFlightBoxTwo">
-                                <span>{results?.[0][item]?.Segments?.[0][0]?.Origin?.Airport?.CityName}</span>
-                                <p>{dayjs(results?.[0][item]?.Segments[0][0]?.Origin?.DepTime).format("DD MMM, YY")}</p>
-                                <h5 style={{ fontSize: "14px" }}>{dayjs(results?.[0][item]?.Segments[0][0]?.Origin?.DepTime).format("h:mm A")}</h5>
-                              </div>
-
-                              <div className="singleFlightBoxThree">
-
-                                <h4>{duration}</h4>
-
-                                <div>
-                                  <Divider
-                                    orientation="vertical"
-                                    flexItem
-                                    sx={{
-                                      backgroundColor: "#21325d",
-                                      marginX: "8px",
-                                      height: "3px",
-                                    }}
-                                  />
-                                </div>
-
-                                <p>Non Stop</p>
-
-                                <span>{results?.[0][item]?.Segments?.[0][0]?.NoOfSeatAvailable} Seats Left</span>
-                              </div>
-
-                              <div className="singleFlightBoxFour">
-                                <span>{results?.[0][item]?.Segments?.[0][0]?.Destination?.Airport?.CityName}</span>
-                                <p>{dayjs(results?.[0][item]?.Segments?.[0][0]?.Destination?.ArrTime).format("DD MMM, YY")}</p>
-                                <h5 style={{ fontSize: "14px" }}>{dayjs(results?.[0][item]?.Segments?.[0][0]?.Destination?.ArrTime).format("h:mm A")}</h5>
-                              </div>
-
-                              <div className="singleFlightBoxSeven">
-                                <p>₹ {' '}{results?.[0][item]?.Fare?.PublishedFare}</p>
-                                <button
-                                  onClick={() => {
-                                    handleIndexId(
-                                      results?.[0][item]?.ResultIndex
-                                    );
-                                  }}
-                                >
-                                  View Details →
-                                </button>
-                              </div>
-                            </motion.div>
-                          </motion.div>
-                        )
+                      /* <FlightLoader />; */
                     }
+                  } else if (
+                    reducerState?.oneWay?.oneWayData?.data?.data?.Response
+                      ?.Error?.ErrorCode === 2 ||
+                    reducerState?.oneWay?.oneWayData?.data?.data?.Response
+                      ?.Error?.ErrorCode === undefined
+                  ) {
+                    return (
+                      <div className="filteredNotFound">
+                        <img src={flightNoResult} alt="filter" />
+                        <h1>Result not found</h1>
+                      </div>
+                    );
+                  }
 
+                  return (
+                    <>
+                      {results?.[0][item]?.Segments?.[0].length == 2 ? (
+                        <motion.div
+                          variants={variants}
+                          initial="initial"
+                          whileInView="animate"
+                        >
+                          <motion.div
+                            variants={variants}
+                            className="singleFlightBox"
+                          >
+                            <div className="singleFlightBoxOne">
+                              <div>
+                                <img
+                                  src={`${process.env.PUBLIC_URL}/FlightImages/${results[0][item]?.AirlineCode}.png`}
+                                  alt="flight"
+                                />{" "}
+                              </div>
+                              <span>
+                                {
+                                  results[0][item]?.Segments[0][0]?.Airline
+                                    ?.AirlineName
+                                }
+                              </span>
+                              <p>
+                                {
+                                  results[0][item]?.Segments[0][0]?.Airline
+                                    ?.AirlineCode
+                                }
+                                {
+                                  results[0][item]?.Segments[0][0]?.Airline
+                                    ?.FlightNumber
+                                }
+                                {/* {results[0][item]?.IsLCC === false ? (
+                                    <span style={{ background: "green", color: "white" }}>
+                                      LCC
+                                    </span>
+                                  ) : (
+                                    ""
+                                  )} */}
+                              </p>
+                            </div>
+                            <div className="singleFlightBoxTwo">
+                              <span>
+                                {
+                                  results[0][item]?.Segments[0][0]?.Origin
+                                    ?.Airport?.CityName
+                                }
+                              </span>
+                              <p>
+                                {dayjs(
+                                  results?.[0][item]?.Segments[0][0]?.Origin
+                                    ?.DepTime
+                                ).format("DD MMM, YY")}
+                              </p>
+                              <h5 style={{ fontSize: "14px" }}>
+                                {dayjs(
+                                  results?.[0][item]?.Segments[0][0]?.Origin
+                                    ?.DepTime
+                                ).format("h:mm A")}
+                              </h5>
+                            </div>
 
-                  </>
-                );
-              })
-            }
-          </div>
+                            <div className="singleFlightBoxThree">
+                              <h4>
+                                {`${Math.floor(
+                                  results[0][item]?.Segments[0][0]?.Duration /
+                                    60
+                                )}hr ${
+                                  results[0][item]?.Segments[0][0]?.Duration %
+                                  60
+                                }min`}{" "}
+                                -{" "}
+                                {`${Math.floor(
+                                  results[0][item]?.Segments[0][1]?.Duration /
+                                    60
+                                )}hr ${
+                                  results[0][item]?.Segments[0][0]?.Duration %
+                                  60
+                                }min`}
+                              </h4>
+                              <div className="stopBef">
+                                <Divider
+                                  orientation="vertical"
+                                  flexItem
+                                  sx={{
+                                    backgroundColor: "#21325d",
+                                    marginX: "8px",
+                                    height: "3px",
+                                  }}
+                                  className=""
+                                />
+                              </div>
+                              <p>{`1 stop via ${results[0][item]?.Segments[0][0]?.Destination?.Airport?.CityName}`}</p>
 
+                              <span>
+                                {
+                                  results[0][item]?.Segments[0][0]
+                                    ?.NoOfSeatAvailable
+                                }{" "}
+                                Seats Left
+                              </span>
+                            </div>
 
+                            <div className="singleFlightBoxFour">
+                              <span>
+                                {
+                                  results[0][item]?.Segments[0][1]?.Destination
+                                    ?.Airport?.CityName
+                                }
+                              </span>
+                              <p>
+                                {dayjs(
+                                  results?.[0][item]?.Segments?.[0][1]
+                                    ?.Destination?.ArrTime
+                                ).format("DD MMM, YY")}
+                              </p>
+                              <h5 style={{ fontSize: "14px" }}>
+                                {dayjs(
+                                  results?.[0][item]?.Segments?.[0][1]
+                                    ?.Destination?.ArrTime
+                                ).format("h:mm A")}
+                              </h5>
+                            </div>
 
+                            <div className="singleFlightBoxSeven">
+                              <p>₹ {results[0][item]?.Fare?.PublishedFare}</p>
+                              <button
+                                onClick={() => {
+                                  handleIndexId(results[0][item]?.ResultIndex);
+                                }}
+                              >
+                                View Details →
+                              </button>
+                            </div>
+                          </motion.div>
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          variants={variants}
+                          initial="initial"
+                          whileInView="animate"
+                        >
+                          <motion.div
+                            variants={variants}
+                            className="singleFlightBox"
+                          >
+                            <div className="singleFlightBoxOne">
+                              <div>
+                                <img
+                                  src={`${process.env.PUBLIC_URL}/FlightImages/${results?.[0][item]?.AirlineCode}.png`}
+                                  alt="flight"
+                                />{" "}
+                              </div>
+                              <span>
+                                {
+                                  results?.[0][item]?.Segments[0][0]?.Airline
+                                    ?.AirlineName
+                                }
+                              </span>
+                              <p>
+                                {
+                                  results?.[0][item]?.Segments?.[0][0]?.Airline
+                                    ?.AirlineCode
+                                }
+                                {
+                                  results?.[0][item]?.Segments?.[0][0]?.Airline
+                                    ?.FlightNumber
+                                }
+                                {/* {results?.[0][item]?.IsLCC === false ? (
+                                    <span style={{ background: "green", color: "white" }}>
+                                      LCC
+                                    </span>
+                                  ) : (
+                                    ""
+                                  )} */}
+                              </p>
+                            </div>
+                            <div className="singleFlightBoxTwo">
+                              <span>
+                                {
+                                  results?.[0][item]?.Segments?.[0][0]?.Origin
+                                    ?.Airport?.CityName
+                                }
+                              </span>
+                              <p>
+                                {dayjs(
+                                  results?.[0][item]?.Segments[0][0]?.Origin
+                                    ?.DepTime
+                                ).format("DD MMM, YY")}
+                              </p>
+                              <h5 style={{ fontSize: "14px" }}>
+                                {dayjs(
+                                  results?.[0][item]?.Segments[0][0]?.Origin
+                                    ?.DepTime
+                                ).format("h:mm A")}
+                              </h5>
+                            </div>
 
+                            <div className="singleFlightBoxThree">
+                              <h4>{duration}</h4>
+
+                              <div>
+                                <Divider
+                                  orientation="vertical"
+                                  flexItem
+                                  sx={{
+                                    backgroundColor: "#21325d",
+                                    marginX: "8px",
+                                    height: "3px",
+                                  }}
+                                />
+                              </div>
+
+                              <p>Non Stop</p>
+
+                              <span>
+                                {
+                                  results?.[0][item]?.Segments?.[0][0]
+                                    ?.NoOfSeatAvailable
+                                }{" "}
+                                Seats Left
+                              </span>
+                            </div>
+
+                            <div className="singleFlightBoxFour">
+                              <span>
+                                {
+                                  results?.[0][item]?.Segments?.[0][0]
+                                    ?.Destination?.Airport?.CityName
+                                }
+                              </span>
+                              <p>
+                                {dayjs(
+                                  results?.[0][item]?.Segments?.[0][0]
+                                    ?.Destination?.ArrTime
+                                ).format("DD MMM, YY")}
+                              </p>
+                              <h5 style={{ fontSize: "14px" }}>
+                                {dayjs(
+                                  results?.[0][item]?.Segments?.[0][0]
+                                    ?.Destination?.ArrTime
+                                ).format("h:mm A")}
+                              </h5>
+                            </div>
+
+                            <div className="singleFlightBoxSeven">
+                              <p>₹ {results?.[0][item]?.Fare?.PublishedFare}</p>
+                              <button
+                                onClick={() => {
+                                  handleIndexId(
+                                    results?.[0][item]?.ResultIndex
+                                  );
+                                }}
+                              >
+                                View Details →
+                              </button>
+                            </div>
+                          </motion.div>
+                        </motion.div>
+                      )}
+                    </>
+                  );
+                })}
+            </div>
+          )}
         </div>
       </div>
-
-    </section >
+    </section>
   );
 }
 
@@ -461,12 +721,12 @@ export default function BasicGrid() {
   const results =
     reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Results;
 
-
   const items = [...Array(results?.[0].length).keys()];
   const itemsPerPage = 50;
   const [currentItems, setCurrentItems] = useState(null);
   const [pageCount, setPageCount] = useState(0);
   const [itemOffset, setItemOffset] = useState(0);
+ 
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -475,30 +735,51 @@ export default function BasicGrid() {
     setPageCount(Math.ceil(items.length / itemsPerPage));
   }, [itemOffset, itemsPerPage]);
 
-
   const handlePageClick = (event) => {
     const newOffset = (event.selected * itemsPerPage) % items.length;
     setItemOffset(newOffset);
   };
-  useEffect(() => {
-    if (reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode !== 0
-      //  && reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode !== 2 && reducerState?.oneWayData?.showSuccessMessage
-      // === false
-    ) {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorMessage,
+  // useEffect(() => {
+  //   if (reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode !== 0
+  //     //  && reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode !== 2 && reducerState?.oneWayData?.showSuccessMessage
+  //     // === false
+  //   ) {
+  //     Swal.fire({
+  //       icon: "error",
+  //       title: "Error",
+  //       text: reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorMessage,
 
-
-
-      })
-      navigate(`/`)
-      console.warn(reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorMessage, "page not found")
-    }
-  }, [reducerState?.oneWay])
+  //     })
+  //     // navigate(`/`)
+  //     console.warn(reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorMessage, "page not found")
+  //   }
+  // }, [reducerState?.oneWay])
 
   const [selectedCategory, setSelectedCategory] = useState([]);
+  useEffect(() => {
+    const uniqueData = results[0].filter((item, index, array) => {
+      const isUnique = !array
+        .slice(0, index)
+        .some(
+          prevItem =>
+            prevItem.AirlineCode === item.AirlineCode &&
+            prevItem.Segments?.[0]?.[prevItem.Segments[0].length - 1]?.Origin
+              ?.DepTime ===
+              item.Segments?.[0]?.[prevItem.Segments[0].length - 1]?.Origin
+                ?.DepTime,
+        );
+      return isUnique;
+    });
+    // currentItems=uniqueData;
+    const itemss = [...Array(uniqueData?.length).keys()];
+    setCurrentItems(itemss)
+    // console.warn("filter;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",uniqueData,"current items",itemss)
+  }, [results]);
+  // useEffect(() => {
+  //   console.warn("new basis grid", currentItems);
+  //   const itemss = [...Array(results?.[0].length).keys()];
+  //   setCurrentItems(itemss);
+  // }, [results]);
 
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
@@ -513,7 +794,9 @@ export default function BasicGrid() {
       // If other checkbox is selected, update selectedCategory as before
       setSelectedCategory((prevSelectedCategory) => {
         if (prevSelectedCategory.includes(selectedValue)) {
-          return prevSelectedCategory.filter((value) => value !== selectedValue);
+          return prevSelectedCategory.filter(
+            (value) => value !== selectedValue
+          );
         } else {
           return [...prevSelectedCategory, selectedValue];
         }
@@ -521,16 +804,13 @@ export default function BasicGrid() {
     }
   };
 
-
-
   // console.log(selectedCategory, "selected")
   // console.warn(result,)
 
-
-
   return (
     <>
-      <Items currentItems={currentItems}
+      <Items
+        currentItems={currentItems}
         selectedCategory={selectedCategory}
         handleRadioChange={handleRadioChange}
       />

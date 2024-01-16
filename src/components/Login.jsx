@@ -258,7 +258,7 @@ export default function LoginForm() {
         },
       });
     } catch (error) {
-      console.warn("Error resending OTP:", error);
+      // console.warn("Error resending OTP:", error);
     }
   };
 
@@ -356,7 +356,7 @@ export default function LoginForm() {
   //   loginSuccess();
   // }
   useEffect(() => {
-    console.warn(reducerState?.logIn?.loginData, "error,sub ndbfjhdfbvufbyvubfyuv")
+    // console.warn(reducerState?.logIn?.loginData, "error,sub ndbfjhdfbvufbyvubfyuv")
     if (reducerState?.logIn?.loginData?.statusCode !== 200 && reducerState?.logIn?.loginData?.statusCode !== undefined) {
       setError(false)
     }

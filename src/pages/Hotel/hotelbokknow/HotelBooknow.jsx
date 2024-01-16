@@ -50,7 +50,7 @@ const HotelBooknow = () => {
 
   const ResultIndex = sessionStorage.getItem("ResultIndex");
   const HotelCode = sessionStorage.getItem("HotelCode");
-  console.warn(ResultIndex, HotelCode, "hoitel room ")
+  // console.warn(ResultIndex, HotelCode, "hoitel room ");
   useEffect(() => {
     dispatch(clearHotelBlockRoom())
   }, [])
@@ -201,7 +201,7 @@ const HotelBooknow = () => {
     // console.warn(reducerState?.hotelSearchResult?.blockRoom, "reducerState?.hotelSearchResult?.blockRoom")
   }, [reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult]);
 
-  console.log(reducerState?.hotelSearchResult, "reducerState?.hotelSearchResultcontinue")
+  // console.log(reducerState?.hotelSearchResult, "reducerState?.hotelSearchResultcontinue")
 
 
   const hotelll = reducerState?.hotelSearchResult;

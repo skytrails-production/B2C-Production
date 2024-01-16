@@ -391,7 +391,7 @@ export default function BookWrapper() {
     }
     list[i][name] = value;
     setPassengerData(list);
-    console.warn(passengerData, "passenger data");
+    // console.warn(passengerData, "passenger data");
   };
 
   // console.log(passengerData);
@@ -556,7 +556,7 @@ export default function BookWrapper() {
 
 
   useEffect(() => {
-    console.warn(reducerState, "reducer state");
+    // console.warn(reducerState, "reducer state");
     if (
       reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode !== 0 &&
       reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode !== undefined
@@ -750,7 +750,7 @@ export default function BookWrapper() {
         validateName(item.LastName) &&
         validateDate(item.DateOfBirth)
     );
-    console.warn("result", result);
+    // console.warn("result", result);
     if (
       result.length === passengerData.length &&
       validatePhoneNumber(passengerData[0].ContactNo) &&

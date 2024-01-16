@@ -45,7 +45,7 @@ const BusHistory = () => {
     const [selectedFlight, setSelectedFlight] = useState(null);
 
 
-    console.log(selectedFlight, " selected flight")
+    // console.log(selectedFlight, " selected flight")
 
     const handleReasonChange = (event) => {
         setReason(event.target.value);
@@ -64,7 +64,7 @@ const BusHistory = () => {
 
     // fetch api data
 
-    console.log(busBookingData, "Bus booking Data")
+    // console.log(busBookingData, "Bus booking Data")
 
 
     const getBusBooking = async () => {
@@ -95,7 +95,7 @@ const BusHistory = () => {
                     }
                 });
                 setBusBookingData(sortedData);
-                console.log('Flight History Response', response);
+                // console.log('Flight History Response', response);
             } else {
                 console.error('Request failed with status code:', response.status);
             }
@@ -164,7 +164,7 @@ const BusHistory = () => {
 
     const currentDate = new Date();
 
-    console.log(loading, "loading")
+    // console.log(loading, "loading")
 
     // {
     //     loading && (

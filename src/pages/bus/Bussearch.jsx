@@ -77,7 +77,7 @@ const Homeform = (props) => {
   const [displayTo, setdisplayTo] = useState(false);
 
 
-  console.log(selectedFrom, "selected from ")
+  // console.log(selectedFrom, "selected from ")
 
 
   // const inputRef = useRef(null);
@@ -346,7 +346,7 @@ const Homeform = (props) => {
 
 
   const token = sessionStorage.getItem("jwtToken");
-  console.log(selectedFromLast.CityName, "city name")
+  // console.log(selectedFromLast.CityName, "city name")
 
   const createSearchHistory = async () => {
 
@@ -578,7 +578,7 @@ const Homeform = (props) => {
                                     // setFromSearchResults(populerSearch)
                                     // setFromSearchResults(populerSearch)
                                     // console.log(fromSearchResults, "fromSearchResults")
-                                    console.log(selectedFromLast, "selected from latest")
+                                    // console.log(selectedFromLast, "selected from latest")
 
 
                                     // validateBoth()
@@ -650,7 +650,7 @@ const Homeform = (props) => {
                                     // setFromSearchResults(populerSearch)
                                     // setFromSearchResults(populerSearch)
                                     // console.log(fromSearchResults, "fromSearchResults")
-                                    console.log(selectedFromLast, "selected from latest")
+                                    // console.log(selectedFromLast, "selected from latest")
 
 
                                     // validateBoth()

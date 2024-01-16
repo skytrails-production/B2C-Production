@@ -12,7 +12,11 @@ import FLightOffer from "../flight/FLightOffer";
 import onewayBG from "../../images/onewayBG.jpg"
 import BigNavbar from "../../UI/BigNavbar/BigNavbar";
 import HolidaySuggestion from "../holidaypackages/holidaySuggestion/HolidaySuggestion"
+
+import Topflightroute from "../flight/Topflightroute";
+
 import WhyChooseUs from "../../components/WhyChooseUs";
+
 
 const variants = {
     initial: {
@@ -36,7 +40,7 @@ const variants = {
 const Home = () => {
 
 
-    console.log("helllo")
+    // console.log("helllo")
     return (
         <div className="home_banner">
 
@@ -61,6 +65,12 @@ const Home = () => {
                 <Advertise variants={variants} />
             </motion.div>
 
+
+
+            <motion.div variants={variants} initial="initial"
+                whileInView="animate" style={{ position: "relative", top: "-30px" }} >
+                <Topflightroute variants={variants} />
+            </motion.div>
 
             {/* <motion.div variants={variants} initial="initial"
                 whileInView="animate" style={{ position: "relative", top: "-100px" }} >

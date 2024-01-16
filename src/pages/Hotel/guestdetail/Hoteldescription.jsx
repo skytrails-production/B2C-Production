@@ -79,7 +79,7 @@ const Hoteldescription = () => {
   const getBookingDetails =
     reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult
       ?.HotelRoomsDetails;
-  console.log("reducerState", reducerState);
+  // console.log("reducerState", reducerState);
 
   const totalAmount = getBookingDetails?.reduce((accumulator, item) => {
     return accumulator + item?.Price?.PublishedPriceRoundedOff;
@@ -150,7 +150,7 @@ const Hoteldescription = () => {
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
     };
-    console.log(payload, "payload");
+    // console.log(payload, "payload");
 
     dispatch(hotelBookRoomAction([payload, hotelDetailsPayload]));
     // dispatch(hotelBookRoomAction(payload));//ye nhi hai

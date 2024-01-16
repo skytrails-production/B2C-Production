@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import FlightTakeoffTwoToneIcon from "@mui/icons-material/FlightTakeoffTwoTone";
 import "react-date-range/dist/styles.css"; // Import the styles
 import "react-date-range/dist/theme/default.css"; // Import the theme
-import "./style/Oneway.css";
+import "./style/Oneway2.css";
 // import underConstruction from "../images/under Construction.png"
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -38,7 +38,7 @@ import { format } from "date-fns";
 // import Modal from "@mui/material/Modal";
 // const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-const Homeform = (props) => {
+const Oneway2 = (props) => {
   // handle departure days selection
   const reducerState = useSelector((state) => state);
   // const [startDate, setStartDate] = useState(new Date());
@@ -47,8 +47,20 @@ const Homeform = (props) => {
   // const handleDateChange = (date) => {
   //   setStartDate(date);
   // };
+  
+  const value2  = JSON.parse(sessionStorage.getItem("onewayprop"));
+  const date = new Date();
+  const formattedDate2 = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
 
-  const [startDate, setStartDate] = useState(new Date());
+  const passedDate=new Date(value2[0].startDate);
+  const formattedDate = `${(passedDate.getMonth() + 1).toString().padStart(2, '0')}/${passedDate.getDate().toString().padStart(2, '0')}/${passedDate.getFullYear()}`;
+
+  
+  // console.log("value..................", value2,passedDate);
+  
+
+  const [startDate, setStartDate] = useState(new Date(formattedDate));
+  // console.log("startDate",startDate)
   const currentdate = new Date(); // Assuming you have defined currentdate
 
   const handleDateChange = (date) => {
@@ -62,7 +74,9 @@ const Homeform = (props) => {
     const formattedDate = format(date, "dd MMM'yy EEEE");
     return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
   };
-
+  
+  // /////////top search/////////////
+ 
   const getDayOfWeek = (date) => {
     const daysOfWeek = [
       "Sunday",
@@ -83,13 +97,13 @@ const Homeform = (props) => {
   //const [isLoadingFrom, setIsLoadingFrom] = useState(false);
 
   const [selectedFrom, setSelectedFrom] = useState({
-    AirportCode: "DEL",
-    CityCode: "DEL",
-    CountryCode: "IN ",
-    code: "Indira Gandhi Airport",
-    createdAt: "2023-01-30T14:58:34.428Z",
-    id: "DEL",
-    name: "Delhi",
+    AirportCode: value2[0].selectedFrom.AirportCode,
+    CityCode: value2[0].selectedFrom.CityCode,
+    CountryCode: "IN",
+    code:value2[0].selectedFrom.code,
+    createdAt:value2[0].selectedFrom.createdAt,
+    id:value2[0].selectedFrom.id,
+    name:value2[0].selectedFrom.name,
     updatedAt: "2023-01-30T14:58:34.428Z",
     __v: 0,
     _id: "63d7db1a64266cbf450e07c1",
@@ -105,13 +119,13 @@ const Homeform = (props) => {
   const [isLoadingTo, setIsLoadingTo] = useState(false);
   const [toSearchResults, setToSearchResults] = useState([]);
   const [selectedTo, setSelectedTo] = useState({
-    AirportCode: "BOM",
-    CityCode: "BOM",
+    AirportCode: value2[0].selectedTo.AirportCode,
+    CityCode:  value2[0].selectedTo.CityCode,
     CountryCode: "IN ",
-    code: "Mumbai",
-    createdAt: "2023-01-30T14:57:03.696Z",
-    id: "BOM",
-    name: "Mumbai",
+    code:  value2[0].selectedTo.code,
+    createdAt: value2[0].selectedTo.createdAt,
+    id:  value2[0].selectedTo.id,
+    name:  value2[0].selectedTo.name,
     updatedAt: "2023-01-30T14:57:03.696Z",
     __v: 0,
     _id: "63d7dabf64266cbf450e0451",
@@ -121,11 +135,11 @@ const Homeform = (props) => {
   // Travel modal code ⬇️
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
   const [activeIdClass, setActiveIdClass] = useState(1);
-  const [activeIdChild, setActiveIdChild] = useState(0);
-  const [activeIdInfant, setActiveIdInfant] = useState(0);
+  const [activeIdChild, setActiveIdChild] = useState(value2[0].activeIdChild);
+  const [activeIdInfant, setActiveIdInfant] = useState(value2[0].activeIdInfant);
   const [activeIdAdult, setActiveIdAdult] = useState(1);
   const [activeFareType, setActiveFareType] = useState(1);
-  const [totalCount, setCountPassanger] = useState(0);
+  const [totalCount, setCountPassanger] = useState(value2[0].totalCount);
   const [showDropdown, setShowDropdown] = useState(false);
   const authenticUser = reducerState?.logIn?.loginData?.status;
   const [departureDate, setDepartureDate] = useState("");
@@ -156,6 +170,7 @@ const Homeform = (props) => {
     dispatch(clearbookTicketGDS());
     dispatch(resetAllFareData());
   }, []);
+  
 
   const ClassItems = [
     { id: "1", label: "All" },
@@ -181,9 +196,9 @@ const Homeform = (props) => {
 
   const handleTravelClickOpen = () => {
     setActiveIdClass(1);
-    setActiveIdChild(0);
-    setActiveIdInfant(0);
-    setActiveIdAdult(1);
+    setActiveIdChild(value2[0].activeIdChild);
+    setActiveIdInfant(value2[0].activeIdInfant);
+    setActiveIdAdult(value2[0].activeIdAdult);
     setOpenTravelModal(true);
   };
 
@@ -373,9 +388,9 @@ const Homeform = (props) => {
     setData(data2);
   };
 
-  useEffect(() => {
-    dispatch(resetOneWay());
-  }, [dispatch, departureDate]);
+//   useEffect(() => {
+//     dispatch(resetOneWay());
+//   }, [dispatch, departureDate]);
 
   const [value, setValue] = React.useState("1");
 
@@ -385,36 +400,36 @@ const Homeform = (props) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // search history logic
+useEffect(()=>{
+  // handleOnewaySubmit()
+  handleOneWaySubmitPopularSearch()
+},[])
 
-  // const token = sessionStorage.getItem("jwtToken");
 
-  // const createSearchHistory = async () => {
-
-  //   const historyData = {
-  //     origin: selectedFrom.AirportCode,
-  //     destination: selectedTo.AirportCode,
-  //     journeyDate: startDate,
-  //     // journeyDate: departureDate,
-  //     searchType: "FLIGHTS",
-  //     journeyType: "oneway"
-
-  //   };
-
-  //   try {
-  //     const response = await axios({
-  //       method: 'post',
-  //       url: `${apiURL.baseURL}/skyTrails/api/user/createSearchHistory`,
-  //       data: historyData,
-  //       headers: {
-  //         token: token,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     console.error("Error sending data to the server:", error);
-  //   }
-  // };
-
+const handleOneWaySubmitPopularSearch=()=>{
+  const payload={
+    EndUserIp: reducerState?.ip?.ipData,
+      TokenId: reducerState?.ip?.tokenData,
+      AdultCount:1,
+      ChildCount: 0,
+      InfantCount:0,
+      DirectFlight: "false",
+      OneStopFlight: "false",
+      JourneyType: data2.class || "1",
+      PreferredAirlines: null,
+      Segments: [
+        {
+          Origin: selectedFrom.AirportCode,
+          Destination: selectedTo.AirportCode,
+          FlightCabinClass: activeIdClass,
+          PreferredDepartureTime:formattedDate2 ,
+          PreferredArrivalTime:formattedDate2,
+        },
+      ],
+      Sources: null,
+  }
+  dispatch(oneWayAction(payload));
+}
   function handleOnewaySubmit(event) {
     event.preventDefault();
 
@@ -425,7 +440,6 @@ const Homeform = (props) => {
     // else {
     const formData = new FormData(event.target);
     setDepartureDate(formData.get("departure"));
-
 
     // createSearchHistory();
 
@@ -450,28 +464,14 @@ const Homeform = (props) => {
       ],
       Sources: null,
     };
-    sessionStorage.setItem("onewayprop", JSON.stringify([
-      {
-        Origin: selectedFrom.AirportCode,
-        Destination: selectedTo.AirportCode,
-        FlightCabinClass: activeIdClass,
-        PreferredDepartureTime: formData.get("departure"),
-        PreferredArrivalTime: formData.get("departure"),
-        selectedFrom,
-        selectedTo,
-        totalCount,
-        startDate,
-        activeIdAdult,
-        activeIdChild,
-        activeIdInfant, 
-      },
-    ] ))
+
     navigate(
       `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
     );
     dispatch(oneWayAction(payload));
     // }
   }
+
 
   function handleRoundTripSubmit(event) {
     event.preventDefault();
@@ -536,109 +536,43 @@ const Homeform = (props) => {
 
     // Swap the values of 'from' and 'to'
     const tempFrom = { ...selectedFrom };
-    // setFrom(to);
-    // setTO(tempFrom);
 
-    // Swap the selectedFrom and selectedTo values
     const tempSelectedFrom = selectedFrom;
     setSelectedFrom(selectedTo);
     // setSelectedTo(tempSelectedFrom);
     setSelectedTo(tempFrom);
   };
 
-  // swapping origin and destination
 
-  // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
-  // const handleModalClose = () => {
-  //   setIsLoginModalOpen(false)
-  // }
-
-  // useEffect(() => {
-  //   if (authenticUser == 200) {
-  //     handleModalClose();
-  //   }
-  // }, [authenticUser])
 
   return (
     <>
       <section
         className=""
         style={{
+          background:"rgba(7, 28, 44, 0.80)",
           width: "100%",
           position: "absolute",
           left: "50%",
-          top: "50%",
+          top: "20%",
           transform: "translate(-50%, -50%)",
           zIndex: "2",
         }}
       >
-        <div className="container">
-          <div className="row oneWayBg">
+        <section className="margin-pecentage">
+      <div className="container-xxl">
+          <div className="row oneWayBg1">
 
 
             <div className="col-12 p-0">
-              {/* <TabContext value={value} centered> */}
-              {/* <Box
-
-                  pt={3}
-                  style={{
-                    display: "flex",
-                    justifyContent: "end",
-                    flexWrap: "wrap",
-                    paddingTop: "16px",
-                    marginTop: "4px",
-                  }}
-                >
-                  <TabList
-                    onChange={handleChange}
-                    aria-label="lab API tabs example"
-                    TabIndicatorProps={{ style: { display: "none" } }}
-                    sx={{ marginX: "40px", marginY: "-10px", minHeight: "0px" }}
-                  > */}
-              {/* <Tab
-                      // label="Oneway"
-                      value="1"
-                      sx={{
-                        fontSize: "15px",
-                        color: "black",
-                        fontWeight: "bold",
-                        minHeight: "34px",
-                        // padding: "5px 16px",
-                        marginX: "5px",
-                        borderRadius: "10px",
-                      }}
-                    ></Tab> */}
-              {/* <Tab
-                      label="Round Trip"
-                      value="2"
-                      sx={{
-                        fontSize: "15px",
-                        color: "black",
-                        fontWeight: "bold",
-                        minHeight: "34px",
-                        padding: "5px 16px",
-                        marginX: "5px",
-                        borderRadius: "10px",
-                      }}
-                    /> */}
-              {/* </TabList> */}
-
-              {/* <div style={{ flex: 1, textAlign: "right", padding: "0px 30px 0px 0px" }}>
-                    <p className="para">
-                      Book International and Domestic Flights
-                    </p>
-                  </div> */}
-              {/* </Box> */}
-
-              {/* Oneway start */}
+          
 
 
               {/* <TabPanel value="1"> */}
 
 
               <form onSubmit={handleOnewaySubmit}>
-                <div className="your-container">
+                <div className="your-container1">
                   <div
                     onClick={(e) => {
                       e.stopPropagation(); // Stop event bubbling
@@ -647,28 +581,10 @@ const Homeform = (props) => {
                       setIsLoadingFrom(true);
                       // ; alert(fromToggle, "/////")
 
-                    }} className="from-container">
+                    }} className="from-container12">
                     <span>From</span>
                     <div>
-                      {/* <input
-
-                            name="from"
-                            placeholder="Enter city or airport"
-                            value={from}
-                            autoComplete="off"
-                            onClick={()=>setFromToggle(true)}  
-                            onChange={(event) => {
-                              handleFromInputChange(event);
-                              setIsLoadingFrom(true);
-                              handleFromSearch(event.target.value);
-                            }}
-                            required
-                            style={{
-                              outline: "none",
-                              border: "none",
-                            }}
-                          /> */}
-
+                    
                       <label  >{selectedFrom.name}</label>
                       {/* {isLoadingFrom && <div>Loading...</div>} */}
 
@@ -780,7 +696,7 @@ const Homeform = (props) => {
                     }
 
 
-                    <div className="roundlogo" onClick={(e) => {
+                    <div className="roundlogo1" onClick={(e) => {
                       e.stopPropagation()
                       handleRoundLogoClick()
                     }}
@@ -827,27 +743,10 @@ const Homeform = (props) => {
                     setIsLoadingTo(true);
                     // ; alert(fromToggle, "/////")
 
-                  }} className="from-container">
+                  }} className="from-container12">
                     <span>To</span>
                     <div>
-                      {/* <input
-
-                            name="to"
-                            placeholder="Enter city or airport"
-                            value={to}
-                            required
-                            onChange={(event) => {
-                              handleToInputChange(event);
-                              setIsLoadingTo(true);
-                              handleToSearch(event.target.value);
-                            }}
-                            autoComplete="off"
-                            style={{
-                              border: "none",
-
-                              outline: "none",
-                            }}
-                          /> */}
+                   
 
                       <label  >{selectedTo.name}</label>
                       {/* {isLoadingTo && <div>Loading...</div>} */}
@@ -952,7 +851,7 @@ const Homeform = (props) => {
 
 
                   </div>
-                  <div className="from-container">
+                  <div className="from-container12">
                     <span>Departure</span>
                     <div className="">
                       <div className="onewayDatePicker">
@@ -969,17 +868,17 @@ const Homeform = (props) => {
                     <span>{getDayOfWeek(startDate)}</span>
                   </div>
 
-                  <div className="travellerContainer ">
+                  <div className="travellerContainer12 ">
                     <div
                       onClick={handleTravelClickOpen}
-                      className="travellerButton">
+                      className="travellerButton2">
                       <span>
                         Traveller & Class
                       </span>
                       <p >
                         <span>{(totalCount === 0 && 1) || totalCount} </span> Traveller
                       </p>
-                      <div>
+                      {/* <div>
                         <span>
                           {(activeIdClass === 1 && "All") ||
                             (activeIdClass === 2 && "Economy") ||
@@ -989,7 +888,7 @@ const Homeform = (props) => {
                             )(activeIdClass === 6 && "First Class")}
                         </span>
 
-                      </div>
+                      </div> */}
                     </div>
                     <Dialog
                       sx={{ zIndex: "99999" }}
@@ -1073,71 +972,13 @@ const Homeform = (props) => {
                       </DialogActions>
                     </Dialog>
                   </div>
-                  <div className=" onewaySearch">
-                    <button type="submit" className="searchButt">
+                  <div className=" onewaySearch2">
+                    <button type="submit" className="searchButt2">
                       <h3>Search</h3>
                       {/* <KeyboardDoubleArrowRightIcon /> */}
                     </button>
                   </div>
                 </div>
-
-
-
-
-
-
-
-
-
-                {/* <Box display="flex" justifyContent="center">
-                  <div class="wrapper_oneway">
-                    <div className="wraOne">
-
-                          <p>Select A Fare Type:</p>
-                        </div>
-                        <input
-                          type="radio"
-                          name="select"
-                          id="option-1"
-                          checked
-                        />
-                        <input type="radio" name="select" id="option-2" />
-                        <input type="radio" name="select" id="option-3" />
-                        <input type="radio" name="select" id="option-4" />
-                        <input type="radio" name="select" id="option-5" />
-                        <input type="radio" name="select" id="option-6" />
-
-                        <label for="option-1" class="option option-1">
-                          <text>Regular Fares</text>
-                        </label>
-                        <label for="option-2" class="option option-2">
-                          <text>Armed Forces Fares</text>
-                        </label>
-                        <label for="option-3" class="option option-3">
-                          <text>Student Fares</text>
-                        </label>
-                        <label for="option-4" class="option option-4">
-                          <text>Senior Citizen Fares</text>
-                        </label>
-                        <label for="option-5" class="option option-5">
-                          <text>Doctors & Nurses Fares</text>
-                        </label>
-                        <label for="option-6" class="option option-6">
-                          <text>Double Seat Fares</text>
-
-                        </label> 
-                     <div className="col-auto fare_search_oneWay ">
-                          <button
-                            type="submit"
-                            path=""
-                            justifyContent="center"
-                          >
-
-                            Search
-                          </button>
-                        </div>
-                  </div>
-                </Box> */}
               </form>
 
               {/* =====================> 2nd form here <============================================= */}
@@ -1149,8 +990,9 @@ const Homeform = (props) => {
           </div>
         </div>
       </section>
+      </section>
     </>
   );
 };
 
-export default Homeform;
+export default Oneway2;

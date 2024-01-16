@@ -7,7 +7,7 @@ const BusSaleSummary = () => {
     // console.log("reducerState", reducerState);
     const markUpamount =
         reducerState?.markup?.markUpData?.data?.result[0]?.busMarkup;
-    console.warn(markUpamount,"markup error")
+    // console.warn(markUpamount,"markup error")
     const [publishedPrice, setPublishedPrice] = useState(0);
     const [offerPrice, setOfferedPrice] = useState(0);
     const [tds, setTds] = useState(0);

@@ -1,8 +1,8 @@
 
 import React from 'react'
-import step1 from "../images/download/steps-1.png"
-import step2 from "../images/download/steps-2.png"
-import step3 from "../images/download/steps-3.png"
+// import step1 from "../images/download/steps-1.png"
+// import step2 from "../images/download/steps-2.png"
+// import step3 from "../images/download/steps-3.png"
 import one from "../images/download/one.png"
 import two from "../images/download/two.png"
 import three from "../images/download/three.png"

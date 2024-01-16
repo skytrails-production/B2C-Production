@@ -202,7 +202,7 @@ export default function Popularfilter() {
   const storedFormData = JSON.parse(sessionStorage.getItem('hotelFormData'));
   const data = storedFormData?.dynamicFormData[0]; // Assuming dynamicFormData is an array with at least one element
 
-  console.warn(reducerState, "reducer state")
+  // console.warn(reducerState, "reducer state")
 
 
   // console.log(sortedAndFilteredResults, "sorted and filtered")

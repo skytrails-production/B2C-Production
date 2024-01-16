@@ -44,7 +44,7 @@ const HotelHistory = () => {
     const token = sessionStorage.getItem("jwtToken");
 
 
-    console.log(hotelBookingData, "hotel booking data")
+    // console.log(hotelBookingData, "hotel booking data")
 
     // fetch api data
 
@@ -78,7 +78,7 @@ const HotelHistory = () => {
 
             if (response.status === 200) {
                 setHotelBookingData(response.data.result.docs);
-                console.log('Flight History Response', response);
+                // console.log('Flight History Response', response);
             } else {
                 console.error('Request failed with status code:', response.status);
             }
@@ -204,9 +204,9 @@ const HotelHistory = () => {
                                     const isUpcoming = departureTime > currentDate;
                                     const isWithin24Hours = hoursDifference <= 24;
 
-                                    console.log(isWithin24Hours, " with in 24 hours")
-                                    console.log(isUpcoming, " isUpcoming")
-                                    console.log(isCompleted, " isCompleted")
+                                    // console.log(isWithin24Hours, " with in 24 hours")
+                                    // console.log(isUpcoming, " isUpcoming")
+                                    // console.log(isCompleted, " isCompleted")
 
 
 

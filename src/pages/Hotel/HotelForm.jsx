@@ -572,7 +572,7 @@ const HotelForm = () => {
             EndUserIp: reducerState?.ip?.ipData,
             TokenId: reducerState?.ip?.tokenData,
         };
-        console.log(payload, "payload hotel")
+        // console.log(payload, "payload hotel")
 
         // createSearchHistory();
         dispatch(hotelAction(payload));
@@ -612,10 +612,7 @@ const HotelForm = () => {
         calculateTravellerCount();
     }, [formDataDynamic]);
 
-    useEffect(() => {
-        //    console.warn( searchTermLast,"search term")
-        console.warn(values)
-    }, [values]);
+   
 
     // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -714,7 +711,7 @@ const HotelForm = () => {
                                                 onClick={async (e) => {
                                                     e.stopPropagation();
                                                     // alert(sub);
-                                                    console.warn("sub", searchTerm);
+                                                    // console.warn("sub", searchTerm);
                                                     setSub(true);
                                                     await setdisplayFrom(true);
                                                     // hotelInputRef.current.focus()
@@ -753,7 +750,7 @@ const HotelForm = () => {
                                                                             onChange={(e) => {
                                                                                 e.stopPropagation();
                                                                                 setSearchTerm(e.target.value);
-                                                                                console.log("populersearch", searchTerm)
+                                                                                // console.log("populersearch", searchTerm)
 
                                                                                 // setdisplayFrom(true);
                                                                             }}
@@ -790,7 +787,7 @@ const HotelForm = () => {
                                                                                     setSearchTermLast(city);
                                                                                     setSub(false);
                                                                                     setResults(populterSearch)
-                                                                                    console.warn(city, "city click");
+                                                                                    // console.warn(city, "city click");
                                                                                     // alert("result click");
                                                                                 }}
                                                                             >

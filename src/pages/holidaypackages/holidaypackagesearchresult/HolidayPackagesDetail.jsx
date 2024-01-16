@@ -53,7 +53,7 @@ function HolidayPackagesDetail() {
     if (!filteredPackage) {
       navigate("/holidaypackages")
     }
-    console.warn(filteredPackage, "filtredfackage....")
+    // console.warn(filteredPackage, "filtredfackage....");
   }, [])
 
   const searchOneHoliday = (id) => {
