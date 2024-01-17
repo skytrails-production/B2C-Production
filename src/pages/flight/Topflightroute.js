@@ -77,7 +77,25 @@ function Topflightroute({
   activeIdInfant,
 }) {
   const navigate = useNavigate();
- const todaydate = new Date();
+//  const todaydate = new Date();
+ function getNextDayDateIfAfter9PM() {
+  // Get the current date and time
+  const currentDate = new Date();
+  // currentDate.setHours(21, 0, 0, 0);
+  
+  // Check if the current time is greater than 9 PM (21:00)
+  if (currentDate.getHours() >= 21) {
+    // Increment the date by 1 to get the next day's date
+    currentDate.setDate(currentDate.getDate() + 1);
+  }
+
+  // Return the updated date
+  return currentDate;
+}
+
+// Example usage:
+const todaydate = getNextDayDateIfAfter9PM();
+console.log(todaydate);
   const handlePopularSearch = (popularParam) => {
     console.log(popularParam,"popularParam")
     const updatedParam = [
