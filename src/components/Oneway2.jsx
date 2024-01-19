@@ -41,23 +41,41 @@ import { format } from "date-fns";
 const Oneway2 = (props) => {
   // handle departure days selection
   const reducerState = useSelector((state) => state);
+  const navbarHeight = sessionStorage.getItem("insideNavbarHeight")
+
   // const [startDate, setStartDate] = useState(new Date());
   // const [currentdate, setCurrentDate] = useState(new Date());
 
   // const handleDateChange = (date) => {
   //   setStartDate(date);
   // };
-  
-  const value2  = JSON.parse(sessionStorage.getItem("onewayprop"));
+
+  const [disableBtn, setDisableBtn] = useState(false)
+  useEffect(() => {
+    if (reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode !== 0
+      && reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode !== undefined) {
+      setDisableBtn(true)
+    }
+    else {
+      setDisableBtn(false)
+    }
+  }, [reducerState?.oneWay?.oneWayData])
+
+  const value2 = JSON.parse(sessionStorage.getItem("onewayprop"));
+
+
+
+  const isPopularSearch = JSON.parse(sessionStorage.getItem("isPopularSearch"))
+
   const date = new Date();
   const formattedDate2 = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
 
-  const passedDate=new Date(value2[0].startDate);
+  const passedDate = new Date(value2[0].startDate);
   const formattedDate = `${(passedDate.getMonth() + 1).toString().padStart(2, '0')}/${passedDate.getDate().toString().padStart(2, '0')}/${passedDate.getFullYear()}`;
 
-  
+
   // console.log("value..................", value2,passedDate);
-  
+
 
   const [startDate, setStartDate] = useState(new Date(formattedDate));
   // console.log("startDate",startDate)
@@ -65,6 +83,7 @@ const Oneway2 = (props) => {
 
   const handleDateChange = (date) => {
     setStartDate(date);
+    setDisableBtn(false);
   };
 
   // const formatDate = (date) => {
@@ -74,9 +93,9 @@ const Oneway2 = (props) => {
     const formattedDate = format(date, "dd MMM'yy EEEE");
     return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
   };
-  
+
   // /////////top search/////////////
- 
+
   const getDayOfWeek = (date) => {
     const daysOfWeek = [
       "Sunday",
@@ -100,10 +119,10 @@ const Oneway2 = (props) => {
     AirportCode: value2[0].selectedFrom.AirportCode,
     CityCode: value2[0].selectedFrom.CityCode,
     CountryCode: "IN",
-    code:value2[0].selectedFrom.code,
-    createdAt:value2[0].selectedFrom.createdAt,
-    id:value2[0].selectedFrom.id,
-    name:value2[0].selectedFrom.name,
+    code: value2[0].selectedFrom.code,
+    createdAt: value2[0].selectedFrom.createdAt,
+    id: value2[0].selectedFrom.id,
+    name: value2[0].selectedFrom.name,
     updatedAt: "2023-01-30T14:58:34.428Z",
     __v: 0,
     _id: "63d7db1a64266cbf450e07c1",
@@ -120,12 +139,12 @@ const Oneway2 = (props) => {
   const [toSearchResults, setToSearchResults] = useState([]);
   const [selectedTo, setSelectedTo] = useState({
     AirportCode: value2[0].selectedTo.AirportCode,
-    CityCode:  value2[0].selectedTo.CityCode,
+    CityCode: value2[0].selectedTo.CityCode,
     CountryCode: "IN ",
-    code:  value2[0].selectedTo.code,
+    code: value2[0].selectedTo.code,
     createdAt: value2[0].selectedTo.createdAt,
-    id:  value2[0].selectedTo.id,
-    name:  value2[0].selectedTo.name,
+    id: value2[0].selectedTo.id,
+    name: value2[0].selectedTo.name,
     updatedAt: "2023-01-30T14:57:03.696Z",
     __v: 0,
     _id: "63d7dabf64266cbf450e0451",
@@ -141,12 +160,13 @@ const Oneway2 = (props) => {
   const [activeFareType, setActiveFareType] = useState(1);
   const [totalCount, setCountPassanger] = useState(value2[0].totalCount);
   const [showDropdown, setShowDropdown] = useState(false);
-  const authenticUser = reducerState?.logIn?.loginData?.status;
+  // const authenticUser = reducerState?.logIn?.loginData?.status;
   const [departureDate, setDepartureDate] = useState("");
 
   // handle travellers modal
 
   const handleTravelerCountChange = (category, value) => {
+    setDisableBtn(false);
     if (category === "adult") {
       setActiveIdAdult((prevCount) => Math.max(0, prevCount + value));
     } else if (category === "child") {
@@ -170,7 +190,7 @@ const Oneway2 = (props) => {
     dispatch(clearbookTicketGDS());
     dispatch(resetAllFareData());
   }, []);
-  
+
 
   const ClassItems = [
     { id: "1", label: "All" },
@@ -190,9 +210,9 @@ const Oneway2 = (props) => {
     { id: "6", label: "Double Seat Fares" },
   ];
 
-  const adultCount = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const childCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const infantCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  // const adultCount = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  // const childCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  // const infantCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const handleTravelClickOpen = () => {
     setActiveIdClass(1);
@@ -207,39 +227,39 @@ const Oneway2 = (props) => {
       setOpenTravelModal(false);
       setCountPassanger(
         parseInt(activeIdChild) +
-          parseInt(activeIdInfant) +
-          parseInt(activeIdAdult)
+        parseInt(activeIdInfant) +
+        parseInt(activeIdAdult)
       );
     }
   };
 
-  const handleInfantClick = (event) => {
-    const id = event.target.getAttribute("data-id");
-    setActiveIdInfant(id);
-  };
+  // const handleInfantClick = (event) => {
+  //   const id = event.target.getAttribute("data-id");
+  //   setActiveIdInfant(id);
+  // };
 
-  const handleChildClick = (event) => {
-    const id = event.target.getAttribute("data-id");
-    setActiveIdChild(id);
-  };
-  const handleAdultClick = (event) => {
-    const selectedAdult = parseInt(event.target.dataset.id, 10);
-    setActiveIdAdult(selectedAdult);
-    setShowDropdown(false);
-  };
+  // const handleChildClick = (event) => {
+  //   const id = event.target.getAttribute("data-id");
+  //   setActiveIdChild(id);
+  // };
+  // const handleAdultClick = (event) => {
+  //   const selectedAdult = parseInt(event.target.dataset.id, 10);
+  //   setActiveIdAdult(selectedAdult);
+  //   setShowDropdown(false);
+  // };
 
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
-  const handleClassItemClick = (event) => {
-    const id = event.target.getAttribute("data-id");
-    setActiveIdClass(id);
-  };
-  const handleFareItemClick = (event) => {
-    const clickedItem = event.target;
-    const id = event.target.getAttribute("data-id");
-    setActiveFareType(id);
-  };
+  // const toggleDropdown = () => {
+  //   setShowDropdown(!showDropdown);
+  // };
+  // const handleClassItemClick = (event) => {
+  //   const id = event.target.getAttribute("data-id");
+  //   setActiveIdClass(id);
+  // };
+  // const handleFareItemClick = (event) => {
+  //   const clickedItem = event.target;
+  //   const id = event.target.getAttribute("data-id");
+  //   setActiveFareType(id);
+  // };
 
   // End
 
@@ -388,31 +408,36 @@ const Oneway2 = (props) => {
     setData(data2);
   };
 
-//   useEffect(() => {
-//     dispatch(resetOneWay());
-//   }, [dispatch, departureDate]);
+  //   useEffect(() => {
+  //     dispatch(resetOneWay());
+  //   }, [dispatch, departureDate]);
 
-  const [value, setValue] = React.useState("1");
+  // const [value, setValue] = React.useState("1");
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  // const handleChange = (event, newValue) => {
+  //   setValue(newValue);
+  // };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-useEffect(()=>{
-  // handleOnewaySubmit()
-  handleOneWaySubmitPopularSearch()
-},[])
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
 
-const handleOneWaySubmitPopularSearch=()=>{
-  const payload={
-    EndUserIp: reducerState?.ip?.ipData,
+  useEffect(() => {
+    // handleOnewaySubmit() 
+    if (isPopularSearch) {
+      handleOneWaySubmitPopularSearch()
+    }
+    return () => { sessionStorage.setItem("isPopularSearch", false) }
+  }, [])
+
+
+
+  const handleOneWaySubmitPopularSearch = () => {
+    const payload = {
+      EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
-      AdultCount:1,
+      AdultCount: 1,
       ChildCount: 0,
-      InfantCount:0,
+      InfantCount: 0,
       DirectFlight: "false",
       OneStopFlight: "false",
       JourneyType: data2.class || "1",
@@ -422,14 +447,14 @@ const handleOneWaySubmitPopularSearch=()=>{
           Origin: selectedFrom.AirportCode,
           Destination: selectedTo.AirportCode,
           FlightCabinClass: activeIdClass,
-          PreferredDepartureTime:formattedDate2 ,
-          PreferredArrivalTime:formattedDate2,
+          PreferredDepartureTime: formattedDate2,
+          PreferredArrivalTime: formattedDate2,
         },
       ],
       Sources: null,
+    }
+    dispatch(oneWayAction(payload));
   }
-  dispatch(oneWayAction(payload));
-}
   function handleOnewaySubmit(event) {
     event.preventDefault();
 
@@ -473,33 +498,33 @@ const handleOneWaySubmitPopularSearch=()=>{
   }
 
 
-  function handleRoundTripSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const payload = {
-      EndUserIp: reducerState?.ip?.ipData,
-      TokenId: reducerState?.ip?.tokenData,
-      AdultCount: "1",
-      ChildCount: "1",
-      InfantCount: "1",
-      DirectFlight: "false",
-      OneStopFlight: "false",
-      JourneyType: "1",
-      PreferredAirlines: null,
-      Segments: [
-        {
-          Origin: selectedFrom.AirportCode,
-          Destination: selectedTo.AirportCode,
-          FlightCabinClass: "1",
-          PreferredDepartureTime: formData.get("departure"),
-          PreferredArrivalTime: formData.get("return"),
-        },
-      ],
-      Sources: null,
-    };
+  // function handleRoundTripSubmit(event) {
+  //   event.preventDefault();
+  //   const formData = new FormData(event.target);
+  //   const payload = {
+  //     EndUserIp: reducerState?.ip?.ipData,
+  //     TokenId: reducerState?.ip?.tokenData,
+  //     AdultCount: "1",
+  //     ChildCount: "1",
+  //     InfantCount: "1",
+  //     DirectFlight: "false",
+  //     OneStopFlight: "false",
+  //     JourneyType: "1",
+  //     PreferredAirlines: null,
+  //     Segments: [
+  //       {
+  //         Origin: selectedFrom.AirportCode,
+  //         Destination: selectedTo.AirportCode,
+  //         FlightCabinClass: "1",
+  //         PreferredDepartureTime: formData.get("departure"),
+  //         PreferredArrivalTime: formData.get("return"),
+  //       },
+  //     ],
+  //     Sources: null,
+  //   };
 
-    dispatch(oneWayAction(payload));
-  }
+  //   dispatch(oneWayAction(payload));
+  // }
 
   function validation() {
     if (document.getElementById("departure").value === "") {
@@ -507,29 +532,29 @@ const handleOneWaySubmitPopularSearch=()=>{
     }
   }
 
-  const handleButtonClick = () => {
-    // Redirect to the "/returnResult" path
-    navigate("/booking");
-  };
-  const DateRangePickerComponent = () => {
-    const [dateRanges, setDateRanges] = useState([]);
+  // const handleButtonClick = () => {
+  //   // Redirect to the "/returnResult" path
+  //   navigate("/booking");
+  // };
+  // const DateRangePickerComponent = () => {
+  //   const [dateRanges, setDateRanges] = useState([]);
 
-    const handleDateChange = (ranges) => {
-      const [range] = ranges;
-      const newDate = {
-        key: dateRanges.length + 1,
-        start: range.startDate.toISOString().split("T")[0],
-        end: range.endDate.toISOString().split("T")[0],
-      };
+  //   const handleDateChange = (ranges) => {
+  //     const [range] = ranges;
+  //     const newDate = {
+  //       key: dateRanges.length + 1,
+  //       start: range.startDate.toISOString().split("T")[0],
+  //       end: range.endDate.toISOString().split("T")[0],
+  //     };
 
-      setDateRanges([...dateRanges, newDate]);
-    };
+  //     setDateRanges([...dateRanges, newDate]);
+  //   };
 
-    const removeDate = (key) => {
-      const updatedDates = dateRanges.filter((date) => date.key !== key);
-      setDateRanges(updatedDates);
-    };
-  };
+  //   const removeDate = (key) => {
+  //     const updatedDates = dateRanges.filter((date) => date.key !== key);
+  //     setDateRanges(updatedDates);
+  //   };
+  // };
 
   const handleRoundLogoClick = () => {
     // e.stopPropagation();
@@ -543,29 +568,26 @@ const handleOneWaySubmitPopularSearch=()=>{
     setSelectedTo(tempFrom);
   };
 
+  const newHeight = navbarHeight ? `${Number(navbarHeight) + 52}px` : '20%';
 
-
+  // console.log(navbarHeight, "navheight;;;;;;;;;;;;;;;;;;;;;;;;;;;", newHeight)
   return (
     <>
       <section
-        className=""
+        className="onyway2Section"
         style={{
-          background:"rgba(7, 28, 44, 0.80)",
-          width: "100%",
-          position: "absolute",
-          left: "50%",
-          top: "20%",
-          transform: "translate(-50%, -50%)",
-          zIndex: "2",
+
+          top: newHeight,
+
         }}
       >
-        <section className="margin-pecentage">
-      <div className="container-xxl">
+        {/* <section className="margin-pecentage"> */}
+        <div className="container">
           <div className="row oneWayBg1">
 
 
             <div className="col-12 p-0">
-          
+
 
 
               {/* <TabPanel value="1"> */}
@@ -584,7 +606,7 @@ const handleOneWaySubmitPopularSearch=()=>{
                     }} className="from-container12">
                     <span>From</span>
                     <div>
-                    
+
                       <label  >{selectedFrom.name}</label>
                       {/* {isLoadingFrom && <div>Loading...</div>} */}
 
@@ -594,7 +616,7 @@ const handleOneWaySubmitPopularSearch=()=>{
                         && (
                           <div
                             ref={fromSearchRef}
-                            className="from-search-results"
+                            className="from-search-results-two"
                             style={{
 
                               display: displayFrom ? "flex" : "none",
@@ -629,6 +651,7 @@ const handleOneWaySubmitPopularSearch=()=>{
                                       handleFromSearch(event.target.value);
 
 
+
                                     }}
                                     required
                                     style={{
@@ -644,7 +667,7 @@ const handleOneWaySubmitPopularSearch=()=>{
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleFromClick(result);
-
+                                      setDisableBtn(false);
                                       setFromToggle(false);
 
 
@@ -676,24 +699,24 @@ const handleOneWaySubmitPopularSearch=()=>{
                           </div>
                         )}
                     </div>
-                    {fromSearchResults && fromSearchResults.length > 0 && fromQuery.length >= 2 ? (
-                      <span>
-                        {selectedFrom ? (
-                          <>
-                            {selectedFrom.code}, {selectedFrom.name}
-                          </>
-                        ) : (
-                          <>
-                            {fromSearchResults[0].code}, {fromSearchResults[0].name}
-                          </>
-                        )}
-                      </span>
-                    ) :
-                      (
-                        <span>Airport Name</span>
-                      )
+                    {/* {fromSearchResults && fromSearchResults.length > 0 && fromQuery.length >= 2 ? (
+                        <span>
+                          {selectedFrom ? (
+                            <>
+                              {selectedFrom.code}, {selectedFrom.name}
+                            </>
+                          ) : (
+                            <>
+                              {fromSearchResults[0].code}, {fromSearchResults[0].name}
+                            </>
+                          )}
+                        </span>
+                      ) :
+                        (
+                          <span>Airport Name</span>
+                        )
 
-                    }
+                      } */}
 
 
                     <div className="roundlogo1" onClick={(e) => {
@@ -746,7 +769,7 @@ const handleOneWaySubmitPopularSearch=()=>{
                   }} className="from-container12">
                     <span>To</span>
                     <div>
-                   
+
 
                       <label  >{selectedTo.name}</label>
                       {/* {isLoadingTo && <div>Loading...</div>} */}
@@ -756,7 +779,7 @@ const handleOneWaySubmitPopularSearch=()=>{
                         (
                           <div
                             ref={toSearchRef}
-                            className="from-search-results"
+                            className="from-search-results-two"
                             style={{
                               display: displayTo ? "flex" : "none",
                             }}
@@ -802,7 +825,7 @@ const handleOneWaySubmitPopularSearch=()=>{
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleToClick(result);
-
+                                      setDisableBtn(false);
                                       setToggle(false);
 
                                     }}
@@ -829,24 +852,24 @@ const handleOneWaySubmitPopularSearch=()=>{
                           </div>
                         )}
                     </div>
-                    {toSearchResults && toSearchResults.length > 0 && toQuery.length >= 2 ? (
-                      <span>
-                        {selectedTo ? (
-                          <>
-                            {selectedTo.code}, {selectedTo.name}
-                          </>
-                        ) : (
-                          <>
-                            {toSearchResults[0].code}, {toSearchResults[0].name}
-                          </>
-                        )}
-                      </span>
-                    ) :
-                      (
-                        <span>Airport Name</span>
-                      )
+                    {/* {toSearchResults && toSearchResults.length > 0 && toQuery.length >= 2 ? (
+                        <span>
+                          {selectedTo ? (
+                            <>
+                              {selectedTo.code}, {selectedTo.name}
+                            </>
+                          ) : (
+                            <>
+                              {toSearchResults[0].code}, {toSearchResults[0].name}
+                            </>
+                          )}
+                        </span>
+                      ) :
+                        (
+                          <span>Airport Name</span>
+                        )
 
-                    }
+                      } */}
 
 
 
@@ -865,7 +888,7 @@ const handleOneWaySubmitPopularSearch=()=>{
                       </div>
 
                     </div>
-                    <span>{getDayOfWeek(startDate)}</span>
+                    {/* <span>{getDayOfWeek(startDate)}</span> */}
                   </div>
 
                   <div className="travellerContainer12 ">
@@ -973,10 +996,11 @@ const handleOneWaySubmitPopularSearch=()=>{
                     </Dialog>
                   </div>
                   <div className=" onewaySearch2">
-                    <button type="submit" className="searchButt2">
-                      <h3>Search</h3>
-                      {/* <KeyboardDoubleArrowRightIcon /> */}
-                    </button>
+                    {disableBtn ? <button className="searchButt2 searchButt2DisableBtn"><h3>Search</h3></button> :
+                      <button type="submit" className="searchButt2">
+                        <h3 className="mb-0">Search</h3>
+                        {/* <KeyboardDoubleArrowRightIcon /> */}
+                      </button>}
                   </div>
                 </div>
               </form>
@@ -989,7 +1013,7 @@ const handleOneWaySubmitPopularSearch=()=>{
             </div>
           </div>
         </div>
-      </section>
+        {/* </section> */}
       </section>
     </>
   );

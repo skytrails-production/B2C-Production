@@ -28,10 +28,13 @@
 }
 
 .offerText p {
-    font-weight: 700;
-    font-size: 24px;
-    color: #21325d;
-    font-family: "Montserrat";
+    text-align: center !important;
+    width: 73% !important;
+    margin: auto !important;
+    padding-bottom: 10px !important;
+    font-family: Montserrat;
+    font-weight: 800;
+    font-size: 1.7rem;
 }
 
 .offerSliderFLight .glider-track {

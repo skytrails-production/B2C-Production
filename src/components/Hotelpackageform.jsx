@@ -303,7 +303,7 @@ const Homeform = (props) => {
                   <div onClick={(e) => {
                     e.stopPropagation();
                     setSub(true);
-                  }} className="PackageInner">
+                  }} className="PackageInner-pack">
                     <div style={{ width: "100%" }}>
                       <lable className="package_lable_l" onClick={focusInput}>{cityNamelast}</lable>
                     </div>
@@ -319,6 +319,7 @@ const Homeform = (props) => {
                         <CiSearch size={24} />
                         <input
                           name="from"
+
                           placeholder="Search Package For Destination"
                           autoComplete="off"
                           value={searchTerm}
@@ -328,6 +329,7 @@ const Homeform = (props) => {
                             outline: "none",
                             border: "none",
                             height: '30px',
+                            width: "100%"
                             // backgroundColor: '#ffffff',
                             // boxShadow: '0 2px 3px 0 rgba(0, 0, 0, 0.1)',
                             // backgroundColor:"transparent"

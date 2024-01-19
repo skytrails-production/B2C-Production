@@ -14,8 +14,8 @@
 
 .hotelFormBg {
   background-color: #fff;
-  padding-top: 12px;
-  padding-bottom: 12px;
+  padding-top: 0px;
+  padding-bottom: 0px;
   border-radius: 10px;
   /* z-index: 1; */
   position: relative;
@@ -30,7 +30,7 @@
 }
 
 .px4 {
-  padding: 0px 10px;
+  padding: 0px 0px;
 }
 
 .yourHotel-container {
@@ -133,7 +133,7 @@ cursor: "pointer", */
   position: absolute;
   left: 0;
   /* bottom: 30px; */
-  bottom: 50px;
+  bottom: 27px;
   cursor: pointer;
   width: 100%;
   border-radius: 0px 0px 10px 10px;
@@ -150,7 +150,7 @@ cursor: "pointer", */
   align-items: center;
   height: 40px;
   align-items: center;
-  box-shadow: inset 0px -48px 52px -18px rgba(0, 0, 0, 0.6);
+  /* box-shadow: inset 0px -48px 52px -18px rgba(0, 0, 0, 0.6); */
 }
 
 .city-inputtt-div-div {

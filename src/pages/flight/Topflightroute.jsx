@@ -16,7 +16,7 @@ const flightRoutes = [
     code: "BOM",
     arrivalCode: "MAA",
     code1: "DEL-PNQ",
-    imgages:imgage1
+    imgages: imgage1,
   },
   {
     id: 2,
@@ -25,7 +25,7 @@ const flightRoutes = [
     code: "DEL",
     arrivalCode: "PNQ",
     code1: "DEL-PNQ",
-    imgages:image3
+    imgages: image3,
   },
   {
     id: 3,
@@ -34,7 +34,7 @@ const flightRoutes = [
     code: "DEL",
     arrivalCode: "GOI",
     code1: "DEL-GOI",
-    imgages:image2
+    imgages: image2,
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ const flightRoutes = [
     code: "DEL",
     arrivalCode: "BLR",
     code1: "DEL-BLR",
-    imgages:image4
+    imgages: image4,
   },
   {
     id: 5,
@@ -52,7 +52,7 @@ const flightRoutes = [
     code: "DEL",
     arrivalCode: "BOM",
     code1: "DEL-BOM",
-    imgages:imgage1
+    imgages: imgage1,
   },
   {
     id: 6,
@@ -61,7 +61,7 @@ const flightRoutes = [
     code: "DEL",
     arrivalCode: "HYD",
     code1: "DEL-HYD",
-    imgages:image5
+    imgages: image5,
   },
 ];
 
@@ -77,32 +77,32 @@ function Topflightroute({
   activeIdInfant,
 }) {
   const navigate = useNavigate();
-//  const todaydate = new Date();
- function getNextDayDateIfAfter9PM() {
-  // Get the current date and time
-  const currentDate = new Date();
-  // currentDate.setHours(21, 0, 0, 0);
-  
-  // Check if the current time is greater than 9 PM (21:00)
-  if (currentDate.getHours() >= 21) {
-    // Increment the date by 1 to get the next day's date
-    currentDate.setDate(currentDate.getDate() + 1);
+  //  const todaydate = new Date();
+  function getNextDayDateIfAfter9PM() {
+    // Get the current date and time
+    const currentDate = new Date();
+    // currentDate.setHours(21, 0, 0, 0);
+
+    // Check if the current time is greater than 9 PM (21:00)
+    if (currentDate.getHours() >= 21) {
+      // Increment the date by 1 to get the next day's date
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    // Return the updated date
+    return currentDate;
   }
 
-  // Return the updated date
-  return currentDate;
-}
-
-// Example usage:
-const todaydate = getNextDayDateIfAfter9PM();
-console.log(todaydate);
+  // Example usage:
+  const todaydate = getNextDayDateIfAfter9PM();
+  console.log(todaydate);
   const handlePopularSearch = (popularParam) => {
-    console.log(popularParam,"popularParam")
+    console.log(popularParam, "popularParam");
     const updatedParam = [
       {
-        Destination:popularParam.arrivalCode,
+        Destination: popularParam.arrivalCode,
         FlightCabinClass: 1,
-        Origin:popularParam.origincode,
+        Origin: popularParam.origincode,
         PreferredArrivalTime: todaydate,
         PreferredDepartureTime: todaydate,
         activeIdAdult: 1,
@@ -116,7 +116,7 @@ console.log(todaydate);
           createdAt: todaydate,
           id: popularParam.id,
           name: popularParam.from,
-          updatedAt:todaydate,
+          updatedAt: todaydate,
           __v: 0,
           _id: "",
         },
@@ -127,7 +127,7 @@ console.log(todaydate);
           code: popularParam.arrivalCode,
           createdAt: todaydate,
           id: popularParam.origincode,
-          name:popularParam.destination,
+          name: popularParam.destination,
           updatedAt: todaydate,
           __v: 0,
           _id: "",
@@ -138,10 +138,9 @@ console.log(todaydate);
     ];
     // console.log(updatedParam, "updatedParam/....................")
     sessionStorage.setItem("onewayprop", JSON.stringify(updatedParam));
+    sessionStorage.setItem("isPopularSearch", true);
     navigate(`/Searchresult?adult=${1}&child=${0}&infant=${0}`);
   };
-
-
 
   return (
     <section className="container" style={{ marginTop: "82px" }}>

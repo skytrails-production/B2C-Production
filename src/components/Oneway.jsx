@@ -15,9 +15,11 @@ import { ipAction, tokenAction } from "../Redux/IP/actionIp";
 import { oneWayAction, resetOneWay } from "../Redux/FlightSearch/oneWay";
 import { useNavigate } from "react-router-dom";
 import FlightTakeoffTwoToneIcon from "@mui/icons-material/FlightTakeoffTwoTone";
+import FlightLandIcon from '@mui/icons-material/FlightLand';
 import "react-date-range/dist/styles.css"; // Import the styles
 import "react-date-range/dist/theme/default.css"; // Import the theme
 import "./style/Oneway.css";
+import { RiExchangeLine } from "react-icons/ri";
 // import underConstruction from "../images/under Construction.png"
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -34,6 +36,7 @@ import { CiSearch } from "react-icons/ci";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
 import { format } from "date-fns";
+import { Helmet } from "react-helmet-async";
 // import Login from "./Login"
 // import Modal from "@mui/material/Modal";
 // const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -192,8 +195,8 @@ const Homeform = (props) => {
       setOpenTravelModal(false);
       setCountPassanger(
         parseInt(activeIdChild) +
-          parseInt(activeIdInfant) +
-          parseInt(activeIdAdult)
+        parseInt(activeIdInfant) +
+        parseInt(activeIdAdult)
       );
     }
   };
@@ -426,7 +429,6 @@ const Homeform = (props) => {
     const formData = new FormData(event.target);
     setDepartureDate(formData.get("departure"));
 
-
     // createSearchHistory();
 
     const payload = {
@@ -450,22 +452,27 @@ const Homeform = (props) => {
       ],
       Sources: null,
     };
-    sessionStorage.setItem("onewayprop", JSON.stringify([
-      {
-        Origin: selectedFrom.AirportCode,
-        Destination: selectedTo.AirportCode,
-        FlightCabinClass: activeIdClass,
-        PreferredDepartureTime: formData.get("departure"),
-        PreferredArrivalTime: formData.get("departure"),
-        selectedFrom,
-        selectedTo,
-        totalCount,
-        startDate,
-        activeIdAdult,
-        activeIdChild,
-        activeIdInfant, 
-      },
-    ] ))
+
+    sessionStorage.setItem(
+      "onewayprop",
+      JSON.stringify([
+        {
+          Origin: selectedFrom.AirportCode,
+          Destination: selectedTo.AirportCode,
+          FlightCabinClass: activeIdClass,
+          PreferredDepartureTime: formData.get("departure"),
+          PreferredArrivalTime: formData.get("departure"),
+          selectedFrom,
+          selectedTo,
+          totalCount,
+          startDate,
+          activeIdAdult,
+          activeIdChild,
+          activeIdInfant,
+        },
+      ])
+    );
+
     navigate(
       `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
     );
@@ -573,10 +580,18 @@ const Homeform = (props) => {
           zIndex: "2",
         }}
       >
+        <Helmet>
+          <title>Flight</title>
+          <link rel="canonical" href="/" />
+          <meta name="description" content="one way flight" />
+          <meta
+            name="keywords"
+            content="
+online flight booking,compare flight prices,best airfare deals,last minute flights,multi-city flight booking,business class flights,non-stop flights budget airlines,family-friendly airlines,flight upgrades,round trip flights under 4000,direct flights with vistara,airports with cheapest flights to Vistara,flights with in-flight entertainment,flexible booking options"
+          />
+        </Helmet>
         <div className="container">
           <div className="row oneWayBg">
-
-
             <div className="col-12 p-0">
               {/* <TabContext value={value} centered> */}
               {/* <Box
@@ -633,9 +648,7 @@ const Homeform = (props) => {
 
               {/* Oneway start */}
 
-
               {/* <TabPanel value="1"> */}
-
 
               <form onSubmit={handleOnewaySubmit}>
                 <div className="your-container">
@@ -646,8 +659,9 @@ const Homeform = (props) => {
                       setdisplayFrom(true);
                       setIsLoadingFrom(true);
                       // ; alert(fromToggle, "/////")
-
-                    }} className="from-container">
+                    }}
+                    className="from-container"
+                  >
                     <span>From</span>
                     <div>
                       {/* <input
@@ -669,50 +683,41 @@ const Homeform = (props) => {
                             }}
                           /> */}
 
-                      <label  >{selectedFrom.name}</label>
+                      <label>{selectedFrom.name}</label>
                       {/* {isLoadingFrom && <div>Loading...</div>} */}
 
                       {
                         // fromSearchResults && fromSearchResults.length > 0 && fromQuery.length >= 2
-                        fromToggle
-                        && (
+                        fromToggle && (
                           <div
                             ref={fromSearchRef}
-                            className="from-search-results"
+                            className="from-search-results-one"
                             style={{
-
                               display: displayFrom ? "flex" : "none",
                             }}
                           >
-
                             <ul className="from_Search_Container">
                               <Box
                                 sx={{
                                   display: "flex",
                                   flexDirection: "column",
-                                  maxHeight: 161,
+                                  maxHeight: 271,
                                   overflow: "hidden",
                                   overflowY: "scroll",
-
                                 }}
                                 className="scroll_style"
                               >
-
                                 <div className="from_search_div">
-                                  <CiSearch size={24} />
+                                  <CiSearch size={20} />
                                   <input
                                     name="from"
                                     placeholder="From"
                                     value={from}
                                     autoComplete="off"
-
-
                                     onChange={(event) => {
                                       handleFromInputChange(event);
                                       setIsLoadingFrom(true);
                                       handleFromSearch(event.target.value);
-
-
                                     }}
                                     required
                                     style={{
@@ -730,20 +735,19 @@ const Homeform = (props) => {
                                       handleFromClick(result);
 
                                       setFromToggle(false);
-
-
                                     }}
                                   >
-
                                     <div className="onewayResultBox">
-
                                       <div className="onewayResultFirst">
-                                        <div><FlightTakeoffTwoToneIcon /></div>
-                                        <div className="resultOriginName"
-                                        //  onClick={(e) => {
-                                        //   e.stopPropagation(); // Stop event bubbling
+                                        <div>
+                                          <FlightTakeoffTwoToneIcon />
+                                        </div>
+                                        <div
+                                          className="resultOriginName"
+                                          //  onClick={(e) => {
+                                          //   e.stopPropagation(); // Stop event bubbling
 
-                                        // }}
+                                          // }}
                                         >
                                           <p>{result.name}</p>
                                           <span>{result.code}</span>
@@ -758,9 +762,12 @@ const Homeform = (props) => {
                               </Box>
                             </ul>
                           </div>
-                        )}
+                        )
+                      }
                     </div>
-                    {fromSearchResults && fromSearchResults.length > 0 && fromQuery.length >= 2 ? (
+                    {fromSearchResults &&
+                    fromSearchResults.length > 0 &&
+                    fromQuery.length >= 2 ? (
                       <span>
                         {selectedFrom ? (
                           <>
@@ -768,23 +775,23 @@ const Homeform = (props) => {
                           </>
                         ) : (
                           <>
-                            {fromSearchResults[0].code}, {fromSearchResults[0].name}
+                            {fromSearchResults[0].code},{" "}
+                            {fromSearchResults[0].name}
                           </>
                         )}
                       </span>
-                    ) :
-                      (
-                        <span>Airport Name</span>
-                      )
+                    ) : (
+                      <span>Airport Name</span>
+                    )}
 
-                    }
-
-
-                    <div className="roundlogo" onClick={(e) => {
-                      e.stopPropagation()
-                      handleRoundLogoClick()
-                    }}
-                      style={{ cursor: 'pointer' }}>
+                    <div
+                      className="roundlogo"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRoundLogoClick();
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="40"
@@ -820,14 +827,16 @@ const Homeform = (props) => {
                     </div>
                   </div>
 
-                  <div onClick={(e) => {
-                    e.stopPropagation(); // Stop event bubbling
-                    setToggle(true);
-                    setdisplayTo(true);
-                    setIsLoadingTo(true);
-                    // ; alert(fromToggle, "/////")
-
-                  }} className="from-container">
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation(); // Stop event bubbling
+                      setToggle(true);
+                      setdisplayTo(true);
+                      setIsLoadingTo(true);
+                      // ; alert(fromToggle, "/////")
+                    }}
+                    className="from-container"
+                  >
                     <span>To</span>
                     <div>
                       {/* <input
@@ -849,15 +858,14 @@ const Homeform = (props) => {
                             }}
                           /> */}
 
-                      <label  >{selectedTo.name}</label>
+                      <label>{selectedTo.name}</label>
                       {/* {isLoadingTo && <div>Loading...</div>} */}
                       {
                         // toSearchResults && toSearchResults.length > 0 && toQuery.length >= 2 &&
-                        toToggle &&
-                        (
+                        toToggle && (
                           <div
                             ref={toSearchRef}
-                            className="from-search-results"
+                            className="from-search-results-one"
                             style={{
                               display: displayTo ? "flex" : "none",
                             }}
@@ -867,15 +875,14 @@ const Homeform = (props) => {
                                 sx={{
                                   display: "flex",
                                   flexDirection: "column",
-                                  maxHeight: 161,
+                                  maxHeight: 271,
                                   overflow: "hidden",
                                   overflowY: "scroll",
-
                                 }}
                                 className="scroll_style"
                               >
                                 <from className="from_search_div">
-                                  <CiSearch />
+                                  <CiSearch size={20} />
                                   <input
                                     name="to"
                                     placeholder="Enter city or airport"
@@ -887,7 +894,6 @@ const Homeform = (props) => {
                                       setIsLoadingTo(true);
                                       handleToSearch(event.target.value);
                                     }}
-
                                     autoComplete="off"
                                     style={{
                                       border: "none",
@@ -905,12 +911,13 @@ const Homeform = (props) => {
                                       handleToClick(result);
 
                                       setToggle(false);
-
                                     }}
                                   >
                                     <div className="onewayResultBox">
                                       <div className="onewayResultFirst">
-                                        <div><FlightTakeoffTwoToneIcon /></div>
+
+                                        <div><FlightLandIcon /></div>
+
                                         <div className="resultOriginName">
                                           <p>{result.name}</p>
                                           <span>{result.code}</span>
@@ -920,17 +927,18 @@ const Homeform = (props) => {
                                       <div className="resultAirportCode">
                                         <p>{result.AirportCode}</p>
                                       </div>
-
                                     </div>
                                   </li>
                                 ))}
                               </Box>
                             </ul>
-
                           </div>
-                        )}
+                        )
+                      }
                     </div>
-                    {toSearchResults && toSearchResults.length > 0 && toQuery.length >= 2 ? (
+                    {toSearchResults &&
+                    toSearchResults.length > 0 &&
+                    toQuery.length >= 2 ? (
                       <span>
                         {selectedTo ? (
                           <>
@@ -942,15 +950,9 @@ const Homeform = (props) => {
                           </>
                         )}
                       </span>
-                    ) :
-                      (
-                        <span>Airport Name</span>
-                      )
-
-                    }
-
-
-
+                    ) : (
+                      <span>Airport Name</span>
+                    )}
                   </div>
                   <div className="from-container">
                     <span>Departure</span>
@@ -964,7 +966,6 @@ const Homeform = (props) => {
                           minDate={currentdate}
                         />
                       </div>
-
                     </div>
                     <span>{getDayOfWeek(startDate)}</span>
                   </div>
@@ -972,12 +973,12 @@ const Homeform = (props) => {
                   <div className="travellerContainer ">
                     <div
                       onClick={handleTravelClickOpen}
-                      className="travellerButton">
-                      <span>
-                        Traveller & Class
-                      </span>
-                      <p >
-                        <span>{(totalCount === 0 && 1) || totalCount} </span> Traveller
+                      className="travellerButton"
+                    >
+                      <span>Traveller & Class</span>
+                      <p>
+                        <span>{(totalCount === 0 && 1) || totalCount} </span>{" "}
+                        Traveller
                       </p>
                       <div>
                         <span>
@@ -988,7 +989,6 @@ const Homeform = (props) => {
                               activeIdClass === 5 && "Business Economy"
                             )(activeIdClass === 6 && "First Class")}
                         </span>
-
                       </div>
                     </div>
                     <Dialog
@@ -1000,29 +1000,45 @@ const Homeform = (props) => {
                       <DialogContent>
                         <>
                           <div className="travellerModal">
-                            <div><h3>TRAVELLERS & CLASS</h3></div>
+                            <div>
+                              <h3>TRAVELLERS & CLASS</h3>
+                            </div>
                             <div className="travellerPeople">
                               {/* Use the TravelerCounter component for each category */}
                               <TravelerCounter
                                 label="Adults (Age 12+ Years)"
                                 count={activeIdAdult}
-                                onIncrement={() => handleTravelerCountChange('adult', 1)}
-                                onDecrement={() => handleTravelerCountChange('adult', -1)}
+                                onIncrement={() =>
+                                  handleTravelerCountChange("adult", 1)
+                                }
+                                onDecrement={() =>
+                                  handleTravelerCountChange("adult", -1)
+                                }
                               />
                               <TravelerCounter
                                 label="Children (Age 2-12 Years)"
                                 count={activeIdChild}
-                                onIncrement={() => handleTravelerCountChange('child', 1)}
-                                onDecrement={() => handleTravelerCountChange('child', -1)}
+                                onIncrement={() =>
+                                  handleTravelerCountChange("child", 1)
+                                }
+                                onDecrement={() =>
+                                  handleTravelerCountChange("child", -1)
+                                }
                               />
                               <TravelerCounter
                                 label="Infants (Age 0-2 Years)"
                                 count={activeIdInfant}
-                                onIncrement={() => handleTravelerCountChange('infant', 1)}
-                                onDecrement={() => handleTravelerCountChange('infant', -1)}
+                                onIncrement={() =>
+                                  handleTravelerCountChange("infant", 1)
+                                }
+                                onDecrement={() =>
+                                  handleTravelerCountChange("infant", -1)
+                                }
                               />
                             </div>
-                            <div><h3>Choose Travel Class</h3></div>
+                            <div>
+                              <h3>Choose Travel Class</h3>
+                            </div>
                             <div>
                               <ul className="classButtonTravel">
                                 {ClassItems?.map((ele) => (
@@ -1039,7 +1055,7 @@ const Homeform = (props) => {
                                             : "#d90429",
                                       }}
                                       data-id={ele.id}
-                                    // onClick={handleClassItemClick}
+                                      // onClick={handleClassItemClick}
                                     >
                                       {ele?.label}
                                     </li>
@@ -1064,7 +1080,7 @@ const Homeform = (props) => {
                           style={{
                             backgroundColor: "#21325d",
                             color: "white",
-                            marginRight: "40px"
+                            marginRight: "40px",
                           }}
                           onClick={handleTravelClose}
                         >
@@ -1080,14 +1096,6 @@ const Homeform = (props) => {
                     </button>
                   </div>
                 </div>
-
-
-
-
-
-
-
-
 
                 {/* <Box display="flex" justifyContent="center">
                   <div class="wrapper_oneway">
@@ -1142,7 +1150,6 @@ const Homeform = (props) => {
 
               {/* =====================> 2nd form here <============================================= */}
               {/* </TabPanel> */}
-
 
               {/* </TabContext> */}
             </div>

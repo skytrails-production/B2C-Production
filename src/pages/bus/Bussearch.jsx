@@ -506,8 +506,8 @@ const Homeform = (props) => {
 
       <section className="" style={{ width: "100%", position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)", zIndex: "2" }}>
         <div className="container " >
-          <div className="row BusSearchBg">
-            <div className="col-12">
+          <div className="row BusSearchBg p-0">
+            <div className="col-12 p-0">
               <form onSubmit={handleSubmit}>
                 <div className="busSearch-container">
                   <div className="PackageInner_bus">

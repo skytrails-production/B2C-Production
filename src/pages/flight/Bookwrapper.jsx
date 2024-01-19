@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-
+import DatePicker from "react-datepicker";
 import Login from "../../components/Login";
 import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 import { motion } from "framer-motion";
@@ -394,7 +394,7 @@ export default function BookWrapper() {
     // console.warn(passengerData, "passenger data");
   };
 
-  // console.log(passengerData);
+  console.log(passengerData, "passenger Data");
 
   // duration
   const totalMinutes = TicketDetails?.Segments[0][0]?.Duration;
@@ -636,65 +636,7 @@ export default function BookWrapper() {
     TicketDetails?.Segments[0][0]?.Duration / 60
   )}hr ${TicketDetails?.Segments[0][0]?.Duration % 60}min`;
 
-  const dateString = TicketDetails?.Segments[0][0]?.Origin?.DepTime;
-  const date = new Date(dateString);
-  const options = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
-  const formattedDate = date.toLocaleString("en-US", options);
 
-  const [month, day, year, time, ampm] = formattedDate.split(" ");
-  const desiredFormat = `${day}${month}-${year} ${time} ${ampm}`;
-
-
-  const dateString1 = TicketDetails?.Segments[0][0]?.Destination?.ArrTime;
-  const date1 = new Date(dateString1);
-  const options1 = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
-  const formattedDate1 = date1.toLocaleString("en-US", options1);
-  const [month1, day1, year1, time1, ampm1] = formattedDate1.split(" ");
-  const desiredFormat1 = `${day1}${month1}-${year1} ${time1} ${ampm1}`;
-
-  // console.log(TicketDetails, "ticketDetails");
-  const restartString = TicketDetails?.Segments[0][1]?.Origin?.DepTime;
-  const restartDate = new Date(restartString);
-  const restartOption = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
-  const formattedRestart = restartDate.toLocaleString("en-US", restartOption);
-  const [monthRes, dayRes, yearRes, timeRes, ampmRes] =
-    formattedRestart.split(" ");
-  const desiredFormatRestart = `${dayRes}${monthRes}-${yearRes} ${timeRes} ${ampmRes}`;
-
-  const dateString2 = TicketDetails?.Segments[0][1]?.Destination?.ArrTime;
-  const date2 = new Date(dateString2);
-  const options2 = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
-  const formattedDate2 = date2.toLocaleString("en-US", options2);
-  const [month2, day2, year2, time2, ampm2] = formattedDate2.split(" ");
-  const desiredFormatStopped = `${day2}${month2}-${year2} ${time2} ${ampm2}`;
 
   // check login and authentication when booking
 
@@ -820,8 +762,8 @@ export default function BookWrapper() {
         {!reducerState?.flightFare?.flightQuoteData?.Results === true ? (
           <FlightLoader />
         ) : (
-          <div className="margin-pecentage">
-            <div className="container-fluid pt-4">
+          <div className="">
+            <div className="container pt-4">
 
               <div className="row">
 
@@ -1235,13 +1177,13 @@ export default function BookWrapper() {
                               </div>
                               <div className="row g-3 mb-3">
                                 <div className="col-lg-3 col-md-3">
+                                  <label for="exampleInputEmail1" class="form-label">Title</label>
                                   <select
-                                    className="form-select h-100"
+                                    className="form-select "
                                     name="Title"
                                     onChange={(e) =>
                                       handleServiceChange(e, index)
                                     }
-
                                   >
                                     <option value="Mr">Mr.</option>
                                     <option value="Mrs">Mrs.</option>
@@ -1249,7 +1191,7 @@ export default function BookWrapper() {
                                   </select>
                                 </div>
                                 <div className="col-lg-3 col-md-3">
-                                  <div class="form-floating">
+                                  {/* <div class="form-floating">
                                     <input
                                       onChange={(e) =>
                                         handleServiceChange(e, index)
@@ -1265,10 +1207,22 @@ export default function BookWrapper() {
                                       First Name
                                     </label>
                                     {sub && !validateName(passengerData[index].FirstName) && <span className="error10">First name </span>}
-                                  </div>
+                                  </div> */}
+
+                                  <label for="exampleInputEmail1" class="form-label">First Name</label>
+                                  <input type="text"
+                                    name="FirstName"
+                                    id="floatingInput"
+                                    onChange={(e) =>
+                                      handleServiceChange(e, index)
+                                    }
+                                    class="form-control">
+                                  </input>
+                                  {sub && !validateName(passengerData[index].FirstName) && <span className="error10">First name </span>}
+
                                 </div>
                                 <div className="col-lg-3 col-md-3">
-                                  <div class="form-floating">
+                                  {/* <div class="form-floating">
                                     <input
                                       onChange={(e) =>
                                         handleServiceChange(e, index)
@@ -1281,11 +1235,23 @@ export default function BookWrapper() {
                                     />
                                     <label for="floatingInput">Last Name</label>
                                     {sub && !validateName(passengerData[index].LastName) && <span className="error10">Last name </span>}
-                                  </div>
+                                  </div> */}
 
+                                  <label for="exampleInputEmail1" class="form-label">Last Name</label>
+                                  <input type="text"
+                                    name="LastName"
+                                    id="floatingInput"
+                                    class="form-control"
+                                    onChange={(e) =>
+                                      handleServiceChange(e, index)
+                                    }
+                                  >
+                                  </input>
+                                  {sub && !validateName(passengerData[index].LastName) && <span className="error10">Last name </span>}
                                 </div>
                                 <div className="col-lg-3 col-md-3">
-                                  <div class="form-floating">
+                                  {/* <label htmlFor="DateOfBirth">DOB</label> */}
+                                  {/* <div class="form-floating">
                                     <input
                                       type="date"
                                       placeholder="DOB"
@@ -1295,15 +1261,27 @@ export default function BookWrapper() {
                                         handleServiceChange(e, index)
                                       }
                                       max={maxDate}
-                                    // value={maxDate}
-
-                                    // min="1980-01-01" max="2000-01-01"
                                     />
+
                                     <label htmlFor="DateOfBirth">DOB</label>
                                     {sub && !validateDate(passengerData[index].DateOfBirth
                                     ) && <span className="error10">DOB </span>}
 
-                                  </div>
+                                  </div> */}
+
+                                  <label for="exampleInputEmail1" class="form-label">Date of Birth</label>
+                                  <input type="date"
+                                    name="DateOfBirth"
+                                    id="floatingInput"
+                                    class="form-control"
+                                    onChange={(e) =>
+                                      handleServiceChange(e, index)
+                                    }
+                                    max={maxDate}
+                                  >
+                                  </input>
+                                  {sub && !validateDate(passengerData[index].DateOfBirth
+                                  ) && <span className="error10">DOB </span>}
                                 </div>
 
                               </div>
@@ -1317,7 +1295,7 @@ export default function BookWrapper() {
                                   </div>
                                   <div className="row g-3 mb-3">
                                     <div className="col-lg-3 col-md-3">
-                                      <div class="form-floating">
+                                      {/* <div class="form-floating">
                                         <input
                                           onChange={(e) =>
                                             handleServiceChange(e, index)
@@ -1332,10 +1310,21 @@ export default function BookWrapper() {
                                           Passport Number
                                         </label>
 
-                                      </div>
+                                      </div> */}
+                                      <label for="exampleInputEmail1" class="form-label">Passport Number</label>
+                                      <input type="text"
+                                        name="PassportNo"
+                                        id="floatingInput"
+                                        class="form-control"
+                                        onChange={(e) =>
+                                          handleServiceChange(e, index)
+                                        }
+                                      >
+                                      </input>
+
                                     </div>
                                     <div className="col-lg-3 col-md-3">
-                                      <div class="form-floating">
+                                      {/* <div class="form-floating">
                                         <input
                                           onChange={(e) =>
                                             handleServiceChange(e, index)
@@ -1349,7 +1338,17 @@ export default function BookWrapper() {
                                         <label for="floatingInput">
                                           Passport Expiry
                                         </label>
-                                      </div>
+                                      </div> */}
+                                      <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
+                                      <input type="text"
+                                        name="PassportExpiry"
+                                        id="floatingInput"
+                                        class="form-control"
+                                        onChange={(e) =>
+                                          handleServiceChange(e, index)
+                                        }
+                                      >
+                                      </input>
                                     </div>
                                   </div>
                                 </>
@@ -1369,7 +1368,7 @@ export default function BookWrapper() {
                               </div>
                               <div className="row g-3 mb-3">
                                 <div className="col-lg-3 col-md-3">
-                                  <div class="form-floating">
+                                  {/* <div class="form-floating">
                                     <input
                                       onChange={(e) =>
                                         handleServiceChange(
@@ -1382,19 +1381,30 @@ export default function BookWrapper() {
                                       class="form-control"
                                       id="floatingInput"
                                       placeholder="First Name"
-                                    // max={maxDateChild}
-                                    // min={minDateChild}
-
-                                    // min="1980-01-01" max="2000-01-01"
                                     />
                                     <label for="floatingInput">
                                       First Name
                                     </label>
                                     {sub && !validateName(passengerData[index + Number(adultCount)].FirstName) && <span className="error10">First name  </span>}
-                                  </div>
+                                  </div> */}
+
+                                  <label for="exampleInputEmail1" class="form-label">First Name</label>
+                                  <input type="text"
+                                    name="FirstName"
+                                    id="floatingInput"
+                                    class="form-control"
+                                    onChange={(e) =>
+                                      handleServiceChange(
+                                        e,
+                                        index + Number(adultCount)
+                                      )
+                                    }
+                                  >
+                                  </input>
+                                  {sub && !validateName(passengerData[index + Number(adultCount)].FirstName) && <span className="error10">First name  </span>}
                                 </div>
                                 <div className="col-lg-3 col-md-3">
-                                  <div class="form-floating">
+                                  {/* <div class="form-floating">
                                     <input
                                       onChange={(e) =>
                                         handleServiceChange(
@@ -1410,13 +1420,31 @@ export default function BookWrapper() {
                                     />
                                     <label for="floatingInput">Last Name</label>
                                     {sub && !validateName(passengerData[index + Number(adultCount)].LastName) && <span className="error10">Last name </span>}
-                                  </div>
+                                  </div> */}
+
+                                  <label for="exampleInputEmail1" class="form-label">Last Name</label>
+                                  <input type="text"
+                                    name="LastName"
+                                    id="floatingInput"
+                                    class="form-control"
+                                    onChange={(e) =>
+                                      handleServiceChange(
+                                        e,
+                                        index + Number(adultCount)
+                                      )
+                                    }
+                                  >
+                                  </input>
 
                                 </div>
 
+
+
+
                                 <div className="col-lg-3 col-md-3">
+                                  <label for="exampleInputEmail1" class="form-label">Gender</label>
                                   <select
-                                    className="form-select h-100"
+                                    className="form-select"
                                     name="Gender"
                                     onChange={(e) =>
                                       handleServiceChange(
@@ -1432,7 +1460,24 @@ export default function BookWrapper() {
 
                                 </div>
                                 <div className="col-lg-3 col-md-3">
-                                  <div class="form-floating">
+
+
+                                  <label for="exampleInputEmail1" class="form-label">Date of Birth</label>
+                                  <input type="date"
+                                    name="DateOfBirth"
+                                    id="floatingInput"
+                                    class="form-control"
+                                    onChange={(e) =>
+                                      handleServiceChange(
+                                        e,
+                                        index + Number(adultCount)
+                                      )
+                                    }
+                                    max={maxDateChild}
+                                    min={minDateChild}
+                                  ></input>
+                                  {sub && !validateDate(passengerData[index + Number(adultCount)].DateOfBirth) && <span className="error10">DOB </span>}
+                                  {/* <div class="form-floating">
                                     <input
                                       type="date"
                                       name="DateOfBirth"
@@ -1448,7 +1493,7 @@ export default function BookWrapper() {
                                     />
                                     <label htmlFor="DateOfBirth">DOB</label>
                                     {sub && !validateDate(passengerData[index + Number(adultCount)].DateOfBirth) && <span className="error10">DOB </span>}
-                                  </div>
+                                  </div> */}
                                 </div>
                               </div>
                               {/* passport details here */}
@@ -1459,7 +1504,7 @@ export default function BookWrapper() {
                                   </div>
                                   <div className="row g-3 mb-3">
                                     <div className="col-lg-3 col-md-3">
-                                      <div class="form-floating">
+                                      {/* <div class="form-floating">
                                         <input
                                           onChange={(e) =>
                                             handleServiceChange(
@@ -1476,10 +1521,24 @@ export default function BookWrapper() {
                                         <label for="floatingInput">
                                           Passport Number
                                         </label>
-                                      </div>
+                                      </div> */}
+
+                                      <label for="exampleInputEmail1" class="form-label">Passport Number</label>
+                                      <input type="text"
+                                        name="PassportNo"
+                                        id="floatingInput"
+                                        class="form-control"
+                                        onChange={(e) =>
+                                          handleServiceChange(
+                                            e,
+                                            index + Number(adultCount)
+                                          )
+                                        }
+                                      >
+                                      </input>
                                     </div>
                                     <div className="col-lg-3 col-md-3">
-                                      <div class="form-floating">
+                                      {/* <div class="form-floating">
                                         <input
                                           onChange={(e) =>
                                             handleServiceChange(
@@ -1496,7 +1555,20 @@ export default function BookWrapper() {
                                         <label for="floatingInput">
                                           Passport Expiry
                                         </label>
-                                      </div>
+                                      </div> */}
+                                      <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
+                                      <input type="text"
+                                        name="PassportExpiry"
+                                        id="floatingInput"
+                                        class="form-control"
+                                        onChange={(e) =>
+                                          handleServiceChange(
+                                            e,
+                                            index + Number(adultCount)
+                                          )
+                                        }
+                                      >
+                                      </input>
                                     </div>
                                   </div>
                                 </>
@@ -1515,11 +1587,11 @@ export default function BookWrapper() {
                           Array.from({ length: infantCount }, (_, index) => (
                             <div className="bookFlightPassInner">
                               <div className="bookAdultIndex">
-                                <p>Infact {index + 1}</p>
+                                <p>Infant {index + 1}</p>
                               </div>
                               <div className="row g-3 mb-3">
                                 <div className="col-lg-3 col-md-3">
-                                  <div class="form-floating">
+                                  {/* <div class="form-floating">
                                     <input
                                       onChange={(e) =>
                                         handleServiceChange(
@@ -1539,10 +1611,27 @@ export default function BookWrapper() {
                                       First Name
                                     </label>
                                     {sub && !validateName(passengerData[index + Number(adultCount) + Number(childCount)].FirstName) && <span className="error10">First name </span>}
-                                  </div>
+                                  </div> */}
+
+                                  <label for="exampleInputEmail1" class="form-label">First Name</label>
+                                  <input type="text"
+                                    name="FirstName"
+                                    id="floatingInput"
+                                    class="form-control"
+                                    onChange={(e) =>
+                                      handleServiceChange(
+                                        e,
+                                        index +
+                                        Number(adultCount) +
+                                        Number(childCount)
+                                      )
+                                    }
+                                  >
+                                  </input>
+                                  {sub && !validateName(passengerData[index + Number(adultCount) + Number(childCount)].FirstName) && <span className="error10">First name </span>}
                                 </div>
                                 <div className="col-lg-3 col-md-3">
-                                  <div class="form-floating">
+                                  {/* <div class="form-floating">
                                     <input
                                       onChange={(e) =>
                                         handleServiceChange(
@@ -1560,14 +1649,32 @@ export default function BookWrapper() {
                                     />
                                     <label for="floatingInput">Last Name</label>
                                     {sub && !validateName(passengerData[index + Number(adultCount) + Number(childCount)].LastName) && <span className="error10">Last name </span>}
-                                  </div>
+                                  </div> */}
 
+                                  <label for="exampleInputEmail1" class="form-label">Last Name</label>
+                                  <input type="text"
+                                    name="LastName"
+                                    id="floatingInput"
+                                    class="form-control"
+                                    onChange={(e) =>
+                                      handleServiceChange(
+                                        e,
+                                        index +
+                                        Number(adultCount) +
+                                        Number(childCount)
+                                      )
+                                    }
+                                  >
+                                  </input>
+                                  {sub && !validateName(passengerData[index + Number(adultCount) + Number(childCount)].LastName) && <span className="error10">Last name </span>}
                                 </div>
 
 
                                 <div className="col-lg-3 col-md-3">
+
+                                  <label for="exampleInputEmail1" class="form-label">Gender</label>
                                   <select
-                                    className="form-select h-100"
+                                    className="form-select"
                                     name="Gender"
 
                                     onChange={(e) =>
@@ -1586,7 +1693,7 @@ export default function BookWrapper() {
 
                                 </div>
                                 <div className="col-lg-3 col-md-3">
-                                  <div class="form-floating">
+                                  {/* <div class="form-floating">
                                     <input
                                       type="date"
                                       name="DateOfBirth"
@@ -1604,7 +1711,25 @@ export default function BookWrapper() {
                                     />
                                     <label htmlFor="DateOfBirth">DOB</label>
                                     {sub && !validateDate(passengerData[index + Number(adultCount) + Number(childCount)].DateOfBirth) && <span className="error10">DOB </span>}
-                                  </div>
+                                  </div> */}
+                                  <label for="exampleInputEmail1" class="form-label">Date of Birth</label>
+                                  <input type="date"
+                                    name="DateOfBirth"
+                                    id="floatingInput"
+                                    class="form-control"
+                                    onChange={(e) =>
+                                      handleServiceChange(
+                                        e,
+                                        index +
+                                        Number(adultCount) +
+                                        Number(childCount)
+                                      )
+                                    }
+                                    min={minDateInfer}
+                                    max={currentDate}
+                                  >
+                                  </input>
+                                  {sub && !validateDate(passengerData[index + Number(adultCount) + Number(childCount)].DateOfBirth) && <span className="error10">DOB </span>}
                                 </div>
 
                               </div>
@@ -1616,7 +1741,7 @@ export default function BookWrapper() {
                                   </div>
                                   <div className="row g-3 mb-3">
                                     <div className="col-lg-3 col-md-3">
-                                      <div class="form-floating">
+                                      {/* <div class="form-floating">
                                         <input
                                           onChange={(e) =>
                                             handleServiceChange(
@@ -1635,10 +1760,26 @@ export default function BookWrapper() {
                                         <label for="floatingInput">
                                           Passport Number
                                         </label>
-                                      </div>
+                                      </div> */}
+                                      <label for="exampleInputEmail1" class="form-label">Passport Number</label>
+                                      <input type="text"
+                                        name="PassportNo"
+                                        id="floatingInput"
+                                        class="form-control"
+                                        onChange={(e) =>
+                                          handleServiceChange(
+                                            e,
+                                            index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                          )
+                                        }
+                                      >
+                                      </input>
+
                                     </div>
                                     <div className="col-lg-3 col-md-3">
-                                      <div class="form-floating">
+                                      {/* <div class="form-floating">
                                         <input
                                           onChange={(e) =>
                                             handleServiceChange(
@@ -1657,7 +1798,23 @@ export default function BookWrapper() {
                                         <label for="floatingInput">
                                           Passport Expiry
                                         </label>
-                                      </div>
+                                      </div> */}
+
+                                      <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
+                                      <input type="text"
+                                        name="PassportExpiry"
+                                        id="floatingInput"
+                                        class="form-control"
+                                        onChange={(e) =>
+                                          handleServiceChange(
+                                            e,
+                                            index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                          )
+                                        }
+                                      >
+                                      </input>
 
                                     </div>
                                   </div>
@@ -1682,7 +1839,7 @@ export default function BookWrapper() {
                             </div>
                             <div className="row g-3 mb-3">
                               <div className="col-lg-5 col-md-5">
-                                <div className="form-floating custom-input">
+                                {/* <div className="form-floating custom-input">
                                   <input
                                     onChange={(e) => {
                                       handleServiceChange(e, 0)
@@ -1695,10 +1852,22 @@ export default function BookWrapper() {
                                   />
                                   <label for="floatingInput">Enter Email</label>
                                   {sub && !validateEmail(passengerData[0].Email) && <span className="error10">Enter a Valid Email </span>}
-                                </div>
+                                </div> */}
+
+                                <label for="exampleInputEmail1" class="form-label">Enter Email</label>
+                                <input type="text"
+                                  name="Email"
+                                  id="floatingInput"
+                                  class="form-control"
+                                  onChange={(e) => {
+                                    handleServiceChange(e, 0)
+                                  }}
+                                >
+                                </input>
+                                {sub && !validateEmail(passengerData[0].Email) && <span className="error10">Enter a Valid Email </span>}
                               </div>
                               <div className="col-lg-5 col-md-5">
-                                <div className="form-floating">
+                                {/* <div className="form-floating">
                                   <input
                                     onChange={(e) => {
                                       handleServiceChange(e, 0)
@@ -1713,7 +1882,19 @@ export default function BookWrapper() {
                                     Mobile Number
                                   </label>
                                   {sub && !validatePhoneNumber(passengerData[0].ContactNo) && <span className="error10">Enter a valid Phone Number </span>}
-                                </div>
+                                </div> */}
+
+                                <label for="exampleInputEmail1" class="form-label">Mobile Number</label>
+                                <input type="phone"
+                                  name="ContactNo"
+                                  id="floatingInput"
+                                  class="form-control"
+                                  onChange={(e) => {
+                                    handleServiceChange(e, 0)
+                                  }}
+                                >
+                                </input>
+                                {sub && !validatePhoneNumber(passengerData[0].ContactNo) && <span className="error10">Enter a valid Phone Number </span>}
 
                               </div>
                             </div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './BigNavbar.css';
 import { motion } from 'framer-motion';
 import LinksInner from './LinksInner';
@@ -25,7 +25,30 @@ const variants = {
 };
 
 const BigNavbar = () => {
+    const myComponentRef = useRef(null);
+    // useEffect(() => {
+    //     let width
+    //     if (myComponentRef.current) {
+    //          width = myComponentRef.current.offsetHeight;
+    //     }
+    //     console.warn('Component width:', width);
+    // }, [myComponentRef]);
+    let height = myComponentRef?.current?.offsetHeight;
+    const handleResize = () => {
+        if (myComponentRef.current) {
+            height = myComponentRef?.current?.offsetHeight;
+            sessionStorage.setItem("insideNavbarHeight", myComponentRef?.current)
+        }
+        console.warn('Component width:', height);
+    }
+    useEffect(() => {
+        sessionStorage.setItem("insideNavbarHeight", height)
 
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [height]);
     const [activeLink, setActiveLink] = useState(null);
 
     const handleLinkClick = (link) => {
@@ -33,7 +56,7 @@ const BigNavbar = () => {
     };
 
     return (
-        <motion.div className="bignavbarInner" style={{ background: "#fff" }} variants={variants} initial="animate" whileInView="initial">
+        <motion.div ref={myComponentRef} className="bignavbarInner" style={{ background: "#fff" }} variants={variants} initial="animate" whileInView="initial">
             <div className="container p-0">
                 <motion.div className="bgInner" style={{ display: 'flex' }} variants={variants} animate="initial">
                     <Link to={"/"}>

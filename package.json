@@ -34,6 +34,7 @@
     "react-dom": "^18.2.0",
     "react-gallery-carousel": "^0.4.0",
     "react-glider": "^4.0.2",
+    "react-helmet-async": "^2.0.4",
     "react-hook-form": "^7.43.7",
     "react-icons": "^4.8.0",
     "react-loader-spinner": "^6.1.1-0",

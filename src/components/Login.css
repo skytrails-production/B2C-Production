@@ -75,7 +75,7 @@
   height: 100%;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
-    /* opacity: 0.9; */
+  /* opacity: 0.9; */
 
 }
 
@@ -101,7 +101,7 @@
 }
 
 .dropdownLogin {
-  left: -10% !important;
+  right: 0% !important;
   border-radius: 8px;
   top: 45px !important;
   background-color: white;
@@ -134,12 +134,15 @@
   -webkit-tap-highlight-color: transparent;
   z-index: -1;
 }
+
 /* Add this to your CSS file or style block */
 
 .swal-cancel-button {
   border: 2px solid rgb(217, 4, 41) !important;
-  color: rgb(217, 4, 41) !important; /* Adjust the text color as needed */
-  font-size: 18px !important; /* Adjust the font size as needed */
+  color: rgb(217, 4, 41) !important;
+  /* Adjust the text color as needed */
+  font-size: 18px !important;
+  /* Adjust the font size as needed */
 
   font-weight: 600;
   background-color: #ffffff !important;
@@ -147,10 +150,13 @@
   padding-top: 3px;
   padding-bottom: 3px;
 }
+
 .swal-confirm-button {
   border: 2px solid #21325d !important;
-  color: #21325d !important; /* Adjust the text color as needed */
-  font-size: 18px !important; /* Adjust the font size as needed */
+  color: #21325d !important;
+  /* Adjust the text color as needed */
+  font-size: 18px !important;
+  /* Adjust the font size as needed */
 
   font-weight: 600;
   background-color: #ffffff !important;
@@ -159,12 +165,14 @@
   padding-bottom: 3px;
   outline: none !important;
 }
+
 /* Add this to your CSS file or style block */
 
 /* Add this to your CSS file or style block */
 .swal-title-text {
   color: black;
 }
+
 .swal-title-inner {
   display: flex;
   justify-content: space-between;
@@ -172,6 +180,7 @@
   width: 100%;
   gap: 30px;
 }
+
 .swal-title-text {
   margin-left: 10px;
   color: black;
@@ -180,11 +189,13 @@
 
 /* Add shadow to SweetAlert */
 .swal-popup.with-shadow {
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5); /* Customize the shadow properties */
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+  /* Customize the shadow properties */
   background-color: #ffffff !important;
   width: 35% !important;
 }
-.invalidOptLogin{
+
+.invalidOptLogin {
   border-color: #dc3545 !important;
   /* color: #d90429 !important; */
 }
