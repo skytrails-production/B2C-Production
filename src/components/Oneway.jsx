@@ -719,7 +719,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                                       setIsLoadingFrom(true);
                                       handleFromSearch(event.target.value);
                                     }}
-                                    required
+                                    // required
                                     style={{
                                       outline: "none",
                                       border: "none",
@@ -887,8 +887,8 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                                     name="to"
                                     placeholder="Enter city or airport"
                                     value={to}
-                                    required
-                                    autoFocus
+                                    // required
+                                    // autoFocus
                                     onChange={(event) => {
                                       handleToInputChange(event);
                                       setIsLoadingTo(true);

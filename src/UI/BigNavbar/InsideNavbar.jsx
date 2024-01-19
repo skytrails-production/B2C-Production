@@ -37,7 +37,7 @@ const BigNavbar = () => {
     const handleResize = () => {
         if (myComponentRef.current) {
             height = myComponentRef?.current?.offsetHeight;
-            sessionStorage.setItem("insideNavbarHeight", myComponentRef?.current)
+            sessionStorage.setItem("insideNavbarHeight", height)
         }
         console.warn('Component width:', height);
     }
