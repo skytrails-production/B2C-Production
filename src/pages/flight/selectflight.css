@@ -32,7 +32,7 @@
 }
 
 .singleFlightBoxOne img {
-    width: 80px;
+    width: 40px;
 }
 
 .singleFlightBoxOne span {
@@ -241,23 +241,22 @@ hr {
     color: #d90429 !important;
 }
 
-.loadingflightgradient{
-     background-Image: linear-gradient(to right bottom, #a0a2a7, #989d9f, #adafaf, #c6c9c8, #bbbdb7);
-     animation: gradient 15s ease infinite;
-     
+.loadingflightgradient {
+    background-Image: linear-gradient(to right bottom, #a0a2a7, #989d9f, #adafaf, #c6c9c8, #bbbdb7);
+    animation: gradient 15s ease infinite;
+
 }
 
 @keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
 }
-
-
-

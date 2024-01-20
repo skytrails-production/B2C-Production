@@ -41,6 +41,7 @@ import Modal from "@mui/material/Modal";
 // import loginGif from "../images/loginGif.gif"
 import loginGif from "../../images/loginGif.gif"
 import CloseIcon from '@mui/icons-material/Close';
+import {validateEmail,validateName,validatePhoneNumber} from "../../utility/validationFunctions"
 
 
 const variants = {
@@ -657,34 +658,34 @@ export default function BookWrapper() {
   }, [authenticUser])
 
   // check login and authentication when booking
-  function validatePhoneNumber(phoneNumber) {
-    // Define the regular expression pattern for a valid phone number
-    var phonePattern = /^\d{10}$/;
+  // function validatePhoneNumber(phoneNumber) {
+  //   // Define the regular expression pattern for a valid phone number
+  //   var phonePattern = /^\d{10}$/;
 
-    // Test the phone number against the pattern
-    return phonePattern.test(phoneNumber);
-  }
-  function validateEmail(email) {
-    // Define the regular expression pattern for a valid phone number
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   // Test the phone number against the pattern
+  //   return phonePattern.test(phoneNumber);
+  // }
+  // function validateEmail(email) {
+  //   // Define the regular expression pattern for a valid phone number
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // Test the phone number against the pattern
-    return emailRegex.test(email);
-  }
-  function validateName(name) {
-    // Check if the name is not empty
-    if (!name) {
-      return false;
-    }
+  //   // Test the phone number against the pattern
+  //   return emailRegex.test(email);
+  // }
+  // function validateName(name) {
+  //   // Check if the name is not empty
+  //   if (!name) {
+  //     return false;
+  //   }
 
-    // Check if the name contains only letters
-    if (!/^[A-Za-z]+$/.test(name)) {
-      return false;
-    }
+  //   // Check if the name contains only letters
+  //   if (!/^[A-Za-z]+$/.test(name)) {
+  //     return false;
+  //   }
 
-    // If all checks pass, the name is considered valid
-    return true;
-  }
+  //   // If all checks pass, the name is considered valid
+  //   return true;
+  // }
   const validation = async () => {
     const result = await passengerData.filter(
       (item) =>

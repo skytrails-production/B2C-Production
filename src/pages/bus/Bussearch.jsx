@@ -504,7 +504,7 @@ const Homeform = (props) => {
         </div>
       </Modal> */}
 
-      <section className="" style={{ width: "100%", position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)", zIndex: "2" }}>
+      <section className="" style={{ width: "100%", position: "absolute", left: "50%", top: "75%", transform: "translate(-50%, -50%)", zIndex: "2" }}>
         <div className="container " >
           <div className="row BusSearchBg p-0">
             <div className="col-12 p-0">
@@ -706,7 +706,7 @@ const Homeform = (props) => {
                           cy="20"
                           r="19"
                           fill="white"
-                          stroke="#071C2C"
+                          stroke="lightgray"
                           stroke-width="2"
                         />
                       </svg>

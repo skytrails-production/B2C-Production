@@ -36,30 +36,30 @@ const Links = ({ open }) => {
             <ul className="BigNavItems">
                 <Link to="/" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textDecoration: 'none', fontWeight: "600" }} className={({ isActive }) => isActive ? "active-nav logoname" : "logoname"}>
                     <motion.span >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 25" fill="none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="21" height="25" viewBox="0 0 24 25" fill="none">
                             <path d="M23.3219 1.17807C22.4021 0.258228 20.9073 0.277391 20.0066 1.2164L15.1008 6.33304L3.08532 2.36621L0.574904 4.87662L10.5782 11.0281L5.51908 16.3172L2.28045 15.7806L0 18.0611L4.7717 19.7283L6.43892 24.5L8.71937 22.2195L8.18279 18.9809L13.4527 13.9218L19.6042 23.9251L22.1146 21.4147L18.167 9.3992L23.2836 4.47419C24.2226 3.59267 24.2418 2.09792 23.3219 1.17807Z" fill={open ? "#21325d" : "#fff"} />
                         </svg>
                     </motion.span>
-                    <motion.span variants={itemVariants} style={{ marginTop: '7px', fontFamily: 'Montserrat', fontWeight: "500" }}>
+                    <motion.span variants={itemVariants} style={{ marginTop: '7px', fontFamily: 'Montserrat', fontWeight: "500", fontSize: "14px" }}>
                         Flight
                     </motion.span>
                 </Link>
 
                 <Link to="/hotel" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textDecoration: 'none', fontWeight: "600" }} className={({ isActive }) => isActive ? "active-nav logoname" : "logoname"}>
                     <motion.span >
-                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="21" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M22.5938 23.0938V6.14375H18.3563V23.0938H16.95V0.5H7.05V23.0938H5.64375V8.975H1.40625V23.0938H0V24.5H24V23.0938H22.5938ZM19.7625 8.975H21.1688V10.3813H19.7625V8.975ZM19.7625 11.7875H21.1688V13.1937H19.7625V11.7875ZM19.7625 14.6188H21.1688V16.025H19.7625V14.6188ZM19.7625 17.45H21.1688V18.8563H19.7625V17.45ZM19.7625 20.2625H21.1688V21.6688H19.7625V20.2625ZM2.83125 11.7875H4.2375V13.1937H2.83125V11.7875ZM2.83125 14.6188H4.2375V16.025H2.83125V14.6188ZM2.83125 17.45H4.2375V18.8563H2.83125V17.45ZM2.83125 20.2625H4.2375V21.6688H2.83125V20.2625ZM12.7125 3.33125H14.1188V4.7375H12.7125V3.33125ZM12.7125 6.14375H14.1188V7.55H12.7125V6.14375ZM12.7125 8.975H14.1188V10.3813H12.7125V8.975ZM12.7125 11.7875H14.1188V13.1937H12.7125V11.7875ZM12.7125 14.6188H14.1188V16.025H12.7125V14.6188ZM9.88125 3.33125H11.2875V4.7375H9.88125V3.33125ZM9.88125 6.14375H11.2875V7.55H9.88125V6.14375ZM9.88125 8.975H11.2875V10.3813H9.88125V8.975ZM9.88125 11.7875H11.2875V13.1937H9.88125V11.7875ZM9.88125 14.6188H11.2875V16.025H9.88125V14.6188ZM12.7125 23.0938V18.8563H11.3062V23.0938H9.9V17.45H14.1375V23.0938H12.7125Z" fill={open ? "#21325d" : "#fff"} />
                         </svg>
 
                     </motion.span>
-                    <motion.span variants={itemVariants} style={{ marginTop: '7px', fontFamily: 'Montserrat', fontWeight: "500" }}>
+                    <motion.span variants={itemVariants} style={{ marginTop: '7px', fontFamily: 'Montserrat', fontWeight: "500", fontSize: "14px" }}>
                         Hotel
                     </motion.span>
                 </Link>
 
                 <Link to="/holidaypackages" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textDecoration: 'none', fontWeight: "600" }} className={({ isActive }) => isActive ? "active-nav logoname" : "logoname"}>
                     <motion.span >
-                        <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="28" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g filter="url(#filter0_d_237_11532)">
                                 <path d="M17.5566 15.6126C17.5566 17.7501 19.3004 19.4938 21.4379 19.4938C23.5754 19.4938 25.3191 17.7501 25.3191 15.6126C25.3191 13.4751 23.5754 11.7313 21.4379 11.7313C19.3004 11.7313 17.5566 13.4563 17.5566 15.6126ZM21.4379 12.5001C23.1441 12.5001 24.5504 13.8876 24.5504 15.6126C24.5504 17.3376 23.1441 18.7063 21.4379 18.7063C19.7316 18.7063 18.3254 17.3188 18.3254 15.5938C18.3254 13.8876 19.7129 12.5001 21.4379 12.5001Z" fill={open ? "#21325d" : "#fff"} />
                                 <path d="M19.2266 23.375H23.6703V24.1437H19.2266V23.375Z" fill={open ? "#21325d" : "#fff"} />
@@ -83,18 +83,18 @@ const Links = ({ open }) => {
                         </svg>
 
                     </motion.span>
-                    <motion.span variants={itemVariants} style={{ fontFamily: 'Montserrat', fontWeight: "500" }}>
+                    <motion.span variants={itemVariants} style={{ fontFamily: 'Montserrat', fontWeight: "500", fontSize: "14px" }}>
                         Packages
                     </motion.span>
                 </Link>
 
                 <Link to="/bus" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textDecoration: 'none', fontWeight: "600" }} className={({ isActive }) => isActive ? "active-nav logoname" : "logoname"}>
                     <motion.span >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="31" viewBox="0 0 30 31" fill="none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="31" viewBox="0 0 30 31" fill="none">
                             <path d="M24.3953 6.7403C24.1851 4.81651 23.8489 3.33519 23.3025 2.73882C21.0749 0.334077 5.50258 0.141698 3.71629 2.73882C3.27497 3.37367 2.98075 4.85499 2.7706 6.7403C2.11913 6.81726 1.59375 7.31744 1.59375 7.93306V10.2801C1.59375 10.7995 1.95101 11.242 2.45537 11.4151C2.32928 15.1088 2.43436 18.9756 2.60248 20.8802C2.60248 22.3615 3.69527 22.1114 3.69527 22.1114H4.704V23.7082C4.704 24.343 5.41852 24.8624 6.30116 24.8624C7.1838 24.8624 7.89832 24.343 7.89832 23.7082V22.1114H19.7509V23.7082C19.7509 24.343 20.4654 24.8624 21.3481 24.8624C22.2307 24.8624 22.9452 24.343 22.9452 23.7082V22.1114H23.2815C23.2815 22.1114 24.5634 22.2653 24.6475 21.5727C24.6475 19.6682 24.7735 15.4166 24.6685 11.4151C25.2149 11.2612 25.5931 10.7995 25.5931 10.2608V7.95229C25.6142 7.31744 25.0888 6.79802 24.3953 6.7403ZM7.52004 3.0851H19.4987V4.73956H7.52004V3.0851ZM7.70918 20.2453C6.7635 20.2453 6.00695 19.5528 6.00695 18.6871C6.00695 17.8213 6.7635 17.1288 7.70918 17.1288C8.65487 17.1288 9.41142 17.8213 9.41142 18.6871C9.41142 19.5528 8.63385 20.2453 7.70918 20.2453ZM19.4357 20.2453C18.49 20.2453 17.7334 19.5528 17.7334 18.6871C17.7334 17.8213 18.49 17.1288 19.4357 17.1288C20.3814 17.1288 21.1379 17.8213 21.1379 18.6871C21.1379 19.5528 20.3814 20.2453 19.4357 20.2453ZM21.6002 13.4351H5.43954V5.66298H21.6002V13.4351Z" fill={open ? "#21325d" : "#fff"} />
                         </svg>
                     </motion.span>
-                    <motion.span variants={itemVariants} style={{ marginTop: '7px', fontFamily: 'Montserrat', fontWeight: "500" }}>
+                    <motion.span variants={itemVariants} style={{ marginTop: '7px', fontFamily: 'Montserrat', fontWeight: "500", fontSize: "14px" }}>
                         Bus
                     </motion.span>
                 </Link>
@@ -102,7 +102,7 @@ const Links = ({ open }) => {
 
                 <a href="https://visa.theskytrails.com/" target='_blank' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textDecoration: 'none', fontWeight: "600" }} className={({ isActive }) => isActive ? "active-nav logoname" : "logoname"}>
                     <motion.span>
-                        <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="21" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M23.0819 5.31147L18.2224 3.90649V22.6138C18.2224 22.71 18.2224 22.8063 18.2031 22.8832C18.8009 22.941 19.3601 22.5753 19.5337 21.9787L23.9497 6.87041C24.1425 6.21604 23.7568 5.50393 23.0819 5.31147Z" fill={open ? "#21325d" : "#fff"} />
                             <path d="M7.11524 5.98511C6.59458 6.21606 6.13177 6.54325 5.74609 6.94742H6.691C6.8067 6.60099 6.96097 6.2738 7.11524 5.98511Z" fill={open ? "#21325d" : "#fff"} />
                             <path d="M6.46061 7.79443H5.13003C4.86006 8.27559 4.66723 8.83373 4.60938 9.41111H6.26777C6.28706 8.83373 6.36419 8.29483 6.46061 7.79443Z" fill={open ? "#21325d" : "#fff"} />
@@ -122,7 +122,7 @@ const Links = ({ open }) => {
                         </svg>
 
                     </motion.span>
-                    <motion.span variants={itemVariants} style={{ marginTop: '7px', fontFamily: 'Montserrat' }}>
+                    <motion.span variants={itemVariants} style={{ marginTop: '7px', fontFamily: 'Montserrat', fontSize: "14px" }}>
                         Visa
                     </motion.span>
                 </a>

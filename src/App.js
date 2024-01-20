@@ -34,7 +34,7 @@ import { useLocation } from "react-router-dom";
 // import Conformation from "./pages/Return/Conformation";
 // import NonStopFlight from "./pages/Return/NonStopFlight";
 import BusResult from "./pages/bus/bussearchresult/BusResult";
-// import Download from "./pages/home/Download";
+import Download from "./pages/home/Download";
 import Holidayinfo from "./pages/holidaypackages/holidaypackagesearchresult/Holidayinfo";
 
 
@@ -93,21 +93,21 @@ function App() {
     };
   }, [updateDimensions]);
 
-  useEffect(() => {
-    if (!windowWidth) {
-      window.location.href = 'https://play.google.com/store/apps/details?id=com.skytrails';
-    }
-  }, [windowWidth]);
+  // useEffect(() => {
+  //   if (!windowWidth) {
+  //     window.location.href = 'https://play.google.com/store/apps/details?id=com.skytrails';
+  //   }
+  // }, [windowWidth]);
 
 
 
-  // if (!windowWidth) {
-  //   return (
+  if (!windowWidth) {
+    return (
 
-  //     <Download />
+      <Download />
 
-  //   )
-  // }
+    )
+  }
 
   return (
     <div className="background_gradient">

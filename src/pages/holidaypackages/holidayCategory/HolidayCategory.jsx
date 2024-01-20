@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import "./holidaycategory.css"
 import { useNavigate } from 'react-router-dom'
 import hill from "../../../images/packCategory/hill.jpeg";
@@ -8,9 +8,10 @@ import cruise from "../../../images/packCategory/cruise.jpg"
 import wildlife from "../../../images/packCategory/wildlife.jpeg"
 import { BsArrowRight } from "react-icons/bs";
 import { apiURL } from '../../../Constants/constant';
+import HolidayLoader from "../holidayLoader/HolidayLoader"
 
 const HolidayCategory = () => {
-
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     // const [selectedCategory, setSelectedCategory] = useState(null);
 
@@ -25,20 +26,29 @@ const HolidayCategory = () => {
         const queryParameter = `${category}=true`;
 
         try {
+            setLoading(true);
             const response = await fetch(`${apiURL.baseURL}/skyTrails/beachesPackages?${queryParameter}`);
             const data = await response.json();
 
             if (data.success === 1) {
                 const quote = quotes[category];
                 // setSelectedCategory({ category, quote });
+                setLoading(false)
                 navigate(`/holidaycategorydetails/${category}`, { state: { categoryData: data.data, quote } });
-            } else {
-                console.error('Failed to fetch category data');
             }
         } catch (error) {
             console.error('Error fetching category data', error);
+            setLoading(false)
         }
     };
+
+
+    if (loading) {
+        return (
+            <HolidayLoader />
+        )
+    }
+
 
     return (
 

@@ -653,7 +653,7 @@ const Oneway2 = (props) => {
 
 
                                     }}
-                                    required
+                                    // required
                                     style={{
                                       outline: "none",
                                       border: "none",
@@ -802,8 +802,8 @@ const Oneway2 = (props) => {
                                     name="to"
                                     placeholder="Enter city or airport"
                                     value={to}
-                                    required
-                                    autoFocus
+                                    // required
+                                    // autoFocus
                                     onChange={(event) => {
                                       handleToInputChange(event);
                                       setIsLoadingTo(true);

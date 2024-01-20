@@ -64,6 +64,8 @@ import Login from "../../../components/Login"
 
 import HolidayLoader from "../holidayLoader/HolidayLoader"
 import HolidaySimilar from "./HolidaySimilar";
+import { validateEmail, validateName, validatePhoneNumber } from "../../../utility/validationFunctions"
+import {formatDate} from "../../../utility/utils"
 
 function Holidayinfo() {
   // const navigate = useNavigate();
@@ -102,6 +104,10 @@ function Holidayinfo() {
   const handleModalClose = () => {
     setIsLoginModalOpen(false)
   }
+  const currentdate = new Date();
+  const mindate=formatDate(currentdate)
+
+  
 
 
   useEffect(() => {
@@ -138,14 +144,33 @@ function Holidayinfo() {
     number_of_child: Number(),
     // number_of_people: Number(),
     departure_date: "",
+    // valtrue: false
   });
+  const [sub, setSub] = useState(false)
+  const [valtrue, setValtrue] = useState(false)
+
+  const validationFrom = () => {
+    console.log(formData.fullname === "" , !validateEmail(formData.email) , !validatePhoneNumber(formData.contact_number) , formData.departure_city === "" , formData.departure_date ,formData.number_of_adult < 1)
+    if (formData.fullname === "" || !validateEmail(formData.email) || !validatePhoneNumber(formData.contact_number) || formData.departure_city === "" || formData.departure_date ||formData.number_of_adult < 1) {
+      setValtrue(false)
+
+      return
+    }
+    else {
+      setValtrue(true)
+
+      return
+    }
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    console.log(name, "nameeee", value)
     setFormData({
       ...formData,
       [name]: value,
     });
+    validationFrom()
   };
 
   // const handleClose = () => {
@@ -155,7 +180,7 @@ function Holidayinfo() {
   const token = sessionStorage.getItem("jwtToken");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     if (authenticUser !== 200) {
       setIsLoginModalOpen(true);
     }
@@ -187,6 +212,7 @@ function Holidayinfo() {
         },
       });
       setSpinner(false);
+      setSub(false)
       setTimeout(() => {
         handleModalOpenConfirmation();
       }, 1000);
@@ -732,7 +758,7 @@ function Holidayinfo() {
                   Enter your details to book
                 </p>
 
-                <form onSubmit={handleSubmit}>
+                <div >
                   <div className="row">
                     <div className="col-lg-12 col-md-12 mb-3">
                       <div className="form-floating">
@@ -744,7 +770,7 @@ function Holidayinfo() {
                           onChange={handleInputChange}
                           className="packSideInput"
                         />
-                        {/* <label for="floatingInput">Enter Name</label> */}
+                        {sub && formData.fullname==="" && <span className="floatingSpan">Please Fill Your Name</span>}
                       </div>
                     </div>
 
@@ -759,6 +785,7 @@ function Holidayinfo() {
                           className="packSideInput"
                         />
                         {/* <label for="floatingInput">Enter Email</label> */}
+                        {sub && !validateEmail(formData.email) && <span className="floatingSpan">Please enter a valid email</span>}
                       </div>
                     </div>
 
@@ -773,6 +800,7 @@ function Holidayinfo() {
                           className="packSideInput"
                         />
                         {/* <label for="floatingInput">Contact Number</label> */}
+                        {sub && !validatePhoneNumber(formData.contact_number) && <span className="floatingSpan">Please Fill Your Name</span>}
                       </div>
                     </div>
 
@@ -787,6 +815,7 @@ function Holidayinfo() {
                           className="packSideInput"
                         />
                         {/* <label for="floatingInput">Departure City</label> */}
+                        {sub && formData.departure_city === "" && <span className="floatingSpan">Please Fill City</span>}
                       </div>
                     </div>
                     <div className="col-lg-12 col-md-12 mb-3">
@@ -794,12 +823,13 @@ function Holidayinfo() {
                         <input
                           type="number"
                           name="number_of_adult"
-                          min={1}
+                          // min={1}
                           value={formData.number_of_adult}
                           onChange={handleInputChange}
                           className="form-control"
                         />
                         <label for="floatingInput">Number of Adult</label>
+                        {sub && formData.number_of_adult < 1 && <span className="floatingSpan">Number of adult can't be lass than 1</span>}
                       </div>
                     </div>
                     <div className="col-lg-12 col-md-12 mb-3">
@@ -821,26 +851,36 @@ function Holidayinfo() {
                         <input
                           type="date"
                           name="departure_date"
+                          min={mindate}
                           value={formData.departure_date}
                           onChange={handleInputChange}
                           className="form-control"
                         />
                         <label for="floatingInput">Journey Date</label>
+                        {sub && formData.departure_date === "" && <span className="floatingSpan">Enter Departure Date</span>}
                       </div>
                     </div>
                     <div className="col-lg-12 col-md-12">
                       <div className="packEnqButton">
-                        <button type="submit">
+                        {!valtrue ? <button className="disableBTN" onClick={() => setSub(true)}>Submit</button> :
+                          <button onClick={handleSubmit}>
+                            {spinner ? (
+                              <SpinnerCircular size={30} сolor="#ffffff" />
+                            ) : (
+                              "Submit"
+                            )}
+                          </button>}
+                        {/* <button type="submit">
                           {spinner ? (
                             <SpinnerCircular size={30} сolor="#ffffff" />
                           ) : (
                             "Submit"
                           )}
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </div>
-                </form>
+                </div>
               </div>
             </div>
           </div>

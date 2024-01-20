@@ -20,17 +20,17 @@
 
 .your-container {
   display: grid;
-  border: 1px #888 solid;
+  /* border: 1px #888 solid; */
   border-radius: 10px;
   grid-template-columns: 24% 24% 22% 16% 14%;
 }
 
 .from-container {
-  padding: 12px 21px;
+  padding: 6px 21px;
   border-top-left-radius: 12px;
-  border-right: 1px #888 solid;
+  border-right: 1px lightgray solid;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: flex-start;
   gap: 4px;
   display: inline-flex;
@@ -38,7 +38,7 @@
 }
 
 .from-container:nth-child(2) {
-  padding: 12px 34px;
+  padding: 6px 34px;
 }
 
 .from-container span {
@@ -51,11 +51,11 @@
 }
 
 .from-container input {
-  color: #071c2c;
+  color: #3f454a;
   font-family: "Montserrat";
-  font-size: 22px;
+  font-size: 20px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   line-height: normal;
   /* width: 141px; */
   width: 100%;
@@ -75,11 +75,11 @@
 }
 
 .from-container label {
-  color: #071c2c;
+  color: #3f454a;
   font-family: "Montserrat";
   font-size: 20px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   line-height: normal;
   /* width: 141px; */
   width: 100%;
@@ -208,7 +208,7 @@ cursor: "pointer", */
   justify-content: space-between;
   align-items: flex-start;
   background-color: transparent;
-  gap: 7px;
+  gap: 3px;
   border: none;
   outline: none;
 }
@@ -242,12 +242,15 @@ cursor: "pointer", */
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #d90429;
+  /* background-color: #d90429; */
+  background-color: #fff;
   width: 100%;
   height: 100%;
   border-radius: 0px 10px 10px 0px;
   cursor: pointer;
-  border: 2px solid #d90429;
+  /* border: 2px solid #d90429; */
+  border: none;
+  background-image: linear-gradient(141deg, #d90429, #d904279c);
   transition: all 0.3s;
 
 }

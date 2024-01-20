@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 // import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
+// import TabContext from "@mui/lab/TabContext";
+// import TabList from "@mui/lab/TabList";
+// import TabPanel from "@mui/lab/TabPanel";
 import Button from "@mui/material/Button";
 // import loginGif from "../images/loginGif.gif"
 // import CloseIcon from '@mui/icons-material/Close';
@@ -19,7 +19,7 @@ import FlightLandIcon from '@mui/icons-material/FlightLand';
 import "react-date-range/dist/styles.css"; // Import the styles
 import "react-date-range/dist/theme/default.css"; // Import the theme
 import "./style/Oneway.css";
-import { RiExchangeLine } from "react-icons/ri";
+// import { RiExchangeLine } from "react-icons/ri";
 // import underConstruction from "../images/under Construction.png"
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -130,7 +130,7 @@ const Homeform = (props) => {
   const [activeFareType, setActiveFareType] = useState(1);
   const [totalCount, setCountPassanger] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
-  const authenticUser = reducerState?.logIn?.loginData?.status;
+  // const authenticUser = reducerState?.logIn?.loginData?.status;
   const [departureDate, setDepartureDate] = useState("");
 
   // handle travellers modal
@@ -168,19 +168,19 @@ const Homeform = (props) => {
     { id: "5", label: "Business Economy" },
   ];
 
-  const FareType = [
-    { id: "1", label: "Regular Fares" },
-    { id: "2", label: "Armed Forces Fares" },
-    { id: "3", label: "Student Fares" },
-    { id: "4", label: "Senior Citizens Fares" },
-    { id: "4", label: "Senior Citizens Fares" },
-    { id: "5", label: "Doctors & Nurses Fares" },
-    { id: "6", label: "Double Seat Fares" },
-  ];
+  // const FareType = [
+  //   { id: "1", label: "Regular Fares" },
+  //   { id: "2", label: "Armed Forces Fares" },
+  //   { id: "3", label: "Student Fares" },
+  //   { id: "4", label: "Senior Citizens Fares" },
+  //   { id: "4", label: "Senior Citizens Fares" },
+  //   { id: "5", label: "Doctors & Nurses Fares" },
+  //   { id: "6", label: "Double Seat Fares" },
+  // ];
 
-  const adultCount = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const childCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  const infantCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  // const adultCount = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  // const childCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  // const infantCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const handleTravelClickOpen = () => {
     setActiveIdClass(1);
@@ -201,33 +201,33 @@ const Homeform = (props) => {
     }
   };
 
-  const handleInfantClick = (event) => {
-    const id = event.target.getAttribute("data-id");
-    setActiveIdInfant(id);
-  };
+  // const handleInfantClick = (event) => {
+  //   const id = event.target.getAttribute("data-id");
+  //   setActiveIdInfant(id);
+  // };
 
-  const handleChildClick = (event) => {
-    const id = event.target.getAttribute("data-id");
-    setActiveIdChild(id);
-  };
-  const handleAdultClick = (event) => {
-    const selectedAdult = parseInt(event.target.dataset.id, 10);
-    setActiveIdAdult(selectedAdult);
-    setShowDropdown(false);
-  };
+  // const handleChildClick = (event) => {
+  //   const id = event.target.getAttribute("data-id");
+  //   setActiveIdChild(id);
+  // };
+  // const handleAdultClick = (event) => {
+  //   const selectedAdult = parseInt(event.target.dataset.id, 10);
+  //   setActiveIdAdult(selectedAdult);
+  //   setShowDropdown(false);
+  // };
 
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
-  };
-  const handleClassItemClick = (event) => {
-    const id = event.target.getAttribute("data-id");
-    setActiveIdClass(id);
-  };
-  const handleFareItemClick = (event) => {
-    const clickedItem = event.target;
-    const id = event.target.getAttribute("data-id");
-    setActiveFareType(id);
-  };
+  // const toggleDropdown = () => {
+  //   setShowDropdown(!showDropdown);
+  // };
+  // const handleClassItemClick = (event) => {
+  //   const id = event.target.getAttribute("data-id");
+  //   setActiveIdClass(id);
+  // };
+  // const handleFareItemClick = (event) => {
+  //   const clickedItem = event.target;
+  //   const id = event.target.getAttribute("data-id");
+  //   setActiveFareType(id);
+  // };
 
   // End
 
@@ -380,13 +380,13 @@ const Homeform = (props) => {
     dispatch(resetOneWay());
   }, [dispatch, departureDate]);
 
-  const [value, setValue] = React.useState("1");
+  // const [value, setValue] = React.useState("1");
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  // const handleChange = (event, newValue) => {
+  //   setValue(newValue);
+  // };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isModalOpen, setIsModalOpen] = useState(false);
 
   // search history logic
 
@@ -480,63 +480,62 @@ const Homeform = (props) => {
     // }
   }
 
-  function handleRoundTripSubmit(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const payload = {
-      EndUserIp: reducerState?.ip?.ipData,
-      TokenId: reducerState?.ip?.tokenData,
-      AdultCount: "1",
-      ChildCount: "1",
-      InfantCount: "1",
-      DirectFlight: "false",
-      OneStopFlight: "false",
-      JourneyType: "1",
-      PreferredAirlines: null,
-      Segments: [
-        {
-          Origin: selectedFrom.AirportCode,
-          Destination: selectedTo.AirportCode,
-          FlightCabinClass: "1",
-          PreferredDepartureTime: formData.get("departure"),
-          PreferredArrivalTime: formData.get("return"),
-        },
-      ],
-      Sources: null,
-    };
+  // function handleRoundTripSubmit(event) {
+  //   event.preventDefault();
+  //   const formData = new FormData(event.target);
+  //   const payload = {
+  //     EndUserIp: reducerState?.ip?.ipData,
+  //     TokenId: reducerState?.ip?.tokenData,
+  //     AdultCount: "1",
+  //     ChildCount: "1",
+  //     InfantCount: "1",
+  //     DirectFlight: "false",
+  //     OneStopFlight: "false",
+  //     JourneyType: "1",
+  //     PreferredAirlines: null,
+  //     Segments: [
+  //       {
+  //         Origin: selectedFrom.AirportCode,
+  //         Destination: selectedTo.AirportCode,
+  //         FlightCabinClass: "1",
+  //         PreferredDepartureTime: formData.get("departure"),
+  //         PreferredArrivalTime: formData.get("return"),
+  //       },
+  //     ],
+  //     Sources: null,
+  //   };
 
-    dispatch(oneWayAction(payload));
-  }
+  //   dispatch(oneWayAction(payload));
+  // }
 
-  function validation() {
-    if (document.getElementById("departure").value === "") {
-      return true;
-    }
-  }
+  // function validation() {
+  //   if (document.getElementById("departure").value === "") {
+  //     return true;
+  //   }
+  // }
 
-  const handleButtonClick = () => {
-    // Redirect to the "/returnResult" path
-    navigate("/booking");
-  };
-  const DateRangePickerComponent = () => {
-    const [dateRanges, setDateRanges] = useState([]);
+  // const handleButtonClick = () => {
+  //   navigate("/booking");
+  // };
+  // const DateRangePickerComponent = () => {
+  //   const [dateRanges, setDateRanges] = useState([]);
 
-    const handleDateChange = (ranges) => {
-      const [range] = ranges;
-      const newDate = {
-        key: dateRanges.length + 1,
-        start: range.startDate.toISOString().split("T")[0],
-        end: range.endDate.toISOString().split("T")[0],
-      };
+  //   const handleDateChange = (ranges) => {
+  //     const [range] = ranges;
+  //     const newDate = {
+  //       key: dateRanges.length + 1,
+  //       start: range.startDate.toISOString().split("T")[0],
+  //       end: range.endDate.toISOString().split("T")[0],
+  //     };
 
-      setDateRanges([...dateRanges, newDate]);
-    };
+  //     setDateRanges([...dateRanges, newDate]);
+  //   };
 
-    const removeDate = (key) => {
-      const updatedDates = dateRanges.filter((date) => date.key !== key);
-      setDateRanges(updatedDates);
-    };
-  };
+  //   const removeDate = (key) => {
+  //     const updatedDates = dateRanges.filter((date) => date.key !== key);
+  //     setDateRanges(updatedDates);
+  //   };
+  // };
 
   const handleRoundLogoClick = () => {
     // e.stopPropagation();
@@ -575,7 +574,7 @@ const Homeform = (props) => {
           width: "100%",
           position: "absolute",
           left: "50%",
-          top: "50%",
+          top: "75%",
           transform: "translate(-50%, -50%)",
           zIndex: "2",
         }}
@@ -744,10 +743,10 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                                         </div>
                                         <div
                                           className="resultOriginName"
-                                          //  onClick={(e) => {
-                                          //   e.stopPropagation(); // Stop event bubbling
+                                        //  onClick={(e) => {
+                                        //   e.stopPropagation(); // Stop event bubbling
 
-                                          // }}
+                                        // }}
                                         >
                                           <p>{result.name}</p>
                                           <span>{result.code}</span>
@@ -766,8 +765,8 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                       }
                     </div>
                     {fromSearchResults &&
-                    fromSearchResults.length > 0 &&
-                    fromQuery.length >= 2 ? (
+                      fromSearchResults.length > 0 &&
+                      fromQuery.length >= 2 ? (
                       <span>
                         {selectedFrom ? (
                           <>
@@ -804,7 +803,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                           cy="20"
                           r="19"
                           fill="white"
-                          stroke="#071C2C"
+                          stroke="lightgray"
                           stroke-width="2"
                         />
                       </svg>
@@ -937,8 +936,8 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                       }
                     </div>
                     {toSearchResults &&
-                    toSearchResults.length > 0 &&
-                    toQuery.length >= 2 ? (
+                      toSearchResults.length > 0 &&
+                      toQuery.length >= 2 ? (
                       <span>
                         {selectedTo ? (
                           <>
@@ -1055,7 +1054,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                                             : "#d90429",
                                       }}
                                       data-id={ele.id}
-                                      // onClick={handleClassItemClick}
+                                    // onClick={handleClassItemClick}
                                     >
                                       {ele?.label}
                                     </li>
@@ -1091,7 +1090,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                   </div>
                   <div className=" onewaySearch">
                     <button type="submit" className="searchButt">
-                      <h3>Search</h3>
+                      <h3 className="mb-0">Search</h3>
                       {/* <KeyboardDoubleArrowRightIcon /> */}
                     </button>
                   </div>

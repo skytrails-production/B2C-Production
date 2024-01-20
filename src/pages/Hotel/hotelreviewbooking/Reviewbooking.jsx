@@ -13,6 +13,7 @@ import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 import { motion } from "framer-motion";
 
 
+
 const Reviewbooking = () => {
   const [loader, setLoader] = useState(false);
   const reducerState = useSelector((state) => state);
@@ -46,8 +47,8 @@ const Reviewbooking = () => {
 
 
 
-          <div className="my-4 margin-pecentage">
-            <div className="container-fluid">
+          <div className="my-4 ">
+            <div className="container">
               <div className="row gy-4">
                 <div className="col-lg-9 order-lg-1 order-md-2 order-sm-2">
                   <Reviewdescription />

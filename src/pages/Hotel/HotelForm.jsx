@@ -612,7 +612,7 @@ const HotelForm = () => {
         calculateTravellerCount();
     }, [formDataDynamic]);
 
-   
+
 
     // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -695,7 +695,7 @@ const HotelForm = () => {
                         width: "100%",
                         position: "absolute",
                         left: "50%",
-                        top: "50%",
+                        top: "75%",
                         transform: "translate(-50%, -50%)",
                         zIndex: "2",
                     }}
@@ -869,11 +869,11 @@ const HotelForm = () => {
                                                 >
                                                     <span>Traveller & Class</span>
                                                     <p>{condition} Room</p>
-                                                    <div>
-                                                        <span>
-                                                            {numAdults} Adults {numChildren} Child
-                                                        </span>
-                                                    </div>
+                                                    {/* <div> */}
+                                                    <span>
+                                                        {numAdults} Adults {numChildren} Child
+                                                    </span>
+                                                    {/* </div> */}
                                                 </div>
                                                 <Dialog
                                                     sx={{ zIndex: "99999" }}
@@ -1130,7 +1130,7 @@ const HotelForm = () => {
                                             <div className="PackageInner">
                                                 <button type="submit" className="searchButt">
                                                     <h3>Search</h3>
-                                                    <KeyboardDoubleArrowRightIcon />
+                                                    {/* <KeyboardDoubleArrowRightIcon /> */}
                                                 </button>
                                             </div>
                                         </div>

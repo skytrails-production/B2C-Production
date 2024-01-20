@@ -94,10 +94,11 @@
 }
 
 .account-btn {
-  background-color: #d90429;
+  background-color: #fff;
   color: white;
   padding: 8px 20px;
   border-radius: 8px;
+  background-image: linear-gradient(180deg, #d90429, #d904279c);
 }
 
 .dropdownLogin {

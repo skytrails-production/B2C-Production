@@ -248,6 +248,8 @@ const HotelBooknow = () => {
     )
   }
 
+  // console.log(hotelInfo, "hotel info")
+
   return (
     <>
 
@@ -257,9 +259,9 @@ const HotelBooknow = () => {
       </div>
 
 
-      <section className="margin-pecentage my-4">
+      <section className="mt-4">
 
-        <div className="contaier-xxl">
+        <div className="container">
           <div className="row">
 
             <motion.div className="col-lg-12" variants={variants} initial="initial"
@@ -276,7 +278,7 @@ const HotelBooknow = () => {
                     </div>
                   </div>
                 </motion.div>
-                <motion.div variants={variants} className="col-lg-12 mb-4 packageImgBox" >
+                {/* <motion.div variants={variants} className="col-lg-12 mb-4 packageImgBox" >
 
                   <div className="packageLocation">
                     <FmdGoodIcon />
@@ -285,7 +287,7 @@ const HotelBooknow = () => {
                     <p>{storedFormData?.city}</p>
                     <span>(India)</span>
                   </div>
-                </motion.div>
+                </motion.div> */}
                 <motion.div variants={variants} className="col-lg-12">
                   <div className="hotelImageBoxBook">
                     <h4>Discover the best of luxury</h4>

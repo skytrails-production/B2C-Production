@@ -112,7 +112,7 @@
 }
 
 .bookcenteredBox div img {
-    width: 100px;
+    width: 42px;
 
 }
 
@@ -168,7 +168,7 @@
     color: #071C2C;
     text-align: center;
     font-family: 'Montserrat';
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -199,11 +199,11 @@
 }
 
 .bookbottomBox .bookBottomThree span {
-    color: #999;
+    color: #777;
     margin-left: 8px;
     text-align: center;
     font-family: Montserrat;
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -293,7 +293,7 @@
 }
 
 .bookNowCancel .bookCancleOne>div img {
-    width: 70px;
+    width: 42px;
 }
 
 .bookNowCancel .bookCancleOne>div span {
@@ -465,6 +465,7 @@
 
 
 }
-.custom-input{
-    padding:2px !important;
+
+.custom-input {
+    padding: 2px !important;
 }

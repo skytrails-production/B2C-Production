@@ -104,7 +104,7 @@ const HolidaySuggestion = () => {
                                             <div class="trend-item1">
                                                 <div class="trend-image position-relative rounded">
                                                     <img src={item?.pakage_img} alt="package-img" />
-                                                    <div class="trend-content d-flex align-items-center justify-content-between position-absolute bottom-0 p-4 w-100">
+                                                    <div class="trend-content d-flex align-items-center justify-content-between position-absolute bottom-0  w-100">
                                                         <div class="trend-content-title">
                                                             {item?.destination?.slice(0, 3).map((destinationItem, index, array) => (
                                                                 <React.Fragment key={index}>
@@ -116,7 +116,7 @@ const HolidaySuggestion = () => {
                                                         </div>
                                                         <div className="holiSuggSpan">
                                                             <span class=" white bg-theme p-1 px-2 rounded">{item?.days}{"D/"}{item?.days - 1}{"N"}</span>
-                                                            <span class="white holiSugPrice p-1 px-2 ">₹{item?.pakage_amount?.amount}</span>
+                                                            <span class="white holiSugPrice p-1  ">₹{item?.pakage_amount?.amount}</span>
                                                         </div>
                                                     </div>
                                                     <div class="color-overlay"></div>

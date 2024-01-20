@@ -35,25 +35,25 @@
 
 .yourHotel-container {
   display: grid;
-  border: 1px #888 solid;
+  /* border: 1px lightgray solid; */
   border-radius: 10px;
   grid-template-columns: 20% 20% 20% 20% 20%;
 }
 
 .hotel-container {
-  padding: 12px 21px;
+  padding: 6px 21px;
   border-top-left-radius: 12px;
-  border-right: 1px #888 solid;
+  border-right: 1px lightgray solid;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 7px;
+  gap: 4px;
   display: inline-flex;
   position: relative;
 }
 
 .hotel-container:nth-child(2) {
-  padding: 12px 34px;
+  padding: 6px 34px;
 }
 
 .hotel-container span {
@@ -66,11 +66,11 @@
 }
 
 .hotel-container input {
-  color: #071c2c;
+  color: #3f454a;
   font-family: Montserrat;
   font-size: 20px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   line-height: normal;
   /* width: 141px; */
   width: 100%;
@@ -78,11 +78,11 @@
 }
 
 .hotel-container label {
-  color: #071c2c;
+  color: #3f454a;
   font-family: Montserrat;
   font-size: 20px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   line-height: normal;
   /* width: 141px; */
   width: 100%;
@@ -253,8 +253,8 @@ cursor: "pointer", */
 }
 
 .travellerContainer {
-  padding-top: 10px;
-  padding-bottom: 11px;
+  padding-top: 6px;
+  padding-bottom: 6px;
   padding-left: 13px;
   border-top-left-radius: 12px;
   /* flex-direction: column; */
@@ -268,11 +268,11 @@ cursor: "pointer", */
 }
 
 .travellerButton p span {
-  color: #071c2c;
+  color: #3f454a;
   font-family: Montserrat;
   font-size: 22px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 800;
   line-height: normal;
 }
 
@@ -283,11 +283,11 @@ cursor: "pointer", */
     font-style: normal;
     font-weight: 700;
     line-height: normal; */
-  color: #071c2c;
+  color: #3f454a;
   font-family: Montserrat;
   font-size: 20px;
   font-style: normal;
-  font-weight: 600;
+  font-weight: 700;
   line-height: normal;
 }
 

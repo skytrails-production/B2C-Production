@@ -29,6 +29,7 @@ import Login from "../../../components/Login"
 import Modal from "@mui/material/Modal";
 import { motion } from "framer-motion";
 import CloseIcon from "@mui/icons-material/Close";
+import {validateEmail,validateName,validatePhoneNumber,validatePAN} from "../../../utility/validationFunctions"
 
 const styleLoader = {
   position: "absolute",
@@ -381,18 +382,18 @@ const Flightdetail = () => {
   const handleOtherChange = (panel) => (event, notexpanted) => {
     setExpandedOther(notexpanted ? panel : false);
   };
-  function validatePAN(panNumber) {
-    const regex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
-    return regex.test(panNumber);
-  }
-  function validatePhoneNumber(phoneNumber) {
-    var phonePattern = /^\d{10}$/;
-    return phonePattern.test(phoneNumber);
-  }
-  function validateEmail(email) {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
-  }
+  // function validatePAN(panNumber) {
+  //   const regex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
+  //   return regex.test(panNumber);
+  // }
+  // function validatePhoneNumber(phoneNumber) {
+  //   var phonePattern = /^\d{10}$/;
+  //   return phonePattern.test(phoneNumber);
+  // }
+  // function validateEmail(email) {
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   return emailRegex.test(email);
+  // }
 
   async function validation() {
     const email = await document.getElementById("Email1").value;
@@ -508,10 +509,10 @@ const Flightdetail = () => {
       {loader ? (
         <HotelLoading />
       ) : (
-        <div className="container-fluid rmv-margin" >
+        <div className="container" >
           <motion.div variants={variants} initial="initial"
             whileInView="animate" className="row">
-            <motion.div variants={variants} className="col-lg-12" style={{ marginTop: "-116px" }}>
+            <motion.div variants={variants} className="col-lg-12 p-0" style={{ marginTop: "-116px" }}>
               <div className="hotelDetails">
                 <div>
                   <div>
@@ -546,7 +547,7 @@ const Flightdetail = () => {
 
             {/* room details area  */}
 
-            <motion.div variants={variants} className="col-lg-12">
+            <motion.div variants={variants} className="col-lg-12 p-0">
               <div className="roomDetails">
                 <div className="row">
                   <div className="col-lg-9 mb-md-3">
@@ -564,7 +565,7 @@ const Flightdetail = () => {
 
 
 
-            <motion.div variants={variants} className="col-lg-12">
+            <motion.div variants={variants} className="col-lg-12 p-0">
               <div className="roomDetailsReviewDesc">
                 <div className="row">
                   <motion.div variants={variants} className="col-lg-4">
@@ -651,7 +652,7 @@ const Flightdetail = () => {
               </div>
             </div> */}
 
-            <motion.div variants={variants} className="col-lg-12 mt-3">
+            <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
               <div className="bookflightPassenger">
                 <form>
                   <div className="bookFlightPassInner">
@@ -660,42 +661,44 @@ const Flightdetail = () => {
                     </div>
                     <div className="row g-3 mb-3">
                       <div className="col-lg-5 col-md-5">
-                        <div className="form-floating">
-                          <input
-                            name="Email"
-                            id="Email1"
-                            className="form-control"
-                            ref={emailRef}
-                            placeholder="Enter your Email"
-                            onChange={(e) =>
-                              handleServiceChange(e, 0, { adultIndex: 0 })
-                            }
-                          />
-                          {sub && !emailVal && (
-                            <span id="error1">Enter a Valid Email</span>
-                          )}
-                          <label for="floatingInput">Enter Email</label>
-                        </div>
+                        {/* <div className="form-floating"> */}
+                        <label for="floatingInput">Enter Email</label>
+                        <input
+                          name="Email"
+                          id="Email1"
+                          className="form-control"
+                          ref={emailRef}
+                          // placeholder="Enter your Email"
+                          onChange={(e) =>
+                            handleServiceChange(e, 0, { adultIndex: 0 })
+                          }
+                        />
+                        {sub && !emailVal && (
+                          <span id="error1">Enter a Valid Email</span>
+                        )}
+                        {/* <label for="floatingInput">Enter Email</label> */}
+                        {/* </div> */}
 
                       </div>
                       <div className="col-lg-5 col-md-5">
-                        <div className="form-floating">
-                          <input
-                            name="Phoneno"
-                            id="phoneNumber1"
-                            className="form-control"
-                            ref={phoneRef}
-                            placeholder="Enter your name"
-                            onChange={(e) =>
-                              handleServiceChange(e, 0, { adultIndex: 0 })
-                            }
-                          />
+                        {/* <div className="form-floating"> */}
+                        <label for="floatingInput">Enter Phone</label>
+                        <input
+                          name="Phoneno"
+                          id="phoneNumber1"
+                          className="form-control"
+                          ref={phoneRef}
+                          // placeholder="Enter your name"
+                          onChange={(e) =>
+                            handleServiceChange(e, 0, { adultIndex: 0 })
+                          }
+                        />
 
-                          {sub && !contactVal && (
-                            <span id="error1">Enter a Valid Number</span>
-                          )}
-                          <label for="floatingInput">Mobile Number</label>
-                        </div>
+                        {sub && !contactVal && (
+                          <span id="error1">Enter a Valid Number</span>
+                        )}
+                        {/* <label for="floatingInput">Mobile Number</label> */}
+                        {/* </div> */}
 
 
                       </div>
@@ -1146,7 +1149,7 @@ const Flightdetail = () => {
               </div>
             </div> */}
 
-            <motion.div variants={variants} className="col-lg-12 mt-3">
+            <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
               <div className="bookflightPassenger">
                 <div className="headingBookFlight">
                   <h3>Guest Details</h3>
@@ -1169,144 +1172,148 @@ const Flightdetail = () => {
                               </div>
                               <div className="row g-3 mb-3">
                                 <div className="col-lg-3 col-md-3">
-                                  <div class="form-floating">
-                                    <input
-                                      name="FirstName"
-                                      placeholder="Enter your name"
-                                      class="form-control"
-                                      onChange={(e) => {
+                                  {/* <div class="form-floating"> */}
+                                  <label for="floatingInput">First Name</label>
+                                  <input
+                                    name="FirstName"
+                                    // placeholder="Enter your name"
+                                    class="form-control"
+                                    onChange={(e) => {
 
 
-                                        handleServiceChange(
-                                          e,
-                                          roomIndex,
-                                          { adultIndex: adultIndex }
-                                        );
+                                      handleServiceChange(
+                                        e,
+                                        roomIndex,
+                                        { adultIndex: adultIndex }
+                                      );
 
 
-                                      }
+                                    }
 
-                                      }
-                                    />
+                                    }
+                                  />
 
-                                    {/* {sub &&
+                                  {/* {sub &&
                                       filterName(roomIndex,adultIndex) && (
                                         <span className="error10">
                                           Enter First Name
                                         </span>)
                                     } */}
-                                    {sub &&
+                                  {sub &&
+                                    passengerData.filter(
+                                      (item) =>
+                                        item.roomIndex ===
+                                        roomIndex &&
+                                        item.adultIndex ===
+                                        adultIndex
+                                    )[0].FirstName === "" && (
+                                      <span className="error10">
+                                        Enter First Name{" "}
+                                      </span>
+                                    )}
+                                  {/* <label for="floatingInput">First Name</label> */}
+                                  {/* </div> */}
+                                </div>
+                                <div className="col-lg-3 col-md-3">
+                                  {/* <div class="form-floating"> */}
+                                  <label for="floatingInput">Last Name</label>
+                                  <input
+                                    name="LastName"
+                                    // placeholder="Enter your last name"
+                                    class="form-control"
+                                    onChange={(e) =>
+                                      setTimeout(() => {
+                                        handleServiceChange(
+                                          e,
+                                          roomIndex,
+                                          { adultIndex: adultIndex }
+                                        );
+                                      }, 300)
+                                    }
+                                  />
+                                  {sub &&
+                                    passengerData.filter(
+                                      (item) =>
+                                        item.roomIndex ===
+                                        roomIndex &&
+                                        item.adultIndex ===
+                                        adultIndex
+                                    )[0].LastName === "" && (
+                                      <span className="error10">
+                                        Enter Last Name{" "}
+                                      </span>
+                                    )}
+                                  {/* <label for="floatingInput">Last Name</label> */}
+                                  {/* </div> */}
+                                </div>
+                                <div className="col-lg-3 col-md-3">
+                                  {/* <div class="form-floating"> */}
+                                  <label for="floatingInput">Enter Age</label>
+                                  <input
+                                    name="Age"
+                                    type="number"
+                                    // placeholder="Enter Age"
+                                    class="form-control"
+                                    onChange={(e) =>
+                                      setTimeout(() => {
+                                        handleServiceChange(
+                                          e,
+                                          roomIndex,
+                                          { adultIndex: adultIndex }
+                                        );
+                                      }, 300)
+                                    }
+                                  />
+                                  {sub &&
+                                    passengerData.filter(
+                                      (item) =>
+                                        item.roomIndex ===
+                                        roomIndex &&
+                                        item.adultIndex ===
+                                        adultIndex
+                                    )[0].Age === "" && (
+                                      <span className="error10">
+                                        Enter Age{" "}
+                                      </span>
+                                    )}
+                                  {/* <label for="floatingInput">Enter Age</label> */}
+                                  {/* </div> */}
+                                </div>
+                                <div className="col-lg-3 col-md-3">
+                                  {/* <div class="form-floating"> */}
+                                  <label for="floatingInput">Pan Number</label>
+                                  <input
+                                    name="PAN"
+                                    type="text"
+                                    placeholder="Write in Capital"
+                                    className="form-control"
+                                    onChange={(e) =>
+                                      setTimeout(() => {
+                                        handleServiceChange(
+                                          e,
+                                          roomIndex,
+                                          { adultIndex: adultIndex }
+                                        );
+                                      }, 300)
+                                    }
+                                  />
+                                  {sub &&
+                                    !validatePAN(
+                                      sub &&
                                       passengerData.filter(
                                         (item) =>
                                           item.roomIndex ===
                                           roomIndex &&
                                           item.adultIndex ===
                                           adultIndex
-                                      )[0].FirstName === "" && (
-                                        <span className="error10">
-                                          Enter First Name{" "}
-                                        </span>
-                                      )}
-                                    <label for="floatingInput">First Name</label>
-                                  </div>
-                                </div>
-                                <div className="col-lg-3 col-md-3">
-                                  <div class="form-floating">
-                                    <input
-                                      name="LastName"
-                                      placeholder="Enter your last name"
-                                      class="form-control"
-                                      onChange={(e) =>
-                                        setTimeout(() => {
-                                          handleServiceChange(
-                                            e,
-                                            roomIndex,
-                                            { adultIndex: adultIndex }
-                                          );
-                                        }, 300)
-                                      }
-                                    />
-                                    {sub &&
-                                      passengerData.filter(
-                                        (item) =>
-                                          item.roomIndex ===
-                                          roomIndex &&
-                                          item.adultIndex ===
-                                          adultIndex
-                                      )[0].LastName === "" && (
-                                        <span className="error10">
-                                          Enter Last Name{" "}
-                                        </span>
-                                      )}
-                                    <label for="floatingInput">Last Name</label>
-                                  </div>
-                                </div>
-                                <div className="col-lg-3 col-md-3">
-                                  <div class="form-floating">
-                                    <input
-                                      name="Age"
-                                      type="number"
-                                      placeholder="Enter Age"
-                                      class="form-control"
-                                      onChange={(e) =>
-                                        setTimeout(() => {
-                                          handleServiceChange(
-                                            e,
-                                            roomIndex,
-                                            { adultIndex: adultIndex }
-                                          );
-                                        }, 300)
-                                      }
-                                    />
-                                    {sub &&
-                                      passengerData.filter(
-                                        (item) =>
-                                          item.roomIndex ===
-                                          roomIndex &&
-                                          item.adultIndex ===
-                                          adultIndex
-                                      )[0].Age === "" && (
-                                        <span className="error10">
-                                          Enter Age{" "}
-                                        </span>
-                                      )}
-                                    <label for="floatingInput">Enter Age</label>
-                                  </div>
-                                </div>
-                                <div className="col-lg-3 col-md-3">
-                                  <div class="form-floating">
-                                    <input
-                                      name="PAN"
-                                      type="text"
-                                      placeholder="Write in Capital"
-                                      className="form-control"
-                                      onChange={(e) =>
-                                        setTimeout(() => {
-                                          handleServiceChange(
-                                            e,
-                                            roomIndex,
-                                            { adultIndex: adultIndex }
-                                          );
-                                        }, 300)
-                                      }
-                                    />
-                                    {sub &&
-                                      !validatePAN(
-                                        sub &&
-                                        passengerData.filter(
-                                          (item) =>
-                                            item.roomIndex ===
-                                            roomIndex &&
-                                            item.adultIndex ===
-                                            adultIndex
-                                        )[0].PAN
-                                      ) && (
-                                        <span className="error10">
-                                          Enter PAN{" "}
-                                        </span>
-                                      )}
-                                    <label for="floatingInput">Pan Number</label>
-                                  </div>
+                                      )[0].PAN
+                                    ) && (
+                                      <span className="error10">
+                                        Enter PAN{" "}
+                                      </span>
+                                    )}
+                                  {/* <label for="floatingInput">Pan Number</label> */}
+                                  {/* </div> */}
                                 </div>
                               </div>
 
@@ -1455,7 +1462,7 @@ const Flightdetail = () => {
             </motion.div>
 
 
-            <motion.div variants={variants} className="col-lg-12 mt-3">
+            <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
               <div className="bookflightPassenger">
                 <form>
                   <div className="bookFlightPassInner">
@@ -1484,7 +1491,7 @@ const Flightdetail = () => {
 
 
 
-            <motion.div variants={variants} className="col-lg-12 mt-3">
+            <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
               <div className="bookflightPassenger">
                 <form>
                   <div className="bookFlightPassInner">

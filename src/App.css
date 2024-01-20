@@ -188,7 +188,8 @@ body {
   position: relative;
   /* box-shadow: inset 1px 1px 5px #111; */
 
-  box-shadow: inset 0px -48px 52px -18px rgba(0, 0, 0, 0.6);
+  /* box-shadow: inset 0px -48px 52px -18px rgba(0, 0, 0, 0.6); */
+  box-shadow: inset 0px 103px 52px -18px rgba(0, 0, 0, 0.6);
   /* background-image: linear-gradient(to bottom, #ab5081, #bb8197, #dc817e); */
 
 

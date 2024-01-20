@@ -37,7 +37,8 @@ const Hotelhome = () => {
       </Helmet>
 
       <div className="mainimg">
-        <img className="bannerBack" src={onewayBG} alt="" />
+        {/* <img className="bannerBack" src={onewayBG} alt="" /> */}
+        <img className="bannerBack" src="https://img.freepik.com/premium-photo/beautiful-cinematic-shot-ram-mandir-ayodhya_849906-13668.jpg?w=996" alt="background" />
         <BigNavbar />
         {/* <InsideNavbar /> */}
         <HotelForm />

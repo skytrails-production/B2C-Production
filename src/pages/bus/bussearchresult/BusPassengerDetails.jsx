@@ -16,6 +16,7 @@ import Divider from "@mui/material/Divider";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 // import LoginForm from "../../../components/Login";
 // import Countrypicker from "../../../layouts/Countrypicker";
+import {validateEmail,validatePhoneNumber,validateName} from "../../../utility/validationFunctions"
 
 const variants = {
   initial: {
@@ -73,7 +74,7 @@ const BusPassengerDetail = () => {
   const passengerTemplate = {
     LeadPassenger: true,
     PassengerId: 0,
-    Title: "Mr.",
+    Title: "Mr",
     Address: "",
     Age: 22,
     Email: "",
@@ -109,15 +110,15 @@ const BusPassengerDetail = () => {
     setPassengerData(updatedPassenger);
   };
   // console.log(passengerData);
-  function validateEmail(email) {
-    const regex =
-      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    return regex.test(email);
-  }
-  function validatePhoneNumber(phoneNumber) {
-    const regex = /^\d{10}$/;
-    return regex.test(phoneNumber);
-  }
+  // function validateEmail(email) {
+  //   const regex =
+  //     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  //   return regex.test(email);
+  // }
+  // function validatePhoneNumber(phoneNumber) {
+  //   const regex = /^\d{10}$/;
+  //   return regex.test(phoneNumber);
+  // }
   // function validate() {
   //   if (
   //     passengerData.filter(
@@ -226,34 +227,34 @@ const BusPassengerDetail = () => {
 
 
   // console.warn(allPassenger, "allPassenger")
-  function validatePhoneNumber(phoneNumber) {
-    // Define the regular expression pattern for a valid phone number
-    var phonePattern = /^\d{10}$/;
+  // function validatePhoneNumber(phoneNumber) {
+  //   // Define the regular expression pattern for a valid phone number
+  //   var phonePattern = /^\d{10}$/;
 
-    // Test the phone number against the pattern
-    return phonePattern.test(phoneNumber);
-  }
-  function validateEmail(email) {
-    // Define the regular expression pattern for a valid phone number
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  //   // Test the phone number against the pattern
+  //   return phonePattern.test(phoneNumber);
+  // }
+  // function validateEmail(email) {
+  //   // Define the regular expression pattern for a valid phone number
+  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // Test the phone number against the pattern
-    return emailRegex.test(email);
-  }
-  function validateName(name) {
-    // Check if the name is not empty
-    if (!name) {
-      return false;
-    }
+  //   // Test the phone number against the pattern
+  //   return emailRegex.test(email);
+  // }
+  // function validateName(name) {
+  //   // Check if the name is not empty
+  //   if (!name) {
+  //     return false;
+  //   }
 
-    // Check if the name contains only letters
-    if (!/^[A-Za-z]+$/.test(name)) {
-      return false;
-    }
+  //   // Check if the name contains only letters
+  //   if (!/^[A-Za-z]+$/.test(name)) {
+  //     return false;
+  //   }
 
-    // If all checks pass, the name is considered valid
-    return true;
-  }
+  //   // If all checks pass, the name is considered valid
+  //   return true;
+  // }
   async function filterValidation(item) {
 
     const result = await (!validatePhoneNumber(item.Phoneno) && !validateEmail(item.Email) && !filterValidation(item.FirstName) && !validateName(item.LastName) && item?.Address === "")
@@ -423,97 +424,102 @@ const BusPassengerDetail = () => {
                           <div className="bookFlightPassInner">
                             <div className="row g-3 mb-3">
                               <div className="col-lg-3 col-md-3">
-                                <div class="form-floating">
-                                  <input
-                                    name="FirstName"
-                                    placeholder="Enter your name"
-                                    className="form-control"
-                                    value={passengerData.FirstName}
-                                    onChange={(e) =>
-                                      handleServiceChange(e, index)
-                                    }
-                                  />
-                                  {sub && !validateName(passengerData[index].FirstName) && (
-                                    <span className="error10">Enter your Name</span>
-                                  )}
-                                  <label for="floatingInput">First Name</label>
-                                </div>
+                                {/* <div class="form-floating"> */}
+                                <label for="floatingInput">First Name</label>
+                                <input
+                                  name="FirstName"
+                                  // placeholder="Enter your name"
+                                  className="form-control"
+                                  value={passengerData.FirstName}
+                                  onChange={(e) =>
+                                    handleServiceChange(e, index)
+                                  }
+                                />
+                                {sub && !validateName(passengerData[index].FirstName) && (
+                                  <span className="error10">Enter your Name</span>
+                                )}
+                                {/* <label for="floatingInput">First Name</label> */}
+                                {/* </div> */}
                               </div>
                               <div className="col-lg-3 col-md-3">
-                                <div class="form-floating">
-                                  <input
-                                    name="LastName"
-                                    className="form-control"
-                                    placeholder="Enter your last name"
-                                    value={passengerData.LastName}
-                                    onChange={(e) =>
-                                      handleServiceChange(e, index)
-                                    }
-                                  />
-                                  {sub && !validateName(passengerData[index].LastName) && (
-                                    <span className="error10">Enter Last Name</span>
-                                  )}
-                                  <label for="floatingInput">Last Name</label>
-                                </div>
+                                {/* <div class="form-floating"> */}
+                                <label for="floatingInput">Last Name</label>
+                                <input
+                                  name="LastName"
+                                  className="form-control"
+                                  // placeholder="Enter your last name"
+                                  value={passengerData.LastName}
+                                  onChange={(e) =>
+                                    handleServiceChange(e, index)
+                                  }
+                                />
+                                {sub && !validateName(passengerData[index].LastName) && (
+                                  <span className="error10">Enter Last Name</span>
+                                )}
+                                {/* <label for="floatingInput">Last Name</label> */}
+                                {/* </div> */}
                               </div>
                               <div className="col-lg-3 col-md-3">
-                                <div class="form-floating">
-                                  <input
-                                    name="Email"
-                                    type="email"
-                                    className="form-control"
-                                    placeholder="Enter your email"
-                                    value={passengerData[index].Email}
-                                    onChange={(e) =>
-                                      handleServiceChange(e, index)
-                                    }
-                                  />
+                                {/* <div class="form-floating"> */}
+                                <label for="floatingInput">Enter Email</label>
+                                <input
+                                  name="Email"
+                                  type="email"
+                                  className="form-control"
+                                  // placeholder="Enter your email"
+                                  value={passengerData[index].Email}
+                                  onChange={(e) =>
+                                    handleServiceChange(e, index)
+                                  }
+                                />
 
-                                  {sub && !validateEmail(passengerData[index].Email) &&
-                                    <span className="error10">Enter a valid email</span>}
-                                  <label for="floatingInput">Enter Email</label>
-                                </div>
+                                {sub && !validateEmail(passengerData[index].Email) &&
+                                  <span className="error10">Enter a valid email</span>}
+                                {/* <label for="floatingInput">Enter Email</label> */}
+                                {/* </div> */}
                               </div>
 
                               <div className="col-lg-3 col-md-3">
-                                <div class="form-floating">
-                                  <input
-                                    name="Phoneno"
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter your Phoneno"
-                                    value={passengerData.Phoneno}
-                                    onChange={(e) =>
-                                      handleServiceChange(e, index)
-                                    }
-                                  />
-                                  {sub && !validatePhoneNumber(passengerData[index].Phoneno) &&
-                                    <span className="error10">Enter a valid phone number</span>}
+                                {/* <div class="form-floating"> */}
+                                <label for="floatingInput">Phone Number</label>
+                                <input
+                                  name="Phoneno"
+                                  type="text"
+                                  className="form-control"
+                                  // placeholder="Enter your Phoneno"
+                                  value={passengerData.Phoneno}
+                                  onChange={(e) =>
+                                    handleServiceChange(e, index)
+                                  }
+                                />
+                                {sub && !validatePhoneNumber(passengerData[index].Phoneno) &&
+                                  <span className="error10">Enter a valid phone number</span>}
 
-                                  <label for="floatingInput">
+                                {/* <label for="floatingInput">
                                     Phone Number
-                                  </label>
-                                </div>
+                                  </label> */}
+                                {/* </div> */}
                               </div>
                               <div className="col-lg-12 col-md-12">
-                                <div class="form-floating">
-                                  <input
-                                    name="Address"
-                                    type="text"
-                                    className="form-control"
-                                    placeholder="Enter your address"
-                                    value={passengerData.Address}
-                                    onChange={(e) =>
-                                      handleServiceChange(e, index)
-                                    }
-                                  />
-                                  {sub && passengerData[index].Address === "" && (
-                                    <span className="error10">Enter Address</span>
-                                  )}
-                                  <label for="floatingInput">
+                                {/* <div class="form-floating"> */}
+                                <label for="floatingInput">Enter Address</label>
+                                <input
+                                  name="Address"
+                                  type="text"
+                                  className="form-control"
+                                  // placeholder="Enter your address"
+                                  value={passengerData.Address}
+                                  onChange={(e) =>
+                                    handleServiceChange(e, index)
+                                  }
+                                />
+                                {sub && passengerData[index].Address === "" && (
+                                  <span className="error10">Enter Address</span>
+                                )}
+                                {/* <label for="floatingInput">
                                     Enter Address
-                                  </label>
-                                </div>
+                                  </label> */}
+                                {/* </div> */}
                               </div>
                             </div>
                           </div>

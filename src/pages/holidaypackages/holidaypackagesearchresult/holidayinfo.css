@@ -98,7 +98,10 @@
   font-weight: 600;
   line-height: normal;
 }
-
+.floatingSpan{
+  color: #dc3545 !important;
+  font-size: 10px !important;
+}
 .TripHighlight p {
   color: #071c2c;
   font-family: "Montserrat";
@@ -128,6 +131,10 @@
   align-items: center;
   margin-bottom: 16px;
   text-align: left;
+}
+.disableBTN{
+  background-color: #d90429d1 !important;
+  border: 2px solid #d90429d1 !important;
 }
 
 .icon-boxHighlight .singleIcon:nth-child(2n) {

@@ -38,13 +38,19 @@ const Home = () => {
   return (
     <div className="home_banner">
       <Helmet>
-        <title>Hello World</title>
-        <link rel="canonical" href="https://www.tacobell.com/" />
-        <meta name="description" content="the skytrails" />
+        <title>The Skytrails</title>
+        <link rel="canonical" href="/" />
+        <meta name="description" content="one way flight" />
+        <meta
+          name="keywords"
+          content="
+online flight booking,compare flight prices,best airfare deals,last minute flights,multi-city flight booking,business class flights,non-stop flights budget airlines,family-friendly airlines,flight upgrades,round trip flights under 4000,direct flights with vistara,airports with cheapest flights to Vistara,flights with in-flight entertainment,flexible booking options"
+        />
       </Helmet>
 
       <div className="mainimg">
-        <img className="bannerBack" src={onewayBG} alt="background" />
+        <img className="bannerBack" src="https://img.freepik.com/premium-photo/beautiful-cinematic-shot-ram-mandir-ayodhya_849906-13668.jpg?w=996" alt="background" />
+        {/* <img className="bannerBack" src={onewayBG} alt="background" /> */}
         {/* <InsideNavbar /> */}
         <BigNavbar />
         <Oneway header="" />
@@ -53,6 +59,7 @@ const Home = () => {
       <motion.div variants={variants} initial="initial" whileInView="animate">
         <HolidayCategory variants={variants} />
       </motion.div>
+
 
       <motion.div
         variants={variants}
@@ -78,6 +85,7 @@ const Home = () => {
       >
         <Advertise variants={variants} />
       </motion.div>
+
 
       <motion.div variants={variants} initial="initial" whileInView="animate">
         <HolidayDomestic variants={variants} />

@@ -34,7 +34,7 @@ const HolidaySimilar = () => {
         };
         dispatch(searchOnePackageAction(payload));
         navigate("/holidayInfo");
-        window.scrollTo(0,0)
+        window.scrollTo(0, 0)
     };
 
 
@@ -59,7 +59,7 @@ const HolidaySimilar = () => {
                                             <div class="trend-item1">
                                                 <div class="trend-image position-relative rounded">
                                                     <img src={item?.pakage_img} alt="package-img" />
-                                                    <div class="trend-content d-flex align-items-center justify-content-between position-absolute bottom-0 p-4 w-100">
+                                                    <div class="trend-content d-flex align-items-center justify-content-between position-absolute bottom-0  w-100">
                                                         <div class="trend-content-title">
                                                             {item?.destination?.slice(0, 3).map((destinationItem, index, array) => (
                                                                 <React.Fragment key={index}>

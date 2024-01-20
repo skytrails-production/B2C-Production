@@ -7,14 +7,17 @@ import two from "../../../images/destination/2.jpg"
 import three from "../../../images/destination/3.jpg"
 import four from "../../../images/destination/4.jpg"
 import five from "../../../images/destination/5.jpg"
-import six from "../../../images/destination/6.jpg"
+// import six from "../../../images/destination/6.jpg"
+import seven from "../../../images/destination/7.jpg"
 import { apiURL } from '../../../Constants/constant'
 import iconLocation from "../../../images/packCategory/icon-location.svg"
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import HolidayLoader from "../holidayLoader/HolidayLoader"
 const HolidayCategory = () => {
 
     const navigate = useNavigate();
     const [selectedCategory, setSelectedCategory] = useState(null);
+    const [loading, setLoading] = useState(false);
     const quotes = {
         India: "A Country where legends Born",
 
@@ -25,18 +28,19 @@ const HolidayCategory = () => {
 
         try {
             // const response = await fetch(`${apiURL.baseURL}/skyTrails/beachesPackages?${queryParameter}`);
+            // setLoading(true);
             const response = await fetch(`${apiURL.baseURL}/skyTrails/domesticAndInternationalPackages?country=${queryParameter}`);
             const data = await response.json();
 
             if (data.success === 1) {
                 const quote = quotes[category];
                 setSelectedCategory({ category, quote });
+                // setLoading(false)
                 navigate(`/holidaycategorydetails/${category}`, { state: { categoryData: data.data, quote } });
-            } else {
-                console.error('Failed to fetch category data');
             }
         } catch (error) {
             console.error('Error fetching category data', error);
+            // setLoading(false)
         }
     };
 
@@ -45,20 +49,27 @@ const HolidayCategory = () => {
 
         try {
             // const response = await fetch(`${apiURL.baseURL}/skyTrails/beachesPackages?${queryParameter}`);
+            setLoading(true);
             const response = await fetch(`${apiURL.baseURL}/skyTrails/countryPackage?country=${queryParameter}`);
             const data = await response.json();
 
             if (data.success === 1) {
                 const quote = quotes[category];
                 setSelectedCategory({ category, quote });
+                setLoading(false)
                 navigate(`/holidaycategorydetails/${category}`, { state: { categoryData: data.data, quote } });
-            } else {
-                console.error('Failed to fetch category data');
             }
         } catch (error) {
             console.error('Error fetching category data', error);
+            setLoading(false)
         }
     };
+
+    if (loading) {
+        return (
+            <HolidayLoader />
+        )
+    }
 
     return (
 
@@ -108,9 +119,9 @@ const HolidayCategory = () => {
                     </div>
                 </div>
                 <div className="col-lg-4 col-md-4">
-                    <div className="holidayCatBoxDomestic" onClick={() => handlecountryClick('Spain')}>
-                        <h3>Spain <span><ArrowRightAltIcon /></span></h3>
-                        <img src={six} alt="" />
+                    <div className="holidayCatBoxDomestic" onClick={() => handlecountryClick('Canada')}>
+                        <h3>Canada <span><ArrowRightAltIcon /></span></h3>
+                        <img src={seven} alt="" />
                         <div class="color-overlayCountry"></div>
                     </div>
                 </div>

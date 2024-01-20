@@ -58,6 +58,7 @@
     display: flex;
     flex-direction: row;
     gap: 10px;
+    justify-content: space-between;
     background-color: #FFF;
     padding: 15px;
     border-radius: 8px 8px 0px 0px;
@@ -304,8 +305,9 @@
     line-height: normal;
     transition: all 0.3s;
 }
-.notValidBtn{
-    background: #e73c33b3 !important; 
+
+.notValidBtn {
+    background: #e73c33b3 !important;
 }
 
 .reviewDescriptionButton button:hover {

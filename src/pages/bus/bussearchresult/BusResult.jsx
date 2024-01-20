@@ -17,6 +17,7 @@ import { motion } from "framer-motion";
 import busGif from "../../../images/busGif.gif";
 import busFilter from "../../../images/busFilter.png";
 import dayjs from "dayjs";
+import { Helmet } from "react-helmet-async";
 
 const variants = {
   initial: {
@@ -72,6 +73,7 @@ function BusResult() {
   const [loadingLayout, setLoadingLayout] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [sortOption, setSortOption] = useState("lowToHigh");
+
   const busFullData =
     reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult;
   // const busDetailsData =
@@ -384,6 +386,15 @@ function BusResult() {
 
   return (
     <>
+      <Helmet>
+        <title>Bus Result</title>
+        <link rel="canonical" href="/busresult" />
+        <meta name="description" content="bus" />
+        <meta
+          name="keywords"
+          content="online bus booking,cheap bus ticket,compare bus fare,best bus deal,last minute bus booking,luxury bus travel,comfortable bus journeys,overnight bus trips,scenic bus routes,student bus passes,sleeper bus with AC,bus with Wi-Fi and charging points,pet-friendly bus travel,luggage allowance on buses"
+        />
+      </Helmet>
       <div className="mainimgBusSearch">
         {/* <Navbar /> */}
         {/* <BigNavbar /> */}

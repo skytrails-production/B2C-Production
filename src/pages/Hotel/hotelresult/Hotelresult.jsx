@@ -110,11 +110,11 @@ export default function Popularfilter() {
 
     }
     else if (reducerState?.hotelSearchResult?.isLoading === false && reducerState?.hotelSearchResult?.ticketData?.length === 0
-    ){
+    ) {
       navigate("/hotel")
     }
     // else if ()
-})
+  })
 
   const [selectedCategory, setSelectedCategory] = useState([]);
 
@@ -208,12 +208,12 @@ export default function Popularfilter() {
   // console.log(sortedAndFilteredResults, "sorted and filtered")
 
   // console.log("shaan", sortedAndFilteredResults)
-  
+
   return (
-    <section className="my-4 mx-5">
-      <div className="contaier-xxl">
+    <section className="">
+      <div className="container">
         <div className="row">
-          <div className="col-lg-3">
+          <div className="col-lg-3 pt-4">
 
 
             <div className="flightFilterBox">
@@ -368,7 +368,7 @@ export default function Popularfilter() {
             </div>
 
           </div>
-          <div className="col-lg-9 col-md-12">
+          <div className="col-lg-9 col-md-12 pt-4">
 
             {sortedAndFilteredResults && sortedAndFilteredResults.length > 0 ? (
               sortedAndFilteredResults
