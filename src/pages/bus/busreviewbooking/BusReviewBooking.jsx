@@ -570,7 +570,7 @@ const BusReviewBooking = () => {
                         <span>
                           {passenger.FirstName} {passenger.LastName}
                         </span>
-                        <span>{passenger.Age} Years Old</span>
+                        {/* <span>{passenger.Age} Years Old</span> */}
                         <span>{passenger.Email}</span>
                       </div>
                     </div>
