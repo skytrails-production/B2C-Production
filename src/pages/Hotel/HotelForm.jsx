@@ -46,7 +46,7 @@ const HotelForm = () => {
     // Add one day
     const futureDate = new Date(currentDate);
     futureDate.setDate(currentDate.getDate() + 1);
-    const populterSearch = [{ Destination: "Delhi", cityid: "105477", country: "Canada", countrycode: "CA", __v: 0, _id: "63fc59c4ec25cae0ebd02b87" },
+    const populterSearch = [{ Destination: "New Delhi", cityid: "130443", country: "India", countrycode: "IN", __v: 0, _id: "63fc59c1ec25cae0ebcfd9b1" },
     {
         Destination: "Mumbai", StateProvinceCode: "MH", cityid: "144306", country: "India", countrycode: "IN", stateprovince: "Maharashtra",
         __v: 0, _id: "63fc59bfec25cae0ebcfb2ed"
