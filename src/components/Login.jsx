@@ -72,6 +72,11 @@ export default function LoginForm() {
   const [sub, setSub] = useState(false);
   // const [apiCallCount,setOptCallCount]=useState(0);
 
+
+  const [numError, setNumError] = useState(true)
+
+
+
   const navigate = useNavigate();
 
   const [isMenu, setIsMenu] = useState(false);
@@ -118,7 +123,21 @@ export default function LoginForm() {
 
   // }
 
+  const isValidMobileNumber = (mobileNumber) => {
+    return /^[6-9]\d{8}$/.test(mobileNumber);
+  };
+
+  const requestSignInSignInCheck = () => {
+    if (!isValidMobileNumber(mobileNumber)) {
+      setNumError(true);
+
+    } else {
+      setNumError(false);
+    }
+  };
+
   const otpToken = reducerState?.logIn?.loginData?.data?.result?.token;
+
 
   const requestSignIn = async (event) => {
     event.preventDefault();
@@ -164,6 +183,10 @@ export default function LoginForm() {
     } catch (error) {
       console.log('error', error);
     }
+
+
+
+
   };
 
 
@@ -406,12 +429,12 @@ export default function LoginForm() {
           )}
         </div>
       ) : (
-        <LoginButton onClick={handleOpen}>
+        <div className="loginButt" onClick={handleOpen}>
           <Typography variant="subtitle3" color="#fff">
             <AccountCircleIcon sx={{ color: "white", marginRight: "8px" }} />
             Login / Signup
           </Typography>
-        </LoginButton>
+        </div>
       )}
 
       {/* initial modal for phone number */}
@@ -450,17 +473,24 @@ export default function LoginForm() {
                                 Enter Mobile Number
                                 <span class="text-danger">*</span>
                               </label>
+
+                              {/* {
+                                numError && <p>Please Enter Valid Mobile Number</p>
+                              } */}
                               <div class="input-group">
                                 <div class="input-group-text">
-                                  <i>
+                                  {/* <i>
                                     <PhoneIcon />
-                                  </i>
+                                  </i> */}
+                                  +91
                                 </div>
                                 <input
                                   type="tel"
                                   value={mobileNumber}
-                                  onChange={(e) =>
+                                  onChange={(e) => {
                                     setMobileNumber(e.target.value)
+                                    requestSignInSignInCheck()
+                                  }
                                   }
                                   name="phone"
                                   class="form-control"
@@ -471,11 +501,30 @@ export default function LoginForm() {
                             <div class="col-12">
 
 
-                              {disableButton ? <button
+                              {/* {disableButton ? <button
                                 class="btn btn-primaryLogin px-4 float-end mt-2"><Typewriter /></button>
-                                : <button type="submit"
-                                  onClick={requestSignIn} class="btn btn-primaryLogin px-4 float-end mt-2">Send OTP</button>
-                              }
+                                : numError ? <button type="submit"
+                                  onClick={requestSignIn} class="btn btn-primaryLogin px-4 float-end mt-2" disabled={!mobileNumber}>Send OTP</button>
+                                  : <button
+                                    class="btn btn-primaryLogin px-4 float-end mt-2" disabled>Send OTP</button>
+                              } */}
+
+                              {disableButton ? (
+                                <button
+                                  className="btn btn-primaryLogin px-4 float-end mt-2"
+                                >
+                                  <Typewriter />
+                                </button>
+                              ) : (
+                                <button
+                                  type="submit"
+                                  onClick={requestSignIn}
+                                  className="btn btn-primaryLogin px-4 float-end mt-2"
+                                  disabled={numError}
+                                >
+                                  Send OTP
+                                </button>
+                              )}
 
                             </div>
                           </div>

@@ -130,7 +130,7 @@ const HolidayCategory = () => {
                         <h3>All Countries</h3>
                     </div>
                 </div> */}
-                <div className="col-lg-4">
+                <div className="col-lg-4 col-md-4">
                     <div className='holidayCountryUnique' onClick={() => handleCategoryClick('international')}>
                         <h4> See All  <ArrowRightAltIcon fontSize='large' /> </h4>
                     </div>

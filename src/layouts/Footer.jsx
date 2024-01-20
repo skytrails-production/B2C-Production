@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import { BsDribbble, BsFacebook, BsGithub, BsInstagram, BsEnvelope, BsTwitter } from 'react-icons/bs';
+import { BsFacebook, BsInstagram, BsEnvelope, BsTwitter } from 'react-icons/bs';
 import { FaLinkedin } from "react-icons/fa";
-import whiteLogo from "../images/whiteLogo.png"
+// import whiteLogo from "../images/whiteLogo.png"
+import mainLogo from "../images/newlogo.png"
 import "./footer.css"
 const Footer = () => {
     return (
@@ -10,7 +11,7 @@ const Footer = () => {
             <div className="container ">
                 <div className="row w-100">
                     <div className="col-xs-12 col-sm-7 col-md-7 col-lg-7 col-xl-7">
-                        <img src={whiteLogo} width={300} alt="Flowbite Logo" className="img-fluid" />
+                        <img src={mainLogo} width={300} alt="Flowbite Logo" className="img-fluid" />
 
                     </div>
                     <div className="col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5">

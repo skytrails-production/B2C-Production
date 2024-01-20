@@ -800,7 +800,7 @@ function Holidayinfo() {
                           className="packSideInput"
                         />
                         {/* <label for="floatingInput">Contact Number</label> */}
-                        {sub && !validatePhoneNumber(formData.contact_number) && <span className="floatingSpan">Please Fill Your Name</span>}
+                        {sub && !validatePhoneNumber(formData.contact_number) && <span className="floatingSpan">Enter a valid 10 digit number</span>}
                       </div>
                     </div>
 

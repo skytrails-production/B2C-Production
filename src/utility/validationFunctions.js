@@ -13,19 +13,36 @@ export function validateEmail(email) {
     return emailRegex.test(email);
 }
 
+// export function validateName(name) {
+//     // Check if the name is not empty
+//     if (!name) {
+//         return false;
+//     }
+
+//     // Check if the name contains only letters
+//     if (!/^[A-Za-z]+$/.test(name)) {
+//         return false;
+//     }
+
+//     // If all checks pass, the name is considered valid
+//     return true;
+// }
 export function validateName(name) {
-    // Check if the name is not empty
-    if (!name) {
-        return false;
-    }
+  // Trim leading and trailing whitespaces
+  const trimmedName = name.trim();
 
-    // Check if the name contains only letters
-    if (!/^[A-Za-z]+$/.test(name)) {
-        return false;
-    }
+  // Check if the name is not empty after trimming
+  if (!trimmedName) {
+    return false;
+  }
 
-    // If all checks pass, the name is considered valid
-    return true;
+  // Check if the name contains only letters and spaces
+  if (!/^[A-Za-z\s]+$/.test(trimmedName)) {
+    return false;
+  }
+
+  // If all checks pass, the name is considered valid
+  return true;
 }
 export function validatePAN(panNumber) {
     const regex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;

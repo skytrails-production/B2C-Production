@@ -49,7 +49,7 @@ const BigNavbar = () => {
 
     return (
         <motion.div className={` ${open ? 'bignavbar' : 'whiteBG'}`} variants={variants} initial="animate" whileInView="initial">
-            <motion.div className="container bg" style={{ display: 'flex' }} variants={variants} animate="initial">
+            <motion.div className="container p-0 bg" style={{ display: 'flex' }} variants={variants} animate="initial">
                 <Link to={"/"}>
                     {
                         open ? (

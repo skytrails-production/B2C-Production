@@ -1,26 +1,32 @@
 .footer {
     padding: 100px 40px 20px 40px;
     background-color: #dc817e;
-    background-image: linear-gradient(to bottom, #dc817e, #d90429);
+    /* background-image: linear-gradient(to bottom, #dc817e, #d90429); */
+    background-color: #ddd;
     border-radius: 100px 100px 0px 0px;
     /* border-top-right-radius: 50px; */
     color: white !important;
     position: relative !important;
     bottom: 0 !important;
+    margin-top: 40px;
 }
 
 .footer a:hover {
-    color: #fff !important;
+    color: #21325d !important;
 }
 
 .footer a {
-    color: white;
+    color: #21325d;
+    /* color: white; */
     text-decoration: none;
+    font-weight: 600;
 
 }
 
 .footer h5 {
     font-size: 22px !important;
+    color: #21325d;
+    font-weight: 800;
 }
 
 
@@ -34,6 +40,18 @@
 .addressFooter span {
     width: 50%;
     text-align: center;
+    color: #21325d;
+    font-weight: 600;
+}
+
+.addressFooter p {
+    color: #21325d;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.footer svg {
+    color: #21325d;
 }
 
 .footer li {
