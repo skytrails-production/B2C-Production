@@ -563,7 +563,7 @@ const BusReviewBooking = () => {
                     <div key={index} className="passDetails">
                       <div>
                         <p>Name:</p>
-                        <p>Age:</p>
+                        {/* <p>Age:</p> */}
                         <p>Email:</p>
                       </div>
                       <div>
