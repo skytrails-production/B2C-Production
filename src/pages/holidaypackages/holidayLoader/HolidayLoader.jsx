@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./holidayloader.css";
 
 // import newFlight from "../../../images/loading/newFlight.gif";
+import holidayLoad from "../../../images/load/islandLoad.gif"
 
 
 
@@ -73,7 +74,7 @@ const FlightLoader = () => {
 
 
                 <div className="flightimgcontainer">
-                    <img src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/Comp_02.gif" alt="packLoader" className="flightloadingimg" />
+                    <img src={holidayLoad} alt="packLoader" className="flightloadingimg" />
                 </div>
             </div>
 

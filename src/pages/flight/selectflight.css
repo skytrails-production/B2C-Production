@@ -191,7 +191,7 @@
 .singleFlightBoxSeven button {
     padding: 8px 10px;
     border-radius: 23px;
-    background: linear-gradient(180deg, #d90429, #d904279c);
+    /* background: linear-gradient(180deg, #d90429, #d904279c); */
     color: #FFF;
     font-family: 'Montserrat';
     font-size: 13px;
@@ -199,11 +199,15 @@
     font-weight: 600;
     line-height: normal;
     border: none;
-    transition: all 0.3s;
+    transition: 0.5s;
+    background-size: 200% auto;
+    background-image: linear-gradient(to right, #d90429 0%, #EA384D 51%, #d90429 100%);
 }
 
 .singleFlightBoxSeven button:hover {
-    background: linear-gradient(90deg, #d904279c, #d90429);
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
 }
 
 

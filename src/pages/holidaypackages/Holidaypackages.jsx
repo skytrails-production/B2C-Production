@@ -43,8 +43,8 @@ const Hotelpackages = () => {
         />
       </Helmet>
       <div className="mainimg">
-        {/* <img className="bannerBack" src={onewayBG} alt="" /> */}
-        <img className="bannerBack" src="https://img.freepik.com/premium-photo/beautiful-cinematic-shot-ram-mandir-ayodhya_849906-13668.jpg?w=996" alt="background" />
+        {/* <img className="bannerBack" src={onewayBG} alt="" /> */}  <img className="bannerBack" src="https://img.freepik.com/premium-photo/orange-green-watercolor-background_468073-45.jpg?w=1480" alt="background" />
+
         {/* <InsideNavbar /> */}
         <BigNavbar />
         <Hotelpackageform />

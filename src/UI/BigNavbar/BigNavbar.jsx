@@ -64,7 +64,6 @@ const BigNavbar = () => {
                 </Link>
                 <div>
                     <Links open={open} />
-                    {/* <Links /> */}
                 </div>
                 <div className="seconddiv">
                     <Countrypicker />

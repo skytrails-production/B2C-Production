@@ -98,10 +98,12 @@
   font-weight: 600;
   line-height: normal;
 }
-.floatingSpan{
+
+.floatingSpan {
   color: #dc3545 !important;
   font-size: 10px !important;
 }
+
 .TripHighlight p {
   color: #071c2c;
   font-family: "Montserrat";
@@ -132,7 +134,8 @@
   margin-bottom: 16px;
   text-align: left;
 }
-.disableBTN{
+
+.disableBTN {
   background-color: #d90429d1 !important;
   border: 2px solid #d90429d1 !important;
 }
@@ -579,10 +582,25 @@ p: 4, */
 }
 
 .packageSideForm {
-  background-color: white;
+  background-color: transparent;
+  border-radius: 8px;
+  /* padding: 10px 10px 20px 10px; */
+  /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
+
+  top: 96px;
+  overflow: hidden;
+  overflow-y: scroll;
+  position: sticky;
+  height: calc(100vh - 100px);
+
+}
+
+
+.packageSideForm .container {
+  background-color: #fff;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border-radius: 8px;
   padding: 10px 10px 20px 10px;
-  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .sidePackFormPara {
@@ -668,4 +686,110 @@ p: 4, */
   position: absolute;
   top: 357px;
   left: 0;
+}
+
+
+
+@media(max-width:600px) {
+  .MobileDesign {
+    padding: 0px 20px;
+  }
+
+  .PackageImg {
+    max-height: 400px;
+  }
+
+  .packageLocation+div p {
+    margin-bottom: 0 !important;
+    color: #071c2c;
+    text-align: left;
+    font-family: Montserrat;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    display: flex;
+  }
+
+  .packageLocation+div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    /* align-items: flex-start; */
+    margin-left: 10px;
+    gap: 10px;
+  }
+
+  .numPri {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 20px;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .TripHighlight p {
+    color: #071c2c;
+    font-family: "Montserrat";
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .overviewBox span {
+    color: #071c2c;
+    text-align: center;
+    font-family: "Montserrat";
+    font-size: 17px;
+    margin-bottom: 14px;
+    display: inline-block;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+
+  .packageSideForm {
+    background-color: transparent;
+    border-radius: 8px;
+    padding: 10px 10px 20px 10px;
+    /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
+    top: 96px;
+    overflow: hidden;
+    overflow-y: scroll;
+    position: sticky;
+    height: 100%;
+  }
+
+
+  .offerText p {
+    text-align: center !important;
+    width: 73% !important;
+    margin: auto !important;
+    padding-bottom: 10px !important;
+    font-family: Montserrat;
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+
+  .trending {
+    padding: 0px 20px;
+  }
+
+  .footerIconBox {
+    justify-content: center !important;
+  }
+
+  .mobileViewFooterLogo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mobileViewFooterLogo img {
+    max-width: 200px;
+  }
 }

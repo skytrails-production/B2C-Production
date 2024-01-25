@@ -1,0 +1,7 @@
+.flight_e_tickit_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: red;
+}

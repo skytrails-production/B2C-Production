@@ -139,7 +139,12 @@
 .highSelect {
   height: 50px;
   width: 180px;
+  width: 100%;
   margin-bottom: 20px;
+  border-radius: 8px;
+  background-color: white;
+  text-align: center;
+  border: none;
 }
 
 .hotelResultBoxSearch>div {

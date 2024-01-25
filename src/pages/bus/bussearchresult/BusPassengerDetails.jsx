@@ -16,7 +16,7 @@ import Divider from "@mui/material/Divider";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 // import LoginForm from "../../../components/Login";
 // import Countrypicker from "../../../layouts/Countrypicker";
-import {validateEmail,validatePhoneNumber,validateName} from "../../../utility/validationFunctions"
+import { validateEmail, validatePhoneNumber, validateName } from "../../../utility/validationFunctions"
 
 const variants = {
   initial: {
@@ -43,17 +43,17 @@ const BusPassengerDetail = () => {
     reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult;
   // console.log(busFullData, "bus full data");
   const passengerLists = [];
-  const [accordionExpanded, setAccordionExpanded] = useState(false);
+  // const [accordionExpanded, setAccordionExpanded] = useState(false);
   const [sub, setSub] = useState(false);
   const seatData = sessionStorage.getItem("seatData");
   const parsedSeatData = JSON.parse(seatData);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   // console.log(parsedSeatData, "parsed seat data");
   const passengerCount = parsedSeatData?.blockedSeatArray.length;
   const resultIndex = parsedSeatData?.resultIndex;
   const boardingPoint = parsedSeatData?.selectedOrigin;
   const droppingPoint = parsedSeatData?.selectedDropPoint;
-  const authenticUser = reducerState?.logIn?.loginData?.status;
+  // const authenticUser = reducerState?.logIn?.loginData?.status;
   const seatObject = parsedSeatData?.blockedSeatArray;
   const published = seatObject.reduce(function (
     accumulator,
@@ -165,8 +165,8 @@ const BusPassengerDetail = () => {
   // const cancellationPolicy = selectedBus?.CancellationPolicies;
   // console.log(selectedBus, "selectedBus")
   const [showBtn, setShowBtn] = useState(false);
-  const departureDate = dayjs(selectedBus?.DepartureTime);
-  const arrivalDate = dayjs(selectedBus?.ArrivalTime);
+  // const departureDate = dayjs(selectedBus?.DepartureTime);
+  // const arrivalDate = dayjs(selectedBus?.ArrivalTime);
 
   // Format the dates
   // const departureFormattedDate = departureDate.format("DD MMM, YY");
@@ -176,33 +176,33 @@ const BusPassengerDetail = () => {
 
 
 
-  const dateString = selectedBus?.DepartureTime;
-  const date = new Date(dateString);
-  const options = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
-  const formattedDate = date.toLocaleString("en-US", options);
+  // const dateString = selectedBus?.DepartureTime;
+  // const date = new Date(dateString);
+  // const options = {
+  //   year: "numeric",
+  //   month: "short",
+  //   day: "numeric",
+  //   hour: "numeric",
+  //   minute: "numeric",
+  //   hour12: true,
+  // };
+  // const formattedDate = date.toLocaleString("en-US", options);
 
-  const [month, day, year, time, ampm] = formattedDate.split(" ");
+  // const [month, day, year, time, ampm] = formattedDate.split(" ");
   // const desiredFormat = `${day}${month}-${year} ${time} ${ampm}`;
 
-  const dateString1 = selectedBus?.ArrivalTime;
-  const date1 = new Date(dateString1);
-  const options1 = {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: true,
-  };
-  const formattedDate1 = date1.toLocaleString("en-US", options1);
-  const [month1, day1, year1, time1, ampm1] = formattedDate1.split(" ");
+  // const dateString1 = selectedBus?.ArrivalTime;
+  // const date1 = new Date(dateString1);
+  // const options1 = {
+  //   year: "numeric",
+  //   month: "short",
+  //   day: "numeric",
+  //   hour: "numeric",
+  //   minute: "numeric",
+  //   hour12: true,
+  // };
+  // const formattedDate1 = date1.toLocaleString("en-US", options1);
+  // const [month1, day1, year1, time1, ampm1] = formattedDate1.split(" ");
   // const desiredFormat1 = `${day1}${month1}-${year1} ${time1} ${ampm1}`;
 
   // here i am calculation the duration between departure and arrival time

@@ -5,6 +5,7 @@ import BookWrapper from "./pages/flight/Bookwrapper";
 import Searchresult from "./pages/flight/Searchresult";
 import "./App.css";
 import LoginForm from "./components/Login";
+import DummyTicketBookingForm from "./components/DummyTicketBookingForm"
 import SignUp from "./components/Signup";
 import Hotel from "./pages/Hotel/HotelHome";
 import HolidayPackageSearchResult from "./pages/holidaypackages/holidaypackagesearchresult/HolidayPackageSearchResult";
@@ -53,6 +54,7 @@ import ContactUs from "./layouts/ContactUs";
 import BookingHistory from "./components/bookingHistory/BookingHistory"
 import HolidayCategoryDetails from "./pages/holidaypackages/holidayCategory/HolidayCategoryDetails";
 import { debounce } from 'lodash';
+import FlightETicket from "../src/components/FlightETicket"
 
 
 
@@ -101,18 +103,17 @@ function App() {
 
 
 
-  if (!windowWidth) {
-    return (
+  // if (!windowWidth) {
+  //   return (
 
-      <Download />
+  //     <Download />
 
-    )
-  }
+  //   )
+  // }
 
   return (
     <div className="background_gradient">
       {/* /Searchresult */}
-
 
       <Routes>
         <Route index element={<Home />}></Route>
@@ -155,13 +156,18 @@ function App() {
           path="/hotel/hotelsearch/HotelBooknow/Reviewbooking/GuestDetail/ticket"
           element={<HotelTicketGeneration />}
         />
+        <Route exact path="/FlightEticket/:id" element={<FlightETicket />} />
+
 
         {/* Holiday packages routes */}
         <Route path="holidaypackages" element={<Holidaypackages />}></Route>
 
         <Route path="/HolidayInfo" element={<Holidayinfo />} />
 
-        <Route path="/holidaycategorydetails/:category" element={<HolidayCategoryDetails />}></Route>
+        <Route
+          path="/holidaycategorydetails/:category"
+          element={<HolidayCategoryDetails />}
+        ></Route>
 
         {/* <Route path="/HolidaypackageInfo" element={<HolidaypackageInfo />} /> */}
 
@@ -202,6 +208,7 @@ function App() {
         <Route path="contactus" element={<ContactUs />}></Route>
         <Route path="/bookedTicket" element={<BookedTicket />}></Route>
         <Route path="/bookinghistory" element={<BookingHistory />}></Route>
+        <Route path="/oneWayDummyPnr" element={<DummyTicketBookingForm />}></Route>
       </Routes>
       <Footer />
     </div>

@@ -695,7 +695,7 @@ const HotelForm = () => {
                         width: "100%",
                         position: "absolute",
                         left: "50%",
-                        top: "75%",
+                        top: "50%",
                         transform: "translate(-50%, -50%)",
                         zIndex: "2",
                     }}

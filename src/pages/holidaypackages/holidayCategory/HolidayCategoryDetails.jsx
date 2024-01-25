@@ -129,16 +129,16 @@ const HolidayCategoryDetails = () => {
                     return noOfDays >= 12 && noOfDays <= 20;
                 case "20-30Days":
                     return noOfDays >= 20 && noOfDays <= 30;
-                case "5000":
-                    return publishedPrice <= 5000;
-                case "5001":
-                    return publishedPrice > 5000 && publishedPrice <= 10000;
-                case "10001":
-                    return publishedPrice > 10000 && publishedPrice <= 15000;
-                case "15001":
-                    return publishedPrice > 15000 && publishedPrice <= 20000;
-                case "20000":
-                    return publishedPrice > 20000;
+                case "25000":
+                    return publishedPrice <= 25000;
+                case "25001":
+                    return publishedPrice > 25001 && publishedPrice <= 50000;
+                case "50001":
+                    return publishedPrice > 50001 && publishedPrice <= 75000;
+                case "75001":
+                    return publishedPrice > 75001 && publishedPrice <= 100000;
+                case "100000":
+                    return publishedPrice > 100000;
                 default:
                     return false;
             }
@@ -187,8 +187,8 @@ const HolidayCategoryDetails = () => {
             </section> */}
 
             <section className="mx-5" style={{ position: "relative" }}>
-                <div className="contaier-xxl pt-3">
-                    <div className="row">
+                <div className="container pt-3">
+                    <div className="row p-0">
                         <div className="col-lg-3">
 
 
@@ -245,27 +245,27 @@ const HolidayCategoryDetails = () => {
 
                                         <div>
                                             <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="5000" name="test" />
-                                                <span className="checkmark"></span>₹0-5,000
+                                                <input type="checkbox" onChange={handleRadioChange} value="25000" name="test" />
+                                                <span className="checkmark"></span>₹ 0-25,000
                                             </label>
 
                                             <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="5001" name="test" />
-                                                <span className="checkmark"></span>₹5,000-10,000
+                                                <input type="checkbox" onChange={handleRadioChange} value="25001" name="test" />
+                                                <span className="checkmark"></span>₹25,000-50,000
                                             </label>
 
                                             <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="10001" name="test" />
-                                                <span className="checkmark"></span>₹10,000-15,000
+                                                <input type="checkbox" onChange={handleRadioChange} value="50001" name="test" />
+                                                <span className="checkmark"></span>₹50,000-75,000
                                             </label>
 
                                             <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="15001" name="test" />
-                                                <span className="checkmark"></span>₹15,000-20,000
+                                                <input type="checkbox" onChange={handleRadioChange} value="75001" name="test" />
+                                                <span className="checkmark"></span>₹75,000-1,00,000
                                             </label>
                                             <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="20000" name="test" />
-                                                <span className="checkmark"></span>₹20,000 and Above
+                                                <input type="checkbox" onChange={handleRadioChange} value="100000" name="test" />
+                                                <span className="checkmark"></span>₹1,00,000 and Above
                                             </label>
 
                                         </div>

@@ -110,7 +110,15 @@
   transition: 0.5s;
   background-size: 200% auto;
   color: white;
+  cursor: pointer;
 
+}
+
+
+.account-btn:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
 }
 
 .loginButt {
@@ -229,4 +237,10 @@
 .invalidOptLogin {
   border-color: #dc3545 !important;
   /* color: #d90429 !important; */
+}
+
+
+.dropdownLogin p {
+  font-size: 14px;
+  font-weight: 600;
 }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import img1 from "../../../utility/loadingimg1.jpg";
-import img2 from "../../../utility/loadingimg3.jpg";
-import newHotel from "../../../images/loading/newHotel.gif"
+// import img1 from "../../../utility/loadingimg1.jpg";
+// import img2 from "../../../utility/loadingimg3.jpg";
+// import newHotel from "../../../images/loading/newHotel.gif"
+import hotelLoad from "../../../images/load/hotelLoad.gif"
 import "./Hotelmainloading.css";
 
 
@@ -9,27 +10,27 @@ import "./Hotelmainloading.css";
 const quotes = [
   {
     text: "Skytrails hotels - comfort and affordability, hand in hand!",
-    img: img1,
+    // img: img1,
   },
   {
     text: "Your stay, your way - Skytrails hotels offer unbeatable rates!",
-    img: img2,
+    // img: img2,
   },
   {
     text: "Affordable luxury awaits - Skytrails' hotels redefine comfort and price!",
-    img: img2,
+    // img: img2,
   },
   {
     text: "Discover comfort without compromising on cost - Skytrails' hotel bookings.",
-    img: img2,
+    // img: img2,
   },
   {
     text: "From cozy to luxurious, Skytrails offers the best stays at the best prices!",
-    img: img2,
+    // img: img2,
   },
   {
     text: "Hold on!!We are fetching best result for you",
-    img: img2,
+    // img: img2,
   },
 ];
 
@@ -86,7 +87,7 @@ function Hotelmainloading() {
       </div> */}
         <div className="busimgcontainer">
           <img
-            src={newHotel}
+            src={hotelLoad}
             alt=""
             className="flightloadingimg"
           />

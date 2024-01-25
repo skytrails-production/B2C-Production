@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './BigNavbar.css';
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
+import { motion, useCycle } from "framer-motion";
 import LinksInner from './LinksInner';
 import newlogo from '../../images/newlogo.png';
 import Countrypicker from '../../layouts/Countrypicker';
 import { Link } from 'react-router-dom';
+import Sidebar from "../sidebar/Sidebar"
 
 const variants = {
     initial: {
@@ -39,7 +41,7 @@ const BigNavbar = () => {
             height = myComponentRef?.current?.offsetHeight;
             sessionStorage.setItem("insideNavbarHeight", height)
         }
-        console.warn('Component width:', height);
+        // console.warn('Component width:', height);
     }
     useEffect(() => {
         sessionStorage.setItem("insideNavbarHeight", height)
@@ -49,11 +51,11 @@ const BigNavbar = () => {
             window.removeEventListener('resize', handleResize);
         };
     }, [height]);
-    const [activeLink, setActiveLink] = useState(null);
+    // const [activeLink, setActiveLink] = useState(null);
 
-    const handleLinkClick = (link) => {
-        setActiveLink(link);
-    };
+    // const handleLinkClick = (link) => {
+    //     setActiveLink(link);
+    // };
 
     return (
         <motion.div ref={myComponentRef} className="bignavbarInner" style={{ background: "#fff" }} variants={variants} initial="animate" whileInView="initial">
@@ -68,6 +70,17 @@ const BigNavbar = () => {
                     <div className="seconddiv">
                         <Countrypicker />
                     </div>
+                </motion.div>
+
+                <motion.div className="bgInnerMobile" style={{ display: 'flex' }} variants={variants} animate="initial">
+                    <div>
+                        <Sidebar />
+                    </div>
+
+                    <Link to={"/"}>
+                        <img src={newlogo} width={190} alt="Logo" />
+                    </Link>
+
                 </motion.div>
             </div>
         </motion.div>

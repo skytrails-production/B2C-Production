@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 // import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
+// import TabContext from "@mui/lab/TabContext";
+// import TabList from "@mui/lab/TabList";
+// import TabPanel from "@mui/lab/TabPanel";
 import Button from "@mui/material/Button";
 // import loginGif from "../images/loginGif.gif"
 // import CloseIcon from '@mui/icons-material/Close';
@@ -15,9 +15,11 @@ import { ipAction, tokenAction } from "../Redux/IP/actionIp";
 import { oneWayAction, resetOneWay } from "../Redux/FlightSearch/oneWay";
 import { useNavigate } from "react-router-dom";
 import FlightTakeoffTwoToneIcon from "@mui/icons-material/FlightTakeoffTwoTone";
+import FlightLandIcon from "@mui/icons-material/FlightLand";
 import "react-date-range/dist/styles.css"; // Import the styles
 import "react-date-range/dist/theme/default.css"; // Import the theme
-import "./style/Oneway2.css";
+import "./style/Oneway.css";
+// import { RiExchangeLine } from "react-icons/ri";
 // import underConstruction from "../images/under Construction.png"
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -26,23 +28,22 @@ import DialogContent from "@mui/material/DialogContent";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "./card.css";
-import "./flight.css";
+// import "./card.css";
+// import "./flight.css";
 import axios from "axios";
 import TravelerCounter from "./TravelerCounter";
 import { CiSearch } from "react-icons/ci";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
 import { format } from "date-fns";
+import { Helmet } from "react-helmet-async";
 // import Login from "./Login"
 // import Modal from "@mui/material/Modal";
 // const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-const Oneway2 = (props) => {
+const Homeform = (props) => {
   // handle departure days selection
   const reducerState = useSelector((state) => state);
-  const navbarHeight = sessionStorage.getItem("insideNavbarHeight")
-
   // const [startDate, setStartDate] = useState(new Date());
   // const [currentdate, setCurrentDate] = useState(new Date());
 
@@ -50,43 +51,11 @@ const Oneway2 = (props) => {
   //   setStartDate(date);
   // };
 
-  const [disableBtn, setDisableBtn] = useState(false)
-  useEffect(() => {
-    if (reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode !== 0
-      && reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode !== undefined) {
-      setDisableBtn(true)
-    }
-    else {
-      setDisableBtn(false)
-    }
-  }, [reducerState?.oneWay?.oneWayData])
-
-  const value2 = JSON.parse(sessionStorage.getItem("onewayprop"));
-
-
-
-  const isPopularSearch = JSON.parse(sessionStorage.getItem("isPopularSearch"))
-  const isDummyTicketBooking = JSON.parse(
-    sessionStorage.getItem("bookDummyTicket")
-  );
-
-  const date = new Date();
-  const formattedDate2 = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
-
-  const passedDate = new Date(value2[0].startDate);
-  const formattedDate = `${(passedDate.getMonth() + 1).toString().padStart(2, '0')}/${passedDate.getDate().toString().padStart(2, '0')}/${passedDate.getFullYear()}`;
-
-
-  // console.log("value..................", value2,passedDate);
-
-
-  const [startDate, setStartDate] = useState(new Date(formattedDate));
-  // console.log("startDate",startDate)
+  const [startDate, setStartDate] = useState(new Date());
   const currentdate = new Date(); // Assuming you have defined currentdate
 
   const handleDateChange = (date) => {
     setStartDate(date);
-    setDisableBtn(false);
   };
 
   // const formatDate = (date) => {
@@ -96,8 +65,6 @@ const Oneway2 = (props) => {
     const formattedDate = format(date, "dd MMM'yy EEEE");
     return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
   };
-
-  // /////////top search/////////////
 
   const getDayOfWeek = (date) => {
     const daysOfWeek = [
@@ -119,13 +86,13 @@ const Oneway2 = (props) => {
   //const [isLoadingFrom, setIsLoadingFrom] = useState(false);
 
   const [selectedFrom, setSelectedFrom] = useState({
-    AirportCode: value2[0].selectedFrom.AirportCode,
-    CityCode: value2[0].selectedFrom.CityCode,
-    CountryCode: "IN",
-    code: value2[0].selectedFrom.code,
-    createdAt: value2[0].selectedFrom.createdAt,
-    id: value2[0].selectedFrom.id,
-    name: value2[0].selectedFrom.name,
+    AirportCode: "DEL",
+    CityCode: "DEL",
+    CountryCode: "IN ",
+    code: "Indira Gandhi Airport",
+    createdAt: "2023-01-30T14:58:34.428Z",
+    id: "DEL",
+    name: "Delhi",
     updatedAt: "2023-01-30T14:58:34.428Z",
     __v: 0,
     _id: "63d7db1a64266cbf450e07c1",
@@ -141,13 +108,13 @@ const Oneway2 = (props) => {
   const [isLoadingTo, setIsLoadingTo] = useState(false);
   const [toSearchResults, setToSearchResults] = useState([]);
   const [selectedTo, setSelectedTo] = useState({
-    AirportCode: value2[0].selectedTo.AirportCode,
-    CityCode: value2[0].selectedTo.CityCode,
+    AirportCode: "BOM",
+    CityCode: "BOM",
     CountryCode: "IN ",
-    code: value2[0].selectedTo.code,
-    createdAt: value2[0].selectedTo.createdAt,
-    id: value2[0].selectedTo.id,
-    name: value2[0].selectedTo.name,
+    code: "Mumbai",
+    createdAt: "2023-01-30T14:57:03.696Z",
+    id: "BOM",
+    name: "Mumbai",
     updatedAt: "2023-01-30T14:57:03.696Z",
     __v: 0,
     _id: "63d7dabf64266cbf450e0451",
@@ -157,11 +124,11 @@ const Oneway2 = (props) => {
   // Travel modal code ⬇️
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
   const [activeIdClass, setActiveIdClass] = useState(1);
-  const [activeIdChild, setActiveIdChild] = useState(value2[0].activeIdChild);
-  const [activeIdInfant, setActiveIdInfant] = useState(value2[0].activeIdInfant);
+  const [activeIdChild, setActiveIdChild] = useState(0);
+  const [activeIdInfant, setActiveIdInfant] = useState(0);
   const [activeIdAdult, setActiveIdAdult] = useState(1);
   const [activeFareType, setActiveFareType] = useState(1);
-  const [totalCount, setCountPassanger] = useState(value2[0].totalCount);
+  const [totalCount, setCountPassanger] = useState(0);
   const [showDropdown, setShowDropdown] = useState(false);
   // const authenticUser = reducerState?.logIn?.loginData?.status;
   const [departureDate, setDepartureDate] = useState("");
@@ -169,7 +136,6 @@ const Oneway2 = (props) => {
   // handle travellers modal
 
   const handleTravelerCountChange = (category, value) => {
-    setDisableBtn(false);
     if (category === "adult") {
       setActiveIdAdult((prevCount) => Math.max(0, prevCount + value));
     } else if (category === "child") {
@@ -194,7 +160,6 @@ const Oneway2 = (props) => {
     dispatch(resetAllFareData());
   }, []);
 
-
   const ClassItems = [
     { id: "1", label: "All" },
     { id: "2", label: "Economy" },
@@ -203,15 +168,15 @@ const Oneway2 = (props) => {
     { id: "5", label: "Business Economy" },
   ];
 
-  const FareType = [
-    { id: "1", label: "Regular Fares" },
-    { id: "2", label: "Armed Forces Fares" },
-    { id: "3", label: "Student Fares" },
-    { id: "4", label: "Senior Citizens Fares" },
-    { id: "4", label: "Senior Citizens Fares" },
-    { id: "5", label: "Doctors & Nurses Fares" },
-    { id: "6", label: "Double Seat Fares" },
-  ];
+  // const FareType = [
+  //   { id: "1", label: "Regular Fares" },
+  //   { id: "2", label: "Armed Forces Fares" },
+  //   { id: "3", label: "Student Fares" },
+  //   { id: "4", label: "Senior Citizens Fares" },
+  //   { id: "4", label: "Senior Citizens Fares" },
+  //   { id: "5", label: "Doctors & Nurses Fares" },
+  //   { id: "6", label: "Double Seat Fares" },
+  // ];
 
   // const adultCount = [1, 2, 3, 4, 5, 6, 7, 8, 9];
   // const childCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -219,9 +184,9 @@ const Oneway2 = (props) => {
 
   const handleTravelClickOpen = () => {
     setActiveIdClass(1);
-    setActiveIdChild(value2[0].activeIdChild);
-    setActiveIdInfant(value2[0].activeIdInfant);
-    setActiveIdAdult(value2[0].activeIdAdult);
+    setActiveIdChild(0);
+    setActiveIdInfant(0);
+    setActiveIdAdult(1);
     setOpenTravelModal(true);
   };
 
@@ -230,8 +195,8 @@ const Oneway2 = (props) => {
       setOpenTravelModal(false);
       setCountPassanger(
         parseInt(activeIdChild) +
-        parseInt(activeIdInfant) +
-        parseInt(activeIdAdult)
+          parseInt(activeIdInfant) +
+          parseInt(activeIdAdult)
       );
     }
   };
@@ -411,9 +376,9 @@ const Oneway2 = (props) => {
     setData(data2);
   };
 
-  //   useEffect(() => {
-  //     dispatch(resetOneWay());
-  //   }, [dispatch, departureDate]);
+  useEffect(() => {
+    dispatch(resetOneWay());
+  }, [dispatch, departureDate]);
 
   // const [value, setValue] = React.useState("1");
 
@@ -423,69 +388,39 @@ const Oneway2 = (props) => {
 
   // const [isModalOpen, setIsModalOpen] = useState(false);
 
+  // search history logic
 
-  useEffect(() => {
-    // handleOnewaySubmit() 
-    if (isPopularSearch) {
-      handleOneWaySubmitPopularSearch()
-    }
-    
-      return () => {
-        sessionStorage.setItem("isPopularSearch", false);
-      };
-  }, [])
+  // const token = sessionStorage.getItem("jwtToken");
 
- const handleDummyTicketBooking=()=>{
-  const payload = {
-    EndUserIp: reducerState?.ip?.ipData,
-    TokenId: reducerState?.ip?.tokenData,
-    AdultCount: 1,
-    ChildCount: 0,
-    InfantCount: 0,
-    DirectFlight: "false",
-    OneStopFlight: "false",
-    JourneyType: data2.class || "1",
-    PreferredAirlines: null,
-    Segments: [
-      {
-        Origin: selectedFrom.AirportCode,
-        Destination: selectedTo.AirportCode,
-        FlightCabinClass: activeIdClass,
-        PreferredDepartureTime: formattedDate2,
-        PreferredArrivalTime: formattedDate2,
-      },
-    ],
-    Sources: ["GDS"],
-  };
-  dispatch(oneWayAction(payload));
- }
- 
-  const handleOneWaySubmitPopularSearch = () => {
-    const payload = {
-      EndUserIp: reducerState?.ip?.ipData,
-      TokenId: reducerState?.ip?.tokenData,
-      AdultCount: 1,
-      ChildCount: 0,
-      InfantCount: 0,
-      DirectFlight: "false",
-      OneStopFlight: "false",
-      JourneyType: data2.class || "1",
-      PreferredAirlines: null,
-      Segments: [
-        {
-          Origin: selectedFrom.AirportCode,
-          Destination: selectedTo.AirportCode,
-          FlightCabinClass: activeIdClass,
-          PreferredDepartureTime: formattedDate2,
-          PreferredArrivalTime: formattedDate2,
-        },
-      ],
-      Sources: null,
-    }
-    dispatch(oneWayAction(payload));
-  }
+  // const createSearchHistory = async () => {
+
+  //   const historyData = {
+  //     origin: selectedFrom.AirportCode,
+  //     destination: selectedTo.AirportCode,
+  //     journeyDate: startDate,
+  //     // journeyDate: departureDate,
+  //     searchType: "FLIGHTS",
+  //     journeyType: "oneway"
+
+  //   };
+
+  //   try {
+  //     const response = await axios({
+  //       method: 'post',
+  //       url: `${apiURL.baseURL}/skyTrails/api/user/createSearchHistory`,
+  //       data: historyData,
+  //       headers: {
+  //         token: token,
+  //       },
+  //     });
+  //   } catch (error) {
+  //     console.error("Error sending data to the server:", error);
+  //   }
+  // };
+
   function handleOnewaySubmit(event) {
     event.preventDefault();
+    sessionStorage.setItem("bookDummyTicket",true);
 
     // if (authenticUser !== 200) {
     //   setIsLoginModalOpen(true);
@@ -496,29 +431,8 @@ const Oneway2 = (props) => {
     setDepartureDate(formData.get("departure"));
 
     // createSearchHistory();
-     
+
     const payload = {
-      EndUserIp: reducerState?.ip?.ipData,
-      TokenId: reducerState?.ip?.tokenData,
-      AdultCount: activeIdAdult,
-      ChildCount: activeIdChild,
-      InfantCount: activeIdInfant,
-      DirectFlight: "false",
-      OneStopFlight: "false",
-      JourneyType: data2.class || "1",
-      PreferredAirlines: null,
-      Segments: [
-        {
-          Origin: selectedFrom.AirportCode,
-          Destination: selectedTo.AirportCode,
-          FlightCabinClass: activeIdClass,
-          PreferredDepartureTime: formData.get("departure"),
-          PreferredArrivalTime: formData.get("departure"),
-        },
-      ],
-      Sources: null,
-    };
-    const dummyTicketPayload = {
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
       AdultCount: activeIdAdult,
@@ -540,16 +454,32 @@ const Oneway2 = (props) => {
       Sources: ["GDS"],
     };
 
+    sessionStorage.setItem(
+      "onewayprop",
+      JSON.stringify([
+        {
+          Origin: selectedFrom.AirportCode,
+          Destination: selectedTo.AirportCode,
+          FlightCabinClass: activeIdClass,
+          PreferredDepartureTime: formData.get("departure"),
+          PreferredArrivalTime: formData.get("departure"),
+          selectedFrom,
+          selectedTo,
+          totalCount,
+          startDate,
+          activeIdAdult,
+          activeIdChild,
+          activeIdInfant,
+        },
+      ])
+    );
+
     navigate(
       `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
     );
-     if(isDummyTicketBooking){
-       dispatch(oneWayAction(dummyTicketPayload));
-     }
-    else{dispatch(oneWayAction(payload))};
+    dispatch(oneWayAction(payload));
     // }
   }
-
 
   // function handleRoundTripSubmit(event) {
   //   event.preventDefault();
@@ -579,14 +509,13 @@ const Oneway2 = (props) => {
   //   dispatch(oneWayAction(payload));
   // }
 
-  function validation() {
-    if (document.getElementById("departure").value === "") {
-      return true;
-    }
-  }
+  // function validation() {
+  //   if (document.getElementById("departure").value === "") {
+  //     return true;
+  //   }
+  // }
 
   // const handleButtonClick = () => {
-  //   // Redirect to the "/returnResult" path
   //   navigate("/booking");
   // };
   // const DateRangePickerComponent = () => {
@@ -614,40 +543,115 @@ const Oneway2 = (props) => {
 
     // Swap the values of 'from' and 'to'
     const tempFrom = { ...selectedFrom };
+    // setFrom(to);
+    // setTO(tempFrom);
 
+    // Swap the selectedFrom and selectedTo values
     const tempSelectedFrom = selectedFrom;
     setSelectedFrom(selectedTo);
     // setSelectedTo(tempSelectedFrom);
     setSelectedTo(tempFrom);
   };
 
-  const newHeight = navbarHeight ? `${Number(navbarHeight) + 52}px` : '20%';
+  // swapping origin and destination
 
-  // console.log(navbarHeight, "navheight;;;;;;;;;;;;;;;;;;;;;;;;;;;", newHeight)
+  // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  // const handleModalClose = () => {
+  //   setIsLoginModalOpen(false)
+  // }
+
+  // useEffect(() => {
+  //   if (authenticUser == 200) {
+  //     handleModalClose();
+  //   }
+  // }, [authenticUser])
+
   return (
     <>
       <section
-        className="onyway2Section"
+        className=""
         style={{
-
-          top: newHeight,
-
+          width: "100%",
+          position: "absolute",
+          left: "50%",
+          top: "75%",
+          transform: "translate(-50%, -50%)",
+          zIndex: "2",
         }}
       >
-        {/* <section className="margin-pecentage"> */}
+        <Helmet>
+          <title>Flight</title>
+          <link rel="canonical" href="/" />
+          <meta name="description" content="one way flight" />
+          <meta
+            name="keywords"
+            content="
+online flight booking,compare flight prices,best airfare deals,last minute flights,multi-city flight booking,business class flights,non-stop flights budget airlines,family-friendly airlines,flight upgrades,round trip flights under 4000,direct flights with vistara,airports with cheapest flights to Vistara,flights with in-flight entertainment,flexible booking options"
+          />
+        </Helmet>
         <div className="container">
-          <div className="row oneWayBg1">
-
-
+          <div className="row oneWayBg">
             <div className="col-12 p-0">
+              {/* <TabContext value={value} centered> */}
+              {/* <Box
 
+                  pt={3}
+                  style={{
+                    display: "flex",
+                    justifyContent: "end",
+                    flexWrap: "wrap",
+                    paddingTop: "16px",
+                    marginTop: "4px",
+                  }}
+                >
+                  <TabList
+                    onChange={handleChange}
+                    aria-label="lab API tabs example"
+                    TabIndicatorProps={{ style: { display: "none" } }}
+                    sx={{ marginX: "40px", marginY: "-10px", minHeight: "0px" }}
+                  > */}
+              {/* <Tab
+                      // label="Oneway"
+                      value="1"
+                      sx={{
+                        fontSize: "15px",
+                        color: "black",
+                        fontWeight: "bold",
+                        minHeight: "34px",
+                        // padding: "5px 16px",
+                        marginX: "5px",
+                        borderRadius: "10px",
+                      }}
+                    ></Tab> */}
+              {/* <Tab
+                      label="Round Trip"
+                      value="2"
+                      sx={{
+                        fontSize: "15px",
+                        color: "black",
+                        fontWeight: "bold",
+                        minHeight: "34px",
+                        padding: "5px 16px",
+                        marginX: "5px",
+                        borderRadius: "10px",
+                      }}
+                    /> */}
+              {/* </TabList> */}
 
+              {/* <div style={{ flex: 1, textAlign: "right", padding: "0px 30px 0px 0px" }}>
+                    <p className="para">
+                      Book International and Domestic Flights
+                    </p>
+                  </div> */}
+              {/* </Box> */}
+
+              {/* Oneway start */}
 
               {/* <TabPanel value="1"> */}
 
-
               <form onSubmit={handleOnewaySubmit}>
-                <div className="your-container1">
+                <div className="your-container">
                   <div
                     onClick={(e) => {
                       e.stopPropagation(); // Stop event bubbling
@@ -655,56 +659,65 @@ const Oneway2 = (props) => {
                       setdisplayFrom(true);
                       setIsLoadingFrom(true);
                       // ; alert(fromToggle, "/////")
-
-                    }} className="from-container12">
+                    }}
+                    className="from-container"
+                  >
                     <span>From</span>
                     <div>
+                      {/* <input
 
-                      <label  >{selectedFrom.name}</label>
+                            name="from"
+                            placeholder="Enter city or airport"
+                            value={from}
+                            autoComplete="off"
+                            onClick={()=>setFromToggle(true)}  
+                            onChange={(event) => {
+                              handleFromInputChange(event);
+                              setIsLoadingFrom(true);
+                              handleFromSearch(event.target.value);
+                            }}
+                            required
+                            style={{
+                              outline: "none",
+                              border: "none",
+                            }}
+                          /> */}
+
+                      <label>{selectedFrom.name}</label>
                       {/* {isLoadingFrom && <div>Loading...</div>} */}
 
                       {
                         // fromSearchResults && fromSearchResults.length > 0 && fromQuery.length >= 2
-                        fromToggle
-                        && (
+                        fromToggle && (
                           <div
                             ref={fromSearchRef}
-                            className="from-search-results-two"
+                            className="from-search-results-one"
                             style={{
-
                               display: displayFrom ? "flex" : "none",
                             }}
                           >
-
                             <ul className="from_Search_Container">
                               <Box
                                 sx={{
                                   display: "flex",
                                   flexDirection: "column",
-                                  maxHeight: 161,
+                                  maxHeight: 271,
                                   overflow: "hidden",
                                   overflowY: "scroll",
-
                                 }}
                                 className="scroll_style"
                               >
-
                                 <div className="from_search_div">
-                                  <CiSearch size={24} />
+                                  <CiSearch size={20} />
                                   <input
                                     name="from"
                                     placeholder="From"
                                     value={from}
                                     autoComplete="off"
-
-
                                     onChange={(event) => {
                                       handleFromInputChange(event);
                                       setIsLoadingFrom(true);
                                       handleFromSearch(event.target.value);
-
-
-
                                     }}
                                     // required
                                     style={{
@@ -720,22 +733,21 @@ const Oneway2 = (props) => {
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleFromClick(result);
-                                      setDisableBtn(false);
+
                                       setFromToggle(false);
-
-
                                     }}
                                   >
-
                                     <div className="onewayResultBox">
-
                                       <div className="onewayResultFirst">
-                                        <div><FlightTakeoffTwoToneIcon /></div>
-                                        <div className="resultOriginName"
-                                        //  onClick={(e) => {
-                                        //   e.stopPropagation(); // Stop event bubbling
+                                        <div>
+                                          <FlightTakeoffTwoToneIcon />
+                                        </div>
+                                        <div
+                                          className="resultOriginName"
+                                          //  onClick={(e) => {
+                                          //   e.stopPropagation(); // Stop event bubbling
 
-                                        // }}
+                                          // }}
                                         >
                                           <p>{result.name}</p>
                                           <span>{result.code}</span>
@@ -750,33 +762,36 @@ const Oneway2 = (props) => {
                               </Box>
                             </ul>
                           </div>
-                        )}
-                    </div>
-                    {/* {fromSearchResults && fromSearchResults.length > 0 && fromQuery.length >= 2 ? (
-                        <span>
-                          {selectedFrom ? (
-                            <>
-                              {selectedFrom.code}, {selectedFrom.name}
-                            </>
-                          ) : (
-                            <>
-                              {fromSearchResults[0].code}, {fromSearchResults[0].name}
-                            </>
-                          )}
-                        </span>
-                      ) :
-                        (
-                          <span>Airport Name</span>
                         )
+                      }
+                    </div>
+                    {fromSearchResults &&
+                    fromSearchResults.length > 0 &&
+                    fromQuery.length >= 2 ? (
+                      <span>
+                        {selectedFrom ? (
+                          <>
+                            {selectedFrom.code}, {selectedFrom.name}
+                          </>
+                        ) : (
+                          <>
+                            {fromSearchResults[0].code},{" "}
+                            {fromSearchResults[0].name}
+                          </>
+                        )}
+                      </span>
+                    ) : (
+                      <span>Airport Name</span>
+                    )}
 
-                      } */}
-
-
-                    <div className="roundlogo1" onClick={(e) => {
-                      e.stopPropagation()
-                      handleRoundLogoClick()
-                    }}
-                      style={{ cursor: 'pointer' }}>
+                    <div
+                      className="roundlogo"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRoundLogoClick();
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="40"
@@ -789,7 +804,7 @@ const Oneway2 = (props) => {
                           cy="20"
                           r="19"
                           fill="white"
-                          stroke="#071C2C"
+                          stroke="lightgray"
                           stroke-width="2"
                         />
                       </svg>
@@ -812,27 +827,45 @@ const Oneway2 = (props) => {
                     </div>
                   </div>
 
-                  <div onClick={(e) => {
-                    e.stopPropagation(); // Stop event bubbling
-                    setToggle(true);
-                    setdisplayTo(true);
-                    setIsLoadingTo(true);
-                    // ; alert(fromToggle, "/////")
-
-                  }} className="from-container12">
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation(); // Stop event bubbling
+                      setToggle(true);
+                      setdisplayTo(true);
+                      setIsLoadingTo(true);
+                      // ; alert(fromToggle, "/////")
+                    }}
+                    className="from-container"
+                  >
                     <span>To</span>
                     <div>
+                      {/* <input
 
+                            name="to"
+                            placeholder="Enter city or airport"
+                            value={to}
+                            required
+                            onChange={(event) => {
+                              handleToInputChange(event);
+                              setIsLoadingTo(true);
+                              handleToSearch(event.target.value);
+                            }}
+                            autoComplete="off"
+                            style={{
+                              border: "none",
 
-                      <label  >{selectedTo.name}</label>
+                              outline: "none",
+                            }}
+                          /> */}
+
+                      <label>{selectedTo.name}</label>
                       {/* {isLoadingTo && <div>Loading...</div>} */}
                       {
                         // toSearchResults && toSearchResults.length > 0 && toQuery.length >= 2 &&
-                        toToggle &&
-                        (
+                        toToggle && (
                           <div
                             ref={toSearchRef}
-                            className="from-search-results-two"
+                            className="from-search-results-one"
                             style={{
                               display: displayTo ? "flex" : "none",
                             }}
@@ -842,15 +875,14 @@ const Oneway2 = (props) => {
                                 sx={{
                                   display: "flex",
                                   flexDirection: "column",
-                                  maxHeight: 161,
+                                  maxHeight: 271,
                                   overflow: "hidden",
                                   overflowY: "scroll",
-
                                 }}
                                 className="scroll_style"
                               >
                                 <from className="from_search_div">
-                                  <CiSearch />
+                                  <CiSearch size={20} />
                                   <input
                                     name="to"
                                     placeholder="Enter city or airport"
@@ -862,7 +894,6 @@ const Oneway2 = (props) => {
                                       setIsLoadingTo(true);
                                       handleToSearch(event.target.value);
                                     }}
-
                                     autoComplete="off"
                                     style={{
                                       border: "none",
@@ -878,14 +909,16 @@ const Oneway2 = (props) => {
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleToClick(result);
-                                      setDisableBtn(false);
-                                      setToggle(false);
 
+                                      setToggle(false);
                                     }}
                                   >
                                     <div className="onewayResultBox">
                                       <div className="onewayResultFirst">
-                                        <div><FlightTakeoffTwoToneIcon /></div>
+                                        <div>
+                                          <FlightLandIcon />
+                                        </div>
+
                                         <div className="resultOriginName">
                                           <p>{result.name}</p>
                                           <span>{result.code}</span>
@@ -895,39 +928,34 @@ const Oneway2 = (props) => {
                                       <div className="resultAirportCode">
                                         <p>{result.AirportCode}</p>
                                       </div>
-
                                     </div>
                                   </li>
                                 ))}
                               </Box>
                             </ul>
-
                           </div>
-                        )}
-                    </div>
-                    {/* {toSearchResults && toSearchResults.length > 0 && toQuery.length >= 2 ? (
-                        <span>
-                          {selectedTo ? (
-                            <>
-                              {selectedTo.code}, {selectedTo.name}
-                            </>
-                          ) : (
-                            <>
-                              {toSearchResults[0].code}, {toSearchResults[0].name}
-                            </>
-                          )}
-                        </span>
-                      ) :
-                        (
-                          <span>Airport Name</span>
                         )
-
-                      } */}
-
-
-
+                      }
+                    </div>
+                    {toSearchResults &&
+                    toSearchResults.length > 0 &&
+                    toQuery.length >= 2 ? (
+                      <span>
+                        {selectedTo ? (
+                          <>
+                            {selectedTo.code}, {selectedTo.name}
+                          </>
+                        ) : (
+                          <>
+                            {toSearchResults[0].code}, {toSearchResults[0].name}
+                          </>
+                        )}
+                      </span>
+                    ) : (
+                      <span>Airport Name</span>
+                    )}
                   </div>
-                  <div className="from-container12">
+                  <div className="from-container">
                     <span>Departure</span>
                     <div className="">
                       <div className="onewayDatePicker">
@@ -939,22 +967,21 @@ const Oneway2 = (props) => {
                           minDate={currentdate}
                         />
                       </div>
-
                     </div>
-                    {/* <span>{getDayOfWeek(startDate)}</span> */}
+                    <span>{getDayOfWeek(startDate)}</span>
                   </div>
 
-                  <div className="travellerContainer12 ">
+                  <div className="travellerContainer ">
                     <div
                       onClick={handleTravelClickOpen}
-                      className="travellerButton2">
-                      <span>
-                        Traveller & Class
-                      </span>
-                      <p >
-                        <span>{(totalCount === 0 && 1) || totalCount} </span> Traveller
+                      className="travellerButton"
+                    >
+                      <span>Traveller & Class</span>
+                      <p>
+                        <span>{(totalCount === 0 && 1) || totalCount} </span>{" "}
+                        Traveller
                       </p>
-                      {/* <div>
+                      <div>
                         <span>
                           {(activeIdClass === 1 && "All") ||
                             (activeIdClass === 2 && "Economy") ||
@@ -963,8 +990,7 @@ const Oneway2 = (props) => {
                               activeIdClass === 5 && "Business Economy"
                             )(activeIdClass === 6 && "First Class")}
                         </span>
-
-                      </div> */}
+                      </div>
                     </div>
                     <Dialog
                       sx={{ zIndex: "99999" }}
@@ -975,29 +1001,45 @@ const Oneway2 = (props) => {
                       <DialogContent>
                         <>
                           <div className="travellerModal">
-                            <div><h3>TRAVELLERS & CLASS</h3></div>
+                            <div>
+                              <h3>TRAVELLERS & CLASS</h3>
+                            </div>
                             <div className="travellerPeople">
                               {/* Use the TravelerCounter component for each category */}
                               <TravelerCounter
                                 label="Adults (Age 12+ Years)"
                                 count={activeIdAdult}
-                                onIncrement={() => handleTravelerCountChange('adult', 1)}
-                                onDecrement={() => handleTravelerCountChange('adult', -1)}
+                                onIncrement={() =>
+                                  handleTravelerCountChange("adult", 1)
+                                }
+                                onDecrement={() =>
+                                  handleTravelerCountChange("adult", -1)
+                                }
                               />
                               <TravelerCounter
                                 label="Children (Age 2-12 Years)"
                                 count={activeIdChild}
-                                onIncrement={() => handleTravelerCountChange('child', 1)}
-                                onDecrement={() => handleTravelerCountChange('child', -1)}
+                                onIncrement={() =>
+                                  handleTravelerCountChange("child", 1)
+                                }
+                                onDecrement={() =>
+                                  handleTravelerCountChange("child", -1)
+                                }
                               />
                               <TravelerCounter
                                 label="Infants (Age 0-2 Years)"
                                 count={activeIdInfant}
-                                onIncrement={() => handleTravelerCountChange('infant', 1)}
-                                onDecrement={() => handleTravelerCountChange('infant', -1)}
+                                onIncrement={() =>
+                                  handleTravelerCountChange("infant", 1)
+                                }
+                                onDecrement={() =>
+                                  handleTravelerCountChange("infant", -1)
+                                }
                               />
                             </div>
-                            <div><h3>Choose Travel Class</h3></div>
+                            <div>
+                              <h3>Choose Travel Class</h3>
+                            </div>
                             <div>
                               <ul className="classButtonTravel">
                                 {ClassItems?.map((ele) => (
@@ -1014,7 +1056,7 @@ const Oneway2 = (props) => {
                                             : "#d90429",
                                       }}
                                       data-id={ele.id}
-                                    // onClick={handleClassItemClick}
+                                      // onClick={handleClassItemClick}
                                     >
                                       {ele?.label}
                                     </li>
@@ -1039,7 +1081,7 @@ const Oneway2 = (props) => {
                           style={{
                             backgroundColor: "#21325d",
                             color: "white",
-                            marginRight: "40px"
+                            marginRight: "40px",
                           }}
                           onClick={handleTravelClose}
                         >
@@ -1048,28 +1090,75 @@ const Oneway2 = (props) => {
                       </DialogActions>
                     </Dialog>
                   </div>
-                  <div className=" onewaySearch2">
-                    {disableBtn ? <button className="searchButt2 searchButt2DisableBtn"><h3>Search</h3></button> :
-                      <button type="submit" className="searchButt2">
-                        <h3 className="mb-0">Search</h3>
-                        {/* <KeyboardDoubleArrowRightIcon /> */}
-                      </button>}
+                  <div className=" onewaySearch">
+                    <button type="submit" className="searchButt">
+                      <h3 className="mb-0">Search</h3>
+                      {/* <KeyboardDoubleArrowRightIcon /> */}
+                    </button>
                   </div>
                 </div>
+
+                {/* <Box display="flex" justifyContent="center">
+                  <div class="wrapper_oneway">
+                    <div className="wraOne">
+
+                          <p>Select A Fare Type:</p>
+                        </div>
+                        <input
+                          type="radio"
+                          name="select"
+                          id="option-1"
+                          checked
+                        />
+                        <input type="radio" name="select" id="option-2" />
+                        <input type="radio" name="select" id="option-3" />
+                        <input type="radio" name="select" id="option-4" />
+                        <input type="radio" name="select" id="option-5" />
+                        <input type="radio" name="select" id="option-6" />
+
+                        <label for="option-1" class="option option-1">
+                          <text>Regular Fares</text>
+                        </label>
+                        <label for="option-2" class="option option-2">
+                          <text>Armed Forces Fares</text>
+                        </label>
+                        <label for="option-3" class="option option-3">
+                          <text>Student Fares</text>
+                        </label>
+                        <label for="option-4" class="option option-4">
+                          <text>Senior Citizen Fares</text>
+                        </label>
+                        <label for="option-5" class="option option-5">
+                          <text>Doctors & Nurses Fares</text>
+                        </label>
+                        <label for="option-6" class="option option-6">
+                          <text>Double Seat Fares</text>
+
+                        </label> 
+                     <div className="col-auto fare_search_oneWay ">
+                          <button
+                            type="submit"
+                            path=""
+                            justifyContent="center"
+                          >
+
+                            Search
+                          </button>
+                        </div>
+                  </div>
+                </Box> */}
               </form>
 
               {/* =====================> 2nd form here <============================================= */}
               {/* </TabPanel> */}
 
-
               {/* </TabContext> */}
             </div>
           </div>
         </div>
-        {/* </section> */}
       </section>
     </>
   );
 };
 
-export default Oneway2;
+export default Homeform;

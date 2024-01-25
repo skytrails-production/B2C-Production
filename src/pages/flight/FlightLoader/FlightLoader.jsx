@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import "./FlightLoading.css";
 // import img1 from "../../../utility/loadingimg1.jpg";
 // import img2 from "../../../utility/loadingimg3.jpg";
-import newFlight from "../../../images/loading/newFlight.gif";
+// import newFlight from "../../../images/loading/newFlight.gif";
+import flightLoad from "../../../images/load/aeroplaneLoad.gif"
 // import { motion } from "framer-motion";
 
 // const variants = {
@@ -61,40 +62,40 @@ const quotes = [
   },
 ];
 
-// const getRandomQuote = () => {
-//   const randomIndex = Math.floor(Math.random() * quotes.length);
-//   return quotes[randomIndex];
-// };
+const getRandomQuote = () => {
+  const randomIndex = Math.floor(Math.random() * quotes.length);
+  return quotes[randomIndex];
+};
 
 const FlightLoader = () => {
   // const { text, img } = getRandomQuote();
 
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  // const [currentImgIndex, setCurrentImgIndex] = useState(0);
+  const [currentImgIndex, setCurrentImgIndex] = useState(0);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const result = getRandomQuote();
-  //       setData(result);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //       setLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = getRandomQuote();
+        setData(result);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
 
-  //   fetchData();
+    fetchData();
 
-  //   const intervalId = setInterval(() => {
-  //     setLoading(true);
-  //     fetchData();
-  //     // setCurrentImgIndex((prevIndex) => (prevIndex + 1) % quotes.length);
-  //   }, 4000);
+    const intervalId = setInterval(() => {
+      setLoading(true);
+      fetchData();
+      setCurrentImgIndex((prevIndex) => (prevIndex + 1) % quotes.length);
+    }, 4000);
 
-  //   return () => clearInterval(intervalId);
-  // }, []);
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <div className="flightLoading" >
@@ -120,7 +121,7 @@ const FlightLoader = () => {
         </AnimatePresence> */}
 
         <div className="flightimgcontainer">
-          <img src={newFlight} alt="" className="flightloadingimg" />
+          <img src={flightLoad} alt="" className="flightloadingimg" />
         </div>
       </div>
 

@@ -55,7 +55,7 @@ const HolidaySimilar = () => {
                             <div class="row">
                                 {
                                     filteredPackage?.slice(0, 3).map((item, index) => (
-                                        <div key={index} onClick={(e) => searchOneHoliday(item?._id)} class="col-lg-4 col-md-4 col-sm-4 mb-4" style={{ cursor: "pointer" }}>
+                                        <div key={index} onClick={(e) => searchOneHoliday(item?._id)} class="col-lg-4 col-md-4 col-sm-12 mb-4" style={{ cursor: "pointer" }}>
                                             <div class="trend-item1">
                                                 <div class="trend-image position-relative rounded">
                                                     <img src={item?.pakage_img} alt="package-img" />

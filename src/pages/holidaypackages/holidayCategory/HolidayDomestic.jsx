@@ -28,19 +28,19 @@ const HolidayCategory = () => {
 
         try {
             // const response = await fetch(`${apiURL.baseURL}/skyTrails/beachesPackages?${queryParameter}`);
-            // setLoading(true);
+            setLoading(true);
             const response = await fetch(`${apiURL.baseURL}/skyTrails/domesticAndInternationalPackages?country=${queryParameter}`);
             const data = await response.json();
 
             if (data.success === 1) {
                 const quote = quotes[category];
                 setSelectedCategory({ category, quote });
-                // setLoading(false)
+                setLoading(false)
                 navigate(`/holidaycategorydetails/${category}`, { state: { categoryData: data.data, quote } });
             }
         } catch (error) {
             console.error('Error fetching category data', error);
-            // setLoading(false)
+            setLoading(false)
         }
     };
 
@@ -105,7 +105,7 @@ const HolidayCategory = () => {
                     </div>
                 </div>
                 <div className="col-lg-4 col-md-4">
-                    <div className="holidayCatBoxDomestic" onClick={() => handlecountryClick('United Arab Emirates')}>
+                    <div className="holidayCatBoxDomestic" onClick={() => handlecountryClick('Dubai')}>
                         <h3>UAE <span><ArrowRightAltIcon /></span></h3>
                         <img src={four} alt="" />
                         <div class="color-overlayCountry"></div>

@@ -65,7 +65,7 @@ import Login from "../../../components/Login"
 import HolidayLoader from "../holidayLoader/HolidayLoader"
 import HolidaySimilar from "./HolidaySimilar";
 import { validateEmail, validateName, validatePhoneNumber } from "../../../utility/validationFunctions"
-import {formatDate} from "../../../utility/utils"
+import { formatDate } from "../../../utility/utils"
 
 function Holidayinfo() {
   // const navigate = useNavigate();
@@ -105,9 +105,9 @@ function Holidayinfo() {
     setIsLoginModalOpen(false)
   }
   const currentdate = new Date();
-  const mindate=formatDate(currentdate)
+  const mindate = formatDate(currentdate)
 
-  
+
 
 
   useEffect(() => {
@@ -150,8 +150,8 @@ function Holidayinfo() {
   const [valtrue, setValtrue] = useState(false)
 
   const validationFrom = () => {
-    console.log(formData.fullname === "" , !validateEmail(formData.email) , !validatePhoneNumber(formData.contact_number) , formData.departure_city === "" , formData.departure_date ,formData.number_of_adult < 1)
-    if (formData.fullname === "" || !validateEmail(formData.email) || !validatePhoneNumber(formData.contact_number) || formData.departure_city === "" || formData.departure_date ||formData.number_of_adult < 1) {
+    console.log(formData.fullname === "", !validateEmail(formData.email), !validatePhoneNumber(formData.contact_number), formData.departure_city === "", formData.departure_date, formData.number_of_adult < 1)
+    if (formData.fullname === "" || !validateEmail(formData.email) || !validatePhoneNumber(formData.contact_number) || formData.departure_city === "" || formData.departure_date || formData.number_of_adult < 1) {
       setValtrue(false)
 
       return
@@ -165,7 +165,7 @@ function Holidayinfo() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    console.log(name, "nameeee", value)
+    // console.log(name, "nameeee", value)
     setFormData({
       ...formData,
       [name]: value,
@@ -262,7 +262,7 @@ function Holidayinfo() {
       <div className="container-lg mt-4" style={{ position: "relative" }}>
         <div className="row">
           <div className="col-lg-8">
-            <div className="row">
+            <div className="row MobileDesign">
               <div className="col-lg-12 mb-0  packageImgBox">
                 <div className="PackageImg">
                   <img src={onePackage?.pakage_img} alt="" />
@@ -740,26 +740,21 @@ function Holidayinfo() {
           </div>
 
 
-          <div className="col-lg-4 packageSideFormMain">
+          <div className="col-lg-4 pe-lg-0 packageSideFormMain">
             <div
               className="packageSideForm"
-              style={{ position: "sticky", top: "100px" }}
             >
               <div
                 className="container"
                 id="scrollfixInsideForm"
-                style={{
-                  height: "100%",
-                  // overflow: "hidden", // Hide the scrollbar
-                  overflowY: "scroll",
-                }}
+
               >
                 <p className="py-4 sidePackFormPara">
                   Enter your details to book
                 </p>
 
                 <div >
-                  <div className="row">
+                  <div className="row p-4">
                     <div className="col-lg-12 col-md-12 mb-3">
                       <div className="form-floating">
                         <input
@@ -770,7 +765,7 @@ function Holidayinfo() {
                           onChange={handleInputChange}
                           className="packSideInput"
                         />
-                        {sub && formData.fullname==="" && <span className="floatingSpan">Please Fill Your Name</span>}
+                        {sub && formData.fullname === "" && <span className="floatingSpan">Please Fill Your Name</span>}
                       </div>
                     </div>
 
@@ -915,117 +910,7 @@ function Holidayinfo() {
             </Box>
           </Modal>
 
-          {/* <div className="col-lg-12 mb-4">
 
-            <div className="holiday_but">
-              <button id="send_enquiry" onClick={() => setOpenModal((prev) => !prev)}>
-                Send Enquiry for booking
-              </button>
-            </div>
-          </div>
-
-          <Modal
-            open={openModal}
-            onClose={handleClose}
-            aria-labelledby="modal-modal-title"
-            aria-describedby="modal-modal-description"
-          >
-            <div className="modalBoxPackage">
-              <div className="container">
-                <form onSubmit={handleSubmit}>
-                  <div className="row">
-
-
-
-                    <div className="col-lg-6 col-md-6 mb-3">
-                      <div className="form-floating">
-                        <input
-                          type="text"
-                          name="fullname"
-                          value={formData.fullname}
-                          onChange={handleInputChange}
-                          className="form-control"
-                        />
-                        <label for="floatingInput">Enter Name</label>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6 col-md-6 mb-3">
-                      <div class="form-floating">
-                        <input
-                          type="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          className="form-control"
-                        />
-                        <label for="floatingInput">Enter Email</label>
-                      </div>
-                    </div>
-
-
-                    <div className="col-lg-6 col-md-6 mb-3">
-                      <div className="form-floating">
-                        <input
-                          type="text"
-                          name="contact_number"
-                          value={formData.contact_number}
-                          onChange={handleInputChange}
-                          className="form-control"
-                        />
-                        <label for="floatingInput">Contact Number</label>
-                      </div>
-                    </div>
-
-
-                    <div className="col-lg-6 col-md-6 mb-3">
-                      <div className="form-floating">
-                        <input
-                          type="text"
-                          name="departure_city"
-                          value={formData.departure_city}
-                          onChange={handleInputChange}
-                          className="form-control"
-                        />
-                        <label for="floatingInput">Departure City</label>
-                      </div>
-                    </div>
-                    <div className="col-lg-6 col-md-6 mb-3">
-                      <div className="form-floating">
-                        <input
-                          type="number"
-                          name="number_of_people"
-                          min={1}
-                          value={formData.number_of_people}
-                          onChange={handleInputChange}
-                          className="form-control"
-                        />
-                        <label for="floatingInput">Number of People</label>
-                      </div>
-                    </div>
-
-                    <div className="col-lg-6 col-md-6 mb-3">
-                      <div class="form-floating packDatePick">
-                        <input
-                          type="date"
-                          name="departure_date"
-                          value={formData.departure_date}
-                          onChange={handleInputChange}
-                          className="form-control"
-                        />
-                        <label for="floatingInput">Departure Date</label>
-                      </div>
-                    </div>
-                    <div className="col-lg-12">
-                      <div className="packEnqButton">
-                        <button type="submit">Submit</button>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </Modal> */}
         </div>
       </div>
 

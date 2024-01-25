@@ -7,21 +7,21 @@ import Modal from "@mui/material/Modal";
 import "./Login.css";
 import loginImg from "../images/login.png";
 // import loginNew from "../images/loginNew.jpg"
-import loginGif from "../images/loginGif.gif";
+// import loginGif from "../images/loginGif.gif";
 import loginOtp from "../images/login-01.jpg";
 import { LoginButton } from "../utility/CSS/Button/Button";
 import CloseIcon from "@mui/icons-material/Close";
 import { loginAction, logoutAction, LoginFail } from "../Redux/Auth/logIn/actionLogin";
 // import { loginAction, logoutAction, userData } from "../Redux/Auth/logIn/actionLogin";
 import EventIcon from "@mui/icons-material/Event";
-import PhoneIcon from "@mui/icons-material/Phone";
+// import PhoneIcon from "@mui/icons-material/Phone";
 import PasswordIcon from "@mui/icons-material/Password";
 import "./card.css";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { apiURL } from "../Constants/constant";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import LogoutIcon from "@mui/icons-material/Logout";
+// import LogoutIcon from "@mui/icons-material/Logout";
 import question from "../images/question.png";
 
 //import toast, { Toaster } from 'react-hot-toast';
@@ -53,10 +53,10 @@ export default function LoginForm() {
   const handleSignUpModalClose = () => setOpenSignUpModal(false);
   const reducerState = useSelector((state) => state);
   const userName = reducerState?.logIn?.loginData?.data?.result?.username;
-  const userDataS = reducerState?.logIn?.loginData?.data?.result;
-  const data = reducerState?.logIn?.loginData?.data;
+  // const userDataS = reducerState?.logIn?.loginData?.data?.result;
+  // const data = reducerState?.logIn?.loginData?.data;
   const status = reducerState?.logIn?.loginData?.data?.statusCode;
-  const AuthenticUser = reducerState?.logIn?.isLogin;
+  // const AuthenticUser = reducerState?.logIn?.isLogin;
   const [otp, setOtp] = useState("");
   const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
@@ -66,19 +66,14 @@ export default function LoginForm() {
   // resend otp part
   const [countdown, setCountdown] = useState(0);
   const [disableButton, setDisableButton] = useState(false);
-  const [disableButtonVerifyOPT, setDisableButtonVerifyOPT] = useState(false);
+  // const [disableButtonVerifyOPT, setDisableButtonVerifyOPT] = useState(false);
   const [disableResendButton, setDisableResendButton] = useState(false);
   const [error, setError] = useState(true);
   const [sub, setSub] = useState(false);
   // const [apiCallCount,setOptCallCount]=useState(0);
-
-
   const [numError, setNumError] = useState(true)
-
-
-
+  const [otpError, setOTPError] = useState(true);
   const navigate = useNavigate();
-
   const [isMenu, setIsMenu] = useState(false);
 
 
@@ -89,7 +84,6 @@ export default function LoginForm() {
     useEffect(() => {
       const intervalId = setInterval(() => {
         if (index === text.length) {
-          // If entire text has been typed, reset index to restart typing
           setIndex(0);
         } else {
           setIndex((prevIndex) => prevIndex + 1);
@@ -106,25 +100,10 @@ export default function LoginForm() {
     );
   };
 
-
-  // const loginSuccess = () => {
-
-  //   toast.success('login Successful ', {
-  //     style: {
-  //       border: '1px solid #d90429',
-  //       padding: '16px',
-  //       color: '#d90429',
-  //     },
-  //     iconTheme: {
-  //       primary: '#d90429',
-  //       secondary: '#FFFAEE',
-  //     },
-  //   });
-
-  // }
+  // mobile number validation 
 
   const isValidMobileNumber = (mobileNumber) => {
-    return /^[6-9]\d{8}$/.test(mobileNumber);
+    return /^[6-9]\d{9}$/.test(mobileNumber);
   };
 
   const requestSignInSignInCheck = () => {
@@ -136,7 +115,32 @@ export default function LoginForm() {
     }
   };
 
-  const otpToken = reducerState?.logIn?.loginData?.data?.result?.token;
+  useEffect(() => {
+    requestSignInSignInCheck();
+  }, [mobileNumber])
+
+  // const otpToken = reducerState?.logIn?.loginData?.data?.result?.token;
+
+
+
+  // opt validation 
+
+  const isValidOTP = (otp) => {
+    return /^[0-9]\d{5}$/.test(otp);
+  };
+
+  const requestOTPCheck = () => {
+    if (!isValidOTP(otp)) {
+      setOTPError(true);
+
+    } else {
+      setOTPError(false);
+    }
+  };
+
+  useEffect(() => {
+    requestOTPCheck();
+  }, [otp])
 
 
   const requestSignIn = async (event) => {
@@ -168,7 +172,7 @@ export default function LoginForm() {
         // resend otp
 
         setDisableResendButton(true);
-        setCountdown(60);
+        setCountdown(59);
       } else {
         handleClose();
         handleSignUpModalOpen();
@@ -176,7 +180,7 @@ export default function LoginForm() {
         // resend otp
 
         setDisableResendButton(true);
-        setCountdown(60);
+        setCountdown(59);
       }
       setToken(newToken);
 
@@ -268,7 +272,7 @@ export default function LoginForm() {
     };
 
     setDisableResendButton(true);
-    setCountdown(60);
+    setCountdown(59);
 
     try {
       const res = await axios({
@@ -408,7 +412,7 @@ export default function LoginForm() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.6 }}
               className="position-absolute dropdownLogin bg-gray-50 shadow rounded-lg d-flex flex-column align-items-end"
-              style={{ left: 0 }}
+            // style={{ left: 0 }}
             >
               <p
                 className="px-4 py-2 d-flex align-items-center cursor-pointer gap-3 cursor-pointer hover-bg-slate-100 transition-all duration-100 ease-in-out"
@@ -561,7 +565,7 @@ export default function LoginForm() {
                           onClick={handleOtpModalClose}
                         />
                         <div className="loginImg logg">
-                          <img src={loginGif} alt="loginGif" />
+                          <img src={loginOtp} alt="loginGif" />
                         </div>
                       </div>
                     </div>
@@ -570,13 +574,16 @@ export default function LoginForm() {
                         <div>
                           <div class="row g-4">
                             <div class="col-12">
-                              {error ?
+                              {/* {error ?
                                 <label className="mb-3">
                                   Enter OTP<span class="text-danger">*</span>
                                 </label> :
                                 <label className="mb-3">
                                   <span class="text-danger">Invalid OTP</span>
-                                </label>}
+                                </label>} */}
+                              <label className="mb-3">
+                                Enter OTP<span class="text-danger"></span>
+                              </label> :
                               <div class="input-group ">
                                 <div class={`input-group-text ${!error && "invalidOptLogin"} `}>
                                   <i>
@@ -585,11 +592,18 @@ export default function LoginForm() {
                                 </div>
                                 <input
                                   type="text"
-                                  // value={mobileNumber}
+                                  value={otp}
                                   onChange={(e) => {
                                     setOtp(e.target.value);
-                                    otpvalidReset();
+                                    requestOTPCheck();
+                                    // otpvalidReset();
                                   }}
+
+                                  // onChange={(e) => {
+                                  //   setMobileNumber(e.target.value)
+                                  //   requestSignInSignInCheck()
+                                  // }
+                                  // }
                                   name="phone"
                                   class={`form-control  ${!error && "invalidOptLogin"}`}
                                   placeholder="Enter OTP"
@@ -618,6 +632,7 @@ export default function LoginForm() {
                                 // type="submit"
                                 onClick={(e) => { setSub(true); verifyOTP(e) }}
                                 class="btn btn-primaryLogin px-4 float-end mt-2"
+                                disabled={otpError}
                               >
                                 Verify OTP
                               </button>

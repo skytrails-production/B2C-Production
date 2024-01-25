@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SwipeToSlide from "../../components/Card";
 import Download from "./Download";
 import Oneway from "../../components/Oneway";
@@ -35,6 +35,9 @@ const variants = {
 
 const Home = () => {
   // console.log("helllo")
+  useEffect(() => {
+    sessionStorage.setItem("bookDummyTicket", false);
+  }, [])
   return (
     <div className="home_banner">
       <Helmet>
@@ -49,7 +52,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
       </Helmet>
 
       <div className="mainimg">
-        <img className="bannerBack" src="https://img.freepik.com/premium-photo/beautiful-cinematic-shot-ram-mandir-ayodhya_849906-13668.jpg?w=996" alt="background" />
+        <img className="bannerBack" src="https://img.freepik.com/premium-photo/orange-green-watercolor-background_468073-45.jpg?w=1480" alt="background" />
         {/* <img className="bannerBack" src={onewayBG} alt="background" /> */}
         {/* <InsideNavbar /> */}
         <BigNavbar />

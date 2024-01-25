@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import Login from "../../components/Login";
 import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 import { motion } from "framer-motion";
@@ -29,7 +29,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { PassengersAction } from "../../Redux/Passengers/passenger";
 import BookNowLeft from "./BookNowLeft";
 // razorpay intergration
-import useRazorpay from "react-razorpay";
+// import useRazorpay from "react-razorpay";
 import PaymentLoader from "./FlightLoader/paymentLoader";
 import Flighterror from "./Flighterror";
 import Swal from "sweetalert2";
@@ -41,7 +41,7 @@ import Modal from "@mui/material/Modal";
 // import loginGif from "../images/loginGif.gif"
 import loginGif from "../../images/loginGif.gif"
 import CloseIcon from '@mui/icons-material/Close';
-import {validateEmail,validateName,validatePhoneNumber} from "../../utility/validationFunctions"
+import { validateEmail, validateName, validatePhoneNumber } from "../../utility/validationFunctions"
 
 
 const variants = {
@@ -86,6 +86,9 @@ export default function BookWrapper() {
   const childCount = queryParams.get("child");
   const infantCount = queryParams.get("infant");
   const reducerState = useSelector((state) => state);
+  const isDummyTicketBooking = JSON.parse(
+    sessionStorage.getItem("bookDummyTicket")
+  );
   const [email, setEmail] = useState("");
   const [cNumber, setCnumber] = useState("");
   const [farePrice, setFarePrice] = useState("");
@@ -106,12 +109,12 @@ export default function BookWrapper() {
   const ResultIndex = sessionStorage.getItem("ResultIndex");
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
-  const [paymentResponse, setPaymentResponse] = useState("");
+  // const [paymentResponse, setPaymentResponse] = useState("");
   const isPassportRequired =
     reducerState?.flightFare?.flightQuoteData?.Results
       ?.IsPassportRequiredAtTicket;
-  const results =
-    reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Results;
+  // const results =
+  //   reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Results;
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
 
   const payload = {
@@ -120,11 +123,11 @@ export default function BookWrapper() {
     TraceId: reducerState?.oneWay?.oneWayData?.data?.data?.Response?.TraceId,
     ResultIndex: ResultIndex,
   };
-  const [accordionExpanded, setAccordionExpanded] = React.useState(false);
+  // const [accordionExpanded, setAccordionExpanded] = React.useState(false);
 
-  const handleAccordionChange = (index) => (event, isExpanded) => {
-    setAccordionExpanded(isExpanded ? index : false);
-  };
+  // const handleAccordionChange = (index) => (event, isExpanded) => {
+  //   setAccordionExpanded(isExpanded ? index : false);
+  // };
   useEffect(() => {
     dispatch(ruleAction(payload));
     dispatch(quoteAction(payload));
@@ -134,13 +137,13 @@ export default function BookWrapper() {
     dispatch(resetFareData());
   }, [dispatch]);
 
-  const [expanded, setExpanded] = React.useState("panel1");
+  // const [expanded, setExpanded] = React.useState("panel1");
 
-  const handleChange = (panel) => (event, newExpanded) => {
-    setExpanded(newExpanded ? panel : false);
-  };
+  // const handleChange = (panel) => (event, newExpanded) => {
+  //   setExpanded(newExpanded ? panel : false);
+  // };
 
-  const [value, setValue] = React.useState("1");
+  // const [value, setValue] = React.useState("1");
   // console.log("reducerState", reducerState);
 
   // Add form of passenger
@@ -238,7 +241,7 @@ export default function BookWrapper() {
   }, [loaderPayment]);
 
   useEffect(() => {
-    if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage == "") {
+    if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {
       setLoaderPayment(false);
       navigate("/bookedTicket");
     } else if (
@@ -299,9 +302,17 @@ export default function BookWrapper() {
 
   useEffect(() => {
     if (
-      reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage == ""
+      reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage == "" &&
+      !isDummyTicketBooking
     ) {
       getTicketForNonLCC();
+    }
+    else if (
+      reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage == "" &&
+      isDummyTicketBooking
+    ) {
+      setLoaderPayment(false);
+      navigate("/bookedTicket");
     } else if (
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !==
@@ -403,11 +414,11 @@ export default function BookWrapper() {
   const durationMinutes = totalMinutes % 60;
   const duration_Time = `${durationHours} Hours and ${durationMinutes} minutes`;
   const authenticUser = reducerState?.logIn?.loginData?.status;
-  const notAuthenticUser = reducerState?.logIn?.loginData?.userNotFound;
+  // const notAuthenticUser = reducerState?.logIn?.loginData?.userNotFound;
 
   // razorpay integration part
 
-  const [Razorpay, isLoaded] = useRazorpay();
+  // const [Razorpay, isLoaded] = useRazorpay();
 
   // const handlePayment = useCallback(async () => {
   //   try {
@@ -451,10 +462,11 @@ export default function BookWrapper() {
     const payload = {
       firstname: passengerData[0].FirstName,
       phone: passengerData[0].ContactNo,
-      amount: parseInt(
-        reducerState?.flightFare?.flightQuoteData?.Results?.Fare
-          ?.PublishedFare
-      ) + parseInt(markUpamount),
+      amount:
+        !isDummyTicketBooking ? (parseInt(
+          reducerState?.flightFare?.flightQuoteData?.Results?.Fare
+            ?.PublishedFare
+        ) + parseInt(markUpamount)) : 99,
       email: passengerData[0].Email,
       productinfo: "ticket",
       bookingType: "FLIGHTS",
@@ -764,7 +776,7 @@ export default function BookWrapper() {
           <FlightLoader />
         ) : (
           <div className="">
-            <div className="container pt-4">
+            <div className="container px-0 pt-4">
 
               <div className="row">
 
@@ -792,7 +804,7 @@ export default function BookWrapper() {
                                   }
                                   <FiArrowRight style={{ margin: "5px" }} />{" "}
                                   {
-                                    TicketDetails?.Segments[0][0]?.Destination
+                                    TicketDetails?.Segments[0][1]?.Destination
                                       ?.Airport?.CityName
                                   }
                                 </p>
@@ -1114,7 +1126,7 @@ export default function BookWrapper() {
                               >
                                 <path
                                   d="M4 5L662 4"
-                                  stroke="url(#paint0_linear_367_27446)"
+                                  stroke="#dc817e"
                                   stroke-width="8"
                                   stroke-linecap="round"
                                 />

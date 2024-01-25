@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 // import busNew from "../../../images/loading/busNew.gif"
 import "./Loadingbus.css";
+import busLoad from "../../../images/load/busLoad.gif"
 
 
 
@@ -73,7 +74,7 @@ function Loadingbus() {
         <div className="busimgcontainer">
           <img
             // src={busNew}
-            src="https://github.com/The-SkyTrails/Images/blob/main/busNew.gif?raw=true"
+            src={busLoad}
             alt="loading"
             className="flightloadingimg"
           />
