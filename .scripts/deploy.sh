@@ -8,9 +8,9 @@ git pull origin main
 echo "New changes copied to server !"
 
 echo "Installing Dependencies..."
-npm install --force
+sudo npm install --force
 
 echo "Creating Production Build..."
-npm run build
+sudo npm run build
 
 echo "Deployment Finished!"
