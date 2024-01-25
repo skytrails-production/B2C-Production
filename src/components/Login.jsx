@@ -436,7 +436,7 @@ export default function LoginForm() {
         <div className="loginButt" onClick={handleOpen}>
           <Typography variant="subtitle3" color="#fff">
             <AccountCircleIcon sx={{ color: "white", marginRight: "8px" }} />
-            Lo0gin / Signup
+            Login / Signup
           </Typography>
         </div>
       )}

@@ -1,11 +1,12 @@
-import { takeEvery, call, put, takeLatest } from "redux-saga/effects";
-import { LOGIN_REQUEST, LOGIN_SUCCESS, USER_DATA } from "../Auth/logIn/actionType";
+import { call, put, takeLatest } from "redux-saga/effects";
+import { LOGIN_REQUEST } from "../Auth/logIn/actionType";
+// import { LOGIN_REQUEST, LOGIN_SUCCESS, USER_DATA } from "../Auth/logIn/actionType";
 import userApi from "../API/api";
 import {
   fetchLogIn,
-  userData,
-  loginAction,
-  userLogInAction,
+  // userData,
+  // loginAction,
+  // userLogInAction,
 } from "../Auth/logIn/actionLogin";
 
 function* userLoginRequest(action) {
@@ -15,13 +16,13 @@ function* userLoginRequest(action) {
   } catch (error) {
     console.log("Login Error saga", error?.response?.data)
     var userNotFound;
-    var inValidOTP = true;
-    if (error?.response?.data?.message == 'User Not found.') {
+    // var inValidOTP = true;
+    if (error?.response?.data?.message === 'User Not found.') {
       userNotFound = true
       yield put(fetchLogIn({ userNotFound }));
     }
-    else if (error?.response?.data?.message == 'Incorrect OTP') {
-      yield put(fetchLogIn( error?.response?.data ));
+    else if (error?.response?.data?.message === 'Incorrect OTP') {
+      yield put(fetchLogIn(error?.response?.data));
     }
 
   }

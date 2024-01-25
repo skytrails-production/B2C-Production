@@ -569,15 +569,8 @@ const Homeform = (props) => {
   return (
     <>
       <section
-        className=""
-        style={{
-          width: "100%",
-          position: "absolute",
-          left: "50%",
-          top: "50%",
-          transform: "translate(-50%, -50%)",
-          zIndex: "2",
-        }}
+        className="oneWayAbsDesign"
+
       >
         <Helmet>
           <title>Flight</title>
@@ -592,63 +585,6 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         <div className="container">
           <div className="row oneWayBg">
             <div className="col-12 p-0">
-              {/* <TabContext value={value} centered> */}
-              {/* <Box
-
-                  pt={3}
-                  style={{
-                    display: "flex",
-                    justifyContent: "end",
-                    flexWrap: "wrap",
-                    paddingTop: "16px",
-                    marginTop: "4px",
-                  }}
-                >
-                  <TabList
-                    onChange={handleChange}
-                    aria-label="lab API tabs example"
-                    TabIndicatorProps={{ style: { display: "none" } }}
-                    sx={{ marginX: "40px", marginY: "-10px", minHeight: "0px" }}
-                  > */}
-              {/* <Tab
-                      // label="Oneway"
-                      value="1"
-                      sx={{
-                        fontSize: "15px",
-                        color: "black",
-                        fontWeight: "bold",
-                        minHeight: "34px",
-                        // padding: "5px 16px",
-                        marginX: "5px",
-                        borderRadius: "10px",
-                      }}
-                    ></Tab> */}
-              {/* <Tab
-                      label="Round Trip"
-                      value="2"
-                      sx={{
-                        fontSize: "15px",
-                        color: "black",
-                        fontWeight: "bold",
-                        minHeight: "34px",
-                        padding: "5px 16px",
-                        marginX: "5px",
-                        borderRadius: "10px",
-                      }}
-                    /> */}
-              {/* </TabList> */}
-
-              {/* <div style={{ flex: 1, textAlign: "right", padding: "0px 30px 0px 0px" }}>
-                    <p className="para">
-                      Book International and Domestic Flights
-                    </p>
-                  </div> */}
-              {/* </Box> */}
-
-              {/* Oneway start */}
-
-              {/* <TabPanel value="1"> */}
-
               <form onSubmit={handleOnewaySubmit}>
                 <div className="your-container">
                   <div
@@ -660,33 +596,13 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                       // ; alert(fromToggle, "/////")
                     }}
                     className="from-container"
+                    id="item-0"
                   >
                     <span>From</span>
                     <div>
-                      {/* <input
-
-                            name="from"
-                            placeholder="Enter city or airport"
-                            value={from}
-                            autoComplete="off"
-                            onClick={()=>setFromToggle(true)}  
-                            onChange={(event) => {
-                              handleFromInputChange(event);
-                              setIsLoadingFrom(true);
-                              handleFromSearch(event.target.value);
-                            }}
-                            required
-                            style={{
-                              outline: "none",
-                              border: "none",
-                            }}
-                          /> */}
 
                       <label>{selectedFrom.name}</label>
-                      {/* {isLoadingFrom && <div>Loading...</div>} */}
-
                       {
-                        // fromSearchResults && fromSearchResults.length > 0 && fromQuery.length >= 2
                         fromToggle && (
                           <div
                             ref={fromSearchRef}
@@ -743,10 +659,6 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                                         </div>
                                         <div
                                           className="resultOriginName"
-                                        //  onClick={(e) => {
-                                        //   e.stopPropagation(); // Stop event bubbling
-
-                                        // }}
                                         >
                                           <p>{result.name}</p>
                                           <span>{result.code}</span>
@@ -767,7 +679,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                     {fromSearchResults &&
                       fromSearchResults.length > 0 &&
                       fromQuery.length >= 2 ? (
-                      <span>
+                      <span className="d-none d-md-block ">
                         {selectedFrom ? (
                           <>
                             {selectedFrom.code}, {selectedFrom.name}
@@ -780,7 +692,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                         )}
                       </span>
                     ) : (
-                      <span>Airport Name</span>
+                      <span className="d-none d-md-block ">Airport Name</span>
                     )}
 
                     <div
@@ -832,35 +744,15 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                       setToggle(true);
                       setdisplayTo(true);
                       setIsLoadingTo(true);
-                      // ; alert(fromToggle, "/////")
                     }}
                     className="from-container"
+                    id="item-1"
                   >
                     <span>To</span>
                     <div>
-                      {/* <input
-
-                            name="to"
-                            placeholder="Enter city or airport"
-                            value={to}
-                            required
-                            onChange={(event) => {
-                              handleToInputChange(event);
-                              setIsLoadingTo(true);
-                              handleToSearch(event.target.value);
-                            }}
-                            autoComplete="off"
-                            style={{
-                              border: "none",
-
-                              outline: "none",
-                            }}
-                          /> */}
 
                       <label>{selectedTo.name}</label>
-                      {/* {isLoadingTo && <div>Loading...</div>} */}
                       {
-                        // toSearchResults && toSearchResults.length > 0 && toQuery.length >= 2 &&
                         toToggle && (
                           <div
                             ref={toSearchRef}
@@ -938,7 +830,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                     {toSearchResults &&
                       toSearchResults.length > 0 &&
                       toQuery.length >= 2 ? (
-                      <span>
+                      <span className="d-none d-md-block ">
                         {selectedTo ? (
                           <>
                             {selectedTo.code}, {selectedTo.name}
@@ -950,10 +842,10 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                         )}
                       </span>
                     ) : (
-                      <span>Airport Name</span>
+                      <span className="d-none d-md-block ">Airport Name</span>
                     )}
                   </div>
-                  <div className="from-container">
+                  <div className="from-container" id="item-2">
                     <span>Departure</span>
                     <div className="">
                       <div className="onewayDatePicker">
@@ -966,10 +858,10 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                         />
                       </div>
                     </div>
-                    <span>{getDayOfWeek(startDate)}</span>
+                    <span className="d-none d-md-block ">{getDayOfWeek(startDate)}</span>
                   </div>
 
-                  <div className="travellerContainer ">
+                  <div className="travellerContainer " id="item-3">
                     <div
                       onClick={handleTravelClickOpen}
                       className="travellerButton"
@@ -979,7 +871,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                         <span>{(totalCount === 0 && 1) || totalCount} </span>{" "}
                         Traveller
                       </p>
-                      <div>
+                      <div className="d-none d-md-block ">
                         <span>
                           {(activeIdClass === 1 && "All") ||
                             (activeIdClass === 2 && "Economy") ||
@@ -1003,7 +895,6 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                               <h3>TRAVELLERS & CLASS</h3>
                             </div>
                             <div className="travellerPeople">
-                              {/* Use the TravelerCounter component for each category */}
                               <TravelerCounter
                                 label="Adults (Age 12+ Years)"
                                 count={activeIdAdult}
@@ -1036,7 +927,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                               />
                             </div>
                             <div>
-                              <h3>Choose Travel Class</h3>
+                              <h3 className="d-none d-md-block">Choose Travel Class</h3>
                             </div>
                             <div>
                               <ul className="classButtonTravel">
@@ -1054,7 +945,6 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                                             : "#d90429",
                                       }}
                                       data-id={ele.id}
-                                    // onClick={handleClassItemClick}
                                     >
                                       {ele?.label}
                                     </li>
@@ -1065,7 +955,11 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                           </div>
                         </>
                       </DialogContent>
-                      <DialogActions>
+                      <DialogActions
+                        style={{
+                          justifyContent: "center"
+                        }}
+                      >
                         <Button
                           style={{
                             backgroundColor: "#21325d",
@@ -1079,7 +973,6 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                           style={{
                             backgroundColor: "#21325d",
                             color: "white",
-                            marginRight: "40px",
                           }}
                           onClick={handleTravelClose}
                         >
@@ -1088,69 +981,13 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                       </DialogActions>
                     </Dialog>
                   </div>
-                  <div className=" onewaySearch">
+                  <div className=" onewaySearch" id="item-4">
                     <button type="submit" className="searchButt">
                       <h3 className="mb-0">Search</h3>
-                      {/* <KeyboardDoubleArrowRightIcon /> */}
                     </button>
                   </div>
                 </div>
-
-                {/* <Box display="flex" justifyContent="center">
-                  <div class="wrapper_oneway">
-                    <div className="wraOne">
-
-                          <p>Select A Fare Type:</p>
-                        </div>
-                        <input
-                          type="radio"
-                          name="select"
-                          id="option-1"
-                          checked
-                        />
-                        <input type="radio" name="select" id="option-2" />
-                        <input type="radio" name="select" id="option-3" />
-                        <input type="radio" name="select" id="option-4" />
-                        <input type="radio" name="select" id="option-5" />
-                        <input type="radio" name="select" id="option-6" />
-
-                        <label for="option-1" class="option option-1">
-                          <text>Regular Fares</text>
-                        </label>
-                        <label for="option-2" class="option option-2">
-                          <text>Armed Forces Fares</text>
-                        </label>
-                        <label for="option-3" class="option option-3">
-                          <text>Student Fares</text>
-                        </label>
-                        <label for="option-4" class="option option-4">
-                          <text>Senior Citizen Fares</text>
-                        </label>
-                        <label for="option-5" class="option option-5">
-                          <text>Doctors & Nurses Fares</text>
-                        </label>
-                        <label for="option-6" class="option option-6">
-                          <text>Double Seat Fares</text>
-
-                        </label> 
-                     <div className="col-auto fare_search_oneWay ">
-                          <button
-                            type="submit"
-                            path=""
-                            justifyContent="center"
-                          >
-
-                            Search
-                          </button>
-                        </div>
-                  </div>
-                </Box> */}
               </form>
-
-              {/* =====================> 2nd form here <============================================= */}
-              {/* </TabPanel> */}
-
-              {/* </TabContext> */}
             </div>
           </div>
         </div>

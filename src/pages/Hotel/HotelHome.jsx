@@ -4,8 +4,8 @@ import HotelForm from "./HotelForm";
 import { motion } from "framer-motion";
 import Advertise from "../home/Advertise";
 import FLightOffer from "../flight/FLightOffer";
-// import InsideNavbar from "../../UI/BigNavbar/InsideNavbar"
-import BigNavbar from "../../UI/BigNavbar/BigNavbar";
+import InsideNavbar from "../../UI/BigNavbar/InsideNavbar"
+// import BigNavbar from "../../UI/BigNavbar/BigNavbar";
 // import onewayBG from "../../images/onewaybg.png"
 import onewayBG from "../../images/onewayBG.jpg";
 import WhyChooseUs from "../../components/WhyChooseUs";
@@ -37,10 +37,9 @@ const Hotelhome = () => {
       </Helmet>
 
       <div className="mainimg">
-        {/* <img className="bannerBack" src={onewayBG} alt="" /> */}
-        <img className="bannerBack" src="https://img.freepik.com/premium-photo/orange-green-watercolor-background_468073-45.jpg?w=1480" alt="background" />
-        <BigNavbar />
-        {/* <InsideNavbar /> */}
+        <img className="bannerBack" src={onewayBG} alt="banner" />
+        {/* <BigNavbar /> */}
+        <InsideNavbar />
         <HotelForm />
       </div>
       <motion.div variants={variants} initial="initial" whileInView="animate">

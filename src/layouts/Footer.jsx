@@ -15,7 +15,7 @@ const Footer = () => {
   };
   return (
     <section className="footer">
-      <div className="container ">
+      <div className="container p-0">
         <div className="row w-100">
           <div className="mobileViewFooterLogo col-xs-12 col-sm-7 col-md-7 col-lg-7 col-xl-7">
             <img
@@ -27,7 +27,7 @@ const Footer = () => {
           </div>
           <div className="col-xs-12 col-sm-5 col-md-5 col-lg-5 col-xl-5">
             <div className="row gap-6 mt-4 mt-sm-0">
-              <div className="col-md-6 col-sm-6 col-xs-4">
+              <div className="col-md-6 col-sm-6 col-xs-4 col-6">
                 <h5>About</h5>
                 <ul className="list-unstyled mt-3">
                   <li>
@@ -50,7 +50,7 @@ const Footer = () => {
                 </ul>
               </div>
 
-              <div className="col-md-6 col-sm-6 col-xs-4">
+              <div className="col-md-6 col-sm-6 col-xs-4 col-6">
                 <h5>Legal</h5>
                 <ul className="list-unstyled mt-3">
                   <li>

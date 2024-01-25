@@ -504,13 +504,13 @@ const Homeform = (props) => {
         </div>
       </Modal> */}
 
-      <section className="" style={{ width: "100%", position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)", zIndex: "2" }}>
+      <section className="HotelAbsDesign" style={{}}>
         <div className="container " >
           <div className="row BusSearchBg p-0">
             <div className="col-12 p-0">
               <form onSubmit={handleSubmit}>
                 <div className="busSearch-container">
-                  <div className="PackageInner_bus">
+                  <div className="PackageInner_bus" id="item-0B">
                     <span>From</span>
                     {displayFrom &&
                       <div
@@ -524,7 +524,7 @@ const Homeform = (props) => {
                             <CiSearch size={"20px"} />
                           </div>
 
-                          <div>
+                          <div className="busHideInput">
                             <input
                               name="from"
                               placeholder="Enter city Name"
@@ -691,7 +691,7 @@ const Homeform = (props) => {
 
                     </div>
 
-                    <span>{selectedFromLast?.CityId}</span>
+                    <span className="d-none d-md-block">{selectedFromLast?.CityId}</span>
                     <div className="roundlogo" onClick={handleRoundLogoClick}
                       style={{ cursor: 'pointer' }}>
                       <svg
@@ -729,7 +729,7 @@ const Homeform = (props) => {
                     </div>
                   </div>
 
-                  <div className="PackageInner_bus">
+                  <div className="PackageInner_bus" id="item-1B">
                     <span>To</span>
                     {displayTo &&
                       <div ref={toSearchRef} className="Package_innerDiv_Position">
@@ -738,7 +738,7 @@ const Homeform = (props) => {
 
                             <CiSearch size={"20px"} />
                           </div>
-                          <div>
+                          <div className="busHideInput">
                             <input
                               name="to"
                               placeholder="Enter city Name"
@@ -808,11 +808,11 @@ const Homeform = (props) => {
                     </div>
 
 
-                    <span>{selectedToLast?.CityId}</span>
+                    <span className="d-none d-md-block">{selectedToLast?.CityId}</span>
 
                   </div>
 
-                  <div className="PackageInner">
+                  <div className="PackageInner" id="item-2B">
                     <span>Departure</span>
                     <div className="">
                       <div className='onewayDatePicker'>
@@ -826,9 +826,9 @@ const Homeform = (props) => {
                         />
                       </div>
                     </div>
-                    <span>{getDayOfWeek(startDate)}</span>
+                    <span className="d-none d-md-block">{getDayOfWeek(startDate)}</span>
                   </div>
-                  <div className="PackageInner">
+                  <div className="PackageInner" id="item-3B">
                     <button type="submit" className="searchButt">
                       <h3>Search</h3>
                       <KeyboardDoubleArrowRightIcon />

@@ -690,15 +690,8 @@ const HotelForm = () => {
                 <Hotelmainloading />
             ) :
                 (<section
-                    className=""
-                    style={{
-                        width: "100%",
-                        position: "absolute",
-                        left: "50%",
-                        top: "50%",
-                        transform: "translate(-50%, -50%)",
-                        zIndex: "2",
-                    }}
+                    className="HotelAbsDesign"
+
                 >
                     <div className="container">
                         <div className="row hotelFormBg">
@@ -710,23 +703,15 @@ const HotelForm = () => {
                                             <div
                                                 onClick={async (e) => {
                                                     e.stopPropagation();
-                                                    // alert(sub);
-                                                    // console.warn("sub", searchTerm);
                                                     setSub(true);
                                                     await setdisplayFrom(true);
-                                                    // hotelInputRef.current.focus()
-
-
                                                 }}
                                                 className="hotel-container"
+                                                id="item-0H"
                                             >
                                                 <span>City Name</span>
                                                 <div>
                                                     <label>{searchTermLast.Destination}</label>
-
-                                                    {/* {cityError !== "" && (
-                                                        <span className="error">{cityError}</span>
-                                                    )} */}
 
                                                     {sub && (
                                                         <>
@@ -801,12 +786,13 @@ const HotelForm = () => {
                                                     )}
                                                 </div>
 
-                                                <span>India</span>
+                                                <span className="d-none d-md-block">India</span>
                                             </div>
 
                                             <div
                                                 onClick={() => setSub(false)}
                                                 className="hotel-container"
+                                                id="item-1H"
                                             >
                                                 <span>Check In</span>
                                                 <div className="">
@@ -825,7 +811,7 @@ const HotelForm = () => {
                                                 </div>
                                                 {/* <span>Monday</span> */}
                                                 {/* <span>{selectedDay}</span> */}
-                                                <span>{getDayOfWeek(selectedDay)}</span>
+                                                <span className="d-none d-md-block">{getDayOfWeek(selectedDay)}</span>
                                                 {/* {sub && values.departure === ("" || undefined) && (
                                                     <span className="error">Enter Check-In Date </span>
                                                 )} */}
@@ -834,6 +820,7 @@ const HotelForm = () => {
                                             <div
                                                 onClick={() => setSub(false)}
                                                 className="hotel-container"
+                                                id="item-2H"
                                             >
                                                 <span>Check Out</span>
                                                 <div className="">
@@ -852,7 +839,7 @@ const HotelForm = () => {
                                                 </div>
                                                 {/* <span>Thursday</span> */}
                                                 {/* <span>{selectedDayTwo}</span> */}
-                                                <span>{getDayOfWeek(selectedDayTwo)}</span>
+                                                <span className="d-none d-md-block">{getDayOfWeek(selectedDayTwo)}</span>
                                                 {/* {sub &&
                                                     values.checkOutDeparture === ("" || undefined) && (
                                                         <span className="error">Enter Check-Out Date </span>
@@ -861,7 +848,8 @@ const HotelForm = () => {
 
                                             <div
                                                 onClick={() => setSub(false)}
-                                                className="travellerContainer "
+                                                className="travellerContainer ms-0"
+                                                id="item-3H"
                                             >
                                                 <div
                                                     onClick={handleTravelClickOpen}
@@ -870,7 +858,7 @@ const HotelForm = () => {
                                                     <span>Traveller & Class</span>
                                                     <p>{condition} Room</p>
                                                     {/* <div> */}
-                                                    <span>
+                                                    <span className="d-none d-md-block">
                                                         {numAdults} Adults {numChildren} Child
                                                     </span>
                                                     {/* </div> */}
@@ -1127,7 +1115,7 @@ const HotelForm = () => {
                                                     </DialogActions>
                                                 </Dialog>
                                             </div>
-                                            <div className="PackageInner">
+                                            <div className="PackageInner" id="item-4H">
                                                 <button type="submit" className="searchButt">
                                                     <h3>Search</h3>
                                                     {/* <KeyboardDoubleArrowRightIcon /> */}

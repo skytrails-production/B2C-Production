@@ -3,101 +3,16 @@ import React from "react";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./download.css";
 import "../../components/card.css";
-// import app from "../../images/app.png";
-// import app1 from "../../images/app1.jpg"
-// import app2 from "../../images/app2.jpg"
-// import app3 from "../../images/app3.jpg"
-// import app4 from "../../images/app4.jpg"
-// import mobileframe from "../../images/mobileframe.jpg"
-// import google from "../../images/google.png"
-// import { motion, AnimatePresence } from "framer-motion";
-
-
 import step1 from "../../images/download/steps-1.png"
 import step2 from "../../images/download/steps-2.png"
 import step3 from "../../images/download/steps-3.png"
-// import downloadBG from "../../images/download/downloadBG.png"
 import apple from "../../images/download/apple.png"
 import google from "../../images/download/google.png"
 import mobil from "../../images/download/mobil.png"
 import check from "../../images/download/check.png"
 
-// const variants = {
-//   initial: {
-//     x: 0,
-//     opacity: 0.8,
-//     transition: {
-//     },
-//   },
-//   animate: {
-//     x: 0,
-//     opacity: 1,
-//     transition: {
-
-//     },
-//   },
-//   exit: {
-
-//     x: -190,
-//     opacity: 0.8,
-//     transition: {
-
-//     },
-//   },
-// };
-
-
-// const quotes = [
-//   {
-//     img: app1,
-
-//   },
-//   {
-//     img: app2,
-
-//   },
-//   {
-//     img: app3,
-
-
-//   },
-//   {
-//     img: app4
-//   }
-// ];
-
-// const getRandomQuote = () => {
-//   const randomIndex = Math.floor(Math.random() * quotes.length);
-//   return quotes[randomIndex];
-// };
-
-
 
 const Download = () => {
-
-
-  // const [data, setData] = useState(null);
-  // const [currentImgIndex, setCurrentImgIndex] = useState(0);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const result = getRandomQuote();
-  //       setData(result);
-  //     } catch (error) {
-  //       console.error("Error fetching data:", error);
-  //     }
-  //   };
-
-  //   fetchData();
-
-  //   const intervalId = setInterval(() => {
-  //     fetchData();
-  //     setCurrentImgIndex((prevIndex) => (prevIndex + 1) % quotes.length);
-  //   }, 4000);
-
-  //   return () => clearInterval(intervalId);
-  // }, []);
 
 
   return (
@@ -105,11 +20,12 @@ const Download = () => {
     <>
       <section class="download-gap download-no-top">
         <div class="container">
-          <div class="download-heading">
-            <h2>Take Full Control of Your Booking</h2>
+          <div class="offerText my-5">
+            <p>Take Full Control of Your Booking</p>
+
           </div>
-          <div class="row">
-            <div className="col-lg-4 col-md-4">
+          <div class="row ">
+            <div className="col-lg-4 col-md-4 mb-3">
               <div class="download-steps">
                 <i><img src={step1} alt="steps" /></i>
                 <span>1</span>
@@ -117,7 +33,7 @@ const Download = () => {
                 <p>download the app from the App Store or Google Play on any device</p>
               </div>
             </div>
-            <div className="col-lg-4 col-md-4">
+            <div className="col-lg-4 col-md-4 mb-3">
               <div class="download-steps">
                 <i><img src={step2} alt="steps" /></i>
                 <span>2</span>
@@ -125,7 +41,7 @@ const Download = () => {
                 <p>download the app from the App Store or Google Play on any device</p>
               </div>
             </div>
-            <div className="col-lg-4 col-md-4">
+            <div className="col-lg-4 col-md-4 mb-3">
               <div class="download-steps">
                 <i><img src={step3} alt="steps" /></i>
                 <span>3</span>

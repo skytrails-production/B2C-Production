@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import './BigNavbar.css';
 // import { motion } from 'framer-motion';
-import { motion, useCycle } from "framer-motion";
+import { motion } from "framer-motion";
 import LinksInner from './LinksInner';
 import newlogo from '../../images/newlogo.png';
 import Countrypicker from '../../layouts/Countrypicker';

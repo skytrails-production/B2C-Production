@@ -7,10 +7,10 @@ import "./home.css";
 import { motion } from "framer-motion";
 import Advertise from "./Advertise";
 import FLightOffer from "../flight/FLightOffer";
-// import InsideNavbar from "../../UI/BigNavbar/InsideNavbar"
+import InsideNavbar from "../../UI/BigNavbar/InsideNavbar"
 // import onewayBG from "../../images/onewaybg.png"
 import onewayBG from "../../images/onewayBG.jpg";
-import BigNavbar from "../../UI/BigNavbar/BigNavbar";
+// import BigNavbar from "../../UI/BigNavbar/BigNavbar";
 import HolidaySuggestion from "../holidaypackages/holidaySuggestion/HolidaySuggestion";
 import HolidayCategory from "../holidaypackages/holidayCategory/HolidayCategory";
 import Topflightroute from "../flight/Topflightroute";
@@ -52,10 +52,9 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
       </Helmet>
 
       <div className="mainimg">
-        <img className="bannerBack" src="https://img.freepik.com/premium-photo/orange-green-watercolor-background_468073-45.jpg?w=1480" alt="background" />
-        {/* <img className="bannerBack" src={onewayBG} alt="background" /> */}
-        {/* <InsideNavbar /> */}
-        <BigNavbar />
+        <img className="bannerBack" src={onewayBG} alt="background" />
+        <InsideNavbar />
+        {/* <BigNavbar /> */}
         <Oneway header="" />
       </div>
 
@@ -68,7 +67,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         variants={variants}
         initial="initial"
         whileInView="animate"
-        style={{ position: "relative", top: "-30px" }}
+        style={{ position: "relative" }}
       >
         <Topflightroute variants={variants} />
       </motion.div>
@@ -76,7 +75,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         variants={variants}
         initial="initial"
         whileInView="animate"
-        style={{ position: "relative", top: "-30px" }}
+        style={{ position: "relative" }}
       >
         <HolidaySuggestion variants={variants} />
       </motion.div>
@@ -84,7 +83,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         variants={variants}
         initial="initial"
         whileInView="animate"
-        style={{ position: "relative", top: "-30px" }}
+        style={{ position: "relative" }}
       >
         <Advertise variants={variants} />
       </motion.div>

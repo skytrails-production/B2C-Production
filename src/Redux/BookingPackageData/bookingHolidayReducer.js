@@ -1,7 +1,7 @@
-import * as types from "./actionType";
+// import * as types from "./actionType";
 
 const initState = {
-  packageBookID : "",
+  packageBookID: "",
   isLoading: false,
 
   isError: false,
@@ -12,7 +12,7 @@ const initState = {
 export const packageBookingIDReducer = (state = initState, action) => {
   const { type, payload } = action;
   switch (type) {
-  
+
     case "SUBMIT_FORM_DATA":
       return {
         ...state,
@@ -21,17 +21,17 @@ export const packageBookingIDReducer = (state = initState, action) => {
         isError: false,
         showSuccessMessage: true,
       };
-      
+
     case "SUBMIT_FORM_DATA_ERROR":
       return {
         ...state,
-       
+
         isLoading: false,
         isError: true,
         showSuccessMessage: false,
       };
-      
-     
+
+
     default:
       return state;
   }

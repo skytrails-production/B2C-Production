@@ -429,37 +429,37 @@ const Oneway2 = (props) => {
     if (isPopularSearch) {
       handleOneWaySubmitPopularSearch()
     }
-    
-      return () => {
-        sessionStorage.setItem("isPopularSearch", false);
-      };
+
+    return () => {
+      sessionStorage.setItem("isPopularSearch", false);
+    };
   }, [])
 
- const handleDummyTicketBooking=()=>{
-  const payload = {
-    EndUserIp: reducerState?.ip?.ipData,
-    TokenId: reducerState?.ip?.tokenData,
-    AdultCount: 1,
-    ChildCount: 0,
-    InfantCount: 0,
-    DirectFlight: "false",
-    OneStopFlight: "false",
-    JourneyType: data2.class || "1",
-    PreferredAirlines: null,
-    Segments: [
-      {
-        Origin: selectedFrom.AirportCode,
-        Destination: selectedTo.AirportCode,
-        FlightCabinClass: activeIdClass,
-        PreferredDepartureTime: formattedDate2,
-        PreferredArrivalTime: formattedDate2,
-      },
-    ],
-    Sources: ["GDS"],
-  };
-  dispatch(oneWayAction(payload));
- }
- 
+  const handleDummyTicketBooking = () => {
+    const payload = {
+      EndUserIp: reducerState?.ip?.ipData,
+      TokenId: reducerState?.ip?.tokenData,
+      AdultCount: 1,
+      ChildCount: 0,
+      InfantCount: 0,
+      DirectFlight: "false",
+      OneStopFlight: "false",
+      JourneyType: data2.class || "1",
+      PreferredAirlines: null,
+      Segments: [
+        {
+          Origin: selectedFrom.AirportCode,
+          Destination: selectedTo.AirportCode,
+          FlightCabinClass: activeIdClass,
+          PreferredDepartureTime: formattedDate2,
+          PreferredArrivalTime: formattedDate2,
+        },
+      ],
+      Sources: ["GDS"],
+    };
+    dispatch(oneWayAction(payload));
+  }
+
   const handleOneWaySubmitPopularSearch = () => {
     const payload = {
       EndUserIp: reducerState?.ip?.ipData,
@@ -496,7 +496,7 @@ const Oneway2 = (props) => {
     setDepartureDate(formData.get("departure"));
 
     // createSearchHistory();
-     
+
     const payload = {
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
@@ -543,10 +543,10 @@ const Oneway2 = (props) => {
     navigate(
       `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
     );
-     if(isDummyTicketBooking){
-       dispatch(oneWayAction(dummyTicketPayload));
-     }
-    else{dispatch(oneWayAction(payload))};
+    if (isDummyTicketBooking) {
+      dispatch(oneWayAction(dummyTicketPayload));
+    }
+    else { dispatch(oneWayAction(payload)) };
     // }
   }
 
@@ -627,7 +627,7 @@ const Oneway2 = (props) => {
   return (
     <>
       <section
-        className="onyway2Section"
+        className="onyway2Section d-none d-md-block "
         style={{
 
           top: newHeight,

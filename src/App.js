@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/home/Home";
 import BookWrapper from "./pages/flight/Bookwrapper";
@@ -29,7 +29,7 @@ import SeatLayout from "./pages/bus/bussearchresult/SeatLayout";
 import Footer from "./layouts/Footer";
 import TermandCondition from "./layouts/TermandCondition"
 import PrivacyPolicy from "./layouts/PrivacyPolicy"
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 // import ReturnFlight from "./pages/Return/ReturnFlight";
 // import PaymentReturn from "./pages/Return/PaymentReturn";
 // import Conformation from "./pages/Return/Conformation";
@@ -54,12 +54,16 @@ import ContactUs from "./layouts/ContactUs";
 import BookingHistory from "./components/bookingHistory/BookingHistory"
 import HolidayCategoryDetails from "./pages/holidaypackages/holidayCategory/HolidayCategoryDetails";
 import { debounce } from 'lodash';
+
+// import InsideNavbar from "./UI/BigNavbar/InsideNavbar"
+
 import FlightETicket from "../src/components/FlightETicket"
 
 
 
+
 function App() {
-  const location = useLocation();
+  // const location = useLocation();
   const dispatch = useDispatch();
 
 
@@ -72,32 +76,35 @@ function App() {
   // const isPayment = location.pathname.includes("/payment");
 
 
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth > 750);
+  // const [windowWidth, setWindowWidth] = useState(window.innerWidth > 750);
 
-  const updateDimensions = useCallback(
-    debounce(() => {
-      setWindowWidth(window.innerWidth > 750);
-    }, 200),
-    []
-  );
+  // const updateDimensions = useCallback(
+  //   debounce(() => {
+  //     setWindowWidth(window.innerWidth > 750);
+  //   }, 200),
+  //   []
+  // );
 
-  useEffect(() => {
-    const handleResizeScroll = () => {
-      updateDimensions();
-    };
+  // useEffect(() => {
+  //   const handleResizeScroll = () => {
+  //     updateDimensions();
+  //   };
 
-    window.addEventListener('resize', handleResizeScroll);
-    window.addEventListener('scroll', handleResizeScroll, { passive: true });
+  //   window.addEventListener('resize', handleResizeScroll);
+  //   window.addEventListener('scroll', handleResizeScroll, { passive: true });
 
-    return () => {
-      window.removeEventListener('resize', handleResizeScroll);
-      window.removeEventListener('scroll', handleResizeScroll);
-    };
-  }, [updateDimensions]);
+  //   return () => {
+  //     window.removeEventListener('resize', handleResizeScroll);
+  //     window.removeEventListener('scroll', handleResizeScroll);
+  //   };
+  // }, [updateDimensions]);
 
   // useEffect(() => {
   //   if (!windowWidth) {
-  //     window.location.href = 'https://play.google.com/store/apps/details?id=com.skytrails';
+  //     // window.location.href = 'https://play.google.com/store/apps/details?id=com.skytrails';
+  //     return (
+  //       <Download />
+  //     )
   //   }
   // }, [windowWidth]);
 
@@ -106,7 +113,8 @@ function App() {
   // if (!windowWidth) {
   //   return (
 
-  //     <Download />
+  //     // <Download />
+  //     <Home />
 
   //   )
   // }

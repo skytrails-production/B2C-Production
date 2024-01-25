@@ -235,3 +235,769 @@
     transition: all ease-in-out 0.5s;
     border-radius: 7px;
 }
+
+
+
+@media(max-width:600px) {
+    .holidayCatMainBox {
+        /* display: grid !important; */
+        /* grid-template-columns: 50% 50%; */
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin: 0px 20px;
+        box-sizing: border-box;
+    }
+
+    .holidayCatBox {
+        height: 80px;
+        background: #111;
+        padding: 10px 20px;
+
+        width: 150px;
+        position: relative;
+        border-radius: 7px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: all 0.2s;
+        flex-grow: 6;
+    }
+
+    .holidayCatBox:nth-last-of-type(1) {
+        height: 80px;
+        background: #111;
+        padding: 10px 20px;
+        width: 100%;
+        position: relative;
+        border-radius: 7px;
+        cursor: pointer;
+        overflow: hidden;
+        transition: all 0.2s;
+    }
+
+
+    .flight-route-box {
+        display: flex;
+        max-width: 80%;
+        position: relative;
+        align-items: center;
+        cursor: pointer;
+        padding: 5px;
+        text-decoration: none;
+        color: unset;
+        background: rgba(255, 255, 255, 0.25);
+        /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); */
+        backdrop-filter: blur(4px);
+        -webkit-backdrop-filter: blur(4px);
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .route-img-flight {
+        display: flex;
+        align-items: center;
+        margin-right: 10px !important;
+        width: 33px !important;
+        height: 33px !important;
+        border-radius: 17px;
+    }
+
+    .route-img {
+        border-radius: 10px;
+        /* object-fit: cover; */
+        width: 33px !important;
+        height: 33px !important;
+    }
+
+    .route-content-span {
+        font-size: 11px;
+        display: flex;
+        gap: 5px;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+
+    .route-content-span span {
+        font-size: 11px;
+    }
+
+    /* .route-content-span span img {
+        width: 80%;
+    } */
+
+    .Flight-grid-route {
+        grid-template-columns: repeat(2, 1fr);
+        justify-content: center;
+        gap: 15px !important;
+    }
+
+    .flight-route-box {
+        display: flex;
+        max-width: 100% !important;
+    }
+
+    .route-sort-caption {
+        font-size: 12px !important;
+
+    }
+
+    .holidayCatBox h3 {
+        font-size: 14px !important;
+        font-weight: 600px;
+        color: white;
+        text-wrap: nowrap;
+    }
+
+
+    .advertise-container {
+        margin-top: 0px !important;
+    }
+
+
+    .mt100 {
+        margin-top: 30px;
+    }
+
+
+    .holidayCatBoxDomestic {
+        height: 141px !important;
+
+    }
+
+    .holidayCatBoxDomestic h3 {
+        font-size: 12px !important;
+
+    }
+
+
+    .holidayCountryUnique h4 {
+        color: white;
+        font-weight: 700;
+        font-size: 13px;
+        margin-bottom: 0 !important;
+    }
+
+    .mb100 {
+        margin-bottom: 20px !important;
+    }
+
+    .inner-content {
+        padding-bottom: 0 !important;
+    }
+
+    .PackageInner-packMobile {
+        padding: 20px 21px;
+        border-top-left-radius: 12px;
+        border-right: 1px #888 solid;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 7px;
+        display: inline-flex;
+        position: relative;
+    }
+
+    .package_lable_lMobile {
+        color: #071c2c;
+        font-family: "Montserrat";
+        font-size: 13px !important;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        /* width: 141px; */
+        width: 100%;
+        border: none;
+        outline: none;
+        text-transform: capitalize;
+    }
+
+    .paddMobile {
+        padding: 0px 15px;
+    }
+
+    .advertise-slide img {
+        width: 100%;
+        height: auto;
+        border-radius: 5px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+
+    .package_input_div_divMobile input {
+        font-size: 13px !important;
+
+        outline: none !important;
+        border: none !important;
+        height: 30px !important;
+        width: 100% !important;
+
+        color: #071c2c !important;
+        font-family: "Montserrat";
+        font-size: 13px !important;
+        font-style: normal !important;
+        font-weight: 600 !important;
+        line-height: normal !important;
+        /* width: 141px; */
+        width: 100% !important;
+        border: none !important;
+        outline: none !important;
+        text-transform: capitalize !important;
+    }
+
+    .package_input_div_divMobile input::placeholder {
+        font-size: 13px !important;
+    }
+
+    .scroll_styleMobile {
+        overflow: hidden;
+        overflow-y: scroll;
+        max-height: 210px;
+        background-color: #ffff;
+        margin-top: 17px;
+    }
+
+    .scroll_styleMobile p {
+        font-size: 13px;
+        cursor: pointer;
+    }
+
+
+    .download-steps {
+        background-color: #f1f1f1 !important;
+        padding: 20px !important;
+        text-align: center !important;
+        border-radius: 20px !important;
+        position: relative !important;
+        border: 7px solid #fff !important;
+        height: 100%;
+    }
+
+    .download-steps h4 {
+        font-size: 14px !important;
+    }
+
+    .download-steps p {
+        font-size: 13px !important;
+        line-height: 20px !important;
+        font-weight: 500 !important;
+    }
+
+    .download-steps i {
+        width: 95px !important;
+        height: 95px !important;
+
+
+    }
+
+    .download-steps img {
+
+        width: 40% !important;
+    }
+
+    .download-app h2 {
+        color: #111 !important;
+        font-weight: 800 !important;
+        font-size: 17px !important;
+        text-align: center;
+        width: 80%;
+    }
+
+    .download-app {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .download-gap {
+        padding: 30px 0 !important;
+    }
+
+    ul.download-list li {
+        padding-top: 12px !important;
+        font-size: 12px !important;
+        color: #111;
+        list-style-type: none;
+    }
+
+    .download-list {
+        padding-left: 0 !important;
+    }
+
+    .scan-logo {
+        width: 139px !important;
+    }
+
+    .footer a {
+        font-size: 13px !important;
+    }
+
+    .footer {
+        padding: 100px 20px 20px 20px !important;
+    }
+
+    .addressFooter span {
+        width: 80% !important;
+        font-size: 14px !important;
+    }
+
+
+
+    /* oneway css part  */
+
+    .your-container {
+        /* display: grid;
+        border-radius: 0px;
+        display: grid;
+        grid-template-areas:
+            'header header'
+            'menu menu'
+            'footer hooter'
+            'tooter tooter';
+        grid-template-columns: unset !important;
+        gap: 10px; */
+
+        display: grid;
+
+        grid-template-rows: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
+
+        gap: 0px;
+        /* height: 100%; */
+    }
+
+
+    #item-0 {
+
+        grid-row-start: 1;
+        grid-column-start: 1;
+        grid-row-end: 2;
+        grid-column-end: 3;
+
+    }
+
+    #item-1 {
+
+        grid-row-start: 2;
+        grid-column-start: 1;
+        grid-row-end: 3;
+        grid-column-end: 3;
+
+    }
+
+    #item-2 {
+
+        grid-row-start: 3;
+        grid-column-start: 1;
+        grid-row-end: 4;
+        grid-column-end: 2;
+
+    }
+
+    #item-3 {
+
+        grid-row-start: 3;
+        grid-column-start: 2;
+        grid-row-end: 4;
+        grid-column-end: 3;
+        background-color: white;
+
+    }
+
+    #item-4 {
+
+        grid-row-start: 4;
+        grid-column-start: 1;
+        grid-row-end: 5;
+        grid-column-end: 3;
+
+    }
+
+    /* .travellerContainer {
+        background-color: white;
+        box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+    } */
+
+    .roundlogo {
+        display: none !important;
+    }
+
+    .bannerBack {
+        /* display: none !important; */
+    }
+
+    .mainimg {
+        /* box-shadow: unset !important; */
+    }
+
+
+    .oneWayAbsDesign {
+        width: 85%;
+        position: absolute;
+        left: 50%;
+        top: 53%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        /* padding: 30px 20px; */
+        /* background-color: #eee; */
+        border-radius: 9px;
+    }
+
+    .from-container span {
+        font-size: 11px !important;
+    }
+
+    .travellerContainer {
+        position: relative !important;
+        margin-bottom: 10px !important;
+        padding-bottom: 0 !important;
+    }
+
+    .travellerButton span {
+        font-size: 11px !important;
+    }
+
+    .from-container label {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .from-container {
+        margin-bottom: 10px;
+        background-color: white;
+        box-shadow: rgba(255, 255, 255, 0.1) 0px 1px 1px 0px inset, rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px;
+        border-right: unset !important;
+        border-radius: 4px !important;
+        padding-bottom: 0px !important;
+        padding: 7px !important;
+        gap: 0 !important;
+    }
+
+    .from-container input {
+        font-size: 13px !important;
+        height: 25px !important;
+    }
+
+    .oneWayBg {
+        background-color: unset !important;
+        box-shadow: unset !important;
+    }
+
+    .from-container:nth-child(2) {
+        padding: 7px !important;
+    }
+
+    .from-container:nth-child(3) {
+        margin-right: 5px !important;
+    }
+
+    .travellerContainer {
+        margin-left: 10px;
+        border-top-left-radius: 4px !important;
+    }
+
+    .travellerButton p {
+        font-size: 13px !important;
+    }
+
+
+    .onewaySearch .searchButt {
+        border-radius: 4px !important;
+    }
+
+    .from_Search_Container {
+        top: 45px;
+    }
+
+    .from_Search_Container input::placeholder {
+        font-size: 13px !important;
+    }
+
+    .from_search_div {
+        padding-left: 7px !important;
+    }
+
+    .resultOriginName p {
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    .resultAirportCode p {
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    .travellerModal>div h3 {
+        font-weight: 600;
+        font-size: 15px;
+        color: #21325d;
+        font-family: "Montserrat";
+    }
+
+    .travellerPeople>div {
+        padding: 0 10px;
+    }
+
+    .TravelerCounter p {
+        color: #21325d;
+        font-weight: 600;
+        font-size: 13px !important;
+    }
+
+    .classButtonTravel {
+        display: none !important;
+    }
+
+    /* oneway css part  */
+
+
+    /* hotel home page css part  */
+
+
+    .yourHotel-container {
+        display: grid;
+
+        grid-template-rows: 1fr 1fr 1fr 1fr !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0 !important;
+        column-gap: 10px !important;
+    }
+
+    #item-0H {
+
+        grid-row-start: 1;
+        grid-column-start: 1;
+        grid-row-end: 2;
+        grid-column-end: 3;
+
+    }
+
+    #item-1H {
+
+        /* grid-row-start: 2;
+        grid-column-start: 1;
+        grid-row-end: 3;
+        grid-column-end: 3; */
+
+        grid-row-start: 2;
+        grid-column-start: 1;
+        grid-row-end: 2;
+        grid-column-end: 2;
+
+    }
+
+    #item-2H {
+
+        grid-row-start: 2;
+        grid-column-start: 2;
+        grid-row-end: 2;
+        grid-column-end: 3;
+
+    }
+
+    #item-3H {
+
+        grid-row-start: 3;
+        grid-column-start: 1;
+        grid-row-end: 4;
+        grid-column-end: 3;
+        background-color: white;
+
+    }
+
+    #item-4H {
+
+        grid-row-start: 4;
+        grid-column-start: 1;
+        grid-row-end: 5;
+        grid-column-end: 3;
+
+    }
+
+    .hotelFormBg {
+        background-color: unset !important;
+    }
+
+    .HotelAbsDesign {
+        width: 85%;
+        position: absolute;
+        left: 50%;
+        top: 53%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+        border-radius: 9px;
+    }
+
+    .hotelFormBg {
+        box-shadow: unset !important;
+    }
+
+    .travellerContainer {
+        padding-top: 6px;
+        padding-bottom: 6px;
+        padding-left: 13px;
+    }
+
+    .hotel-container {
+        border-right: unset !important;
+        background-color: white;
+        border-radius: 4px !important;
+        margin-bottom: 10px;
+    }
+
+    .hotel-container input {
+        font-size: 13px;
+    }
+
+    .hotel-container:nth-child(2) {
+        padding: 6px 21px !important;
+    }
+
+    .hotel-container label {
+        color: #3f454a;
+        font-family: Montserrat;
+        font-size: 13px !important;
+    }
+
+    .hotel-container span {
+        font-size: 11px !important;
+    }
+
+    .travellerButton span {
+        font-size: 11px !important;
+    }
+
+    .hotel-container input {
+        font-size: 13px !important;
+    }
+
+    .PackageInner {
+        border-top-left-radius: 4px !important;
+        border-radius: 4px !important;
+    }
+
+    .PackageInner .searchButt {
+        border-radius: 4px !important;
+    }
+
+    .PackageInner-pack {
+        padding: 25px 21px;
+        border-top-left-radius: 12px;
+        border-right: unset !important;
+    }
+
+    /* hotel home page css part  */
+
+
+    /* bus home page css part  */
+
+    .busSearch-container {
+        display: grid;
+        /* border: 1px #888 solid; */
+        grid-template-rows: 1fr 1fr 1fr !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+        column-gap: 10px !important;
+    }
+
+
+    #item-0B {
+        grid-row-start: 1;
+        grid-column-start: 1;
+        grid-row-end: 2;
+        grid-column-end: 3;
+    }
+
+    #item-1B {
+        grid-row-start: 2;
+        grid-column-start: 1;
+        grid-row-end: 2;
+        grid-column-end: 3;
+    }
+
+    #item-2B {
+        grid-row-start: 3;
+        grid-column-start: 1;
+        grid-row-end: 3;
+        grid-column-end: 2;
+    }
+
+    #item-3B {
+        grid-row-start: 3;
+        grid-column-start: 2;
+        grid-row-end: 3;
+        grid-column-end: 3;
+        background-color: white;
+    }
+
+    .PackageInner_bus {
+        padding: 6px 21px;
+        border-top-left-radius: 4px !important;
+        border-right: unset !important;
+        background-color: white;
+        border-radius: 4px !important;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
+    }
+
+    .BusSearchBg {
+        background-color: unset !important;
+        box-shadow: unset !important;
+    }
+
+    .PackageInner {
+        background-color: white;
+        border-right: unset !important;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px !important;
+    }
+
+    .PackageInner_bus label {
+        color: #3f454a;
+        font-family: Montserrat;
+        font-size: 13px !important;
+    }
+
+    .PackageInner_bus span {
+        color: #3f454a;
+        font-family: Montserrat;
+        font-size: 11px;
+    }
+
+    .PackageInner span {
+        color: #071c2c;
+        font-family: "Montserrat";
+        font-size: 11px;
+    }
+
+    .PackageInner input {
+
+        font-size: 13px !important;
+    }
+
+    .Package_innerDiv_Position {
+        position: absolute;
+        top: 23px !important;
+    }
+
+    .busResultBox span {
+        font-size: 13px !important;
+    }
+
+    .busResultBox p {
+        font-weight: 500;
+        font-family: Montserrat;
+        font-size: 13px !important;
+    }
+
+    .busHideInput input {
+        font-size: 13px !important;
+    }
+
+    .PackageInner .searchButt h3 {
+        margin-bottom: 0 !important;
+        color: #fff;
+        font-weight: 600;
+        font-size: 14px !important;
+    }
+
+    /* bus home page css part  */
+}

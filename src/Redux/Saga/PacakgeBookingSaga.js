@@ -1,4 +1,4 @@
-import { takeLatest, call, put, takeEvery } from "redux-saga/effects";
+import { call, put, takeEvery } from "redux-saga/effects";
 import { packageBookingID } from "../BookingPackageData/actionBooking";
 
 

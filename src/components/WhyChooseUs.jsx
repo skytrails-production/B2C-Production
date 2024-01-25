@@ -11,11 +11,11 @@ const WhyChooseUs = () => {
     return (
         <section class="download-gap download-no-top">
             <div class="container">
-                <div class="download-heading">
-                    <h2>Why Choose Us ?</h2>
+                <div class="offerText my-5">
+                    <p>Why Choose Us ?</p>
                 </div>
                 <div class="row  ">
-                    <div className="col-lg-3 col-md-3 align-items-stretch">
+                    <div className="col-lg-3 col-md-3 align-items-stretch mb-3">
                         <div class="download-steps whyChoose">
                             <i><img src={one} alt="steps" /></i>
                             {/* <span>1</span> */}
@@ -23,7 +23,7 @@ const WhyChooseUs = () => {
                             <p>We offer easy and cheapest flight bookings with attractive offers.</p>
                         </div>
                     </div>
-                    <div className="col-lg-3 col-md-3 align-items-stretch">
+                    <div className="col-lg-3 col-md-3 align-items-stretch mb-3">
                         <div class="download-steps whyChoose">
                             <i><img src={two} alt="steps" /></i>
                             {/* <span>2</span> */}
@@ -31,7 +31,7 @@ const WhyChooseUs = () => {
                             <p>We ensure low rates on hotel reservation, holiday packages and on flight tickets.</p>
                         </div>
                     </div>
-                    <div className="col-lg-3 col-md-3 align-items-stretch">
+                    <div className="col-lg-3 col-md-3 align-items-stretch mb-3">
                         <div class="download-steps whyChoose">
                             <i><img src={three} alt="steps" /></i>
                             {/* <span>3</span> */}
@@ -39,7 +39,7 @@ const WhyChooseUs = () => {
                             <p>Enjoy exciting deals on flights, hotels, buses, car rental and tour packages.</p>
                         </div>
                     </div>
-                    <div className="col-lg-3 col-md-3 align-items-stretch">
+                    <div className="col-lg-3 col-md-3 align-items-stretch mb-3">
                         <div class="download-steps whyChoose">
                             <i><img src={four} alt="steps" /></i>
                             {/* <span>3</span> */}

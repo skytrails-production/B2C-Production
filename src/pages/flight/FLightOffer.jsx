@@ -18,18 +18,14 @@ const FLightOffer = () => {
                     <div className='offerText'>
                         <p>Flight Booking Discount Offers</p>
                     </div>
-                    {/* <div class="section-title  mx-auto text-center my-5">
-                        <h2 class="mb-1">
-                            Get The Best <span class="theme">Discount On Flight</span>
-                        </h2>
-                    </div> */}
                     <Glider
                         className="glider-container"
                         draggable
                         hasDots
-                        slidesToShow={3.5}
+
                         slidesToScroll={1}
                         scrollToSlide={5}
+                        slidesToShow={3}
                     >
                         <div>
                             <img src={offer1} alt="" />

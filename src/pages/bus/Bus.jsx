@@ -6,8 +6,8 @@ import Bussearch from "./Bussearch";
 // import OfferCard from "../flight/OfferCard";
 // import Navbar from "../../layouts/Navbar";
 // import Mainheader from "../../UI/Mainheader";
-import BigNavbar from "../../UI/BigNavbar/BigNavbar";
-// import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
+// import BigNavbar from "../../UI/BigNavbar/BigNavbar";
+import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 // bus css
 import { motion } from "framer-motion";
 import "./bus.css";
@@ -47,10 +47,9 @@ const Taxi = () => {
       </Helmet>
 
       <div className="mainimg">
-        {/* <img className="bannerBack" src={onewayBG} alt="" /> */}
-        <img className="bannerBack" src="https://img.freepik.com/premium-photo/orange-green-watercolor-background_468073-45.jpg?w=1480" alt="background" />
-        {/* <InsideNavbar /> */}
-        <BigNavbar />
+        <img className="bannerBack" src={onewayBG} alt="banner" />
+        <InsideNavbar />
+        {/* <BigNavbar /> */}
         <Bussearch />
       </div>
 

@@ -303,13 +303,13 @@ const Homeform = (props) => {
                   <div onClick={(e) => {
                     e.stopPropagation();
                     setSub(true);
-                  }} className="PackageInner-pack">
+                  }} className="PackageInner-pack PackageInner-packMobile">
                     <div style={{ width: "100%" }}>
-                      <lable className="package_lable_l" onClick={focusInput}>{cityNamelast}</lable>
+                      <lable className="package_lable_l package_lable_lMobile" onClick={focusInput}>{cityNamelast}</lable>
                     </div>
-                    {/* {sub && */}
+
                     <div ref={formRef} className="package_input_divv" style={{ position: "absolute", width: "100%", marginLeft: '-21px', top: "25px", backgroundColor: '#ffffff', display: sub ? "block" : "none", zIndex: "99999" }}>
-                      <div className="package_input_div_div" style={{
+                      <div className="package_input_div_div  package_input_div_divMobile" style={{
 
                         display: 'flex',
                         alignItems: 'center',
@@ -346,7 +346,7 @@ const Homeform = (props) => {
                         marginTop: "17px"
                         // backgroundColor: "transparent",
                       }}
-                        className="scroll_style"
+                        className="scroll_style scroll_styleMobile"
                         ref={fromInputreusltRef}
 
                       // onMouseLeave={(e) => { e.stopPropagation(); setSub(false) }}
@@ -412,6 +412,90 @@ const Homeform = (props) => {
           </div>
         </div>
       </section>
+
+
+      {/* for mobile devices only design  */}
+
+      {/* <section className="d-block d-sm-none" style={{ width: "100%", position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
+        <div className="container d-flex justify-content-center w-100" >
+          <div className="row packageBg">
+            <div className="col-12 p-0">
+              <form onSubmit={handleFromClicks}>
+                <div className="Package-container">
+                  <div onClick={(e) => {
+                    e.stopPropagation();
+                    setSub(true);
+                  }} className="PackageInner-packMobile">
+                    <div style={{ width: "100%" }}>
+                      <lable className="package_lable_lMobile" onClick={focusInput}>{cityNamelast}</lable>
+                    </div>
+                    <div ref={formRef} className="package_input_divv" style={{ position: "absolute", width: "100%", marginLeft: '-21px', top: "16px", backgroundColor: '#ffffff', display: sub ? "block" : "none", zIndex: "99999" }}>
+                      <div className="package_input_div_divMobile" style={{
+
+                        display: 'flex',
+                        alignItems: 'center',
+                        paddingLeft: "7px"
+
+                      }}>
+                        <CiSearch size={24} />
+                        <input
+                          name="from"
+                          placeholder="Search Package For Destination"
+                          autoComplete="off"
+                          value={searchTerm}
+                          required
+                          style={{
+                            outline: "none",
+                            border: "none",
+                            height: '30px',
+                            width: "100%"
+                          }}
+                          onChange={(e) => { handleDestinationChange(e) }}
+                          ref={formInputRef}
+                        />
+                      </div>
+                      <div style={{
+
+                      }}
+                        className="scroll_styleMobile"
+                        ref={fromInputreusltRef}
+                      >
+                        {result.map((item) => {
+                          return (<div className="listItemPackage" onClick={(e) => {
+                            e.stopPropagation();
+                            setCityNameLast(item);
+                            setDestination("");
+                            setSub(false);
+                            setlastlast(item)
+
+                          }}   >
+
+                            <CiLocationOn />
+                            <p>{item}</p>
+                          </div>)
+                        })}
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div className="PackageInner">
+                    {citylastlast === "" ?
+                      <div className="searchButt" ref={fromSearchButtonRef} >
+                        <FaSearch />
+                      </div> : <div className="searchButt" onClick={handleFromClicks} ref={fromSearchButtonRef}>
+                        <FaSearch />
+                      </div>}
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section> */}
+
+
+      {/* for mobile devices only design  */}
 
     </>
   );

@@ -1,13 +1,13 @@
 import React from "react";
 import Hotelpackageform from "../../components/Hotelpackageform";
 import Download from "../home/Download";
-// import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
+import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 import { motion } from "framer-motion";
 // import onewayBG from "../../images/onewaybg.png"
 import onewayBG from "../../images/onewayBG.jpg";
 import Advertise from "../home/Advertise";
 // import FLightOffer from '../flight/FLightOffer';
-import BigNavbar from "../../UI/BigNavbar/BigNavbar";
+// import BigNavbar from "../../UI/BigNavbar/BigNavbar";
 import HolidaySuggestion from "./holidaySuggestion/HolidaySuggestion";
 import HolidayCategory from "./holidayCategory/HolidayCategory";
 import HolidayDomestic from "./holidayCategory/HolidayDomestic";
@@ -43,22 +43,18 @@ const Hotelpackages = () => {
         />
       </Helmet>
       <div className="mainimg">
-        {/* <img className="bannerBack" src={onewayBG} alt="" /> */}  <img className="bannerBack" src="https://img.freepik.com/premium-photo/orange-green-watercolor-background_468073-45.jpg?w=1480" alt="background" />
+        <img className="bannerBack" src={onewayBG} alt="banner" />
+        {/* <img className="bannerBack" src="https://img.freepik.com/premium-photo/orange-green-watercolor-background_468073-45.jpg?w=1480" alt="background" /> */}
 
-        {/* <InsideNavbar /> */}
-        <BigNavbar />
+        <InsideNavbar />
+        {/* <BigNavbar /> */}
         <Hotelpackageform />
       </div>
 
       <motion.div variants={variants} initial="initial" whileInView="animate">
         <HolidayCategory variants={variants} />
       </motion.div>
-      {/* <motion.div variants={variants} initial="initial"
-                whileInView="animate"  >
-                <FLightOffer variants={variants} />
-            </motion.div> */}
       <motion.div variants={variants} initial="initial" whileInView="animate">
-        {/* <FLightOffer variants={variants} /> */}
         <HolidaySuggestion variants={variants} />
       </motion.div>
 

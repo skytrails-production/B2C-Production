@@ -1,4 +1,4 @@
-import { takeEvery, call, put, takeLatest } from "redux-saga/effects";
+import { call, put, takeLatest } from "redux-saga/effects";
 import userApi from "../API/api";
 import { QUOTE_REQUEST, RULE_REQUEST } from "../FlightFareQuoteRule/actionType";
 import {

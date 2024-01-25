@@ -1,4 +1,4 @@
-import { takeEvery, takeLatest, call, put } from "redux-saga/effects";
+import { takeLatest, call, put } from "redux-saga/effects";
 import userApi from "../API/api";
 import { busSearch, busSeatBlock, busBook, busBookDetails } from "../busSearch/busSearchAction";
 import { BUS_SEARCH_REQUEST, BUS_BLOCK_REQUEST, BUS_BOOK_REQUEST, BUS_DETAILS_REQUEST } from "../busSearch/actionType";

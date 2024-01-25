@@ -7,7 +7,7 @@ import './advertise.css';
 import { apiURL } from '../../Constants/constant';
 
 const Advertise = () => {
-    const [advertisementData, setAdvertisementData] = useState([]);
+    // const [advertisementData, setAdvertisementData] = useState([]);
 
     const fetchData = async () => {
         if (!localData) {
@@ -17,7 +17,7 @@ const Advertise = () => {
                 // sessionStorage.setItem("advertise", data);
                 const jsonData = JSON.stringify(data);
                 sessionStorage.setItem("advertise", jsonData);
-                setAdvertisementData(data);
+                // setAdvertisementData(data);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -26,7 +26,7 @@ const Advertise = () => {
     }
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [fetchData]);
 
 
     const settings = {
@@ -45,8 +45,8 @@ const Advertise = () => {
 
 
     return (
-        <div className=' advertise-container'  >
-            <div className="container p-0">
+        <div className=' advertise-container paddMobile'  >
+            <div className="container p-0 mt-4">
                 <Slider {...settings}>
                     {localDataArray?.map((ad) => (
                         <div className="slick-slide advertise-slide" key={ad._id}>
@@ -56,6 +56,8 @@ const Advertise = () => {
                 </Slider>
             </div>
         </div>
+
+
     );
 };
 

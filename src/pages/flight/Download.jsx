@@ -1,15 +1,15 @@
-import ticket from "../../images/ticket.png"
-import scan from "../../images/scan.png"
+// import ticket from "../../images/ticket.png"
+// import scan from "../../images/scan.png"
 import React from "react";
-import { Paper, Box } from "@mui/material";
+// import { Paper, Box } from "@mui/material";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import '../../components/card.css';
 const Download = () => {
     return (
         <React.Fragment>
             <section>
-                
-            {/* <div className="container homeform_container">
+
+                {/* <div className="container homeform_container">
                         <Box pt={3}>
                             <Paper elevation={3} py={2} sx={{ borderRadius: '15px',width:'80%' }}>
                                 <div className="download_header">
@@ -38,7 +38,7 @@ const Download = () => {
                             </Paper>
                         </Box>
                         </div> */}
-                
+
             </section>
         </React.Fragment>
     )

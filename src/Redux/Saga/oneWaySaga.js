@@ -1,4 +1,4 @@
-import { takeEvery, takeLatest, call, put } from "redux-saga/effects";
+import {  takeLatest, call, put } from "redux-saga/effects";
 import userApi from "../API/api";
 import { fetchOneWay } from "../FlightSearch/oneWay";
 import { ONE_WAY_REQUEST } from "../FlightSearch/oneWayActionType";

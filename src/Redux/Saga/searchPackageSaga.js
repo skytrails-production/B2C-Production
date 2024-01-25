@@ -1,7 +1,7 @@
-import { takeEvery, takeLatest, call, put } from "redux-saga/effects";
+import { takeLatest, call, put } from "redux-saga/effects";
 import userApi from "../API/api";
 
-import { GET_SEARCH_PACKAGE_DATA, SET_SEARCH_PACKAGE_DATA } from "../SearchPackage/actionType";
+import { GET_SEARCH_PACKAGE_DATA } from "../SearchPackage/actionType";
 import { searchPackageData } from "../SearchPackage/actionSearchPackage";
 
 function* searchResult(action) {

@@ -70,6 +70,7 @@
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border-radius: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border: 1px solid rgba(255, 255, 255, 0.18);
 }
 

@@ -143,12 +143,13 @@ function Topflightroute({
   };
 
   return (
-    <section className="container" style={{ marginTop: "82px" }}>
+    <section className="container " style={{ marginTop: "82px" }}>
       <div className="Top-flight-route">
         <div className="inner-content">
-          <div className="topflight-heading">
+          {/* <div className="topflight-heading">
             <div className="flight-routes-heading">Top Flight Routes</div>
-          </div>
+          </div> */}
+          <div class="offerText my-3"><p>Top Flight Routes</p></div>
 
           <div className="Flight-grid-route">
             {flightRoutes.map((route) => (
@@ -158,13 +159,13 @@ function Topflightroute({
                 onClick={() => handlePopularSearch(route)}
               >
                 <div className="route-img-flight">
-                  <img src={route.imgages} alt="" className="route-img" />
+                  <img src={route.imgages} alt={route.id} className="route-img" />
                 </div>
                 <div className="route-text-flight">
                   <div className="route-content-span">
                     <span>{route.from}</span>
                     <span>
-                      <img src={flightimg} alt="" />
+                      <img src={flightimg} alt={route.id} />
                     </span>
                     <span>{route.destination}</span>
                   </div>

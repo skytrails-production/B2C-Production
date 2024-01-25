@@ -41,7 +41,7 @@ const Links = () => {
                 Flight
             </Link>
             <Link
-                to="/"
+                to="/hotel"
                 variants={itemVariants}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
@@ -49,7 +49,7 @@ const Links = () => {
                 Hotel
             </Link>
             <Link
-                to="/"
+                to="/holidaypackages"
                 variants={itemVariants}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
@@ -57,7 +57,7 @@ const Links = () => {
                 Packages
             </Link>
             <Link
-                to="/"
+                to="/bus"
                 variants={itemVariants}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
