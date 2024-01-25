@@ -22,4 +22,4 @@ jobs:
           username: ${{ secrets.USERNAME }}
           port: ${{ secrets.PORT }}
           key: ${{ secrets.SSHKEY }}
-          script: "cd /home/ubuntu/B2C-Production && ./.scripts/deploy.sh"
+          script: "cd /var/www/B2C-Production && ./.scripts/deploy.sh"
