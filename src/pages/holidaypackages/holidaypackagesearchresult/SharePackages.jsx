@@ -37,12 +37,28 @@ const SharePackages = ({ id }) => {
     };
 
 
+    // const shareWhatsApp = () => {
+    //     const url = `https://web.whatsapp.com/send?text=${encodeURIComponent(
+    //         `https://theskytrails.com/holidayInfo/${id}`
+    //     )}`;
+    //     window.open(url, "_blank");
+    // };
+
     const shareWhatsApp = () => {
-        const url = `https://web.whatsapp.com/send?text=${encodeURIComponent(
-            `https://theskytrails.com/holidayInfo/${id}`
-        )}`;
+        const isMobileDevice = /Android|iPhone|iPad|iPod|Windows Phone/i.test(
+          navigator.userAgent
+        );
+    
+        const url = isMobileDevice
+          ? `whatsapp://send?text=${encodeURIComponent(
+              `https://theskytrails.com/holidayInfo/${id}`
+            )}`
+          : `https://web.whatsapp.com/send?text=${encodeURIComponent(
+              `https://theskytrails.com/holidayInfo/${id}`
+            )}`;
+    
         window.open(url, "_blank");
-    };
+      };
 
     const shareTwitter = () => {
         const url = `http://twitter.com/share?url=https://theskytrails.com/holidayInfo/${id}`;
