@@ -15,25 +15,30 @@ const HolidaySimilar = () => {
     const filteredPackage =
         reducerState?.searchResult?.packageSearchResult?.data?.data?.pakage;
 
-    // console.log(filteredPackage, "filtered")
+    console.log(filteredPackage, "filtered")
+
+
 
     useEffect(() => {
         const payload = {
             destination: Stringify?.destination,
             days: 0,
         };
+        console.log("fdjl;ksfi;odsfj;kldscv")
         dispatch(searchPackageAction(payload));
+
         // sessionStorage.setItem("searchPackageData", JSON.stringify(payload));
-    }, [])
+    }, [searchedData])
 
 
 
-    const searchOneHoliday = (id) => {
+    const searchOneHoliday = (item) => {
+        const id = item?._id
         const payload = {
             id,
         };
         dispatch(searchOnePackageAction(payload));
-        navigate("/holidayInfo");
+        navigate(`/holidayInfo/${id}`);
         window.scrollTo(0, 0)
     };
 
@@ -55,7 +60,7 @@ const HolidaySimilar = () => {
                             <div class="row">
                                 {
                                     filteredPackage?.slice(0, 3).map((item, index) => (
-                                        <div key={index} onClick={(e) => searchOneHoliday(item?._id)} class="col-lg-4 col-md-4 col-sm-12 mb-4" style={{ cursor: "pointer" }}>
+                                        <div key={index} onClick={(e) => searchOneHoliday(item)} class="col-lg-4 col-md-4 col-sm-12 mb-4" style={{ cursor: "pointer" }}>
                                             <div class="trend-item1">
                                                 <div class="trend-image position-relative rounded">
                                                     <img src={item?.pakage_img} alt="package-img" />

@@ -57,11 +57,12 @@ function HolidayPackagesDetail() {
   }, [])
 
   const searchOneHoliday = (id) => {
-    const payload = {
-      id,
-    };
-    dispatch(searchOnePackageAction(payload));
-    navigate("/holidayInfo");
+    // const payload = {
+    //   id,
+    // };
+    // dispatch(searchOnePackageAction(payload));
+
+    navigate(`/holidayInfo/${id}`);
   };
 
 
@@ -264,6 +265,7 @@ function HolidayPackagesDetail() {
                       <div className="col-lg-12">
 
                         <div onClick={(e) => searchOneHoliday(item?._id)} className="packageResultBox" key={index}>
+                          {/* <Link to="/holidayinfo" className="packageResultBox" key={index}> */}
                           <div className="packOuterBox">
                             <div className="packageImage">
                               <img src={item?.pakage_img} alt="package-img" />

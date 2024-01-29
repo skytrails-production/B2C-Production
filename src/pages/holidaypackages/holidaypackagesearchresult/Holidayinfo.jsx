@@ -39,7 +39,7 @@ import FmdGoodIcon from "@mui/icons-material/FmdGood";
 // import TabPanel from '@mui/lab/TabPanel';
 import WifiPasswordIcon from "@mui/icons-material/WifiPassword";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Accordion from "react-bootstrap/Accordion";
 import { Box, Typography } from "@mui/material";
 import "./holidayinfo.css";
@@ -66,12 +66,17 @@ import HolidayLoader from "../holidayLoader/HolidayLoader"
 import HolidaySimilar from "./HolidaySimilar";
 import { validateEmail, validateName, validatePhoneNumber } from "../../../utility/validationFunctions"
 import { formatDate } from "../../../utility/utils"
+import { searchOnePackageAction } from "../../../Redux/OnePackageSearchResult/actionOneSearchPackage";
+import { useParams } from "react-router";
+import SharePackages from "./SharePackages";
 
 function Holidayinfo() {
   // const navigate = useNavigate();
+  const dispatch = useDispatch();
   const reducerState = useSelector((state) => state);
   const onePackage =
     reducerState?.searchOneResult?.OneSearchPackageResult?.data?.data;
+  const loading = reducerState?.searchOneResult?.OneSearchPackageResult?.data?.data;
   // console.log("One Package", onePackage);
   // const [daysDetailsValues, setDaysDetails] = useState([]);
 
@@ -80,6 +85,8 @@ function Holidayinfo() {
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const handleModalOpenConfirmation = () => setOpenConfirmationModal(true);
   const handleModalCloseConfirmation = () => setOpenConfirmationModal(false);
+
+
 
   const style = {
     position: "absolute",
@@ -108,6 +115,36 @@ function Holidayinfo() {
   const mindate = formatDate(currentdate)
 
 
+  const { id } = useParams();
+
+
+  // const searchOneHoliday = (id) => {
+  //   // const payload = {
+  //   //   id,
+  //   // };
+  //   navigate(`/holidayInfo/${id}`);
+  // };
+
+
+
+  useEffect(() => {
+    const payload = {
+      id,
+    };
+    dispatch(searchOnePackageAction(payload));
+
+
+  }, [])
+
+  const destination = onePackage?.country;
+  const days = 0
+  const sessionPayload = {
+    destination: destination,
+    days: days,
+  }
+  sessionStorage.setItem("searchPackageData", JSON.stringify(sessionPayload));
+
+  console.log(reducerState, "reducer")
 
 
   useEffect(() => {
@@ -235,10 +272,10 @@ function Holidayinfo() {
 
   // function of enquiry for booking
 
-  // console.log(onePackage, "one package")
+  console.log(onePackage, "one package")
 
 
-  if (onePackage === undefined) {
+  if (onePackage?.country === undefined) {
     return (
       <div>
         <HolidayLoader />
@@ -247,11 +284,13 @@ function Holidayinfo() {
   }
 
 
+
   return (
     <>
       <div className="holidayInfoBackWall">
         <div className="packInfoBackdrop">
-          <img src={onePackage?.pakage_img} alt="" />
+          <img src={onePackage?.pakage_img} alt="bann" />
+
         </div>
         <div className="opacityPack">
 
@@ -265,7 +304,8 @@ function Holidayinfo() {
             <div className="row MobileDesign">
               <div className="col-lg-12 mb-0  packageImgBox">
                 <div className="PackageImg">
-                  <img src={onePackage?.pakage_img} alt="" />
+                  <img src={onePackage?.pakage_img} alt="banned" />
+                  <SharePackages id={onePackage?._id} />
                 </div>
               </div>
               <div className="col-lg-12 mb-4 packageName">

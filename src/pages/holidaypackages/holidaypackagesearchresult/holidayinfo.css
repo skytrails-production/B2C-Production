@@ -688,6 +688,49 @@ p: 4, */
   left: 0;
 }
 
+.PackageImg {
+  position: relative;
+}
+
+
+.shareBox {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.shareContent {
+  right: 0;
+  /* bottom: 4px; */
+  top: 44px;
+  background-color: white;
+  border-radius: 6px;
+}
+
+
+.dropItemShare {
+  width: 100%;
+
+}
+
+.dropItemShare a {
+  text-decoration: none;
+  display: inline-block;
+  white-space: nowrap;
+  padding: 6px 10px;
+  color: black;
+}
+
+.shareBox svg {
+  /* fill: #d90429; */
+  /* stroke: #fff; */
+}
+
 
 
 @media(max-width:600px) {

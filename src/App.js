@@ -170,7 +170,9 @@ function App() {
         {/* Holiday packages routes */}
         <Route path="holidaypackages" element={<Holidaypackages />}></Route>
 
-        <Route path="/HolidayInfo" element={<Holidayinfo />} />
+        {/* <Route path="/HolidayInfo" element={<Holidayinfo />} /> */}
+
+        <Route exact path="/HolidayInfo/:id" element={<Holidayinfo />} />
 
         <Route
           path="/holidaycategorydetails/:category"

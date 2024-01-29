@@ -49,29 +49,35 @@ const HolidayCategoryDetails = () => {
     const location = useLocation();
     const [destination, setDestination] = useState("")
     const { categoryData, quote } = location.state;
-    console.log(quote, "quote")
+    // console.log(quote, "quote")
 
     useEffect(() => {
         if (destination) {
-            const payloadDestination = {
-                destination: destination,
-                days: 0,
-            };
-            sessionStorage.setItem("searchPackageData", JSON.stringify(payloadDestination));
-            navigate("/holidayInfo");
+
+            const id = destination?._id;
+            navigate(`/holidayInfo/${id}`);
         }
     }, [destination]);
 
+
+
     const searchOneHoliday = (item) => {
         const id = item?._id;
-        setDestination(item?.country);
-        const payload = {
-            id,
+        setDestination(item);
+        // const payload = {
+        //     id,
+        // };
+        // dispatch(searchOnePackageAction(payload));
+        // navigate(`/holidayInfo/${id}`);
+        const payloadDestination = {
+            destination: destination?.country,
+            days: 0,
         };
-        dispatch(searchOnePackageAction(payload));
+        sessionStorage.setItem("searchPackageData", JSON.stringify(payloadDestination));
 
     };
 
+    console.log(destination, "destination")
 
     const [sortOption, setSortOption] = useState("lowToHigh");
 
@@ -285,7 +291,7 @@ const HolidayCategoryDetails = () => {
                                     sortedAndFilteredResults
                                         ?.map((item, index) => {
                                             return (
-                                                <div className="col-lg-12">
+                                                <div className="col-lg-12" key={index}>
 
                                                     <div onClick={(e) => searchOneHoliday(item)} className="packageResultBox" key={index}>
                                                         <div className="packOuterBox">

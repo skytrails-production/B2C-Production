@@ -21,24 +21,50 @@ const HolidaySuggestion = () => {
 
 
 
+    // useEffect(() => {
+    //     if (destination) {
+    //         const payloadDestination = {
+    //             destination: destination,
+    //             days: 0,
+    //         };
+    //         sessionStorage.setItem("searchPackageData", JSON.stringify(payloadDestination));
+    //         navigate("/holidayInfo");
+    //     }
+    // }, [destination]);
+
+    // const searchOneHoliday = (item) => {
+    //     const id = item?._id;
+    //     setDestination(item?.country);
+    //     const payload = {
+    //         id,
+    //     };
+    //     dispatch(searchOnePackageAction(payload));
+
+    // };
+
     useEffect(() => {
         if (destination) {
-            const payloadDestination = {
-                destination: destination,
-                days: 0,
-            };
-            sessionStorage.setItem("searchPackageData", JSON.stringify(payloadDestination));
-            navigate("/holidayInfo");
+
+            const id = destination?._id;
+            navigate(`/holidayInfo/${id}`);
         }
     }, [destination]);
 
+
+
     const searchOneHoliday = (item) => {
         const id = item?._id;
-        setDestination(item?.country);
-        const payload = {
-            id,
+        setDestination(item);
+        // const payload = {
+        //     id,
+        // };
+        // dispatch(searchOnePackageAction(payload));
+        // navigate(`/holidayInfo/${id}`);
+        const payloadDestination = {
+            destination: destination?.country,
+            days: 0,
         };
-        dispatch(searchOnePackageAction(payload));
+        sessionStorage.setItem("searchPackageData", JSON.stringify(payloadDestination));
 
     };
 
