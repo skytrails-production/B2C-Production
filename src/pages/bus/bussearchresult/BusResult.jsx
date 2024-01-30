@@ -1322,7 +1322,7 @@ function BusResult() {
                                 </div>
                               ) : (
                                 <div className="loadBusGif">
-                                  <img src={busGif} alt="" />
+                                  <img src={busGif} alt="busgif" />
                                 </div>
                               )}
                             </motion.div>

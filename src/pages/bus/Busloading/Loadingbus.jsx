@@ -79,13 +79,7 @@ function Loadingbus() {
             className="flightloadingimg"
           />
         </div>
-        {/* <div className="busimgcontainer">
-          <img
-            src={quotes[currentImgIndex].img}
-            alt=""
-            className="flightloadingimg"
-          />
-        </div> */}
+
       </div>
 
       <div className="funnyfact">

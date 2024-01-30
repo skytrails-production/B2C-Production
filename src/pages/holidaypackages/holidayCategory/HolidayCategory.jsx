@@ -57,27 +57,27 @@ const HolidayCategory = () => {
             <div className="holidayCatMainBox">
                 <div className="holidayCatBox" onClick={() => handleCategoryClick('beach')}>
                     <h3>Beaches <span><BsArrowRight /></span></h3>
-                    <img src={beach} alt="" />
+                    <img src={beach} alt="beach" />
                     <div class="color-overlayCategory"></div>
                 </div>
                 <div className="holidayCatBox" onClick={() => handleCategoryClick('hillStation')}>
                     <h3>Hill Station <span><BsArrowRight /></span></h3>
-                    <img src={hill} alt="" />
+                    <img src={hill} alt="hill" />
                     <div class="color-overlayCategory"></div>
                 </div>
                 <div className="holidayCatBox" onClick={() => handleCategoryClick('heritage')}>
                     <h3>Heritage <span><BsArrowRight /></span></h3>
-                    <img src={heritage} alt="" />
+                    <img src={heritage} alt="heritage" />
                     <div class="color-overlayCategory"></div>
                 </div>
                 <div className="holidayCatBox" onClick={() => handleCategoryClick('wildlife')}>
                     <h3>Wildlife <span><BsArrowRight /></span></h3>
-                    <img src={wildlife} alt="" />
+                    <img src={wildlife} alt="wildlife" />
                     <div class="color-overlayCategory"></div>
                 </div>
                 <div className="holidayCatBox" onClick={() => handleCategoryClick('cruise')}>
                     <h3>Cruise <span><BsArrowRight /></span></h3>
-                    <img src={cruise} alt="" />
+                    <img src={cruise} alt="cruise" />
                     <div class="color-overlayCategory"></div>
                 </div>
 

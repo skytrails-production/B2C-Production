@@ -1017,7 +1017,7 @@
         border-radius: 8px;
         /* border: 1px solid lightgray; */
         background: #FFFBFB;
-        margin-bottom: 10px;
+        margin-bottom: 26px;
         cursor: pointer;
         flex-wrap: nowrap;
         box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
@@ -1035,6 +1035,7 @@
     .packageImageMobile img {
         width: 100%;
         height: 220px;
+        border-radius: 10px 10px 0px 0px;
     }
 
     .packageResultDetailsMobile {
@@ -1147,23 +1148,22 @@
     }
 
     .topFilterBoxMobile {
-        position: sticky;
-        /* top: 0; */
-        padding: 15px 15px;
-        text-align: center;
-        font-weight: 700;
-        z-index: 2;
-        top: 62px;
-        margin-top: 5px;
-        background-color: white;
+        align-items: center;
+        background-color: #fff;
+        border-bottom: 1px solid #d3d3d3;
+        border-top: 1px solid #d3d3d3;
         display: flex;
         flex-direction: row;
+        font-weight: 700;
         justify-content: space-between;
-        align-items: center;
-        /* box-shadow: 1px 1px 4px #111; */
-        border-top: 1px solid lightgray;
-        border-bottom: 1px solid lightgray;
         margin-bottom: 10px;
+        margin-top: 5px;
+        padding: 15px;
+        position: -webkit-sticky;
+        position: sticky;
+        text-align: center;
+        top: 62px;
+        z-index: 2;
     }
 
     .topFilterBoxMobile p {
@@ -1193,4 +1193,109 @@
     .holidayInfoBackWall {
         padding-top: 46px !important;
     }
+
+
+    /* login button css  */
+
+    .loginButt {
+        background-image: unset !important;
+        padding: unset !important;
+        text-align: unset !important;
+        text-transform: unset !important;
+        transition: unset !important;
+        background-size: unset !important;
+        color: black !important;
+        border-radius: unset;
+        cursor: pointer;
+    }
+
+    .account-btn {
+        background-image: unset !important;
+        padding: unset !important;
+        text-align: unset !important;
+        text-transform: unset !important;
+        transition: unset !important;
+        background-size: unset !important;
+        color: black !important;
+        border-radius: unset;
+        cursor: pointer;
+    }
+
+
+    .logg {
+        width: 100%;
+        height: 100%;
+        min-height: 200px;
+    }
+
+    .logg img {
+        width: 100%;
+        height: 100%;
+        min-height: 200px;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+            rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+        /* opacity: 0.9; */
+        border-radius: 15px 15px 0px 0px;
+
+    }
+
+    /* login button css  */
+
+
+    /* package loader  */
+
+    .flightimgcontainer {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .flightimgcontainer>img:first-child {
+        width: 50% !important;
+        height: 50% !important;
+        border-radius: 50%;
+    }
+
+    .funnyfact {
+        width: 90% !important;
+        text-align: center;
+    }
+
+    .funnyfact h3,
+    .funnyfact h5 {
+        font-size: 14px !important;
+        font-weight: 900 !important;
+        color: #21325d !important;
+        /* text-shadow: 1px 1px 2px black; */
+        font-family: 'Montserrat';
+        text-align: center;
+    }
+
+
+    .swal-popup.with-shadow {
+        box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+        background-color: #ffffff !important;
+        width: 100% !important;
+    }
+
+
+    div:where(.swal2-container) .swal2-html-container {
+        z-index: 1;
+        justify-content: center;
+        margin: 1em 1.6em 0.3em;
+        padding: 0;
+        overflow: auto;
+        color: inherit;
+        font-size: 13px;
+        font-weight: normal;
+        line-height: normal;
+        text-align: center;
+        word-wrap: break-word;
+        word-break: break-word;
+    }
+
+    /* package loader  */
 }

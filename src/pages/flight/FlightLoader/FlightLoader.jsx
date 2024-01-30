@@ -121,7 +121,7 @@ const FlightLoader = () => {
         </AnimatePresence> */}
 
         <div className="flightimgcontainer">
-          <img src={flightLoad} alt="" className="flightloadingimg" />
+          <img src={flightLoad} alt="flight" className="flightloadingimg" />
         </div>
       </div>
 

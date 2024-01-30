@@ -272,7 +272,7 @@ function Holidayinfo() {
 
   // function of enquiry for booking
 
-  console.log(onePackage, "one package")
+  // console.log(onePackage, "one package")
 
 
   if (onePackage?.country === undefined) {

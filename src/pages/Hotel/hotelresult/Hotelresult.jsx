@@ -141,7 +141,7 @@ export default function Popularfilter() {
   // console.log(selectedCategory, "selected category");
 
 
-
+  console.log()
 
 
 
@@ -153,15 +153,15 @@ export default function Popularfilter() {
       const categoryFilters = selectedCategory?.map((category) => {
         switch (category) {
           case "5":
-            return item?.StarRating === 5;
+            return starRating === 5;
           case "4":
-            return item?.StarRating === 4;
+            return starRating === 4;
           case "3":
-            return item?.StarRating === 3;
+            return starRating === 3;
           case "2":
-            return item?.StarRating === 2;
+            return starRating === 2;
           case "1":
-            return item?.StarRating === 1;
+            return starRating === 1;
           case "2000":
             return publishedPrice <= 2000;
           case "3000":

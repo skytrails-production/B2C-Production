@@ -211,9 +211,9 @@ function HolidayPackagesDetail() {
               <svg height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg" id="fi_7094575"><g id="Glyph"><path d="m17 5a3 3 0 1 1 3 3 3 3 0 0 1 -3-3zm-15 1h12a1 1 0 0 0 0-2h-12a1 1 0 0 0 0 2zm6 3a3 3 0 0 0 -2.82 2h-3.18a1 1 0 0 0 0 2h3.18a3 3 0 1 0 2.82-4zm14 2h-8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2zm-12 7h-8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2zm12 0h-3.18a3 3 0 1 0 0 2h3.18a1 1 0 0 0 0-2z"></path></g></svg>
             </span>
           </div>
-          {/* for mobile device  */}
+          {/* filter for mobile for mobile device  */}
 
-          <motion.div className="d-block d-sm-none col-lg-3 col-md-3 scrollDesignMobile" animate={open ? "open" : "closed"} variants={variants}>
+          <motion.div className="d-flex d-sm-none col-lg-3 col-md-3 scrollDesignMobile" animate={open ? "open" : "closed"} variants={variants}>
 
 
             <div className="flightFilterBoxMobile">
@@ -305,8 +305,9 @@ function HolidayPackagesDetail() {
 
 
 
-          {/* for mobile device  */}
-          <div className="d-none d-sm-block col-lg-3 col-md-3 scrollDesign" >
+          {/* filter for Desktop  device  */}
+
+          <div className="d-none d-sm-flex col-lg-3 col-md-3 scrollDesign" >
 
 
             <div className="flightFilterBox">
@@ -399,17 +400,9 @@ function HolidayPackagesDetail() {
 
 
 
-
+          {/* main code for bigger device  */}
           <div className="col-lg-9 col-md-9">
             <div className="row">
-              {/* <div className="col-lg-12 mb-4">
-                <div className="outerFilterBox">
-                  <div className="filterBox">
-                    <p>Showing {' '}{filteredPackage?.length} {' '} Results</p>
-                    <p className="searchDestination">Seach Destination{' '}: <b>{savedDestination}</b></p>
-                  </div>
-                </div>
-              </div> */}
               {sortedAndFilteredResults && sortedAndFilteredResults.length > 0 ? (
                 sortedAndFilteredResults
                   ?.map((item, index) => {
@@ -417,7 +410,7 @@ function HolidayPackagesDetail() {
                       <div className="col-lg-12">
 
                         {/* for bigger device  */}
-                        <div onClick={(e) => searchOneHoliday(item?._id)} className="d-none d-sm-block packageResultBox" key={index}>
+                        <div onClick={(e) => searchOneHoliday(item?._id)} className="d-none d-sm-flex packageResultBox" key={index}>
                           <div className="packOuterBox">
                             <div className="packageImage">
                               <img src={item?.pakage_img} alt="package-img" />
@@ -653,11 +646,35 @@ function HolidayPackagesDetail() {
                             </div>
                           </div>
                         </div>
+                      </div>
+                    );
+                  })
+              ) :
+                (
+                  <div className="d-none d-sm-flex  filteredNotFound">
+                    <img src={packageFilter} alt="filter image" />
+                    <h1>Result not found</h1>
+                  </div>
+                )
+              }
 
 
+            </div>
+          </div>
+
+
+          {/* main code for smaller device  */}
+
+          <div className="col-lg-9 col-md-9">
+            <div className="row">
+              {sortedAndFilteredResults && sortedAndFilteredResults.length > 0 ? (
+                sortedAndFilteredResults
+                  ?.map((item, index) => {
+                    return (
+                      <div className="col-lg-12">
                         {/* for smaller device  */}
 
-                        <div onClick={(e) => searchOneHoliday(item?._id)} className="d-block d-sm-none packageResultBoxMobile mx-3" key={index}>
+                        <div onClick={(e) => searchOneHoliday(item?._id)} className="d-flex d-sm-none packageResultBoxMobile mx-3" key={index}>
                           <div className="packOuterBoxMobile">
                             <div className="packageImageMobile">
                               <img src={item?.pakage_img} alt="package-img" />
@@ -902,7 +919,7 @@ function HolidayPackagesDetail() {
                   })
               ) :
                 (
-                  <div className="filteredNotFound">
+                  <div className="d-flex d-sm-none  filteredNotFound">
                     <img src={packageFilter} alt="filter image" />
                     <h1>Result not found</h1>
                   </div>
@@ -912,6 +929,7 @@ function HolidayPackagesDetail() {
 
             </div>
           </div>
+
         </div>
       </div>
 

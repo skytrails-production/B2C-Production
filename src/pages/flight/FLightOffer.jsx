@@ -28,25 +28,25 @@ const FLightOffer = () => {
                         slidesToShow={3}
                     >
                         <div>
-                            <img src={offer1} alt="" />
+                            <img src={offer1} alt="offer1" />
                         </div>
                         <div>
-                            <img src={offer2} alt="" />
+                            <img src={offer2} alt="offer2" />
                         </div>
                         <div>
-                            <img src={offer3} alt="" />
+                            <img src={offer3} alt="offer3" />
                         </div>
                         <div>
-                            <img src={offer4} alt="" />
+                            <img src={offer4} alt="offer4" />
                         </div>
                         <div>
-                            <img src={offer5} alt="" />
+                            <img src={offer5} alt="offer5" />
                         </div>
                         <div>
-                            <img src={offer6} alt="" />
+                            <img src={offer6} alt="offer6" />
                         </div>
                         <div>
-                            <img src={offer7} alt="" />
+                            <img src={offer7} alt="offer7" />
                         </div>
                     </Glider>
                 </div>

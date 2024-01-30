@@ -86,42 +86,42 @@ const HolidayCategory = () => {
                 <div className="col-lg-8 col-md-8 col-sm-12 ">
                     <div className="holidayCatBoxDomestic" onClick={() => handleCategoryClick('India')}>
                         <h3>India <span><ArrowRightAltIcon /></span></h3>
-                        <img src={one} alt="" />
+                        <img src={one} alt="one" />
                         <div class="color-overlayCountry"></div>
                     </div>
                 </div>
                 <div className="col-lg-4 col-md-4 col-sm-6 col-6 ">
                     <div className="holidayCatBoxDomestic" onClick={() => handlecountryClick('Mauritius')}>
                         <h3>Mauritius <span><ArrowRightAltIcon /></span></h3>
-                        <img src={two} alt="" />
+                        <img src={two} alt="two" />
                         <div class="color-overlayCountry"></div>
                     </div>
                 </div>
                 <div className="col-lg-4 col-md-4 col-sm-6 col-6 ">
                     <div className="holidayCatBoxDomestic" onClick={() => handlecountryClick('Europe')}>
                         <h3>Europe Countries <span><ArrowRightAltIcon /></span></h3>
-                        <img src={three} alt="" />
+                        <img src={three} alt="three" />
                         <div class="color-overlayCountry"></div>
                     </div>
                 </div>
                 <div className="col-lg-4 col-md-4 col-sm-6 col-6">
                     <div className="holidayCatBoxDomestic" onClick={() => handlecountryClick('Dubai')}>
                         <h3>UAE <span><ArrowRightAltIcon /></span></h3>
-                        <img src={four} alt="" />
+                        <img src={four} alt="four" />
                         <div class="color-overlayCountry"></div>
                     </div>
                 </div>
                 <div className="col-lg-4 col-md-4 col-sm-6 col-6">
                     <div className="holidayCatBoxDomestic" onClick={() => handlecountryClick('France')}>
                         <h3>France <span><ArrowRightAltIcon /></span></h3>
-                        <img src={five} alt="" />
+                        <img src={five} alt="five" />
                         <div class="color-overlayCountry"></div>
                     </div>
                 </div>
                 <div className="col-lg-4 col-md-4 col-sm-6 col-6">
                     <div className="holidayCatBoxDomestic" onClick={() => handlecountryClick('Canada')}>
                         <h3>Canada <span><ArrowRightAltIcon /></span></h3>
-                        <img src={seven} alt="" />
+                        <img src={seven} alt="seven" />
                         <div class="color-overlayCountry"></div>
                     </div>
                 </div>

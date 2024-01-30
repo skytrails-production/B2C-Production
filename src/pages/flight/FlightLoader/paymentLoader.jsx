@@ -7,7 +7,7 @@ import "./paymentLoader.css";
 const PaymentLoader = () => {
   return (
     <div className="paymentLoading">
-      <img src={paymentLoading} alt="" />
+      <img src={paymentLoading} alt="payment" />
     </div>
   );
 };

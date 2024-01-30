@@ -7,7 +7,6 @@ import newlogo from '../../images/newlogo.png';
 import Countrypicker from '../../layouts/Countrypicker';
 import { Link } from 'react-router-dom';
 import Sidebar from "../sidebar/Sidebar"
-
 const variants = {
     initial: {
         clipPath: 'circle(1524px at 50% 50px)',
@@ -78,8 +77,12 @@ const BigNavbar = () => {
                     </div>
 
                     <Link to={"/"}>
-                        <img src={newlogo} width={190} alt="Logo" />
+                        <img src={newlogo} className='logo-width' alt="Logo" />
                     </Link>
+
+                    <div>
+                        <Countrypicker />
+                    </div>
 
                 </motion.div>
             </div>

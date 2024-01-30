@@ -3,9 +3,14 @@ import './holidaypackagesearchresult.css';
 import HolidayPackagesDetail from './HolidayPackagesDetail';
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 import { Helmet } from "react-helmet-async";
+import { useSelector } from 'react-redux';
 
 
 const HolidayPackageSearchResult = () => {
+
+    const reducerState = useSelector((state) => state);
+    const filteredPackage =
+        reducerState?.searchResult?.packageSearchResult?.data?.data?.pakage;
     return (
         <>
             <Helmet>
@@ -18,7 +23,17 @@ const HolidayPackageSearchResult = () => {
           "
                 />
             </Helmet>
-            <div className="mainimgPackageSearch">
+            {/* <div className="mainimgPackageSearch">
+                <InsideNavbar />
+            </div> */}
+
+            <div className="holidayInfoBackWall">
+                <div className="packInfoBackdrop">
+                    <img src={filteredPackage?.[0]?.pakage_img} alt="package" />
+                </div>
+                <div className="opacityPack">
+
+                </div>
                 <InsideNavbar />
             </div>
 

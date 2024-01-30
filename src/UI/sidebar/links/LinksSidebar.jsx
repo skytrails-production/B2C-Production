@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 // import Countrypicker from '../../layouts/Countrypicker';
-import Countrypicker from '../../../layouts/Countrypicker'
+// import Countrypicker from '../../../layouts/Countrypicker'
 const variants = {
     open: {
         transition: {
@@ -73,7 +73,7 @@ const Links = () => {
                 Visa
             </a>
 
-            <Countrypicker />
+            {/* <Countrypicker /> */}
 
         </motion.div>
     );

@@ -176,9 +176,9 @@ const Homeform = (props) => {
   }, [filteredPackage, navigate]);
 
 
-  const handleFromClicks = () => {
+  const handleFromClicks = (e) => {
 
-
+    e.preventDefault();
     // if (authenticUser !== 200) {
     //   setIsLoginModalOpen(true);
     // }
@@ -240,6 +240,13 @@ const Homeform = (props) => {
 
 
   // console.log(destination, "destination")
+
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent the default form submission behavior
+    }
+  };
 
   return (
 
@@ -319,7 +326,7 @@ const Homeform = (props) => {
                         <CiSearch size={24} />
                         <input
                           name="from"
-
+                          onKeyDown={handleKeyDown}
                           placeholder="Search Package For Destination"
                           autoComplete="off"
                           value={searchTerm}

@@ -12,6 +12,10 @@ body {
 
 }
 
+#root {
+  overflow-x: hidden;
+}
+
 .to_Search_Container {
   text-align: center;
   color: black;

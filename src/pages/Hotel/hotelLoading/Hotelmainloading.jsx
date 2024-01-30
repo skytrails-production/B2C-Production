@@ -88,7 +88,7 @@ function Hotelmainloading() {
         <div className="busimgcontainer">
           <img
             src={hotelLoad}
-            alt=""
+            alt="hotel"
             className="flightloadingimg"
           />
         </div>

@@ -46,8 +46,21 @@
   position: fixed;
   /* top: 25px; */
   top: 5px;
-  left: 25px;
+  left: 8px;
   background-color: transparent;
   border: none;
   cursor: pointer;
+}
+
+.toggleButton {
+  background-color: initial;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  height: 50px;
+  left: 25px;
+  /* position: fixed; */
+  top: 5px;
+  width: 50px;
+  z-index: 999;
 }

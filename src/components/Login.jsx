@@ -400,12 +400,17 @@ export default function LoginForm() {
       {/* <div><Toaster /></div> */}
 
       {status === 200 ? (
-        // <div onClick={handleLogout}>
+
         <div className="position-relative account-btn" onClick={handleDropdown}>
-          <p variant="subtitle3" color="#fff">
+          <p className="d-none d-sm-flex" variant="subtitle3" color="#fff">
             Hi {userName}
             <ExpandMoreIcon sx={{ color: "#fff", marginLeft: "8px" }} />
           </p>
+          {/* for mobile design  */}
+
+          <p className="d-flex d-sm-none"><AccountCircleIcon sx={{ color: "black", marginRight: "8px" }} /></p>
+
+          {/* for mobile design  */}
           {isMenu && (
             <motion.div
               initial={{ opacity: 0, scale: 0.6 }}
@@ -434,10 +439,18 @@ export default function LoginForm() {
         </div>
       ) : (
         <div className="loginButt" onClick={handleOpen}>
-          <Typography variant="subtitle3" color="#fff">
+          {/* for mobile device  */}
+
+          <p className="d-flex d-sm-none" variant="subtitle3" color="#fff">
+            <AccountCircleIcon sx={{ color: "black", marginRight: "8px" }} />
+          </p>
+          {/* for mobile device  */}
+
+
+          <p className="d-none d-sm-block" variant="subtitle3" color="#fff">
             <AccountCircleIcon sx={{ color: "white", marginRight: "8px" }} />
             Login / Signup
-          </Typography>
+          </p>
         </div>
       )}
 
@@ -803,7 +816,7 @@ export default function LoginForm() {
                           onClick={handleSignUpModalClose}
                         />
                         <div className="loginImg">
-                          <img src={loginImg} alt="" />
+                          <img src={loginImg} alt="login" />
                         </div>
                       </div>
                     </div>

@@ -1,6 +1,7 @@
 p {
   margin: 0 !important;
 }
+
 h1,
 h2,
 h3,
@@ -9,6 +10,7 @@ h5,
 h6 {
   margin: 0 !important;
 }
+
 .filter {
   display: flex;
   border-radius: 4px;
@@ -22,6 +24,7 @@ h6 {
   align-items: center;
   justify-content: center;
 }
+
 #filter1 {
   display: flex;
   align-items: center !important;
@@ -29,7 +32,8 @@ h6 {
   justify-content: space-between;
   /* background-color: aqua; */
 }
-#filter1 > div {
+
+#filter1>div {
   display: flex !important;
   align-items: center !important;
   /* background-color: rgb(0, 255, 76); */
@@ -39,7 +43,8 @@ h6 {
   justify-items: center !important;
   /* height: 100px !important; */
 }
-#filter1 > div > p {
+
+#filter1>div>p {
   font-family: 'Montserrat';
   font-size: 16px;
   font-weight: 600;
@@ -54,7 +59,8 @@ h6 {
   justify-content: space-between;
   gap: 5px !important;
 }
-.View-Map > div > input {
+
+.View-Map>div>input {
   color: #fff;
   font-family: 'Montserrat' !important;
   font-size: 16px;
@@ -62,7 +68,8 @@ h6 {
   font-weight: 600;
   line-height: normal;
 }
-.View-Map > div {
+
+.View-Map>div {
   border-radius: 4px;
   background: #071c2c;
   /* background: red; */
@@ -72,7 +79,8 @@ h6 {
   align-items: center !important;
   gap: 8px;
 }
-.View-Map > div > input {
+
+.View-Map>div>input {
   background-color: transparent !important;
   border: none;
   outline: none;
@@ -84,7 +92,8 @@ h6 {
   line-height: normal;
   width: 100% !important;
 }
-.View-Map > div > input::placeholder {
+
+.View-Map>div>input::placeholder {
   background-color: transparent !important;
   border: none;
   outline: none;
@@ -96,12 +105,14 @@ h6 {
   line-height: normal;
   width: 100% !important;
 }
+
 .searchIcon {
   width: 20px;
   height: 20px;
   color: #bbbbbb;
 }
-.View-Map > div > h5 {
+
+.View-Map>div>h5 {
   color: #fff !important;
   text-align: center;
   font-family: 'Montserrat' !important;
@@ -110,6 +121,7 @@ h6 {
   font-weight: 600;
   line-height: normal;
 }
+
 .select_trip {
   text-align: left;
   font: normal normal bold 14px/1px Quicksand !important;
@@ -123,18 +135,21 @@ h6 {
   letter-spacing: 0px;
   color: #666666;
 }
+
 .popular {
   text-align: left;
   font: normal normal bold 14px/1px Quicksand !important;
   letter-spacing: 0px;
   color: #006fff;
 }
+
 .showing_goa {
   text-align: left;
   font: normal normal bold 14px/1px Quicksand !important;
   letter-spacing: 0px;
   color: #666666;
 }
+
 .leftshadow {
   background: #ffffff 0% 0% no-repeat padding-box;
   box-shadow: 0px 1px 6px #00000029;
@@ -142,11 +157,13 @@ h6 {
   opacity: 1;
   padding: 10px;
 }
+
 .gap_filter_lable {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
 .selectfilter {
   text-align: left;
   font: normal normal bold 16px/20px Quicksand !important;
@@ -154,6 +171,7 @@ h6 {
   color: #252525;
   opacity: 1;
 }
+
 .suggested {
   color: #b03737;
   font-family: 'Montserrat' !important;
@@ -162,22 +180,26 @@ h6 {
   font-weight: 600;
   line-height: normal;
 }
+
 .suggested_input_Container {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
+
 .suggested_input_Container_inner {
   display: flex;
   justify-content: space-between;
 }
+
 .suggested_input {
   display: flex;
   justify-content: space-between;
   gap: 8px;
   align-items: center;
 }
-.suggested_input > input {
+
+.suggested_input>input {
   color: #071c2c;
   font-family: 'Montserrat' !important;
   font-size: 12px;
@@ -189,7 +211,8 @@ h6 {
   border: 1.5px solid #bbbbbb;
   border-radius: 2px;
 }
-.suggested_input > label {
+
+.suggested_input>label {
   color: #071c2c;
   font-family: Montserrat;
   font-size: 12px;
@@ -197,6 +220,7 @@ h6 {
   font-weight: 500;
   line-height: normal;
 }
+
 .radio {
   border: 2px solid #252525;
   opacity: 1;
@@ -214,6 +238,7 @@ h6 {
   color: #252525;
   opacity: 1;
 }
+
 .value {
   text-align: right;
   font: normal normal bold 12px/1px Quicksand !important;
@@ -221,6 +246,7 @@ h6 {
   color: #252525;
   opacity: 1;
 }
+
 .starrating {
   text-align: left;
   font: normal normal bold 12px/15px Quicksand !important;
@@ -228,6 +254,7 @@ h6 {
   color: #252525;
   opacity: 1;
 }
+
 .clearfilter {
   text-align: right;
   font: normal normal bold 10px/1px Quicksand !important;
@@ -235,13 +262,15 @@ h6 {
   color: #252525;
   opacity: 1;
 }
+
 .price {
   text-align: left;
-  font: normal normal bold 12px/15px Quicksand !important ;
+  font: normal normal bold 12px/15px Quicksand !important;
   letter-spacing: 0px;
   color: #252525;
   opacity: 1;
 }
+
 .title {
   text-align: left;
   font: normal normal bold 18px/23px Quicksand !important;
@@ -249,6 +278,7 @@ h6 {
   color: #252525;
   opacity: 1;
 }
+
 .SORT {
   display: flex;
   justify-content: center;
@@ -256,7 +286,8 @@ h6 {
   /* background-color: cadetblue; */
   margin-bottom: 0px !important;
 }
-.SORT > h1 {
+
+.SORT>h1 {
   color: #071c2c;
   text-align: center;
   font-family: 'Montserrat' !important;
@@ -265,6 +296,7 @@ h6 {
   font-weight: 800;
   line-height: normal;
 }
+
 .sort_p {
   color: #071c2c;
   text-align: center;
@@ -274,20 +306,23 @@ h6 {
   font-weight: 600;
   line-height: normal;
 }
-.sort_p > span {
+
+.sort_p>span {
   color: #071c2c;
-  font-family: 'Montserrat'!important;
+  font-family: 'Montserrat' !important;
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
 }
+
 .filter1 {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
-.filter1 > p {
+
+.filter1>p {
   color: #071c2c;
   text-align: center;
   font-family: 'Montserrat' !important;
@@ -296,6 +331,7 @@ h6 {
   font-weight: 600;
   line-height: normal;
 }
+
 .title_1 {
   color: #071c2c;
   font-family: 'Montserrat' !important;
@@ -304,6 +340,7 @@ h6 {
   font-weight: 800;
   line-height: normal;
 }
+
 .item_match {
   color: #bbb;
   font-family: 'Montserrat' !important;
@@ -312,6 +349,7 @@ h6 {
   font-weight: 500;
   line-height: normal;
 }
+
 .input_lable {
   color: #071c2c;
   font-family: 'Montserrat' !important;
@@ -320,6 +358,7 @@ h6 {
   font-weight: 500;
   line-height: normal;
 }
+
 .rating_price {
   color: #071c2c;
   font-family: 'Montserrat' !important;
@@ -328,4 +367,3 @@ h6 {
   font-weight: 600;
   line-height: normal;
 }
-
