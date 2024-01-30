@@ -1000,4 +1000,197 @@
     }
 
     /* bus home page css part  */
+
+
+    /* holidaypackage search result page  */
+    .mainimgPackageSearch {
+
+        height: 180px;
+        background-position: top center;
+    }
+
+    .packageResultBoxMobile {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        /* padding: 15px; */
+        border-radius: 8px;
+        /* border: 1px solid lightgray; */
+        background: #FFFBFB;
+        margin-bottom: 10px;
+        cursor: pointer;
+        flex-wrap: nowrap;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+
+    .packOuterBoxMobile {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .packageImageMobile {
+        width: 100%;
+    }
+
+    .packageImageMobile img {
+        width: 100%;
+        height: 220px;
+    }
+
+    .packageResultDetailsMobile {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        justify-content: flex-start;
+        padding: 15px;
+    }
+
+    .packageTitleMobile {
+        color: #071C2C;
+        font-family: Montserrat;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+
+    }
+
+    .packageTitleMobile p {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .priceBookMobile {
+        /* flex: 28%; */
+        display: flex;
+        justify-content: space-between;
+        /* flex-direction: column; */
+        align-items: center;
+        width: 100%;
+        /* padding: 15px; */
+        /* border-left: 1px solid lightgray; */
+    }
+
+    .priceBookOneMobile {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        height: 100%;
+        width: 100%;
+        align-items: center;
+
+    }
+
+    .priceBookOneMobile h3 {
+        color: #FFF;
+        text-align: center;
+        font-family: Montserrat;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        padding: 4px 12px;
+        border-radius: 16px;
+        background: #071C2C;
+        display: inline-block;
+    }
+
+    .priceBookOneMobile span {
+        color: #000;
+        font-family: Montserrat;
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .priceBookOneMobile p {
+        color: #d90429;
+        text-align: center;
+        font-family: Montserrat;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+    }
+
+    .priceBookOneMobile h4 {
+        color: #071C2C;
+        text-align: center;
+        font-family: Montserrat;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        cursor: pointer;
+        margin-bottom: 0 !important;
+    }
+
+    .priceBookOneMobile h4 svg {
+        font-size: 12px !important;
+    }
+
+    .daysPackMobile {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .daysPackMobile .daysText {
+        color: #d90429;
+        font-family: Montserrat;
+        font-size: 12px !important;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .topFilterBoxMobile {
+        position: sticky;
+        /* top: 0; */
+        padding: 15px 15px;
+        text-align: center;
+        font-weight: 700;
+        z-index: 2;
+        top: 62px;
+        margin-top: 5px;
+        background-color: white;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        /* box-shadow: 1px 1px 4px #111; */
+        border-top: 1px solid lightgray;
+        border-bottom: 1px solid lightgray;
+        margin-bottom: 10px;
+    }
+
+    .topFilterBoxMobile p {
+        padding-left: 15px;
+    }
+
+    .topFilterBoxMobile span {
+        padding-right: 15px;
+    }
+
+    .scrollDesignMobile {
+        /* top: 96px;
+        overflow: hidden;
+        overflow-y: scroll;
+        position: sticky;
+        height: calc(100vh - 100px); */
+        position: fixed;
+        background-color: white;
+        height: 100%;
+        top: 58px;
+        bottom: 0;
+        left: 0;
+        z-index: 3;
+        width: 54% !important;
+    }
+
+    .holidayInfoBackWall {
+        padding-top: 46px !important;
+    }
 }

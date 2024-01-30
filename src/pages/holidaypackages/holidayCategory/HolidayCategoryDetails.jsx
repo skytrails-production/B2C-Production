@@ -39,9 +39,37 @@ import { useNavigate } from "react-router-dom";
 import { clearHolidayReducer, searchOnePackageAction } from "../../../Redux/OnePackageSearchResult/actionOneSearchPackage";
 import packageFilter from "../../../images/packageFilter.png"
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
+import { motion } from "framer-motion";
 import { useLocation } from 'react-router-dom';
 
 const HolidayCategoryDetails = () => {
+
+    const variants = {
+        open: {
+            x: 0,
+            opacity: 1,
+            transition: {
+                duration: 0.5,
+                // staggerChildren: 0.1,
+            },
+        },
+        closed: {
+            x: -500,
+            opacity: 0,
+
+            transition: {
+                duration: 0.5,
+                // staggerChildren: 0.1,
+            },
+        },
+    };
+
+    const [open, setOpen] = useState(false);
+
+    const handleFilterOpen = () => {
+        setOpen(!open);
+    }
+
 
     const reducerState = useSelector((state) => state);
     const dispatch = useDispatch();
@@ -192,10 +220,110 @@ const HolidayCategoryDetails = () => {
                 </div>
             </section> */}
 
-            <section className="mx-5" style={{ position: "relative" }}>
-                <div className="container pt-3">
-                    <div className="row p-0">
-                        <div className="col-lg-3">
+            <section className="" style={{ position: "relative" }}>
+                <div className="container pt-3 px-0">
+                    <div className="row position-relative">
+
+                        {/* for mobile device  */}
+                        <div className="d-flex d-sm-none  topFilterBoxMobile" onClick={handleFilterOpen}>
+                            <p>Apply Filters</p>
+                            <span>
+                                <svg height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg" id="fi_7094575"><g id="Glyph"><path d="m17 5a3 3 0 1 1 3 3 3 3 0 0 1 -3-3zm-15 1h12a1 1 0 0 0 0-2h-12a1 1 0 0 0 0 2zm6 3a3 3 0 0 0 -2.82 2h-3.18a1 1 0 0 0 0 2h3.18a3 3 0 1 0 2.82-4zm14 2h-8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2zm-12 7h-8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2zm12 0h-3.18a3 3 0 1 0 0 2h3.18a1 1 0 0 0 0-2z"></path></g></svg>
+                            </span>
+                        </div>
+                        <motion.div className="d-block d-sm-none col-lg-3 col-md-3 scrollDesignMobile" animate={open ? "open" : "closed"} variants={variants}>
+
+
+                            <div className="flightFilterBoxMobile">
+                                {/* <div className="filterTitle">
+                <p>Select Filters</p>
+              </div> */}
+                                <div className="innerFilter">
+
+
+                                    <div>
+                                        <h2 className="sidebar-title">Sort By</h2>
+                                        <select className="highSelect" value={sortOption} onChange={handleSortChange}>
+                                            <option value="lowToHigh">Low to High</option>
+                                            <option value="highToLow">High to Low</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <h2 className="sidebar-title">By Days</h2>
+
+                                        <div>
+                                            <label className="sidebar-label-container">
+                                                <input type="checkbox" onChange={handleRadioChange} value="0-3 Days" name="test" />
+                                                <span className="checkmark"></span>0-3 Days
+                                            </label>
+
+                                            <label className="sidebar-label-container">
+                                                <input type="checkbox" onChange={handleRadioChange} value="4-7Days" name="test" />
+                                                <span className="checkmark"></span>4-7 Days
+                                            </label>
+
+                                            <label className="sidebar-label-container">
+                                                <input type="checkbox" onChange={handleRadioChange} value="7-12Days" name="test" />
+                                                <span className="checkmark"></span>7-12 Days
+                                            </label>
+
+                                            <label className="sidebar-label-container">
+                                                <input type="checkbox" onChange={handleRadioChange} value="12-20Days" name="test" />
+                                                <span className="checkmark"></span>12-20 Days
+                                            </label>
+                                            <label className="sidebar-label-container">
+                                                <input type="checkbox" onChange={handleRadioChange} value="20-30Days" name="test" />
+                                                <span className="checkmark"></span>20-30 Days
+                                            </label>
+
+                                        </div>
+
+                                        <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
+                                    </div>
+
+                                    <div>
+                                        <h2 className="sidebar-title">By Price</h2>
+
+                                        <div>
+                                            <label className="sidebar-label-container">
+                                                <input type="checkbox" onChange={handleRadioChange} value="25000" name="test" />
+                                                <span className="checkmark"></span>₹ 0-25,000
+                                            </label>
+
+                                            <label className="sidebar-label-container">
+                                                <input type="checkbox" onChange={handleRadioChange} value="25001" name="test" />
+                                                <span className="checkmark"></span>₹25,000-50,000
+                                            </label>
+
+                                            <label className="sidebar-label-container">
+                                                <input type="checkbox" onChange={handleRadioChange} value="50001" name="test" />
+                                                <span className="checkmark"></span>₹50,000-75,000
+                                            </label>
+
+                                            <label className="sidebar-label-container">
+                                                <input type="checkbox" onChange={handleRadioChange} value="75001" name="test" />
+                                                <span className="checkmark"></span>₹75,000-1,00,000
+                                            </label>
+                                            <label className="sidebar-label-container">
+                                                <input type="checkbox" onChange={handleRadioChange} value="100000" name="test" />
+                                                <span className="checkmark"></span>₹1,00,000 and Above
+                                            </label>
+
+                                        </div>
+                                        <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                        </motion.div>
+
+                        {/* for mobile device  */}
+
+                        <div className="d-none d-sm-block col-lg-3 col-md-3 scrollDesign" >
 
 
                             <div className="flightFilterBox">
@@ -214,7 +342,7 @@ const HolidayCategoryDetails = () => {
                                     </div>
 
                                     <div>
-                                        <h2 className="sidebar-title">By Rating</h2>
+                                        <h2 className="sidebar-title">By Days</h2>
 
                                         <div>
                                             <label className="sidebar-label-container">
@@ -284,16 +412,24 @@ const HolidayCategoryDetails = () => {
                             </div>
 
                         </div>
-                        <div className="col-lg-9">
+                        <div className="col-lg-9 col-md-9">
                             <div className="row">
-
+                                {/* <div className="col-lg-12 mb-4">
+                <div className="outerFilterBox">
+                  <div className="filterBox">
+                    <p>Showing {' '}{filteredPackage?.length} {' '} Results</p>
+                    <p className="searchDestination">Seach Destination{' '}: <b>{savedDestination}</b></p>
+                  </div>
+                </div>
+              </div> */}
                                 {sortedAndFilteredResults && sortedAndFilteredResults.length > 0 ? (
                                     sortedAndFilteredResults
                                         ?.map((item, index) => {
                                             return (
-                                                <div className="col-lg-12" key={index}>
+                                                <div className="col-lg-12">
 
-                                                    <div onClick={(e) => searchOneHoliday(item)} className="packageResultBox" key={index}>
+                                                    {/* for bigger device  */}
+                                                    <div onClick={(e) => searchOneHoliday(item)} className="d-none d-sm-block packageResultBox" key={index}>
                                                         <div className="packOuterBox">
                                                             <div className="packageImage">
                                                                 <img src={item?.pakage_img} alt="package-img" />
@@ -520,7 +656,6 @@ const HolidayCategoryDetails = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-
                                                         <div className="priceBook">
                                                             <div className="priceBookOne">
                                                                 <h3>{`${item?.days - 1}N`} / {`${item?.days}D`}</h3>
@@ -530,6 +665,250 @@ const HolidayCategoryDetails = () => {
                                                             </div>
                                                         </div>
                                                     </div>
+
+
+                                                    {/* for smaller device  */}
+
+                                                    <div onClick={(e) => searchOneHoliday(item)} className="d-block d-sm-none packageResultBoxMobile mx-3" key={index}>
+                                                        <div className="packOuterBoxMobile">
+                                                            <div className="packageImageMobile">
+                                                                <img src={item?.pakage_img} alt="package-img" />
+                                                            </div>
+                                                            <div className="packageResultDetailsMobile">
+                                                                <div className="packageTitleMobile">
+                                                                    <p>{item?.pakage_title}</p>
+                                                                </div>
+                                                                <div className="daysPackMobile">
+                                                                    <p className="customize daysText">{`${item?.days - 1}N`} / {`${item?.days}D`}</p>
+                                                                    <p className="departure">
+                                                                        {item?.schedule?.flexible ? 'Flexible' : item?.schedule?.fixed_departure ? 'Fixed Departure' : ''}
+                                                                    </p>
+                                                                </div>
+
+                                                                <div className="icon-box">
+                                                                    {item?.insclusions?.slice(0, 4).map((ele, index) => {
+                                                                        return (
+                                                                            <div key={index} className="icon-box-inner">
+                                                                                {ele?.flexibility && (
+                                                                                    <div>
+                                                                                        <span><CommitIcon />
+                                                                                        </span>
+                                                                                        <p>Flexibility</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.train && (
+                                                                                    <div>
+                                                                                        <span><TramIcon /></span>
+                                                                                        <p>Train</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.bus && (
+                                                                                    <div>
+                                                                                        <span><DirectionsBusIcon /></span>
+                                                                                        <p>Bus</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.cab && (
+                                                                                    <div>
+                                                                                        <span><DirectionsCarIcon /></span>
+                                                                                        <p>Cab</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.moterBike && (
+                                                                                    <div>
+                                                                                        <span><TwoWheelerIcon /></span>
+                                                                                        <p>Moterbike</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.hotel && (
+                                                                                    <div>
+                                                                                        <span><ApartmentIcon /></span>
+                                                                                        <p>Hotel</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.homeStays && (
+                                                                                    <div>
+                                                                                        <span><HolidayVillageIcon /></span>
+                                                                                        <p>Homestays</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.guestHouse && (
+                                                                                    <div>
+                                                                                        <span><LocationCityIcon /></span>
+                                                                                        <p>Guesthouse</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.camp && (
+                                                                                    <div>
+                                                                                        <span><CabinIcon /></span>
+                                                                                        <p>Camp</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.cruise && (
+                                                                                    <div>
+                                                                                        <span><BlurOnIcon /></span>
+                                                                                        <p>Cruise</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.sightSeeing && (
+                                                                                    <div>
+                                                                                        <span><DeckIcon /></span>
+                                                                                        <p>Sightseeing</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.guide && (
+                                                                                    <div>
+                                                                                        <span><EngineeringIcon /></span>
+                                                                                        <p>Guide</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.meals && (
+                                                                                    <div>
+                                                                                        <span><FastfoodIcon /></span>
+                                                                                        <p>Meals</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.breakfast && (
+                                                                                    <div>
+                                                                                        <span><DinnerDiningIcon /></span>
+                                                                                        <p>Breakfast</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.drink && (
+                                                                                    <div>
+                                                                                        <span><LiquorIcon /></span>
+                                                                                        <p>Drink</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.visa && (
+                                                                                    <div>
+                                                                                        <span><ArticleIcon /></span>
+                                                                                        <p>Visa</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.travelInsurance && (
+                                                                                    <div>
+                                                                                        <span><AccountBalanceIcon /></span>
+                                                                                        <p>Travel Insurance</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.safeTravel && (
+                                                                                    <div>
+                                                                                        <span><ParaglidingIcon /></span>
+                                                                                        <p>Safe to Travel</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.wildlife && (
+                                                                                    <div>
+                                                                                        <span><NaturePeopleIcon /></span>
+                                                                                        <p>Wildlife</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.heritage && (
+                                                                                    <div>
+                                                                                        <span><LandslideIcon /></span>
+                                                                                        <p>Heritage</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.adventure && (
+                                                                                    <div>
+                                                                                        <span><KitesurfingIcon /></span>
+                                                                                        <p>Adventure</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.beach && (
+                                                                                    <div>
+                                                                                        <span><PoolIcon /></span>
+                                                                                        <p>Beach</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.hillStation && (
+                                                                                    <div>
+                                                                                        <span><DownhillSkiingIcon /></span>
+                                                                                        <p>Hill Station</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.nature && (
+                                                                                    <div>
+                                                                                        <span><ForestIcon /></span>
+                                                                                        <p>Nature</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.wellness && (
+                                                                                    <div>
+                                                                                        <span><SelfImprovementIcon /></span>
+                                                                                        <p>Wellness</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.hiddenGem && (
+                                                                                    <div>
+                                                                                        <span><FitnessCenterIcon /></span>
+                                                                                        <p>Hidden Gem</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.tax && (
+                                                                                    <div>
+                                                                                        <span><FolderDeleteIcon /></span>
+                                                                                        <p>Price Inclusive Tax</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.discount && (
+                                                                                    <div>
+                                                                                        <span><LocalOfferIcon /></span>
+                                                                                        <p>50% Off</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.waterActivities && (
+                                                                                    <div>
+                                                                                        <span><KayakingIcon /></span>
+                                                                                        <p>Water Activities</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.optionalActivities && (
+                                                                                    <div>
+                                                                                        <span><SportsKabaddiIcon /></span>
+                                                                                        <p>Optional Activities</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.flexibleBooking && (
+                                                                                    <div>
+                                                                                        <span><BookmarkAddIcon /></span>
+                                                                                        <p>Flexible Booking</p>
+                                                                                    </div>
+                                                                                )}
+                                                                                {ele?.wifi && (
+                                                                                    <div>
+                                                                                        <span><WifiPasswordIcon /></span>
+                                                                                        <p>WIFI</p>
+                                                                                    </div>
+                                                                                )}
+                                                                            </div>
+                                                                        );
+                                                                    })}
+                                                                </div>
+
+                                                                <div className="destination">
+                                                                    <ul>
+                                                                        {item?.destination?.slice(0, 3).map((destinationItem, index) => (
+                                                                            <li key={index}>{destinationItem?.addMore}</li>
+                                                                        ))}
+                                                                    </ul>
+                                                                </div>
+                                                                <div className="priceBookMobile">
+                                                                    <div className="priceBookOneMobile">
+                                                                        {/* <h3>{`${item?.days - 1}N`} / {`${item?.days}D`}</h3>
+                                  <span>Offer Price</span> */}
+                                                                        <p>₹{' '} {item?.pakage_amount?.amount}/<span>Person</span></p>
+                                                                        <h4>Show More<ArrowForwardIosIcon /></h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+
+                                                    {/* for smaller device  */}
                                                 </div>
                                             );
                                         })
