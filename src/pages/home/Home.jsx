@@ -52,6 +52,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
       </Helmet>
 
       <div className="mainimg">
+        {/* <img className="bannerBack" src="https://img.freepik.com/premium-vector/landscape-with-buildings-vehicles-morning-city-life_95169-195.jpg?w=1060" alt="background" /> */}
         <img className="bannerBack" src={onewayBG} alt="background" />
         <InsideNavbar />
         {/* <BigNavbar /> */}
