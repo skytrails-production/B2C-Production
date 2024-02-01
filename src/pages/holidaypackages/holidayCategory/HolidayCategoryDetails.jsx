@@ -105,7 +105,7 @@ const HolidayCategoryDetails = () => {
 
     };
 
-    console.log(destination, "destination")
+    // console.log(destination, "destination")
 
     const [sortOption, setSortOption] = useState("lowToHigh");
 
@@ -143,7 +143,7 @@ const HolidayCategoryDetails = () => {
         }
     }, [])
 
-    // console.log(filteredPackage, "filtered package")
+    console.log(categoryData, "filtered package")
     // console.warn(reducerState, "reducerstate hotel package search result")
 
     const sortedAndFilteredResults = categoryData?.filter((item) => {
@@ -187,9 +187,7 @@ const HolidayCategoryDetails = () => {
 
 
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [])
+
 
     return (
         <>
@@ -426,10 +424,10 @@ const HolidayCategoryDetails = () => {
                                     sortedAndFilteredResults
                                         ?.map((item, index) => {
                                             return (
-                                                <div className="col-lg-12">
+                                                <div className="col-lg-12" key={index}>
 
                                                     {/* for bigger device  */}
-                                                    <div onClick={(e) => searchOneHoliday(item)} className="d-none d-sm-flex packageResultBox" key={index}>
+                                                    <div onClick={(e) => searchOneHoliday(item)} className="d-none d-sm-flex packageResultBox">
                                                         <div className="packOuterBox">
                                                             <div className="packageImage">
                                                                 <img src={item?.pakage_img} alt="package-img" />
@@ -686,9 +684,12 @@ const HolidayCategoryDetails = () => {
                                                                 </div>
 
                                                                 <div className="icon-box ">
-                                                                    {item?.insclusions?.map((ele, index) => {
-                                                                        return (
-                                                                            <div key={index} className="icon-box-inner">
+                                                                    {/* {item?.insclusions?.filter(ele => ele).map((ele, index) => {
+                                                                        return ( */}
+                                                                    {item?.insclusions
+                                                                        ?.filter(ele => Object.values(ele).some(value => value === 'true'))
+                                                                        .map((ele, index) => (
+                                                                            <div key={index + 30} className="icon-box-inner">
                                                                                 {ele?.flexibility && (
                                                                                     <div>
                                                                                         <span><CommitIcon />
@@ -883,8 +884,8 @@ const HolidayCategoryDetails = () => {
                                                                                     </div>
                                                                                 )}
                                                                             </div>
-                                                                        );
-                                                                    })}
+                                                                        )
+                                                                        )}
                                                                 </div>
 
                                                                 <div className="destination">

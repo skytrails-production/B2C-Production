@@ -39,7 +39,9 @@
   font-size: 30px;
   cursor: pointer;
 }
-
+#logInDisabled {
+  background-color: #d904278c !important;
+}
 .btn-primaryLogin {
   width: 100% !important;
   background-color: #d90429 !important;
@@ -79,7 +81,6 @@
     rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
   /* opacity: 0.9; */
   border-radius: 15px 15px 0px 0px;
-
 }
 
 .login-page .input-group {
@@ -89,6 +90,12 @@
   align-items: stretch;
   width: 100%;
   height: 51px;
+}
+.input-group-absolute {
+  position: absolute;
+  bottom: -16px;
+  font-size: 10px;
+  color: #d90429;
 }
 
 .login-page button {
@@ -103,8 +110,12 @@
   border-radius: 8px;
   background-image: linear-gradient(180deg, #d90429, #d904279c);
 
-
-  background-image: linear-gradient(to right, #d90429 0%, #EA384D 51%, #d90429 100%);
+  background-image: linear-gradient(
+    to right,
+    #d90429 0%,
+    #ea384d 51%,
+    #d90429 100%
+  );
   /* padding: 15px 45px; */
   text-align: center;
   text-transform: uppercase;
@@ -112,9 +123,7 @@
   background-size: 200% auto;
   color: white;
   cursor: pointer;
-
 }
-
 
 .account-btn:hover {
   background-position: right center;
@@ -123,7 +132,12 @@
 }
 
 .loginButt {
-  background-image: linear-gradient(to right, #d90429 0%, #EA384D 51%, #d90429 100%);
+  background-image: linear-gradient(
+    to right,
+    #d90429 0%,
+    #ea384d 51%,
+    #d90429 100%
+  );
   padding: 7px 11px;
   text-align: center;
   text-transform: uppercase;
@@ -176,7 +190,15 @@
 }
 
 /* Add this to your CSS file or style block */
-
+.network-error-modal {
+  position: absolute;
+  z-index: 99999999;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: -55px;
+}
 .swal-cancel-button {
   border: 2px solid rgb(217, 4, 41) !important;
   color: rgb(217, 4, 41) !important;
@@ -239,7 +261,6 @@
   border-color: #dc3545 !important;
   /* color: #d90429 !important; */
 }
-
 
 .dropdownLogin p {
   font-size: 14px;

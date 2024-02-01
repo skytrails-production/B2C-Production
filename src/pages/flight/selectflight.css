@@ -1,12 +1,27 @@
 .singleFlightBox {
     display: flex;
     flex-direction: row;
-    margin: 0px 0px 10px 0;
+    /* margin: 0px 0px 10px 0; */
     border-radius: 3px;
     /* border: 1px solid #9e9e9e; */
     background-color: #fffbfb;
-    padding: 15px 10px;
+    /* padding: 15px 10px; */
     justify-content: space-between;
+    /* width: 100%; */
+    /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
+}
+
+.mobileflexDesign {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin: 10px 0px;
+    border-radius: 8px;
+    /* border: 1px solid #9e9e9e; */
+    background-color: #fffbfb;
+    padding: 15px 10px;
     width: 100%;
     box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
@@ -14,11 +29,11 @@
 .singleFlightBox:not(:first-child) {
     display: flex;
     flex-direction: row;
-    margin: 10px 0px;
+    /* margin: 10px 0px; */
     border-radius: 8px;
-    border: 1px solid #9e9e9e;
+    /* border: 1px solid #9e9e9e; */
     background-color: #fffbfb;
-    padding: 15px 10px;
+    /* padding: 15px 10px; */
     justify-content: space-between;
     width: 100%;
 }
@@ -210,7 +225,9 @@
     text-decoration: none;
 }
 
-
+.daySize {
+    font-size: 14px;
+}
 
 
 hr {

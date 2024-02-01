@@ -1,7 +1,7 @@
 import React from "react";
 import "./Topflightroute.css";
 import image5 from "../../images/hyderabad.jpg";
-import flightimg from "../../images/black-plane (1).png";
+import flightimg from "../../images/black-plane.svg";
 import { useNavigate } from "react-router-dom";
 import imgage1 from "../../images/mumbai.jpg";
 import image2 from "../../images/goa1.jpg";
@@ -164,8 +164,9 @@ function Topflightroute({
                 <div className="route-text-flight">
                   <div className="route-content-span">
                     <span>{route.from}</span>
-                    <span>
+                    <span className="flightTopImg">
                       <img src={flightimg} alt={route.id} />
+
                     </span>
                     <span>{route.destination}</span>
                   </div>

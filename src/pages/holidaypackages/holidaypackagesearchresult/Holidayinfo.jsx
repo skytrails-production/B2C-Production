@@ -69,6 +69,7 @@ import { formatDate } from "../../../utility/utils"
 import { searchOnePackageAction } from "../../../Redux/OnePackageSearchResult/actionOneSearchPackage";
 import { useParams } from "react-router";
 import SharePackages from "./SharePackages";
+import { async } from "q";
 
 function Holidayinfo() {
   // const navigate = useNavigate();
@@ -187,8 +188,8 @@ function Holidayinfo() {
   const [valtrue, setValtrue] = useState(false)
 
   const validationFrom = () => {
-    console.log(formData.fullname === "", !validateEmail(formData.email), !validatePhoneNumber(formData.contact_number), formData.departure_city === "", formData.departure_date, formData.number_of_adult < 1)
-    if (formData.fullname === "" || !validateEmail(formData.email) || !validatePhoneNumber(formData.contact_number) || formData.departure_city === "" || formData.departure_date || formData.number_of_adult < 1) {
+    console.log(formData.fullname === "", !validateEmail(formData.email), !validatePhoneNumber(formData.contact_number), formData.departure_city === "", formData.departure_date, Number(formData.number_of_adult) < 1)
+    if (formData.fullname === "" || !validateEmail(formData.email) || !validatePhoneNumber(formData.contact_number) || formData.departure_city === "" || formData.departure_date === "" || Number(formData.number_of_adult) < 1) {
       setValtrue(false)
 
       return
@@ -200,15 +201,18 @@ function Holidayinfo() {
     }
   }
 
-  const handleInputChange = (e) => {
+  const handleInputChange = async (e) => {
     const { name, value } = e.target;
     // console.log(name, "nameeee", value)
     setFormData({
       ...formData,
       [name]: value,
     });
-    validationFrom()
   };
+  useEffect(() => {
+
+    validationFrom()
+  }, [formData])
 
   // const handleClose = () => {
   //   setOpenModal((prev) => !prev);
@@ -266,9 +270,7 @@ function Holidayinfo() {
   };
 
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [])
+
 
   // function of enquiry for booking
 

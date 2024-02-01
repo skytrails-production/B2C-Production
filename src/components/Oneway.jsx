@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 // import Tab from "@mui/material/Tab";
@@ -101,6 +101,8 @@ const Homeform = (props) => {
   const [isLoadingFrom, setIsLoadingFrom] = useState(false);
   const [fromToggle, setFromToggle] = useState(false);
   const [toToggle, setToggle] = useState(false);
+  const fromCityRef = useRef(null);
+  // const toCityRef = useRef(null);
 
   const [displayFrom, setdisplayFrom] = useState(true);
   const [toQuery, setToQuery] = useState("mumbai");
@@ -231,8 +233,9 @@ const Homeform = (props) => {
 
   // End
 
-  const toSearchRef = React.useRef(null);
-  const fromSearchRef = React.useRef(null);
+  const toSearchRef = useRef(null);
+  const toCityRef = useRef(null);
+  const fromSearchRef = useRef(null);
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -372,6 +375,11 @@ const Homeform = (props) => {
     infants: 0,
     class: "1",
   });
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent the default form submission behavior
+    }
+  };
   const sendTravelClass = (data2) => {
     setData(data2);
   };
@@ -595,6 +603,10 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                       setFromToggle(true);
                       setdisplayFrom(true);
                       setIsLoadingFrom(true);
+                      // fromCityRef.current.
+                      setTimeout(() => {
+                        fromCityRef.current.focus();
+                      }, 200);
                       // ; alert(fromToggle, "/////")
                     }}
                     className="from-container"
@@ -628,8 +640,10 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                                   <CiSearch size={20} />
                                   <input
                                     name="from"
+                                    onKeyDown={handleKeyDown}
                                     placeholder="From"
                                     value={from}
+                                    ref={fromCityRef}
                                     autoComplete="off"
                                     onChange={(event) => {
                                       handleFromInputChange(event);
@@ -746,6 +760,9 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                       setToggle(true);
                       setdisplayTo(true);
                       setIsLoadingTo(true);
+                      setTimeout(() => {
+                        toCityRef?.current?.focus();
+                      }, 300)
                     }}
                     className="from-container"
                     id="item-1"
@@ -782,10 +799,13 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                                     value={to}
                                     // required
                                     // autoFocus
+                                    onKeyDown={handleKeyDown}
+                                    ref={toCityRef}
                                     onChange={(event) => {
                                       handleToInputChange(event);
                                       setIsLoadingTo(true);
                                       handleToSearch(event.target.value);
+
                                     }}
                                     autoComplete="off"
                                     style={{

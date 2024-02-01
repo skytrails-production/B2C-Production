@@ -29,11 +29,40 @@ import { MdLogout } from "react-icons/md";
 import { motion } from "framer-motion";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
+import { validateName, validateEmail, validatePhoneNumber } from "../utility/validationFunctions"
+import { ModeOutlined } from "@mui/icons-material";
+import Alert from '@mui/material/Alert';
+// import { setTimeout } from "timers/promises";
 const MySwal = withReactContent(Swal);
 
 export default function LoginForm() {
   const dispatch = useDispatch();
+  const [subSignUp, setSignUp] = useState(false);
+  const [subSignUpp, setSignUpp] = useState(false);
+  function getTwelveYearsAgoDate() {
+    // Get the current date
+    let currentDate = new Date();
 
+    // Subtract 12 years from the current date
+    currentDate.setFullYear(currentDate.getFullYear() - 12);
+
+    // Format the date as 'yyyy-mm-dd'
+    let year = currentDate.getFullYear();
+    let month = String(currentDate.getMonth() + 1).padStart(2, '0');
+    let day = String(currentDate.getDate()).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+  }
+
+  // Example usage
+  let twelveYearsAgoDate = getTwelveYearsAgoDate();
+  console.log(twelveYearsAgoDate, "twelveYearsAgoDate")
+
+
+
+
+
+  const [numvalidation, setNumvalidation] = useState(false);
   const [open, setOpen] = useState(false);
   const [openSignUpModal, setOpenSignUpModal] = useState(false);
   const [openOtpModal, setOpenOtpModal] = useState(false);
@@ -41,25 +70,42 @@ export default function LoginForm() {
 
   const [name, setName] = useState("");
   const [finalDate, setFinalDate] = useState("");
+  const [otp, setOtp] = useState("");
+  const [token, setToken] = useState("");
+  const [email, setEmail] = useState("");
+  const [loader, setLoader] = useState(false)
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     setDisableButton(false);
+    setMobileNumber("")
+    setOtp("");
+    otpvalidReset();
+    setSignUpp(false);
+    setSignUp(false);
+    setNumvalidation(false)
   }
 
   const handleOtpModalOpen = () => setOpenOtpModal(true);
   const handleOtpModalClose = () => setOpenOtpModal(false);
   const handleSignUpModalOpen = () => setOpenSignUpModal(true);
-  const handleSignUpModalClose = () => setOpenSignUpModal(false);
+  const handleSignUpModalClose = () => {
+    setOpenSignUpModal(false);
+    setEmail("");
+    setName("");
+    setLoader(false)
+    setFinalDate("");
+
+
+
+  }
   const reducerState = useSelector((state) => state);
   const userName = reducerState?.logIn?.loginData?.data?.result?.username;
   // const userDataS = reducerState?.logIn?.loginData?.data?.result;
   // const data = reducerState?.logIn?.loginData?.data;
   const status = reducerState?.logIn?.loginData?.data?.statusCode;
   // const AuthenticUser = reducerState?.logIn?.isLogin;
-  const [otp, setOtp] = useState("");
-  const [token, setToken] = useState("");
-  const [email, setEmail] = useState("");
+
 
   // console.log(reducerState, "reducer state")
 
@@ -75,6 +121,7 @@ export default function LoginForm() {
   const [otpError, setOTPError] = useState(true);
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState(false);
+  const [longinError, setLoginError] = useState(false)
 
 
   const Typewriter = () => {
@@ -132,9 +179,11 @@ export default function LoginForm() {
   const requestOTPCheck = () => {
     if (!isValidOTP(otp)) {
       setOTPError(true);
+      return false
 
     } else {
       setOTPError(false);
+      return true
     }
   };
 
@@ -143,8 +192,9 @@ export default function LoginForm() {
   }, [otp])
 
 
-  const requestSignIn = async (event) => {
-    event.preventDefault();
+  const requestSignIn = async () => {
+    // event.preventDefault();
+
     setDisableButton(true);
     let payload = {
       mobileNumber: mobileNumber,
@@ -186,12 +236,20 @@ export default function LoginForm() {
 
     } catch (error) {
       console.log('error', error);
+      setDisableButton(false)
+      setLoginError(true)
+      // useEffect(() => {
+      setTimeout(() => {
+        setLoginError(false)
+      }, 1000);
+      // }, [longinError])
     }
 
 
 
 
   };
+
 
 
   //  if user is already registered
@@ -224,8 +282,8 @@ export default function LoginForm() {
 
   // first time user data
 
-  const signUpUser = async (e) => {
-    e.preventDefault();
+  const signUpUser = async () => {
+    // e.preventDefault();
 
     let payloadotp = {
       otp: otp,
@@ -353,6 +411,21 @@ export default function LoginForm() {
   //     }
   //   });
   // };
+  const signupFromValidation = () => {
+    if (validateName(name) && validateEmail(email) && requestOTPCheck() && finalDate !== "") {
+      setSignUp(true);
+
+    }
+    else {
+      setSignUp(false);
+    }
+    console.log(name, finalDate, email, otp, subSignUp)
+    return
+  }
+  useEffect(() => {
+    signupFromValidation()
+
+  }, [email, mobileNumber, otp])
   const handleLogout = () => {
     MySwal.fire({
       html: `
@@ -386,6 +459,7 @@ export default function LoginForm() {
     // console.warn(reducerState?.logIn?.loginData, "error,sub ndbfjhdfbvufbyvubfyuv")
     if (reducerState?.logIn?.loginData?.statusCode !== 200 && reducerState?.logIn?.loginData?.statusCode !== undefined) {
       setError(false)
+      setLoader(false)
     }
   }, [reducerState?.logIn?.loginData])
   function otpvalidReset() {
@@ -513,9 +587,22 @@ export default function LoginForm() {
                                   class="form-control"
                                   placeholder="Mobile Number"
                                 />
+                                {
+                                  numvalidation && !validatePhoneNumber(mobileNumber) &&
+                                  <div className="input-group-absolute">
+                                    Enter a valid 10-digit number
+                                  </div>
+                                }
+                                {
+                                  longinError && <div className="network-error-modal">
+
+                                    <Alert severity="error">Network Error</Alert>
+                                  </div>
+                                }
+
                               </div>
                             </div>
-                            <div class="col-12">
+                            <div onClick={() => setNumvalidation(true)} class="col-12">
 
 
                               {/* {disableButton ? <button
@@ -529,6 +616,7 @@ export default function LoginForm() {
                               {disableButton ? (
                                 <button
                                   className="btn btn-primaryLogin px-4 float-end mt-2"
+
                                 >
                                   <Typewriter />
                                 </button>
@@ -587,16 +675,17 @@ export default function LoginForm() {
                         <div>
                           <div class="row g-4">
                             <div class="col-12">
-                              {/* {error ?
+                              {error ?
                                 <label className="mb-3">
-                                  Enter OTP<span class="text-danger">*</span>
+                                  Enter OTP
                                 </label> :
                                 <label className="mb-3">
                                   <span class="text-danger">Invalid OTP</span>
-                                </label>} */}
-                              <label className="mb-3">
+                                </label>}
+                              {/* <label className="mb-3">
                                 Enter OTP<span class="text-danger"></span>
-                              </label> :
+                              </label>  */}
+                              :
                               <div class="input-group ">
                                 <div class={`input-group-text ${!error && "invalidOptLogin"} `}>
                                   <i>
@@ -609,7 +698,7 @@ export default function LoginForm() {
                                   onChange={(e) => {
                                     setOtp(e.target.value);
                                     requestOTPCheck();
-                                    // otpvalidReset();
+                                    otpvalidReset();
                                   }}
 
                                   // onChange={(e) => {
@@ -640,27 +729,45 @@ export default function LoginForm() {
                                 </p>
                               )}
                             </div>
-                            <div class="col-12 mt-3">
-                              <button
-                                // type="submit"
-                                onClick={(e) => { setSub(true); verifyOTP(e) }}
-                                class="btn btn-primaryLogin px-4 float-end mt-2"
-                                disabled={otpError}
-                              >
-                                Verify OTP
-                              </button>
-                              {/* {disableButtonVerifyOPT ? <button
-                              <button
-                                  // type="submit"
-                                  onClick={()=>{verifyOTP();setDisableButtonVerifyOPT(true)}}
-                                  class="btn btn-primaryLogin px-4 float-end mt-2"
-                                >
-                                  Verify OTP
-                                </button>//  type="submit"
-                                class="btn btn-primaryLogin px-4 float-end mt-2"><Typewriter /></button>
-                                : 
-                              } */}
-                            </div>
+                            {
+                              loader ?
+                                <div class="col-12 mt-3">
+
+                                  <button
+                                    // type="submit"
+                                    // onClick={(e) => { setSub(true); verifyOTP(e) }}
+                                    class="btn btn-primaryLogin px-4 float-end mt-2"
+                                  // disabled={otpError}
+                                  >
+                                    <Typewriter />
+                                  </button>
+
+                                </div> :
+                                <div class="col-12 mt-3">
+
+                                  <button
+                                    // type="submit"
+                                    onClick={(e) => { setSub(true); verifyOTP(e); setLoader(true) }}
+                                    class="btn btn-primaryLogin px-4 float-end mt-2"
+                                    disabled={otpError}
+                                  >
+                                    Verify OTP
+                                  </button>
+                                  {/* {disableButtonVerifyOPT ? <button
+                             <button
+                                 // type="submit"
+                                 onClick={()=>{verifyOTP();setDisableButtonVerifyOPT(true)}}
+                                 class="btn btn-primaryLogin px-4 float-end mt-2"
+                               >
+                                 Verify OTP
+                               </button>//  type="submit"
+                               class="btn btn-primaryLogin px-4 float-end mt-2"><Typewriter /></button>
+                               : 
+                             } */}
+                                </div>
+                            }
+
+
                           </div>
                         </div>
                       </div>
@@ -690,7 +797,7 @@ export default function LoginForm() {
                   <div class="row">
                     <div class="col-md-7 pe-0">
                       <div class="form-left h-100 py-5 px-5">
-                        <form>
+                        <div>
                           <div class="row g-4">
                             <div class="col-12">
                               <label>
@@ -711,6 +818,9 @@ export default function LoginForm() {
                                   class="form-control"
                                   placeholder="Enter Name"
                                 />
+                                {subSignUpp && !validateName(name) && <div className="input-group-absolute">
+                                  Enter a Valid Name
+                                </div>}
                               </div>
                             </div>
                             <div class="col-12">
@@ -732,6 +842,12 @@ export default function LoginForm() {
                                   class="form-control"
                                   placeholder="Enter Email"
                                 />
+                                {
+                                  subSignUpp && !validateEmail(email) &&
+                                  <div className="input-group-absolute">
+                                    Enter a valid email
+                                  </div>
+                                }
                               </div>
                             </div>
                             <div class="col-12">
@@ -751,13 +867,26 @@ export default function LoginForm() {
                                   name="phone"
                                   class="form-control"
                                   placeholder="Enter OTP"
+                                  max={twelveYearsAgoDate}
+                                //  readOnly
+                                //  max="1979-12-31"
                                 />
+                                {subSignUpp && finalDate === "" &&
+
+                                  <div className="input-group-absolute">
+                                    Please select a date
+                                  </div>
+                                }
                               </div>
                             </div>
                             <div class="col-12">
-                              <label>
-                                Enter OTP<span class="text-danger">*</span>
-                              </label>
+                              {error ?
+                                <label className="mb-3">
+                                  Enter OTP
+                                </label> :
+                                <label className="mb-3">
+                                  <span class="text-danger">Invalid OTP</span>
+                                </label>}
                               <div class="input-group">
                                 <div class="input-group-text">
                                   <i>
@@ -767,11 +896,22 @@ export default function LoginForm() {
                                 <input
                                   type="text"
                                   // value={mobileNumber}
-                                  onChange={(e) => setOtp(e.target.value)}
+                                  onChange={(e) => {
+                                    setOtp(e.target.value);
+                                    otpvalidReset();
+                                  }}
                                   name="phone"
                                   class="form-control"
                                   placeholder="Enter OTP"
+
+
                                 />
+                                {subSignUpp && !isValidOTP(otp) &&
+
+                                  <div className="input-group-absolute">
+                                    Enter a valid 6-digit number
+                                  </div>
+                                }
                               </div>
                             </div>
                             <div className="col-12 mt-3">
@@ -794,17 +934,50 @@ export default function LoginForm() {
                                 </p>
                               )}
                             </div>
-                            <div class="col-12 mt-3">
-                              <button
-                                // type="submit"
-                                onClick={signUpUser}
-                                class="btn btn-primaryLogin px-4 float-end mt-2"
-                              >
-                                Sign up
-                              </button>
-                            </div>
+                            {
+                              subSignUp ?
+
+                                <div class="col-12 mt-3">
+                                  {
+                                    loader ? <button
+                                      // type="submit"
+                                      // onClick={signUpUser}
+                                      className={`btn btn-primaryLogin px-4 float-end mt-2 ${!subSignUp && "invalidOptLogin"}`}
+                                    >
+                                      {<Typewriter />}
+                                    </button> :
+                                      <button
+                                        // type="submit"
+                                        onClick={() => {
+                                          signUpUser();
+                                          setLoader(true);
+                                        }
+
+                                        }
+                                        className={`btn btn-primaryLogin px-4 float-end mt-2 `}
+                                      >
+                                        Sign up
+                                      </button>
+                                  }
+
+                                </div> :
+
+                                <div class="col-12 mt-3 ">
+                                  <button
+                                    // type="submit"
+                                    onClick={() => setSignUpp(true)}
+                                    className={`btn btn-primaryLogin px-4 float-end mt-2 `}
+                                    id="logInDisabled"
+                                  >
+                                    Sign up
+                                  </button>
+                                </div>
+
+
+                            }
+
                           </div>
-                        </form>
+                        </div>
                       </div>
                     </div>
 

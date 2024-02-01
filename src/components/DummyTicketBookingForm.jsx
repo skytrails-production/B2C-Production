@@ -195,8 +195,8 @@ const Homeform = (props) => {
       setOpenTravelModal(false);
       setCountPassanger(
         parseInt(activeIdChild) +
-          parseInt(activeIdInfant) +
-          parseInt(activeIdAdult)
+        parseInt(activeIdInfant) +
+        parseInt(activeIdAdult)
       );
     }
   };
@@ -420,7 +420,7 @@ const Homeform = (props) => {
 
   function handleOnewaySubmit(event) {
     event.preventDefault();
-    sessionStorage.setItem("bookDummyTicket",true);
+    sessionStorage.setItem("bookDummyTicket", true);
 
     // if (authenticUser !== 200) {
     //   setIsLoginModalOpen(true);
@@ -570,15 +570,8 @@ const Homeform = (props) => {
   return (
     <>
       <section
-        className=""
-        style={{
-          width: "100%",
-          position: "absolute",
-          left: "50%",
-          top: "75%",
-          transform: "translate(-50%, -50%)",
-          zIndex: "2",
-        }}
+        className="oneWayAbsDesign"
+
       >
         <Helmet>
           <title>Flight</title>
@@ -591,64 +584,10 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
           />
         </Helmet>
         <div className="container">
+          <h2 className="dummyTitle">Book Ticket For Dummy PNR</h2>
           <div className="row oneWayBg">
             <div className="col-12 p-0">
-              {/* <TabContext value={value} centered> */}
-              {/* <Box
 
-                  pt={3}
-                  style={{
-                    display: "flex",
-                    justifyContent: "end",
-                    flexWrap: "wrap",
-                    paddingTop: "16px",
-                    marginTop: "4px",
-                  }}
-                >
-                  <TabList
-                    onChange={handleChange}
-                    aria-label="lab API tabs example"
-                    TabIndicatorProps={{ style: { display: "none" } }}
-                    sx={{ marginX: "40px", marginY: "-10px", minHeight: "0px" }}
-                  > */}
-              {/* <Tab
-                      // label="Oneway"
-                      value="1"
-                      sx={{
-                        fontSize: "15px",
-                        color: "black",
-                        fontWeight: "bold",
-                        minHeight: "34px",
-                        // padding: "5px 16px",
-                        marginX: "5px",
-                        borderRadius: "10px",
-                      }}
-                    ></Tab> */}
-              {/* <Tab
-                      label="Round Trip"
-                      value="2"
-                      sx={{
-                        fontSize: "15px",
-                        color: "black",
-                        fontWeight: "bold",
-                        minHeight: "34px",
-                        padding: "5px 16px",
-                        marginX: "5px",
-                        borderRadius: "10px",
-                      }}
-                    /> */}
-              {/* </TabList> */}
-
-              {/* <div style={{ flex: 1, textAlign: "right", padding: "0px 30px 0px 0px" }}>
-                    <p className="para">
-                      Book International and Domestic Flights
-                    </p>
-                  </div> */}
-              {/* </Box> */}
-
-              {/* Oneway start */}
-
-              {/* <TabPanel value="1"> */}
 
               <form onSubmit={handleOnewaySubmit}>
                 <div className="your-container">
@@ -661,6 +600,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                       // ; alert(fromToggle, "/////")
                     }}
                     className="from-container"
+                    id="item-0"
                   >
                     <span>From</span>
                     <div>
@@ -744,10 +684,10 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                                         </div>
                                         <div
                                           className="resultOriginName"
-                                          //  onClick={(e) => {
-                                          //   e.stopPropagation(); // Stop event bubbling
+                                        //  onClick={(e) => {
+                                        //   e.stopPropagation(); // Stop event bubbling
 
-                                          // }}
+                                        // }}
                                         >
                                           <p>{result.name}</p>
                                           <span>{result.code}</span>
@@ -766,9 +706,9 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                       }
                     </div>
                     {fromSearchResults &&
-                    fromSearchResults.length > 0 &&
-                    fromQuery.length >= 2 ? (
-                      <span>
+                      fromSearchResults.length > 0 &&
+                      fromQuery.length >= 2 ? (
+                      <span className="d-none d-md-block ">
                         {selectedFrom ? (
                           <>
                             {selectedFrom.code}, {selectedFrom.name}
@@ -781,7 +721,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                         )}
                       </span>
                     ) : (
-                      <span>Airport Name</span>
+                      <span className="d-none d-md-block ">Airport Name</span>
                     )}
 
                     <div
@@ -836,6 +776,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                       // ; alert(fromToggle, "/////")
                     }}
                     className="from-container"
+                    id="item-1"
                   >
                     <span>To</span>
                     <div>
@@ -938,9 +879,9 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                       }
                     </div>
                     {toSearchResults &&
-                    toSearchResults.length > 0 &&
-                    toQuery.length >= 2 ? (
-                      <span>
+                      toSearchResults.length > 0 &&
+                      toQuery.length >= 2 ? (
+                      <span className="d-none d-md-block ">
                         {selectedTo ? (
                           <>
                             {selectedTo.code}, {selectedTo.name}
@@ -952,13 +893,13 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                         )}
                       </span>
                     ) : (
-                      <span>Airport Name</span>
+                      <span className="d-none d-md-block ">Airport Name</span>
                     )}
                   </div>
                   <div className="from-container">
                     <span>Departure</span>
                     <div className="">
-                      <div className="onewayDatePicker">
+                      <div className="onewayDatePicker" id="item-2">
                         <DatePicker
                           name="departure"
                           id="departure"
@@ -968,10 +909,10 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                         />
                       </div>
                     </div>
-                    <span>{getDayOfWeek(startDate)}</span>
+                    <span className="d-none d-md-block ">{getDayOfWeek(startDate)}</span>
                   </div>
 
-                  <div className="travellerContainer ">
+                  <div className="travellerContainer " id="item-3">
                     <div
                       onClick={handleTravelClickOpen}
                       className="travellerButton"
@@ -981,7 +922,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                         <span>{(totalCount === 0 && 1) || totalCount} </span>{" "}
                         Traveller
                       </p>
-                      <div>
+                      <div className="d-none d-md-block ">
                         <span>
                           {(activeIdClass === 1 && "All") ||
                             (activeIdClass === 2 && "Economy") ||
@@ -1056,7 +997,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                                             : "#d90429",
                                       }}
                                       data-id={ele.id}
-                                      // onClick={handleClassItemClick}
+                                    // onClick={handleClassItemClick}
                                     >
                                       {ele?.label}
                                     </li>
@@ -1090,7 +1031,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                       </DialogActions>
                     </Dialog>
                   </div>
-                  <div className=" onewaySearch">
+                  <div className=" onewaySearch" id="item-4">
                     <button type="submit" className="searchButt">
                       <h3 className="mb-0">Search</h3>
                       {/* <KeyboardDoubleArrowRightIcon /> */}

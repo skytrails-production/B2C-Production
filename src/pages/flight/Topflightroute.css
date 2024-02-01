@@ -115,9 +115,19 @@
   margin-bottom: 5px;
 }
 
+.flightTopImg img {
+  width: 16px;
+}
+
 
 @media screen and (max-width: 1000px) {
   .Flight-grid-route {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media(max-width:600px) {
+  .flightTopImg img {
+    width: 12px;
   }
 }

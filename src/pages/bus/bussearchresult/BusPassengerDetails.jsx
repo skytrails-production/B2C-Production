@@ -216,9 +216,7 @@ const BusPassengerDetail = () => {
 
 
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [])
+
 
 
 

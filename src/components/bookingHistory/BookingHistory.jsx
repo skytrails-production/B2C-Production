@@ -23,10 +23,7 @@ const BookingHistory = () => {
 
 
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
 
-    }, [])
 
 
 

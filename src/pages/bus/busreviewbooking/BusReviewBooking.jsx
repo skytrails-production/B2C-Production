@@ -107,7 +107,7 @@ const BusReviewBooking = () => {
   ) {
     return accumulator + currentValue?.Price?.PublishedPriceRoundedOff;
   },
-  0);
+    0);
   // const tdsTotal = markUpamount + seatObject.reduce((accumulator, currentValue) => {
   //     return accumulator + currentValue?.Price?.TDS;
   // }, 0);
@@ -256,7 +256,7 @@ const BusReviewBooking = () => {
     }
   }, [authenticUser]);
 
- 
+
   const handlePayment = async () => {
     if (authenticUser !== 200) {
       setIsLoginModalOpen(true);
@@ -437,9 +437,7 @@ const BusReviewBooking = () => {
   // const cancelFromDateFormatted = cancelFromDate.format("DD MMM, YY");
   // const cancelToDateTimeFormatted = cancelToDateTime.format("DD MMM, YY");
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+
 
   const storedPassengerData = JSON.parse(sessionStorage.getItem("busPassName"));
   if (loaderPayment == false) {

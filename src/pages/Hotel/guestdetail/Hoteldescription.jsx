@@ -35,9 +35,6 @@ const Hoteldescription = () => {
 
 
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [])
 
 
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;

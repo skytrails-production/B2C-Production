@@ -54,10 +54,11 @@ import ContactUs from "./layouts/ContactUs";
 import BookingHistory from "./components/bookingHistory/BookingHistory"
 import HolidayCategoryDetails from "./pages/holidaypackages/holidayCategory/HolidayCategoryDetails";
 import { debounce } from 'lodash';
-
+import { useLocation } from 'react-router-dom';
 // import InsideNavbar from "./UI/BigNavbar/InsideNavbar"
 
 import FlightETicket from "../src/components/FlightETicket"
+import DummyPnrHome from "./components/DummyPnrHome"
 
 
 
@@ -118,6 +119,12 @@ function App() {
 
   //   )
   // }
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return (
     <div className="background_gradient">
@@ -219,6 +226,7 @@ function App() {
         <Route path="/bookedTicket" element={<BookedTicket />}></Route>
         <Route path="/bookinghistory" element={<BookingHistory />}></Route>
         <Route path="/oneWayDummyPnr" element={<DummyTicketBookingForm />}></Route>
+        <Route path="/oneWayDummyHome" element={<DummyPnrHome />}></Route>
       </Routes>
       <Footer />
     </div>

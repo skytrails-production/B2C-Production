@@ -563,9 +563,7 @@ export default function BookWrapper() {
 
 
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+
 
 
   useEffect(() => {
@@ -789,8 +787,8 @@ export default function BookWrapper() {
                   <motion.div className="row">
                     <motion.div
                       variants={variants}
-                      className="col-lg-12"
-                      style={{ marginTop: "-117px" }}
+                      className="martop col-lg-12 "
+
                     >
                       {TicketDetails?.Segments[0].length == 2 ? (
                         <>
@@ -819,12 +817,12 @@ export default function BookWrapper() {
                                 </div>
                               </div>
 
-                              <div className="aboveBelowSpan">
+                              {/* <div className="aboveBelowSpan">
                                 <span>Cancellation Fees Apply</span>
                                 <span className="aboveSOne">
                                   View Fare Rules
                                 </span>
-                              </div>
+                              </div> */}
                             </div>
 
                             <div className="bookcenteredBox">
@@ -858,62 +856,66 @@ export default function BookWrapper() {
 
                             </div>
 
-                            <div className="bookbottomBox">
-                              <div>
-                                <div className="bookBottomOne">
-                                  <p>{dayjs(TicketDetails?.Segments[0][0]?.Origin?.DepTime).format("h:mm A")}</p>
-                                  <p>{dayjs(TicketDetails?.Segments[0][0]?.Destination?.ArrTime).format("h:mm A")}</p>
+                            <div style={{ position: "relative" }}>
+                              <div className="bookbottomBox">
+                                <div>
+                                  <div className="bookBottomOne">
+                                    <p>{dayjs(TicketDetails?.Segments[0][0]?.Origin?.DepTime).format("h:mm A")}</p>
+                                    <p>{dayjs(TicketDetails?.Segments[0][0]?.Destination?.ArrTime).format("h:mm A")}</p>
 
-                                </div>
-                                <div className="bookBottomTwo">
-                                  <img src={fromTo} alt="icon" />
-                                </div>
-                                <div className="bookBottomThree">
-                                  <p>
-                                    {
-                                      TicketDetails?.Segments[0][0]?.Origin
-                                        ?.Airport?.CityName
-                                    }{" "}
-                                    <span>
+                                  </div>
+                                  <div className="bookBottomTwo">
+                                    <img src={fromTo} alt="icon" />
+                                  </div>
+                                  <div className="bookBottomThree">
+                                    <p>
                                       {
                                         TicketDetails?.Segments[0][0]?.Origin
-                                          ?.Airport?.AirportName
-                                      }
-                                    </span>
-                                  </p>
-                                  <p>
-                                    {
-                                      TicketDetails?.Segments[0][0]?.Destination
-
-
-                                        ?.Airport?.CityName
-                                    }{" "}
-                                    <span>
+                                          ?.Airport?.CityName
+                                      }{" "}
+                                      <span>
+                                        {
+                                          TicketDetails?.Segments[0][0]?.Origin
+                                            ?.Airport?.AirportName
+                                        }
+                                      </span>
+                                    </p>
+                                    <p>
                                       {
-                                        TicketDetails?.Segments[0][0]
-                                          ?.Destination?.Airport?.AirportName
-                                      }
-                                    </span>
-                                  </p>
+                                        TicketDetails?.Segments[0][0]?.Destination
+
+
+                                          ?.Airport?.CityName
+                                      }{" "}
+                                      <span>
+                                        {
+                                          TicketDetails?.Segments[0][0]
+                                            ?.Destination?.Airport?.AirportName
+                                        }
+                                      </span>
+                                    </p>
+                                  </div>
+
                                 </div>
 
-                              </div>
-
-                              <div className="bookBottomFour">
-                                <div>
-                                  <p>Baggage</p>
-                                  <span>ADULT</span>
-                                </div>
-                                <div>
-                                  <p>Check-in</p>
-                                  <span>15 Kgs</span>
-                                </div>
-                                <div>
-                                  <p>Cabin</p>
-                                  <span>7 Kgs</span>
+                                <div className="bookBottomFour">
+                                  <div>
+                                    <p>Baggage</p>
+                                    <span>ADULT</span>
+                                  </div>
+                                  <div>
+                                    <p>Check-in</p>
+                                    <span>15 Kgs</span>
+                                  </div>
+                                  <div>
+                                    <p>Cabin</p>
+                                    <span>7 Kgs</span>
+                                  </div>
                                 </div>
                               </div>
                             </div>
+
+
                             <div className="bookbottomBox ">
                               <div>
                                 <div className="bookBottomOne">
@@ -996,12 +998,12 @@ export default function BookWrapper() {
                                 </div>
                               </div>
 
-                              <div className="aboveBelowSpan">
+                              {/* <div className="aboveBelowSpan">
                                 <span>Cancellation Fees Apply</span>
                                 <span className="aboveSOne">
                                   View Fare Rules
                                 </span>
-                              </div>
+                              </div> */}
                             </div>
 
                             <div className="bookcenteredBox">
@@ -1917,13 +1919,17 @@ export default function BookWrapper() {
                     </motion.div>
 
                     {/* trip security  */}
-                    <motion.div variants={variants} className="col-lg-12">
+                    {/* <motion.div variants={variants} className="col-lg-12">
                       <TripSecureComponent />
-                    </motion.div>
+                    </motion.div> */}
 
                     {/* trip security  */}
 
-                    <div className="col-lg-12 my-4 ">
+                    <div className="d-block mt-3 d-sm-none col-lg-3 col-md-3">
+                      <BookNowLeft />
+                    </div>
+
+                    <div className="col-lg-12 my-4 smallButtMobile">
                       {V_aliation ? <button
                         className="bookWrapperButton"
                         type="submit"
@@ -1966,7 +1972,7 @@ export default function BookWrapper() {
                   </motion.div>
 
                 </motion.div>
-                <div className="col-lg-3 col-md-3">
+                <div className="d-none d-sm-block col-lg-3 col-md-3">
                   <BookNowLeft />
                 </div>
               </div>

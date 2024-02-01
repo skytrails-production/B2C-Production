@@ -24,7 +24,7 @@
 }
 
 .footer h5 {
-    font-size: 22px !important;
+    font-size: 22px;
     color: #21325d;
     font-weight: 800;
 }
@@ -61,13 +61,14 @@
     margin: 7px 0px;
     transition: all 0.2s;
 }
-.footer li>button{
+
+.footer li>button {
     border: none;
     padding: 5px;
     border-radius: 3px;
     background-color: #dc817e;
-     color: #21325d;
-     font-weight: 600;
+    color: #21325d;
+    font-weight: 600;
 }
 
 .footer li:hover {

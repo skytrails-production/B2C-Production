@@ -1,5 +1,5 @@
 import { apiURL } from "../../Constants/constant";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -138,6 +138,7 @@ const HotelForm = () => {
     console.log(date, checkOut);
     validateDates(date, date);
 
+
     // Check if futureDate is less than currentDate
     // if (futureTimestamp <= currentTimestamp) {
     //   // Add one day to futureDate
@@ -174,9 +175,8 @@ const HotelForm = () => {
     const seconds = date.getUTCSeconds();
     const gmtOffset = date.toString().match(/GMT[+-]\d{4}/);
 
-    return `${
-      weekdays[date.getUTCDay()]
-    }, ${month} ${day}, ${year}, ${hours}:${minutes}:${seconds} ${gmtOffset}`;
+    return `${weekdays[date.getUTCDay()]
+      }, ${month} ${day}, ${year}, ${hours}:${minutes}:${seconds} ${gmtOffset}`;
   }
 
   function validateDates(checkin, checkout) {
@@ -189,6 +189,7 @@ const HotelForm = () => {
       checkoutDate.setDate(checkinDate.getDate() + 1);
     }
     setCheckOut(checkoutDate);
+    setSelectedDayTwo(checkoutDate);
     console.log(checkoutDate, "formattedCheckout");
 
     return;
@@ -419,6 +420,11 @@ const HotelForm = () => {
     }));
     setFormData(newFormData);
   };
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      event.preventDefault(); // Prevent the default form submission behavior
+    }
+  };
 
   const handleFormChange = (index, key, value) => {
     const updatedFormData = [...formDataDynamic];
@@ -527,11 +533,11 @@ const HotelForm = () => {
     ];
     return daysOfWeek[date.getDay()];
   };
-  useEffect(() => {
-    if (hotelInputRef.current) {
-      hotelInputRef.current.focus();
-    }
-  }, [hotelInputRef.current]);
+  // useEffect(() => {
+  //   if (hotelInputRef.current) {
+  //     hotelInputRef.current.focus();
+  //   }
+  // }, [hotelInputRef.current]);
 
   // search history logic
 
@@ -777,6 +783,9 @@ const HotelForm = () => {
                           e.stopPropagation();
                           setSub(true);
                           await setdisplayFrom(true);
+                          setTimeout(() => {
+                            hotelInputRef.current.focus();
+                          }, 200)
                         }}
                         className="hotel-container"
                         id="item-0H"
@@ -804,6 +813,7 @@ const HotelForm = () => {
                                       placeholder="Search city"
                                       value={searchTerm}
                                       className="city-inputtt"
+                                      onKeyDown={handleKeyDown}
                                       onChange={(e) => {
                                         e.stopPropagation();
                                         setSearchTerm(e.target.value);
@@ -1042,53 +1052,53 @@ const HotelForm = () => {
                                           </div>
                                           {formDataDynamic[index]?.NoOfChild >
                                             0 && (
-                                            <div className="hotel_modal_form_input_child_age">
-                                              <label className="mt-3">
-                                                Child Age:
-                                              </label>
-                                              <div>
-                                                {Array.from({
-                                                  length:
-                                                    formDataDynamic[index]
-                                                      ?.NoOfChild || 0,
-                                                }).map((_, childIndex) => (
-                                                  <div
-                                                    key={childIndex}
-                                                    className=""
-                                                  >
-                                                    <select
-                                                      value={
-                                                        formDataDynamic[index]
-                                                          ?.ChildAge?.[
-                                                          childIndex
-                                                        ] || ""
-                                                      }
-                                                      className="hotel_input_select"
-                                                      onChange={(e) =>
-                                                        handleChildAgeChange(
-                                                          index,
-                                                          childIndex,
-                                                          e.target.value
-                                                        )
-                                                      }
+                                              <div className="hotel_modal_form_input_child_age">
+                                                <label className="mt-3">
+                                                  Child Age:
+                                                </label>
+                                                <div>
+                                                  {Array.from({
+                                                    length:
+                                                      formDataDynamic[index]
+                                                        ?.NoOfChild || 0,
+                                                  }).map((_, childIndex) => (
+                                                    <div
+                                                      key={childIndex}
+                                                      className=""
                                                     >
-                                                      {Array.from(
-                                                        { length: 12 },
-                                                        (_, i) => (
-                                                          <option
-                                                            key={i}
-                                                            value={i + 1}
-                                                          >
-                                                            {i + 1}
-                                                          </option>
-                                                        )
-                                                      )}
-                                                    </select>
-                                                  </div>
-                                                ))}
+                                                      <select
+                                                        value={
+                                                          formDataDynamic[index]
+                                                            ?.ChildAge?.[
+                                                          childIndex
+                                                          ] || ""
+                                                        }
+                                                        className="hotel_input_select"
+                                                        onChange={(e) =>
+                                                          handleChildAgeChange(
+                                                            index,
+                                                            childIndex,
+                                                            e.target.value
+                                                          )
+                                                        }
+                                                      >
+                                                        {Array.from(
+                                                          { length: 12 },
+                                                          (_, i) => (
+                                                            <option
+                                                              key={i}
+                                                              value={i + 1}
+                                                            >
+                                                              {i + 1}
+                                                            </option>
+                                                          )
+                                                        )}
+                                                      </select>
+                                                    </div>
+                                                  ))}
+                                                </div>
                                               </div>
-                                            </div>
-                                          )}
+                                            )}
                                         </div>
                                       )
                                     )}

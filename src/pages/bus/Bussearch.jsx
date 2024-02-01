@@ -681,6 +681,9 @@ const Homeform = (props) => {
                         e.stopPropagation();
                         setdisplayFrom(true);
                         setdisplayTo(false)
+                        setTimeout(() => {
+                          fromInputRef.current.focus();
+                        }, 200)
                         //  alert("click")
                         // setSub(true)
                       }}
@@ -803,6 +806,9 @@ const Homeform = (props) => {
                       e.stopPropagation();
                       setdisplayTo(true);
                       setdisplayFrom(false);
+                      setTimeout(() => {
+                        toInputRef.current.focus();
+                      }, 200)
                     }} >
                       <label className="bus_lable">{selectedToLast?.CityName}</label>
                     </div>

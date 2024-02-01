@@ -43,9 +43,10 @@ const Footer = () => {
                                     <a href="https://merchant.razorpay.com/policy/NGcE9sKf640xEo/shipping" target="_blank">Shipping Policy</a></li> */}
                   <li>
                     <KeyboardDoubleArrowRightIcon />
-                    <button onClick={handleDummyTicketBooking}>
+                    {/* <button onClick={handleDummyTicketBooking}>
                       Book Dummy Ticket
-                    </button>
+                    </button> */}
+                    <Link to="/oneWayDummyHome"> Dummy Pnr</Link>
                   </li>
                 </ul>
               </div>
@@ -59,7 +60,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <KeyboardDoubleArrowRightIcon />
-                    <Link to="termAndCondition">Terms &amp; Conditions</Link>
+                    <Link to="termAndCondition">Term &amp; Co</Link>
                   </li>
                   <li>
                     <KeyboardDoubleArrowRightIcon />
@@ -84,7 +85,7 @@ const Footer = () => {
         <div className="row w-100 justify-content-between">
           <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-center text-sm-start mt-4 mt-sm-0">
             <a href="#" className="text-decoration-none">
-              2023 SkyTrails Pvt. Ltd. &copy; All Rights Reserved
+              2024 SkyTrials Pvt. Ltd. &copy; All Rights Reserved
             </a>
           </div>
           <div className="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6 text-center text-sm-end mt-4 mt-sm-0">

@@ -317,7 +317,7 @@
     }
 
     .route-content-span span {
-        font-size: 11px;
+        font-size: 10px;
     }
 
     /* .route-content-span span img {
@@ -529,7 +529,7 @@
     }
 
     .footer a {
-        font-size: 13px !important;
+        font-size: 11px !important;
     }
 
     .footer {
@@ -538,7 +538,7 @@
 
     .addressFooter span {
         width: 80% !important;
-        font-size: 14px !important;
+        font-size: 11px !important;
     }
 
 
@@ -1164,6 +1164,7 @@
         text-align: center;
         top: 62px;
         z-index: 2;
+        cursor: pointer;
     }
 
     .topFilterBoxMobile p {
@@ -1298,4 +1299,359 @@
     }
 
     /* package loader  */
+
+
+    .dummyTitle {
+        font-size: 14px;
+    }
+
+
+    .onewaySearch .searchButt h3 {
+        color: white;
+        font-size: 13px;
+    }
+
+
+
+    .bannerBack {
+        position: absolute;
+        z-index: -1;
+        /* width: 100%; */
+        /* height: 100%; */
+        object-fit: cover;
+        background-repeat: no-repeat;
+        background-position: bottom right;
+        /* background-size: 100% 100%; */
+        opacity: 0.9;
+    }
+
+    .footer {
+        padding: 50px 40px 20px 40px !important;
+        /* background-color: #dc817e; */
+        /* background-image: linear-gradient(to bottom, #dc817e, #d90429); */
+        background-color: #ddd;
+        border-radius: 10px 10px 0px 0px !important;
+        /* border-top-right-radius: 50px; */
+        color: white !important;
+        position: relative !important;
+        bottom: 0 !important;
+        margin-top: 40px;
+    }
+
+    .footer h5 {
+        font-size: 18px !important;
+        color: #21325d;
+        font-weight: 700 !important;
+        text-align: center !important;
+    }
+
+
+    .icon-box-inner>div {
+        display: flex;
+        flex-direction: row !important;
+        align-items: center;
+        justify-content: center;
+        gap: 5px;
+        border: 1px solid lightgray;
+        padding: 3px 6px;
+        border-radius: 5px;
+    }
+
+    .icon-box p {
+
+        white-space: nowrap;
+    }
+
+
+    .FilterBoxMobileFlight {
+        overflow: hidden;
+        overflow-y: scroll;
+        height: 100vh;
+    }
+
+    .scrollDesignMobileFlight {
+        position: fixed;
+        background-color: white;
+        height: 100%;
+        top: 58px;
+        bottom: 0;
+        left: 0;
+        z-index: 3;
+        width: 67% !important;
+    }
+
+
+    .singleFlightBoxThree h4 {
+        font-size: 9px !important;
+    }
+
+    .singleFlightBoxThree>div {
+        width: 62px !important;
+    }
+
+    .singleFlightBoxThree p {
+
+        font-size: 9px !important;
+
+    }
+
+    .singleFlightBoxThree span {
+
+        font-size: 9px !important;
+
+    }
+
+    .singleFlightBoxTwo p {
+
+        font-size: 11px !important;
+
+    }
+
+    .singleFlightBoxTwo span {
+
+        font-size: 10px !important;
+
+    }
+
+    .daySize {
+        font-size: 9px !important;
+    }
+
+    .singleFlightBoxFour p {
+
+        font-size: 11px !important;
+
+    }
+
+    .singleFlightBoxFour span {
+
+        font-size: 10px !important;
+
+    }
+
+    .singleFlightBoxOne span {
+
+        font-size: 10px !important;
+
+    }
+
+    .singleFlightBoxOne p {
+
+        font-size: 10px !important;
+
+    }
+
+    .singleFlightBoxOne img {
+        width: 24px !important;
+    }
+
+    .singleFlightBoxSeven button {
+
+        font-size: 10px !important;
+        padding: 8px 7px !important;
+
+    }
+
+    .singleFlightBoxSeven p {
+        font-size: 13px !important;
+        font-weight: 700;
+        color: #21325d;
+        font-family: 'Montserrat';
+    }
+
+    .singleFlightBoxOne {
+        display: none !important;
+    }
+
+    .mobileflexDesign {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        align-items: flex-start;
+        justify-content: flex-start;
+        margin: 10px 0px;
+        border-radius: 8px;
+        /* border: 1px solid #9e9e9e; */
+        background-color: #fffbfb;
+        padding: 15px 10px;
+        width: 100%;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    }
+
+    .columnFLightName {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        align-items: center;
+    }
+
+    .columnFLightName img {
+        width: 22px;
+    }
+
+    .columnFLightName span,
+    .columnFLightName p {
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+
+    .mainimgFlightSearch {
+
+        height: 122px !important;
+    }
+
+    .martop {
+
+        margin-top: -23px !important;
+    }
+
+    .bookbottomBox {
+        display: flex;
+        padding: 16px;
+        justify-content: space-between;
+        align-items: flex-start;
+        align-self: stretch;
+        border-radius: 8px;
+        border: 0.5px solid #ddd;
+        background: #F9EDED;
+        flex-wrap: nowrap !important;
+        overflow: hidden !important;
+        width: 100% !important;
+        overflow-x: scroll !important;
+        white-space: nowrap !important;
+    }
+
+
+    .bookaboveBox p {
+
+        font-size: 13px !important;
+    }
+
+    .bookaboveBox>div>.aboveSpan span {
+
+        font-size: 11px !important;
+
+    }
+
+    .bookaboveBox>div>.aboveSpan .aboveSOne {
+
+        font-size: 10px !important;
+
+    }
+
+    .bookcenteredBox div img {
+        width: 26px !important;
+        border-radius: 4px;
+    }
+
+    .bookbottomBox .bookBottomOne p {
+        font-size: 12px !important;
+    }
+
+    .bookbottomBox .bookBottomThree p {
+
+        font-size: 12px !important;
+
+    }
+
+    .bookBottomFour {
+        padding-left: 12px !important;
+    }
+
+    .bookbottomBox .bookBottomTwo img {
+        width: 20px !important;
+        height: 50px !important;
+    }
+
+    .bookcenteredBox span {
+
+        font-size: 12px !important;
+        font-weight: 600;
+
+    }
+
+    .bookNowCancel .bookCancleOne p {
+
+        font-size: 14px !important;
+
+    }
+
+    .bookNowCancel .bookCancleOne>div img {
+        width: 26px !important;
+        border-radius: 4px;
+    }
+
+    .bookCancleOne span {
+        font-size: 12px !important;
+
+    }
+
+    .bookCancleTwo>span {
+        word-wrap: nowrap;
+        margin-right: 20px;
+        font-size: 12px;
+    }
+
+
+    .svgLineBox svg {
+        position: relative;
+        width: 160px !important;
+    }
+
+    .svgLineBox .svgCircle {
+
+        width: 10px !important;
+        height: 10px !important;
+
+    }
+
+    .bookCancleTwo {
+
+        font-size: 9px !important;
+
+    }
+
+
+    .headingBookFlight h3 {
+
+        font-size: 14px !important;
+
+    }
+
+    .bookAdultIndex p {
+        font-size: 13px !important;
+    }
+
+    .headFlight span {
+
+        font-size: 14px !important;
+
+    }
+
+    .totCOmmFlight>div span {
+        font-size: 12px !important;
+    }
+
+    .totCOmmFlight>div p {
+        font-size: 12px !important;
+    }
+
+    .priceChart {
+        font-size: 13px;
+    }
+
+    .TotGstFlight {
+        font-size: 13px;
+    }
+
+    .smallButtMobile {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .bookWrapperButton {
+        font-size: 12px !important;
+    }
 }
