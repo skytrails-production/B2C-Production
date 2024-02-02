@@ -1654,4 +1654,106 @@
     .bookWrapperButton {
         font-size: 12px !important;
     }
+
+
+    .HotelResultSearchBarBox {
+
+        flex-direction: column !important;
+        gap: 12px !important;
+        align-items: center !important;
+
+    }
+
+    .mainimgHotelSearchResult {
+        height: 217px !important;
+    }
+
+    .hotelResSurBox h3 {
+        font-size: 17px !important;
+    }
+
+    .hotelResSurBox {
+        text-align: center !important;
+    }
+
+    .hotelResSurBox p {
+        font-size: 13px !important;
+    }
+
+
+
+    /* hotel search result  */
+
+    .hotleTitle {
+        font-size: 16px !important;
+    }
+
+    .hotelResultBoxSearch {
+        flex-direction: column !important;
+    }
+
+    .hotelResultBoxSearch>div {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    .hotelResultDetails {
+        flex: 100% 1 !important;
+        width: 100% !important;
+        margin-top: 3px !important;
+        gap: 5px !important;
+        padding: 9px 15px !important;
+    }
+
+    .hotelImage {
+        padding: 15px 15px 0px 15px !important;
+    }
+
+    .hotelImage img {
+        width: 100% !important;
+        height: 240px !important;
+        border-radius: 10px;
+    }
+
+    .priceBookHotel {
+        margin-top: 0 !important;
+        padding: 0px 15px 15px 15px !important;
+        align-items: center !important;
+    }
+
+    .priceBookHotelOne {
+        padding: 0 !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100%;
+    }
+
+    .priceBookHotelOne h4 {
+        margin-bottom: 0;
+    }
+
+    .priceBookHotelOne p {
+        font-size: 16px !important;
+    }
+
+
+
+    .busimgcontainer>img:first-child {
+        width: 47% !important;
+        height: 47% !important;
+        border-radius: 2%;
+    }
+
+    .funnyfact h3,
+    .funnyfact h5 {
+        font-size: 13px !important;
+        font-weight: 900 !important;
+        color: #21325d !important;
+        /* text-shadow: 1px 1px 2px black; */
+        font-family: 'Montserrat';
+        text-align: center;
+    }
+
+    /* hotel search result  */
 }

@@ -225,7 +225,7 @@ const HotelForm = () => {
   };
 
   const [searchTerm, setSearchTerm] = useState("");
-  // console.log(searchTerm, "search term")
+
   const [searchTermLast, setSearchTermLast] = useState({
     Destination: "New Delhi",
     StateProvinceCode: "DL",
@@ -238,9 +238,11 @@ const HotelForm = () => {
   });
   const [cityid, setCityid] = useState("130443");
   const [results, setResults] = useState(populterSearch);
+
   useEffect(() => {
-    console.warn(populterSearch, "populer search");
+
   }, [results]);
+
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -319,26 +321,7 @@ const HotelForm = () => {
       reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult
         ?.Error?.ErrorCode !== undefined
     ) {
-      // Swal.fire({
-      //     icon: "error",
-      //     title: "Oops",
-      //     text: reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult?.Error?.ErrorMessage,
 
-      //     showClass: {
-      //         popup: `
-      //         animate__animated
-      //         animate__fadeInUp
-      //         animate__faster
-      //       `
-      //     },
-      //     hideClass: {
-      //         popup: `
-      //         animate__animated
-      //         animate__fadeOutDown
-      //         animate__faster
-      //       `
-      //     }
-      // })
       setLoader(false);
     }
   }, [
@@ -572,61 +555,17 @@ const HotelForm = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
-    // setSub(true);
-    // if (values.departure === ("" || undefined)) {
-    //     return;
-    // }
-    // if (values.checkOutDeparture === ("" || undefined)) {
-    //     return;
-    // }
 
-    // if (authenticUser !== 200) {
-    //     setIsLoginModalOpen(true);
-    // } else {
-
-    // const formData = new FormData(event.target);
-    // const date = new Date(formData.get("departure"));
-    // const date = new Date(checkIn);
-    // const day = date.getDate().toString().padStart(2, "0");
-    // const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    // const year = date.getFullYear();
-    // const formattedDate = `${day}/${month}/${year}`;
-
-    // const sessionData = new FormData(event.target);
-
-    // Extract specific fields
-    // const city = sessionData.get("City");
-    // const checkIn = sessionData.get("checkIn");
-    // const checkOut = sessionData.get("checkOut");
-    // const room = sessionData.get("room");
-    // const star = sessionData.get("star");
-    // const night = sessionData.get("night");
-    // const nationality = sessionData.get("nationality");
-
-    // Extract data from dynamic form fields
     const dynamicFormData = formDataDynamic.map((data) => ({
       NoOfAdults: data.NoOfAdults || 0,
       NoOfChild: data.NoOfChild || 0,
       ChildAge: data.ChildAge || [],
     }));
 
-    // Combine all data into a single object
-    // const formFields = {
-    //     city,
-    //     checkIn,
-    //     checkOut,
-    //     room,
-    //     star,
-    //     night,
-    //     nationality,
-    //     dynamicFormData,
-    // };
 
-    // sessionStorage.setItem("hotelFormData", JSON.stringify(formFields));
 
-    // if (false) {
-    //     // setCityError("city is Required");
-    // } else {
+
+    sessionStorage.setItem("hotelFormData", JSON.stringify(searchTermLast));
 
     const departureDate = new Date(checkIn);
     const day = departureDate.getDate().toString().padStart(2, "0");
@@ -641,7 +580,7 @@ const HotelForm = () => {
       CheckInDate: formattedDate,
       // NoOfNights: formData.get("night"),
       NoOfNights: nightdays,
-      CountryCode: "IN",
+      CountryCode: searchTermLast.countrycode,
       CityId: searchTermLast.cityid,
       ResultCount: null,
       PreferredCurrency: "INR",

@@ -41,6 +41,9 @@
     width: 300px;
     height: 300px;
     border-radius: 2% !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
 }
 

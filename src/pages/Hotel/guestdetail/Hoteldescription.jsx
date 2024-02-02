@@ -50,7 +50,7 @@ const Hoteldescription = () => {
     reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Status || false;
   const passenger = reducerState?.passengers?.passengersData;
 
-  // console.log(reducerState, "passenger");
+  console.log(reducerState, "passenger");
 
   const hotelBlockDetails =
     reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult;
@@ -208,6 +208,7 @@ const Hoteldescription = () => {
       firstname: passenger[0].FirstName,
       phone: passenger[0].Phoneno,
       amount: totalAmount + markUpamount,
+      // amount:1,
       email: passenger[0].Email,
       productinfo: "ticket",
       bookingType: "HOTELS",

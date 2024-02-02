@@ -126,6 +126,7 @@
 .hotelResultBoxSearch {
   display: flex;
   justify-content: space-between;
+  flex-direction: row;
   border-radius: 8px;
   border: 1px solid lightgray;
   background: #FFFBFB;
@@ -295,6 +296,13 @@
   font-weight: 700;
   line-height: normal;
 
+
+
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 
@@ -320,6 +328,29 @@
   line-height: normal;
   margin-top: 5px;
   font-weight: 600;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hotAddressLocation {
+  color: #d90429;
+  font-family: Montserrat;
+  font-size: 14.1px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 5px;
+  font-weight: 600;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .icon-box p {
@@ -425,4 +456,74 @@
 
 .ratingStar img {
   margin-right: 8px;
+}
+
+
+.mainimgHotelSearch {
+  position: relative;
+}
+
+.searchMainBoxAbs {
+  position: absolute;
+  bottom: 23px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+.HotelResultSearchBarBox {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  /* background-color: white; */
+  border-radius: 10px;
+  /* padding: 15px; */
+  /* backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: #6b696973;
+  border: 1px solid #ffffff2e;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+}
+
+.hotelResSurBox h3 {
+  color: white;
+  font-weight: 700;
+  font-size: 28px;
+}
+
+.hotelResSurBox p {
+  color: white;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.searchBarHotelFOrm input {
+  padding: 14px;
+  border-radius: 8px;
+  border: none;
+  min-width: 290px;
+}
+
+
+.mainimgHotelSearchResult {
+  /* background-image: url(http://localhost:3000/static/media/hotelNavBg.46afce9….jpg); */
+  background-size: cover;
+  background-color: #f9eded;
+  background-repeat: no-repeat !important;
+  height: 200px;
+  position: relative;
+  background-image: linear-gradient(to right, #84C2C8 0%, #ADE6E8 51%, #84C2C8 100%);
+}
+
+
+.ShowMoreHotel {
+  color: #d90429;
+}
+
+.rotttt {
+  transform: rotate(180deg);
+}
+
+.hotelResSurBox {
+  text-align: left;
 }

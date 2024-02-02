@@ -48,3 +48,10 @@ export function validatePAN(panNumber) {
     const regex = /^[A-Z]{5}[0-9]{4}[A-Z]{1}$/;
     return regex.test(panNumber);
 }
+
+export function validatePassportExpiry(dateParam){
+  const dateCheck=Date.now()
+  console.log(dateCheck.valueOf < dateParam,"passoportValidation");
+  return dateCheck.valueOf<dateParam
+
+}

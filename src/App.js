@@ -38,7 +38,7 @@ import BusResult from "./pages/bus/bussearchresult/BusResult";
 import Download from "./pages/home/Download";
 import Holidayinfo from "./pages/holidaypackages/holidaypackagesearchresult/Holidayinfo";
 
-
+import  SsdcForm from './components/ssdc/SSDClanding'
 import HotelSearch from './pages/Hotel/hotelsearch/HotelSearch';
 import HotelBooknow from './pages/Hotel/hotelbokknow/HotelBooknow'
 import Reviewbooking from './pages/Hotel/hotelreviewbooking/Reviewbooking'
@@ -196,6 +196,11 @@ function App() {
           path="/HolidayPackageSearchResult"
           element={<HolidayPackageSearchResult />}
         />
+
+            <Route
+          path="/SSDC/ROMANIA"
+          element={<SsdcForm />}
+        ></Route>
 
         {/* Bus */}
         <Route path="bus" element={<Bus />}></Route>

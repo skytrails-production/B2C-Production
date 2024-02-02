@@ -1,0 +1,372 @@
+.Appcontent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    /* margin-top: 50px; */
+  }
+
+  .ssdchalfside{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .imgformcontent{
+    height: 20%;
+    width: 100%;
+  }
+
+  .ssdcformimg{
+    height: 100%;
+    width: 100%;
+  }
+  
+  .formcontainer {
+    /* width: 50%; */
+    background-color: #f4f4f4;
+    padding: 20px;
+    border: 1px solid lightgray;
+    border-radius: 8px;
+    box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
+  
+  .ssdc-form-label {
+    display: block;
+    font-weight: bold;
+    /* margin-bottom: 8px; */
+  }
+  
+  .ssdcform {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .ssdcbutton {
+    background-color: #b53122;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #b53122;
+  }
+  
+
+  /* Add this to your CSS file */
+.form-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .ssdc-form-label {
+    flex: 0 0 48%; /* Adjust the width of the labels as needed */
+  }
+  
+  .ssdcform {
+    width: 100%;
+  }
+
+  .ssdc-training-center-heading1{
+    color: #071C2C;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%; /* 48px */
+  }
+
+
+  /* //////////////////////////ssdc page////////////////////////// */
+  .ssdcformpage {
+    position: relative;
+    display: flex;
+    width: 100%;
+    padding: 24px 64px 0 64px; /* Adjust padding as needed */
+    flex-direction: column;
+    gap: 24px; /* Adjust gap as needed */
+   
+  }
+  
+  .ssdcformpage::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url(../../images/HEADER\ Timeless\ Romania.jpg) center/cover no-repeat;
+    opacity: 0.3; /* Adjust opacity as needed */
+    z-index: -1;
+  }
+  
+  
+
+  .ssdc-content-page{
+    display: flex;
+padding: var(--0, 0px);
+align-items: center;
+gap: var(--6, 24px);
+flex: 1 0 0;
+  }
+  
+
+  .upsliling-container-content{
+    color: #071C2C;
+font-family: Montserrat;
+text-align: center;
+font-size: 30px;
+font-style: normal;
+font-weight: 700;
+line-height: 140%; /* 67.2px */
+letter-spacing: -0.96px;
+  }
+
+  .upsliling-container-content > span{
+    color: #1E429F;
+font-family: Montserrat;
+font-size: 30px;
+font-style: normal;
+font-weight: 700;
+line-height: 140%; /* 67.2px */
+letter-spacing: -0.96px;
+  }
+
+
+  .ssdc-page-repostdly{
+    display: flex;
+padding: 64px 32px;
+flex-direction: column;
+border-radius: 36px;
+background: #37427A;
+margin-top: 12px;
+align-items: center;
+gap: 136px;
+  }
+
+  .ssdc-content-repostldy{
+    display: flex;
+padding: var(--0, 0px);
+flex-direction: column;
+align-items: center;
+gap: 24px;
+align-self: stretch;
+  }
+
+  .repostldy-heading{
+    color: var(--white, #FFF);
+font-size: 40px;
+font-style: normal;
+font-weight: 700;
+line-height: 48px; /* 120% */
+  }
+
+
+  .responstldy-img{
+    display: flex;
+padding: var(--0, 0px);
+justify-content: center;
+align-items: flex-start;
+gap: 110px;
+align-self: stretch;
+  }
+
+
+  .ssdc-training-location{
+    display: flex;
+padding: 34px;
+flex-direction: column;
+margin-top: 12px;
+align-items: center;
+gap: 64px;
+background: var(--white, #FFF);
+  }
+
+  .ssdc-training-center-heading{
+    color: #071C2C;
+text-align: center;
+font-family: Montserrat;
+font-size: 40px;
+font-style: normal;
+font-weight: 700;
+line-height: 120%; /* 48px */
+  }
+
+  
+  .custom-container11 {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .service-offer-img1 {
+    position: relative;
+    border-radius: 12px;
+  }
+  
+  .service-offer-img1 img {
+    width: 100%;
+    height: 300px;
+    border-radius: 50px;
+    opacity: 0.3; /* Adjust image opacity as needed */
+  }
+  
+  .content-overlay1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #000;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+    padding: 20px;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 400px; /* Adjust the maximum width of the content overlay */
+  }
+  
+  .training-img-text1 {
+    color: #000; /* Adjust text color */
+  }
+  
+
+  .joinssdc-container-content{
+    display: flex;
+    margin-top: 12px;
+padding: 64px;
+/* background: var(--white, #FFF); */
+flex-direction: column;
+align-items: center;
+gap: 40px;
+  }
+
+  .joinssdc-container-content1{
+    display: flex;
+padding: var(--0, 0px);
+flex-direction: column;
+align-items: center;
+gap: var(--6, 24px);
+  }
+
+  .joinssdc-container-content{
+    display: flex;
+padding: 50px;
+flex-direction: column;
+align-items: center;
+gap: 40px;
+  }
+
+  .grid-content1{
+    display: flex;
+    border-radius: 16px;
+background: #FCFCFC;
+width: 254px !important;
+/* Shadow */
+box-shadow: 0px 4px 4px 0px rgba(126, 126, 126, 0.25);
+padding: 32px 16px;
+flex-direction: column;
+align-items: center;
+gap: 32px;
+  }
+
+  .grid-content-container{
+    color: #071C2C;
+text-align: center;
+font-family: Montserrat;
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: 120%; /* 19.2px */
+  }
+
+  .grid-content-container1{
+    color: #071C2C;
+text-align: center;
+font-family: Montserrat;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 160%; /* 25.6px */
+  }
+
+  .ssdclandingrow{
+    gap: 6px;
+    /* width: 100%; */
+  }
+
+  .ssdclandingrow1{
+    gap: 10px;
+    display: flex;
+    justify-content: center;
+  }
+
+
+
+  /* /////////////ssdc heading////////////////////// */
+
+  .ssdc-header{
+    background-color: #071c2c;
+    width: 100%;
+  }
+
+  .imglogo{
+    height: 70px;
+    padding: 12px;
+  }
+
+  @media (max-width: 767px) {
+    .ssdcformpage {
+      padding: 12px; /* Full width on small screens */
+    }
+  }
+
+  @media (max-width: 500px) {
+  .upsliling-container-content {
+    font-size: 27px;
+  }
+  .upsliling-container-content >span {
+    font-size: 27px;
+  }
+  .ssdc-training-center-heading {
+    font-size: 25px;
+    
+}
+.training-img-text1 {
+  font-size: 20px;
+}
+.responstldy-img {
+  display: flex;
+  gap: 30px;
+ 
+}
+.repostldy-heading {
+
+  font-size: 27px;
+ 
+}
+}
+
+
+/*info table  */
+
+.ssdc-infotable{
+  margin-top: 20px;
+  /* border: 1px solid black; */
+  border-radius: 12px;
+}
+
+.data-table{
+margin-top: 22px;
+}

@@ -17,7 +17,7 @@ const HotelTicketGeneration = () => {
   const getBookingDetails =
     reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult
       ?.HotelRoomsDetails;
-  // console.log("reducerState", reducerState);
+  console.log("reducerState", reducerState);
 
   const totalAmount = getBookingDetails?.reduce((accumulator, item) => {
     return accumulator + item?.Price?.PublishedPriceRoundedOff;
