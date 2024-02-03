@@ -134,46 +134,54 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
     currentItems &&
     currentItems.filter((item) => {
       const segmentLength = results?.[0][item]?.Segments?.[0].length;
-      const depTime = new Date(
-        results?.[0][item]?.Segments?.[0][0]?.Origin?.DepTime
-      );
+      const depTime = new Date(results?.[0][item]?.Segments?.[0][0]?.Origin?.DepTime);
       const hour = depTime.getHours();
-
-
-      const ArrTime = new Date(
-        results?.[0][item]?.Segments?.[0][segmentLength - 1]?.Destination?.ArrTime
-      );
+      const ArrTime = new Date(results?.[0][item]?.Segments?.[0][segmentLength - 1]?.Destination?.ArrTime);
       const hourArr = ArrTime.getHours();
-
-      const airlineName =
-        results?.[0][item]?.Segments?.[0][0]?.Airline?.AirlineName;
-
-      // Check each selected category
+      const airlineName = results?.[0][item]?.Segments?.[0][0]?.Airline?.AirlineName;
       const categoryFilters = selectedCategory.map((category) => {
-        switch (category) {
-          case "1":
-            return segmentLength === 1;
-          case "2":
-            return segmentLength === 2;
-          case "before6AM":
-            return hour < 6;
-          case "6AMto12PM":
-            return hour >= 6 && hour < 12;
-          case "12PMto6PM":
-            return hour >= 12 && hour < 18;
-          case "after6PM":
-            return hour >= 18;
-          case "ARRbefore6AM":
-            return hourArr < 6;
-          case "ARR6AMto12PM":
-            return hourArr >= 6 && hourArr < 12;
-          case "ARR12PMto6PM":
-            return hourArr >= 12 && hourArr < 18;
-          case "ARRafter6PM":
-            return hourArr >= 18;
+
+        const [groupName, value] = category.split(':');
+        switch (groupName) {
+
+          case "stop":
+            switch (value) {
+              case "1":
+                return segmentLength === 1;
+              case "2":
+                return segmentLength === 2;
+            }
+
+          case "flightname":
+            return airlineName === value;
+
+          case "timeDepart":
+            switch (value) {
+              case "before6AM":
+                return hour < 6;
+              case "6AMto12PM":
+                return hour >= 6 && hour < 12;
+              case "12PMto6PM":
+                return hour >= 12 && hour < 18;
+              case "after6PM":
+                return hour >= 18;
+            }
+
+          case "timeArrival":
+            switch (value) {
+              case "ARRbefore6AM":
+                return hourArr < 6;
+              case "ARR6AMto12PM":
+                return hourArr >= 6 && hourArr < 12;
+              case "ARR12PMto6PM":
+                return hourArr >= 12 && hourArr < 18;
+              case "ARRafter6PM":
+                return hourArr >= 18;
+            }
+
+
           default:
-            // For airline categories
-            return airlineName === category;
+            return false;
         }
       });
 
@@ -207,8 +215,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
 
   // console.log(results?.[0][0]?.Segments?.[0][results?.[0][0]?.Segments.length - 1]?.Origin?.DepTime)
 
-  const arrSegmentLength = results > 0 && results?.[0][0]?.Segments?.[0].length;
-  console.log(results, "results")
+  const arrSegmentLength = results?.[0]?.[0]?.Segments?.[0]?.length;
+  console.log(selectedCategory, "category")
 
   return (
     // <section className="margin-pecentage my-4">
@@ -244,6 +252,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                         onChange={handleRadioChange}
                         value="All"
                         name="test"
+                        checked={selectedCategory.includes("test:All")}
                       />
                       {/* <span className="checkmark"></span> */}
                       <span style={{ color: selectedCategory.length > 0 ? "red" : "gray" }}>Clear Filter</span>
@@ -267,7 +276,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="1"
-                          name="test"
+                          name="stop"
+                          checked={selectedCategory.includes("stop:1")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -285,7 +295,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="2"
-                          name="test"
+                          name="stop"
+                          checked={selectedCategory.includes("stop:2")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -303,7 +314,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="SpiceJet"
-                          name="test"
+                          name="flightname"
+                          checked={selectedCategory.includes("flightname:SpiceJet")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -324,7 +336,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="Vistara"
-                          name="test"
+                          name="flightname"
+                          checked={selectedCategory.includes("flightname:Vistara")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -363,7 +376,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="before6AM"
-                          name="test"
+                          name="timeDepart"
+                          checked={selectedCategory.includes("timeDepart:before6AM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -399,7 +413,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="6AMto12PM"
-                          name="test"
+                          name="timeDepart"
+                          checked={selectedCategory.includes("timeDepart:6AMto12PM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -435,7 +450,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="12PMto6PM"
-                          name="test"
+                          name="timeDepart"
+                          checked={selectedCategory.includes("timeDepart:12PMto6PM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -469,7 +485,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="after6PM"
-                          name="test"
+                          name="timeDepart"
+                          checked={selectedCategory.includes("timeDepart:after6PM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -510,7 +527,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="ARRbefore6AM"
-                          name="test"
+                          name="timeArrival"
+                          checked={selectedCategory.includes("timeArrival:ARRbefore6AM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -546,7 +564,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="ARR6AMto12PM"
-                          name="test"
+                          name="timeArrival"
+                          checked={selectedCategory.includes("timeArrival:ARR6AMto12PM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -582,7 +601,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="ARR12PMto6PM"
-                          name="test"
+                          name="timeArrival"
+                          checked={selectedCategory.includes("timeArrival:ARR12PMto6PM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -616,7 +636,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="ARRafter6PM"
-                          name="test"
+                          name="timeArrival"
+                          checked={selectedCategory.includes("timeArrival:ARRafter6PM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -660,7 +681,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="Air India"
-                          name="test"
+                          name="flightname"
+                          checked={selectedCategory.includes("flightname:Air India")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -682,7 +704,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="Indigo"
-                          name="test"
+                          name="flightname"
+                          checked={selectedCategory.includes("flightname:Indigo")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -703,7 +726,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="SpiceJet"
-                          name="test"
+                          name="flightname"
+                          checked={selectedCategory.includes("flightname:SpiceJet")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -724,7 +748,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="Vistara"
-                          name="test"
+                          name="flightname"
+                          checked={selectedCategory.includes("flightname:Vistara")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -766,6 +791,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                         onChange={handleRadioChange}
                         value="All"
                         name="test"
+                        checked={selectedCategory.includes("test:All")}
                       />
                       {/* <span className="checkmark"></span> */}
                       <span style={{ color: selectedCategory.length > 0 ? "red" : "gray" }}>Clear Filter</span>
@@ -789,7 +815,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="1"
-                          name="test"
+                          name="stop"
+                          checked={selectedCategory.includes("stop:1")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -807,7 +834,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="2"
-                          name="test"
+                          name="stop"
+                          checked={selectedCategory.includes("stop:2")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -825,7 +853,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="SpiceJet"
-                          name="test"
+                          name="flightname"
+                          checked={selectedCategory.includes("flightname:SpiceJet")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -846,7 +875,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="Vistara"
-                          name="test"
+                          name="flightname"
+                          checked={selectedCategory.includes("flightname:Vistara")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -885,7 +915,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="before6AM"
-                          name="test"
+                          name="timeDepart"
+                          checked={selectedCategory.includes("timeDepart:before6AM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -921,7 +952,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="6AMto12PM"
-                          name="test"
+                          name="timeDepart"
+                          checked={selectedCategory.includes("timeDepart:6AMto12PM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -957,7 +989,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="12PMto6PM"
-                          name="test"
+                          name="timeDepart"
+                          checked={selectedCategory.includes("timeDepart:12PMto6PM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -991,7 +1024,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="after6PM"
-                          name="test"
+                          name="timeDepart"
+                          checked={selectedCategory.includes("timeDepart:after6PM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -1032,7 +1066,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="ARRbefore6AM"
-                          name="test"
+                          name="timeArrival"
+                          checked={selectedCategory.includes("timeArrival:ARRbefore6AM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -1068,7 +1103,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="ARR6AMto12PM"
-                          name="test"
+                          name="timeArrival"
+                          checked={selectedCategory.includes("timeArrival:ARR6AMto12PM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -1104,7 +1140,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="ARR12PMto6PM"
-                          name="test"
+                          name="timeArrival"
+                          checked={selectedCategory.includes("timeArrival:ARR12PMto6PM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -1138,7 +1175,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="ARRafter6PM"
-                          name="test"
+                          name="timeArrival"
+                          checked={selectedCategory.includes("timeArrival:ARRafter6PM")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -1182,7 +1220,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="Air India"
-                          name="test"
+                          name="flightname"
+                          checked={selectedCategory.includes("flightname:Air India")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -1204,7 +1243,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="Indigo"
-                          name="test"
+                          name="flightname"
+                          checked={selectedCategory.includes("flightname:Indigo")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -1225,7 +1265,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="SpiceJet"
-                          name="test"
+                          name="flightname"
+                          checked={selectedCategory.includes("flightname:SpiceJet")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -1246,7 +1287,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           type="checkbox"
                           onChange={handleRadioChange}
                           value="Vistara"
-                          name="test"
+                          name="flightname"
+                          checked={selectedCategory.includes("flightname:Vistara")}
                         />
                         <div>
                           <span className="checkedSVG pe-2">
@@ -2101,37 +2143,69 @@ export default function BasicGrid() {
     setCurrentItems(itemss)
     // console.warn("filter;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",uniqueData,"current items",itemss)
   }, [results]);
-  // useEffect(() => {
-  //   console.warn("new basis grid", currentItems,"new Result",newResults,'result',results);
-  //   // const itemss = [...Array(results?.[0].length).keys()];
-  //   // setCurrentItems(itemss);
-  // }, [currentItems]);
+
+
+  // const handleRadioChange = (event) => {
+  //   const selectedValue = event.target.value;
+  //   if (selectedValue === "All") {
+  //     setSelectedCategory([]);
+  //     document.querySelectorAll('input[name="test"]').forEach((checkbox) => {
+  //       checkbox.checked = false;
+  //     });
+  //   } else {
+  //     // If other checkbox is selected, update selectedCategory as before
+  //     setSelectedCategory((prevSelectedCategory) => {
+  //       if (prevSelectedCategory.includes(selectedValue)) {
+  //         return prevSelectedCategory.filter(
+  //           (value) => value !== selectedValue
+  //         );
+  //       } else {
+  //         return [...prevSelectedCategory, selectedValue];
+  //       }
+  //     });
+  //   }
+  // };
 
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
+    const radioGroupName = event.target.name;
 
-    // If "All" checkbox is selected, clear selectedCategory and uncheck all checkboxes
+    console.log('selectedValue:', selectedValue);
+    console.log('radioGroupName:', radioGroupName);
+
+
     if (selectedValue === "All") {
       setSelectedCategory([]);
-      document.querySelectorAll('input[name="test"]').forEach((checkbox) => {
-        checkbox.checked = false;
+      document.querySelectorAll('input[type="radio"]').forEach((radio) => {
+        radio.checked = false;
       });
-    } else {
-      // If other checkbox is selected, update selectedCategory as before
-      setSelectedCategory((prevSelectedCategory) => {
-        if (prevSelectedCategory.includes(selectedValue)) {
-          return prevSelectedCategory.filter(
-            (value) => value !== selectedValue
-          );
-        } else {
-          return [...prevSelectedCategory, selectedValue];
-        }
-      });
+      return
     }
+
+    setSelectedCategory((prevSelectedCategory) => {
+      let updatedCategory = [...prevSelectedCategory];
+
+      // Check if the selected value is already in the array
+      const isValueSelected = updatedCategory.some(
+        (category) => category === `${radioGroupName}:${selectedValue}`
+      );
+
+      // If the value is selected, filter it out; otherwise, add it
+      updatedCategory = isValueSelected
+        ? updatedCategory.filter(
+          (category) => category !== `${radioGroupName}:${selectedValue}`
+        )
+        : [
+          ...updatedCategory.filter(
+            (category) => !category.startsWith(`${radioGroupName}:`)
+          ),
+          `${radioGroupName}:${selectedValue}`,
+        ];
+      console.log('updatedCategory:', updatedCategory);
+      return updatedCategory;
+    });
   };
 
-  // console.log(selectedCategory, "selected")
-  // console.warn(result,)
 
   return (
     <>

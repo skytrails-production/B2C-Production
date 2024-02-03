@@ -1,68 +1,40 @@
-import React from 'react'
+import React from 'react';
 
-function SSDCtable() {
+function SSDCtable({ jobs }) {
+  // if (!jobs || !jobs.data || !jobs.data.jobs || jobs.data.jobs.length === 0) {
+  
+  //   return <p>No jobs data available.</p>;
+    
+  // }
+
   return (
     <>
-         <div className="ssdc-infotable container">
-    <div className="ssdc-training-center-heading">ROMANIA JOBS</div>
-    <table class="table table-striped data-table" >
-  <thead>
-    <tr>
-    <th>No.</th>
-      <th scope="col">Category</th>
-      <th scope="col">Nos</th>
-      <th scope="col">Salary</th>
-    
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>SHUTTERING</td>
-      <td>10</td>
-      <td>650/- Euro</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>SHUTTERING SUPERVISOR</td>
-      <td>10</td>
-      <td>900/- Euro</td>
-    </tr>
-    <tr>
-    <th scope="row">3</th>
-      <td>STEEL FIXER </td>
-      <td>120</td>
-      <td>650/- Euro</td>
-    </tr>
-    <tr>
-    <th scope="row">4</th>
-      <td>STEEL FIXER SUPERVISOR</td>
-      <td>70</td>
-      <td>650/- Euro</td>
-    </tr>
-    <tr>
-    <th scope="row">5</th>
-      <td>SUPERVISOR</td>
-      <td>10</td>
-      <td>900/- Euro</td>
-    </tr>
-    <tr>
-    <th scope="row">6</th>
-      <td>COOK</td>
-      <td>8</td>
-      <td>670/- Euro</td>
-    </tr>
-    
-  </tbody>
-</table>
+      <div className="ssdc-infotable container">
+        <div className="ssdc-training-center-heading">{jobs.country} JOBS</div>
 
-
-
-
-
-</div>
+        <table className="table table-striped data-table">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th scope="col">Category</th>
+              <th scope="col">Nos</th>
+              <th scope="col">Salary</th>
+            </tr>
+          </thead>
+          <tbody>
+          {jobs.jobs.map((job, index) => (
+              <tr key={job._id}>
+                <th scope="row">{index + 1}</th>
+                <td>{job.category}</td>
+                <td>{job.nos}</td>
+                <td>{job.salary}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </>
-  )
+  );
 }
 
-export default SSDCtable
+export default SSDCtable;

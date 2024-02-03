@@ -795,7 +795,7 @@ const HotelForm = () => {
                                           // alert("result click");
                                         }}
                                       >
-                                        {city.Destination}
+                                        {city.Destination}{", "} {city.country}
                                       </li>
                                     ))}
                                   </Box>

@@ -56,7 +56,7 @@ export default function LoginForm() {
 
   // Example usage
   let twelveYearsAgoDate = getTwelveYearsAgoDate();
-  console.log(twelveYearsAgoDate, "twelveYearsAgoDate")
+  // console.log(twelveYearsAgoDate, "twelveYearsAgoDate")
 
 
 

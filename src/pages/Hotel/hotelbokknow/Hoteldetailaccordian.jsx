@@ -501,7 +501,7 @@ export default function CustomizedAccordions() {
           </AccordionDetails>
         </Accordion>
       </div>
-      <div className="col-lg-12">
+      <div className="col-lg-12 bokknnbuuu">
         <button type="submit" className="bookNowButton" onClick={handleClick}>Continue</button>
       </div>
     </div>

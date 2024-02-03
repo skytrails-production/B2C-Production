@@ -1756,4 +1756,161 @@
     }
 
     /* hotel search result  */
+
+
+    /* hotel book now  */
+
+    .mainimgHotelSearch {
+
+        height: 138px !important;
+
+    }
+
+
+    .hotelTitleBoxAccord h3 {
+
+        font-size: 15px !important;
+
+    }
+
+    .ratigText {
+        font-size: 12px !important;
+    }
+
+
+    .starIMMMG img {
+        width: 15px;
+    }
+
+
+    .dynamicHotelimg img {
+        height: 189px !important;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        margin-bottom: 10px;
+    }
+
+
+    .hotelImageBoxBook h4 {
+
+        font-size: 14px !important;
+        text-align: center;
+    }
+
+    .hotelBookHighlight h4 {
+        font-size: 14px !important;
+
+    }
+
+    .hotelBookHighlight p {
+        font-size: 13px;
+    }
+
+
+    .roomCompo {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        column-gap: 15px;
+        width: 100%;
+        overflow: hidden;
+        overflow-x: scroll;
+        flex-wrap: nowrap;
+        white-space: nowrap;
+    }
+
+    .offer_area {
+        width: unset !important;
+    }
+
+    .bokknnbuuu {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .bookNowButton {
+        font-size: 13px !important;
+    }
+
+
+    .hotelDetails {
+        display: flex;
+        flex-direction: column-reverse !important;
+        gap: 10px;
+        justify-content: center;
+        background-color: #FFF;
+        padding: 15px;
+        border-radius: 8px 8px 0px 0px;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        z-index: 1;
+        position: relative;
+    }
+
+    .hotelImageReview {
+        width: 100%;
+    }
+
+    .hotelImageReview img {
+        width: 100% !important;
+        height: 180px;
+        border-radius: 8px;
+    }
+
+    .hotelName {
+        font-size: 15px !important;
+        color: #21325D;
+        font-weight: bold;
+    }
+
+
+    .addReview {
+        width: 100% !important;
+        font-size: 13px;
+    }
+
+    .text-hotelName {
+        font-size: 14px !important;
+    }
+
+    .roomDetails p {
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    .roomDetailsReviewDesc .col-lg-4 {
+        margin-bottom: 10px;
+    }
+
+
+    .roomDetailsReviewDesc p {
+
+        font-size: 12px !important;
+
+    }
+
+    .roomDetailsReviewDesc h2 {
+        font-size: 11px !important;
+    }
+
+    .roomDetailsReviewDesc span {
+
+        font-size: 11px !important;
+
+    }
+
+    .hotelReviewAmetnities p {
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+
+    .hotelNameAccord p {
+        font-size: 13px !important;
+    }
+
+    .reviewDescriptionButton button {
+        font-size: 13px !important;
+    }
+
+    /* hotel book now  */
 }

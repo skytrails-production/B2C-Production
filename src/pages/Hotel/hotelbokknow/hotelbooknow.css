@@ -20,6 +20,18 @@
 }
 
 
+.ratigText {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+
+.starIMMMG {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
 
 .third-txt {
     color: #252525;

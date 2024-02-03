@@ -5,17 +5,17 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const countries = ['ROMANIA'];
-const subDepartments = ['SHUTTERING', 'SHUTTERING SUPERVISOR', 'STEEL FIXER','STEEL FIXER SUPERVISOR', 'SUPERVISOR', 'COOK'];
+// const countries = ['ROMANIA'];
+// const subDepartments = ['SHUTTERING', 'SHUTTERING SUPERVISOR', 'STEEL FIXER','STEEL FIXER SUPERVISOR', 'SUPERVISOR', 'COOK'];
 
-function Ssdcform() {
+function Ssdcform({jobs}) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     mobile: '',
     city: '',
-    country: countries[0],
-    subCategory: subDepartments[0],
+    country:jobs.country,
+    subCategory: '',
     experience: '',
     currentSalary: '',
     company: '',
@@ -28,10 +28,13 @@ function Ssdcform() {
     mobile: '',
     city: '',
     experience: '',
+    subCategory:'',
     currentSalary: '',
     company: '',
     years:'',
   });
+
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -63,13 +66,18 @@ function Ssdcform() {
     if (formData.mobile === '') {
       newErrors.mobile = 'Phone is required';
     }
+    // category
 
     if (formData.city === '') {
       newErrors.city = 'City is required';
     }
 
+    if (formData.subCategory === '') {
+      newErrors.subCategory = 'category is required';
+    }
+
     if (formData.experience === '') {
-      newErrors.experience = 'Experience is required';
+      newErrors.experience = 'Select Experience';
     }
 
     if (formData.experience === 'Yes') {
@@ -90,10 +98,10 @@ function Ssdcform() {
       setErrors(newErrors);
       console.log('Form validation failed.');
     } else {
-      // Your API call logic goes here
+      
       try {
         const response = await axios.post(`${apiURL.baseURL}/skyTrails/ssdc/registration`, formData);
-        console.log('API response:', response.data);
+        // console.log('API response:', response.data);
         if (response.status === 200) {
           toast.success("Form submitted successfully!");
           setFormData({
@@ -101,8 +109,6 @@ function Ssdcform() {
             email: '',
             mobile: '',
             city: '',
-            country: countries[0],
-            subCategory: subDepartments[0],
             experience: '',
             currentSalary: '',
             company: '',
@@ -179,11 +185,9 @@ function Ssdcform() {
               value={formData.country}
               onChange={handleChange}
             >
-              {countries.map((country) => (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              ))}
+              <option  value={jobs.country} >
+              {jobs.country}
+              </option>
             </select>
           </label>
           <label className="ssdc-form-label">
@@ -194,12 +198,17 @@ function Ssdcform() {
               value={formData.subCategory}
               onChange={handleChange}
             >
-              {subDepartments.map((subDept) => (
-                <option key={subDept} value={subDept}>
-                  {subDept}
+            <option value="" disabled hidden>
+      Select Category
+    </option>
+              {jobs.jobs.map((item,index) => (
+                
+                <option key={index} value={item.category}>
+                  {item.category}
                 </option>
               ))}
             </select>
+             {errors.subCategory && <div className="error-message">{errors.subCategory}</div>}
           </label>
           <label className="ssdc-form-label">
             Experience:

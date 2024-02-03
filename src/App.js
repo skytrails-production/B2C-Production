@@ -198,7 +198,7 @@ function App() {
         />
 
             <Route
-          path="/SSDC/ROMANIA"
+          path="/SSDC/:country"
           element={<SsdcForm />}
         ></Route>
 

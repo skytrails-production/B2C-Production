@@ -62,7 +62,7 @@
 
 .funnyfact h3,
 .funnyfact h5 {
-    font-size: 22px !important;
+    font-size: 22px;
     font-weight: 900 !important;
     color: #21325d !important;
     /* text-shadow: 1px 1px 2px black; */

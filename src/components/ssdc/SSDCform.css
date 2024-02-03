@@ -308,10 +308,18 @@ line-height: 160%; /* 25.6px */
 
   .ssdclandingrow1{
     gap: 10px;
+    padding: 12px;
     display: flex;
     justify-content: center;
   }
 
+
+  .ssdcsideimg{
+    /* height: 50%; */
+    border-radius: 20px;
+    padding: 12px;
+    width: 100%;
+  }
 
 
   /* /////////////ssdc heading////////////////////// */
@@ -353,7 +361,7 @@ line-height: 160%; /* 25.6px */
 }
 .repostldy-heading {
 
-  font-size: 27px;
+  font-size: 21px;
  
 }
 }
@@ -370,3 +378,44 @@ line-height: 160%; /* 25.6px */
 .data-table{
 margin-top: 22px;
 }
+
+
+
+@media only screen and (max-width: 587px) {
+ .ssdclandingrow{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+ }
+}
+
+@media only screen and (min-width: 500px) and (max-width: 991px) {
+  .upsliling-container-content{
+    font-size: 20px!important;
+   }
+   .upsliling-container-content > span{
+    font-size: 20px !important;
+   }
+  
+}
+
+@media only screen and (min-width: 587px) and (max-width: 850px) {
+  .grid-content1 {
+    width: 200px !important;
+  }
+  
+}
+
+@media (max-width: 500px) {
+  
+ .upsliling-container-content{
+  font-size: 17px!important;
+ }
+ .upsliling-container-content > span{
+  font-size: 17px !important;
+ }
+ .ssdc-training-center-heading1 {
+  font-size: 20px;
+ }
+ }

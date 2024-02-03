@@ -234,7 +234,7 @@ const HotelBooknow = () => {
   });
 
   const storedFormData = JSON.parse(sessionStorage.getItem('hotelFormData'));
-  const data = storedFormData?.dynamicFormData[0];
+  // const data = storedFormData?.dynamicFormData[0];
   // console.warn(reducerState, "reducer state")
 
   // console.warn(loader, "loader///////////////////////")
@@ -271,10 +271,15 @@ const HotelBooknow = () => {
                   <div className="hotelTitleBoxAccord">
                     <h3>{hotelInfo?.HotelDetails?.HotelName}</h3>
 
-                    <div>
-                      {Array.from({ length: result?.HotelResults[0]?.StarRating }, (_, index) => (
-                        <img key={index} src={starsvg} alt={`Star ${index + 1}`} />
-                      ))}
+                    <div className="starIMMMG">
+                      <div>
+                        <span className="ratigText">Rating </span>{Array.from({ length: result?.HotelResults[0]?.StarRating }, (_, index) => (
+                          <img key={index} src={starsvg} alt={`Star ${index + 1}`} />
+                        ))}
+                      </div>
+                      <div>
+                        <span className="ratigText">location : {storedFormData?.Destination}</span>
+                      </div>
                     </div>
                   </div>
                 </motion.div>

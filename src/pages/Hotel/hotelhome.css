@@ -132,8 +132,7 @@ cursor: "pointer", */
 .city-search-results {
   position: absolute;
   left: 0;
-  /* bottom: 30px; */
-  bottom: 27px;
+  bottom: 17px;
   cursor: pointer;
   width: 100%;
   border-radius: 0px 0px 10px 10px;

@@ -3,4 +3,5 @@
     background-size: cover;
     background-repeat: no-repeat !important;
     height: 300px;
+    /* z-index: -1; */
 }
