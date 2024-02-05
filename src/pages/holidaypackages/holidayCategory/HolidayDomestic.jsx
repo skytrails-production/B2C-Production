@@ -80,7 +80,7 @@ const HolidayCategory = () => {
                 ) : (
                     <div className='container p-0 mt100 '>
                         < div className="row g-4 px-4" >
-                            <div class="offerText mt-3"><p>Explore Destination by Contries</p></div>
+                            <div class="offerText mt-3"><p>Explore Destination by Countries</p></div>
                             <div className="col-lg-4 col-md-4  d-none d-sm-block ">
                                 <div className='holidayCountryUniqueOe'>
                                     <img src={iconLocation} alt="iconlocation" />
