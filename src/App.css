@@ -258,6 +258,7 @@ body {
   top: 96px;
   overflow: hidden;
   overflow-y: scroll;
+  position: -webkit-sticky;
   position: sticky;
   /* height: calc(100vh - 100px); */
   /* Set a height based on your design */

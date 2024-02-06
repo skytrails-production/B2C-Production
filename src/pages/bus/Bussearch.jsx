@@ -19,6 +19,7 @@ import Modal from "@mui/material/Modal";
 import loginGif from "../../images/loginGif.gif"
 import CloseIcon from '@mui/icons-material/Close';
 import { CiSearch } from "react-icons/ci";
+import { swalModal } from "../../utility/swal"
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 
@@ -160,26 +161,8 @@ const Homeform = (props) => {
       console.warn("BusResult", reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorCode
 
       )
-      Swal.fire({
-        icon: "error",
-        title: "Oops",
-        text: reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorMessage,
+      swalModal("bus", reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorMessage, false)
 
-        showClass: {
-          popup: `
-            animate__animated
-            animate__fadeInUp
-            animate__faster
-          `
-        },
-        hideClass: {
-          popup: `
-            animate__animated
-            animate__fadeOutDown
-            animate__faster
-          `
-        }
-      })
 
       setIsLoadingFlight(false)
       setStartDate(currentDate)
@@ -590,7 +573,7 @@ const Homeform = (props) => {
                                     className="busResultBox"
 
                                   >
-                                    <p>{result.CityId} <span >{result.CityName} </span></p>
+                                    <p> <span >{result.CityName} </span></p>
                                     {/* <div style={{width:"100%",overflowX:'hidden'}}> */}
 
                                     {/* <span >{result.CityName} </span> */}
@@ -828,7 +811,7 @@ const Homeform = (props) => {
                           selected={startDate}
                           onChange={handleDateChange}
                           minDate={currentDate}
-                          dateFormat="dd MMMyy"
+                          dateFormat="dd MMM, yy"
                         />
                       </div>
                     </div>

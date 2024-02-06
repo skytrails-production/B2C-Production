@@ -10,8 +10,9 @@ import "./hotelresult.css";
 import { useDispatch, useSelector, useReducer } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import Swal from "sweetalert2"
+// import Swal from "sweetalert2"
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
+import { swalModal } from "../../../utility/swal"
 
 
 
@@ -83,27 +84,28 @@ export default function Popularfilter() {
 
   useEffect(() => {
     if (reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult?.Error?.ErrorCode !== 0 && reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult?.Error?.ErrorCode !== undefined) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops",
+      swalModal('hotel', reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult?.Error?.ErrorMessage, false)
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "Oops",
 
-        text: reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult?.Error?.ErrorMessage,
+      //   text: reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult?.Error?.ErrorMessage,
 
-        showClass: {
-          popup: `
-          animate__animated
-          animate__fadeInUp
-          animate__faster
-        `
-        },
-        hideClass: {
-          popup: `
-          animate__animated
-          animate__fadeOutDown
-          animate__faster
-        `
-        }
-      })
+      //   showClass: {
+      //     popup: `
+      //     animate__animated
+      //     animate__fadeInUp
+      //     animate__faster
+      //   `
+      //   },
+      //   hideClass: {
+      //     popup: `
+      //     animate__animated
+      //     animate__fadeOutDown
+      //     animate__faster
+      //   `
+      //   }
+      // })
       navigate("/hotel")
 
     }
@@ -192,8 +194,21 @@ export default function Popularfilter() {
   // new filter logic
 
   const handleRadioChange = (event) => {
+
+    setSearchInput('')
+
     const selectedValue = event.target.value;
     const radioGroupName = event.target.name;
+
+
+
+    if (selectedValue === "All") {
+      setSelectedCategory([]);
+      document.querySelectorAll('input[type="checkbox"]').forEach((radio) => {
+        radio.checked = false;
+      });
+      return
+    }
 
     setSelectedCategory((prevSelectedCategory) => {
       let updatedCategory = [...prevSelectedCategory];
@@ -283,11 +298,11 @@ export default function Popularfilter() {
 
 
 
-  console.log(selectedCategory, "selected category")
+  // console.log(selectedCategory, "selected category")
 
 
 
-  var sortedAndFilteredResults = result?.HotelResults
+  const sortedAndFilteredResults = result?.HotelResults
     ?.filter((item) => {
       const hotelName = item?.HotelName?.toLowerCase();
       const hotelAddress = item?.HotelLocation?.toLowerCase();
@@ -331,7 +346,9 @@ export default function Popularfilter() {
     );
 
 
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [sortedAndFilteredResults])
 
   let totalAdults = 0;
   let totalChildren = 0;
@@ -344,6 +361,7 @@ export default function Popularfilter() {
 
   // Retrieve data from sessionStorage
 
+  console.log(result?.HotelResults, "hotel result")
 
   const storedFormData = JSON.parse(sessionStorage.getItem('hotelFormData'));
   // const data = storedFormData?.dynamicFormData[0]; // Assuming dynamicFormData is an array with at least one element
@@ -356,6 +374,13 @@ export default function Popularfilter() {
   const handleShowMore = () => {
     setDisplayCount(displayCount === initialDisplayCount ? result?.HotelResults?.length : initialDisplayCount);
   };
+
+
+  // const shoooow = [...new Set(result?.HotelResults?.filter(item => item?.HotelLocation !== null && item?.HotelLocation !== "")?.map(item => item?.HotelLocation))]
+  //   .slice(0, displayCount)
+  //   .map((location, index) => (
+  //     console.log(location, "location")
+  //   ))
 
 
   return (
@@ -394,6 +419,20 @@ export default function Popularfilter() {
               </div>
               <div className="innerFilter">
 
+                <div>
+                  <label className="sidebar-label-container ps-0">
+                    <input
+                      type="checkbox"
+                      onChange={handleRadioChange}
+                      value="All"
+                      name="test"
+                      checked={selectedCategory.includes("test:All")}
+                    />
+                    {/* <span className="checkmark"></span> */}
+                    <span style={{ color: selectedCategory.length > 0 ? "red" : "gray" }}>Clear Filter</span>
+                  </label>
+
+                </div>
 
                 <div>
                   <h2 className="sidebar-title">Sort By Price</h2>
@@ -403,7 +442,7 @@ export default function Popularfilter() {
                   </select>
                 </div>
 
-                <div>
+                {/* <div>
                   <h2 className="sidebar-title">By Rating</h2>
 
                   <div>
@@ -468,7 +507,53 @@ export default function Popularfilter() {
                   </div>
 
                   <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
+                </div> */}
+
+                <div>
+                  <h2 className="sidebar-title">By Rating</h2>
+
+                  <div>
+                    {[
+                      { value: "5", label: "⭐⭐⭐⭐⭐" },
+                      { value: "4", label: "⭐⭐⭐⭐" },
+                      { value: "3", label: "⭐⭐⭐" },
+                      // Add more star rating options as needed
+                    ].map((starRating, index) => {
+                      // Count the number of items with the selected star rating
+                      const itemCount = result?.HotelResults?.filter(item =>
+                        item.StarRating === parseInt(starRating.value)
+                      ).length;
+
+                      // Generate star icons based on the selected star rating
+                      const stars = Array.from({ length: 5 }).map((_, i) => (
+                        <img
+                          key={i}
+                          src={i < parseInt(starRating.value) ? starsvg : starBlank}
+                          alt={i < parseInt(starRating.value) ? "star" : "blank star"}
+                        />
+                      ));
+
+                      return (
+                        <label className="sidebar-label-container exceptionalFlex" key={index}>
+                          <input
+                            type="checkbox"
+                            onChange={handleRadioChange}
+                            value={starRating.value}
+                            name="star"
+                            checked={selectedCategory.includes(`star:${starRating.value}`)}
+                          />
+                          <span>({itemCount})</span>
+                          <span className="checkmark"></span>
+                          <div>{stars}</div>
+
+                        </label>
+                      );
+                    })}
+                  </div>
+
+                  <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                 </div>
+
 
                 <div>
                   <h2 className="sidebar-title">By Locality</h2>
@@ -487,21 +572,27 @@ export default function Popularfilter() {
 
                   <div>
                     {
-                      [...new Set(result?.HotelResults?.map(item => item?.HotelLocation))]
+                      [...new Set(result?.HotelResults?.filter(item => item?.HotelLocation !== null && item?.HotelLocation !== "")?.map(item => item?.HotelLocation))]
                         .slice(0, displayCount)
-                        .map((location, index) => (
-                          <label className="sidebar-label-container" key={index}>
-                            <input
-                              type="checkbox"
-                              onChange={handleRadioChange}
-                              value={location}
-                              name="location"
-                              checked={selectedCategory.includes(`location:${location}`)}
-                            />
-                            <span className="checkmark"></span>{location}
-                          </label>
-                        ))
+                        .map((location, index) => {
+                          const locationCount = result?.HotelResults?.filter(item => item.HotelLocation === location).length;
+
+                          return (
+                            <label className="sidebar-label-container exceptionalFlex" key={index}>
+                              <input
+                                type="checkbox"
+                                onChange={handleRadioChange}
+                                value={location}
+                                name="location"
+                                checked={selectedCategory.includes(`location:${location}`)}
+                              />
+                              <span>({locationCount})</span>
+                              <span className="checkmark"></span>{location}
+                            </label>
+                          );
+                        })
                     }
+
                     {result?.HotelResults?.length > initialDisplayCount && (
                       <p className="ShowMoreHotel" onClick={handleShowMore}>
                         {displayCount === initialDisplayCount ? (
@@ -523,7 +614,7 @@ export default function Popularfilter() {
                   <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                 </div>
 
-                <div>
+                {/* <div>
                   <h2 className="sidebar-title">By Price</h2>
 
                   <div>
@@ -553,7 +644,43 @@ export default function Popularfilter() {
 
                   </div>
                   <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
+                </div> */}
+
+                <div>
+                  <h2 className="sidebar-title">By Price</h2>
+
+                  <div>
+                    {[
+                      { value: "2000", min: "0", max: "2000", label: "₹0-2,000" },
+                      { value: "3000", min: "2000", max: "3000", label: "₹2,000-3,000" },
+                      { value: "6500", min: "3000", max: "6500", label: "₹3,000-6,500" },
+                      { value: "9999", min: "6500", max: "10000", label: "₹6,500-10,000" },
+                      { value: "10000", min: "10000", max: "10000000", label: "₹10,000 and Above" }
+                    ].map((priceRange, index) => {
+                      // Count the number of items in each price category
+                      const itemCount = result?.HotelResults?.filter(item =>
+                        item?.Price?.PublishedPrice >= priceRange.min && item?.Price?.PublishedPrice <= priceRange.max
+                      ).length;
+
+                      return (
+                        <label className="sidebar-label-container exceptionalFlex" key={index}>
+                          <input
+                            type="checkbox"
+                            onChange={handleRadioChange}
+                            value={priceRange.value}
+                            name="price"
+                            checked={selectedCategory.includes(`price:${priceRange.value}`)}
+                          />
+                          <span>({itemCount})</span>
+                          <span className="checkmark"></span>{priceRange.label}
+
+                        </label>
+                      );
+                    })}
+                  </div>
+                  <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                 </div>
+
 
 
 

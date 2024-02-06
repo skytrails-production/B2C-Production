@@ -11,6 +11,11 @@
     opacity: 1;
 }
 
+
+.busmarTTT {
+    margin-top: -100px;
+}
+
 .textarea_field {
     width: auto;
     height: auto;
@@ -207,6 +212,11 @@
 
 .notval {
     background-color: #d90429b3 !important;
+    border: none !important;
+}
+
+.notval:hover {
+    color: #fff !important;
 }
 
 .error10 {

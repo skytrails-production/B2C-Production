@@ -37,6 +37,7 @@ import "./busreviewbooking.css";
 import dayjs from "dayjs";
 import axios from "axios";
 import Swal from "sweetalert2";
+import {swalModal} from "../../../utility/swal"
 // import { apiURL } from "../../../Constants/constant";
 import { motion } from "framer-motion";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
@@ -124,26 +125,27 @@ const BusReviewBooking = () => {
       busBlockData?.Error?.ErrorCode !== 0 &&
       busBlockData?.Error?.ErrorCode !== undefined
     ) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops",
-        text: busBlockData?.Error?.ErrorMessage,
+      swalModal('bus',busBlockData?.Error?.ErrorMessage,false)
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "Oops",
+      //   text: busBlockData?.Error?.ErrorMessage,
 
-        showClass: {
-          popup: `
-            animate__animated
-            animate__fadeInUp
-            animate__faster
-          `,
-        },
-        hideClass: {
-          popup: `
-            animate__animated
-            animate__fadeOutDown
-            animate__faster
-          `,
-        },
-      });
+      //   showClass: {
+      //     popup: `
+      //       animate__animated
+      //       animate__fadeInUp
+      //       animate__faster
+      //     `,
+      //   },
+      //   hideClass: {
+      //     popup: `
+      //       animate__animated
+      //       animate__fadeOutDown
+      //       animate__faster
+      //     `,
+      //   },
+      // });
       navigate("/");
     } else if (sessionStorage.getItem("storedPassengerData") === undefined) {
       navigate("/");
@@ -377,26 +379,27 @@ const BusReviewBooking = () => {
       busFullData?.Error?.ErrorCode !== 0 &&
       busFullData?.Error?.ErrorCode !== undefined
     ) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops",
-        text: busBook?.ErrorMessage,
+      swalModal('bus',busBook?.ErrorMessage,false)
+    //   Swal.fire({
+    //     icon: "error",
+    //     title: "Oops",
+    //     text: busBook?.ErrorMessage,
 
-        showClass: {
-          popup: `
-          animate__animated
-          animate__fadeInUp
-          animate__faster
-        `,
-        },
-        hideClass: {
-          popup: `
-          animate__animated
-          animate__fadeOutDown
-          animate__faster
-        `,
-        },
-      });
+    //     showClass: {
+    //       popup: `
+    //       animate__animated
+    //       animate__fadeInUp
+    //       animate__faster
+    //     `,
+    //     },
+    //     hideClass: {
+    //       popup: `
+    //       animate__animated
+    //       animate__fadeOutDown
+    //       animate__faster
+    //     `,
+    //     },
+    //   });
     }
   }, [busBook]);
 
@@ -448,19 +451,19 @@ const BusReviewBooking = () => {
           {/* <BigNavbar /> */}
           <InsideNavbar />
         </div>
-        <div className="margin-pecentage py-4">
-          <div className="container-xxl ">
+        <div className=" py-4">
+          <div className="container ">
             <div className="row">
               <motion.div
                 variants={variants}
                 initial="initial"
                 whileInView="animate"
-                className="col-lg-9 order-lg-1  order-md-2 order-sm-2"
+                className="col-lg-9 order-lg-1  order-md-2 order-sm-2 order-2"
               >
                 <motion.div
                   variants={variants}
-                  className="col-lg-12 shad"
-                  style={{ marginTop: "-117px" }}
+                  className="col-lg-12 shad martopBus"
+
                 >
                   <div className="busAllDetail">
                     <div className="heead">
@@ -477,7 +480,7 @@ const BusReviewBooking = () => {
                         </span>
                       </div>
                       <div>
-                        <p>Departure Date Time</p>
+                        <p>Departure Time</p>
                         <span>{desiredFormat}</span>
                       </div>
                     </div>
@@ -492,7 +495,7 @@ const BusReviewBooking = () => {
                         </span>
                       </div>
                       <div>
-                        <p>Arrival Date Time</p>
+                        <p>Arrival Time</p>
                         <span>{desiredFormat1}</span>
                       </div>
                     </div>
@@ -630,7 +633,7 @@ const BusReviewBooking = () => {
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.5 }}
-                className="col-lg-3 order-lg-2 mb-md-4 mb-sm-4  order-md-1 order-sm-1"
+                className="col-lg-3 order-lg-2 mb-md-4 mb-sm-4  order-md-1 order-1"
               >
                 <BusSaleSummary />
               </motion.div>

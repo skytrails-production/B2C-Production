@@ -9,6 +9,25 @@
 
 
 
+.mobileViewThing {
+    overflow: hidden;
+    overflow-x: scroll;
+    white-space: nowrap;
+
+    /* .singleBusSearchBox { */
+    /* display: flex;
+    flex-direction: column; */
+    margin: 0px 0px 10px 0;
+    border-radius: 8px;
+    border: 1px solid lightgray;
+    background-color: #fff;
+    padding: 15px 10px;
+    /* justify-content: space-between; */
+    /* width: unset; */
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    /* } */
+}
+
 
 
 
@@ -20,12 +39,12 @@
     flex-direction: column;
     margin: 0px 0px 10px 0;
     border-radius: 8px;
-    border: 1px solid lightgray;
-    background-color: #fff;
-    padding: 15px 10px;
+    /* border: 1px solid lightgray; */
+    /* background-color: #fff; */
+    /* padding: 15px 10px; */
     justify-content: space-between;
     width: 100%;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
 }
 
 .anotherBusResult {

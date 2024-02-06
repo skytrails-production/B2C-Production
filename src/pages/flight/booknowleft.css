@@ -116,3 +116,52 @@ p {
 .text-bold {
     font-weight: 600;
 }
+
+.applycoupen-button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px;
+    border: none;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 20px;
+    background: rgb(237, 118, 119);
+    background-image: linear-gradient(to right, #d90429 0%, #EA384D 51%, #d90429 100%);
+    border-radius: 12px;
+}
+
+.inputfieldtext {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    width: 100%;
+    border: 1px solid black !important;
+    border: none;
+}
+
+/* .applycoupenbuttontext{ */
+/* border: 1px solid black; */
+/* box-shadow: 5px 5px 2px grey;
+    border-radius: 12px; */
+/* } */
+
+.viewallcoupen {
+    color: rgb(118, 118, 166);
+    font-weight: bold;
+    display: flex;
+    justify-content: flex-end;
+    align-items: end;
+}
+
+.applycoupen-button1 {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px;
+    border: none;
+    color: #FFF;
+    font-weight: bold;
+    font-size: 20px;
+    background: rgb(237, 118, 119);
+    background-image: linear-gradient(to right, #d90429 0%, #EA384D 51%, #d90429 100%);
+    border-radius: 12px;
+}

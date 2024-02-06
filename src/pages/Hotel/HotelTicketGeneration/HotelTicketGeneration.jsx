@@ -28,6 +28,9 @@ const HotelTicketGeneration = () => {
     reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup;
   const grandTotal = totalAmount + markUpamount;
   useEffect(() => {
+
+
+
     const payload = {
       userId: reducerState?.logIn?.loginData?.data?.data?.id,
       name: reducerState?.hotelSearchResult?.hotelDetails?.data?.data
@@ -65,8 +68,12 @@ const HotelTicketGeneration = () => {
       amount: grandTotal,
       noOfPeople: 2,
     };
-    userApi.hotelBookingDetailsSave(payload);
-  }, []);
+    if (reducerState?.hotelSearchResult?.hotelDetails?.data?.data?.GetBookingDetailResult?.BookingId !== undefined) {
+
+      userApi.hotelBookingDetailsSave(payload);
+    }
+
+  }, [reducerState?.hotelSearchResult?.hotelDetails?.data?.data?.GetBookingDetailResult?.BookingId]);
   return (
 
     // < div > HotelTicketGeneration</ >;

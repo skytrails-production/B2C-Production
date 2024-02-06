@@ -15,6 +15,8 @@ import useRazorpay from "react-razorpay";
 import PaymentLoader from "../../flight/FlightLoader/paymentLoader";
 import axios from "axios";
 import dayjs from "dayjs";
+import { SpinnerCircular } from 'spinners-react';
+import { swalModal } from "../../../utility/swal"
 
 const variants = {
   initial: {
@@ -44,8 +46,7 @@ const Hoteldescription = () => {
 
   const [loaderPayment, setLoaderPayment] = useState(false);
   const reducerState = useSelector((state) => state);
-  const bookingId =
-    reducerState?.hotelSearchResult?.bookRoom?.BookResult?.BookingId;
+  const bookingId = reducerState?.hotelSearchResult?.bookRoom?.BookResult?.BookingId;
   let bookingStatus =
     reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Status || false;
   const passenger = reducerState?.passengers?.passengersData;
@@ -91,6 +92,12 @@ const Hoteldescription = () => {
       navigate(
         "/hotel/hotelsearch/HotelBooknow/Reviewbooking/GuestDetail/ticket"
       );
+      return
+    }
+    else if (reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Error?.ErrorCode !==
+      0 && reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Error?.ErrorCode !==
+      undefined) {
+      swalModal('py', "Booking Issue - Your refund will be processed within 7 working days. We apologize for any inconvenience caused.", true)
     }
   }, [reducerState?.hotelSearchResult?.bookRoom?.BookResult]);
   useEffect(() => {
@@ -201,14 +208,17 @@ const Hoteldescription = () => {
 
   // razorpay integration
 
+  const [paymentLoading, setPaymentLoading] = useState(false);
+
   // balance subtract and update
   const handlePayment = async () => {
+    setPaymentLoading(true);
     const token = sessionStorage?.getItem("jwtToken");
     const payload = {
       firstname: passenger[0].FirstName,
       phone: passenger[0].Phoneno,
       amount: totalAmount + markUpamount,
-      // amount:1,
+      // amount: 1,
       email: passenger[0].Email,
       productinfo: "ticket",
       bookingType: "HOTELS",
@@ -228,17 +238,22 @@ const Hoteldescription = () => {
 
       if (response.ok) {
         const data = await response.json();
-
+        // setPaymentLoading(false);
         proceedPayment(data.result.access, "prod", data.result.key);
         // console.log("API call successful:", data);
       } else {
         console.error("API call failed with status:", response.status);
         const errorData = await response.json();
         console.error("Error details:", errorData);
+
       }
     } catch (error) {
       // Handle network errors or exceptions
       console.error("API call failed with an exception:", error.message);
+
+    }
+    finally {
+      setPaymentLoading(false); // Reset loading state regardless of success or failure
     }
   };
   const proceedPayment = (accessKey, env, key) => {
@@ -264,8 +279,10 @@ const Hoteldescription = () => {
             const verifyResponse = await axios.post(
               `${apiURL.baseURL}/skyTrails/api/transaction/paymentFailure?merchantTransactionId=${response.txnid}`
             );
-            //  console.log(verifyResponse.data);
+            console.log(verifyResponse.data);
             // Handle verifyResponse as needed
+            swalModal("hotel", verifyResponse.data.responseMessage
+              , false)
           } catch (error) {
             console.error("Error verifying payment:", error);
             // Handle error
@@ -282,7 +299,7 @@ const Hoteldescription = () => {
   const userId = reducerState?.logIn?.loginData?.data?.data?.id;
   // const bookingResonse=reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Error?.ErrorCode;
 
-  // const storedFormData = JSON.parse(sessionStorage.getItem("hotelFormData"));
+  const storedFormData = JSON.parse(sessionStorage.getItem("hotelFormData"));
   // console.log(storedFormData, "stored form data")
   // const data = storedFormData.dynamicFormData[0];
 
@@ -320,8 +337,8 @@ const Hoteldescription = () => {
       >
         <motion.div
           variants={variants}
-          className="col-lg-12"
-          style={{ marginTop: "-116px" }}
+          className="col-lg-12 reviewTMT"
+        // style={{ marginTop: "-116px" }}
         >
           <div className="hotelDetailsDesc">
             <div>
@@ -519,9 +536,19 @@ const Hoteldescription = () => {
         </motion.div>
 
         <div className="guestDetailsHistoryDesc mt-3">
-          <button type="submit" onClick={handlePayment}>
-            Continue
-          </button>
+
+          {
+            paymentLoading ? (
+              <button type="submit" onClick={handlePayment}>
+                <SpinnerCircular secondaryColor="white" size={20} сolor="#ffffff" />
+              </button>
+            ) : (
+              <button type="submit" onClick={handlePayment}>
+                Continue
+              </button>
+            )
+          }
+
         </div>
       </motion.div>
     );

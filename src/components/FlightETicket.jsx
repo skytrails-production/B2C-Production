@@ -7,7 +7,8 @@ import { Modal, Box, TextField, Button, Typography } from '@mui/material';
 import "./FlightETicket.css";
 import { useNavigate } from "react-router-dom";
 // import html2pdf from "html2pdf.js";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
+// import {swalModal} from "../utility/swal"
 import InsideNavbar from "../UI/BigNavbar/InsideNavbar";
 import { BiSupport } from "react-icons/bi";
 const pdfLogo = "https://travvolt.s3.amazonaws.com/ST-Main-LogoPdf.png";

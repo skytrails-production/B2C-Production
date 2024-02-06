@@ -16,7 +16,7 @@ import Divider from "@mui/material/Divider";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 // import LoginForm from "../../../components/Login";
 // import Countrypicker from "../../../layouts/Countrypicker";
-import { validateEmail, validatePhoneNumber, validateName } from "../../../utility/validationFunctions"
+import { validateEmail, validatePhoneNumber, validateName, } from "../../../utility/validationFunctions"
 
 const variants = {
   initial: {
@@ -253,29 +253,37 @@ const BusPassengerDetail = () => {
   //   // If all checks pass, the name is considered valid
   //   return true;
   // }
-  async function filterValidation(item) {
+  // async function filterValidation(item) {
 
-    const result = await (!validatePhoneNumber(item.Phoneno) && !validateEmail(item.Email) && !filterValidation(item.FirstName) && !validateName(item.LastName) && item?.Address === "")
-    const ph = await validateName(item.LastName)
-    // console.warn("Please enter", ph, result)
-    return result
-  }
-  async function validtion() {
+  //   const result = await (
+  //   //   !validatePhoneNumber(item?.Phoneno)
+  //   //  &&
+  //   //   !validatePhoneNumber(item?.Phoneno)
+  //   //  &&
+  //     !validateEmail(item?.Email) && !filterValidation(item?.FirstName) && !validateName(item.LastName) && item?.Address === "")
+  //   const ph = await validateName(item?.LastName)
+  //   // console.warn("Please enter", ph, result)
+  //   return result
+  // }
+  function validtion() {
     // const res =await passengerData.filter(filterValidation)
-    const res = await passengerData.filter((item) => (validatePhoneNumber(item.Phoneno) && validateEmail(item.Email) && filterValidation(item.FirstName) && validateName(item.LastName) && item?.Address !== ""))
-    const result = res.length === passengerData.length ? true : false
+    const res = passengerData.filter((item) => (validatePhoneNumber(item?.Phoneno) && validateEmail(item?.Email) && validateName(item?.FirstName) && validateName(item?.LastName) && item?.Address !== ""))
+
+    const result = res?.length === passengerData?.length ? true : false
     // console.warn(res, result, res.length, passengerData.length, "filter result", passengerData)
     return result
 
   }
   async function result() {
-    const vali = await validtion()
+    const vali = validtion()
     if (vali) {
 
       await setShowBtn(true)
+      return
     }
     else {
       await setShowBtn(false)
+      return
     }
 
     // console.warn("setShowBtn(true)", showBtn)
@@ -307,22 +315,22 @@ const BusPassengerDetail = () => {
         <InsideNavbar />
       </div>
 
-      <div className="margin-pecentage">
-        <div className="container-xxl ">
+      <div className="">
+        <div className="container">
           <div className="row">
-            <div className="col-lg-9 order-lg-1  order-md-4 order-sm-4 ">
+            <div className="col-lg-9 order-lg-1  order-md-4 order-sm-4 order-2">
               <motion.div
                 variants={variants}
                 initial="initial"
                 whileInView="animate"
                 className="row "
               >
-                <div className="col-lg-12" style={{ marginTop: "-100px" }}>
+                <div className="col-lg-12 busmarTTT" >
                   <div className="singleBusSearchBox">
                     <div className="singleBusSearchBoxOne">
                       <span>{selectedBus?.BusType}</span>
                     </div>
-                    <div className="anotherBusResult">
+                    <div className="anotherBusResult p-3">
                       <div className="singleBusSearchBoxTwo">
                         <span>{busFullData?.Origin}</span>
                         <p>{dayjs(selectedBus?.DepartureTime).format("DD MMM, YY")}</p>
@@ -352,9 +360,9 @@ const BusPassengerDetail = () => {
 
                       <div className="singleBusSearchBoxFour">
                         <span>{busFullData?.Destination}</span>
-                        <p>{dayjs(selectedBus.ArrivalTime).format("DD MMM, YY")}</p>
+                        <p>{dayjs(selectedBus?.ArrivalTime).format("DD MMM, YY")}</p>
                         <p style={{ fontSize: "14px" }}>
-                          {dayjs(selectedBus.ArrivalTime).format("h:mm A")}
+                          {dayjs(selectedBus?.ArrivalTime).format("h:mm A")}
                         </p>
                       </div>
 
@@ -379,8 +387,8 @@ const BusPassengerDetail = () => {
                       <div>
                         <p>
                           {selectedBus?.BoardingPointsDetails &&
-                            selectedBus.BoardingPointsDetails.length > 0 &&
-                            selectedBus.BoardingPointsDetails[boardingPoint - 1]?.CityPointLocation}
+                            selectedBus?.BoardingPointsDetails.length > 0 &&
+                            selectedBus?.BoardingPointsDetails[boardingPoint - 1]?.CityPointLocation}
                         </p>
                       </div>
                       <div>
@@ -395,13 +403,13 @@ const BusPassengerDetail = () => {
                       <div>
                         <p>
                           {selectedBus?.DroppingPointsDetails &&
-                            selectedBus.DroppingPointsDetails.length > 0 &&
-                            selectedBus.DroppingPointsDetails[droppingPoint - 1]
+                            selectedBus?.DroppingPointsDetails.length > 0 &&
+                            selectedBus?.DroppingPointsDetails[droppingPoint - 1]
                               ?.CityPointLocation}
                         </p>
                       </div>
                       <div>
-                        <span>{dayjs(selectedBus.ArrivalTime).format("h:mm A")}</span>
+                        <span>{dayjs(selectedBus?.ArrivalTime).format("h:mm A")}</span>
                       </div>
                     </div>
                   </div>
@@ -428,7 +436,7 @@ const BusPassengerDetail = () => {
                                   name="FirstName"
                                   // placeholder="Enter your name"
                                   className="form-control"
-                                  value={passengerData.FirstName}
+                                  value={passengerData?.FirstName}
                                   onChange={(e) =>
                                     handleServiceChange(e, index)
                                   }
@@ -451,7 +459,7 @@ const BusPassengerDetail = () => {
                                     handleServiceChange(e, index)
                                   }
                                 />
-                                {sub && !validateName(passengerData[index].LastName) && (
+                                {sub && !validateName(passengerData[index]?.LastName) && (
                                   <span className="error10">Enter Last Name</span>
                                 )}
                                 {/* <label for="floatingInput">Last Name</label> */}
@@ -465,13 +473,13 @@ const BusPassengerDetail = () => {
                                   type="email"
                                   className="form-control"
                                   // placeholder="Enter your email"
-                                  value={passengerData[index].Email}
+                                  value={passengerData[index]?.Email}
                                   onChange={(e) =>
                                     handleServiceChange(e, index)
                                   }
                                 />
 
-                                {sub && !validateEmail(passengerData[index].Email) &&
+                                {sub && !validateEmail(passengerData[index]?.Email) &&
                                   <span className="error10">Enter a valid email</span>}
                                 {/* <label for="floatingInput">Enter Email</label> */}
                                 {/* </div> */}
@@ -485,12 +493,14 @@ const BusPassengerDetail = () => {
                                   type="text"
                                   className="form-control"
                                   // placeholder="Enter your Phoneno"
-                                  value={passengerData.Phoneno}
+                                  value={passengerData?.Phoneno}
                                   onChange={(e) =>
                                     handleServiceChange(e, index)
                                   }
                                 />
-                                {sub && !validatePhoneNumber(passengerData[index].Phoneno) &&
+                                {sub &&
+                                  !validatePhoneNumber(passengerData[index]?.Phoneno)
+                                  &&
                                   <span className="error10">Enter a valid phone number</span>}
 
                                 {/* <label for="floatingInput">
@@ -506,7 +516,7 @@ const BusPassengerDetail = () => {
                                   type="text"
                                   className="form-control"
                                   // placeholder="Enter your address"
-                                  value={passengerData.Address}
+                                  value={passengerData?.Address}
                                   onChange={(e) =>
                                     handleServiceChange(e, index)
                                   }

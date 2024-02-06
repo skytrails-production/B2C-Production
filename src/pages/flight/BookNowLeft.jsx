@@ -1,10 +1,12 @@
 
 import { Box, Grid, Typography } from "@mui/material";
-import React from "react";
+import React, { useState, useRef } from "react";
 import { useSelector } from "react-redux";
-
+import { motion } from 'framer-motion';
 import "./booknowleft.css";
+
 const KeyValue = ({ data, value }) => {
+
   return (
     <>
       <Grid item xs={12} md={6}>
@@ -22,6 +24,24 @@ const KeyValue = ({ data, value }) => {
 };
 
 const BookNowLeft = () => {
+  const [showInput, setShowInput] = useState(false);
+  const [couponApplied, setCouponApplied] = useState(false);
+  const inputRef = useRef(null);
+
+  // useEffect(() => {
+  //   if (inputRef.current) {
+  //     inputRef.current.focus();
+  //   }
+  // }, [couponApplied]);
+
+  const handleCoupon = () => {
+    inputRef.current.focus();
+  }
+
+  const handleApplyCoupon = () => {
+    setShowInput(true);
+    setCouponApplied(true);
+  };
   const reducerState = useSelector((state) => state);
   const TicketDetails = reducerState?.flightFare?.flightQuoteData?.Results;
   const fareValue = reducerState?.flightFare?.flightQuoteData?.Results;
@@ -122,6 +142,29 @@ const BookNowLeft = () => {
                         <p>{'₹'}{fareValue?.Fare?.PublishedFare + markUpamount}</p>
                       </div>
                     </div>
+
+                    {/* <div className="applycoupenbuttontext" style={{ overflow: 'hidden' }}>
+                      {!couponApplied ? (
+                        <button onClick={handleApplyCoupon} className="applycoupen-button">
+                          Apply Coupon
+                        </button>
+                      ) : (
+                        <motion.div
+                          initial={{ opacity: 0, y: 4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.3 }} // Adjust the duration as needed
+                        >
+                          <input
+                            ref={inputRef}
+                            type="text"
+                            className="inputfieldtext"
+                            placeholder="Apply Coupon..."
+                            autoFocus
+                          />
+                          <button onClick={handleCoupon} className="applycoupen-button1">Submit</button>
+                        </motion.div>
+                      )}
+                    </div> */}
                   </div>
 
                 </>
@@ -144,9 +187,7 @@ const BookNowLeft = () => {
                             <div className="headFlight">
                               <span>Price Summary</span>
                             </div>
-                            {/* <div className="hotName">
-                      <p>hotel name</p> 
-                    </div> */}
+
                             <div className="totCOmmFlight">
                               <div >
                                 <span>{formattedDate}</span>
@@ -205,8 +246,37 @@ const BookNowLeft = () => {
                                 <span>Grand Total:</span>
                                 <p>{'₹'}{fareValue?.Fare?.PublishedFare + markUpamount}</p>
                               </div>
+
                             </div>
+
+                            {/* <div className="applycoupenbuttontext" style={{ overflow: 'hidden' }}>
+                              {!couponApplied ? (
+                                <button onClick={handleApplyCoupon} className="applycoupen-button">
+                                  Apply Coupon
+                                </button>
+                              ) : (
+                                <motion.div
+                                  initial={{ opacity: 0, y: 4 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ duration: 0.3 }} // Adjust the duration as needed
+                                >
+                                  <input
+                                    ref={inputRef}
+                                    type="text"
+                                    className="inputfieldtext"
+                                    placeholder="Apply Coupon..."
+                                    autoFocus
+                                  />
+                                  <button onClick={handleCoupon} className="applycoupen-button1">Submit</button>
+                                </motion.div>
+                              )}
+                            </div> */}
+
                           </div>
+
+
+
+
                         </>
                       );
                     });

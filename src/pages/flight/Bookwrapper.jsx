@@ -17,7 +17,7 @@ import {
   bookTicketGDS,
 } from "../../Redux/FlightBook/actionFlightBook";
 import { FiArrowRight } from "react-icons/fi";
-import TripSecureComponent from "./TripSecureComponent";
+// import TripSecureComponent from "./TripSecureComponent";
 import {
   quoteAction,
   resetFareData,
@@ -32,16 +32,17 @@ import BookNowLeft from "./BookNowLeft";
 // import useRazorpay from "react-razorpay";
 import PaymentLoader from "./FlightLoader/paymentLoader";
 import Flighterror from "./Flighterror";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 import axios from "axios";
 import dayjs from "dayjs";
 // import Login from "./Login"
 import Modal from "@mui/material/Modal";
 
 // import loginGif from "../images/loginGif.gif"
-import loginGif from "../../images/loginGif.gif"
+import loginGif from "../../images/login-01.jpg"
 import CloseIcon from '@mui/icons-material/Close';
-import { validateEmail, validateName, validatePhoneNumber } from "../../utility/validationFunctions"
+import { validateEmail, validateName, validatePhoneNumber, isValidPassportNumber } from "../../utility/validationFunctions"
+import { swalModal } from "../../utility/swal"
 
 
 const variants = {
@@ -248,26 +249,27 @@ export default function BookWrapper() {
       reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
       reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== undefined
     ) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops",
-        text: reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
+      swalModal("flight", reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage, false)
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "Oops",
+      //   text: reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
 
-        showClass: {
-          popup: `
-            animate__animated
-            animate__fadeInUp
-            animate__faster
-          `,
-        },
-        hideClass: {
-          popup: `
-            animate__animated
-            animate__fadeOutDown
-            animate__faster
-          `,
-        },
-      });
+      //   showClass: {
+      //     popup: `
+      //       animate__animated
+      //       animate__fadeInUp
+      //       animate__faster
+      //     `,
+      //   },
+      //   hideClass: {
+      //     popup: `
+      //       animate__animated
+      //       animate__fadeOutDown
+      //       animate__faster
+      //     `,
+      //   },
+      // });
       navigate("/");
     }
   }, [reducerState?.flightBook?.flightBookData?.Response]);
@@ -276,26 +278,27 @@ export default function BookWrapper() {
       reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode !== 0 &&
       reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode !== undefined
     ) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops",
-        text: reducerState?.flightFare?.flightQuoteData?.Error?.ErrorMessage,
+      swalModal("flight", reducerState?.flightFare?.flightQuoteData?.Error?.ErrorMessage, false)
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "Oops",
+      //   text: reducerState?.flightFare?.flightQuoteData?.Error?.ErrorMessage,
 
-        showClass: {
-          popup: `
-            animate__animated
-            animate__fadeInUp
-            animate__faster
-          `,
-        },
-        hideClass: {
-          popup: `
-            animate__animated
-            animate__fadeOutDown
-            animate__faster
-          `,
-        },
-      });
+      //   showClass: {
+      //     popup: `
+      //       animate__animated
+      //       animate__fadeInUp
+      //       animate__faster
+      //     `,
+      //   },
+      //   hideClass: {
+      //     popup: `
+      //       animate__animated
+      //       animate__fadeOutDown
+      //       animate__faster
+      //     `,
+      //   },
+      // });
       navigate("/");
     }
   }, [reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode]);
@@ -318,27 +321,28 @@ export default function BookWrapper() {
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !==
       undefined
     ) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops",
-        text: reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage,
-        timer: 3000,
+      swalModal("flight", reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage, false)
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "Oops",
+      //   text: reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage,
+      //   // timer: 3000,
 
-        showClass: {
-          popup: `
-            animate__animated
-            animate__fadeInUp
-            animate__faster
-          `,
-        },
-        hideClass: {
-          popup: `
-            animate__animated
-            animate__fadeOutDown
-            animate__faster
-          `,
-        },
-      });
+      //   showClass: {
+      //     popup: `
+      //       animate__animated
+      //       animate__fadeInUp
+      //       animate__faster
+      //     `,
+      //   },
+      //   hideClass: {
+      //     popup: `
+      //       animate__animated
+      //       animate__fadeOutDown
+      //       animate__faster
+      //     `,
+      //   },
+      // });
       navigate("/");
     }
   }, [reducerState?.flightBook?.flightBookDataGDS?.Response]);
@@ -467,12 +471,16 @@ export default function BookWrapper() {
           reducerState?.flightFare?.flightQuoteData?.Results?.Fare
             ?.PublishedFare
         ) + parseInt(markUpamount)) : 99,
+      // amount: 1,
+
+
       email: passengerData[0].Email,
       productinfo: "ticket",
       bookingType: "FLIGHTS",
       surl: `${apiURL.baseURL}/skyTrails/successVerifyApi?merchantTransactionId=`,
       furl: `${apiURL.baseURL}/skyTrails/paymentFailure?merchantTransactionId=`,
     };
+    handleTravelClose();
 
     try {
       const response = await fetch(apiUrlPayment, {
@@ -493,6 +501,7 @@ export default function BookWrapper() {
         console.error("API call failed with status:", response.status);
         const errorData = await response.json();
         console.error("Error details:", errorData);
+
       }
     } catch (error) {
       // Handle network errors or exceptions
@@ -524,7 +533,8 @@ export default function BookWrapper() {
             const verifyResponse = await axios.post(
               `${apiURL.baseURL}/skyTrails/api/transaction/paymentFailure?merchantTransactionId=${response.txnid}`
             );
-            // console.log(verifyResponse.data);
+            console.log(verifyResponse.data);
+            swalModal("py", verifyResponse.data.responseMessage, false)
             // Handle verifyResponse as needed
           } catch (error) {
             console.error("Error verifying payment:", error);
@@ -545,6 +555,7 @@ export default function BookWrapper() {
       Passengers: passengerData.map((item, index) => {
         return {
           ...item,
+          PassportExpiry: isPassportRequired ? convertDateFormat(item?.PassportExpiry) : "",
           Email: apiURL.flightEmail,
           ContactNo: apiURL.phoneNo,
         };
@@ -591,6 +602,19 @@ export default function BookWrapper() {
       });
     }
   });
+  function convertDateFormat(inputDate) {
+    // Split the input date string into year, month, and day
+    const [year, month, day] = inputDate.split("-");
+
+    // Create a new Date object using the components
+    const newDate = new Date(year, month - 1, day);
+
+    // Format the output date string as "yyyy-mm-ddTHH:mm:ss"
+    const outputDate = newDate.toISOString().slice(0, 19).replace("T", "T00:00:00");
+    console.log(outputDate, "outputdate")
+
+    return outputDate;
+  }
   const getTicketForLCC = () => {
     const payloadLcc = {
       ResultIndex: ResultIndex,
@@ -600,8 +624,10 @@ export default function BookWrapper() {
         reducerState?.oneWay?.oneWayData?.data?.data?.Response?.TraceId ||
         reducerState?.return?.returnData?.data?.data?.Response?.TraceId,
       Passengers: passengerData.map((item, index) => {
+
         return {
           ...item,
+          PassportExpiry: isPassportRequired ? convertDateFormat(item?.PassportExpiry) : "",
           Email: apiURL.flightEmail,
           ContactNo: apiURL.phoneNo,
         };
@@ -634,6 +660,7 @@ export default function BookWrapper() {
         };
       }),
     };
+    console.warn(payLoadInternational, "payload international")
     if (isPassportRequired) {
       dispatch(bookTicketGDS(payLoadInternational));
     } else {
@@ -702,6 +729,7 @@ export default function BookWrapper() {
         validateName(item.FirstName) &&
         validateName(item.LastName) &&
         validateDate(item.DateOfBirth)
+        && (isPassportRequired ? isValidPassportNumber(item.PassportNo) : true)
     );
     // console.warn("result", result);
     if (
@@ -1331,29 +1359,54 @@ export default function BookWrapper() {
                                         name="PassportNo"
                                         id="floatingInput"
                                         class="form-control"
-                                        onChange={(e) =>
-                                          handleServiceChange(e, index)
+                                        onChange={(e) => {
+                                          handleServiceChange(e, index);
+
                                         }
+                                        }
+                                      >
+                                      </input>
+                                      {sub && !isValidPassportNumber(passengerData[index].PassportNo
+                                      ) && <span className="error10">Enter a Valid Passport Number </span>}
+                                    </div>
+                                    <div className="col-lg-3 col-md-3">
+                                      {/* <label htmlFor="DateOfBirth">DOB</label> */}
+                                      {/* <div class="form-floating">
+                                    <input
+                                      type="date"
+                                      placeholder="DOB"
+                                      name="DateOfBirth"
+                                      className="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(e, index)
+                                      }
+                                      max={maxDate}
+                                    />
+
+                                    <label htmlFor="DateOfBirth">DOB</label>
+                                    {sub && !validateDate(passengerData[index].DateOfBirth
+                                    ) && <span className="error10">DOB </span>}
+
+                                  </div> */}
+
+                                      <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
+                                      <input type="date"
+                                        name="PassportExpiry"
+                                        id="floatingInput"
+                                        class="form-control"
+
+                                        onChange={(e) => {
+                                          handleServiceChange(e, index);
+                                          console.warn(e.target.value, "e.target.value");
+                                        }
+                                        }
+                                        min={currentDate}
                                       >
                                       </input>
 
                                     </div>
-                                    <div className="col-lg-3 col-md-3">
-                                      {/* <div class="form-floating">
-                                        <input
-                                          onChange={(e) =>
-                                            handleServiceChange(e, index)
-                                          }
-                                          type="text"
-                                          name="PassportExpiry"
-                                          class="form-control"
-                                          id="floatingInput"
-                                          placeholder="Passport Expiry"
-                                        />
-                                        <label for="floatingInput">
-                                          Passport Expiry
-                                        </label>
-                                      </div> */}
+                                    {/* <div className="col-lg-3 col-md-3">
+                                     
                                       <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
                                       <input type="text"
                                         name="PassportExpiry"
@@ -1364,7 +1417,7 @@ export default function BookWrapper() {
                                         }
                                       >
                                       </input>
-                                    </div>
+                                    </div> */}
                                   </div>
                                 </>
                               ) : (
@@ -1551,6 +1604,7 @@ export default function BookWrapper() {
                                         }
                                       >
                                       </input>
+                                      {sub && !isValidPassportNumber(passengerData[index + Number(adultCount)].PassportNo) && <span className="error10">Enter a valid Passport Number </span>}
                                     </div>
                                     <div className="col-lg-3 col-md-3">
                                       {/* <div class="form-floating">
@@ -1572,10 +1626,11 @@ export default function BookWrapper() {
                                         </label>
                                       </div> */}
                                       <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
-                                      <input type="text"
+                                      <input type="date"
                                         name="PassportExpiry"
                                         id="floatingInput"
                                         class="form-control"
+                                        min={currentDate}
                                         onChange={(e) =>
                                           handleServiceChange(
                                             e,
@@ -1584,6 +1639,7 @@ export default function BookWrapper() {
                                         }
                                       >
                                       </input>
+
                                     </div>
                                   </div>
                                 </>
@@ -1816,17 +1872,21 @@ export default function BookWrapper() {
                                       </div> */}
 
                                       <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
-                                      <input type="text"
+                                      <input type="date"
                                         name="PassportExpiry"
                                         id="floatingInput"
                                         class="form-control"
-                                        onChange={(e) =>
+                                        min={currentDate}
+                                        onChange={(e) => {
+
                                           handleServiceChange(
                                             e,
                                             index +
                                             Number(adultCount) +
                                             Number(childCount)
-                                          )
+                                          );
+                                          console.log(e.target.value, "e.target.value=")
+                                        }
                                         }
                                       >
                                       </input>

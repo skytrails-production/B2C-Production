@@ -129,24 +129,63 @@ function HolidayPackagesDetail() {
 
   const [selectedCategory, setSelectedCategory] = useState([]);
 
+  // const handleRadioChange = (event) => {
+  //   const selectedValue = event.target.value;
+  //   if (selectedValue === "All") {
+  //     setSelectedCategory([]);
+  //     document.querySelectorAll('input[name="test"]').forEach((checkbox) => {
+  //       checkbox.checked = false;
+  //     });
+  //   } else {
+  //     // If other checkbox is selected, update selectedCategory as before
+  //     setSelectedCategory((prevSelectedCategory) => {
+  //       if (prevSelectedCategory.includes(selectedValue)) {
+  //         return prevSelectedCategory.filter((value) => value !== selectedValue);
+  //       } else {
+  //         return [...prevSelectedCategory, selectedValue];
+  //       }
+  //     });
+  //   }
+  // };
+
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
+    const radioGroupName = event.target.name;
+
+
+
     if (selectedValue === "All") {
       setSelectedCategory([]);
-      document.querySelectorAll('input[name="test"]').forEach((checkbox) => {
-        checkbox.checked = false;
+      document.querySelectorAll('input[type="checkbox"]').forEach((radio) => {
+        radio.checked = false;
       });
-    } else {
-      // If other checkbox is selected, update selectedCategory as before
-      setSelectedCategory((prevSelectedCategory) => {
-        if (prevSelectedCategory.includes(selectedValue)) {
-          return prevSelectedCategory.filter((value) => value !== selectedValue);
-        } else {
-          return [...prevSelectedCategory, selectedValue];
-        }
-      });
+      return
     }
+
+    setSelectedCategory((prevSelectedCategory) => {
+      let updatedCategory = [...prevSelectedCategory];
+
+      // Check if the selected value is already in the array
+      const isValueSelected = updatedCategory.some(
+        (category) => category === `${radioGroupName}:${selectedValue}`
+      );
+
+      // If the value is selected, filter it out; otherwise, add it
+      updatedCategory = isValueSelected
+        ? updatedCategory.filter(
+          (category) => category !== `${radioGroupName}:${selectedValue}`
+        )
+        : [
+          ...updatedCategory.filter(
+            (category) => !category.startsWith(`${radioGroupName}:`)
+          ),
+          `${radioGroupName}:${selectedValue}`,
+        ];
+
+      return updatedCategory;
+    });
   };
+
 
   useEffect(() => {
     if (filteredPackage === undefined) {
@@ -157,33 +196,81 @@ function HolidayPackagesDetail() {
   // console.log(filteredPackage, "filtered package")
   // console.warn(reducerState, "reducerstate hotel package search result")
 
+  // const sortedAndFilteredResults = filteredPackage?.filter((item) => {
+  //   const publishedPrice = item?.pakage_amount.amount;
+  //   const noOfDays = item?.days;
+  //   const starRating = item?.StarRating;
+  //   const categoryFilters = selectedCategory?.map((category) => {
+  //     switch (category) {
+
+  //       case "0-3Days":
+  //         return noOfDays >= 0 && noOfDays <= 3;
+  //       case "4-7Days":
+  //         return noOfDays >= 4 && noOfDays <= 7;
+  //       case "7-12Days":
+  //         return noOfDays >= 7 && noOfDays <= 12;
+  //       case "12-20Days":
+  //         return noOfDays >= 12 && noOfDays <= 20;
+  //       case "20-30Days":
+  //         return noOfDays >= 20 && noOfDays <= 30;
+  //       case "25000":
+  //         return publishedPrice <= 25000;
+  //       case "25001":
+  //         return publishedPrice > 25001 && publishedPrice <= 50000;
+  //       case "50001":
+  //         return publishedPrice > 50001 && publishedPrice <= 75000;
+  //       case "75001":
+  //         return publishedPrice > 75001 && publishedPrice <= 100000;
+  //       case "100000":
+  //         return publishedPrice > 100000;
+  //       default:
+  //         return false;
+  //     }
+  //   });
+
+  //   return categoryFilters?.every((filter) => filter);
+  // })?.sort((a, b) =>
+  //   sortOption === "lowToHigh"
+  //     ? a?.pakage_amount.amount - b?.pakage_amount.amount
+  //     : b?.pakage_amount.amount - a?.pakage_amount.amount
+  // );
+
+
+
   const sortedAndFilteredResults = filteredPackage?.filter((item) => {
     const publishedPrice = item?.pakage_amount.amount;
     const noOfDays = item?.days;
     const starRating = item?.StarRating;
     const categoryFilters = selectedCategory?.map((category) => {
-      switch (category) {
+      const [groupName, value] = category.split(':');
+      switch (groupName) {
+        case "days":
+          switch (value) {
+            case "0-3Days":
+              return noOfDays >= 0 && noOfDays <= 3;
+            case "4-7Days":
+              return noOfDays >= 4 && noOfDays <= 7;
+            case "7-12Days":
+              return noOfDays >= 7 && noOfDays <= 12;
+            case "12-20Days":
+              return noOfDays >= 12 && noOfDays <= 20;
+            case "20-30Days":
+              return noOfDays >= 20 && noOfDays <= 30;
+          }
+        case "price":
+          switch (value) {
+            case "25000":
+              return publishedPrice <= 25000;
+            case "25001":
+              return publishedPrice > 25001 && publishedPrice <= 50000;
+            case "50001":
+              return publishedPrice > 50001 && publishedPrice <= 75000;
+            case "75001":
+              return publishedPrice > 75001 && publishedPrice <= 100000;
+            case "100000":
+              return publishedPrice > 100000;
+          }
 
-        case "0-3Days":
-          return noOfDays >= 0 && noOfDays <= 3;
-        case "4-7Days":
-          return noOfDays >= 4 && noOfDays <= 7;
-        case "7-12Days":
-          return noOfDays >= 7 && noOfDays <= 12;
-        case "12-20Days":
-          return noOfDays >= 12 && noOfDays <= 20;
-        case "20-30Days":
-          return noOfDays >= 20 && noOfDays <= 30;
-        case "25000":
-          return publishedPrice <= 25000;
-        case "25001":
-          return publishedPrice > 25001 && publishedPrice <= 50000;
-        case "50001":
-          return publishedPrice > 50001 && publishedPrice <= 75000;
-        case "75001":
-          return publishedPrice > 75001 && publishedPrice <= 100000;
-        case "100000":
-          return publishedPrice > 100000;
         default:
           return false;
       }
@@ -197,6 +284,9 @@ function HolidayPackagesDetail() {
   );
 
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [sortedAndFilteredResults])
 
 
   return (
@@ -307,7 +397,7 @@ function HolidayPackagesDetail() {
 
           {/* filter for Desktop  device  */}
 
-          <div className="d-none d-sm-flex col-lg-3 col-md-3 scrollDesign" >
+          <div className="d-none d-sm-block col-lg-3 col-md-3 scrollDesign" >
 
 
             <div className="flightFilterBox">
@@ -316,7 +406,20 @@ function HolidayPackagesDetail() {
               </div>
               <div className="innerFilter">
 
+                <div>
+                  <label className="sidebar-label-container ps-0">
+                    <input
+                      type="checkbox"
+                      onChange={handleRadioChange}
+                      value="All"
+                      name="test"
+                      checked={selectedCategory.includes("test:All")}
+                    />
+                    {/* <span className="checkmark"></span> */}
+                    <span style={{ color: selectedCategory.length > 0 ? "red" : "gray" }}>Clear Filter</span>
+                  </label>
 
+                </div>
                 <div>
                   <h2 className="sidebar-title">Sort By</h2>
                   <select className="highSelect" value={sortOption} onChange={handleSortChange}>
@@ -330,26 +433,26 @@ function HolidayPackagesDetail() {
 
                   <div>
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="0-3 Days" name="test" />
+                      <input type="checkbox" onChange={handleRadioChange} value="0-3 Days" name="days" checked={selectedCategory.includes("days:0-3 Days")} />
                       <span className="checkmark"></span>0-3 Days
                     </label>
 
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="4-7Days" name="test" />
+                      <input type="checkbox" onChange={handleRadioChange} value="4-7Days" name="days" checked={selectedCategory.includes("days:4-7Days")} />
                       <span className="checkmark"></span>4-7 Days
                     </label>
 
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="7-12Days" name="test" />
+                      <input type="checkbox" onChange={handleRadioChange} value="7-12Days" name="days" checked={selectedCategory.includes("days:7-12Days")} />
                       <span className="checkmark"></span>7-12 Days
                     </label>
 
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="12-20Days" name="test" />
+                      <input type="checkbox" onChange={handleRadioChange} value="12-20Days" name="days" checked={selectedCategory.includes("days:12-20Days")} />
                       <span className="checkmark"></span>12-20 Days
                     </label>
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="20-30Days" name="test" />
+                      <input type="checkbox" onChange={handleRadioChange} value="20-30Days" name="days" checked={selectedCategory.includes("days:20-30Days")} />
                       <span className="checkmark"></span>20-30 Days
                     </label>
 
@@ -363,26 +466,26 @@ function HolidayPackagesDetail() {
 
                   <div>
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="25000" name="test" />
+                      <input type="checkbox" onChange={handleRadioChange} value="25000" name="price" checked={selectedCategory.includes("price:25000")} />
                       <span className="checkmark"></span>₹ 0-25,000
                     </label>
 
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="25001" name="test" />
+                      <input type="checkbox" onChange={handleRadioChange} value="25001" name="price" checked={selectedCategory.includes("price:25001")} />
                       <span className="checkmark"></span>₹25,000-50,000
                     </label>
 
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="50001" name="test" />
+                      <input type="checkbox" onChange={handleRadioChange} value="50001" name="price" checked={selectedCategory.includes("price:50001")} />
                       <span className="checkmark"></span>₹50,000-75,000
                     </label>
 
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="75001" name="test" />
+                      <input type="checkbox" onChange={handleRadioChange} value="75001" name="price" checked={selectedCategory.includes("price:75001")} />
                       <span className="checkmark"></span>₹75,000-1,00,000
                     </label>
                     <label className="sidebar-label-container">
-                      <input type="checkbox" onChange={handleRadioChange} value="100000" name="test" />
+                      <input type="checkbox" onChange={handleRadioChange} value="100000" name="price" checked={selectedCategory.includes("price:100000")} />
                       <span className="checkmark"></span>₹1,00,000 and Above
                     </label>
 

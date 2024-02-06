@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useState, useRef } from "react";
+import { motion } from 'framer-motion';
 // import { styled } from "@mui/material/styles";
 // import Paper from "@mui/material/Paper";
 import './sailsummary.css';
@@ -17,10 +19,18 @@ import { useSelector } from "react-redux";
 // }));
 
 export default function Popularfilter() {
+  const [showInput, setShowInput] = useState(false);
+  const [couponApplied, setCouponApplied] = useState(false);
+  const inputRef = useRef(null);
   // const dispatch = useDispatch();
   // const navigate = useNavigate();
   const reducerState = useSelector((state) => state);
 
+
+  const handleApplyCoupon = () => {
+    setShowInput(true);
+    setCouponApplied(true);
+  };
 
   // const TotalGuest = sessionStorage.getItem("totalGuest");
   const HotelIndex = sessionStorage.getItem("HotelIndex");
@@ -47,6 +57,9 @@ export default function Popularfilter() {
 
   // const roomBlock = reducerState?.hotelSearchResult?.blockRoom;
   // console.log(roomBlock, "room block ")
+  const handleCoupon = () => {
+    inputRef.current.focus();
+  }
 
 
   const markUpamount =
@@ -90,6 +103,30 @@ export default function Popularfilter() {
             <p>{'₹'}{grandTotal}</p>
           </div>
         </div>
+
+
+        {/* <div className="applycoupenbuttontext" style={{ overflow: 'hidden' }}>
+      {!couponApplied ? (
+        <button onClick={handleApplyCoupon} className="applycoupen-button">
+          Apply Coupon
+        </button>
+      ) : (
+        <motion.div
+          initial={{ opacity: 0, y:4}}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3 }} // Adjust the duration as needed
+        >
+          <input
+            ref={inputRef}
+            type="text"
+            className="inputfieldtext"
+            placeholder="Apply Coupon..."
+            autoFocus
+          />
+          <button onClick={handleCoupon} className="applycoupen-button1">Submit</button>
+        </motion.div>
+      )}
+    </div> */}
 
       </div>
 

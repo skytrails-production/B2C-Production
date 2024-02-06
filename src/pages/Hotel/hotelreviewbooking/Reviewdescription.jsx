@@ -23,7 +23,7 @@ import hotelNotFound from "../../../images/hotelNotFound.jpg";
 import chevrondown from "../../../images/chevrondown.svg";
 // import loginGif from "../../images/loginGif.gif";
 // import Login from "../../components/Login";
-import loginGif from "../../../images/loginGif.gif";
+import login01 from "../../../images/login-01.jpg";
 import Login from "../../../components/Login";
 import Modal from "@mui/material/Modal";
 import { motion } from "framer-motion";
@@ -34,7 +34,9 @@ import {
   validatePhoneNumber,
   validatePAN,
   validatePassportExpiry,
+  isValidPassportNumber,
 } from "../../../utility/validationFunctions";
+
 
 const styleLoader = {
   position: "absolute",
@@ -317,8 +319,8 @@ const Flightdetail = () => {
       if (name == "PassportExpDate") {
         newFilteredPassenger[name] = convertDateFormat(value);
       }
-      else{
-         newFilteredPassenger[name]=value;
+      else {
+        newFilteredPassenger[name] = value;
       }
       const indexFind = passengerData.indexOf(filteredPassenger[0]);
       if (indexFind !== -1) {
@@ -425,9 +427,10 @@ const Flightdetail = () => {
       // console.log(item.PAN, "pancard&&&&&&&&&&&&&&&&&&&&&7");
       if (
         validatePAN(item.PAN) &&
-        item.FirstName !== "" &&
-        item.LastName !== "" &&
-        toString(item.Age) !== ""
+          item.FirstName !== "" &&
+          item.LastName !== "" &&
+          toString(item.Age) !== "" &&
+          passportCheck ? isValidPassportNumber(item.PassportNo) : true
       )
         return true;
     };
@@ -443,7 +446,7 @@ const Flightdetail = () => {
       //   true}
     );
     const result = await (other.length === passengerData.length &&
-    passengerData.length
+      passengerData.length
       ? true
       : false);
     setValidationRes(result);
@@ -535,8 +538,8 @@ const Flightdetail = () => {
           >
             <motion.div
               variants={variants}
-              className="col-lg-12 p-0"
-              style={{ marginTop: "-116px" }}
+              className="col-lg-12 p-0 reviewTMT"
+
             >
               <div className="hotelDetails">
                 <div>
@@ -599,21 +602,21 @@ const Flightdetail = () => {
             <motion.div variants={variants} className="col-lg-12 p-0">
               <div className="roomDetailsReviewDesc">
                 <div className="row">
-                  <motion.div variants={variants} className="col-lg-4">
+                  <motion.div variants={variants} className="col-lg-4 col-4">
                     <div className="checkInReview">
                       <span>Check-In</span>
                       <p>{formattedDateCheckIn}</p>
                       <h2>{dayOfWeek}</h2>
                     </div>
                   </motion.div>
-                  <motion.div variants={variants} className="col-lg-4">
+                  <motion.div variants={variants} className="col-lg-4 col-4">
                     <div className="checkInReview">
                       <span>Check-Out</span>
                       <p>{formattedCheckOutDate} </p>
                       <h2>{dayOfWeekCheckOut}</h2>
                     </div>
                   </motion.div>
-                  <motion.div variants={variants} className="col-lg-4">
+                  <motion.div variants={variants} className="col-lg-4 col-4">
                     <div className="checkInReview">
                       <span>{result?.NoOfRooms} Room(s) </span>
                       <p>
@@ -1314,11 +1317,11 @@ const Flightdetail = () => {
                                   {sub &&
                                     !validatePAN(
                                       sub &&
-                                        passengerData.filter(
-                                          (item) =>
-                                            item.roomIndex === roomIndex &&
-                                            item.adultIndex === adultIndex
-                                        )[0].PAN
+                                      passengerData.filter(
+                                        (item) =>
+                                          item.roomIndex === roomIndex &&
+                                          item.adultIndex === adultIndex
+                                      )[0].PAN
                                     ) && (
                                       <span className="error10">
                                         Enter PAN{" "}
@@ -1348,13 +1351,13 @@ const Flightdetail = () => {
                                         }
                                       />
                                       {sub &&
-                                        !validatePAN(
+                                        !isValidPassportNumber(
                                           sub &&
-                                            passengerData.filter(
-                                              (item) =>
-                                                item.roomIndex === roomIndex &&
-                                                item.adultIndex === adultIndex
-                                            )[0].PassportNo
+                                          passengerData.filter(
+                                            (item) =>
+                                              item.roomIndex === roomIndex &&
+                                              item.adultIndex === adultIndex
+                                          )[0].PassportNo
                                         ) && (
                                           <span className="error10">
                                             Enter Passport{" "}
@@ -1381,7 +1384,7 @@ const Flightdetail = () => {
                                           }, 300)
                                         }
                                       />
-                                      {sub &&
+                                      {/* {sub &&
                                         !validatePassportExpiry(
                                           sub &&
                                             passengerData.filter(
@@ -1393,7 +1396,7 @@ const Flightdetail = () => {
                                           <span className="error10">
                                             Enter passport expiry{" "}
                                           </span>
-                                        )}
+                                        )} */}
                                       {/* <label for="floatingInput">Pan Number</label> */}
                                       {/* </div> */}
                                     </div>
@@ -1476,7 +1479,7 @@ const Flightdetail = () => {
                                       placeholder="Enter Age"
                                       value={
                                         noOfRooms[roomIndex]?.ChildAge[
-                                          childIndex
+                                        childIndex
                                         ]
                                       }
                                     />
@@ -1544,13 +1547,13 @@ const Flightdetail = () => {
                                         }
                                       />
                                       {sub &&
-                                        !validatePAN(
+                                        !isValidPassportNumber(
                                           sub &&
-                                            passengerData.filter(
-                                              (item) =>
-                                                item.roomIndex === roomIndex &&
-                                                item.childIndex === childIndex
-                                            )[0].PassportNo
+                                          passengerData.filter(
+                                            (item) =>
+                                              item.roomIndex === roomIndex &&
+                                              item.childIndex === childIndex
+                                          )[0].PassportNo
                                         ) && (
                                           <span className="error10">
                                             Enter Passport{" "}
@@ -1577,7 +1580,7 @@ const Flightdetail = () => {
                                           }, 300)
                                         }
                                       />
-                                      {sub &&
+                                      {/* {sub &&
                                         validatePassportExpiry(
                                           sub &&
                                             passengerData.filter(
@@ -1589,7 +1592,7 @@ const Flightdetail = () => {
                                           <span className="error10">
                                             Enter passport expiry{" "}
                                           </span>
-                                        )}
+                                        )} */}
                                       {/* <label for="floatingInput">Pan Number</label> */}
                                       {/* </div> */}
                                     </div>
@@ -1688,7 +1691,7 @@ const Flightdetail = () => {
                   <button
                     type="submit"
                     onClick={handleClickSavePassenger}
-                    // onClick={() => setSub(true)}
+                  // onClick={() => setSub(true)}
                   >
                     Proceed to Book
                   </button>
@@ -1725,7 +1728,7 @@ const Flightdetail = () => {
                           onClick={handleModalClose}
                         />
                         <div className="loginImg logg">
-                          <img src={loginGif} alt="loginGif" />
+                          <img src={login01} alt="loginGif" />
                         </div>
                       </div>
                     </div>

@@ -82,6 +82,29 @@ function Holidayinfo() {
   // const [daysDetailsValues, setDaysDetails] = useState([]);
 
   const [spinner, setSpinner] = useState(false);
+  const [adultCount, setAdultCount] = useState(1)
+  const [childCount, setChildCount] = useState(0)
+  const handleAdultCount = (icon) => {
+    console.warn(icon, "icon")
+    if (icon === "add") {
+      setAdultCount((pre) => pre + 1)
+    }
+    else if (icon === "sub" && 1 < adultCount) {
+      setAdultCount((pre) => pre - 1)
+    }
+    return
+  }
+  const handleChildCount = (icon) => {
+    console.warn(icon, "icon")
+    if (icon === "add") {
+      setChildCount((pre) => pre + 1)
+    }
+    else if (icon === "sub" && 0 < childCount) {
+      setChildCount((pre) => pre - 1)
+    }
+    return
+  }
+
 
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
   const handleModalOpenConfirmation = () => setOpenConfirmationModal(true);
@@ -189,7 +212,7 @@ function Holidayinfo() {
 
   const validationFrom = () => {
     console.log(formData.fullname === "", !validateEmail(formData.email), !validatePhoneNumber(formData.contact_number), formData.departure_city === "", formData.departure_date, Number(formData.number_of_adult) < 1)
-    if (formData.fullname === "" || !validateEmail(formData.email) || !validatePhoneNumber(formData.contact_number) || formData.departure_city === "" || formData.departure_date === "" || Number(formData.number_of_adult) < 1) {
+    if (formData.fullname === "" || !validateEmail(formData.email) || !validatePhoneNumber(formData.contact_number) || formData.departure_city === "" || formData.departure_date === "") {
       setValtrue(false)
 
       return
@@ -238,9 +261,9 @@ function Holidayinfo() {
         fullName: formData.fullname,
         phone: formData.contact_number,
         departureCity: formData.departure_city,
-        adults: formData.number_of_adult,
-        child: formData.number_of_child,
-        noOfPeople: Number(formData.number_of_adult + formData.number_of_child),
+        adults: adultCount,
+        child: childCount,
+        noOfPeople: Number(adultCount + childCount),
         departureDate: formData.departure_date,
         packageType: "tour",
       };
@@ -270,7 +293,9 @@ function Holidayinfo() {
   };
 
 
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [])
 
   // function of enquiry for booking
 
@@ -855,12 +880,12 @@ function Holidayinfo() {
                         {sub && formData.departure_city === "" && <span className="floatingSpan">Please Fill City</span>}
                       </div>
                     </div>
-                    <div className="col-lg-12 col-md-12 mb-3">
+                    {/* <div className="col-lg-12 col-md-12 mb-3">
                       <div className="form-floating">
                         <input
                           type="number"
                           name="number_of_adult"
-                          // min={1}
+                          min={1}
                           value={formData.number_of_adult}
                           onChange={handleInputChange}
                           className="form-control"
@@ -868,8 +893,8 @@ function Holidayinfo() {
                         <label for="floatingInput">Number of Adult</label>
                         {sub && formData.number_of_adult < 1 && <span className="floatingSpan">Number of adult can't be lass than 1</span>}
                       </div>
-                    </div>
-                    <div className="col-lg-12 col-md-12 mb-3">
+                    </div> */}
+                    {/* <div className="col-lg-12 col-md-12 mb-3">
                       <div className="form-floating">
                         <input
                           type="number"
@@ -881,7 +906,7 @@ function Holidayinfo() {
                         />
                         <label for="floatingInput">Number of Child</label>
                       </div>
-                    </div>
+                    </div> */}
 
                     <div className="col-lg-12 col-md-12 mb-3">
                       <div class="form-floating packDatePick">
@@ -897,6 +922,41 @@ function Holidayinfo() {
                         {sub && formData.departure_date === "" && <span className="floatingSpan">Enter Departure Date</span>}
                       </div>
                     </div>
+                    <div className="col-lg-12 col-md-12 mb-3 ">
+                      <div className="adult_count_div">
+                        <div className="adult_cout_lable_div">
+                          Number of Adult
+                        </div>
+                        <div className='adult_count'>
+
+                          <div className="adult_count_box"
+                            onClick={() => handleAdultCount("sub")}
+                          >-</div>
+                          <div className="adult_count_box_input">{adultCount}</div>
+                          <div className="adult_count_box"
+                            onClick={() => handleAdultCount("add")}
+                          >+</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-lg-12 col-md-12 mb-3 ">
+                      <div className="adult_count_div">
+                        <div className="adult_cout_lable_div">
+                          Number of Child
+                        </div>
+                        <div className='adult_count'>
+
+                          <div className="adult_count_box"
+                            onClick={() => handleChildCount("sub")}
+                          >-</div>
+                          <div className="adult_count_box_input">{childCount}</div>
+                          <div className="adult_count_box"
+                            onClick={() => handleChildCount("add")}
+                          >+</div>
+                        </div>
+                      </div>
+                    </div>
+
                     <div className="col-lg-12 col-md-12">
                       <div className="packEnqButton">
                         {!valtrue ? <button className="disableBTN" onClick={() => setSub(true)}>Submit</button> :

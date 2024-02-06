@@ -10,16 +10,17 @@ import { clearHotelReducer, hotelAction } from "../../Redux/Hotel/hotel";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Box from "@mui/material/Box";
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Hotelmainloading from "./hotelLoading/Hotelmainloading";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+// import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { IoSearchOutline } from "react-icons/io5";
-import loginGif from "../../images/loginGif.gif";
-import Login from "../../components/Login";
-import Modal from "@mui/material/Modal";
+// import loginGif from "../../images/loginGif.gif";
+// import Login from "../../components/Login";
+// import Modal from "@mui/material/Modal";
+import { swalModal } from "../../utility/swal"
 
 const variants = {
   initial: {
@@ -37,6 +38,7 @@ const variants = {
 };
 
 const HotelForm = () => {
+
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
   const [displayFrom, setdisplayFrom] = useState(true);
   const currentDate = new Date();
@@ -137,17 +139,6 @@ const HotelForm = () => {
     // Convert dates to milliseconds for easy comparison
     console.log(date, checkOut);
     validateDates(date, date);
-
-
-    // Check if futureDate is less than currentDate
-    // if (futureTimestamp <= currentTimestamp) {
-    //   // Add one day to futureDate
-    //   //   console.log(checkIn);
-
-    //   console.log(selectedDay);
-    //   await futureDate.setDate(checkIn.getDate() + 1);
-    // }
-    // setCheckOut(futureDate);
     return;
   }
   function formatDate(date) {
@@ -183,9 +174,7 @@ const HotelForm = () => {
     const checkinDate = new Date(checkin);
     let checkoutDate = new Date(checkout);
 
-    // Check if check-in date is greater than or equal to check-out date
     if (checkinDate >= checkoutDate) {
-      // Increment check-out date by one day
       checkoutDate.setDate(checkinDate.getDate() + 1);
     }
     setCheckOut(checkoutDate);
@@ -195,9 +184,6 @@ const HotelForm = () => {
     return;
   }
 
-  //   useEffect(() => {
-  //     ensureFutureDate();
-  //   }, [checkIn]);
 
   const handleClickOutsideFrom = (event) => {
     if (
@@ -216,17 +202,16 @@ const HotelForm = () => {
   const handleTravelClose = (event, reason) => {
     if (reason !== "backdropClick") {
       setOpenTravelModal(false);
-      // setCountPassanger(
-      //     parseInt(activeIdChild) +
-      //     parseInt(activeIdInfant) +
-      //     parseInt(activeIdAdult)
-      // );
     }
   };
 
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [searchTermLast, setSearchTermLast] = useState({
+
+
+
+
+  const initialSelectedCityData = {
     Destination: "New Delhi",
     StateProvinceCode: "DL",
     cityid: "130443",
@@ -235,7 +220,27 @@ const HotelForm = () => {
     stateprovince: "DELHI",
     __v: 0,
     _id: "63fc59c1ec25cae0ebcfd9b1",
-  });
+  };
+
+  const [searchTermLast, setSearchTermLast] = useState(initialSelectedCityData);
+
+
+  useEffect(() => {
+    const storedData = localStorage.getItem('revisitHotelData');
+    const parsedStoredData = JSON.parse(storedData);
+    if (storedData) {
+      const storedCheckInDate = new Date(parsedStoredData[1].CheckInDate);
+      const storedCheckOutDate = new Date(parsedStoredData[2].CheckOutDate);
+      setSearchTermLast(parsedStoredData[0])
+      setCheckIn(storedCheckInDate);
+      setCheckOut(storedCheckOutDate);
+    } else {
+      setCheckIn(currentDate);
+      setCheckOut(futureDate);
+
+    }
+  }, []);
+
   const [cityid, setCityid] = useState("130443");
   const [results, setResults] = useState(populterSearch);
 
@@ -249,8 +254,8 @@ const HotelForm = () => {
 
   // error manage
   const [cityError, setCityError] = useState("");
-  const [checkInError, setCheckInError] = useState("");
-  const [checkOutError, setCheckOutError] = useState("");
+  // const [checkInError, setCheckInError] = useState("");
+  // const [checkOutError, setCheckOutError] = useState("");
   const [condition, setCondition] = useState(1);
   const [formDataDynamic, setFormData] = useState([
     {
@@ -263,13 +268,13 @@ const HotelForm = () => {
   const reducerState = useSelector((state) => state);
   // console.log("State Data", reducerState);
 
-  const errorCode =
-    reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult
-      ?.Error?.ErrorCode;
-  const errorMsg =
-    reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult
-      ?.Error?.ErrorMessage;
-  const authenticUser = reducerState?.logIn?.loginData?.status;
+  // const errorCode =
+  //   reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult
+  //     ?.Error?.ErrorCode;
+  // const errorMsg =
+  //   reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult
+  //     ?.Error?.ErrorMessage;
+  // const authenticUser = reducerState?.logIn?.loginData?.status;
 
   const initialvalue = {
     City: "",
@@ -284,14 +289,14 @@ const HotelForm = () => {
   });
   const [sub, setSub] = useState(false);
 
-  const [isVisible, setIsVisible] = useState(false);
-  const changeHandler = (e) => {
-    if (e.target.value === "number") {
-      setIsVisible(true);
-    } else {
-      setIsVisible(false);
-    }
-  };
+  // const [isVisible, setIsVisible] = useState(false);
+  // const changeHandler = (e) => {
+  //   if (e.target.value === "number") {
+  //     setIsVisible(true);
+  //   } else {
+  //     setIsVisible(false);
+  //   }
+  // };
 
   useEffect(() => {
     dispatch(clearHotelReducer());
@@ -303,9 +308,6 @@ const HotelForm = () => {
     }
   }, [reducerState?.hotelSearchResult?.isLoading]);
 
-  // console.log(reducerState, "reducerstate")
-  // console.log(reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult
-  //     ?.HotelResults, "hotel result")
 
   useEffect(() => {
     if (
@@ -351,27 +353,9 @@ const HotelForm = () => {
       reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult
         ?.Error?.ErrorCode !== undefined
     ) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops",
-        text: reducerState?.hotelSearchResult?.ticketData?.data?.data
-          ?.HotelSearchResult?.Error?.ErrorMessage,
+      swalModal('hotel', reducerState?.hotelSearchResult?.ticketData?.data?.data
+        ?.HotelSearchResult?.Error?.ErrorMessage, false)
 
-        showClass: {
-          popup: `
-              animate__animated
-              animate__fadeInUp
-              animate__faster
-            `,
-        },
-        hideClass: {
-          popup: `
-              animate__animated
-              animate__fadeOutDown
-              animate__faster
-              `,
-        },
-      });
       dispatch(clearHotelReducer());
     }
   }, [
@@ -524,7 +508,7 @@ const HotelForm = () => {
 
   // search history logic
 
-  const token = sessionStorage.getItem("jwtToken");
+  // const token = sessionStorage.getItem("jwtToken");
 
   // const createSearchHistory = async () => {
 
@@ -552,6 +536,7 @@ const HotelForm = () => {
   // };
 
   // search history logic
+  console.log(searchTermLast, "serarch term lastr")
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -596,6 +581,29 @@ const HotelForm = () => {
       TokenId: reducerState?.ip?.tokenData,
     };
     // console.log(payload, "payload hotel")
+
+
+    localStorage.setItem(
+      "revisitHotelData", JSON.stringify([
+        {
+          Destination: searchTermLast.Destination,
+          StateProvinceCode: searchTermLast.StateProvinceCode,
+          cityid: searchTermLast.cityid,
+          country: searchTermLast.country,
+          countrycode: searchTermLast.countrycode,
+          stateprovince: searchTermLast.stateprovince,
+          __v: searchTermLast.__v,
+          _id: searchTermLast._id,
+        },
+
+        {
+          CheckInDate: checkIn,
+        },
+        {
+          CheckOutDate: checkOut,
+        }
+      ])
+    )
 
     // createSearchHistory();
     dispatch(hotelAction(payload));
@@ -756,9 +764,6 @@ const HotelForm = () => {
                                       onChange={(e) => {
                                         e.stopPropagation();
                                         setSearchTerm(e.target.value);
-                                        // console.log("populersearch", searchTerm)
-
-                                        // setdisplayFrom(true);
                                       }}
                                       ref={hotelInputRef}
                                       style={{
@@ -791,8 +796,6 @@ const HotelForm = () => {
                                           setSearchTermLast(city);
                                           setSub(false);
                                           setResults(populterSearch);
-                                          // console.warn(city, "city click");
-                                          // alert("result click");
                                         }}
                                       >
                                         {city.Destination}{", "} {city.country}
@@ -820,7 +823,7 @@ const HotelForm = () => {
                               selected={checkIn}
                               onChange={handleStartDateChange}
                               name="checkIn"
-                              dateFormat="dd MMMyy"
+                              dateFormat="dd MMM, yy"
                               placeholderText="Check-In"
                               //   isClearable
                               minDate={currentDate}
@@ -828,14 +831,9 @@ const HotelForm = () => {
                             />
                           </div>
                         </div>
-                        {/* <span>Monday</span> */}
-                        {/* <span>{selectedDay}</span> */}
                         <span className="d-none d-md-block">
                           {getDayOfWeek(selectedDay)}
                         </span>
-                        {/* {sub && values.departure === ("" || undefined) && (
-                                                    <span className="error">Enter Check-In Date </span>
-                                                )} */}
                       </div>
 
                       <div
@@ -850,23 +848,17 @@ const HotelForm = () => {
                               selected={checkOut}
                               onChange={handleEndDateChange}
                               name="checkOut"
-                              dateFormat="dd MMMyy"
+                              dateFormat="dd MMM, yy"
                               placeholderText="Check-Out "
-                              minDate={checkIn} // Disable dates before Check-In date
-                              //   isClearable
+                              minDate={checkIn}
+
                               autoComplete="off"
                             />
                           </div>
                         </div>
-                        {/* <span>Thursday</span> */}
-                        {/* <span>{selectedDayTwo}</span> */}
                         <span className="d-none d-md-block">
                           {getDayOfWeek(selectedDayTwo)}
                         </span>
-                        {/* {sub &&
-                                                    values.checkOutDeparture === ("" || undefined) && (
-                                                        <span className="error">Enter Check-Out Date </span>
-                                                    )} */}
                       </div>
 
                       <div

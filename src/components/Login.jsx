@@ -261,23 +261,7 @@ export default function LoginForm() {
     };
     dispatch(loginAction(payload));
 
-    // console.log(otpToken, "otp token")
-    // try {
-    //   const res = axios({
-    //     method: "GET",
-    //     url: "/skytrails/api/user/getUserProfile",
-    //     baseURL: ${apiURL.baseURL},
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       "token": otpToken,
-    //     },
-    //   });
 
-    //   const payload = res.data.result;
-    //   dispatch(userData(payload))
-    // } catch (error) {
-    //   console.log(error, "error in fetching data")
-    // }
   };
 
   // first time user data
@@ -294,22 +278,7 @@ export default function LoginForm() {
 
     dispatch(loginAction(payloadotp));
 
-    // console.log(otpToken, "otp token")
-    // try {
-    //   const res = await axios({
-    //     method: "GET",
-    //     url: "/skytrails/api/user/getUserProfile",
-    //     baseURL: ${apiURL.baseURL},
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //       "token": otpToken,
-    //     },
-    //   });
-    //   const payload = res.data.result;
-    //   dispatch(userData(payload))
-    // } catch (error) {
-    //   console.log(error, "error in fetching data")
-    // }
+
   };
 
   useEffect(() => {
@@ -347,25 +316,7 @@ export default function LoginForm() {
     }
   };
 
-  // useEffect(() => {
-  //   let timer;
 
-  //   timer = setInterval(() => {
-  //     setCountdown((prev) => {
-  //       if (prev > 0) {
-  //         return prev - 1;
-  //       } else {
-  //         setDisableResendButton(false);
-  //         clearInterval(timer);
-  //         return 0;
-  //       }
-  //     });
-  //   }, 1000);
-
-  //   return () => {
-  //     clearInterval(timer);
-  //   };
-  // }, [openOtpModal, handleResendOtp, openSignUpModal]);
 
   // Define the countdown update function using useCallback
   const handleCountdownUpdate = useCallback(() => {
@@ -396,21 +347,7 @@ export default function LoginForm() {
 
   // handle the resend otp part
 
-  // click to logout
 
-  // const handleLogout = () => {
-  //   Swal.fire({
-  //     title: 'Are you sure you want to logout?',
-  //     showCancelButton: true,
-  //     confirmButtonText: 'Confirm',
-  //     cancelButtonText: 'Cancel',
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       dispatch(logoutAction())
-  //       setIsMenu(false);
-  //     }
-  //   });
-  // };
   const signupFromValidation = () => {
     if (validateName(name) && validateEmail(email) && requestOTPCheck() && finalDate !== "") {
       setSignUp(true);

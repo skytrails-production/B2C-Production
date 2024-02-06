@@ -21,6 +21,17 @@
     line-height: normal;
 }
 
+.imgBoxFilter {
+    width: 31px !important;
+    height: 31px !important;
+}
+
+.imgBoxFilter img {
+    width: 100% !important;
+    height: unset !important;
+    border-radius: 8px;
+}
+
 .innerFilter>p {
     color: #b03737;
     font-family: "Montserrat";

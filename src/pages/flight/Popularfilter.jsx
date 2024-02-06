@@ -3,14 +3,14 @@ import * as React from "react";
 import "./popularfilter.css"
 import Selectflight from "./Selectflight";
 import "./searchresult.css";
-function valuetext(value) {
-  return `${value}°C`;
-}
+// function valuetext(value) {
+//   return `${value}°C`;
+// }
 
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
+// const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 const Popularfilter = (props) => {
-  const [value, setValue] = React.useState("1");
+  // const [value, setValue] = React.useState("1");
 
   return (
     <section className="">

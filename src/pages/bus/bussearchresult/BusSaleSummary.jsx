@@ -1,8 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Typography, Box } from "@mui/material";
 import { useSelector } from "react-redux";
+import { motion } from 'framer-motion';
 
 const BusSaleSummary = () => {
+    const [showInput, setShowInput] = useState(false);
+    const [couponApplied, setCouponApplied] = useState(false);
+    const inputRef = useRef(null);
+
+
     const reducerState = useSelector((state) => state);
     // console.log("reducerState", reducerState);
     const markUpamount =
@@ -35,7 +41,18 @@ const BusSaleSummary = () => {
     // }, 0);
 
 
+
+
     const grandTotal = published + markUpamount;
+
+    const handleCoupon = () => {
+        inputRef.current.focus();
+    }
+
+    const handleApplyCoupon = () => {
+        setShowInput(true);
+        setCouponApplied(true);
+    };
 
     useEffect(() => {
         setOfferedPrice(offeredPrice);
@@ -69,6 +86,31 @@ const BusSaleSummary = () => {
                     <p>{'₹'}{grandTotal}</p>
                 </div>
             </div>
+            {/* 
+            <div className="applycoupenbuttontext" style={{ overflow: 'hidden' }}>
+                {!couponApplied ? (
+                    <button onClick={handleApplyCoupon} className="applycoupen-button">
+                        Apply Coupon
+                    </button>
+                ) : (
+                    <motion.div
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }} // Adjust the duration as needed
+                    >
+                        <input
+                            ref={inputRef}
+                            type="text"
+                            className="inputfieldtext"
+                            placeholder="Apply Coupon..."
+                            autoFocus
+                        />
+                        <button onClick={handleCoupon} className="applycoupen-button1">Submit</button>
+                    </motion.div>
+                )}
+            </div> */}
+
+
 
         </div>
 

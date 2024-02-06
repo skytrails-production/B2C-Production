@@ -223,7 +223,7 @@ const HolidayCategoryDetails = () => {
                     <div className="row position-relative">
 
                         {/* for mobile device  */}
-                        <div className="d-flex d-sm-none  topFilterBoxMobile" onClick={handleFilterOpen}>
+                        <div className="d-block d-sm-none  topFilterBoxMobile" onClick={handleFilterOpen}>
                             <p>Apply Filters</p>
                             <span>
                                 <svg height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg" id="fi_7094575"><g id="Glyph"><path d="m17 5a3 3 0 1 1 3 3 3 3 0 0 1 -3-3zm-15 1h12a1 1 0 0 0 0-2h-12a1 1 0 0 0 0 2zm6 3a3 3 0 0 0 -2.82 2h-3.18a1 1 0 0 0 0 2h3.18a3 3 0 1 0 2.82-4zm14 2h-8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2zm-12 7h-8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2zm12 0h-3.18a3 3 0 1 0 0 2h3.18a1 1 0 0 0 0-2z"></path></g></svg>
@@ -233,9 +233,6 @@ const HolidayCategoryDetails = () => {
 
 
                             <div className="flightFilterBoxMobile">
-                                {/* <div className="filterTitle">
-                <p>Select Filters</p>
-              </div> */}
                                 <div className="innerFilter">
 
 
@@ -321,7 +318,7 @@ const HolidayCategoryDetails = () => {
 
                         {/* for mobile device  */}
 
-                        <div className="d-none d-sm-flex col-lg-3 col-md-3 scrollDesign" >
+                        <div className="d-none d-sm-block col-lg-3 col-md-3 scrollDesign" >
 
 
                             <div className="flightFilterBox">

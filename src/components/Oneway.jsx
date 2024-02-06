@@ -2,29 +2,19 @@ import * as React from "react";
 import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
-// import Tab from "@mui/material/Tab";
-// import TabContext from "@mui/lab/TabContext";
-// import TabList from "@mui/lab/TabList";
-// import TabPanel from "@mui/lab/TabPanel";
 import Button from "@mui/material/Button";
-// import loginGif from "../images/loginGif.gif"
-// import CloseIcon from '@mui/icons-material/Close';
 import { apiURL } from "../Constants/constant";
 import { ipAction, tokenAction } from "../Redux/IP/actionIp";
-// import Addanothercity from "./Addanothercity";
 import { oneWayAction, resetOneWay } from "../Redux/FlightSearch/oneWay";
 import { useNavigate } from "react-router-dom";
 import FlightTakeoffTwoToneIcon from "@mui/icons-material/FlightTakeoffTwoTone";
 import FlightLandIcon from '@mui/icons-material/FlightLand';
-import "react-date-range/dist/styles.css"; // Import the styles
-import "react-date-range/dist/theme/default.css"; // Import the theme
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 import "./style/Oneway.css";
-// import { RiExchangeLine } from "react-icons/ri";
-// import underConstruction from "../images/under Construction.png"
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-// import DialogTitle from "@mui/material/DialogTitle";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
@@ -37,34 +27,13 @@ import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
 import { format } from "date-fns";
 import { Helmet } from "react-helmet-async";
-// import Login from "./Login"
-// import Modal from "@mui/material/Modal";
-// const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
 
 const Homeform = (props) => {
-  // handle departure days selection
+
   const reducerState = useSelector((state) => state);
-  // const [startDate, setStartDate] = useState(new Date());
-  // const [currentdate, setCurrentDate] = useState(new Date());
 
-  // const handleDateChange = (date) => {
-  //   setStartDate(date);
-  // };
 
-  const [startDate, setStartDate] = useState(new Date());
-  const currentdate = new Date(); // Assuming you have defined currentdate
-
-  const handleDateChange = (date) => {
-    setStartDate(date);
-  };
-
-  // const formatDate = (date) => {
-  //   return format(date, "dd MMMyy");
-  // };
-  const formatDate = (date) => {
-    const formattedDate = format(date, "dd MMM'yy EEEE");
-    return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
-  };
 
   const getDayOfWeek = (date) => {
     const daysOfWeek = [
@@ -85,7 +54,30 @@ const Homeform = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   //const [isLoadingFrom, setIsLoadingFrom] = useState(false);
 
-  const [selectedFrom, setSelectedFrom] = useState({
+  // const [selectedFrom, setSelectedFrom] = useState({
+  //   AirportCode: "DEL",
+  //   CityCode: "DEL",
+  //   CountryCode: "IN ",
+  //   code: "Indira Gandhi Airport",
+  //   createdAt: "2023-01-30T14:58:34.428Z",
+  //   id: "DEL",
+  //   name: "Delhi",
+  //   updatedAt: "2023-01-30T14:58:34.428Z",
+  //   __v: 0,
+  //   _id: "63d7db1a64266cbf450e07c1",
+  // });
+
+
+  const [startDate, setStartDate] = useState(new Date());
+  const currentdate = new Date();
+
+  const handleDateChange = (date) => {
+    setStartDate(date);
+  };
+
+
+
+  const initialSelectedFromData = {
     AirportCode: "DEL",
     CityCode: "DEL",
     CountryCode: "IN ",
@@ -96,7 +88,54 @@ const Homeform = (props) => {
     updatedAt: "2023-01-30T14:58:34.428Z",
     __v: 0,
     _id: "63d7db1a64266cbf450e07c1",
-  });
+  };
+
+  const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData);
+
+
+
+  const initialSelectedToData = {
+    AirportCode: "BOM",
+    CityCode: "BOM",
+    CountryCode: "IN ",
+    code: "Mumbai",
+    createdAt: "2023-01-30T14:57:03.696Z",
+    id: "BOM",
+    name: "Mumbai",
+    updatedAt: "2023-01-30T14:57:03.696Z",
+    __v: 0,
+    _id: "63d7dabf64266cbf450e0451",
+  }
+
+  const [selectedTo, setSelectedTo] = useState(initialSelectedToData);
+
+
+
+
+  useEffect(() => {
+    const storedData = localStorage.getItem('revisitOnewayData');
+    const parsedStoredData = JSON?.parse(storedData);
+    if (storedData && parsedStoredData[2]?.startDate) {
+      const storedDate = new Date(parsedStoredData[2].startDate);
+      if (storedDate < new Date()) {
+        setStartDate(new Date());
+      } else {
+        setStartDate(storedDate);
+        console.log(storedData, "stored data")
+      }
+
+      setSelectedFrom(parsedStoredData[0]);
+      setSelectedTo(parsedStoredData[1]);
+    } else {
+      setSelectedFrom(initialSelectedFromData);
+      setSelectedTo(initialSelectedToData);
+      setStartDate(new Date());
+    }
+  }, []);
+
+
+
+
   const [from, setFrom] = useState("");
   const [isLoadingFrom, setIsLoadingFrom] = useState(false);
   const [fromToggle, setFromToggle] = useState(false);
@@ -109,18 +148,22 @@ const Homeform = (props) => {
   const [to, setTO] = useState("");
   const [isLoadingTo, setIsLoadingTo] = useState(false);
   const [toSearchResults, setToSearchResults] = useState([]);
-  const [selectedTo, setSelectedTo] = useState({
-    AirportCode: "BOM",
-    CityCode: "BOM",
-    CountryCode: "IN ",
-    code: "Mumbai",
-    createdAt: "2023-01-30T14:57:03.696Z",
-    id: "BOM",
-    name: "Mumbai",
-    updatedAt: "2023-01-30T14:57:03.696Z",
-    __v: 0,
-    _id: "63d7dabf64266cbf450e0451",
-  });
+  // const [selectedTo, setSelectedTo] = useState({
+  //   AirportCode: "BOM",
+  //   CityCode: "BOM",
+  //   CountryCode: "IN ",
+  //   code: "Mumbai",
+  //   createdAt: "2023-01-30T14:57:03.696Z",
+  //   id: "BOM",
+  //   name: "Mumbai",
+  //   updatedAt: "2023-01-30T14:57:03.696Z",
+  //   __v: 0,
+  //   _id: "63d7dabf64266cbf450e0451",
+  // });
+
+
+
+
   const [displayTo, setdisplayTo] = useState(true);
 
   // Travel modal code ⬇️
@@ -129,10 +172,9 @@ const Homeform = (props) => {
   const [activeIdChild, setActiveIdChild] = useState(0);
   const [activeIdInfant, setActiveIdInfant] = useState(0);
   const [activeIdAdult, setActiveIdAdult] = useState(1);
-  const [activeFareType, setActiveFareType] = useState(1);
+  // const [activeFareType, setActiveFareType] = useState(1);
   const [totalCount, setCountPassanger] = useState(0);
-  const [showDropdown, setShowDropdown] = useState(false);
-  // const authenticUser = reducerState?.logIn?.loginData?.status;
+  // const [showDropdown, setShowDropdown] = useState(false);
   const [departureDate, setDepartureDate] = useState("");
 
   // handle travellers modal
@@ -147,10 +189,10 @@ const Homeform = (props) => {
     }
   };
 
-  const getClassLabel = (classId) => {
-    const selectedClass = ClassItems.find((item) => item.id === classId);
-    return selectedClass ? selectedClass.label : "";
-  };
+  // const getClassLabel = (classId) => {
+  //   const selectedClass = ClassItems.find((item) => item.id === classId);
+  //   return selectedClass ? selectedClass.label : "";
+  // };
 
   // const handleClassItemClick = (classId) => {
   //   setActiveIdClass(classId);
@@ -170,19 +212,7 @@ const Homeform = (props) => {
     { id: "5", label: "Business Economy" },
   ];
 
-  // const FareType = [
-  //   { id: "1", label: "Regular Fares" },
-  //   { id: "2", label: "Armed Forces Fares" },
-  //   { id: "3", label: "Student Fares" },
-  //   { id: "4", label: "Senior Citizens Fares" },
-  //   { id: "4", label: "Senior Citizens Fares" },
-  //   { id: "5", label: "Doctors & Nurses Fares" },
-  //   { id: "6", label: "Double Seat Fares" },
-  // ];
 
-  // const adultCount = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  // const childCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  // const infantCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const handleTravelClickOpen = () => {
     setActiveIdClass(1);
@@ -203,33 +233,6 @@ const Homeform = (props) => {
     }
   };
 
-  // const handleInfantClick = (event) => {
-  //   const id = event.target.getAttribute("data-id");
-  //   setActiveIdInfant(id);
-  // };
-
-  // const handleChildClick = (event) => {
-  //   const id = event.target.getAttribute("data-id");
-  //   setActiveIdChild(id);
-  // };
-  // const handleAdultClick = (event) => {
-  //   const selectedAdult = parseInt(event.target.dataset.id, 10);
-  //   setActiveIdAdult(selectedAdult);
-  //   setShowDropdown(false);
-  // };
-
-  // const toggleDropdown = () => {
-  //   setShowDropdown(!showDropdown);
-  // };
-  // const handleClassItemClick = (event) => {
-  //   const id = event.target.getAttribute("data-id");
-  //   setActiveIdClass(id);
-  // };
-  // const handleFareItemClick = (event) => {
-  //   const clickedItem = event.target;
-  //   const id = event.target.getAttribute("data-id");
-  //   setActiveFareType(id);
-  // };
 
   // End
 
@@ -271,9 +274,6 @@ const Homeform = (props) => {
 
     const fetchSearchResults = async () => {
       setIsLoading(true);
-
-      // make an API call to get search results
-
       const results = await axios.get(
         `${apiURL.baseURL}/skyTrails/city/searchCityData?keyword=${fromQuery}`
       );
@@ -292,17 +292,12 @@ const Homeform = (props) => {
   }, [fromQuery]);
 
   const handleFromClick = (result) => {
-    // setFrom(result.AirportCode);
     setSelectedFrom(result);
     setdisplayFrom(false);
     setIsLoadingFrom(false);
-
-    // setFromToggle((prev) => !prev);
-    // alert("liclick", fromToggle)
   };
 
   const handleToClick = (result) => {
-    // setTO(result.AirportCode);
     setSelectedTo(result);
     setdisplayTo(false);
     setIsLoadingTo(false);
@@ -311,7 +306,6 @@ const Homeform = (props) => {
   const handleFromInputChange = (event) => {
     setdisplayFrom(true);
     setFrom(event.target.value);
-    // setSelectedFrom(null);
   };
 
   const handleFromSearch = (e) => {
@@ -324,19 +318,14 @@ const Homeform = (props) => {
 
     const fetchSearchResults = async () => {
       setIsLoading(true);
-
-      // make an API call to get search results
-
       const results = await axios.get(
         `${apiURL.baseURL}/skyTrails/city/searchCityData?keyword=${toQuery}`
       );
-      // console.log(results);
       if (mounted) {
         setToSearchResults(results?.data?.data);
         setIsLoading(false);
       }
     };
-
     if (toQuery.length >= 2) {
       fetchSearchResults();
     }
@@ -348,16 +337,12 @@ const Homeform = (props) => {
   const handleToInputChange = (event) => {
     setdisplayTo(true);
     setTO(event.target.value);
-    // setSelectedTo(null);
   };
-
   const handleToSearch = (e) => {
     setToQuery(e);
   };
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loader, setLoader] = useState(false);
   useEffect(() => {
     dispatch(ipAction());
   }, []);
@@ -377,7 +362,7 @@ const Homeform = (props) => {
   });
   const handleKeyDown = (event) => {
     if (event.key === 'Enter') {
-      event.preventDefault(); // Prevent the default form submission behavior
+      event.preventDefault();
     }
   };
   const sendTravelClass = (data2) => {
@@ -388,56 +373,13 @@ const Homeform = (props) => {
     dispatch(resetOneWay());
   }, [dispatch, departureDate]);
 
-  // const [value, setValue] = React.useState("1");
 
-  // const handleChange = (event, newValue) => {
-  //   setValue(newValue);
-  // };
-
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // search history logic
-
-  // const token = sessionStorage.getItem("jwtToken");
-
-  // const createSearchHistory = async () => {
-
-  //   const historyData = {
-  //     origin: selectedFrom.AirportCode,
-  //     destination: selectedTo.AirportCode,
-  //     journeyDate: startDate,
-  //     // journeyDate: departureDate,
-  //     searchType: "FLIGHTS",
-  //     journeyType: "oneway"
-
-  //   };
-
-  //   try {
-  //     const response = await axios({
-  //       method: 'post',
-  //       url: `${apiURL.baseURL}/skyTrails/api/user/createSearchHistory`,
-  //       data: historyData,
-  //       headers: {
-  //         token: token,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     console.error("Error sending data to the server:", error);
-  //   }
-  // };
 
   function handleOnewaySubmit(event) {
     event.preventDefault();
 
-    // if (authenticUser !== 200) {
-    //   setIsLoginModalOpen(true);
-    // }
-
-    // else {
     const formData = new FormData(event.target);
     setDepartureDate(formData.get("departure"));
-
-    // createSearchHistory();
 
     const payload = {
       EndUserIp: reducerState?.ip?.ipData,
@@ -460,6 +402,38 @@ const Homeform = (props) => {
       ],
       Sources: null,
     };
+
+    localStorage.setItem(
+      "revisitOnewayData", JSON.stringify([
+        {
+          AirportCode: selectedFrom.AirportCode,
+          CityCode: selectedFrom.CityCode,
+          CountryCode: selectedFrom.CountryCode,
+          code: selectedFrom.code,
+          createdAt: selectedFrom.createdAt,
+          id: selectedFrom.id,
+          name: selectedFrom.name,
+          updatedAt: selectedFrom.updatedAt,
+          __v: selectedFrom._v,
+          _id: selectedFrom._id,
+        },
+        {
+          AirportCode: selectedTo.AirportCode,
+          CityCode: selectedTo.CityCode,
+          CountryCode: selectedTo.CountryCode,
+          code: selectedTo.code,
+          createdAt: selectedTo.createdAt,
+          id: selectedTo.id,
+          name: selectedTo.name,
+          updatedAt: selectedTo.updatedAt,
+          __v: selectedTo._v,
+          _id: selectedTo._id,
+        },
+        {
+          startDate: startDate
+        }
+      ])
+    )
 
     sessionStorage.setItem(
       "onewayprop",
@@ -488,108 +462,27 @@ const Homeform = (props) => {
     // }
   }
 
-  // function handleRoundTripSubmit(event) {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.target);
-  //   const payload = {
-  //     EndUserIp: reducerState?.ip?.ipData,
-  //     TokenId: reducerState?.ip?.tokenData,
-  //     AdultCount: "1",
-  //     ChildCount: "1",
-  //     InfantCount: "1",
-  //     DirectFlight: "false",
-  //     OneStopFlight: "false",
-  //     JourneyType: "1",
-  //     PreferredAirlines: null,
-  //     Segments: [
-  //       {
-  //         Origin: selectedFrom.AirportCode,
-  //         Destination: selectedTo.AirportCode,
-  //         FlightCabinClass: "1",
-  //         PreferredDepartureTime: formData.get("departure"),
-  //         PreferredArrivalTime: formData.get("return"),
-  //       },
-  //     ],
-  //     Sources: null,
-  //   };
-
-  //   dispatch(oneWayAction(payload));
-  // }
-
-  // function validation() {
-  //   if (document.getElementById("departure").value === "") {
-  //     return true;
-  //   }
-  // }
-
-  // const handleButtonClick = () => {
-  //   navigate("/booking");
-  // };
-  // const DateRangePickerComponent = () => {
-  //   const [dateRanges, setDateRanges] = useState([]);
-
-  //   const handleDateChange = (ranges) => {
-  //     const [range] = ranges;
-  //     const newDate = {
-  //       key: dateRanges.length + 1,
-  //       start: range.startDate.toISOString().split("T")[0],
-  //       end: range.endDate.toISOString().split("T")[0],
-  //     };
-
-  //     setDateRanges([...dateRanges, newDate]);
-  //   };
-
-  //   const removeDate = (key) => {
-  //     const updatedDates = dateRanges.filter((date) => date.key !== key);
-  //     setDateRanges(updatedDates);
-  //   };
-  // };
 
   const handleRoundLogoClick = () => {
-    // e.stopPropagation();
-
-    // Swap the values of 'from' and 'to'
     const tempFrom = { ...selectedFrom };
-    // setFrom(to);
-    // setTO(tempFrom);
-
-    // Swap the selectedFrom and selectedTo values
     const tempSelectedFrom = selectedFrom;
     setSelectedFrom(selectedTo);
-    // setSelectedTo(tempSelectedFrom);
     setSelectedTo(tempFrom);
   };
-
-  // swapping origin and destination
-
-  // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
-  // const handleModalClose = () => {
-  //   setIsLoginModalOpen(false)
-  // }
-
-  // useEffect(() => {
-  //   if (authenticUser == 200) {
-  //     handleModalClose();
-  //   }
-  // }, [authenticUser])
-
 
 
   return (
     <>
       <section
         className="oneWayAbsDesign"
-
       >
         <Helmet>
-          <title>Flight</title>
+          <title>The Skytrails - Flight Booking, Hotel Booking, Bus Booking</title>
           <link rel="canonical" href="/" />
           <meta name="description" content="one way flight" />
           <meta
             name="keywords"
-            content="
-online flight booking,compare flight prices,best airfare deals,last minute flights,multi-city flight booking,business class flights,non-stop flights budget airlines,family-friendly airlines,flight upgrades,round trip flights under 4000,direct flights with vistara,airports with cheapest flights to Vistara,flights with in-flight entertainment,flexible booking options"
+            content="India travel, travel in India, cheap air tickets, cheap flights, flight, hotels, hotel, holidays, bus tickets, air travel, air tickets, holiday packages, travel packages, affordable flights, international flights, lowest airfare, domestic flights, pnr status, online flight booking, deals on hotels, theskytrails"
           />
         </Helmet>
         <div className="container">
@@ -599,15 +492,13 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                 <div className="your-container">
                   <div
                     onClick={(e) => {
-                      e.stopPropagation(); // Stop event bubbling
+                      e.stopPropagation();
                       setFromToggle(true);
                       setdisplayFrom(true);
                       setIsLoadingFrom(true);
-                      // fromCityRef.current.
                       setTimeout(() => {
                         fromCityRef.current.focus();
                       }, 200);
-                      // ; alert(fromToggle, "/////")
                     }}
                     className="from-container"
                     id="item-0"
@@ -650,7 +541,6 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                                       setIsLoadingFrom(true);
                                       handleFromSearch(event.target.value);
                                     }}
-                                    // required
                                     style={{
                                       outline: "none",
                                       border: "none",
@@ -874,6 +764,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                         <DatePicker
                           name="departure"
                           id="departure"
+                          dateFormat="dd MMM, yy"
                           selected={startDate}
                           onChange={handleDateChange}
                           minDate={currentdate}

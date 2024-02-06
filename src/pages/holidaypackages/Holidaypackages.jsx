@@ -33,7 +33,7 @@ const Hotelpackages = () => {
   return (
     <React.Fragment>
       <Helmet>
-        <title>Holiday Packages</title>
+        <title>The Skytrails - Holiday Packages, Bus Booking, Hotel Booking, Flight Booking </title>
         <link rel="canonical" href="/holidaypackages" />
         <meta name="description" content="one packages" />
         <meta

@@ -216,7 +216,10 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
   // console.log(results?.[0][0]?.Segments?.[0][results?.[0][0]?.Segments.length - 1]?.Origin?.DepTime)
 
   const arrSegmentLength = results?.[0]?.[0]?.Segments?.[0]?.length;
-  console.log(selectedCategory, "category")
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [filteredData])
 
   return (
     // <section className="margin-pecentage my-4">
@@ -1196,123 +1199,47 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                       </div>
                     </label>
                   </div>
-
-                  {/* <Divider
-                      sx={{ marginBottom: "15px", marginTop: "15px", backgroundColor: "lightgray" }}
-                    /> */}
-
-
-                  {/* <Divider
-                    sx={{ marginBottom: "15px", backgroundColor: "gray" }}
-                  /> */}
                 </div>
 
 
                 <div className="busDepartureMain">
                   <h2 className="sidebar-title">Airlines</h2>
-
                   <div>
-                    <label className="sidebar-label-container  ps-0">
-                      {/* <span className="checkmark"></span> */}
+                    {
+                      [...new Set(
+                        currentItems?.map(item => `${results[0][item]?.Segments[0][0]?.Airline?.AirlineName}, ${results[0][item]?.Segments[0][0]?.Airline?.AirlineCode}`))]
+                        .map((airline, index) => (
+                          <label key={index} className="sidebar-label-container  ps-0">
+                            <div className="svgBOx">
+                              <input
+                                type="checkbox"
+                                onChange={handleRadioChange}
+                                value={airline.split(',')[0]}
+                                name="flightname"
+                                checked={selectedCategory.includes(`flightname:${airline.split(',')[0]}`)}
+                              />
+                              <div>
+                                <span className="checkedSVG imgBoxFilter pe-2">
 
-                      <div className="svgBOx">
-                        <input
-                          type="checkbox"
-                          onChange={handleRadioChange}
-                          value="Air India"
-                          name="flightname"
-                          checked={selectedCategory.includes("flightname:Air India")}
-                        />
-                        <div>
-                          <span className="checkedSVG pe-2">
-
-                            <img
-                              src={`${process.env.PUBLIC_URL}/FlightImages/AI.png`}
-                              alt="flight"
-                            />{" "}
-                          </span>
-                          <span>Air India</span>
-                        </div>
-                      </div>
-                    </label>
-
-                    <label className="sidebar-label-container  ps-0">
-                      {/* <span className="checkmark"></span> */}
-                      <div className="svgBOx">
-                        <input
-                          type="checkbox"
-                          onChange={handleRadioChange}
-                          value="Indigo"
-                          name="flightname"
-                          checked={selectedCategory.includes("flightname:Indigo")}
-                        />
-                        <div>
-                          <span className="checkedSVG pe-2">
-                            <img
-                              src={`${process.env.PUBLIC_URL}/FlightImages/6E.png`}
-                              alt="flight"
-                            />{" "}
-                          </span>
-                          <span>Indigo</span>
-                        </div>
-                      </div>
-                    </label>
-
-                    <label className="sidebar-label-container  ps-0">
-                      {/* <span className="checkmark"></span> */}
-                      <div className="svgBOx">
-                        <input
-                          type="checkbox"
-                          onChange={handleRadioChange}
-                          value="SpiceJet"
-                          name="flightname"
-                          checked={selectedCategory.includes("flightname:SpiceJet")}
-                        />
-                        <div>
-                          <span className="checkedSVG pe-2">
-                            <img
-                              src={`${process.env.PUBLIC_URL}/FlightImages/SG.png`}
-                              alt="flight"
-                            />{" "}
-                          </span>
-                          <span>SpiceJet</span>
-                        </div>
-                      </div>
-                    </label>
-
-                    <label className="sidebar-label-container  ps-0">
-                      {/* <span className="checkmark"></span> */}
-                      <div className="svgBOx">
-                        <input
-                          type="checkbox"
-                          onChange={handleRadioChange}
-                          value="Vistara"
-                          name="flightname"
-                          checked={selectedCategory.includes("flightname:Vistara")}
-                        />
-                        <div>
-                          <span className="checkedSVG pe-2">
-                            <img
-                              src={`${process.env.PUBLIC_URL}/FlightImages/UK.png`}
-                              alt="flight"
-                            />{" "}
-                          </span>
-                          <span>Vistara</span>
-                        </div>
-                      </div>
-                    </label>
+                                  <img
+                                    src={`${process.env.PUBLIC_URL}/FlightImages/${airline.split(',')[1].trim()}.png`}
+                                    alt="flight"
+                                  />{" "}
+                                </span>
+                                <span>{airline.split(',')[0]}</span>
+                              </div>
+                            </div>
+                          </label>
+                        ))
+                    }
                   </div>
-
-                  {/* <Divider
-                      sx={{ marginBottom: "15px", marginTop: "15px", backgroundColor: "lightgray" }}
-                    /> */}
-
                 </div>
-
-
               </div>
             </div>
           </div>
+
+
+
           {reducerState?.oneWay?.isLoading === true ? (
             <div className="col-lg-9 col-md-9">
               {[1, 2, 3, 5, 6, 7, 8].map((item) => (
@@ -1323,7 +1250,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                 >
                   <motion.div
                     variants={variants}
-                    className="singleFlightBox"
+                    className="singleFlightBox mb-3"
                     style={{ height: "130px", padding: "15px" }}
                   >
                     <div className="singleFlightBoxOne">
@@ -2102,21 +2029,6 @@ export default function BasicGrid() {
     const newOffset = (event.selected * itemsPerPage) % items.length;
     setItemOffset(newOffset);
   };
-  // useEffect(() => {
-  //   if (reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode !== 0
-  //     //  && reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode !== 2 && reducerState?.oneWayData?.showSuccessMessage
-  //     // === false
-  //   ) {
-  //     Swal.fire({
-  //       icon: "error",
-  //       title: "Error",
-  //       text: reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorMessage,
-
-  //     })
-  //     // navigate(`/`)
-  //     console.warn(reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorMessage, "page not found")
-  //   }
-  // }, [reducerState?.oneWay])
 
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [newResults, setNewResult] = useState([])
@@ -2135,48 +2047,24 @@ export default function BasicGrid() {
         );
       return isUnique;
     }));
-    // currentItems=uniqueData;
     const itemss = [...Array(uniqueData?.length).keys()];
     setNewResult([[...uniqueData]])
-    // console.log(newResults,"uniqueData",items,"items")
-
     setCurrentItems(itemss)
-    // console.warn("filter;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",uniqueData,"current items",itemss)
   }, [results]);
 
 
-  // const handleRadioChange = (event) => {
-  //   const selectedValue = event.target.value;
-  //   if (selectedValue === "All") {
-  //     setSelectedCategory([]);
-  //     document.querySelectorAll('input[name="test"]').forEach((checkbox) => {
-  //       checkbox.checked = false;
-  //     });
-  //   } else {
-  //     // If other checkbox is selected, update selectedCategory as before
-  //     setSelectedCategory((prevSelectedCategory) => {
-  //       if (prevSelectedCategory.includes(selectedValue)) {
-  //         return prevSelectedCategory.filter(
-  //           (value) => value !== selectedValue
-  //         );
-  //       } else {
-  //         return [...prevSelectedCategory, selectedValue];
-  //       }
-  //     });
-  //   }
-  // };
 
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     const radioGroupName = event.target.name;
 
-    console.log('selectedValue:', selectedValue);
-    console.log('radioGroupName:', radioGroupName);
+    // console.log('selectedValue:', selectedValue);
+    // console.log('radioGroupName:', radioGroupName);
 
 
     if (selectedValue === "All") {
       setSelectedCategory([]);
-      document.querySelectorAll('input[type="radio"]').forEach((radio) => {
+      document.querySelectorAll('input[type="checkbox"]').forEach((radio) => {
         radio.checked = false;
       });
       return
@@ -2184,13 +2072,9 @@ export default function BasicGrid() {
 
     setSelectedCategory((prevSelectedCategory) => {
       let updatedCategory = [...prevSelectedCategory];
-
-      // Check if the selected value is already in the array
       const isValueSelected = updatedCategory.some(
         (category) => category === `${radioGroupName}:${selectedValue}`
       );
-
-      // If the value is selected, filter it out; otherwise, add it
       updatedCategory = isValueSelected
         ? updatedCategory.filter(
           (category) => category !== `${radioGroupName}:${selectedValue}`

@@ -14,7 +14,7 @@ const HolidayPackageSearchResult = () => {
     return (
         <>
             <Helmet>
-                <title>Holiday Packages Search Results</title>
+                <title>The Skytrails - Holiday Packages, Bus Booking, Hotel Booking, Flight Booking </title>
                 <link rel="canonical" href="/HolidayPackageSearchResult" />
                 <meta name="description" content="one packages" />
                 <meta

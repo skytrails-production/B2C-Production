@@ -19,6 +19,7 @@ import {
 // import HotelLoading from "../hotelLoading/HotelLoading";
 import Hotelmainloading from "../hotelLoading/Hotelmainloading";
 import Swal from "sweetalert2"
+import {swalModal} from "../../../utility/swal";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -56,27 +57,28 @@ const HotelBooknow = () => {
   }, [])
   useEffect(() => {
     if (ResultIndex === null || HotelCode === null) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops",
-        text: "room not found",
-        timer: 2000,
+      swalModal('hotel',"room not found",false);
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "Oops",
+      //   text: "room not found",
+      //   timer: 2000,
 
-        showClass: {
-          popup: `
-          animate__animated
-          animate__fadeInUp
-          animate__faster
-        `
-        },
-        hideClass: {
-          popup: `
-          animate__animated
-          animate__fadeOutDown
-          animate__faster
-        `
-        }
-      })
+      //   showClass: {
+      //     popup: `
+      //     animate__animated
+      //     animate__fadeInUp
+      //     animate__faster
+      //   `
+      //   },
+      //   hideClass: {
+      //     popup: `
+      //     animate__animated
+      //     animate__fadeOutDown
+      //     animate__faster
+      //   `
+      //   }
+      // })
       navigate("/hotel/hotelsearch")
     }
   }, [])
@@ -97,50 +99,52 @@ const HotelBooknow = () => {
   }, []);
   useEffect(() => {
     if (reducerState?.hotelSearchResult?.hotelInfo?.HotelInfoResult?.Error?.ErrorCode !== 0 && reducerState?.hotelSearchResult?.hotelInfo?.HotelInfoResult?.Error?.ErrorCode !== undefined) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops",
-        text: reducerState?.hotelSearchResult?.hotelInfo?.HotelInfoResult?.Error?.ErrorMessage,
+      swalModal('hotel',reducerState?.hotelSearchResult?.hotelInfo?.HotelInfoResult?.Error?.ErrorMessage,false);
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "Oops",
+      //   text: reducerState?.hotelSearchResult?.hotelInfo?.HotelInfoResult?.Error?.ErrorMessage,
 
-        showClass: {
-          popup: `
-          animate__animated
-          animate__fadeInUp
-          animate__faster
-        `
-        },
-        hideClass: {
-          popup: `
-          animate__animated
-          animate__fadeOutDown
-          animate__faster
-        `
-        }
-      })
+      //   showClass: {
+      //     popup: `
+      //     animate__animated
+      //     animate__fadeInUp
+      //     animate__faster
+      //   `
+      //   },
+      //   hideClass: {
+      //     popup: `
+      //     animate__animated
+      //     animate__fadeOutDown
+      //     animate__faster
+      //   `
+      //   }
+      // })
       navigate("/hotel/hotelsearch")
 
     }
     else if (reducerState?.hotelSearchResult?.hotelRoom?.GetHotelRoomResult?.Error?.ErrorCode !== 0 && reducerState?.hotelSearchResult?.hotelRoom?.GetHotelRoomResult?.Error?.ErrorCode !== undefined) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops",
-        text: reducerState?.hotelSearchResult?.hotelRoom?.GetHotelRoomResult?.Error?.ErrorMessage,
+      swalModal('hotel',reducerState?.hotelSearchResult?.hotelRoom?.GetHotelRoomResult?.Error?.ErrorMessage,false)
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "Oops",
+      //   text: reducerState?.hotelSearchResult?.hotelRoom?.GetHotelRoomResult?.Error?.ErrorMessage,
 
-        showClass: {
-          popup: `
-          animate__animated
-          animate__fadeInUp
-          animate__faster
-        `
-        },
-        hideClass: {
-          popup: `
-          animate__animated
-          animate__fadeOutDown
-          animate__faster
-        `
-        }
-      })
+      //   showClass: {
+      //     popup: `
+      //     animate__animated
+      //     animate__fadeInUp
+      //     animate__faster
+      //   `
+      //   },
+      //   hideClass: {
+      //     popup: `
+      //     animate__animated
+      //     animate__fadeOutDown
+      //     animate__faster
+      //   `
+      //   }
+      // })
       navigate("/hotel/hotelsearch")
     }
 
@@ -174,27 +178,28 @@ const HotelBooknow = () => {
     else if (reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult?.Error
       ?.ErrorCode !== 0 && reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult?.Error
         ?.ErrorCode !== undefined) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops",
+          swalModal('hotel',reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult?.Error?.ErrorMessage,false)
+      // Swal.fire({
+      //   icon: "error",
+      //   title: "Oops",
 
-        text: reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult?.Error?.ErrorMessage,
+      //   text: reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult?.Error?.ErrorMessage,
 
-        showClass: {
-          popup: `
-            animate__animated
-            animate__fadeInUp
-            animate__faster
-          `
-        },
-        hideClass: {
-          popup: `
-            animate__animated
-            animate__fadeOutDown
-            animate__faster
-          `
-        }
-      })
+      //   showClass: {
+      //     popup: `
+      //       animate__animated
+      //       animate__fadeInUp
+      //       animate__faster
+      //     `
+      //   },
+      //   hideClass: {
+      //     popup: `
+      //       animate__animated
+      //       animate__fadeOutDown
+      //       animate__faster
+      //     `
+      //   }
+      // })
       navigate("/");
 
     }

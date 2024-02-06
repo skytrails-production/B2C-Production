@@ -1912,5 +1912,239 @@
         font-size: 13px !important;
     }
 
+    .reviewTMT {
+        margin-top: 0 !important;
+    }
+
+    .roomDetailsReviewDesc .col-lg-4 {
+        padding: 0px 5px !important;
+    }
+
+    .roomDetailsReviewDesc .checkInReview {
+        display: flex;
+        padding: 12px 13px !important;
+    }
+
+    .hotelDetailsDesc>div:nth-child(2) {
+        display: flex;
+        flex-direction: column !important;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .hotelDetailsDesc .w-50 {
+        width: 100% !important;
+    }
+
+
+    .bookingDetailsGuestBody p {
+        color: #000;
+        font-family: 'Montserrat';
+        font-size: 12px !important;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .bookingDetailsGuestBody span {
+        color: #000;
+        font-family: 'Montserrat';
+        font-size: 12px !important;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    .passengerDetailsGuestBody span {
+
+        font-size: 13px !important;
+
+    }
+
+    .passengerDetailsGuestBody p {
+
+        font-size: 13px !important;
+
+    }
+
+    .anotherBusResult {
+        gap: 10px;
+    }
+
+    .seatOrgDes {
+        justify-content: flex-start !important;
+    }
+
+    .seatTypeDetails {
+        justify-content: flex-start !important;
+        /* padding-left: 100px; */
+    }
+
+
+
+
+    .singleBusSearchBoxOne span {
+
+        font-size: 15px !important;
+
+    }
+
+    .singleBusSearchBoxTwo span {
+        font-size: 12px !important;
+    }
+
+    .singleBusSearchBoxTwo p {
+        font-size: 11px !important;
+    }
+
+
+    .singleBusSearchBoxThree h4 {
+        font-size: 11px !important;
+    }
+
+    .singleBusSearchBoxThree span {
+        font-size: 11px !important;
+    }
+
+    .singleBusSearchBoxFour span {
+        font-size: 12px !important;
+    }
+
+    .singleBusSearchBoxFour p {
+        font-size: 11px !important;
+    }
+
+    .singleBusSearchBoxSeven p {
+        font-size: 14px !important;
+    }
+
+    .singleBusSearchBoxSeven button {
+        font-size: 13px !important;
+    }
+
+    .seatTypeDetails p {
+        font-size: 12px !important;
+    }
+
+    .seatNameBox p {
+        font-size: 13px !important;
+    }
+
+    .seatFareBox p {
+        font-size: 13px !important;
+    }
+
+    .mainimgBusSearch {
+        height: 129px !important;
+    }
+
+    .busmarTTT {
+        margin-top: 0 !important;
+    }
+
+    .singleBusSearchBoxThree>div {
+        width: 81px !important;
+    }
+
+    .pickuppara p {
+        font-size: 12px !important;
+    }
+
+    .pickUpBox p {
+        font-size: 12px !important;
+    }
+
+    .pickUpBox span {
+        font-size: 12px !important;
+    }
+
+    .pickUpBox {
+        display: flex;
+        justify-content: flex-start !important;
+        align-items: center;
+        gap: 30px;
+        padding: 32px 16px;
+        border-radius: 8px;
+        border: 1px solid lightgray;
+        background: #FFF;
+        width: 100%;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        overflow: hidden;
+        overflow-x: scroll;
+    }
+
+    .roomIndexGuest {
+
+        color: #071C2C !important;
+        font-family: 'Montserrat';
+        font-size: 13px !important;
+    }
+
+    .bookFlightPassInner label {
+        font-size: 13px;
+    }
+
+    .singleBusSearchBox {
+        margin-top: 20px !important;
+    }
+
+
+    .applycoupen-button {
+        font-size: 13px !important;
+    }
+
+
+    .martopBus {
+        margin-top: 0px !important;
+    }
+
+
+    .heead span {
+        font-size: 14px !important;
+        font-weight: 600 !important;
+        color: #21325D !important;
+    }
+
+
+    .busAllDetail span {
+        font-size: 12px !important;
+    }
+
+
+    .busAllDetail p {
+        font-size: 11px !important;
+    }
+
+    .passengerDetBox p {
+        font-size: 14px !important;
+    }
+
+
+    .passDetails p {
+        font-size: 12px !important;
+    }
+
+    .passDetails span {
+        font-size: 12px !important;
+
+    }
+
+    .applycoupen-button1 {
+        font-size: 14px !important;
+    }
+
+    .CancelRulesBus th {
+        font-size: 14px;
+    }
+
+    .CancelRulesBus th {
+        font-size: 13px;
+    }
+
+    .bookBus button {
+        font-size: 13px !important;
+    }
+
     /* hotel book now  */
 }

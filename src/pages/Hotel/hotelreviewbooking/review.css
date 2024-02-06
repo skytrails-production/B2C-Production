@@ -54,6 +54,10 @@
     line-height: normal;
 }
 
+.reviewTMT {
+    margin-top: -116px;
+}
+
 .hotelDetails {
     display: flex;
     flex-direction: row;
@@ -63,6 +67,8 @@
     padding: 15px;
     border-radius: 8px 8px 0px 0px;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    z-index: 2;
+    position: relative;
 }
 
 .hotelDetails>div {
@@ -308,6 +314,11 @@
 
 .notValidBtn {
     background: #e73c33b3 !important;
+    border: 2px solid #e73c33b3 !important;
+}
+
+.notValidBtn:hover {
+    color: #fff !important;
 }
 
 .reviewDescriptionButton button:hover {
