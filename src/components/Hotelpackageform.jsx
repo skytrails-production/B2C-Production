@@ -104,7 +104,7 @@ const Homeform = (props) => {
 
   const handleDestinationChange = (e) => {
     // setDestination(e.target.value);
-    // setSearchTerm(e.target.value);
+    setSearchTerm(e.target.value);
   };
 
   // const handleDaysSearchChange = (e) => {
