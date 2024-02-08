@@ -65,6 +65,8 @@ function Ssdcform({jobs}) {
 
     if (formData.mobile === '') {
       newErrors.mobile = 'Phone is required';
+    } else if (!/^\d{10}$/.test(formData.mobile)) {
+      newErrors.mobile = 'Number must be 10 digits';
     }
     // category
 
@@ -91,6 +93,8 @@ function Ssdcform({jobs}) {
 
       if (formData.years === '') {
         newErrors.years = 'Years is required';
+      } else if (!/^\d{1,2}$/.test(formData.years)) {
+        newErrors.years = 'Years must be in  two digits';
       }
     }
 

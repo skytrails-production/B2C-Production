@@ -33,16 +33,21 @@ import WifiPasswordIcon from "@mui/icons-material/WifiPassword";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Divider from "@mui/material/Divider";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+// import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 // import "./holidaypackagesdetail.css";
-import { clearHolidayReducer, searchOnePackageAction } from "../../../Redux/OnePackageSearchResult/actionOneSearchPackage";
+// import { clearHolidayReducer, searchOnePackageAction } from "../../../Redux/OnePackageSearchResult/actionOneSearchPackage";
 import packageFilter from "../../../images/packageFilter.png"
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
 import { motion } from "framer-motion";
 import { useLocation } from 'react-router-dom';
+import { apiURL } from "../../../Constants/constant";
+import HolidayLoader from "../holidayLoader/HolidayLoader";
 
 const HolidayCategoryDetails = () => {
+
+
+    const { keyword } = useParams();
 
     const variants = {
         open: {
@@ -71,17 +76,44 @@ const HolidayCategoryDetails = () => {
     }
 
 
-    const reducerState = useSelector((state) => state);
-    const dispatch = useDispatch();
+
+
+
+    console.log(keyword, "kehywropd")
+
+
+
+    // const reducerState = useSelector((state) => state);
+    // const dispatch = useDispatch();
     const navigate = useNavigate()
     const location = useLocation();
     const [destination, setDestination] = useState("")
-    const { categoryData, quote } = location.state;
-    // console.log(quote, "quote")
+
+
+    const [newData, setNewData] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const handleCategoryClick = async () => {
+        setLoading(true);
+        try {
+            const response = await fetch(`${apiURL.baseURL}/skyTrails/beachesPackages?keyword=${keyword}`);
+            const data = await response.json();
+            // console.log(data)
+            setNewData(data.data)
+        } catch (error) {
+            console.error('Error fetching category data', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+    useEffect(() => {
+        handleCategoryClick();
+    }, [])
+
+    // console.log(newData, "new data")
+
 
     useEffect(() => {
         if (destination) {
-
             const id = destination?._id;
             navigate(`/holidayInfo/${id}`);
         }
@@ -90,13 +122,8 @@ const HolidayCategoryDetails = () => {
 
 
     const searchOneHoliday = (item) => {
-        const id = item?._id;
+        // const id = item?._id;
         setDestination(item);
-        // const payload = {
-        //     id,
-        // };
-        // dispatch(searchOnePackageAction(payload));
-        // navigate(`/holidayInfo/${id}`);
         const payloadDestination = {
             destination: destination?.country,
             days: 0,
@@ -114,71 +141,97 @@ const HolidayCategoryDetails = () => {
     };
 
 
-
-
     const [selectedCategory, setSelectedCategory] = useState([]);
-
-    const handleRadioChange = (event) => {
-        const selectedValue = event.target.value;
-        if (selectedValue === "All") {
-            setSelectedCategory([]);
-            document.querySelectorAll('input[name="test"]').forEach((checkbox) => {
-                checkbox.checked = false;
-            });
-        } else {
-            // If other checkbox is selected, update selectedCategory as before
-            setSelectedCategory((prevSelectedCategory) => {
-                if (prevSelectedCategory.includes(selectedValue)) {
-                    return prevSelectedCategory.filter((value) => value !== selectedValue);
-                } else {
-                    return [...prevSelectedCategory, selectedValue];
-                }
-            });
-        }
+    const [searchInput, setSearchInput] = useState('');
+    const handleSearchChange = (event) => {
+        setSearchInput(event.target.value);
     };
 
-    useEffect(() => {
-        if (categoryData === undefined) {
-            dispatch(clearHolidayReducer());
+    const handleRadioChange = (event) => {
+        setSearchInput('');
+        const selectedValue = event.target.value;
+        const radioGroupName = event.target.name;
+
+        if (selectedValue === "All") {
+            setSelectedCategory([]);
+            document.querySelectorAll('input[type="checkbox"]').forEach((radio) => {
+                radio.checked = false;
+            });
+            return
         }
-    }, [])
 
-    console.log(categoryData, "filtered package")
-    // console.warn(reducerState, "reducerstate hotel package search result")
+        setSelectedCategory((prevSelectedCategory) => {
+            let updatedCategory = [...prevSelectedCategory];
+            const isValueSelected = updatedCategory.some(
+                (category) => category === `${radioGroupName}:${selectedValue}`
+            );
+            updatedCategory = isValueSelected
+                ? updatedCategory.filter(
+                    (category) => category !== `${radioGroupName}:${selectedValue}`
+                )
+                : [
+                    ...updatedCategory.filter(
+                        (category) => !category.startsWith(`${radioGroupName}:`)
+                    ),
+                    `${radioGroupName}:${selectedValue}`,
+                ];
 
-    const sortedAndFilteredResults = categoryData?.filter((item) => {
-        const publishedPrice = item?.pakage_amount.amount;
+            return updatedCategory;
+        });
+    };
+
+
+
+
+    const sortedAndFilteredResults = newData?.filter((item) => {
+        const packageName = item?.pakage_title?.toLowerCase();
+        const filteredDestinations = item?.destination?.map(destinationItem =>
+            destinationItem?.addMore.toLowerCase()
+        );
+
+        const publishedPrice = item?.pakage_amount?.amount;
         const noOfDays = item?.days;
-        const starRating = item?.StarRating;
+        // const starRating = item?.StarRating;
         const categoryFilters = selectedCategory?.map((category) => {
-            switch (category) {
+            const [groupName, value] = category.split(':');
+            switch (groupName) {
+                case "days":
+                    switch (value) {
+                        case "0-3Days":
+                            return noOfDays >= 0 && noOfDays <= 3;
+                        case "4-7Days":
+                            return noOfDays >= 4 && noOfDays <= 7;
+                        case "7-12Days":
+                            return noOfDays >= 7 && noOfDays <= 12;
+                        case "12-20Days":
+                            return noOfDays >= 12 && noOfDays <= 20;
+                        case "20-30Days":
+                            return noOfDays >= 20 && noOfDays <= 30;
+                    }
+                case "price":
+                    switch (value) {
+                        case "25000":
+                            return publishedPrice <= 25000;
+                        case "25001":
+                            return publishedPrice > 25001 && publishedPrice <= 50000;
+                        case "50001":
+                            return publishedPrice > 50001 && publishedPrice <= 75000;
+                        case "75001":
+                            return publishedPrice > 75001 && publishedPrice <= 100000;
+                        case "100000":
+                            return publishedPrice > 100000;
+                    }
 
-                case "0-3Days":
-                    return noOfDays >= 0 && noOfDays <= 3;
-                case "4-7Days":
-                    return noOfDays >= 4 && noOfDays <= 7;
-                case "7-12Days":
-                    return noOfDays >= 7 && noOfDays <= 12;
-                case "12-20Days":
-                    return noOfDays >= 12 && noOfDays <= 20;
-                case "20-30Days":
-                    return noOfDays >= 20 && noOfDays <= 30;
-                case "25000":
-                    return publishedPrice <= 25000;
-                case "25001":
-                    return publishedPrice > 25001 && publishedPrice <= 50000;
-                case "50001":
-                    return publishedPrice > 50001 && publishedPrice <= 75000;
-                case "75001":
-                    return publishedPrice > 75001 && publishedPrice <= 100000;
-                case "100000":
-                    return publishedPrice > 100000;
                 default:
                     return false;
             }
         });
 
-        return categoryFilters?.every((filter) => filter);
+        const searchInputLower = searchInput?.toLowerCase();
+        const packageNameMatch = packageName?.includes(searchInputLower);
+        const destinationMatch = filteredDestinations?.some(dest => dest.includes(searchInputLower));
+
+        return categoryFilters?.every((filter) => filter) && (packageNameMatch || destinationMatch);
     })?.sort((a, b) =>
         sortOption === "lowToHigh"
             ? a?.pakage_amount.amount - b?.pakage_amount.amount
@@ -186,7 +239,26 @@ const HolidayCategoryDetails = () => {
     );
 
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, [sortedAndFilteredResults])
 
+
+
+    // useEffect(() => {
+    //     if (newData === undefined) {
+    //         dispatch(clearHolidayReducer());
+    //     }
+    // }, [])
+
+
+
+
+    if (loading) {
+        return (
+            <HolidayLoader />
+        )
+    }
 
 
     return (
@@ -194,7 +266,7 @@ const HolidayCategoryDetails = () => {
 
             <div className="holidayInfoBackWall">
                 <div className="packInfoBackdrop">
-                    <img src={categoryData?.[0]?.pakage_img} alt="package" />
+                    <img src={newData?.[0]?.pakage_img} alt="package" />
                 </div>
                 <div className="opacityPack">
 
@@ -222,20 +294,37 @@ const HolidayCategoryDetails = () => {
                 <div className="container pt-3 px-0">
                     <div className="row position-relative">
 
-                        {/* for mobile device  */}
-                        <div className="d-block d-sm-none  topFilterBoxMobile" onClick={handleFilterOpen}>
-                            <p>Apply Filters</p>
-                            <span>
-                                <svg height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg" id="fi_7094575"><g id="Glyph"><path d="m17 5a3 3 0 1 1 3 3 3 3 0 0 1 -3-3zm-15 1h12a1 1 0 0 0 0-2h-12a1 1 0 0 0 0 2zm6 3a3 3 0 0 0 -2.82 2h-3.18a1 1 0 0 0 0 2h3.18a3 3 0 1 0 2.82-4zm14 2h-8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2zm-12 7h-8a1 1 0 0 0 0 2h8a1 1 0 0 0 0-2zm12 0h-3.18a3 3 0 1 0 0 2h3.18a1 1 0 0 0 0-2z"></path></g></svg>
-                            </span>
-                        </div>
+                        {/* filter for mobile for mobile device  */}
+
                         <motion.div className="d-flex d-sm-none col-lg-3 col-md-3 scrollDesignMobile" animate={open ? "open" : "closed"} variants={variants}>
-
-
                             <div className="flightFilterBoxMobile">
                                 <div className="innerFilter">
 
+                                    <div>
+                                        <label className="sidebar-label-container ps-0">
+                                            <input
+                                                type="checkbox"
+                                                onChange={handleRadioChange}
+                                                value="All"
+                                                name="test"
+                                                checked={selectedCategory.includes("test:All")}
+                                            />
+                                            {/* <span className="checkmark"></span> */}
+                                            <span style={{ color: selectedCategory.length > 0 ? "red" : "gray" }}>Clear Filter</span>
+                                        </label>
 
+                                    </div>
+
+                                    <div className="searchBarPackageFOrm">
+                                        <input
+                                            type="text"
+                                            placeholder="Search by Name or Destination"
+                                            className="inputSearch"
+                                            value={searchInput}
+                                            onChange={handleSearchChange}
+
+                                        />
+                                    </div>
                                     <div>
                                         <h2 className="sidebar-title">Sort By</h2>
                                         <select className="highSelect" value={sortOption} onChange={handleSortChange}>
@@ -246,77 +335,88 @@ const HolidayCategoryDetails = () => {
 
                                     <div>
                                         <h2 className="sidebar-title">By Days</h2>
-
                                         <div>
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="0-3 Days" name="test" />
-                                                <span className="checkmark"></span>0-3 Days
-                                            </label>
+                                            {[
+                                                { value: "0-3Days", label: "0-3 Days" },
+                                                { value: "4-7Days", label: "4-7 Days" },
+                                                { value: "7-12Days", label: "7-12 Days" },
+                                                { value: "12-20Days", label: "12-20 Days" },
+                                                { value: "20-30Days", label: "20-30 Days" }
+                                            ].map((duration, index) => {
+                                                const itemCount = newData?.filter(item => {
+                                                    const noOfDays = item?.days;
+                                                    switch (duration.value) {
+                                                        case "0-3Days":
+                                                            return noOfDays >= 0 && noOfDays <= 3;
+                                                        case "4-7Days":
+                                                            return noOfDays >= 4 && noOfDays <= 7;
+                                                        case "7-12Days":
+                                                            return noOfDays >= 7 && noOfDays <= 12;
+                                                        case "12-20Days":
+                                                            return noOfDays >= 12 && noOfDays <= 20;
+                                                        case "20-30Days":
+                                                            return noOfDays >= 20 && noOfDays <= 30;
+                                                        default:
+                                                            return false;
+                                                    }
+                                                }).length;
 
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="4-7Days" name="test" />
-                                                <span className="checkmark"></span>4-7 Days
-                                            </label>
-
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="7-12Days" name="test" />
-                                                <span className="checkmark"></span>7-12 Days
-                                            </label>
-
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="12-20Days" name="test" />
-                                                <span className="checkmark"></span>12-20 Days
-                                            </label>
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="20-30Days" name="test" />
-                                                <span className="checkmark"></span>20-30 Days
-                                            </label>
-
+                                                return (
+                                                    <label className="sidebar-label-container exceptionalFlex" key={index}>
+                                                        <input
+                                                            type="checkbox"
+                                                            onChange={handleRadioChange}
+                                                            value={duration.value}
+                                                            name="days"
+                                                            checked={selectedCategory.includes(`days:${duration.value}`)}
+                                                        />
+                                                        <span>({itemCount})</span>
+                                                        <span className="checkmark"></span>{duration.label}
+                                                    </label>
+                                                );
+                                            })}
                                         </div>
-
                                         <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                                     </div>
 
                                     <div>
                                         <h2 className="sidebar-title">By Price</h2>
-
                                         <div>
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="25000" name="test" />
-                                                <span className="checkmark"></span>₹ 0-25,000
-                                            </label>
+                                            {[
+                                                { value: "25000", min: 0, max: 25000, label: "₹ 0-25,000" },
+                                                { value: "25001", min: 25000, max: 50000, label: "₹25,000-50,000" },
+                                                { value: "50001", min: 50000, max: 75000, label: "₹50,000-75,000" },
+                                                { value: "75001", min: 75000, max: 100000, label: "₹75,000-1,00,000" },
+                                                { value: "100000", min: 100000, max: Infinity, label: "₹1,00,000 and Above" }
+                                            ].map((priceRange, index) => {
+                                                const itemCount = newData?.filter(item =>
+                                                    item?.pakage_amount.amount >= priceRange.min && item?.pakage_amount.amount <= priceRange.max
+                                                ).length;
 
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="25001" name="test" />
-                                                <span className="checkmark"></span>₹25,000-50,000
-                                            </label>
-
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="50001" name="test" />
-                                                <span className="checkmark"></span>₹50,000-75,000
-                                            </label>
-
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="75001" name="test" />
-                                                <span className="checkmark"></span>₹75,000-1,00,000
-                                            </label>
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="100000" name="test" />
-                                                <span className="checkmark"></span>₹1,00,000 and Above
-                                            </label>
-
+                                                return (
+                                                    <label className="sidebar-label-container exceptionalFlex" key={index}>
+                                                        <input
+                                                            type="checkbox"
+                                                            onChange={handleRadioChange}
+                                                            value={priceRange.value}
+                                                            name="price"
+                                                            checked={selectedCategory.includes(`price:${priceRange.value}`)}
+                                                        />
+                                                        <span>({itemCount})</span>
+                                                        <span className="checkmark"></span>{priceRange.label}
+                                                    </label>
+                                                );
+                                            })}
                                         </div>
                                         <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                                     </div>
-
-
-
                                 </div>
                             </div>
-
                         </motion.div>
 
-                        {/* for mobile device  */}
+
+
+                        {/* filter for Desktop  device  */}
 
                         <div className="d-none d-sm-block col-lg-3 col-md-3 scrollDesign" >
 
@@ -327,7 +427,31 @@ const HolidayCategoryDetails = () => {
                                 </div>
                                 <div className="innerFilter">
 
+                                    <div>
+                                        <label className="sidebar-label-container ps-0">
+                                            <input
+                                                type="checkbox"
+                                                onChange={handleRadioChange}
+                                                value="All"
+                                                name="test"
+                                                checked={selectedCategory.includes("test:All")}
+                                            />
+                                            {/* <span className="checkmark"></span> */}
+                                            <span style={{ color: selectedCategory.length > 0 ? "red" : "gray" }}>Clear Filter</span>
+                                        </label>
 
+                                    </div>
+
+                                    <div className="searchBarPackageFOrm">
+                                        <input
+                                            type="text"
+                                            placeholder="Search by Name or Destination"
+                                            className="inputSearch"
+                                            value={searchInput}
+                                            onChange={handleSearchChange}
+
+                                        />
+                                    </div>
                                     <div>
                                         <h2 className="sidebar-title">Sort By</h2>
                                         <select className="highSelect" value={sortOption} onChange={handleSortChange}>
@@ -338,93 +462,99 @@ const HolidayCategoryDetails = () => {
 
                                     <div>
                                         <h2 className="sidebar-title">By Days</h2>
-
                                         <div>
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="0-3 Days" name="test" />
-                                                <span className="checkmark"></span>0-3 Days
-                                            </label>
+                                            {[
+                                                { value: "0-3Days", label: "0-3 Days" },
+                                                { value: "4-7Days", label: "4-7 Days" },
+                                                { value: "7-12Days", label: "7-12 Days" },
+                                                { value: "12-20Days", label: "12-20 Days" },
+                                                { value: "20-30Days", label: "20-30 Days" }
+                                            ].map((duration, index) => {
+                                                const itemCount = newData?.filter(item => {
+                                                    const noOfDays = item?.days;
+                                                    switch (duration.value) {
+                                                        case "0-3Days":
+                                                            return noOfDays >= 0 && noOfDays <= 3;
+                                                        case "4-7Days":
+                                                            return noOfDays >= 4 && noOfDays <= 7;
+                                                        case "7-12Days":
+                                                            return noOfDays >= 7 && noOfDays <= 12;
+                                                        case "12-20Days":
+                                                            return noOfDays >= 12 && noOfDays <= 20;
+                                                        case "20-30Days":
+                                                            return noOfDays >= 20 && noOfDays <= 30;
+                                                        default:
+                                                            return false;
+                                                    }
+                                                }).length;
 
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="4-7Days" name="test" />
-                                                <span className="checkmark"></span>4-7 Days
-                                            </label>
-
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="7-12Days" name="test" />
-                                                <span className="checkmark"></span>7-12 Days
-                                            </label>
-
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="12-20Days" name="test" />
-                                                <span className="checkmark"></span>12-20 Days
-                                            </label>
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="20-30Days" name="test" />
-                                                <span className="checkmark"></span>20-30 Days
-                                            </label>
-
+                                                return (
+                                                    <label className="sidebar-label-container exceptionalFlex" key={index}>
+                                                        <input
+                                                            type="checkbox"
+                                                            onChange={handleRadioChange}
+                                                            value={duration.value}
+                                                            name="days"
+                                                            checked={selectedCategory.includes(`days:${duration.value}`)}
+                                                        />
+                                                        <span>({itemCount})</span>
+                                                        <span className="checkmark"></span>{duration.label}
+                                                    </label>
+                                                );
+                                            })}
                                         </div>
-
                                         <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                                     </div>
 
                                     <div>
                                         <h2 className="sidebar-title">By Price</h2>
-
                                         <div>
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="25000" name="test" />
-                                                <span className="checkmark"></span>₹ 0-25,000
-                                            </label>
+                                            {[
+                                                { value: "25000", min: 0, max: 25000, label: "₹ 0-25,000" },
+                                                { value: "25001", min: 25000, max: 50000, label: "₹25,000-50,000" },
+                                                { value: "50001", min: 50000, max: 75000, label: "₹50,000-75,000" },
+                                                { value: "75001", min: 75000, max: 100000, label: "₹75,000-1,00,000" },
+                                                { value: "100000", min: 100000, max: Infinity, label: "₹1,00,000 and Above" }
+                                            ].map((priceRange, index) => {
+                                                const itemCount = newData?.filter(item =>
+                                                    item?.pakage_amount.amount >= priceRange.min && item?.pakage_amount.amount <= priceRange.max
+                                                ).length;
 
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="25001" name="test" />
-                                                <span className="checkmark"></span>₹25,000-50,000
-                                            </label>
-
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="50001" name="test" />
-                                                <span className="checkmark"></span>₹50,000-75,000
-                                            </label>
-
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="75001" name="test" />
-                                                <span className="checkmark"></span>₹75,000-1,00,000
-                                            </label>
-                                            <label className="sidebar-label-container">
-                                                <input type="checkbox" onChange={handleRadioChange} value="100000" name="test" />
-                                                <span className="checkmark"></span>₹1,00,000 and Above
-                                            </label>
-
+                                                return (
+                                                    <label className="sidebar-label-container exceptionalFlex" key={index}>
+                                                        <input
+                                                            type="checkbox"
+                                                            onChange={handleRadioChange}
+                                                            value={priceRange.value}
+                                                            name="price"
+                                                            checked={selectedCategory.includes(`price:${priceRange.value}`)}
+                                                        />
+                                                        <span>({itemCount})</span>
+                                                        <span className="checkmark"></span>{priceRange.label}
+                                                    </label>
+                                                );
+                                            })}
                                         </div>
                                         <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                                     </div>
-
-
-
                                 </div>
                             </div>
 
                         </div>
+
+
+
+                        {/* main code for bigger device  */}
                         <div className="col-lg-9 col-md-9">
                             <div className="row">
-                                {/* <div className="col-lg-12 mb-4">
-                <div className="outerFilterBox">
-                  <div className="filterBox">
-                    <p>Showing {' '}{filteredPackage?.length} {' '} Results</p>
-                    <p className="searchDestination">Seach Destination{' '}: <b>{savedDestination}</b></p>
-                  </div>
-                </div>
-              </div> */}
                                 {sortedAndFilteredResults && sortedAndFilteredResults.length > 0 ? (
                                     sortedAndFilteredResults
                                         ?.map((item, index) => {
                                             return (
-                                                <div className="col-lg-12" key={index}>
+                                                <div className="col-lg-12">
 
                                                     {/* for bigger device  */}
-                                                    <div onClick={(e) => searchOneHoliday(item)} className="d-none d-sm-flex packageResultBox">
+                                                    <div onClick={(e) => searchOneHoliday(item)} className="d-none d-sm-flex packageResultBox" key={index}>
                                                         <div className="packOuterBox">
                                                             <div className="packageImage">
                                                                 <img src={item?.pakage_img} alt="package-img" />
@@ -643,11 +773,11 @@ const HolidayCategoryDetails = () => {
                                                                 </div>
 
                                                                 <div className="destination">
-                                                                    <ul>
-                                                                        {item?.destination?.slice(0, 3).map((destinationItem, index) => (
-                                                                            <li key={index}>{destinationItem?.addMore}</li>
-                                                                        ))}
-                                                                    </ul>
+                                                                    {/* <ul> */}
+                                                                    {item?.destination?.map((destinationItem, index) => (
+                                                                        <p key={index}>{destinationItem?.addMore}</p>
+                                                                    ))}
+                                                                    {/* </ul> */}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -660,8 +790,32 @@ const HolidayCategoryDetails = () => {
                                                             </div>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            );
+                                        })
+                                ) :
+                                    (
+                                        <div className="d-none d-sm-flex  filteredNotFound">
+                                            <img src={packageFilter} alt="filter image" />
+                                            <h1>Result not found</h1>
+                                        </div>
+                                    )
+                                }
 
 
+                            </div>
+                        </div>
+
+
+                        {/* main code for smaller device  */}
+
+                        <div className="col-lg-9 col-md-9">
+                            <div className="row">
+                                {sortedAndFilteredResults && sortedAndFilteredResults.length > 0 ? (
+                                    sortedAndFilteredResults
+                                        ?.map((item, index) => {
+                                            return (
+                                                <div className="col-lg-12">
                                                     {/* for smaller device  */}
 
                                                     <div onClick={(e) => searchOneHoliday(item)} className="d-flex d-sm-none packageResultBoxMobile mx-3" key={index}>
@@ -680,13 +834,10 @@ const HolidayCategoryDetails = () => {
                                                                     </p>
                                                                 </div>
 
-                                                                <div className="icon-box ">
-                                                                    {/* {item?.insclusions?.filter(ele => ele).map((ele, index) => {
-                                                                        return ( */}
-                                                                    {item?.insclusions
-                                                                        ?.filter(ele => Object.values(ele).some(value => value === 'true'))
-                                                                        .map((ele, index) => (
-                                                                            <div key={index + 30} className="icon-box-inner">
+                                                                <div className="icon-box">
+                                                                    {item?.insclusions?.slice(0, 4).map((ele, index) => {
+                                                                        return (
+                                                                            <div key={index} className="icon-box-inner">
                                                                                 {ele?.flexibility && (
                                                                                     <div>
                                                                                         <span><CommitIcon />
@@ -881,8 +1032,8 @@ const HolidayCategoryDetails = () => {
                                                                                     </div>
                                                                                 )}
                                                                             </div>
-                                                                        )
-                                                                        )}
+                                                                        );
+                                                                    })}
                                                                 </div>
 
                                                                 <div className="destination">
@@ -912,7 +1063,7 @@ const HolidayCategoryDetails = () => {
                                         })
                                 ) :
                                     (
-                                        <div className="filteredNotFound">
+                                        <div className="d-flex d-sm-none  filteredNotFound">
                                             <img src={packageFilter} alt="filter image" />
                                             <h1>Result not found</h1>
                                         </div>

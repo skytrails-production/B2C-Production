@@ -309,10 +309,10 @@
     }
 
     .route-content-span {
-        font-size: 11px;
+        font-size: 11px !important;
         display: flex;
-        gap: 5px;
-        font-weight: 500;
+        gap: 5px !important;
+        font-weight: 500 !important;
         margin-bottom: 5px;
     }
 
@@ -706,7 +706,7 @@
     }
 
     .from_Search_Container {
-        top: 45px;
+        top: 31px;
     }
 
     .from_Search_Container input::placeholder {
@@ -869,6 +869,7 @@
 
     .hotel-container input {
         font-size: 13px !important;
+        font-weight: 500 !important;
     }
 
     .PackageInner {
@@ -1188,11 +1189,38 @@
         bottom: 0;
         left: 0;
         z-index: 3;
-        width: 54% !important;
+        width: 64% !important;
+        /* overflow: hidden;
+        overflow-y: scroll; */
+    }
+
+    .flightFilterBoxMobile {
+        overflow: hidden;
+        overflow-y: scroll;
+        height: 100%;
     }
 
     .holidayInfoBackWall {
         padding-top: 46px !important;
+    }
+
+    .mobileViewThing {
+        overflow: hidden;
+        overflow-x: scroll;
+        white-space: nowrap;
+
+        /* .singleBusSearchBox { */
+        /* display: flex;
+        flex-direction: column; */
+        margin: 0px 0px 10px 0 !important;
+        border-radius: 8px !important;
+        border: 1px solid lightgray !important;
+        background-color: #fff !important;
+        padding: 15px 10px !important;
+        /* justify-content: space-between; */
+        /* width: unset; */
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        /* } */
     }
 
 
@@ -2147,4 +2175,28 @@
     }
 
     /* hotel book now  */
+
+
+    .city-inputtt-div {
+        display: flex;
+        background: #ffffff;
+        box-shadow: unset !important;
+        /* padding-left: 8px; */
+        align-items: center;
+        height: 30px !important;
+        width: 100%;
+        align-items: center;
+    }
+
+    .city-search-results {
+        position: absolute;
+        left: 0;
+        bottom: 3px !important;
+        cursor: pointer;
+        width: 100%;
+        border-radius: 0px 0px 10px 10px;
+        z-index: 9999;
+        /* height: 400px; */
+        /* overflow: hidden; */
+    }
 }

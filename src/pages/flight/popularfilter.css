@@ -169,6 +169,11 @@
 
 .svgBOx span {
     font-size: 13px;
+    display: block;
+    max-width: 94px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .svgBOx img {

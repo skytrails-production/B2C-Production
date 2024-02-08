@@ -522,7 +522,7 @@ const Flightdetail = () => {
   //   }
 
   // }
-  // console.log(reducerState,"reducer state")
+  console.log(hotelData, "hotel data state")
 
   return (
     <>
@@ -582,7 +582,8 @@ const Flightdetail = () => {
               <div className="roomDetails">
                 <div className="row">
                   <div className="col-lg-9 mb-md-3">
-                    <p className="titles ">{hotelData?.RoomTypeName}</p>
+                    <p className="titles ">
+                      {hotelData?.RoomTypeName}</p>
                     <p>{hotelData?.RoomPromotion}</p>
                     <p>{hotelData?.RatePlanName}</p>
                     <p className="text-hotelName"> {hotelRoomName}</p>

@@ -12,6 +12,19 @@
 
 }
 
+.searchBarPackageFOrm {
+    margin-bottom: 15px;
+}
+
+.searchBarPackageFOrm input {
+    padding: 14px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    width: 100%;
+    font-weight: 600;
+    font-size: 13px;
+}
+
 .filterBox p {
     color: #000;
 
@@ -304,6 +317,25 @@
 
 }
 
+
+.destination {
+    display: flex;
+    max-width: 400px;
+    /* overflow: hidden; */
+    /* overflow-y: scroll; */
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+
+.destination p {
+    padding: 4px 7px;
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
 
 .css-i4bv87-MuiSvgIcon-root {
     font-size: 1.1rem !important;

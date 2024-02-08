@@ -11,7 +11,7 @@ import { Grid } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { hotelBlockRoomAction } from "../../../Redux/Hotel/hotel";
-
+import dayjs from "dayjs";
 import availableRooms from "../../../images/Hotel/availableRooms.png"
 import hotelMap from "../../../images/Hotel/hotelMap.png"
 import hotelDetails from "../../../images/Hotel/hotelDetails.png"
@@ -94,20 +94,34 @@ export default function CustomizedAccordions() {
     const filteredComponent = firstFilteredArray.filter((item, index) => {
       return item.RoomIndex == RoomIndex;
     });
-    // console.log("filteredComponent", filteredComponent);
-    const dateString = filteredComponent[0]?.LastCancellationDate;
-    const date1 = new Date(dateString);
-    const time1 = date1.toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
 
-    const day = date1.getDate();
-    const month = date1.toLocaleString("default", {
-      month: "short",
-    });
-    const year = date1.getFullYear();
-    const formattedDate = `${day} ${month} ${year}`;
+    // const dateString = filteredComponent[0]?.LastCancellationDate;
+    // const date1 = new Date(dateString);
+    // const time1 = date1.toLocaleTimeString([], {
+    //   hour: "2-digit",
+    //   minute: "2-digit",
+    // });
+
+    // const day = date1.getDate();
+    // const month = date1.toLocaleString("default", {
+    //   month: "short",
+    // });
+    // const year = date1.getFullYear();
+    // const formattedDate = `${day} ${month} ${year}`;
+
+
+
+    const currData = new Date();
+    const formattedDate = dayjs(filteredComponent[0]?.LastCancellationDate).format("DD MMM, YY");
+
+    let displayText;
+    if (currData > dayjs(filteredComponent[0]?.LastCancellationDate)) {
+      displayText = "No Cancellation";
+    } else {
+      displayText = formattedDate;
+    }
+
+
     return (
 
       <div className="offer_area ">
@@ -140,7 +154,10 @@ export default function CustomizedAccordions() {
           </div>
 
           <p className="text">
-            Last Cancellation till: {formattedDate}
+            Last Cancellation till:
+
+            {displayText}
+
           </p>
         </div >
         <div className="priceCheck">

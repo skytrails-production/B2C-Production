@@ -38,7 +38,7 @@ import BusResult from "./pages/bus/bussearchresult/BusResult";
 import Download from "./pages/home/Download";
 import Holidayinfo from "./pages/holidaypackages/holidaypackagesearchresult/Holidayinfo";
 
-import  SsdcForm from './components/ssdc/SSDClanding'
+import SsdcForm from './components/ssdc/SSDClanding'
 import HotelSearch from './pages/Hotel/hotelsearch/HotelSearch';
 import HotelBooknow from './pages/Hotel/hotelbokknow/HotelBooknow'
 import Reviewbooking from './pages/Hotel/hotelreviewbooking/Reviewbooking'
@@ -59,6 +59,7 @@ import { useLocation } from 'react-router-dom';
 
 import FlightETicket from "../src/components/FlightETicket"
 import DummyPnrHome from "./components/DummyPnrHome"
+import HolidayCountryDetails from './pages/holidaypackages/holidayCategory/HolidayCountryDetails';
 
 
 
@@ -182,8 +183,12 @@ function App() {
         <Route exact path="/HolidayInfo/:id" element={<Holidayinfo />} />
 
         <Route
-          path="/holidaycategorydetails/:category"
+          path="/holidaycategorydetails/:keyword"
           element={<HolidayCategoryDetails />}
+        ></Route>
+        <Route
+          path="/holidaycountrydetails/:keyword"
+          element={<HolidayCountryDetails />}
         ></Route>
 
         {/* <Route path="/HolidaypackageInfo" element={<HolidaypackageInfo />} /> */}
@@ -193,11 +198,11 @@ function App() {
           element={<HolidayPassengerDetail />}
         ></Route> */}
         <Route
-          path="/HolidayPackageSearchResult"
+          path="/HolidayPackageSearchResult/:keyword"
           element={<HolidayPackageSearchResult />}
         />
 
-            <Route
+        <Route
           path="/SSDC/:country"
           element={<SsdcForm />}
         ></Route>

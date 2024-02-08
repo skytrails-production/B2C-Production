@@ -235,10 +235,10 @@ function api() {
   const searchPackage = (payload) => {
     // console.log("searchPackage" + payload.destination);
     // console.log("searchPackage" + payload.days);
-    const { destination } = payload;
+    // const { destination } = payload;
     // ?filter=${days}&keyword=${destination}
     return axios.get(
-      `${apiURL.baseURL}/skyTrails/international/getAll?keyword=${destination}`
+      `${apiURL.baseURL}/skyTrails/international/getAll?keyword=${payload}`
     );
   };
 

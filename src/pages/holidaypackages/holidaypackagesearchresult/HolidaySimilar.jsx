@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react'
-import goa from "../../../images/goa.jpg";
-import StarIcon from "@mui/icons-material/Star";
+
 import { useDispatch, useSelector } from "react-redux";
 import { searchPackageAction } from '../../../Redux/SearchPackage/actionSearchPackage';
 import { searchOnePackageAction } from '../../../Redux/OnePackageSearchResult/actionOneSearchPackage';
 import { useNavigate } from 'react-router-dom';
+
+
 const HolidaySimilar = () => {
 
     const reducerState = useSelector((state) => state);
@@ -15,19 +16,12 @@ const HolidaySimilar = () => {
     const filteredPackage =
         reducerState?.searchResult?.packageSearchResult?.data?.data?.pakage;
 
-    console.log(filteredPackage, "filtered")
+    console.log(searchedData, "filtered")
 
 
 
     useEffect(() => {
-        const payload = {
-            destination: Stringify?.destination,
-            days: 0,
-        };
-        console.log("fdjl;ksfi;odsfj;kldscv")
-        dispatch(searchPackageAction(payload));
-
-        // sessionStorage.setItem("searchPackageData", JSON.stringify(payload));
+        dispatch(searchPackageAction(Stringify?.destination));
     }, [searchedData])
 
 
@@ -48,9 +42,7 @@ const HolidaySimilar = () => {
 
             <section class="trending pb-3 pt-0 mb100">
                 <div class="container p-0">
-                    {/* <div class="section-title  mx-auto text-center ">
-                        <h2 class="mb-1">Explore <span class="theme">Top Trending Destinations</span></h2>
-                    </div> */}
+
                     <div class="offerText my-5">
                         <p>Suggested Destinations in {Stringify.destination} </p>
 

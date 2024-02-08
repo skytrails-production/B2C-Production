@@ -786,14 +786,20 @@ export default function BookWrapper() {
   if (errorMessage) {
     <Flighterror props={errorMessage.errorMessage} />;
   }
+
+
+
+
+  console.log(TicketDetails, "ticket details")
+
+
+
+
   if (loaderPayment == false) {
+
+
     return (
       <>
-
-
-
-
-
         <div className="mainimgFlightSearch">
           <InsideNavbar />
         </div>
@@ -933,11 +939,15 @@ export default function BookWrapper() {
                                   </div>
                                   <div>
                                     <p>Check-in</p>
-                                    <span>15 Kgs</span>
+                                    <span>{
+                                      TicketDetails?.Segments[0][0]?.Baggage.split(" ")[0]
+                                    }{" "} Kgs</span>
                                   </div>
                                   <div>
                                     <p>Cabin</p>
-                                    <span>7 Kgs</span>
+                                    <span>{
+                                      TicketDetails?.Segments[0][0]?.CabinBaggage.split(" ")[0]
+                                    }{" "} Kgs</span>
                                   </div>
                                 </div>
                               </div>
@@ -987,11 +997,15 @@ export default function BookWrapper() {
                                 </div>
                                 <div>
                                   <p>Check-in</p>
-                                  <span>15 Kgs</span>
+                                  <span>{
+                                    TicketDetails?.Segments[0][1]?.Baggage.split(" ")[0]
+                                  }{" "} Kgs</span>
                                 </div>
                                 <div>
                                   <p>Cabin</p>
-                                  <span>7 Kgs</span>
+                                  <span>{
+                                    TicketDetails?.Segments[0][1]?.CabinBaggage.split(" ")[0]
+                                  }{" "} Kgs</span>
                                 </div>
                               </div>
                             </div>
@@ -1109,11 +1123,15 @@ export default function BookWrapper() {
                                 </div>
                                 <div>
                                   <p>Check-in</p>
-                                  <span>15 Kgs</span>
+                                  <span>{
+                                    TicketDetails?.Segments[0][0]?.Baggage.split(" ")[0]
+                                  }{" "} Kgs</span>
                                 </div>
                                 <div>
                                   <p>Cabin</p>
-                                  <span>7 Kgs</span>
+                                  <span>{
+                                    TicketDetails?.Segments[0][0]?.CabinBaggage.split(" ")[0]
+                                  }{" "} Kgs</span>
                                 </div>
                               </div>
 

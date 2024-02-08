@@ -2,27 +2,18 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Box from "@mui/material/Box";
-// import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
 import Button from "@mui/material/Button";
-// import loginGif from "../images/loginGif.gif"
-// import CloseIcon from '@mui/icons-material/Close';
 import { apiURL } from "../Constants/constant";
 import { ipAction, tokenAction } from "../Redux/IP/actionIp";
-// import Addanothercity from "./Addanothercity";
-import { oneWayAction, resetOneWay } from "../Redux/FlightSearch/oneWay";
+import { oneWayAction } from "../Redux/FlightSearch/oneWay";
 import { useNavigate } from "react-router-dom";
 import FlightTakeoffTwoToneIcon from "@mui/icons-material/FlightTakeoffTwoTone";
-import "react-date-range/dist/styles.css"; // Import the styles
-import "react-date-range/dist/theme/default.css"; // Import the theme
+import "react-date-range/dist/styles.css";
+import "react-date-range/dist/theme/default.css";
 import "./style/Oneway2.css";
-// import underConstruction from "../images/under Construction.png"
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-// import DialogTitle from "@mui/material/DialogTitle";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
@@ -33,23 +24,13 @@ import TravelerCounter from "./TravelerCounter";
 import { CiSearch } from "react-icons/ci";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
-import { format } from "date-fns";
-// import Login from "./Login"
-// import Modal from "@mui/material/Modal";
-// const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
+
 
 const Oneway2 = (props) => {
-  // handle departure days selection
+
   const reducerState = useSelector((state) => state);
   const navbarHeight = sessionStorage.getItem("insideNavbarHeight")
-
-  // const [startDate, setStartDate] = useState(new Date());
-  // const [currentdate, setCurrentDate] = useState(new Date());
-
-  // const handleDateChange = (date) => {
-  //   setStartDate(date);
-  // };
-
   const [disableBtn, setDisableBtn] = useState(false)
   useEffect(() => {
     if (reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode !== 0
@@ -62,9 +43,6 @@ const Oneway2 = (props) => {
   }, [reducerState?.oneWay?.oneWayData])
 
   const value2 = JSON.parse(sessionStorage.getItem("onewayprop"));
-
-
-
   const isPopularSearch = JSON.parse(sessionStorage.getItem("isPopularSearch"))
   const isDummyTicketBooking = JSON.parse(
     sessionStorage.getItem("bookDummyTicket")
@@ -75,49 +53,18 @@ const Oneway2 = (props) => {
 
   const passedDate = new Date(value2[0].startDate);
   const formattedDate = `${(passedDate.getMonth() + 1).toString().padStart(2, '0')}/${passedDate.getDate().toString().padStart(2, '0')}/${passedDate.getFullYear()}`;
-
-
-  // console.log("value..................", value2,passedDate);
-
-
   const [startDate, setStartDate] = useState(new Date(formattedDate));
-  // console.log("startDate",startDate)
-  const currentdate = new Date(); // Assuming you have defined currentdate
+  const currentdate = new Date();
 
   const handleDateChange = (date) => {
     setStartDate(date);
     setDisableBtn(false);
   };
 
-  // const formatDate = (date) => {
-  //   return format(date, "dd MMMyy");
-  // };
-  const formatDate = (date) => {
-    const formattedDate = format(date, "dd MMM'yy EEEE");
-    return formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
-  };
 
-  // /////////top search/////////////
-
-  const getDayOfWeek = (date) => {
-    const daysOfWeek = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    return daysOfWeek[date.getDay()];
-  };
-
-  // From code start from here
   const [fromSearchResults, setFromSearchResults] = useState([]);
   const [fromQuery, setFromQuery] = useState("delhi");
-  const [isLoading, setIsLoading] = useState(false);
-  //const [isLoadingFrom, setIsLoadingFrom] = useState(false);
-
+  // const [isLoading, setIsLoading] = useState(false);
   const [selectedFrom, setSelectedFrom] = useState({
     AirportCode: value2[0].selectedFrom.AirportCode,
     CityCode: value2[0].selectedFrom.CityCode,
@@ -131,14 +78,14 @@ const Oneway2 = (props) => {
     _id: "63d7db1a64266cbf450e07c1",
   });
   const [from, setFrom] = useState("");
-  const [isLoadingFrom, setIsLoadingFrom] = useState(false);
+  // const [isLoadingFrom, setIsLoadingFrom] = useState(false);
   const [fromToggle, setFromToggle] = useState(false);
   const [toToggle, setToggle] = useState(false);
 
   const [displayFrom, setdisplayFrom] = useState(true);
   const [toQuery, setToQuery] = useState("mumbai");
   const [to, setTO] = useState("");
-  const [isLoadingTo, setIsLoadingTo] = useState(false);
+  // const [isLoadingTo, setIsLoadingTo] = useState(false);
   const [toSearchResults, setToSearchResults] = useState([]);
   const [selectedTo, setSelectedTo] = useState({
     AirportCode: value2[0].selectedTo.AirportCode,
@@ -160,13 +107,9 @@ const Oneway2 = (props) => {
   const [activeIdChild, setActiveIdChild] = useState(value2[0].activeIdChild);
   const [activeIdInfant, setActiveIdInfant] = useState(value2[0].activeIdInfant);
   const [activeIdAdult, setActiveIdAdult] = useState(1);
-  const [activeFareType, setActiveFareType] = useState(1);
   const [totalCount, setCountPassanger] = useState(value2[0].totalCount);
-  const [showDropdown, setShowDropdown] = useState(false);
-  // const authenticUser = reducerState?.logIn?.loginData?.status;
-  const [departureDate, setDepartureDate] = useState("");
+  // const [departureDate, setDepartureDate] = useState("");
 
-  // handle travellers modal
 
   const handleTravelerCountChange = (category, value) => {
     setDisableBtn(false);
@@ -179,16 +122,7 @@ const Oneway2 = (props) => {
     }
   };
 
-  const getClassLabel = (classId) => {
-    const selectedClass = ClassItems.find((item) => item.id === classId);
-    return selectedClass ? selectedClass.label : "";
-  };
 
-  // const handleClassItemClick = (classId) => {
-  //   setActiveIdClass(classId);
-  // };
-
-  // handle travellers modal
   useEffect(() => {
     dispatch(clearbookTicketGDS());
     dispatch(resetAllFareData());
@@ -203,19 +137,7 @@ const Oneway2 = (props) => {
     { id: "5", label: "Business Economy" },
   ];
 
-  const FareType = [
-    { id: "1", label: "Regular Fares" },
-    { id: "2", label: "Armed Forces Fares" },
-    { id: "3", label: "Student Fares" },
-    { id: "4", label: "Senior Citizens Fares" },
-    { id: "4", label: "Senior Citizens Fares" },
-    { id: "5", label: "Doctors & Nurses Fares" },
-    { id: "6", label: "Double Seat Fares" },
-  ];
 
-  // const adultCount = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-  // const childCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  // const infantCount = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   const handleTravelClickOpen = () => {
     setActiveIdClass(1);
@@ -236,35 +158,6 @@ const Oneway2 = (props) => {
     }
   };
 
-  // const handleInfantClick = (event) => {
-  //   const id = event.target.getAttribute("data-id");
-  //   setActiveIdInfant(id);
-  // };
-
-  // const handleChildClick = (event) => {
-  //   const id = event.target.getAttribute("data-id");
-  //   setActiveIdChild(id);
-  // };
-  // const handleAdultClick = (event) => {
-  //   const selectedAdult = parseInt(event.target.dataset.id, 10);
-  //   setActiveIdAdult(selectedAdult);
-  //   setShowDropdown(false);
-  // };
-
-  // const toggleDropdown = () => {
-  //   setShowDropdown(!showDropdown);
-  // };
-  // const handleClassItemClick = (event) => {
-  //   const id = event.target.getAttribute("data-id");
-  //   setActiveIdClass(id);
-  // };
-  // const handleFareItemClick = (event) => {
-  //   const clickedItem = event.target;
-  //   const id = event.target.getAttribute("data-id");
-  //   setActiveFareType(id);
-  // };
-
-  // End
 
   const toSearchRef = React.useRef(null);
   const fromSearchRef = React.useRef(null);
@@ -302,7 +195,7 @@ const Oneway2 = (props) => {
     let mounted = true;
 
     const fetchSearchResults = async () => {
-      setIsLoading(true);
+      // setIsLoading(true);
 
       // make an API call to get search results
 
@@ -311,7 +204,7 @@ const Oneway2 = (props) => {
       );
       if (mounted) {
         setFromSearchResults(results?.data?.data);
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
 
@@ -327,7 +220,7 @@ const Oneway2 = (props) => {
     // setFrom(result.AirportCode);
     setSelectedFrom(result);
     setdisplayFrom(false);
-    setIsLoadingFrom(false);
+    // setIsLoadingFrom(false);
 
     // setFromToggle((prev) => !prev);
     // alert("liclick", fromToggle)
@@ -337,7 +230,7 @@ const Oneway2 = (props) => {
     // setTO(result.AirportCode);
     setSelectedTo(result);
     setdisplayTo(false);
-    setIsLoadingTo(false);
+    // setIsLoadingTo(false);
   };
 
   const handleFromInputChange = (event) => {
@@ -355,7 +248,7 @@ const Oneway2 = (props) => {
     let mounted = true;
 
     const fetchSearchResults = async () => {
-      setIsLoading(true);
+      // setIsLoading(true);
 
       // make an API call to get search results
 
@@ -365,7 +258,7 @@ const Oneway2 = (props) => {
       // console.log(results);
       if (mounted) {
         setToSearchResults(results?.data?.data);
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     };
 
@@ -389,7 +282,8 @@ const Oneway2 = (props) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [loader, setLoader] = useState(false);
+  // const [loader, setLoader] = useState(false);
+
   useEffect(() => {
     dispatch(ipAction());
   }, []);
@@ -407,21 +301,11 @@ const Oneway2 = (props) => {
     infants: 0,
     class: "1",
   });
-  const sendTravelClass = (data2) => {
-    setData(data2);
-  };
 
-  //   useEffect(() => {
-  //     dispatch(resetOneWay());
-  //   }, [dispatch, departureDate]);
-
-  // const [value, setValue] = React.useState("1");
-
-  // const handleChange = (event, newValue) => {
-  //   setValue(newValue);
+  // const sendTravelClass = (data2) => {
+  //   setData(data2);
   // };
 
-  // const [isModalOpen, setIsModalOpen] = useState(false);
 
 
   useEffect(() => {
@@ -435,30 +319,30 @@ const Oneway2 = (props) => {
     };
   }, [])
 
-  const handleDummyTicketBooking = () => {
-    const payload = {
-      EndUserIp: reducerState?.ip?.ipData,
-      TokenId: reducerState?.ip?.tokenData,
-      AdultCount: 1,
-      ChildCount: 0,
-      InfantCount: 0,
-      DirectFlight: "false",
-      OneStopFlight: "false",
-      JourneyType: data2.class || "1",
-      PreferredAirlines: null,
-      Segments: [
-        {
-          Origin: selectedFrom.AirportCode,
-          Destination: selectedTo.AirportCode,
-          FlightCabinClass: activeIdClass,
-          PreferredDepartureTime: formattedDate2,
-          PreferredArrivalTime: formattedDate2,
-        },
-      ],
-      Sources: ["GDS"],
-    };
-    dispatch(oneWayAction(payload));
-  }
+  // const handleDummyTicketBooking = () => {
+  //   const payload = {
+  //     EndUserIp: reducerState?.ip?.ipData,
+  //     TokenId: reducerState?.ip?.tokenData,
+  //     AdultCount: 1,
+  //     ChildCount: 0,
+  //     InfantCount: 0,
+  //     DirectFlight: "false",
+  //     OneStopFlight: "false",
+  //     JourneyType: data2.class || "1",
+  //     PreferredAirlines: null,
+  //     Segments: [
+  //       {
+  //         Origin: selectedFrom.AirportCode,
+  //         Destination: selectedTo.AirportCode,
+  //         FlightCabinClass: activeIdClass,
+  //         PreferredDepartureTime: formattedDate2,
+  //         PreferredArrivalTime: formattedDate2,
+  //       },
+  //     ],
+  //     Sources: ["GDS"],
+  //   };
+  //   dispatch(oneWayAction(payload));
+  // }
 
   const handleOneWaySubmitPopularSearch = () => {
     const payload = {
@@ -486,16 +370,8 @@ const Oneway2 = (props) => {
   }
   function handleOnewaySubmit(event) {
     event.preventDefault();
-
-    // if (authenticUser !== 200) {
-    //   setIsLoginModalOpen(true);
-    // }
-
-    // else {
     const formData = new FormData(event.target);
-    setDepartureDate(formData.get("departure"));
-
-    // createSearchHistory();
+    // setDepartureDate(formData.get("departure"));
 
     const payload = {
       EndUserIp: reducerState?.ip?.ipData,
@@ -547,83 +423,19 @@ const Oneway2 = (props) => {
       dispatch(oneWayAction(dummyTicketPayload));
     }
     else { dispatch(oneWayAction(payload)) };
-    // }
+
   }
-
-
-  // function handleRoundTripSubmit(event) {
-  //   event.preventDefault();
-  //   const formData = new FormData(event.target);
-  //   const payload = {
-  //     EndUserIp: reducerState?.ip?.ipData,
-  //     TokenId: reducerState?.ip?.tokenData,
-  //     AdultCount: "1",
-  //     ChildCount: "1",
-  //     InfantCount: "1",
-  //     DirectFlight: "false",
-  //     OneStopFlight: "false",
-  //     JourneyType: "1",
-  //     PreferredAirlines: null,
-  //     Segments: [
-  //       {
-  //         Origin: selectedFrom.AirportCode,
-  //         Destination: selectedTo.AirportCode,
-  //         FlightCabinClass: "1",
-  //         PreferredDepartureTime: formData.get("departure"),
-  //         PreferredArrivalTime: formData.get("return"),
-  //       },
-  //     ],
-  //     Sources: null,
-  //   };
-
-  //   dispatch(oneWayAction(payload));
-  // }
-
-  function validation() {
-    if (document.getElementById("departure").value === "") {
-      return true;
-    }
-  }
-
-  // const handleButtonClick = () => {
-  //   // Redirect to the "/returnResult" path
-  //   navigate("/booking");
-  // };
-  // const DateRangePickerComponent = () => {
-  //   const [dateRanges, setDateRanges] = useState([]);
-
-  //   const handleDateChange = (ranges) => {
-  //     const [range] = ranges;
-  //     const newDate = {
-  //       key: dateRanges.length + 1,
-  //       start: range.startDate.toISOString().split("T")[0],
-  //       end: range.endDate.toISOString().split("T")[0],
-  //     };
-
-  //     setDateRanges([...dateRanges, newDate]);
-  //   };
-
-  //   const removeDate = (key) => {
-  //     const updatedDates = dateRanges.filter((date) => date.key !== key);
-  //     setDateRanges(updatedDates);
-  //   };
-  // };
 
   const handleRoundLogoClick = () => {
-    // e.stopPropagation();
-
-    // Swap the values of 'from' and 'to'
     const tempFrom = { ...selectedFrom };
 
     const tempSelectedFrom = selectedFrom;
     setSelectedFrom(selectedTo);
-    // setSelectedTo(tempSelectedFrom);
     setSelectedTo(tempFrom);
   };
 
   const newHeight = navbarHeight ? `${Number(navbarHeight) + 52}px` : '20%';
 
-  // console.log(navbarHeight, "navheight;;;;;;;;;;;;;;;;;;;;;;;;;;;", newHeight)
   return (
     <>
       <section
@@ -653,7 +465,7 @@ const Oneway2 = (props) => {
                       e.stopPropagation(); // Stop event bubbling
                       setFromToggle(true);
                       setdisplayFrom(true);
-                      setIsLoadingFrom(true);
+                      // setIsLoadingFrom(true);
                       // ; alert(fromToggle, "/////")
 
                     }} className="from-container12">
@@ -700,7 +512,7 @@ const Oneway2 = (props) => {
 
                                     onChange={(event) => {
                                       handleFromInputChange(event);
-                                      setIsLoadingFrom(true);
+                                      // setIsLoadingFrom(true);
                                       handleFromSearch(event.target.value);
 
 
@@ -816,7 +628,7 @@ const Oneway2 = (props) => {
                     e.stopPropagation(); // Stop event bubbling
                     setToggle(true);
                     setdisplayTo(true);
-                    setIsLoadingTo(true);
+                    // setIsLoadingTo(true);
                     // ; alert(fromToggle, "/////")
 
                   }} className="from-container12">
@@ -859,7 +671,7 @@ const Oneway2 = (props) => {
                                     // autoFocus
                                     onChange={(event) => {
                                       handleToInputChange(event);
-                                      setIsLoadingTo(true);
+                                      // setIsLoadingTo(true);
                                       handleToSearch(event.target.value);
                                     }}
 
@@ -934,6 +746,7 @@ const Oneway2 = (props) => {
                         <DatePicker
                           name="departure"
                           id="departure"
+                          dateFormat="dd MMM, yy"
                           selected={startDate}
                           onChange={handleDateChange}
                           minDate={currentdate}

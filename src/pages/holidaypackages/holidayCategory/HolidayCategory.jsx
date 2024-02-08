@@ -13,33 +13,23 @@ import HolidayLoader from "../holidayLoader/HolidayLoader"
 const HolidayCategory = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
-    // const [selectedCategory, setSelectedCategory] = useState(null);
 
-    const quotes = {
-        Beach: "Sun, sand, and sea - the perfect beach getaway!",
-        HillStation: "Escape to the mountains and enjoy the serene beauty.",
-        Heritage: "Step back in time and explore our rich cultural heritage.",
-        Wildlife: "Experience the thrill of the wild with our wildlife adventures.",
-        Cruise: "Sail away on a luxurious cruise and create unforgettable memories."
-    };
     const handleCategoryClick = async (category) => {
-        const queryParameter = `${category}=true`;
+        const queryParameter = `${category}`;
+        navigate(`/holidaycategorydetails/${queryParameter}`);
+        // try {
+        //     setLoading(true);
+        //     const response = await fetch(`${apiURL.baseURL}/skyTrails/beachesPackages?keyword=${queryParameter}`);
+        //     const data = await response.json();
 
-        try {
-            setLoading(true);
-            const response = await fetch(`${apiURL.baseURL}/skyTrails/beachesPackages?${queryParameter}`);
-            const data = await response.json();
-
-            if (data.success === 1) {
-                const quote = quotes[category];
-                // setSelectedCategory({ category, quote });
-                setLoading(false)
-                navigate(`/holidaycategorydetails/${category}`, { state: { categoryData: data.data, quote } });
-            }
-        } catch (error) {
-            console.error('Error fetching category data', error);
-            setLoading(false)
-        }
+        //     if (data.success === 1) {
+        //         setLoading(false)
+        //         navigate(`/holidaycategorydetails/${category}`, { state: { categoryData: data.data } });
+        //     }
+        // } catch (error) {
+        //     console.error('Error fetching category data', error);
+        //     setLoading(false)
+        // }
     };
 
 

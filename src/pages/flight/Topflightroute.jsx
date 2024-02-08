@@ -15,7 +15,7 @@ const flightRoutes = [
     destination: "Mumbai",
     code: "BOM",
     arrivalCode: "MAA",
-    code1: "DEL-PNQ",
+    code1: "MAA-BOM",
     imgages: imgage1,
   },
   {
