@@ -118,8 +118,8 @@ const Hotelpackages = () => {
   }, [minutes]);
 
   useEffect(() => {
-    setIsExit((hours >= 17 && minutes >= 59) && (hours <= 6 && minutes <= 59));
-    // setIsExit((hours >= 14 && minutes >= 6) && (hours >= 14 && minutes < 8));
+    // setIsExit((hours === 17 && minutes === 34) && (hours < 6));
+    setIsExit((hours >= 18 && minutes > 4) || (hours < 6 && minutes > 8));
   }, [hours, minutes, isExit]);
 
   // console.log(isExit);

@@ -533,7 +533,7 @@ export default function BookWrapper() {
             const verifyResponse = await axios.post(
               `${apiURL.baseURL}/skyTrails/api/transaction/paymentFailure?merchantTransactionId=${response.txnid}`
             );
-            console.log(verifyResponse.data);
+            // console.log(verifyResponse.data);
             swalModal("py", verifyResponse.data.responseMessage, false)
             // Handle verifyResponse as needed
           } catch (error) {
