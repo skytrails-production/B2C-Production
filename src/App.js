@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
 import Home from "./pages/home/Home";
 import BookWrapper from "./pages/flight/Bookwrapper";
 import Searchresult from "./pages/flight/Searchresult";
@@ -67,6 +67,7 @@ import HolidayCountryDetails from './pages/holidaypackages/holidayCategory/Holid
 function App() {
   // const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
 
 
@@ -151,7 +152,10 @@ function App() {
   };
 
 
-
+  const handleDownload = () => {
+    navigate("/download")
+    setShowPopup(false);
+  }
 
 
 
@@ -164,7 +168,9 @@ function App() {
         <div className="popup-container">
           {/* Popup content, e.g., image and close button */}
           <div className="popup-content">
-            <img src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/eventBanner.jpeg" alt="Popup" />
+
+            <img onClick={handleDownload} src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/eventBanner.jpeg" alt="Popup" />
+
             <button className="close-button" onClick={closePopup}>X</button>
           </div>
         </div>
@@ -181,6 +187,7 @@ function App() {
         <Route path="/Searchresult" element={<Searchresult />} />
 
         <Route path="/payment" element={<Payment />} />
+        <Route path="/download" element={<Download />} />
         {/* <Route path="/returnflight" element={<ReturnFlight />} /> */}
         {/* <Route path="/booking" element={<Booking />} /> */}
         {/* <Route path="/completebooking" element={<CompleteBooking />} /> */}
