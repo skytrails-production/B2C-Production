@@ -121,15 +121,54 @@ function App() {
   //   )
   // }
 
+
+
+
+
+
   const { pathname } = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
 
+
+
+
+
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPopup(true);
+    }, 3000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  const closePopup = () => {
+    setShowPopup(false);
+  };
+
+
+
+
+
+
   return (
     <div className="background_gradient">
       {/* /Searchresult */}
+
+
+      {showPopup && (
+        <div className="popup-container">
+          {/* Popup content, e.g., image and close button */}
+          <div className="popup-content">
+            <img src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/eventBanner.jpeg" alt="Popup" />
+            <button className="close-button" onClick={closePopup}>X</button>
+          </div>
+        </div>
+      )}
 
       <Routes>
         <Route index element={<Home />}></Route>
