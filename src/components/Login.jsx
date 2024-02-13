@@ -213,7 +213,7 @@ export default function LoginForm() {
 
       const newToken = await res.data.result.token;
       sessionStorage.setItem("jwtToken", newToken);
-      console.log(newToken, res.data, res.data.result.otpVerified, "new token")
+      // console.log(newToken, res.data, res.data.result.otpVerified, "new token")
 
       if (res.data.statusCode === 200 && res.data.result.firstTime === false) {
         handleClose();
@@ -356,7 +356,7 @@ export default function LoginForm() {
     else {
       setSignUp(false);
     }
-    console.log(name, finalDate, email, otp, subSignUp)
+    // console.log(name, finalDate, email, otp, subSignUp)
     return
   }
   useEffect(() => {

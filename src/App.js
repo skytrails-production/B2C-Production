@@ -60,6 +60,7 @@ import { useLocation } from 'react-router-dom';
 import FlightETicket from "../src/components/FlightETicket"
 import DummyPnrHome from "./components/DummyPnrHome"
 import HolidayCountryDetails from './pages/holidaypackages/holidayCategory/HolidayCountryDetails';
+import Events from './pages/Event/Events';
 
 
 
@@ -153,7 +154,7 @@ function App() {
 
 
   const handleDownload = () => {
-    navigate("/download")
+    navigate("/pefaevent")
     setShowPopup(false);
   }
 
@@ -283,6 +284,7 @@ function App() {
         <Route path="/bookinghistory" element={<BookingHistory />}></Route>
         <Route path="/oneWayDummyPnr" element={<DummyTicketBookingForm />}></Route>
         <Route path="/oneWayDummyHome" element={<DummyPnrHome />}></Route>
+        <Route path="/pefaevent" element={<Events />}></Route>
       </Routes>
       <Footer />
     </div>

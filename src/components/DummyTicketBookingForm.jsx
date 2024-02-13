@@ -50,9 +50,12 @@ const Homeform = (props) => {
   // const handleDateChange = (date) => {
   //   setStartDate(date);
   // };
-
-  const [startDate, setStartDate] = useState(new Date());
+  const StartDate=new Date();
+  StartDate.setDate(StartDate.getDate() + 3);
+  
+  const [startDate, setStartDate] = useState(StartDate);
   const currentdate = new Date(); // Assuming you have defined currentdate
+  currentdate.setDate(currentdate.getDate() + 3);
 
   const handleDateChange = (date) => {
     setStartDate(date);

@@ -231,9 +231,15 @@ const HotelForm = () => {
     if (storedData) {
       const storedCheckInDate = new Date(parsedStoredData[1].CheckInDate);
       const storedCheckOutDate = new Date(parsedStoredData[2].CheckOutDate);
+      if (storedCheckInDate < new Date()) {
+        setCheckIn(currentDate);
+        setCheckOut(futureDate);
+      } else {
+        setCheckIn(storedCheckInDate);
+        setCheckOut(storedCheckOutDate);
+      }
       setSearchTermLast(parsedStoredData[0])
-      setCheckIn(storedCheckInDate);
-      setCheckOut(storedCheckOutDate);
+
     } else {
       setCheckIn(currentDate);
       setCheckOut(futureDate);

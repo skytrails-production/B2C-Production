@@ -18,6 +18,7 @@
   font-weight: 600;
   line-height: normal;
 }
+
 .adult_count_div {
   display: flex;
   /* width: 100%; */
@@ -30,11 +31,13 @@
   border-radius: 4px;
   box-sizing: border-box;
 }
+
 .adult_count {
   display: flex;
   /* background-color: #dc3545; */
   justify-content: space-between;
 }
+
 .adult_count_box {
   width: 35px;
   height: 35px;
@@ -47,12 +50,14 @@
   color: #d90429 !important;
   font-size: 35px !important;
 }
-.adult_cout_lable_div{
+
+.adult_cout_lable_div {
   font-size: 0.85rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #212529;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
 }
+
 .adult_count_box_input {
   width: 35px;
   height: 35px;
@@ -114,7 +119,7 @@
   fill: #fff;
 }
 
-.packageLocation + div {
+.packageLocation+div {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -124,7 +129,7 @@
   gap: 10px;
 }
 
-.packageLocation + div p {
+.packageLocation+div p {
   margin-bottom: 0 !important;
   color: #071c2c;
 
@@ -136,7 +141,7 @@
   line-height: normal;
 }
 
-.packageLocation + div span {
+.packageLocation+div span {
   color: #bbb;
   text-align: center;
   font-family: Montserrat;
@@ -637,7 +642,7 @@ p: 4, */
   overflow: hidden;
   overflow-y: scroll;
   position: sticky;
-  height: calc(100vh - 100px);
+  /* height: calc(100vh - 100px); */
 }
 
 .packageSideForm .container {
@@ -779,7 +784,7 @@ p: 4, */
     max-height: 400px;
   }
 
-  .packageLocation + div p {
+  .packageLocation+div p {
     margin-bottom: 0 !important;
     color: #071c2c;
     text-align: left;
@@ -791,7 +796,7 @@ p: 4, */
     display: flex;
   }
 
-  .packageLocation + div {
+  .packageLocation+div {
     display: flex;
     flex-direction: row;
     align-items: center;

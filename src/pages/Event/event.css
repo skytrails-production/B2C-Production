@@ -1,0 +1,397 @@
+.eventForm {
+    background-color: white;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+
+
+.mainimgEvent {
+    margin-top: 80px;
+    height: 400px;
+    width: 100%;
+    position: relative;
+    /* box-shadow: inset 0px 56px 52px -18px rgba(0, 0, 0, 0.6); */
+}
+
+.passAbs {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+
+}
+
+.passAbs p {
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+}
+
+.passAbs img {
+    width: 30px !important;
+    position: relative;
+    animation: imgScroll 1s infinite;
+}
+
+@keyframes imgScroll {
+    0% {
+        top: 0px;
+    }
+
+    50% {
+        top: -5px;
+    }
+
+    100% {
+        top: 0px;
+    }
+}
+
+
+.mainimgEvent img {
+    /* margin-top: 70px; */
+    width: 100%;
+    height: 100%;
+    /* object-fit: contain; */
+}
+
+.formUpperEvent {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-content: center;
+}
+
+.formUpperEvent>div {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+
+
+.custom-radio input[type='radio'] {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #999;
+    border-radius: 50%;
+    outline: none;
+    box-shadow: 0 0 5px #999;
+    transition: box-shadow 0.3s ease;
+}
+
+.custom-radio input[type='radio']:before {
+    content: '';
+    display: block;
+    width: 60%;
+    height: 60%;
+    margin: 20% auto;
+    border-radius: 50%;
+}
+
+.custom-radio input[type='radio']:checked:before {
+    background: #999;
+}
+
+
+.eventSubmit {
+    margin: 20px 0px 10px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.formUpperEvent p {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.formUpperEvent {
+    gap: 10px;
+}
+
+.eventForm form {
+    margin-top: 25px;
+}
+
+.text-green {
+    color: green;
+}
+
+.formUpperEvent span {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.eventSubmit button {
+    border-radius: 7px;
+    width: 200px;
+    font-weight: 700;
+    padding: 10px 0px;
+    background-image: linear-gradient(to right, #d90429 0%, #ea384d 51%, #d90429 100%);
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    border: none;
+}
+
+.eventSubmit button:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+}
+
+.eventSuccessModalButton button {
+    border-radius: 7px;
+    font-weight: 700;
+    padding: 8px 19px;
+    background-image: linear-gradient(to right, #d90429 0%, #ea384d 51%, #d90429 100%);
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    border: none;
+}
+
+.eventSuccessModalButton button:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+}
+
+
+.eventTickets {
+    display: inline-flex;
+    background: #fff;
+
+    /* width: 400px; */
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: 5px;
+    padding: 20px 0px 0px 0px;
+    /* box-shadow: 5px 5px 30px rgba(0, 0, 0, 0.2); */
+}
+
+.eventTickets .optionsss {
+    background: #fff;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    margin-right: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 8px 10px;
+    border: 2px solid lightgrey;
+    transition: all 0.3s ease;
+}
+
+
+.eventInput .form-label {
+    font-size: 14px;
+}
+
+.eventTickets .optionsss .dot {
+    height: 20px;
+    width: 20px;
+    background: #d9d9d9;
+    border-radius: 50%;
+    position: relative;
+    margin-right: 8px;
+}
+
+.eventTickets .optionsss .dot::before {
+    position: absolute;
+    content: "";
+    top: 4px;
+    left: 4px;
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(to bottom, #a95, rgb(233, 216, 148));
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(1.5);
+    transition: all 0.3s ease;
+}
+
+.eventContnet h1 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+
+.eventSuccessModalImage {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.eventSuccessModalImage img {
+    width: 200px;
+}
+
+.eventFirstPara {
+    font-size: 16px;
+    margin-bottom: 50px;
+    font-weight: 600;
+}
+
+
+.eventFirstPara p {
+    margin-bottom: 10px !important;
+}
+
+.eventFirstPara h3 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 15px;
+    font-weight: 700;
+    margin-bottom: 36px !important;
+}
+
+.eventTickets input[type="radio"] {
+    display: none;
+}
+
+#option-1:checked:checked~.optionTicket1,
+#option-2:checked:checked~.optionTicket2 {
+    border-color: #fff;
+    /* background: #0069d9; */
+    background: linear-gradient(to bottom, #a95, rgb(231, 209, 118));
+    /* background: -webkit-gradient(linear, left top, left bottom, from(#a95), to(#fea)); */
+}
+
+#option-1:checked:checked~.optionTicket1 .dot,
+#option-2:checked:checked~.optionTicket2 .dot {
+    background: #fff;
+}
+
+#option-1:checked:checked~.optionTicket1 .dot::before,
+#option-2:checked:checked~.optionTicket2 .dot::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.eventTickets .optionsss span {
+    font-size: 20px;
+    color: #808080;
+    white-space: nowrap;
+}
+
+#option-1:checked:checked~.optionTicket1 span,
+#option-2:checked:checked~.optionTicket2 span {
+    color: #fff;
+}
+
+
+.eventBookingConfirmed {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.eventBookingConfirmed h3 {
+
+    font-weight: 700;
+    color: green;
+}
+
+.eventBookingConfirmed p {
+
+    font-weight: 700;
+
+}
+
+
+
+@media(max-width:600px) {
+    .bannerBackEvent {
+        object-fit: unset !important;
+    }
+
+    .mainimgEvent {
+        margin-top: 56px !important;
+        height: 110px !important;
+        width: 100%;
+        position: relative;
+        /* box-shadow: inset 0px 56px 52px -18px rgba(0, 0, 0, 0.6); */
+    }
+
+    .eventContnet h1 {
+        font-size: 17px;
+        text-align: center;
+        margin-bottom: 15px;
+        font-weight: 700;
+    }
+
+    .eventFirstPara {
+        font-size: 13px !important;
+        margin-bottom: 50px;
+        font-weight: 600;
+    }
+
+    .eventTickets .optionsss span {
+        font-size: 11px !important;
+        color: #808080;
+        white-space: nowrap;
+    }
+
+
+    .eventTickets .optionsss {
+        padding: 4px 10px !important;
+    }
+
+    .eventTickets {
+        width: 100%;
+        display: inline-flex;
+
+    }
+
+    .formUpperEvent p {
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .formUpperEvent span {
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .eventInput .form-label {
+        font-size: 12px;
+    }
+
+    .eventFirstPara h3 {
+        font-size: 14px !important;
+        text-align: center;
+        margin-bottom: 15px;
+        font-weight: 700;
+        margin-bottom: 36px !important;
+    }
+
+    .eventSubmit button {
+        width: 100%;
+        border-radius: 7px;
+        font-weight: 700;
+        padding: 7px 24px;
+        background-image: linear-gradient(to right, #d90429 0%, #ea384d 51%, #d90429 100%);
+        transition: 0.5s;
+        background-size: 200% auto;
+        color: white;
+        border: none;
+    }
+
+    .eventTickets .optionsss:nth-child(2) {
+
+        margin-right: 0px !important;
+
+    }
+}
