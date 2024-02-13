@@ -1363,8 +1363,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
 
                   return (
                     <>
-                      {results?.[0][item]?.Segments?.[0].length == 2 ? (
-                        <motion.div
+                      <motion.div
                           variants={variants}
                           initial="initial"
                           whileInView="animate"
@@ -1392,13 +1391,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                                   results?.[0][item]?.Segments?.[0][0]?.Airline
                                     ?.FlightNumber
                                 }
-                                {/* {results?.[0][item]?.IsLCC === false ? (
-                                    <span style={{ background: "green", color: "white" }}>
-                                      LCC
-                                    </span>
-                                  ) : (
-                                    ""
-                                  )} */}
+                               
                               </p>
                             </div>
                             <motion.div
@@ -1458,6 +1451,8 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                               </div>
 
                               <div className="singleFlightBoxThree">
+                              {
+                                results[0][item]?.Segments[0].length > 1 ? 
                                 <h4>
                                   {`${Math.floor(
                                     results[0][item]?.Segments[0][0]?.Duration /
@@ -1472,7 +1467,14 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                                   )}hr ${results[0][item]?.Segments[0][0]?.Duration %
                                   60
                                     }min`}
-                                </h4>
+                                </h4>:<h4>
+                                  {`${Math.floor(
+                                    results[0][item]?.Segments[0][0]?.Duration /
+                                    60
+                                  )}hr ${results[0][item]?.Segments[0][0]?.Duration %
+                                  60
+                                    }min`}                                 
+                                </h4>}
                                 <div className="stopBef">
                                   <Divider
                                     orientation="vertical"
@@ -1485,7 +1487,9 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                                     className=""
                                   />
                                 </div>
-                                <p>{`1 stop via ${results[0][item]?.Segments[0][0]?.Destination?.Airport?.CityName}`}</p>
+                                <p>{
+                                results[0][item]?.Segments[0].length > 1 ? 
+                                `${results[0][item]?.Segments[0].length-1} stop via ${results[0][item]?.Segments[0][0]?.Destination?.Airport?.CityName}`:"Non Stop"}</p>
 
                                 <span>
                                   {
@@ -1499,19 +1503,18 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                               <div className="singleFlightBoxFour">
                                 <span>
                                   {
-                                    results[0][item]?.Segments[0][1]?.Destination
+                                    results[0][item]?.Segments[0][results[0][item]?.Segments[0].length-1]?.Destination
                                       ?.Airport?.CityName
                                   }
                                 </span>
                                 <p>
                                   {dayjs(
-                                    results?.[0][item]?.Segments?.[0][1]
-                                      ?.Destination?.ArrTime
+                                    results?.[0][item]?.Segments?.[0][results[0][item]?.Segments[0].length-1]?.Destination?.ArrTime
                                   ).format("DD MMM, YY")}
                                 </p>
                                 <h5 className="daySize">
                                   {dayjs(
-                                    results?.[0][item]?.Segments?.[0][1]
+                                    results?.[0][item]?.Segments?.[0][results[0][item]?.Segments[0].length-1]
                                       ?.Destination?.ArrTime
                                   ).format("h:mm A")}
                                 </h5>
@@ -1530,163 +1533,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                             </motion.div>
                           </motion.div>
                         </motion.div>
-                      ) : (
-                        <motion.div
-                          variants={variants}
-                          initial="initial"
-                          whileInView="animate"
-                        >
-                          <motion.div variants={variants} className="mobileflexDesign">
-                            <div className="columnFLightName d-flex d-sm-none">
-                              <div>
-                                <img
-                                  src={`${process.env.PUBLIC_URL}/FlightImages/${results?.[0][item]?.AirlineCode}.png`}
-                                  alt="flight"
-                                />{" "}
-                              </div>
-                              <span>
-                                {
-                                  results?.[0][item]?.Segments[0][0]?.Airline
-                                    ?.AirlineName
-                                }
-                              </span>
-                              <p>
-                                {
-                                  results?.[0][item]?.Segments?.[0][0]?.Airline
-                                    ?.AirlineCode
-                                }
-                                {
-                                  results?.[0][item]?.Segments?.[0][0]?.Airline
-                                    ?.FlightNumber
-                                }
-                                {/* {results?.[0][item]?.IsLCC === false ? (
-                                    <span style={{ background: "green", color: "white" }}>
-                                      LCC
-                                    </span>
-                                  ) : (
-                                    ""
-                                  )} */}
-                              </p>
-                            </div>
-                            <motion.div
-                              variants={variants}
-                              className="singleFlightBox"
-                            >
-                              <div className="singleFlightBoxOne">
-                                <div>
-                                  <img
-                                    src={`${process.env.PUBLIC_URL}/FlightImages/${results?.[0][item]?.AirlineCode}.png`}
-                                    alt="flight"
-                                  />{" "}
-                                </div>
-                                <span>
-                                  {
-                                    results?.[0][item]?.Segments[0][0]?.Airline
-                                      ?.AirlineName
-                                  }
-                                </span>
-                                <p>
-                                  {
-                                    results?.[0][item]?.Segments?.[0][0]?.Airline
-                                      ?.AirlineCode
-                                  }
-                                  {
-                                    results?.[0][item]?.Segments?.[0][0]?.Airline
-                                      ?.FlightNumber
-                                  }
-                                  {/* {results?.[0][item]?.IsLCC === false ? (
-                                    <span style={{ background: "green", color: "white" }}>
-                                      LCC
-                                    </span>
-                                  ) : (
-                                    ""
-                                  )} */}
-                                </p>
-                              </div>
-                              <div className="singleFlightBoxTwo">
-                                <span>
-                                  {
-                                    results?.[0][item]?.Segments?.[0][0]?.Origin
-                                      ?.Airport?.CityName
-                                  }
-                                </span>
-                                <p>
-                                  {dayjs(
-                                    results?.[0][item]?.Segments[0][0]?.Origin
-                                      ?.DepTime
-                                  ).format("DD MMM, YY")}
-                                </p>
-                                <h5 className="daySize">
-                                  {dayjs(
-                                    results?.[0][item]?.Segments[0][0]?.Origin
-                                      ?.DepTime
-                                  ).format("h:mm A")}
-                                </h5>
-                              </div>
-
-                              <div className="singleFlightBoxThree">
-                                <h4>{duration}</h4>
-
-                                <div>
-                                  <Divider
-                                    orientation="vertical"
-                                    flexItem
-                                    sx={{
-                                      backgroundColor: "#21325d",
-                                      marginX: "8px",
-                                      height: "3px",
-                                    }}
-                                  />
-                                </div>
-
-                                <p>Non Stop</p>
-
-                                <span>
-                                  {
-                                    results?.[0][item]?.Segments?.[0][0]
-                                      ?.NoOfSeatAvailable
-                                  }{" "}
-                                  Seats Left
-                                </span>
-                              </div>
-
-                              <div className="singleFlightBoxFour">
-                                <span>
-                                  {
-                                    results?.[0][item]?.Segments?.[0][0]
-                                      ?.Destination?.Airport?.CityName
-                                  }
-                                </span>
-                                <p>
-                                  {dayjs(
-                                    results?.[0][item]?.Segments?.[0][0]
-                                      ?.Destination?.ArrTime
-                                  ).format("DD MMM, YY")}
-                                </p>
-                                <h5 className="daySize">
-                                  {dayjs(
-                                    results?.[0][item]?.Segments?.[0][0]
-                                      ?.Destination?.ArrTime
-                                  ).format("h:mm A")}
-                                </h5>
-                              </div>
-
-                              <div className="singleFlightBoxSeven">
-                                <p>₹ {results?.[0][item]?.Fare?.PublishedFare}</p>
-                                <button
-                                  onClick={() => {
-                                    handleIndexId(
-                                      results?.[0][item]?.ResultIndex
-                                    );
-                                  }}
-                                >
-                                  View Details →
-                                </button>
-                              </div>
-                            </motion.div>
-                          </motion.div>
-                        </motion.div>
-                      )}
+                      
                     </>
                   );
                 })}
