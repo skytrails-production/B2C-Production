@@ -51,7 +51,7 @@ const Hoteldescription = () => {
     reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Status || false;
   const passenger = reducerState?.passengers?.passengersData;
 
-  console.log(reducerState, "passenger");
+  // console.log(reducerState, "passenger");
 
   const hotelBlockDetails =
     reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult;
@@ -279,7 +279,7 @@ const Hoteldescription = () => {
             const verifyResponse = await axios.post(
               `${apiURL.baseURL}/skyTrails/api/transaction/paymentFailure?merchantTransactionId=${response.txnid}`
             );
-            console.log(verifyResponse.data);
+            // console.log(verifyResponse.data);
             // Handle verifyResponse as needed
             swalModal("hotel", verifyResponse.data.responseMessage
               , false)

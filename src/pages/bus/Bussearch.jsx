@@ -158,9 +158,9 @@ const Homeform = (props) => {
       // navigate("/busresult");
     }
     else if (reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorCode !== 0 && reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorCode !== undefined) {
-      console.warn("BusResult", reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorCode
+      // console.warn("BusResult", reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorCode
 
-      )
+      // )
       swalModal("bus", reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorMessage, false)
 
 

@@ -2008,7 +2008,7 @@ export default function BasicGrid() {
           ),
           `${radioGroupName}:${selectedValue}`,
         ];
-      console.log('updatedCategory:', updatedCategory);
+      // console.log('updatedCategory:', updatedCategory);
       return updatedCategory;
     });
   };

@@ -8,7 +8,7 @@ import PY from "../images/img/Cancelled event-pana (1).svg"
 export const swalModal = (type, message, payment) => {
   const img = { flight: FLIGHT, py: PY, bus: BUS, hotel : HOTEL, package : PACKAGE }
   const dynamicImage = img[type];
-  console.warn(type, dynamicImage,  "type.....")
+  // console.warn(type, dynamicImage,  "type.....")
   swal.fire({
     imageUrl: dynamicImage || FLIGHT,
     html: `<h5>${message}</h5>`,

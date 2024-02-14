@@ -132,7 +132,7 @@ function HolidayPackagesDetail() {
     return Math.min(min, hotel?.pakage_amount?.amount || Infinity);
   }, Infinity);
 
-  console.log(maxPrice, "max pric")
+  // console.log(maxPrice, "max pric");
   const [priceRangeValue, setPriceRangeValue] = useState(maxPrice + 5001)
 
   const handlePriceRangeChange = (event) => {

@@ -137,7 +137,7 @@ const HotelForm = () => {
 
   async function ensureFutureDate(date) {
     // Convert dates to milliseconds for easy comparison
-    console.log(date, checkOut);
+    // console.log(date, checkOut);
     validateDates(date, date);
     return;
   }
@@ -179,7 +179,7 @@ const HotelForm = () => {
     }
     setCheckOut(checkoutDate);
     setSelectedDayTwo(checkoutDate);
-    console.log(checkoutDate, "formattedCheckout");
+    // console.log(checkoutDate, "formattedCheckout");
 
     return;
   }
@@ -483,7 +483,7 @@ const HotelForm = () => {
     // const dayOfWeek = date.toLocaleDateString("en-US", { weekday: "long" });
     await setCheckIn(date);
     await setSelectedDay(date);
-    console.log(date, "date");
+    // console.log(date, "date");
     ensureFutureDate(date);
   };
 
@@ -542,7 +542,7 @@ const HotelForm = () => {
   // };
 
   // search history logic
-  console.log(searchTermLast, "serarch term lastr")
+  // console.log(searchTermLast, "serarch term lastr")
 
   function handleSubmit(event) {
     event.preventDefault();

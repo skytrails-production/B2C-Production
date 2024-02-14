@@ -55,8 +55,8 @@ function Items({ currentItems }) {
       const price = busSearchResult[item]?.BusPrice?.OfferedPrice
       const BasePrice = busSearchResult[item]?.BusPrice?.BasePrice
       const data = busSearchResult[item]?.ArrivalTime;
-      console.error("ele",data)
-      console.error("item",item)
+      // console.error("ele",data)
+      // console.error("item",item)
       const date = new 
       Date(busSearchResult[item]?.ArrivalTime);
       const time = date.toTimeString().slice(0, 5);
@@ -64,7 +64,7 @@ function Items({ currentItems }) {
      
 
       const dateString =  busSearchResult[item]?.ArrivalTime;
-      console.error(".....<<<<", dateString);
+      // console.error(".....<<<<", dateString);
       const date1 = new Date(dateString);
       const time1 = date1.toLocaleTimeString()?.slice(0, 4);
 
@@ -217,8 +217,8 @@ export default function BasicGrid() {
    // ============================================> paginations =================================//
 
   const items = [...Array(results.length)?.keys()];
-  console.error("results",results)
-  console.error("items",items)
+  // console.error("results",results)
+  // console.error("items",items)
   const itemsPerPage = 5;
   const [currentItems, setCurrentItems] = useState(null);
   const [pageCount, setPageCount] = useState(0);

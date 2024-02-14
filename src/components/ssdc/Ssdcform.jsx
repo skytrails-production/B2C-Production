@@ -100,7 +100,7 @@ function Ssdcform({jobs}) {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      console.log('Form validation failed.');
+      // console.log('Form validation failed.');
     } else {
       
       try {

@@ -121,7 +121,7 @@ const Homeform = (props) => {
         setStartDate(new Date());
       } else {
         setStartDate(storedDate);
-        console.log(storedData, "stored data")
+        // console.log(storedData, "stored data")
       }
 
       setSelectedFrom(parsedStoredData[0]);

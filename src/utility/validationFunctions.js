@@ -72,7 +72,7 @@ export function isValidPassportNumber(passportNumber) {
 
 export function validatePassportExpiry(dateParam){
   const dateCheck=Date.now()
-  console.log(dateCheck.valueOf < dateParam,"passoportValidation");
+  // console.log(dateCheck.valueOf < dateParam,"passoportValidation");
   return dateCheck.valueOf<dateParam
 
 }

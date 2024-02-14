@@ -186,7 +186,7 @@ const Homeform = (props) => {
   };
 
   const handleFromSearch = (e) => {
-    console.error(e);
+    // console.error(e);
     setFromQuery(e);
   };
 

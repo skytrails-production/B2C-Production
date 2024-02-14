@@ -55,7 +55,7 @@ const Flightdetail = () => {
   const [loader, setLoader] = useState(false);
   const reducerState = useSelector((state) => state);
   const authenticUser = reducerState?.logIn?.loginData?.status;
-  console.log(reducerState, "reducerStateInBlockResponse");
+  // console.log(reducerState, "reducerStateInBlockResponse");
   const passportCheck =
     reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult
       ?.HotelRoomsDetails[0]?.IsPassportMandatory;
@@ -315,7 +315,7 @@ const Flightdetail = () => {
       });
       // console.log("filteredPassenger", filteredPassenger);
       const newFilteredPassenger = { ...filteredPassenger[0] };
-      console.log(name, value, "checkingPassporValidation");
+      // console.log(name, value, "checkingPassporValidation");
       if (name == "PassportExpDate") {
         newFilteredPassenger[name] = convertDateFormat(value);
       }
@@ -522,7 +522,7 @@ const Flightdetail = () => {
   //   }
 
   // }
-  console.log(hotelData, "hotel data state")
+  // console.log(hotelData, "hotel data state")
 
   return (
     <>

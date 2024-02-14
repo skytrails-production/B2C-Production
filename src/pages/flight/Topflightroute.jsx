@@ -95,9 +95,9 @@ function Topflightroute({
 
   // Example usage:
   const todaydate = getNextDayDateIfAfter9PM();
-  console.log(todaydate);
+  // console.log(todaydate);
   const handlePopularSearch = (popularParam) => {
-    console.log(popularParam, "popularParam");
+    // console.log(popularParam, "popularParam");
     const updatedParam = [
       {
         Destination: popularParam.arrivalCode,

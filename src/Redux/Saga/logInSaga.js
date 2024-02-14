@@ -14,7 +14,7 @@ function* userLoginRequest(action) {
     const user = yield call(userApi.userB2CLogin, action.payload);
     yield put(fetchLogIn(user));
   } catch (error) {
-    console.log("Login Error saga", error?.response?.data)
+    // console.log("Login Error saga", error?.response?.data)
     var userNotFound;
     // var inValidOTP = true;
     if (error?.response?.data?.message === 'User Not found.') {

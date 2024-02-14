@@ -85,7 +85,7 @@ function Holidayinfo() {
   const [adultCount, setAdultCount] = useState(1)
   const [childCount, setChildCount] = useState(0)
   const handleAdultCount = (icon) => {
-    console.warn(icon, "icon")
+    // console.warn(icon, "icon")
     if (icon === "add") {
       setAdultCount((pre) => pre + 1)
     }
@@ -95,7 +95,7 @@ function Holidayinfo() {
     return
   }
   const handleChildCount = (icon) => {
-    console.warn(icon, "icon")
+    // console.warn(icon, "icon")
     if (icon === "add") {
       setChildCount((pre) => pre + 1)
     }
@@ -168,7 +168,7 @@ function Holidayinfo() {
   }
   sessionStorage.setItem("searchPackageData", JSON.stringify(sessionPayload));
 
-  console.log(reducerState, "reducer")
+  // console.log(reducerState, "reducer")
 
 
   useEffect(() => {
@@ -211,7 +211,7 @@ function Holidayinfo() {
   const [valtrue, setValtrue] = useState(false)
 
   const validationFrom = () => {
-    console.log(formData.fullname === "", !validateEmail(formData.email), !validatePhoneNumber(formData.contact_number), formData.departure_city === "", formData.departure_date, Number(formData.number_of_adult) < 1)
+    // console.log(formData.fullname === "", !validateEmail(formData.email), !validatePhoneNumber(formData.contact_number), formData.departure_city === "", formData.departure_date, Number(formData.number_of_adult) < 1)
     if (formData.fullname === "" || !validateEmail(formData.email) || !validatePhoneNumber(formData.contact_number) || formData.departure_city === "" || formData.departure_date === "") {
       setValtrue(false)
 

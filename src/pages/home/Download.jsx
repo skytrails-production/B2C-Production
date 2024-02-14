@@ -35,7 +35,7 @@ const Download = () => {
         setSent(true); // Mark as sent
         setTimeout(() => setSent(false), 4000); // Reset "sent" state after 2 seconds
       }
-      console.log(res, "responsie")
+      // console.log(res, "responsie")
     } catch (error) {
       console.warn("Error sending link:", error);
     }

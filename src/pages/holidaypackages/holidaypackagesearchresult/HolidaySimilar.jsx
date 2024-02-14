@@ -16,7 +16,7 @@ const HolidaySimilar = () => {
     const filteredPackage =
         reducerState?.searchResult?.packageSearchResult?.data?.data?.pakage;
 
-    console.log(searchedData, "filtered")
+    // console.log(searchedData, "filtered");
 
 
 

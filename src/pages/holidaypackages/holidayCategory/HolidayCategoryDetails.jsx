@@ -79,7 +79,7 @@ const HolidayCategoryDetails = () => {
 
 
 
-    console.log(keyword, "kehywropd")
+    // console.log(keyword, "kehywropd")
 
 
 

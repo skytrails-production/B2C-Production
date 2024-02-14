@@ -410,7 +410,7 @@ export default function BookWrapper() {
     // console.warn(passengerData, "passenger data");
   };
 
-  console.log(passengerData, "passenger Data");
+  // console.log(passengerData, "passenger Data");
 
   // duration
   const totalMinutes = TicketDetails?.Segments[0][0]?.Duration;
@@ -498,7 +498,7 @@ export default function BookWrapper() {
         proceedPayment(data.result.access, "prod", data.result.key);
         // console.log("API call successful:", data);
       } else {
-        console.error("API call failed with status:", response.status);
+        // console.error("API call failed with status:", response.status);
         const errorData = await response.json();
         console.error("Error details:", errorData);
 

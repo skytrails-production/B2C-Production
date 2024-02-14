@@ -235,7 +235,7 @@ export default function LoginForm() {
       setToken(newToken);
 
     } catch (error) {
-      console.log('error', error);
+      // console.log('error', error);
       setDisableButton(false)
       setLoginError(true)
       // useEffect(() => {
