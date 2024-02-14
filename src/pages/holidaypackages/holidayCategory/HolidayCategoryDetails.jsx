@@ -147,6 +147,30 @@ const HolidayCategoryDetails = () => {
         setSearchInput(event.target.value);
     };
 
+
+
+    const maxPrice = newData?.reduce((max, hotel) => {
+        return Math.max(max, hotel?.pakage_amount?.amount || 0);
+    }, 0);
+    const minPrice = newData?.reduce((min, hotel) => {
+        return Math.min(min, hotel?.pakage_amount?.amount || Infinity);
+    }, Infinity);
+
+    console.log(maxPrice, "max pric")
+    const [priceRangeValue, setPriceRangeValue] = useState(maxPrice + 5001)
+
+    const handlePriceRangeChange = (event) => {
+        setPriceRangeValue(event.target.value);
+    };
+
+
+    useEffect(() => {
+        setPriceRangeValue(maxPrice + 5001);
+    }, [maxPrice])
+
+
+
+
     const handleRadioChange = (event) => {
         setSearchInput('');
         const selectedValue = event.target.value;
@@ -208,19 +232,19 @@ const HolidayCategoryDetails = () => {
                         case "20-30Days":
                             return noOfDays >= 20 && noOfDays <= 30;
                     }
-                case "price":
-                    switch (value) {
-                        case "25000":
-                            return publishedPrice <= 25000;
-                        case "25001":
-                            return publishedPrice > 25001 && publishedPrice <= 50000;
-                        case "50001":
-                            return publishedPrice > 50001 && publishedPrice <= 75000;
-                        case "75001":
-                            return publishedPrice > 75001 && publishedPrice <= 100000;
-                        case "100000":
-                            return publishedPrice > 100000;
-                    }
+                // case "price":
+                //     switch (value) {
+                //         case "25000":
+                //             return publishedPrice <= 25000;
+                //         case "25001":
+                //             return publishedPrice > 25001 && publishedPrice <= 50000;
+                //         case "50001":
+                //             return publishedPrice > 50001 && publishedPrice <= 75000;
+                //         case "75001":
+                //             return publishedPrice > 75001 && publishedPrice <= 100000;
+                //         case "100000":
+                //             return publishedPrice > 100000;
+                //     }
 
                 default:
                     return false;
@@ -231,7 +255,9 @@ const HolidayCategoryDetails = () => {
         const packageNameMatch = packageName?.includes(searchInputLower);
         const destinationMatch = filteredDestinations?.some(dest => dest.includes(searchInputLower));
 
-        return categoryFilters?.every((filter) => filter) && (packageNameMatch || destinationMatch);
+        const priceInRange = item?.pakage_amount?.amount <= priceRangeValue;
+        return categoryFilters?.every((filter) => filter) && (packageNameMatch || destinationMatch) && priceInRange;
+
     })?.sort((a, b) =>
         sortOption === "lowToHigh"
             ? a?.pakage_amount.amount - b?.pakage_amount.amount
@@ -333,6 +359,22 @@ const HolidayCategoryDetails = () => {
                                         </select>
                                     </div>
 
+                                    <div className="PackageDepartureMain">
+                                        <h2 className="sidebar-title">By Price</h2>
+                                        <div>
+                                            <input
+                                                type="range"
+                                                min={minPrice + 1}
+                                                max={maxPrice + 5001}
+                                                step="5000"
+                                                value={priceRangeValue}
+                                                onChange={handlePriceRangeChange}
+                                            />
+                                            <span>Max price ₹{""}{priceRangeValue}</span>
+                                        </div>
+                                        <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
+                                    </div>
+
                                     <div>
                                         <h2 className="sidebar-title">By Days</h2>
                                         <div>
@@ -379,7 +421,7 @@ const HolidayCategoryDetails = () => {
                                         <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                                     </div>
 
-                                    <div>
+                                    {/* <div>
                                         <h2 className="sidebar-title">By Price</h2>
                                         <div>
                                             {[
@@ -409,7 +451,7 @@ const HolidayCategoryDetails = () => {
                                             })}
                                         </div>
                                         <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                         </motion.div>
@@ -452,12 +494,29 @@ const HolidayCategoryDetails = () => {
 
                                         />
                                     </div>
-                                    <div>
+                                    <div className="busDepartureMain">
                                         <h2 className="sidebar-title">Sort By</h2>
                                         <select className="highSelect" value={sortOption} onChange={handleSortChange}>
                                             <option value="lowToHigh">Low to High</option>
                                             <option value="highToLow">High to Low</option>
                                         </select>
+                                    </div>
+
+
+                                    <div className="PackageDepartureMain">
+                                        <h2 className="sidebar-title">By Price</h2>
+                                        <div>
+                                            <input
+                                                type="range"
+                                                min={minPrice + 1}
+                                                max={maxPrice + 5001}
+                                                step="5000"
+                                                value={priceRangeValue}
+                                                onChange={handlePriceRangeChange}
+                                            />
+                                            <span>Max price ₹{""}{priceRangeValue}</span>
+                                        </div>
+                                        <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                                     </div>
 
                                     <div>

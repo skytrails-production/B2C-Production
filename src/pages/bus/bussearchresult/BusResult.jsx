@@ -165,6 +165,30 @@ function BusResult() {
     // setOpen(true);
   }
 
+
+  const maxPrice = busDataResult?.reduce((max, hotel) => {
+    return Math.max(max, hotel?.BusPrice?.PublishedPriceRoundedOff || 0);
+  }, 0);
+
+  const minPrice = busDataResult?.reduce((min, hotel) => {
+    return Math.min(min, hotel?.BusPrice?.PublishedPriceRoundedOff || Infinity);
+  }, Infinity);
+
+
+  const [priceRangeValue, setPriceRangeValue] = useState(maxPrice + 501)
+
+
+
+
+
+  const handlePriceRangeChange = (event) => {
+    setPriceRangeValue(event.target.value);
+  };
+
+  useEffect(() => {
+    setPriceRangeValue(maxPrice + 501);
+  }, [maxPrice])
+
   flatArray?.forEach((obj) => {
     if (obj?.IsUpper === true) {
       upperArray.push(obj);
@@ -304,33 +328,13 @@ function BusResult() {
     setSortOption(event.target.value);
   };
 
-  // const handleRadioChange = (event) => {
-  //   const selectedValue = event.target.value;
-  //   if (selectedValue === "All") {
-  //     setSelectedCategory([]);
-  //     document.querySelectorAll('input[name="test"]').forEach((checkbox) => {
-  //       checkbox.checked = false;
-  //     });
-  //   } else {
-  //     // If other checkbox is selected, update selectedCategory as before
-  //     setSelectedCategory((prevSelectedCategory) => {
-  //       if (prevSelectedCategory.includes(selectedValue)) {
-  //         return prevSelectedCategory.filter(
-  //           (value) => value !== selectedValue
-  //         );
-  //       } else {
-  //         return [...prevSelectedCategory, selectedValue];
-  //       }
-  //     });
-  //   }
-  // };
 
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     const radioGroupName = event.target.name;
 
-    console.log('selectedValue:', selectedValue);
-    console.log('radioGroupName:', radioGroupName);
+    // console.log('selectedValue:', selectedValue);
+    // console.log('radioGroupName:', radioGroupName);
 
 
     if (selectedValue === "All") {
@@ -365,8 +369,6 @@ function BusResult() {
     });
   };
 
-
-  // console.log(lowerArray, "selected category")
 
   const sortedAndFilteredResults = busDataResult
     ?.filter((item) => {
@@ -407,28 +409,28 @@ function BusResult() {
                 return item?.BusType?.toLowerCase().includes("seater");
             }
 
-          case "priceRange":
-            switch (value) {
-              case "800":
-                return item?.BusPrice?.PublishedPriceRoundedOff <= 800;
-              case "1200":
-                return (
-                  item?.BusPrice?.PublishedPriceRoundedOff > 800 &&
-                  item?.BusPrice?.PublishedPriceRoundedOff <= 1200
-                );
-              case "2000":
-                return (
-                  item?.BusPrice?.PublishedPriceRoundedOff > 1200 &&
-                  item?.BusPrice?.PublishedPriceRoundedOff <= 2000
-                );
-              case "3000":
-                return (
-                  item?.BusPrice?.PublishedPriceRoundedOff > 2000 &&
-                  item?.BusPrice?.PublishedPriceRoundedOff <= 3000
-                );
-              case "3001":
-                return item?.BusPrice?.PublishedPriceRoundedOff > 3000;
-            }
+          // case "priceRange":
+          //   switch (value) {
+          //     case "800":
+          //       return item?.BusPrice?.PublishedPriceRoundedOff <= 800;
+          //     case "1200":
+          //       return (
+          //         item?.BusPrice?.PublishedPriceRoundedOff > 800 &&
+          //         item?.BusPrice?.PublishedPriceRoundedOff <= 1200
+          //       );
+          //     case "2000":
+          //       return (
+          //         item?.BusPrice?.PublishedPriceRoundedOff > 1200 &&
+          //         item?.BusPrice?.PublishedPriceRoundedOff <= 2000
+          //       );
+          //     case "3000":
+          //       return (
+          //         item?.BusPrice?.PublishedPriceRoundedOff > 2000 &&
+          //         item?.BusPrice?.PublishedPriceRoundedOff <= 3000
+          //       );
+          //     case "3001":
+          //       return item?.BusPrice?.PublishedPriceRoundedOff > 3000;
+          //   }
 
 
 
@@ -436,8 +438,8 @@ function BusResult() {
             return true;
         }
       });
-
-      return categoryFilters?.every((filter) => filter);
+      const priceInRange = item?.BusPrice?.PublishedPriceRoundedOff <= priceRangeValue;
+      return categoryFilters?.every((filter) => filter) && priceInRange;
     })
     .sort((a, b) =>
       sortOption === "lowToHigh"
@@ -447,23 +449,21 @@ function BusResult() {
         a?.BusPrice?.PublishedPriceRoundedOff
     );
 
-  // console.log(layout, " bus data result")
-  // console.log(busDataResult, " busDataResult")
-  // console.log(lowerArray, " busFullData")
+
+
 
   const hasUpperSeats = layout.some((item) => item?.type === "upper");
 
+
+  // useEffect(() => {
+  //   window.scrollTo(0, 0);
+  // }, [sortedAndFilteredResults])
+
+
+
   return (
     <>
-      {/* <Helmet>
-        <title>Bus Result</title>
-        <link rel="canonical" href="/busresult" />
-        <meta name="description" content="bus" />
-        <meta
-          name="keywords"
-          content="online bus booking,cheap bus ticket,compare bus fare,best bus deal,last minute bus booking,luxury bus travel,comfortable bus journeys,overnight bus trips,scenic bus routes,student bus passes,sleeper bus with AC,bus with Wi-Fi and charging points,pet-friendly bus travel,luggage allowance on buses"
-        />
-      </Helmet> */}
+
       <div className="mainimgBusSearch">
         {/* <Navbar /> */}
         {/* <BigNavbar /> */}
@@ -490,7 +490,21 @@ function BusResult() {
                       <option value="highToLow">High to Low</option>
                     </select>
                   </div>
-
+                  <div className="PackageDepartureMain">
+                    <h2 className="sidebar-title">By Price</h2>
+                    <div>
+                      <input
+                        type="range"
+                        min={minPrice + 1}
+                        max={maxPrice + 501}
+                        step="500"
+                        value={priceRangeValue}
+                        onChange={handlePriceRangeChange}
+                      />
+                      <span>Max price ₹{""}{priceRangeValue}</span>
+                    </div>
+                    <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
+                  </div>
                   <div>
 
                     <div>
@@ -765,7 +779,7 @@ function BusResult() {
                     /> */}
                   </div>
 
-                  <div>
+                  {/* <div>
                     <h2 className="sidebar-title">By Price</h2>
 
                     <div>
@@ -826,7 +840,7 @@ function BusResult() {
                     <Divider
                       sx={{ marginBottom: "15px", backgroundColor: "gray" }}
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>

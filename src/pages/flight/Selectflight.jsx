@@ -130,6 +130,27 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
 
   // console.warn("current data", currentItems)
 
+
+  const maxPrice = currentItems?.reduce((max, hotel) => {
+    return Math.max(max, results[0][hotel]?.Fare?.PublishedFare || 0);
+  }, 0);
+  const minPrice = currentItems?.reduce((min, hotel) => {
+    return Math.min(min, results[0][hotel]?.Fare?.PublishedFare || Infinity);
+  }, Infinity);
+
+
+  const [priceRangeValue, setPriceRangeValue] = useState(maxPrice + 5001)
+
+  const handlePriceRangeChange = (event) => {
+    setPriceRangeValue(event.target.value);
+  };
+
+  useEffect(() => {
+    setPriceRangeValue(maxPrice + 5001);
+  }, [maxPrice])
+
+
+
   const filteredData =
     currentItems &&
     currentItems.filter((item) => {
@@ -184,9 +205,9 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
             return false;
         }
       });
-
+      const priceInRange = results[0][item]?.Fare?.PublishedFare <= priceRangeValue;
       // Apply AND logic for all selected categories
-      return categoryFilters.every((filter) => filter);
+      return categoryFilters.every((filter) => filter) && priceInRange;
     });
 
 
@@ -363,6 +384,23 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                   {/* <Divider
                     sx={{ marginBottom: "15px", backgroundColor: "gray" }}
                   /> */}
+                </div>
+
+
+                <div className="PackageDepartureMain">
+                  <h2 className="sidebar-title">By Price</h2>
+                  <div>
+                    <input
+                      type="range"
+                      min={minPrice + 1}
+                      max={maxPrice + 1}
+                      step="5000"
+                      value={priceRangeValue}
+                      onChange={handlePriceRangeChange}
+                    />
+                    <span>Max price ₹{""}{priceRangeValue}</span>
+                  </div>
+                  <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                 </div>
 
                 <div className="busDepartureMain">
@@ -904,6 +942,23 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                   /> */}
                 </div>
 
+
+                <div className="PackageDepartureMain">
+                  <h2 className="sidebar-title">By Price</h2>
+                  <div>
+                    <input
+                      type="range"
+                      min={minPrice + 1}
+                      max={maxPrice + 5001}
+                      step="5000"
+                      value={priceRangeValue}
+                      onChange={handlePriceRangeChange}
+                    />
+                    <span>Max price ₹{""}{priceRangeValue}</span>
+                  </div>
+                  <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
+                </div>
+
                 <div className="busDepartureMain">
                   <h2 className="sidebar-title">Departure From {
                     results.length > 0 && results?.[0][0]?.Segments?.[0][0]?.Origin?.Airport?.CityName
@@ -1364,176 +1419,197 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                   return (
                     <>
                       <motion.div
-                          variants={variants}
-                          initial="initial"
-                          whileInView="animate"
-                        >
-                          <motion.div variants={variants} className="mobileflexDesign">
-                            <div className="columnFLightName d-flex d-sm-none">
+                        variants={variants}
+                        initial="initial"
+                        whileInView="animate"
+                      >
+                        <motion.div variants={variants} className="mobileflexDesign">
+                          <div className="columnFLightName d-flex d-sm-none">
+                            <div>
+                              <img
+                                src={`${process.env.PUBLIC_URL}/FlightImages/${results?.[0][item]?.AirlineCode}.png`}
+                                alt="flight"
+                              />{" "}
+                            </div>
+                            <span>
+                              {
+                                results?.[0][item]?.Segments[0][0]?.Airline
+                                  ?.AirlineName
+                              }
+                            </span>
+                            <p>
+                              {
+                                results?.[0][item]?.Segments?.[0][0]?.Airline
+                                  ?.AirlineCode
+                              }
+                              {
+                                results?.[0][item]?.Segments?.[0][0]?.Airline
+                                  ?.FlightNumber
+                              }
+
+                            </p>
+                          </div>
+                          <motion.div
+                            variants={variants}
+                            className="singleFlightBox"
+                          >
+                            <div className="singleFlightBoxOne">
                               <div>
                                 <img
-                                  src={`${process.env.PUBLIC_URL}/FlightImages/${results?.[0][item]?.AirlineCode}.png`}
+                                  src={`${process.env.PUBLIC_URL}/FlightImages/${results[0][item]?.AirlineCode}.png`}
                                   alt="flight"
                                 />{" "}
                               </div>
                               <span>
                                 {
-                                  results?.[0][item]?.Segments[0][0]?.Airline
+                                  results[0][item]?.Segments[0][0]?.Airline
                                     ?.AirlineName
                                 }
                               </span>
                               <p>
                                 {
-                                  results?.[0][item]?.Segments?.[0][0]?.Airline
+                                  results[0][item]?.Segments[0][0]?.Airline
                                     ?.AirlineCode
                                 }
                                 {
-                                  results?.[0][item]?.Segments?.[0][0]?.Airline
+                                  results[0][item]?.Segments[0][0]?.Airline
                                     ?.FlightNumber
                                 }
-                               
-                              </p>
-                            </div>
-                            <motion.div
-                              variants={variants}
-                              className="singleFlightBox"
-                            >
-                              <div className="singleFlightBoxOne">
-                                <div>
-                                  <img
-                                    src={`${process.env.PUBLIC_URL}/FlightImages/${results[0][item]?.AirlineCode}.png`}
-                                    alt="flight"
-                                  />{" "}
-                                </div>
-                                <span>
-                                  {
-                                    results[0][item]?.Segments[0][0]?.Airline
-                                      ?.AirlineName
-                                  }
-                                </span>
-                                <p>
-                                  {
-                                    results[0][item]?.Segments[0][0]?.Airline
-                                      ?.AirlineCode
-                                  }
-                                  {
-                                    results[0][item]?.Segments[0][0]?.Airline
-                                      ?.FlightNumber
-                                  }
-                                  {/* {results[0][item]?.IsLCC === false ? (
+                                {/* {results[0][item]?.IsLCC === false ? (
                                     <span style={{ background: "green", color: "white" }}>
                                       LCC
                                     </span>
                                   ) : (
                                     ""
                                   )} */}
-                                </p>
-                              </div>
-                              <div className="singleFlightBoxTwo">
-                                <span>
-                                  {
-                                    results[0][item]?.Segments[0][0]?.Origin
-                                      ?.Airport?.CityName
-                                  }
-                                </span>
-                                <p>
-                                  {dayjs(
-                                    results?.[0][item]?.Segments[0][0]?.Origin
-                                      ?.DepTime
-                                  ).format("DD MMM, YY")}
-                                </p>
-                                <h5 className="daySize">
-                                  {dayjs(
-                                    results?.[0][item]?.Segments[0][0]?.Origin
-                                      ?.DepTime
-                                  ).format("h:mm A")}
-                                </h5>
-                              </div>
+                              </p>
+                            </div>
+                            <div className="singleFlightBoxTwo">
+                              <span>
+                                {
+                                  results[0][item]?.Segments[0][0]?.Origin
+                                    ?.Airport?.CityName
+                                }
+                              </span>
+                              <p>
+                                {dayjs(
+                                  results?.[0][item]?.Segments[0][0]?.Origin
+                                    ?.DepTime
+                                ).format("DD MMM, YY")}
+                              </p>
+                              <h5 className="daySize">
+                                {dayjs(
+                                  results?.[0][item]?.Segments[0][0]?.Origin
+                                    ?.DepTime
+                                ).format("h:mm A")}
+                              </h5>
+                            </div>
 
-                              <div className="singleFlightBoxThree">
+                            <div className="singleFlightBoxThree">
                               {
-                                results[0][item]?.Segments[0].length > 1 ? 
-                                <h4>
-                                  {`${Math.floor(
-                                    results[0][item]?.Segments[0][0]?.Duration /
+                                results[0][item]?.Segments[0].length > 1 ?
+                                  <h4>
+                                    {`${Math.floor(
+                                      results[0][item]?.Segments[0][0]?.Duration /
+                                      60
+                                    )}hr ${results[0][item]?.Segments[0][0]?.Duration %
                                     60
-                                  )}hr ${results[0][item]?.Segments[0][0]?.Duration %
-                                  60
-                                    }min`}{" "}
-                                  -{" "}
-                                  {`${Math.floor(
-                                    results[0][item]?.Segments[0][1]?.Duration /
+                                      }min`}{" "}
+                                    -{" "}
+                                    {`${Math.floor(
+                                      results[0][item]?.Segments[0][1]?.Duration /
+                                      60
+                                    )}hr ${results[0][item]?.Segments[0][0]?.Duration %
                                     60
-                                  )}hr ${results[0][item]?.Segments[0][0]?.Duration %
-                                  60
-                                    }min`}
-                                </h4>:<h4>
-                                  {`${Math.floor(
-                                    results[0][item]?.Segments[0][0]?.Duration /
+                                      }min`}
+                                  </h4> : <h4>
+                                    {`${Math.floor(
+                                      results[0][item]?.Segments[0][0]?.Duration /
+                                      60
+                                    )}hr ${results[0][item]?.Segments[0][0]?.Duration %
                                     60
-                                  )}hr ${results[0][item]?.Segments[0][0]?.Duration %
-                                  60
-                                    }min`}                                 
-                                </h4>}
-                                <div className="stopBef">
-                                  <Divider
-                                    orientation="vertical"
-                                    flexItem
-                                    sx={{
-                                      backgroundColor: "#21325d",
-                                      marginX: "8px",
-                                      height: "3px",
-                                    }}
-                                    className=""
-                                  />
-                                </div>
-                                <p>{
-                                results[0][item]?.Segments[0].length > 1 ? 
-                                `${results[0][item]?.Segments[0].length-1} stop via ${results[0][item]?.Segments[0][0]?.Destination?.Airport?.CityName}`:"Non Stop"}</p>
+                                      }min`}
+                                  </h4>}
 
-                                <span>
-                                  {
-                                    results[0][item]?.Segments[0][0]
-                                      ?.NoOfSeatAvailable
-                                  }{" "}
-                                  Seats Left
-                                </span>
-                              </div>
 
-                              <div className="singleFlightBoxFour">
-                                <span>
-                                  {
-                                    results[0][item]?.Segments[0][results[0][item]?.Segments[0].length-1]?.Destination
-                                      ?.Airport?.CityName
-                                  }
-                                </span>
-                                <p>
-                                  {dayjs(
-                                    results?.[0][item]?.Segments?.[0][results[0][item]?.Segments[0].length-1]?.Destination?.ArrTime
-                                  ).format("DD MMM, YY")}
-                                </p>
-                                <h5 className="daySize">
-                                  {dayjs(
-                                    results?.[0][item]?.Segments?.[0][results[0][item]?.Segments[0].length-1]
-                                      ?.Destination?.ArrTime
-                                  ).format("h:mm A")}
-                                </h5>
-                              </div>
+                              {
+                                results[0][item]?.Segments[0].length > 1 ?
+                                  (
+                                    <div className="stopBef">
+                                      <Divider
+                                        orientation="vertical"
+                                        flexItem
+                                        sx={{
+                                          backgroundColor: "#21325d",
+                                          marginX: "8px",
+                                          height: "3px",
+                                        }}
+                                        className=""
+                                      />
+                                    </div>
+                                  ) :
 
-                              <div className="singleFlightBoxSeven">
-                                <p>₹ {results[0][item]?.Fare?.PublishedFare}</p>
-                                <button
-                                  onClick={() => {
-                                    handleIndexId(results[0][item]?.ResultIndex);
-                                  }}
-                                >
-                                  View Details →
-                                </button>
-                              </div>
-                            </motion.div>
+                                  (
+                                    <div>
+                                      <Divider
+                                        orientation="vertical"
+                                        flexItem
+                                        sx={{
+                                          backgroundColor: "#21325d",
+                                          marginX: "8px",
+                                          height: "3px",
+                                        }}
+                                      />
+                                    </div>
+                                  )
+                              }
+                              <p>{
+                                results[0][item]?.Segments[0].length > 1 ?
+                                  `${results[0][item]?.Segments[0].length - 1} stop via ${results[0][item]?.Segments[0][0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
+
+                              <span>
+                                {
+                                  results[0][item]?.Segments[0][0]
+                                    ?.NoOfSeatAvailable
+                                }{" "}
+                                Seats Left
+                              </span>
+                            </div>
+
+                            <div className="singleFlightBoxFour">
+                              <span>
+                                {
+                                  results[0][item]?.Segments[0][results[0][item]?.Segments[0].length - 1]?.Destination
+                                    ?.Airport?.CityName
+                                }
+                              </span>
+                              <p>
+                                {dayjs(
+                                  results?.[0][item]?.Segments?.[0][results[0][item]?.Segments[0].length - 1]?.Destination?.ArrTime
+                                ).format("DD MMM, YY")}
+                              </p>
+                              <h5 className="daySize">
+                                {dayjs(
+                                  results?.[0][item]?.Segments?.[0][results[0][item]?.Segments[0].length - 1]
+                                    ?.Destination?.ArrTime
+                                ).format("h:mm A")}
+                              </h5>
+                            </div>
+
+                            <div className="singleFlightBoxSeven">
+                              <p>₹ {results[0][item]?.Fare?.PublishedFare}</p>
+                              <button
+                                onClick={() => {
+                                  handleIndexId(results[0][item]?.ResultIndex);
+                                }}
+                              >
+                                View Details →
+                              </button>
+                            </div>
                           </motion.div>
                         </motion.div>
-                      
+                      </motion.div>
+
                     </>
                   );
                 })}

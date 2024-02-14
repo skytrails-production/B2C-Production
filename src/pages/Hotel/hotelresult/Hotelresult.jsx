@@ -66,10 +66,27 @@ export default function Popularfilter() {
   const [sortOption, setSortOption] = useState("lowToHigh");
   const [searchInput, setSearchInput] = useState('');
 
+  const maxPrice = result?.HotelResults?.reduce((max, hotel) => {
+    return Math.max(max, hotel?.Price?.PublishedPriceRoundedOff || 0);
+  }, 0);
+  const minPrice = result?.HotelResults?.reduce((min, hotel) => {
+    return Math.min(min, hotel?.Price?.PublishedPriceRoundedOff || Infinity);
+  }, Infinity);
+
+
+  const [priceRangeValue, setPriceRangeValue] = useState(maxPrice + 5001)
+
   const handleSearchChange = (event) => {
     setSearchInput(event.target.value);
   };
 
+  const handlePriceRangeChange = (event) => {
+    setPriceRangeValue(event.target.value);
+  };
+
+  useEffect(() => {
+    setPriceRangeValue(maxPrice + 5001);
+  }, [maxPrice])
 
   const [selectedCategory, setSelectedCategory] = useState([]);
 
@@ -112,36 +129,36 @@ export default function Popularfilter() {
       const hotelName = item?.HotelName?.toLowerCase();
       const hotelAddress = item?.HotelLocation?.toLowerCase();
       const starRating = item?.StarRating;
-      const publishedPrice = item?.Price?.PublishedPrice;
+      // const publishedPrice = item?.Price?.PublishedPrice;
       const location = item?.HotelLocation;
       const categoryFilters = selectedCategory?.map((category) => {
         const [groupName, value] = category.split(':');
         switch (groupName) {
           case "star":
             return starRating === parseInt(value);
-          case "price":
-            switch (value) {
-              case "2000":
-                return publishedPrice <= 2000;
-              case "3000":
-                return publishedPrice > 2000 && publishedPrice <= 3000;
-              case "6500":
-                return publishedPrice > 3000 && publishedPrice <= 6500;
-              case "9999":
-                return publishedPrice > 6500 && publishedPrice <= 10000;
-              case "10000":
-                return publishedPrice > 10000;
-            }
+          // case "price":
+          //   switch (value) {
+          //     case "2000":
+          //       return publishedPrice <= 2000;
+          //     case "3000":
+          //       return publishedPrice > 2000 && publishedPrice <= 3000;
+          //     case "6500":
+          //       return publishedPrice > 3000 && publishedPrice <= 6500;
+          //     case "9999":
+          //       return publishedPrice > 6500 && publishedPrice <= 10000;
+          //     case "10000":
+          //       return publishedPrice > 10000;
+          //   }
           case "location":
             return location === value;
           default:
             return false;
         }
       });
-
+      const priceInRange = item?.Price?.PublishedPrice <= priceRangeValue;
       const searchFilter = hotelName?.includes(searchInput?.toLowerCase()) || hotelAddress?.includes(searchInput?.toLowerCase());
       // return categoryFilters?.every((filter) => filter);
-      return categoryFilters?.every((filter) => filter) && searchFilter;
+      return categoryFilters?.every((filter) => filter) && searchFilter && priceInRange;
     })
     ?.sort((a, b) =>
       sortOption === "lowToHigh"
@@ -171,6 +188,9 @@ export default function Popularfilter() {
   const handleShowMore = () => {
     setDisplayCount(displayCount === initialDisplayCount ? result?.HotelResults?.length : initialDisplayCount);
   };
+
+
+
 
 
 
@@ -233,6 +253,22 @@ export default function Popularfilter() {
                   </select>
                 </div>
 
+
+                <div>
+                  <h2 className="sidebar-title">By Price</h2>
+                  <div>
+                    <input
+                      type="range"
+                      min={minPrice + 1}
+                      max={maxPrice + 5001}
+                      step="5000"
+                      value={priceRangeValue}
+                      onChange={handlePriceRangeChange}
+                    />
+                    <span>Max price ₹{""}{priceRangeValue}</span>
+                  </div>
+                  <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
+                </div>
 
                 <div>
                   <h2 className="sidebar-title">By Rating</h2>
@@ -322,7 +358,7 @@ export default function Popularfilter() {
                 </div>
 
 
-                <div>
+                {/* <div>
                   <h2 className="sidebar-title">By Price</h2>
                   <div>
                     {[
@@ -354,7 +390,9 @@ export default function Popularfilter() {
                     })}
                   </div>
                   <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
-                </div>
+                </div> */}
+
+
               </div>
             </div>
 

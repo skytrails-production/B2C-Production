@@ -170,7 +170,7 @@
 .svgBOx span {
     font-size: 13px;
     display: block;
-    max-width: 94px;
+    max-width: 80px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
