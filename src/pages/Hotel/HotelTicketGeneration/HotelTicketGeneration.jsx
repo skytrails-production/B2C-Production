@@ -13,25 +13,29 @@ const HotelTicketGeneration = () => {
   const navigate = useNavigate();
 
   const reducerState = useSelector((state) => state);
+  const hotelcoupon = sessionStorage.getItem("couponCode");
   const passenger = reducerState?.passengers?.passengersData;
   const getBookingDetails =
     reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult
       ?.HotelRoomsDetails;
-  // console.log("reducerState", reducerState);
+  // console.log("reducerState", reducerState, hotelcoupon);
 
   const totalAmount = getBookingDetails?.reduce((accumulator, item) => {
     return accumulator + item?.Price?.PublishedPriceRoundedOff;
   }, 0);
   // console.log("totalAmount in last page", totalAmount);
+  const totalAmountAfterCoupon = getBookingDetails?.reduce(
+    (accumulator, item) => {
+      return accumulator + item?.Price?.OfferedPriceRoundedOff;
+    },
+    0
+  );
 
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup;
   const grandTotal = totalAmount + markUpamount;
   useEffect(() => {
-
-
-
-    const payload = {
+  const payload = {
       userId: reducerState?.logIn?.loginData?.data?.data?.id,
       name: reducerState?.hotelSearchResult?.hotelDetails?.data?.data
         ?.GetBookingDetailResult?.HotelRoomsDetails[0]?.HotelPassenger[0]
@@ -41,7 +45,7 @@ const HotelTicketGeneration = () => {
       destination:
         reducerState?.hotelSearchResult?.hotelDetails?.data?.data
           ?.GetBookingDetailResult?.City,
-      bookingId: `${reducerState?.hotelSearchResult?.hotelDetails?.data?.data?.GetBookingDetailResult?.BookingId}`,
+      bookingId: reducerState?.hotelSearchResult?.hotelDetails?.data?.data?.GetBookingDetailResult?.BookingId,
       CheckInDate:
         reducerState?.hotelSearchResult?.hotelDetails?.data?.data
           ?.GetBookingDetailResult?.CheckInDate,
@@ -65,7 +69,7 @@ const HotelTicketGeneration = () => {
           ?.GetBookingDetailResult?.AddressLine1,
       room: reducerState?.hotelSearchResult?.hotelDetails?.data?.data
         ?.GetBookingDetailResult?.NoOfRooms,
-      amount: grandTotal,
+      amount:hotelcoupon? totalAmountAfterCoupon:grandTotal,
       noOfPeople: 2,
     };
     if (reducerState?.hotelSearchResult?.hotelDetails?.data?.data?.GetBookingDetailResult?.BookingId !== undefined) {

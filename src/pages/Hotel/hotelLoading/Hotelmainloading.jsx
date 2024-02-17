@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react'
-// import img1 from "../../../utility/loadingimg1.jpg";
-// import img2 from "../../../utility/loadingimg3.jpg";
-// import newHotel from "../../../images/loading/newHotel.gif"
-import hotelLoad from "../../../images/load/hotelLoad.gif"
+
 import "./Hotelmainloading.css";
 
 
@@ -87,7 +84,7 @@ function Hotelmainloading() {
       </div> */}
         <div className="busimgcontainer">
           <img
-            src={hotelLoad}
+            src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/hotelLoad.gif"
             alt="hotel"
             className="flightloadingimg"
           />

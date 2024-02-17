@@ -37,7 +37,7 @@ import "./busreviewbooking.css";
 import dayjs from "dayjs";
 import axios from "axios";
 import Swal from "sweetalert2";
-import {swalModal} from "../../../utility/swal"
+import { swalModal } from "../../../utility/swal"
 // import { apiURL } from "../../../Constants/constant";
 import { motion } from "framer-motion";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
@@ -47,8 +47,8 @@ import { apiURL } from "../../../Constants/constant";
 
 import Login from "../../../components/Login";
 import Modal from "@mui/material/Modal";
-// import loginGif from "../images/loginGif.gif"
-import loginGif from "../../../images/loginGif.gif";
+
+import loginnew from "../../../images/login-01.jpg";
 import CloseIcon from "@mui/icons-material/Close";
 
 const variants = {
@@ -70,6 +70,8 @@ const BusReviewBooking = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const reducerState = useSelector((state) => state);
+  const [transactionAmount, setTransactionAmount] = useState(null);
+
   const [loaderPayment, setLoaderPayment] = useState(false);
   const [publishedPrice, setPublishedPrice] = useState(0);
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
@@ -82,7 +84,7 @@ const BusReviewBooking = () => {
   // console.log("======================", reducerState);
   const busBlockData =
     reducerState?.getBusResult?.busBlock?.data?.data?.BlockResult;
-  // console.log("************************", busBlockData);
+  // console.log("", busBlockData);
   const busFullData =
     reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult;
   const busBook =
@@ -108,7 +110,8 @@ const BusReviewBooking = () => {
   ) {
     return accumulator + currentValue?.Price?.PublishedPriceRoundedOff;
   },
-    0);
+  0);
+
   // const tdsTotal = markUpamount + seatObject.reduce((accumulator, currentValue) => {
   //     return accumulator + currentValue?.Price?.TDS;
   // }, 0);
@@ -119,13 +122,16 @@ const BusReviewBooking = () => {
     if (seatData === undefined) {
       navigate("/BusPassengerDetail");
     }
+    sessionStorage.removeItem("totalaftercoupon");
+    // sessionStorage.removeItem("couponCode")
   }, []);
+  
   useEffect(() => {
     if (
       busBlockData?.Error?.ErrorCode !== 0 &&
       busBlockData?.Error?.ErrorCode !== undefined
     ) {
-      swalModal('bus',busBlockData?.Error?.ErrorMessage,false)
+      swalModal('bus', busBlockData?.Error?.ErrorMessage, false)
       // Swal.fire({
       //   icon: "error",
       //   title: "Oops",
@@ -258,6 +264,8 @@ const BusReviewBooking = () => {
     }
   }, [authenticUser]);
 
+  const token = sessionStorage?.getItem("jwtToken");
+  const totalAfterCoupon = sessionStorage?.getItem("totalaftercoupon");
 
   const handlePayment = async () => {
     if (authenticUser !== 200) {
@@ -267,7 +275,9 @@ const BusReviewBooking = () => {
       const payload = {
         firstname: passengerSessionStorageParsed[0].FirstName,
         phone: passengerSessionStorageParsed[0].Phoneno,
-        amount: published + markUpamount,
+        amount:
+        transactionAmount ||
+          published + markUpamount,
         // amount: 1,
         email: passengerSessionStorageParsed[0].Email,
         productinfo: "ticket",
@@ -316,6 +326,8 @@ const BusReviewBooking = () => {
               `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`
             );
             setLoaderPayment(true);
+            // sessionStorage.removeItem("totalaftercoupon");
+            // sessionStorage.removeItem("couponCode");
           } catch (error) {
             // console.error("Error verifying payment:", error);
             // Handle error
@@ -326,6 +338,11 @@ const BusReviewBooking = () => {
             const verifyResponse = await axios.post(
               `${apiURL.baseURL}/skyTrails/api/transaction/paymentFailure?merchantTransactionId=${response.txnid}`
             );
+            setTransactionAmount(null);
+            // sessionStorage.removeItem("totalaftercoupon");
+            sessionStorage.removeItem("couponCode");
+            setToggle(false);
+
             // console.log(verifyResponse.data);
             // Handle verifyResponse as needed
           } catch (error) {
@@ -379,27 +396,27 @@ const BusReviewBooking = () => {
       busFullData?.Error?.ErrorCode !== 0 &&
       busFullData?.Error?.ErrorCode !== undefined
     ) {
-      swalModal('bus',busBook?.ErrorMessage,false)
-    //   Swal.fire({
-    //     icon: "error",
-    //     title: "Oops",
-    //     text: busBook?.ErrorMessage,
+      swalModal('bus', busBook?.ErrorMessage, false)
+      //   Swal.fire({
+      //     icon: "error",
+      //     title: "Oops",
+      //     text: busBook?.ErrorMessage,
 
-    //     showClass: {
-    //       popup: `
-    //       animate__animated
-    //       animate__fadeInUp
-    //       animate__faster
-    //     `,
-    //     },
-    //     hideClass: {
-    //       popup: `
-    //       animate__animated
-    //       animate__fadeOutDown
-    //       animate__faster
-    //     `,
-    //     },
-    //   });
+      //     showClass: {
+      //       popup: `
+      //       animate__animated
+      //       animate__fadeInUp
+      //       animate__faster
+      //     `,
+      //     },
+      //     hideClass: {
+      //       popup: `
+      //       animate__animated
+      //       animate__fadeOutDown
+      //       animate__faster
+      //     `,
+      //     },
+      //   });
     }
   }, [busBook]);
 
@@ -434,13 +451,20 @@ const BusReviewBooking = () => {
   const formattedDate1 = date1.toLocaleString("en-US", options1);
   const [month1, day1, year1, time1, ampm1] = formattedDate1.split(" ");
   const desiredFormat1 = `${day1}${month1}-${year1} ${time1} ${ampm1}`;
+  const [toggle, setToggle] = useState(false);
 
   const cancelFromDate = dayjs(cancellationPolicy[0]?.FromDate.slice(0, 9));
   const cancelToDateTime = dayjs(cancellationPolicy[0]?.FromDate.slice(11, 18));
+  const toggleState = (e) => {
+    setToggle(e);
+    // console.warn("toggling state", e);
+  };
+  const setTransactionAmountState = (e) => {
+    setTransactionAmount(e);
+    // console.log("setTransactionAmountState");
+  };
   // const cancelFromDateFormatted = cancelFromDate.format("DD MMM, YY");
   // const cancelToDateTimeFormatted = cancelToDateTime.format("DD MMM, YY");
-
-
 
   const storedPassengerData = JSON.parse(sessionStorage.getItem("busPassName"));
   if (loaderPayment == false) {
@@ -635,7 +659,8 @@ const BusReviewBooking = () => {
                 transition={{ duration: 0.5 }}
                 className="col-lg-3 order-lg-2 mb-md-4 mb-sm-4  order-md-1 order-1"
               >
-                <BusSaleSummary />
+                <BusSaleSummary toggle={toggle} toggleState={toggleState}  transactionAmount={setTransactionAmountState}
+                    Amount={transactionAmount} />
               </motion.div>
             </div>
           </div>
@@ -666,7 +691,7 @@ const BusReviewBooking = () => {
                             onClick={handleModalClose}
                           />
                           <div className="loginImg logg">
-                            <img src={loginGif} alt="loginGif" />
+                            <img src={loginnew} alt="loginGif" />
                           </div>
                         </div>
                       </div>

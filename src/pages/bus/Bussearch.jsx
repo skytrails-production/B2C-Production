@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect, useRef } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { busSearchAction, clearBusSearchReducer } from "../../Redux/busSearch/busSearchAction";
 import { apiURL } from "../../Constants/constant";
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
@@ -9,18 +9,18 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 import Loadingbus from "./Busloading/Loadingbus";
 
 // import Login from "./Login"
-import Login from "../../components/Login"
-import Modal from "@mui/material/Modal";
-// import loginGif from "../images/loginGif.gif"
-import loginGif from "../../images/loginGif.gif"
-import CloseIcon from '@mui/icons-material/Close';
+// import Login from "../../components/Login"
+// import Modal from "@mui/material/Modal";
+
+// import loginGif from "../../images/loginGif.gif"
+// import CloseIcon from '@mui/icons-material/Close';
 import { CiSearch } from "react-icons/ci";
 import { swalModal } from "../../utility/swal"
-const label = { inputProps: { "aria-label": "Checkbox demo" } };
+// const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 
 
@@ -98,7 +98,7 @@ const Homeform = (props) => {
   // console.log(reducerState, "reducer state")
   const toSearchRef = React.useRef(null);
   const fromSearchRef = React.useRef(null);
-  const authenticUser = reducerState?.logIn?.loginData?.status;
+  // const authenticUser = reducerState?.logIn?.loginData?.status;
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
@@ -158,9 +158,7 @@ const Homeform = (props) => {
       // navigate("/busresult");
     }
     else if (reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorCode !== 0 && reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorCode !== undefined) {
-      // console.warn("BusResult", reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorCode
-
-      // )
+      
       swalModal("bus", reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorMessage, false)
 
 
@@ -235,9 +233,9 @@ const Homeform = (props) => {
 
 
 
-  const handleChange = (event, newValue) => {
-    // setValue(newValue);
-  };
+  // const handleChange = (event, newValue) => {
+  //   // setValue(newValue);
+  // };
 
   useEffect(() => {
     let mounted = true;

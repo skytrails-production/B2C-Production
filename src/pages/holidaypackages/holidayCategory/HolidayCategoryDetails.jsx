@@ -76,15 +76,6 @@ const HolidayCategoryDetails = () => {
     }
 
 
-
-
-
-    // console.log(keyword, "kehywropd")
-
-
-
-    // const reducerState = useSelector((state) => state);
-    // const dispatch = useDispatch();
     const navigate = useNavigate()
     const location = useLocation();
     const [destination, setDestination] = useState("")
@@ -156,7 +147,7 @@ const HolidayCategoryDetails = () => {
         return Math.min(min, hotel?.pakage_amount?.amount || Infinity);
     }, Infinity);
 
-    console.log(maxPrice, "max pric")
+    // console.log(maxPrice, "max pric")
     const [priceRangeValue, setPriceRangeValue] = useState(maxPrice + 5001)
 
     const handlePriceRangeChange = (event) => {

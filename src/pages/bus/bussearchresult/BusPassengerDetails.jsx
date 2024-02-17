@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 // import { styled } from "@mui/material/styles";
-
+import "./busreasultform.css";
 import "./buspassengerdetail.css";
+import { useParams } from "react-router-dom";
 import BusSaleSummary from "./BusSaleSummary";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -14,9 +15,10 @@ import { motion } from "framer-motion";
 // import { busSearchAction } from "../../../Redux/busSearch/busSearchAction";
 import Divider from "@mui/material/Divider";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
-// import LoginForm from "../../../components/Login";
-// import Countrypicker from "../../../layouts/Countrypicker";
+
+import "./seatlayout.css";
 import { validateEmail, validatePhoneNumber, validateName, } from "../../../utility/validationFunctions"
+
 
 const variants = {
   initial: {
@@ -34,7 +36,6 @@ const variants = {
 };
 
 const BusPassengerDetail = () => {
-
   const navigate = useNavigate();
   const reducerState = useSelector((state) => state);
   // console.log("..................", reducerState);
@@ -63,7 +64,7 @@ const BusPassengerDetail = () => {
   ) {
     return accumulator + currentValue?.Price?.PublishedPriceRoundedOff;
   },
-    0);
+  0);
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.busMarkup;
   const grandTotal = published + markUpamount;
@@ -95,7 +96,7 @@ const BusPassengerDetail = () => {
     });
   }
   // const [passengerList, setPassengerList] = useState(passengerLists);
-  const allPassenger = [passengerLists]
+  const allPassenger = [passengerLists];
   const [passengerData, setPassengerData] = useState(allPassenger.flat());
 
   const handleServiceChange = (e, index) => {
@@ -104,7 +105,6 @@ const BusPassengerDetail = () => {
     updatedPassenger[index] = {
       ...updatedPassenger[index],
       [name]: value,
-
     };
 
     setPassengerData(updatedPassenger);
@@ -142,7 +142,6 @@ const BusPassengerDetail = () => {
           Email: apiURL.flightEmail,
           Phoneno: apiURL.phoneNo,
         };
-
       }),
 
       EndUserIp: reducerState?.ip?.ipData,
@@ -171,10 +170,6 @@ const BusPassengerDetail = () => {
   // Format the dates
   // const departureFormattedDate = departureDate.format("DD MMM, YY");
   // const arrivalFormattedDate = arrivalDate.format("DD MMM, YY");
-
-
-
-
 
   // const dateString = selectedBus?.DepartureTime;
   // const date = new Date(dateString);
@@ -214,15 +209,7 @@ const BusPassengerDetail = () => {
   const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
   const duration = `${hours}hr ${minutes}min`;
 
-
-
-
-
-
-
-  // here i am calculation the duration between departure and arrival time 
-
-
+  // here i am calculation the duration between departure and arrival time
 
   // console.warn(allPassenger, "allPassenger")
   // function validatePhoneNumber(phoneNumber) {
@@ -253,37 +240,40 @@ const BusPassengerDetail = () => {
   //   // If all checks pass, the name is considered valid
   //   return true;
   // }
-  // async function filterValidation(item) {
 
-  //   const result = await (
-  //   //   !validatePhoneNumber(item?.Phoneno)
-  //   //  &&
-  //   //   !validatePhoneNumber(item?.Phoneno)
-  //   //  &&
-  //     !validateEmail(item?.Email) && !filterValidation(item?.FirstName) && !validateName(item.LastName) && item?.Address === "")
-  //   const ph = await validateName(item?.LastName)
-  //   // console.warn("Please enter", ph, result)
-  //   return result
-  // }
-  function validtion() {
+  async function filterValidation(item) {
+    const result = await (!validatePhoneNumber(item.Phoneno) &&
+      !validateEmail(item.Email) &&
+      !filterValidation(item.FirstName) &&
+      !validateName(item.LastName) &&
+      item?.Address === "");
+    const ph = await validateName(item.LastName);
+    // console.warn("Please enter", ph, result)
+    return result;
+  }
+  async function validtion() {
     // const res =await passengerData.filter(filterValidation)
-    const res = passengerData.filter((item) => (validatePhoneNumber(item?.Phoneno) && validateEmail(item?.Email) && validateName(item?.FirstName) && validateName(item?.LastName) && item?.Address !== ""))
+    const res = await passengerData.filter(
+      (item) =>
+        validatePhoneNumber(item.Phoneno) &&
+        validateEmail(item.Email) &&
+        filterValidation(item.FirstName) &&
+        validateName(item.LastName) &&
+        item?.Address !== ""
+    );
+    const result = res.length === passengerData.length ? true : false;
 
-    const result = res?.length === passengerData?.length ? true : false
     // console.warn(res, result, res.length, passengerData.length, "filter result", passengerData)
-    return result
-
+    return result;
   }
   async function result() {
-    const vali = validtion()
-    if (vali) {
 
-      await setShowBtn(true)
-      return
-    }
-    else {
-      await setShowBtn(false)
-      return
+    const vali = await validtion();
+    if (vali) {
+      await setShowBtn(true);
+    } else {
+      await setShowBtn(false);
+
     }
 
     // console.warn("setShowBtn(true)", showBtn)
@@ -291,19 +281,28 @@ const BusPassengerDetail = () => {
   useEffect(() => {
     // const result = validtion()
 
-    result()
+    result();
     // console.warn(passengerData, "allpassengers")
-  }, [passengerData])
+  }, [passengerData]);
   useEffect(() => {
-    if (reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorCode !== 0 || reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorCode === undefined || sessionStorage.getItem("seatData") === undefined) {
-      navigate("/busResult")
+    if (
+      reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error
+        ?.ErrorCode !== 0 ||
+      reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error
+        ?.ErrorCode === undefined ||
+      sessionStorage.getItem("seatData") === undefined
+    ) {
+      navigate("/busResult");
     }
-  }, [])
-  if (reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorCode !== 0 || reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorCode === undefined || sessionStorage.getItem("seatData") === undefined) {
-    return (
-      <>
-      </>
-    )
+  }, []);
+  if (
+    reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error
+      ?.ErrorCode !== 0 ||
+    reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error
+      ?.ErrorCode === undefined ||
+    sessionStorage.getItem("seatData") === undefined
+  ) {
+    return <></>;
   }
 
   // console.log(selectedBus, "selected bus");
@@ -333,7 +332,11 @@ const BusPassengerDetail = () => {
                     <div className="anotherBusResult p-3">
                       <div className="singleBusSearchBoxTwo">
                         <span>{busFullData?.Origin}</span>
-                        <p>{dayjs(selectedBus?.DepartureTime).format("DD MMM, YY")}</p>
+                        <p>
+                          {dayjs(selectedBus?.DepartureTime).format(
+                            "DD MMM, YY"
+                          )}
+                        </p>
                         <p style={{ fontSize: "14px" }}>
                           {dayjs(selectedBus?.DepartureTime).format("h:mm A")}
                         </p>
@@ -360,16 +363,18 @@ const BusPassengerDetail = () => {
 
                       <div className="singleBusSearchBoxFour">
                         <span>{busFullData?.Destination}</span>
-                        <p>{dayjs(selectedBus?.ArrivalTime).format("DD MMM, YY")}</p>
+
+                        <p>
+                          {dayjs(selectedBus.ArrivalTime).format("DD MMM, YY")}
+                        </p>
+
                         <p style={{ fontSize: "14px" }}>
                           {dayjs(selectedBus?.ArrivalTime).format("h:mm A")}
                         </p>
                       </div>
 
                       <div className="singleBusSearchBoxSeven">
-                        <p>
-                          ₹ {grandTotal}
-                        </p>
+                        <p>₹ {grandTotal}</p>
                       </div>
                     </div>
                   </div>
@@ -387,12 +392,18 @@ const BusPassengerDetail = () => {
                       <div>
                         <p>
                           {selectedBus?.BoardingPointsDetails &&
-                            selectedBus?.BoardingPointsDetails.length > 0 &&
-                            selectedBus?.BoardingPointsDetails[boardingPoint - 1]?.CityPointLocation}
+
+                            selectedBus.BoardingPointsDetails.length > 0 &&
+                            selectedBus.BoardingPointsDetails[boardingPoint - 1]
+                              ?.CityPointLocation}
+
+                          
                         </p>
                       </div>
                       <div>
-                        <span>{dayjs(selectedBus?.DepartureTime).format("h:mm A")}</span>
+                        <span>
+                          {dayjs(selectedBus?.DepartureTime).format("h:mm A")}
+                        </span>
                       </div>
                     </div>
 
@@ -409,7 +420,9 @@ const BusPassengerDetail = () => {
                         </p>
                       </div>
                       <div>
+
                         <span>{dayjs(selectedBus?.ArrivalTime).format("h:mm A")}</span>
+
                       </div>
                     </div>
                   </div>
@@ -441,9 +454,14 @@ const BusPassengerDetail = () => {
                                     handleServiceChange(e, index)
                                   }
                                 />
-                                {sub && !validateName(passengerData[index].FirstName) && (
-                                  <span className="error10">Enter your Name</span>
-                                )}
+                                {sub &&
+                                  !validateName(
+                                    passengerData[index].FirstName
+                                  ) && (
+                                    <span className="error10">
+                                      Enter your Name
+                                    </span>
+                                  )}
                                 {/* <label for="floatingInput">First Name</label> */}
                                 {/* </div> */}
                               </div>
@@ -459,9 +477,16 @@ const BusPassengerDetail = () => {
                                     handleServiceChange(e, index)
                                   }
                                 />
-                                {sub && !validateName(passengerData[index]?.LastName) && (
-                                  <span className="error10">Enter Last Name</span>
-                                )}
+
+                                {sub &&
+                                  !validateName(
+                                    passengerData[index].LastName
+                                  ) && (
+                                    <span className="error10">
+                                      Enter Last Name
+                                    </span>
+                                  )}
+
                                 {/* <label for="floatingInput">Last Name</label> */}
                                 {/* </div> */}
                               </div>
@@ -479,8 +504,16 @@ const BusPassengerDetail = () => {
                                   }
                                 />
 
-                                {sub && !validateEmail(passengerData[index]?.Email) &&
-                                  <span className="error10">Enter a valid email</span>}
+
+                                {sub &&
+                                  !validateEmail(
+                                    passengerData[index].Email
+                                  ) && (
+                                    <span className="error10">
+                                      Enter a valid email
+                                    </span>
+                                  )}
+
                                 {/* <label for="floatingInput">Enter Email</label> */}
                                 {/* </div> */}
                               </div>
@@ -499,9 +532,15 @@ const BusPassengerDetail = () => {
                                   }
                                 />
                                 {sub &&
-                                  !validatePhoneNumber(passengerData[index]?.Phoneno)
-                                  &&
-                                  <span className="error10">Enter a valid phone number</span>}
+
+                                  !validatePhoneNumber(
+                                    passengerData[index].Phoneno
+                                  ) && (
+                                    <span className="error10">
+                                      Enter a valid phone number
+                                    </span>
+                                  )}
+
 
                                 {/* <label for="floatingInput">
                                     Phone Number
@@ -544,12 +583,18 @@ const BusPassengerDetail = () => {
                                   ) :
   
                                       ( */}
-                {!showBtn ? <div onClick={() => setSub(true)} className=" col-lg-12 btn-busPassenger">
-                  <button className="notval">Proceed to Book</button>
-                </div> :
+                {!showBtn ? (
+                  <div
+                    onClick={() => setSub(true)}
+                    className=" col-lg-12 btn-busPassenger"
+                  >
+                    <button className="notval">Proceed to Book</button>
+                  </div>
+                ) : (
                   <div className="col-lg-12 btn-busPassenger">
                     <button onClick={handleSeatBlock}>Proceed to Book</button>
-                  </div>}
+                  </div>
+                )}
                 {/* )
                                   } */}
               </motion.div>
@@ -569,7 +614,6 @@ const BusPassengerDetail = () => {
     </>
   );
   // console.log(reducerState, "reducer state")
-
 };
 
 export default BusPassengerDetail;

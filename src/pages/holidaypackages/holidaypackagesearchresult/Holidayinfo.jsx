@@ -59,7 +59,7 @@ import TimelineDot from "@mui/lab/TimelineDot";
 import Modal from "@mui/material/Modal";
 
 import CloseIcon from "@mui/icons-material/Close";
-import loginGif from "../../../images/loginGif.gif"
+import loginnew from "../../../images/login-01.jpg"
 import Login from "../../../components/Login"
 
 import HolidayLoader from "../holidayLoader/HolidayLoader"
@@ -1042,7 +1042,7 @@ function Holidayinfo() {
                       <div class="form-right leftLogin h-100 text-white text-center ">
                         <CloseIcon className="closeIncon" onClick={handleModalClose} />
                         <div className="loginImg logg">
-                          <img src={loginGif} alt="loginGif" />
+                          <img src={loginnew} alt="loginnew" />
                         </div>
                       </div>
                     </div>

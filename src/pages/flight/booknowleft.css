@@ -134,7 +134,7 @@ p {
     margin-top: 12px;
     padding: 12px;
     border-radius: 12px;
-    width: 100%;
+    width: 100% !important;
     border: 1px solid black !important;
     border: none;
 }
@@ -164,4 +164,28 @@ p {
     background: rgb(237, 118, 119);
     background-image: linear-gradient(to right, #d90429 0%, #EA384D 51%, #d90429 100%);
     border-radius: 12px;
+}
+
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+  .loader {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    animation: rotate 1s linear infinite;
+    margin: 0 auto;
+  }
+  
+
+ 
+  .error-message1{
+    color: red;
+    font-weight: bold;
+    font-size: 15px;
 }

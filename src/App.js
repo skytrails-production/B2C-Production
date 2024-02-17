@@ -22,10 +22,10 @@ import Bus from "./pages/bus/Bus";
 import BusReviewBooking from "./pages/bus/busreviewbooking/BusReviewBooking";
 import BusPassengerDetail from "./pages/bus/bussearchresult/BusPassengerDetails";
 import BusBookingConfirmation from "./pages/bus/busbookingconfirmation/BusBookingConfirmation";
-import BusSearchresult from "./pages/bus/bussearchresult/BusSearchresult";
+// import BusSearchresult from "./pages/bus/bussearchresult/BusSearchresult";
 // Taxi
 import Taxi from "./pages/taxi/Taxi";
-import SeatLayout from "./pages/bus/bussearchresult/SeatLayout";
+// import SeatLayout from "./pages/bus/bussearchresult/SeatLayout";
 import Footer from "./layouts/Footer";
 import TermandCondition from "./layouts/TermandCondition"
 import PrivacyPolicy from "./layouts/PrivacyPolicy"
@@ -256,7 +256,7 @@ function App() {
 
         {/* Bus */}
         <Route path="bus" element={<Bus />}></Route>
-        <Route path="/bussearchresult" element={<BusSearchresult />}></Route>
+        {/* <Route path="/bussearchresult" element={<BusSearchresult />}></Route> */}
         <Route
           exact
           path="/BusPassengerDetail"
@@ -267,7 +267,7 @@ function App() {
           path="/BusBookingConfirmation"
           element={<BusBookingConfirmation />}
         ></Route>
-        <Route path="/SelectBusSeat" element={<SeatLayout />}></Route>
+        {/* <Route path="/SelectBusSeat" element={<SeatLayout />}></Route> */}
         <Route path="/busresult" element={<BusResult />}></Route>
 
         {/* Forex */}

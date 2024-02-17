@@ -17,7 +17,7 @@ import DialogContent from "@mui/material/DialogContent";
 import Hotelmainloading from "./hotelLoading/Hotelmainloading";
 // import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { IoSearchOutline } from "react-icons/io5";
-// import loginGif from "../../images/loginGif.gif";
+
 // import Login from "../../components/Login";
 // import Modal from "@mui/material/Modal";
 import { swalModal } from "../../utility/swal"

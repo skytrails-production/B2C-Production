@@ -6,8 +6,6 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import "./Login.css";
 import loginImg from "../images/login.png";
-// import loginNew from "../images/loginNew.jpg"
-// import loginGif from "../images/loginGif.gif";
 import loginOtp from "../images/login-01.jpg";
 import { LoginButton } from "../utility/CSS/Button/Button";
 import CloseIcon from "@mui/icons-material/Close";

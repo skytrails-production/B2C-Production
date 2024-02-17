@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import userApi from "../../Redux/API/api";
 import { useNavigate } from "react-router-dom";
 
-import "./bookedTicket.css"
+import "./bookedTicket.css";
 const BookedTicket = () => {
   const reducerState = useSelector((state) => state);
   const bookingDataLcc = reducerState?.flightBook?.flightBookData?.Response;
@@ -15,34 +15,33 @@ const BookedTicket = () => {
   const PassengersSaved = reducerState?.passengers?.passengersData;
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
-
-  // console.log(reducerState, "reducerState", bookingDataNonLcc);
+  const couponvalue = sessionStorage.getItem("couponCode");
+  // console.log(reducerState, "reducerState", bookingDataNonLcc, couponvalue);
 
   const navigate = useNavigate();
 
-
-
   useEffect(() => {
     addBookingDetails();
+
+    // sessionStorage.removeItem("couponCode");
   }, []);
   const addBookingDetails = () => {
-
-
-
-
     if (bookingDataLcc) {
       // console.log("lccCheck");
       const payloadLCC = {
         userId: reducerState?.logIn?.loginData?.data?.data?.id,
         bookingId: `${bookingDataLcc?.BookingId}`,
         oneWay: true,
-        ticketType: 'Original Ticket',
+        ticketType: "Original Ticket",
         pnr: bookingDataLcc?.PNR,
         origin: bookingDataLcc?.FlightItinerary?.Origin,
         destination: bookingDataLcc?.FlightItinerary?.Destination,
         paymentStatus: "success",
-        totalAmount:
-          bookingDataLcc?.FlightItinerary?.InvoiceAmount + markUpamount,
+        totalAmount: couponvalue
+          ? bookingDataLcc?.FlightItinerary?.Fare?.OfferedFare
+          : parseInt(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare) +
+            markUpamount +
+            1,
         airlineDetails: bookingDataLcc?.FlightItinerary?.Segments.map(
           (item, index) => {
             return {
@@ -101,13 +100,15 @@ const BookedTicket = () => {
         userId: reducerState?.logIn?.loginData?.data?.data?.id,
         bookingId: `${bookingDataNonLcc?.BookingId}`,
         oneWay: true,
-        ticketType: 'Original Ticket',
+        ticketType: "Original Ticket",
         pnr: bookingDataNonLcc?.PNR,
         origin: bookingDataNonLcc?.FlightItinerary?.Origin,
         destination: bookingDataNonLcc?.FlightItinerary?.Destination,
         paymentStatus: "success",
-        totalAmount:
-          bookingDataNonLcc?.FlightItinerary?.InvoiceAmount + markUpamount,
+        totalAmount: couponvalue
+          ? bookingDataNonLcc?.FlightItinerary?.Fare?.OfferedFare
+          : parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) +
+            markUpamount,
         airlineDetails: bookingDataNonLcc?.FlightItinerary?.Segments.map(
           (item, index) => {
             return {
@@ -168,8 +169,6 @@ const BookedTicket = () => {
       {/* <div className="mainimgFlightSearch"> */}
       <InsideNavbar />
       {/* </div> */}
-
-
 
       {/* <div className="margin-pecentage">
         <div className="container-fluid bg-light p-5">
@@ -312,11 +311,16 @@ const BookedTicket = () => {
         </div>
       </div> */}
 
-      <div className="tempBox" style={{ marginTop: "150px", marginBottom: "150px" }}>
+      <div className="tempBox" style={{ marginTop: "150px", marginBottom: "150px" }}
+      >
         <div className="container">
           <h2>Thank You for Booking With Us</h2>
           <p>Please Check your Email for Booking Details</p>
-          <button onClick={() => { navigate("/") }}>
+          <button
+            onClick={() => {
+              navigate("/");
+            }}
+          >
             Ok
           </button>
         </div>

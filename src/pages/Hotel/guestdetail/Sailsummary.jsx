@@ -1,10 +1,15 @@
 import * as React from "react";
-import { useState, useRef } from "react";
-import { motion } from 'framer-motion';
+
+import { useState, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
+
 // import { styled } from "@mui/material/styles";
 // import Paper from "@mui/material/Paper";
-import './sailsummary.css';
+import { apiURL } from "../../../Constants/constant";
+import "./sailsummary.css";
+import axios from "axios";
 import "./guestdetail.css";
+import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
 
@@ -18,18 +23,128 @@ import { useSelector } from "react-redux";
 //   color: theme.palette.text.secondary,
 // }));
 
-export default function Popularfilter() {
+export default function Popularfilter({
+  toggle,
+  toggleState,
+  setCouponAmountFun,
+}) {
   const [showInput, setShowInput] = useState(false);
   const [couponApplied, setCouponApplied] = useState(false);
   const inputRef = useRef(null);
   // const dispatch = useDispatch();
   // const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const reducerState = useSelector((state) => state);
 
+  const location = useLocation();
+  const pathname = location.pathname;
+
+  const [couponCode, setCouponCode] = useState("");
+  const [showApplyButton, setShowApplyButton] = useState(false);
+  // const inputRef = useRef(null);
+
+  // const handleInputChange = (event) => {
+  //   const inputValue = event.target.value;
+  //   setCouponCode(inputValue);
+  //   setShowApplyButton(!!inputValue);
+  //   setError(null);
+
+  //   if (!inputValue) {
+  //     setCouponStatus(false);
+  //   }
+  // };
+
+  // const couponamount2 = sessionStorage.getItem("hotelAmount");
+
+  const handleInputChange = (event) => {
+    const inputValue = event.target.value;
+    setCouponCode(inputValue);
+    setShowApplyButton(!!inputValue);
+    setError(null);
+    setCouponAmountFun(null)
+    toggleState(true);
+    setCouponStatus(false);
+    sessionStorage.removeItem("couponCode");
+    // console.warn(toggle, "toggle value........");
+    // setSuccessMessage(null);
+    // if (couponamount2) {
+    //   sessionStorage.removeItem("hotelAmount");
+    //   sessionStorage.removeItem("couponCode");
+    // }
+
+    if (!inputValue) {
+      setCouponStatus(false);
+      // sessionStorage.removeItem("hotelAmount");
+      setCouponAmountFun(false)
+      sessionStorage.removeItem("couponCode");
+    }
+  };
+
+  useEffect(() => {
+    if (!toggle) {
+      setCouponCode("");
+      setShowApplyButton(false);
+    }
+    // console.log(toggle, "toggle state");
+  }, [toggle]);
+
+  //  useEffect(() => {
+  //   sessionStorage.removeItem("hotelAmount");
+  //   sessionStorage.removeItem("couponCode");
+  //  })
 
   const handleApplyCoupon = () => {
     setShowInput(true);
     setCouponApplied(true);
+  };
+
+  const [couponStatus, setCouponStatus] = useState(false);
+
+  const handleApplyCoupon2 = async () => {
+    try {
+      setLoading(true);
+
+      const token = sessionStorage.getItem("jwtToken");
+      const couponCode = inputRef.current.value;
+
+      const response = await axios.put(
+       `${apiURL.baseURL}/skyTrails/api/coupons/applyCoupon`,
+        { couponCode: couponCode },
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+
+      if (response?.data?.statusCode === 200) {
+        setCouponStatus(true);
+       
+        sessionStorage.setItem("couponCode", couponCode);
+        setCouponAmountFun(discountamount);
+        // setSuccessMessage("Coupon applied successfully");
+      }
+    } catch (error) {
+      setLoading(false);
+
+      if (error.response && error.response.data.statusCode === 409) {
+        setCouponStatus(false);
+        setError("Coupon already applied");
+        setTimeout(() => {
+          setError(null);
+        }, 4000); // Adjust the timeout duration as needed (4 seconds in this case)
+      } else {
+        setError(
+          error.response?.data?.responseMessage ||
+            "Error applying coupon. Please try again."
+        );
+        setCouponStatus(false);
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   // const TotalGuest = sessionStorage.getItem("totalGuest");
@@ -41,19 +156,20 @@ export default function Popularfilter() {
     reducerState?.hotelSearchResult?.hotelRoom?.GetHotelRoomResult;
   const hotelData = hotelRoom?.HotelRoomsDetails?.[HotelIndex];
 
-
   const noOfRooms =
     reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult;
 
-
   const getBookingDetails =
-    reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult?.HotelRoomsDetails;
+  reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult?.HotelRoomsDetails;
 
   // console.log(getBookingDetails, "booking details")
   const totalAmount = getBookingDetails?.reduce((accumulator, item) => {
     return accumulator + item?.Price?.PublishedPriceRoundedOff;
   }, 0);
 
+  const totalOfferAmount = getBookingDetails?.reduce((acc, item) => {
+    return acc + item?.Price?.OfferedPriceRoundedOff;
+  }, 0);
 
   // const roomBlock = reducerState?.hotelSearchResult?.blockRoom;
   // console.log(roomBlock, "room block ")
@@ -61,14 +177,16 @@ export default function Popularfilter() {
     inputRef.current.focus();
   }
 
-
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup;
   // console.log("fareValue", markUpamount);
 
-
   const grandTotal = totalAmount + markUpamount;
+  const discount = totalAmount - totalOfferAmount;
+  const TotalDiscount = discount + markUpamount;
+  // console.log(grandTotal,"grandTotal//////");
 
+  const discountamount = grandTotal - TotalDiscount;
   // const storedFormData = JSON.parse(sessionStorage.getItem('hotelFormData'));
 
   return (
@@ -81,55 +199,316 @@ export default function Popularfilter() {
           <p>{hotelData?.RoomTypeName}</p>
         </div>
         <div className="priceChart">
-          <div >
+          <div>
             <span className="text-bold">Rate</span>
           </div>
-          <div >
+          <div>
             <span>Published</span>
-            <p>{'₹'}{totalAmount}</p>
+            <p>
+              {"₹"}
+              {totalAmount}
+            </p>
           </div>
-          <div >
+          <div>
             <span>Other Tax</span>
-            <p>{'₹'}{markUpamount}</p>
+            <p>
+              {"₹"}
+              {markUpamount}
+            </p>
           </div>
-          <div >
+          <div>
             <span className="text-bold">No of Rooms</span>
             <p className="text-bold"> {noOfRooms?.NoOfRooms}</p>
           </div>
         </div>
         <div className="TotGst">
-          <div >
+          <div>
             <span>Grand Total:</span>
-            <p>{'₹'}{grandTotal}</p>
+            <p>
+              {"₹"}
+              {grandTotal}
+            </p>
           </div>
         </div>
 
+        {/* <div
+                          className="applycoupenbuttontext"
+                          style={{ overflow: "hidden" }}
+                        >
+                          {!couponApplied ? (
+                            <button
+                              onClick={handleApplyCoupon}
+                              className="applycoupen-button"
+                            >
+                              Apply Coupon
+                            </button>
+                          ) : (
+                            <motion.div
+                              initial={{ opacity: 0, y: 4 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              transition={{ duration: 0.3 }} 
+                            >
+                              <div
+                                style={{
+                                  position: "relative",
+                                  
+                                }}
+                              >
+                                <input
+                                  ref={inputRef}
+                                  type="text"
+                                  className="inputfieldtext"
+                                  placeholder="Apply Coupon..."
+                                  autoFocus
+                                  value={couponCode}
+                                  onChange={handleInputChange}
+                                />
+                                {showApplyButton && (
+                                  <p
+                                    onClick={handleApplyCoupon2}
+                                    style={{
+                                      position: "absolute",
+                                      top: 6,
+                                      right: 0,
+                                      cursor:"pointer",
+                                      height: "100%",
+                                      color: "#4949c0",
+                                      padding:"12px",
+                                      fontWeight:"bold",
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                    }}
+                                  >
+                                    Apply Code
+                                  </p>
+                                )}
+                              </div>
+                              {couponStatus && (
+                                <div>
+                                <div className="TotGstFlight mt-4">
+                                  <div>
+                                    <span>Coupon Amount: </span>
+                                    <p>{"₹"}{TotalDiscount}</p>
+                                  </div>
+                                  <div>
+                                    <span>Total:</span>
+                                    <p>
+                                      {"₹"}
+                                      {grandTotal}
+                                    </p>
+                                  </div>
+                                </div>
+                               
+                                <div className="TotGstFlight">
+                                  <div>
+                                    <span>After Discount:</span>
+                                    <p>
+                                      {"₹"}
+                                      {discountamount}
+                                    </p>
+                                  </div>
+                                </div>
+                                <button className="applycoupen-button1">
+                                  Submit
+                                </button>
+                              </div>
+                              )}
+                              
+                            </motion.div>
+                          )}
+                        </div> */}
 
-        {/* <div className="applycoupenbuttontext" style={{ overflow: 'hidden' }}>
-      {!couponApplied ? (
-        <button onClick={handleApplyCoupon} className="applycoupen-button">
-          Apply Coupon
-        </button>
-      ) : (
-        <motion.div
-          initial={{ opacity: 0, y:4}}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }} // Adjust the duration as needed
-        >
-          <input
-            ref={inputRef}
-            type="text"
-            className="inputfieldtext"
-            placeholder="Apply Coupon..."
-            autoFocus
-          />
-          <button onClick={handleCoupon} className="applycoupen-button1">Submit</button>
-        </motion.div>
-      )}
-    </div> */}
 
+        {/* <div className="applycoupenbuttontext" style={{ overflow: "hidden" }}>
+          {!couponApplied ? (
+            <button
+              onClick={handleApplyCoupon}
+              className="applycoupen-button"
+            >
+              Apply Coupon
+            </button>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 4 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div style={{ position: "relative" }}>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  className="inputfieldtext"
+                  placeholder="Apply Coupon..."
+                  autoFocus
+                  value={couponCode}
+                  onChange={handleInputChange}
+                />
+                {loading && (
+                  <div className="loader-inside-input"></div>
+                )}
+                {showApplyButton && (
+                  <p
+                    onClick={handleApplyCoupon2}
+                    style={{
+                      position: "absolute",
+                      top: 6,
+                      right: 0,
+                      cursor: "pointer",
+                      height: "100%",
+                      color: "#4949c0",
+                      padding: "12px",
+                      fontWeight: "bold",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    Apply Code
+                  </p>
+                )}
+              </div>
+              {loading ? (
+                <div className="loader-container">
+                  <div className="loader"></div>
+                </div>
+              ) : (
+                <div>
+                  {couponStatus ? (
+                    <div>
+                      <div className="TotGstFlight mt-4">
+                        <div>
+                          <span>Coupon Amount: </span>
+                          <p>{"₹"}{TotalDiscount}</p>
+                        </div>
+                        <div>
+                          <span>Total:</span>
+                          <p>
+                            {"₹"}
+                            {grandTotal}
+                          </p>
+                        </div>
+                      </div>
+
+
+                      <div className="TotGstFlight">
+                        <div>
+                          <span>After Discount:</span>
+                          <p>
+                            {"₹"}
+                            {discountamount}
+                          </p>
+                        </div>
+                      </div>
+                      <button className="applycoupen-button1">Submit</button>
+                    </div>
+                  ) : (
+                    <div className="error-message1">
+                      <p>{error}</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </motion.div>
+          )}
+        </div> */}
+
+        {pathname ===
+          "/hotel/hotelsearch/HotelBooknow/Reviewbooking/GuestDetail" && (
+          <div className="applycoupenbuttontext" style={{ overflow: "hidden" }}>
+            {!couponApplied ? (
+              <button
+                onClick={handleApplyCoupon}
+                className="applycoupen-button"
+              >
+                Apply Coupon
+              </button>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div style={{ position: "relative" }}>
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    className="inputfieldtext"
+                    placeholder="Apply Coupon..."
+                    autoFocus
+                    value={couponCode}
+                    onChange={handleInputChange}
+                  />
+                  {loading && <div className="loader-inside-input"></div>}
+                  {showApplyButton && (
+                    <p
+                      onClick={handleApplyCoupon2}
+                      style={{
+                        position: "absolute",
+                        top: 6,
+                        right: 0,
+                        cursor: "pointer",
+                        height: "100%",
+                        color: "#4949c0",
+                        padding: "12px",
+                        fontWeight: "bold",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      Apply Code
+                    </p>
+                  )}
+                </div>
+                {loading ? (
+                  <div className="loader-container">
+                    <div className="loader"></div>
+                  </div>
+                ) : (
+                  <div>
+                    {couponStatus && toggle ? (
+                      <div>
+                        <div className="TotGstFlight mt-4">
+                          <div>
+                            <span>Coupon Amount: </span>
+                            <p>
+                              {"₹"}
+                              {TotalDiscount}
+                            </p>
+                          </div>
+                          <div>
+                            <span>Total:</span>
+                            <p>
+                              {"₹"}
+                              {grandTotal}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="TotGstFlight">
+                          <div>
+                            <span>After Discount:</span>
+                            <p>
+                              {"₹"}
+                              {discountamount}
+                            </p>
+                          </div>
+                        </div>
+                        {/* <button className="applycoupen-button1">Submit</button> */}
+                      </div>
+                    ) : (
+                      <div className="error-message1">
+                        {toggle && <p>{error}</p>}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </div>
+        )}
       </div>
-
     </>
   );
 }

@@ -9,7 +9,7 @@ import click from "../../images/click.gif"
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Login from "../../components/Login";
-import loginGif from "../../images/login-01.jpg"
+import loginnew from "../../images/login-01.jpg"
 import CloseIcon from '@mui/icons-material/Close';
 import apple from "../../images/download/apple.png"
 import google from "../../images/download/google.png"
@@ -193,7 +193,7 @@ const Events = () => {
 
 
     useEffect(() => {
-        if (authenticUser == 200) {
+        if (authenticUser === 200) {
             handleModalClose();
         }
     }, [authenticUser])
@@ -224,7 +224,7 @@ const Events = () => {
                 setSent(true); // Mark as sent
                 setTimeout(() => setSent(false), 4000); // Reset "sent" state after 2 seconds
             }
-            console.log(res, "responsie")
+            // console.log(res, "responsie")
         } catch (error) {
             console.warn("Error sending link:", error);
         }
@@ -552,7 +552,7 @@ const Events = () => {
                                                 {/* <h2 class="fs-1" >Send OTP</h2> */}
                                                 <CloseIcon className="closeIncon" onClick={handleModalClose} />
                                                 <div className="loginImg logg">
-                                                    <img src={loginGif} alt="loginGif" />
+                                                    <img src={loginnew} alt="loginnew" />
                                                 </div>
                                             </div>
                                         </div>

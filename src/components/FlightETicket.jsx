@@ -59,13 +59,13 @@ const FlightETicket = () => {
 
     // Check if data exists and has elements before accessing its properties
     if (!data || data?.result?.length === 0) {
-        // console.log(data, !Array.isArray(data?.result), data.result);
+        // console.log(data, !Array.isArray(data?.result), data.result)
         return <div>
             <InsideNavbar />
             No data available.</div>;
     }
-    // console.log(  data?.result?.passengerDetails.map((item, index), "data");
     
+  
 
     const currentDate = new Date(data?.result?.createdAt);
     const options = {

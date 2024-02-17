@@ -21,7 +21,6 @@ import { useEffect } from "react";
 import HotelLoading from "../hotelLoading/HotelLoading";
 import hotelNotFound from "../../../images/hotelNotFound.jpg";
 import chevrondown from "../../../images/chevrondown.svg";
-// import loginGif from "../../images/loginGif.gif";
 // import Login from "../../components/Login";
 import login01 from "../../../images/login-01.jpg";
 import Login from "../../../components/Login";
@@ -100,7 +99,7 @@ const Flightdetail = () => {
     },
   };
   useState(() => {
-    // console.log("*******")
+    // console.log("*")
   }, [sub3]);
   useEffect(() => {
     if (bookingStatus == 1) {
@@ -315,7 +314,7 @@ const Flightdetail = () => {
       });
       // console.log("filteredPassenger", filteredPassenger);
       const newFilteredPassenger = { ...filteredPassenger[0] };
-      // console.log(name, value, "checkingPassporValidation");
+      console.log(name, value, "checkingPassporValidation");
       if (name == "PassportExpDate") {
         newFilteredPassenger[name] = convertDateFormat(value);
       }
@@ -522,7 +521,6 @@ const Flightdetail = () => {
   //   }
 
   // }
-  // console.log(hotelData, "hotel data state")
 
   return (
     <>
@@ -539,6 +537,7 @@ const Flightdetail = () => {
             <motion.div
               variants={variants}
               className="col-lg-12 p-0 reviewTMT"
+
 
             >
               <div className="hotelDetails">
@@ -1499,7 +1498,7 @@ const Flightdetail = () => {
                                 </div>
                                 <div className="col-lg-3 col-md-3">
                                   <div class="form-floating">
-                                    <input
+                                  <input
                                       name="PAN"
                                       type="text"
                                       placeholder="Enter PanNo"
@@ -1729,7 +1728,7 @@ const Flightdetail = () => {
                           onClick={handleModalClose}
                         />
                         <div className="loginImg logg">
-                          <img src={login01} alt="loginGif" />
+                          <img src={login01} alt="login01" />
                         </div>
                       </div>
                     </div>

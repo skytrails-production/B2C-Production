@@ -1,28 +1,54 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Sailsummary from "./Sailsummary";
 import Hoteldescription from "./Hoteldescription";
 import "./guestdetail.css";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 
-
 const Guestdetail = () => {
+  const [toggle, setToggle] = useState(false);
+  const [CouponAmount, setCouponAmount] = useState(null);
+  const setCouponAmountFun = (e) => {
+    setCouponAmount(e);
+  };
+
+  const toggleState = (e) => {
+    setToggle(e);
+    // console.warn("toggling state", e);
+  };
+  useEffect(() => {
+    // console.log(CouponAmount, "coupon amount////////");
+  }, [CouponAmount]);
+
+  useEffect(() =>{
+    sessionStorage.removeItem("couponCode")
+  },[])
+
 
 
   return (
-
     <>
-      <div className='mainimgHotelSearch'>
+      <div className="mainimgHotelSearch">
         <InsideNavbar />
       </div>
 
       <div className="my-4">
         <div className="container">
           <div className="row gy-4">
-            <div className="col-lg-9 order-lg-1 order-md-2 order-sm-2 order-2">
-              <Hoteldescription />
+
+            <div className="col-lg-9 order-lg-1 order-md-2 order-sm-2">
+              <Hoteldescription
+                toggleState={toggleState}
+                setCouponAmountFun={setCouponAmountFun}
+                couponAmount={CouponAmount}
+              />
             </div>
-            <div className="col-lg-3 order-lg-2 order-md-1 order-sm-1 order-1">
-              <Sailsummary />
+            <div className="col-lg-3 order-lg-2 order-md-1 order-sm-1">
+              <Sailsummary
+                toggle={toggle}
+                toggleState={toggleState}
+                setCouponAmountFun={setCouponAmountFun}
+              />
+
             </div>
           </div>
         </div>

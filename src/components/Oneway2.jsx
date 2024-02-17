@@ -45,7 +45,8 @@ const Oneway2 = (props) => {
   const value2 = JSON.parse(sessionStorage.getItem("onewayprop"));
   const isPopularSearch = JSON.parse(sessionStorage.getItem("isPopularSearch"))
   const isDummyTicketBooking = JSON.parse(
-    sessionStorage.getItem("bookDummyTicket")
+    sessionStorage.getItem("hdhhfb7383__3u8748")
+    
   );
 
   const date = new Date();

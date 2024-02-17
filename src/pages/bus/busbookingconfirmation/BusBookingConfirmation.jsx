@@ -1,19 +1,43 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-
+import axios from "axios";
+import { apiURL } from "../../../Constants/constant";
 import userApi from "../../../Redux/API/api";
 import { Mode } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 const BusBookingConfirmation = () => {
   const reducerState = useSelector((state) => state);
+  
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.busMarkup;
   const passengerNames = JSON.parse(sessionStorage.getItem("busPassName"));
 
   const navigate = useNavigate();
 
-  useEffect(() => {
+  const couponconfirmation = async () => {
+    try {
+      const token = sessionStorage.getItem("jwtToken");
+      const response = await axios.get(
+        `${
+          apiURL.baseURL
+        }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
+          "couponCode"
+        )}`,
 
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+
+      // sessionStorage.removeItem("couponCode");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const buscouponamountcode = sessionStorage.getItem("couponCode");
+  useEffect(() => {
     const busBookSave = () => {
       const getDetails =
         reducerState?.getBusResult?.busDetails?.data?.data
@@ -21,6 +45,11 @@ const BusBookingConfirmation = () => {
       const totalAmount =
         reducerState?.getBusResult?.busDetails?.data?.data
           ?.GetBookingDetailResult?.Itinerary?.Price?.PublishedPrice;
+
+      const grandtotal = totalAmount + markUpamount;
+      const buscouponamount =
+        reducerState?.getBusResult?.busDetails?.data?.data
+          ?.GetBookingDetailResult?.Itinerary?.Price?.OfferedPriceRoundedOff;
 
       const payloadSavedata = {
         userId: reducerState?.logIn?.loginData?.data?.data?.id,
@@ -33,7 +62,7 @@ const BusBookingConfirmation = () => {
         pnr: getDetails?.TicketNo,
         busId: getDetails?.BusId,
         noOfSeats: getDetails?.NoOfSeats,
-        amount: totalAmount + markUpamount,
+        amount: buscouponamountcode ? buscouponamount : grandtotal,
         passenger: getDetails?.Passenger.map((item, index) => {
           return {
             title: item?.Title,
@@ -55,9 +84,12 @@ const BusBookingConfirmation = () => {
         },
         CancelPolicy: getDetails?.CancelPolicy,
       };
-      // console.log(payloadSavedata,"payload Saved Data")
+      // console.log(payloadSavedata, "payload Saved Data");
       userApi.busBookingDataSave(payloadSavedata);
     };
+    if (sessionStorage.getItem("couponCode")) {
+      couponconfirmation();
+    }
     busBookSave();
   }, []);
 

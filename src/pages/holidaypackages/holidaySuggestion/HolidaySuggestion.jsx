@@ -83,7 +83,7 @@ const HolidaySuggestion = () => {
             setData(result.data);
             setLoading(false);
         } catch (error) {
-            // console.error('Error fetching data:', error);
+            console.error('Error fetching data:', error);
             setLoading(false);
         }
     };

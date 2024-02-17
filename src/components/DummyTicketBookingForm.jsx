@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 // import TabList from "@mui/lab/TabList";
 // import TabPanel from "@mui/lab/TabPanel";
 import Button from "@mui/material/Button";
-// import loginGif from "../images/loginGif.gif"
 // import CloseIcon from '@mui/icons-material/Close';
 import { apiURL } from "../Constants/constant";
 import { ipAction, tokenAction } from "../Redux/IP/actionIp";
@@ -50,12 +49,13 @@ const Homeform = (props) => {
   // const handleDateChange = (date) => {
   //   setStartDate(date);
   // };
-  const StartDate=new Date();
+  const StartDate = new Date();
   StartDate.setDate(StartDate.getDate() + 3);
-  
+
   const [startDate, setStartDate] = useState(StartDate);
   const currentdate = new Date(); // Assuming you have defined currentdate
   currentdate.setDate(currentdate.getDate() + 3);
+
 
   const handleDateChange = (date) => {
     setStartDate(date);
@@ -124,7 +124,7 @@ const Homeform = (props) => {
   });
   const [displayTo, setdisplayTo] = useState(true);
 
-  // Travel modal code ⬇️
+  // Travel modal code ⬇
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
   const [activeIdClass, setActiveIdClass] = useState(1);
   const [activeIdChild, setActiveIdChild] = useState(0);
@@ -423,7 +423,7 @@ const Homeform = (props) => {
 
   function handleOnewaySubmit(event) {
     event.preventDefault();
-    sessionStorage.setItem("bookDummyTicket", true);
+    sessionStorage.setItem("hdhhfb7383__3u8748", true);
 
     // if (authenticUser !== 200) {
     //   setIsLoginModalOpen(true);
@@ -478,7 +478,7 @@ const Homeform = (props) => {
     );
 
     navigate(
-      `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
+     `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
     );
     dispatch(oneWayAction(payload));
     // }

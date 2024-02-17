@@ -1,40 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./FlightLoading.css";
-// import img1 from "../../../utility/loadingimg1.jpg";
-// import img2 from "../../../utility/loadingimg3.jpg";
-// import newFlight from "../../../images/loading/newFlight.gif";
-import flightLoad from "../../../images/load/aeroplaneLoad.gif"
-// import { motion } from "framer-motion";
 
-// const variants = {
-//   initial: {
-//     x: 50,
-//     opacity: 0,
-//     transition: {
-//       type: 'spring',
-//       stiffness: 400,
-//       damping: 40,
-//     },
-//   },
-//   animate: {
-//     x: 0,
-//     opacity: 1,
-//     transition: {
-//       type: 'spring',
-//       stiffness: 400,
-//       damping: 40,
-//     },
-//   },
-//   exit: {
-//     x: -50,
-//     opacity: 0,
-//     transition: {
-//       type: 'spring',
-//       stiffness: 400,
-//       damping: 40,
-//     },
-//   },
-// };
 
 const quotes = [
   {
@@ -81,7 +47,7 @@ const FlightLoader = () => {
         setData(result);
         setLoading(false);
       } catch (error) {
-        // console.error("Error fetching data:", error);
+        console.error("Error fetching data:", error);
         setLoading(false);
       }
     };
@@ -121,7 +87,7 @@ const FlightLoader = () => {
         </AnimatePresence> */}
 
         <div className="flightimgcontainer">
-          <img src={flightLoad} alt="flight" className="flightloadingimg" />
+          <img src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/aeroplaneLoad.gif" alt="flight" className="flightloadingimg" />
         </div>
       </div>
 

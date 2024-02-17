@@ -34,7 +34,7 @@ const variants = {
 const Home = () => {
     // console.log("helllo")
     useEffect(() => {
-        sessionStorage.setItem("bookDummyTicket", false);
+        sessionStorage.setItem("hdhhfb7383__3u8748", false);
     }, [])
     return (
         <div className="home_banner">

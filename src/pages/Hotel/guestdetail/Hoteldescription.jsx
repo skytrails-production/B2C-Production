@@ -4,9 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import "./hoteldescription.css";
-import {
-  hotelBookRoomAction,
-} from "../../../Redux/Hotel/hotel";
+import { hotelBookRoomAction } from "../../../Redux/Hotel/hotel";
 import StarIcon from "@mui/icons-material/Star";
 import { apiURL } from "../../../Constants/constant";
 import chevrondown from "../../../images/chevrondown.svg";
@@ -17,6 +15,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import { SpinnerCircular } from 'spinners-react';
 import { swalModal } from "../../../utility/swal"
+
 
 const variants = {
   initial: {
@@ -33,11 +32,29 @@ const variants = {
   },
 };
 
-const Hoteldescription = () => {
+const Hoteldescription = ({toggleState, setCouponAmountFun, couponAmount}) => {
+  const couponconfirmation3 = async () => {
+    try {
+      const token = sessionStorage.getItem("jwtToken");
+      const response = await axios.get(
+        `${
+          apiURL.baseURL
+        }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
+          "couponCode"
+        )}`,
 
-
-
-
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      // sessionStorage.removeItem("totalaftercoupon");
+      // sessionStorage.removeItem("couponCode");
+    } catch (error) {
+      // console.log(error);
+    }
+  };
 
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
 
@@ -46,7 +63,10 @@ const Hoteldescription = () => {
 
   const [loaderPayment, setLoaderPayment] = useState(false);
   const reducerState = useSelector((state) => state);
-  const bookingId = reducerState?.hotelSearchResult?.bookRoom?.BookResult?.BookingId;
+
+  const bookingId =
+    reducerState?.hotelSearchResult?.bookRoom?.BookResult?.BookingId;
+
   let bookingStatus =
     reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Status || false;
   const passenger = reducerState?.passengers?.passengersData;
@@ -107,7 +127,6 @@ const Hoteldescription = () => {
   }, [loaderPayment]);
 
   const handleClickBooking = async () => {
-
     const payload = {
       ResultIndex: resultIndex,
       HotelCode: hotelCode,
@@ -208,7 +227,9 @@ const Hoteldescription = () => {
 
   // razorpay integration
 
+
   const [paymentLoading, setPaymentLoading] = useState(false);
+
 
   // balance subtract and update
   const handlePayment = async () => {
@@ -217,7 +238,8 @@ const Hoteldescription = () => {
     const payload = {
       firstname: passenger[0].FirstName,
       phone: passenger[0].Phoneno,
-      amount: totalAmount + markUpamount,
+      amount:  sessionStorage?.getItem("hotelAmount") || (totalAmount + markUpamount),
+      amount: couponAmount || (totalAmount + markUpamount),
       // amount: 1,
       email: passenger[0].Email,
       productinfo: "ticket",
@@ -238,7 +260,10 @@ const Hoteldescription = () => {
 
       if (response.ok) {
         const data = await response.json();
-        // setPaymentLoading(false);
+
+         // setPaymentLoading(false);
+
+
         proceedPayment(data.result.access, "prod", data.result.key);
         // console.log("API call successful:", data);
       } else {
@@ -269,6 +294,7 @@ const Hoteldescription = () => {
               `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`
             );
             setLoaderPayment(true);
+            couponconfirmation3();
           } catch (error) {
             console.error("Error verifying payment:", error);
             // Handle error
@@ -283,6 +309,12 @@ const Hoteldescription = () => {
             // Handle verifyResponse as needed
             swalModal("hotel", verifyResponse.data.responseMessage
               , false)
+
+          
+            sessionStorage.removeItem("couponCode");
+            toggleState(false);
+            setCouponAmountFun(null);
+
           } catch (error) {
             console.error("Error verifying payment:", error);
             // Handle error
@@ -298,6 +330,7 @@ const Hoteldescription = () => {
 
   const userId = reducerState?.logIn?.loginData?.data?.data?.id;
   // const bookingResonse=reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Error?.ErrorCode;
+  // const storedFormData = JSON.parse(sessionStorage.getItem("hotelFormData"));
 
   const storedFormData = JSON.parse(sessionStorage.getItem("hotelFormData"));
   // console.log(storedFormData, "stored form data")
@@ -338,7 +371,7 @@ const Hoteldescription = () => {
         <motion.div
           variants={variants}
           className="col-lg-12 reviewTMT"
-        // style={{ marginTop: "-116px" }}
+
         >
           <div className="hotelDetailsDesc">
             <div>
@@ -368,9 +401,9 @@ const Hoteldescription = () => {
                   <b>Check Out: {"  "}</b>
                   {
 
-                    dayjs(reducerState?.hotelSearchResult?.ticketData?.data?.data
-                      ?.HotelSearchResult?.CheckOutDate).format("DD MMM, YY")
-                  }
+dayjs(reducerState?.hotelSearchResult?.ticketData?.data?.data
+  ?.HotelSearchResult?.CheckOutDate).format("DD MMM, YY")
+}
                 </p>
               </div>
             </div>
@@ -426,11 +459,11 @@ const Hoteldescription = () => {
                 <div>
                   <p>Check Out: {"  "} </p>
                   <span>
-                    {
+                  {
 
-                      dayjs(reducerState?.hotelSearchResult?.ticketData?.data?.data
-                        ?.HotelSearchResult?.CheckOutDate).format("DD MMM, YY")
-                    }
+dayjs(reducerState?.hotelSearchResult?.ticketData?.data?.data
+  ?.HotelSearchResult?.CheckOutDate).format("DD MMM, YY")
+}
                   </span>
                 </div>
               </div>
@@ -537,7 +570,8 @@ const Hoteldescription = () => {
 
         <div className="guestDetailsHistoryDesc mt-3">
 
-          {
+        {
+
             paymentLoading ? (
               <button type="submit" onClick={handlePayment}>
                 <SpinnerCircular secondaryColor="white" size={20} сolor="#ffffff" />

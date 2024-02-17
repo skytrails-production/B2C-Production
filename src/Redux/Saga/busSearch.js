@@ -32,7 +32,7 @@ function* busBookGetDetailsSaga(action) {
 
   try {
     const data = yield call(userApi.busBookDetails, action.payload);
-    // console.error("check bookbusDetails response.........", data);
+    console.error("check bookbusDetails response.........", data);
     yield put(busBookDetails(data));
   } catch (error) {
     // console.log(error);

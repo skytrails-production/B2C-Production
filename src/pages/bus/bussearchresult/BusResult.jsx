@@ -5,9 +5,8 @@ import Divider from "@mui/material/Divider";
 import axios from "axios";
 import { apiURL } from "../../../Constants/constant";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
-// import StarIcon from "@mui/icons-material/Star";
-// import starsvg from "../../../images/star.svg";
-// import starBlank from "../../../images/starBlank.svg";
+import "./bussearchresult.css";
+
 
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -364,7 +363,7 @@ function BusResult() {
           ),
           `${radioGroupName}:${selectedValue}`,
         ];
-      console.log('updatedCategory:', updatedCategory);
+      // console.log('updatedCategory:', updatedCategory);
       return updatedCategory;
     });
   };

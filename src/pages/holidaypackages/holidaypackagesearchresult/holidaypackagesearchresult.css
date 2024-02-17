@@ -58,6 +58,7 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .listItemPackage:hover {
   background: rgb(217 4 41 / 11%) !important;
+  cursor: pointer;
 }
 
 .package_lable_l {
