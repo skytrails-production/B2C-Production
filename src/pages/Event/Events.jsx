@@ -250,108 +250,98 @@ const Events = () => {
 
                 }
             </div>
+            <section class="download-section-mobil mb-5 mt-5" >
+                <div class="opacityPackdownload"></div>
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6">
+                            <div class="download-app">
+                                <h2>To get the PEFA Event pass Download Our App</h2>
+                                <ul class="download-list">
+                                    <li><img src={check} alt="check" />Flight Ticket, Bus Ticket, Hotel Booking</li>
+                                    <li><img src={check} alt="check" />Events, Recharge, Visa</li>
+                                </ul>
+                                <div className="qr-Box">
+                                    <div>
+                                        <img src={scan} className="scan-logo" alt="scan logo" />
+                                    </div>
+                                    <div class="d-sm-flex">
+                                        <a href="https://play.google.com/store/apps/details?id=com.skytrails" target="_blank"><img src={google} alt="google" /></a>
+                                        <a href="https://apps.apple.com/in/app/the-skytrails/id6475768819" target="_blank"><img src={apple} alt="apple" /></a>
+                                    </div>
+                                </div>
+                                <div className="appLink ">
+                                    <div class="input-group customInputGroup">
+                                        <div class="input-group-text designCustom">
+                                            +91
+                                        </div>
+                                        <input
+                                            type="tel"
+                                            name="phone"
+                                            value={mobileNumber}
+                                            onChange={(e) => {
+                                                setMobileNumber(e.target.value)
+                                            }
+                                            }
+                                            class="form-control"
+                                            placeholder="Mobile Number"
+                                        />
+                                        <div class="input-group-text designCustomTwo">
+                                            <button className="appLinkButton" onClick={handleDownloadLink} disabled={loading || sent}>
+                                                {loading ? (
+                                                    <>
+                                                        Sending...
+                                                    </>
+                                                ) : sent ? (
+                                                    <>
+                                                        Sent <span><svg height="20" viewBox="0 0 520 520" width="20" xmlns="http://www.w3.org/2000/svg" id="fi_5290058"><g id="_15-Checked" data-name="15-Checked"><circle cx="208.52" cy="288.5" fill="#b0ef8f" r="176.52"></circle><path d="m210.516 424.937-2.239-3.815c-34.2-58.27-125.082-181.928-126-183.17l-1.311-1.781 30.963-30.6 98.012 68.439c61.711-80.079 119.283-135.081 156.837-167.2 41.081-35.135 67.822-51.31 68.092-51.465l.608-.364h52.522l-5.017 4.468c-129.029 114.926-268.883 359.19-270.276 361.644z" fill="#009045"></path></g></svg></span>
+                                                    </>
+                                                ) : (
+                                                    "GET APP LINK"
+                                                )}
+                                            </button>
+                                        </div>
+                                    </div>
 
-            {
-                eventHistoryData.length !== 0 ? (
-
-                    <>
-                        <div className="eventBookingConfirmed">
-                            <h3>Your Booking has been Done</h3>
-                            <p>To view your Event Pass Download our App</p>
+                                </div>
+                            </div>
                         </div>
-                        <section class="download-section-mobil mb-5 mt-5" >
-                            <div class="opacityPackdownload"></div>
-                            <div class="container">
-                                <div class="row align-items-center">
-                                    <div class="col-lg-6">
-                                        <div class="download-app">
-                                            <h2>Download app from Play Store & App Store</h2>
-                                            <ul class="download-list">
-                                                <li><img src={check} alt="check" />Flight Ticket, Bus Ticket, Hotel Booking</li>
-                                                <li><img src={check} alt="check" />Events, Recharge, Visa</li>
-                                            </ul>
-                                            <div className="qr-Box">
-                                                <div>
-                                                    <img src={scan} className="scan-logo" alt="scan logo" />
-                                                </div>
-                                                <div class="d-sm-flex">
-                                                    <a href="https://play.google.com/store/apps/details?id=com.skytrails" target="_blank"><img src={google} alt="google" /></a>
-                                                    <a href="https://apps.apple.com/in/app/the-skytrails/id6475768819" target="_blank"><img src={apple} alt="apple" /></a>
-                                                </div>
-                                            </div>
-                                            <div className="appLink ">
-                                                <div class="input-group customInputGroup">
-                                                    <div class="input-group-text designCustom">
-                                                        +91
-                                                    </div>
-                                                    <input
-                                                        type="tel"
-                                                        name="phone"
-                                                        value={mobileNumber}
-                                                        onChange={(e) => {
-                                                            setMobileNumber(e.target.value)
-                                                        }
-                                                        }
-                                                        class="form-control"
-                                                        placeholder="Mobile Number"
-                                                    />
-                                                    <div class="input-group-text designCustomTwo">
-                                                        <button className="appLinkButton" onClick={handleDownloadLink} disabled={loading || sent}>
-                                                            {loading ? (
-                                                                <>
-                                                                    Sending...
-                                                                </>
-                                                            ) : sent ? (
-                                                                <>
-                                                                    Sent <span><svg height="20" viewBox="0 0 520 520" width="20" xmlns="http://www.w3.org/2000/svg" id="fi_5290058"><g id="_15-Checked" data-name="15-Checked"><circle cx="208.52" cy="288.5" fill="#b0ef8f" r="176.52"></circle><path d="m210.516 424.937-2.239-3.815c-34.2-58.27-125.082-181.928-126-183.17l-1.311-1.781 30.963-30.6 98.012 68.439c61.711-80.079 119.283-135.081 156.837-167.2 41.081-35.135 67.822-51.31 68.092-51.465l.608-.364h52.522l-5.017 4.468c-129.029 114.926-268.883 359.19-270.276 361.644z" fill="#009045"></path></g></svg></span>
-                                                                </>
-                                                            ) : (
-                                                                "GET APP LINK"
-                                                            )}
-                                                        </button>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <div class="download-img-mobil">
-                                            <img src={mobil} alt="mobil" />
-                                        </div>
-                                    </div>
-
-                                </div>
+                        <div class="col-lg-6">
+                            <div class="download-img-mobil">
+                                <img src={mobil} alt="mobil" />
                             </div>
-                        </section>
-                    </>
-                ) :
+                        </div>
 
-                    (
-                        <div className="container mt-5 eventContnet"  >
-                            <h1 className='mt-5'>{eventDetails?.title}</h1 >
-                            <div className='eventFirstPara'>
-                                <p>{eventDetails?.content}</p>
-                            </div>
-                            <div className="eventForm">
-                                <div className="formUpperEvent">
-                                    <div>
-                                        <p>Venue : </p>
-                                        <span>{eventDetails?.venue}</span>
-                                    </div>
-                                    <div>
-                                        <p>Ages above : </p>
-                                        <span>{eventDetails?.age}</span>
-                                    </div>
-                                    <div>
-                                        <p>Event Date : </p>
-                                        <span>{dayjs(eventDetails?.startDate).format('DD MMM, YY')}</span>
-                                    </div>
-                                    <div>
-                                        <p className='text-green'>Free of Cost</p>
-                                    </div>
-                                </div>
-                                <form onSubmit={handleSubmit}>
+                    </div>
+                </div>
+            </section>
+
+            <div className="container mt-5 eventContnet"  >
+                <h1 className='mt-5'>{eventDetails?.title}</h1 >
+                <div className='eventFirstPara'>
+                    <p>{eventDetails?.content}</p>
+                </div>
+
+
+                <div className="eventForm">
+                    {/* <div className="formUpperEvent">
+                        <div>
+                            <p>Venue : </p>
+                            <span>{eventDetails?.venue}</span>
+                        </div>
+                        <div>
+                            <p>Ages above : </p>
+                            <span>{eventDetails?.age}</span>
+                        </div>
+                        <div>
+                            <p>Event Date : </p>
+                            <span>{dayjs(eventDetails?.startDate).format('DD MMM, YY')}</span>
+                        </div>
+                        <div>
+                            <p className='text-green'>Free of Cost</p>
+                        </div>
+                    </div> */}
+                    {/* <form onSubmit={handleSubmit}>
                                     <div className="row">
                                         <div className="col-lg-6">
                                             <div className="eventInput mb-3">
@@ -471,48 +461,47 @@ const Events = () => {
                                             </div>
                                         </div>
                                     </div>
-                                </form>
+                                </form> */}
 
 
-                            </div>
-                            <div className='eventFirstPara mt-5'>
-                                <h3 className='mb-4'>Important Notification Regarding Your PEFA Award Event</h3>
-                                <p>- We want to keep you informed about the status of your
-                                    PEFA Award Event submission. Please take note of the
-                                    following disclaimer for a smooth and successful event
-                                    processing:</p>
-                                <p>- Your PEFA Award Event details have been diligently
-                                    submitted to the relevant authorities, and processing is
-                                    currently underway.</p>
-                                <p>- Ensuring the accuracy of the details you provided,
-                                    including essential documents such as passport copies,
-                                    photo scans, and bank statements, is crucial for a
-                                    seamless processing experience.</p>
-                                <p>- Be proactive in notifying the authorities promptly of
-                                    any changes or updates to your event details, as this
-                                    ensures that your submission remains up-to-date and in
-                                    compliance.</p>
-                                <p>- Please be aware that the processing time may vary, and
-                                    there is a possibility of additional documentation or
-                                    information being requested during the thorough review
-                                    process.</p>
-                                <p>- While we are committed to facilitating a smooth
-                                    experience, it's important to note that this information
-                                    does not guarantee the automatic approval of your PEFA
-                                    Award Event. The final decision is subject to the laws and
-                                    regulations set by the respective authorities.</p>
-                                <p>- For the most accurate and up-to-date information on the
-                                    status of your PEFA Award Event, we encourage you to
-                                    consult directly with the relevant authorities.</p>
-                                <p></p>
-                            </div>
-                        </div >
-                    )
-            }
+                </div>
+                <div className='eventFirstPara mt-5'>
+                    <h3 className='mb-4'>Important Notification Regarding Your PEFA Award Event</h3>
+                    <p>- We want to keep you informed about the status of your
+                        PEFA Award Event submission. Please take note of the
+                        following disclaimer for a smooth and successful event
+                        processing:</p>
+                    <p>- Your PEFA Award Event details have been diligently
+                        submitted to the relevant authorities, and processing is
+                        currently underway.</p>
+                    <p>- Ensuring the accuracy of the details you provided,
+                        including essential documents such as passport copies,
+                        photo scans, and bank statements, is crucial for a
+                        seamless processing experience.</p>
+                    <p>- Be proactive in notifying the authorities promptly of
+                        any changes or updates to your event details, as this
+                        ensures that your submission remains up-to-date and in
+                        compliance.</p>
+                    <p>- Please be aware that the processing time may vary, and
+                        there is a possibility of additional documentation or
+                        information being requested during the thorough review
+                        process.</p>
+                    <p>- While we are committed to facilitating a smooth
+                        experience, it's important to note that this information
+                        does not guarantee the automatic approval of your PEFA
+                        Award Event. The final decision is subject to the laws and
+                        regulations set by the respective authorities.</p>
+                    <p>- For the most accurate and up-to-date information on the
+                        status of your PEFA Award Event, we encourage you to
+                        consult directly with the relevant authorities.</p>
+                    <p></p>
+                </div>
+            </div >
 
 
 
-            <Modal
+
+            {/* <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
@@ -537,10 +526,7 @@ const Events = () => {
                 aria-describedby="modal-modal-description"
                 sx={{ zIndex: "999999" }}
             >
-                {/* <Box className="loginModalBox">
-          <p>Please Login to Continue</p>
-          <Login />
-        </Box> */}
+
                 <div class="login-page">
                     <div class="container ">
                         <div class="row d-flex justify-content-center">
@@ -549,7 +535,6 @@ const Events = () => {
                                     <div class="">
                                         <div class="col-md-12 ps-0  d-md-block">
                                             <div class="form-right leftLogin h-100 text-white text-center ">
-                                                {/* <h2 class="fs-1" >Send OTP</h2> */}
                                                 <CloseIcon className="closeIncon" onClick={handleModalClose} />
                                                 <div className="loginImg logg">
                                                     <img src={loginnew} alt="loginnew" />
@@ -579,9 +564,15 @@ const Events = () => {
                         </div>
                     </div>
                 </div>
-            </Modal>
+            </Modal> */}
+
         </>
     )
 }
 
 export default Events;
+
+
+
+
+
