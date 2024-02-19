@@ -36,7 +36,6 @@ import {
   isValidPassportNumber,
 } from "../../../utility/validationFunctions";
 
-
 const styleLoader = {
   position: "absolute",
   top: "50%",
@@ -314,11 +313,10 @@ const Flightdetail = () => {
       });
       // console.log("filteredPassenger", filteredPassenger);
       const newFilteredPassenger = { ...filteredPassenger[0] };
-      console.log(name, value, "checkingPassporValidation");
+      // console.log(name, value, "checkingPassporValidation");
       if (name == "PassportExpDate") {
         newFilteredPassenger[name] = convertDateFormat(value);
-      }
-      else {
+      } else {
         newFilteredPassenger[name] = value;
       }
       const indexFind = passengerData.indexOf(filteredPassenger[0]);
@@ -426,10 +424,12 @@ const Flightdetail = () => {
       // console.log(item.PAN, "pancard&&&&&&&&&&&&&&&&&&&&&7");
       if (
         validatePAN(item.PAN) &&
-          item.FirstName !== "" &&
-          item.LastName !== "" &&
-          toString(item.Age) !== "" &&
-          passportCheck ? isValidPassportNumber(item.PassportNo) : true
+        item.FirstName !== "" &&
+        item.LastName !== "" &&
+        toString(item.Age) !== "" &&
+        passportCheck
+          ? isValidPassportNumber(item.PassportNo)
+          : true
       )
         return true;
     };
@@ -445,7 +445,7 @@ const Flightdetail = () => {
       //   true}
     );
     const result = await (other.length === passengerData.length &&
-      passengerData.length
+    passengerData.length
       ? true
       : false);
     setValidationRes(result);
@@ -534,12 +534,7 @@ const Flightdetail = () => {
             whileInView="animate"
             className="row"
           >
-            <motion.div
-              variants={variants}
-              className="col-lg-12 p-0 reviewTMT"
-
-
-            >
+            <motion.div variants={variants} className="col-lg-12 p-0 reviewTMT">
               <div className="hotelDetails">
                 <div>
                   <div>
@@ -581,8 +576,7 @@ const Flightdetail = () => {
               <div className="roomDetails">
                 <div className="row">
                   <div className="col-lg-9 mb-md-3">
-                    <p className="titles ">
-                      {hotelData?.RoomTypeName}</p>
+                    <p className="titles ">{hotelData?.RoomTypeName}</p>
                     <p>{hotelData?.RoomPromotion}</p>
                     <p>{hotelData?.RatePlanName}</p>
                     <p className="text-hotelName"> {hotelRoomName}</p>
@@ -713,7 +707,12 @@ const Flightdetail = () => {
                           }
                         />
                         {sub && !emailVal && (
-                          <span id="error1">Enter a Valid Email</span>
+                          <span
+                            id="error1"
+                            style={{ color: "#d90429", fontSize: "12px" }}
+                          >
+                            Enter a Valid Email
+                          </span>
                         )}
                         {/* <label for="floatingInput">Enter Email</label> */}
                         {/* </div> */}
@@ -733,7 +732,12 @@ const Flightdetail = () => {
                         />
 
                         {sub && !contactVal && (
-                          <span id="error1">Enter a Valid Number</span>
+                          <span
+                            id="error10"
+                            style={{ color: "#d90429", fontSize: "12px" }}
+                          >
+                            Enter a Valid Number
+                          </span>
                         )}
                         {/* <label for="floatingInput">Mobile Number</label> */}
                         {/* </div> */}
@@ -1317,11 +1321,11 @@ const Flightdetail = () => {
                                   {sub &&
                                     !validatePAN(
                                       sub &&
-                                      passengerData.filter(
-                                        (item) =>
-                                          item.roomIndex === roomIndex &&
-                                          item.adultIndex === adultIndex
-                                      )[0].PAN
+                                        passengerData.filter(
+                                          (item) =>
+                                            item.roomIndex === roomIndex &&
+                                            item.adultIndex === adultIndex
+                                        )[0].PAN
                                     ) && (
                                       <span className="error10">
                                         Enter PAN{" "}
@@ -1353,11 +1357,11 @@ const Flightdetail = () => {
                                       {sub &&
                                         !isValidPassportNumber(
                                           sub &&
-                                          passengerData.filter(
-                                            (item) =>
-                                              item.roomIndex === roomIndex &&
-                                              item.adultIndex === adultIndex
-                                          )[0].PassportNo
+                                            passengerData.filter(
+                                              (item) =>
+                                                item.roomIndex === roomIndex &&
+                                                item.adultIndex === adultIndex
+                                            )[0].PassportNo
                                         ) && (
                                           <span className="error10">
                                             Enter Passport{" "}
@@ -1479,7 +1483,7 @@ const Flightdetail = () => {
                                       placeholder="Enter Age"
                                       value={
                                         noOfRooms[roomIndex]?.ChildAge[
-                                        childIndex
+                                          childIndex
                                         ]
                                       }
                                     />
@@ -1498,7 +1502,7 @@ const Flightdetail = () => {
                                 </div>
                                 <div className="col-lg-3 col-md-3">
                                   <div class="form-floating">
-                                  <input
+                                    <input
                                       name="PAN"
                                       type="text"
                                       placeholder="Enter PanNo"
@@ -1549,11 +1553,11 @@ const Flightdetail = () => {
                                       {sub &&
                                         !isValidPassportNumber(
                                           sub &&
-                                          passengerData.filter(
-                                            (item) =>
-                                              item.roomIndex === roomIndex &&
-                                              item.childIndex === childIndex
-                                          )[0].PassportNo
+                                            passengerData.filter(
+                                              (item) =>
+                                                item.roomIndex === roomIndex &&
+                                                item.childIndex === childIndex
+                                            )[0].PassportNo
                                         ) && (
                                           <span className="error10">
                                             Enter Passport{" "}
@@ -1691,7 +1695,7 @@ const Flightdetail = () => {
                   <button
                     type="submit"
                     onClick={handleClickSavePassenger}
-                  // onClick={() => setSub(true)}
+                    // onClick={() => setSub(true)}
                   >
                     Proceed to Book
                   </button>
