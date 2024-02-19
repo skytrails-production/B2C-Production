@@ -241,23 +241,23 @@ const BusPassengerDetail = () => {
   //   return true;
   // }
 
-  async function filterValidation(item) {
-    const result = await (!validatePhoneNumber(item.Phoneno) &&
-      !validateEmail(item.Email) &&
-      !filterValidation(item.FirstName) &&
-      !validateName(item.LastName) &&
-      item?.Address === "");
-    const ph = await validateName(item.LastName);
-    // console.warn("Please enter", ph, result)
-    return result;
-  }
-  async function validtion() {
+  // async function filterValidation(item) {
+  //   const result = await (!validatePhoneNumber(item.Phoneno) &&
+  //     !validateEmail(item.Email) &&
+  //     !filterValidation(item.FirstName) &&
+  //     !validateName(item.LastName) &&
+  //     item?.Address === "");
+  //   const ph = await validateName(item.LastName);
+  //   // console.warn("Please enter", ph, result)
+  //   return result;
+  // }
+   function validtion() {
     // const res =await passengerData.filter(filterValidation)
-    const res = await passengerData.filter(
+    const res =  passengerData.filter(
       (item) =>
         validatePhoneNumber(item.Phoneno) &&
         validateEmail(item.Email) &&
-        filterValidation(item.FirstName) &&
+        validateName(item.FirstName) &&
         validateName(item.LastName) &&
         item?.Address !== ""
     );

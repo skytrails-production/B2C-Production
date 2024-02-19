@@ -5,10 +5,11 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import './advertise.css';
 import { apiURL } from '../../Constants/constant';
+import { useNavigate } from 'react-router-dom';
 
 const Advertise = () => {
     // const [advertisementData, setAdvertisementData] = useState([]);
-
+    const navigate = useNavigate();
     const fetchData = async () => {
         if (!localData) {
             try {
@@ -50,7 +51,7 @@ const Advertise = () => {
                 <Slider {...settings}>
                     {localDataArray?.map((ad) => (
                         <div className="slick-slide advertise-slide" key={ad._id}>
-                            <img src={ad.image} alt={ad.title} loading='lazy' />
+                            <img style={{ cursor: "pointer" }} onClick={() => navigate("/pefaevent")} src={ad.image} alt={ad.title} loading='lazy' />
                         </div>
                     ))}
                 </Slider>

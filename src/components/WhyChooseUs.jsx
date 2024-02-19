@@ -9,7 +9,7 @@ import three from "../images/download/three.png"
 import four from "../images/download/four.png"
 const WhyChooseUs = () => {
     return (
-        <section class="download-gap download-no-top">
+        <section class=" download-no-top">
             <div class="container">
                 <div class="offerText my-5">
                     <p>Why Choose Us ?</p>

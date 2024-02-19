@@ -158,7 +158,7 @@ const Homeform = (props) => {
       // navigate("/busresult");
     }
     else if (reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorCode !== 0 && reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorCode !== undefined) {
-      
+
       swalModal("bus", reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error?.ErrorMessage, false)
 
 
@@ -329,31 +329,31 @@ const Homeform = (props) => {
   const token = sessionStorage.getItem("jwtToken");
   // console.log(selectedFromLast.CityName, "city name")
 
-  const createSearchHistory = async () => {
+  // const createSearchHistory = async () => {
 
 
-    const historyData = {
-      origin: selectedFromLast.CityName,
-      destination: selectedToLast.CityName,
-      journeyDate: startDate,
-      searchType: "BUS",
+  //   const historyData = {
+  //     origin: selectedFromLast.CityName,
+  //     destination: selectedToLast.CityName,
+  //     journeyDate: startDate,
+  //     searchType: "BUS",
 
 
-    };
+  //   };
 
-    try {
-      const response = await axios({
-        method: 'post',
-        url: `${apiURL.baseURL}/skyTrails/api/user/createSearchHistory`,
-        data: historyData,
-        headers: {
-          token: token,
-        },
-      });
-    } catch (error) {
-      console.error("Error sending data to the server:", error);
-    }
-  };
+  //   try {
+  //     const response = await axios({
+  //       method: 'post',
+  //       url: `${apiURL.baseURL}/skyTrails/api/user/createSearchHistory`,
+  //       data: historyData,
+  //       headers: {
+  //         token: token,
+  //       },
+  //     });
+  //   } catch (error) {
+  //     console.error("Error sending data to the server:", error);
+  //   }
+  // };
 
 
 
@@ -383,7 +383,7 @@ const Homeform = (props) => {
       DestinationId: selectedToLast.CityId,
       OriginId: selectedFromLast.CityId,
     };
-    createSearchHistory()
+    // createSearchHistory()
     dispatch(busSearchAction(payload));
 
     // }
@@ -774,7 +774,7 @@ const Homeform = (props) => {
                                   }
                                 >
                                   <div className="busResultBox">
-                                    <p>{result.CityId} <span >{result.CityName} </span></p>
+                                    <p><span >{result.CityName} </span></p>
                                   </div>
                                 </li>
                               ))}

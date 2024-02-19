@@ -27,7 +27,7 @@ import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
 import { format } from "date-fns";
 import { Helmet } from "react-helmet-async";
-
+import SecureStorage from 'react-secure-storage';
 
 const Homeform = (props) => {
 
@@ -113,23 +113,23 @@ const Homeform = (props) => {
 
 
   useEffect(() => {
-    const storedData = localStorage.getItem('revisitOnewayData');
+    const storedData = SecureStorage.getItem('revisitOnewayData');
     const parsedStoredData = JSON?.parse(storedData);
-    if (storedData && parsedStoredData[2]?.startDate) {
-      const storedDate = new Date(parsedStoredData[2].startDate);
-      if (storedDate < new Date()) {
-        setStartDate(new Date());
-      } else {
-        setStartDate(storedDate);
-        // console.log(storedData, "stored data")
-      }
+    if (storedData) {
+      // const storedDate = new Date(parsedStoredData[2].startDate);
+      // if (storedDate < new Date()) {
+      //   setStartDate(new Date());
+      // } else {
+      //   setStartDate(storedDate);
+      //   // console.log(storedData, "stored data")
+      // }
 
       setSelectedFrom(parsedStoredData[0]);
       setSelectedTo(parsedStoredData[1]);
     } else {
       setSelectedFrom(initialSelectedFromData);
       setSelectedTo(initialSelectedToData);
-      setStartDate(new Date());
+      // setStartDate(new Date());
     }
   }, []);
 
@@ -403,7 +403,7 @@ const Homeform = (props) => {
       Sources: null,
     };
 
-    localStorage.setItem(
+    SecureStorage.setItem(
       "revisitOnewayData", JSON.stringify([
         {
           AirportCode: selectedFrom.AirportCode,
@@ -429,9 +429,7 @@ const Homeform = (props) => {
           __v: selectedTo._v,
           _id: selectedTo._id,
         },
-        {
-          startDate: startDate
-        }
+
       ])
     )
 

@@ -17,7 +17,7 @@ import DialogContent from "@mui/material/DialogContent";
 import Hotelmainloading from "./hotelLoading/Hotelmainloading";
 // import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { IoSearchOutline } from "react-icons/io5";
-
+import SecureStorage from 'react-secure-storage';
 // import Login from "../../components/Login";
 // import Modal from "@mui/material/Modal";
 import { swalModal } from "../../utility/swal"
@@ -226,25 +226,26 @@ const HotelForm = () => {
 
 
   useEffect(() => {
-    const storedData = localStorage.getItem('revisitHotelData');
+    const storedData = SecureStorage.getItem('revisitHotelData');
     const parsedStoredData = JSON.parse(storedData);
     if (storedData) {
-      const storedCheckInDate = new Date(parsedStoredData[1].CheckInDate);
-      const storedCheckOutDate = new Date(parsedStoredData[2].CheckOutDate);
-      if (storedCheckInDate < new Date()) {
-        setCheckIn(currentDate);
-        setCheckOut(futureDate);
-      } else {
-        setCheckIn(storedCheckInDate);
-        setCheckOut(storedCheckOutDate);
-      }
+      // const storedCheckInDate = new Date(parsedStoredData[1].CheckInDate);
+      // const storedCheckOutDate = new Date(parsedStoredData[2].CheckOutDate);
+      // if (storedCheckInDate < new Date()) {
+      //   setCheckIn(currentDate);
+      //   setCheckOut(futureDate);
+      // } else {
+      //   setCheckIn(storedCheckInDate);
+      //   setCheckOut(storedCheckOutDate);
+      // }
       setSearchTermLast(parsedStoredData[0])
 
-    } else {
-      setCheckIn(currentDate);
-      setCheckOut(futureDate);
-
     }
+    // else {
+    //   setCheckIn(currentDate);
+    //   setCheckOut(futureDate);
+
+    // }
   }, []);
 
   const [cityid, setCityid] = useState("130443");
@@ -589,7 +590,7 @@ const HotelForm = () => {
     // console.log(payload, "payload hotel")
 
 
-    localStorage.setItem(
+    SecureStorage.setItem(
       "revisitHotelData", JSON.stringify([
         {
           Destination: searchTermLast.Destination,
@@ -602,12 +603,12 @@ const HotelForm = () => {
           _id: searchTermLast._id,
         },
 
-        {
-          CheckInDate: checkIn,
-        },
-        {
-          CheckOutDate: checkOut,
-        }
+        // {
+        //   CheckInDate: checkIn,
+        // },
+        // {
+        //   CheckOutDate: checkOut,
+        // }
       ])
     )
 
