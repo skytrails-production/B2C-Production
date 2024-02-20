@@ -2,7 +2,6 @@ import { Box, Grid, Typography } from "@mui/material";
 
 import React, { useState, useRef, useEffect } from "react";
 
-
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import axios from "axios";
@@ -11,7 +10,6 @@ import { apiURL } from "../../Constants/constant";
 import "./booknowleft.css";
 
 const KeyValue = ({ data, value }) => {
-
   return (
     <>
       <Grid item xs={12} md={6}>
@@ -70,7 +68,6 @@ const BookNowLeft = (props) => {
   //   }
   // }, [couponApplied]);
 
-
   const couponamount1 = sessionStorage.getItem("couponCode");
   const [couponStatus, setCouponStatus] = useState(false);
   const handleApplyCoupon1 = async () => {
@@ -81,7 +78,7 @@ const BookNowLeft = (props) => {
       const couponCode = inputRef.current.value;
 
       const response = await axios.put(
-      `  ${apiURL.baseURL}/skyTrails/api/coupons/applyCoupon`,
+        `  ${apiURL.baseURL}/skyTrails/api/coupons/applyCoupon`,
         { couponCode: couponCode },
         {
           headers: {
@@ -111,10 +108,11 @@ const BookNowLeft = (props) => {
         setTimeout(() => {
           setError(null);
         }, 4000); // Adjust the timeout duration as needed (4 seconds in this case)
-      } else {
+      } if(error.response && error.response.data.statusCode === 404){
+        setError(error.response.data.responseMessage)
+      }else {
         setError(
-          error.response?.data?.responseMessage ||
-            "Error applying coupon. Please try again."
+          error.response?.data?.message || "Error applying coupon. Please try again."
         );
         setCouponStatus(false);
       }
@@ -127,7 +125,6 @@ const BookNowLeft = (props) => {
       // amountChange();
     }
   };
-
 
   useEffect(() => {
     if (!props.toggle) {
@@ -295,7 +292,6 @@ const BookNowLeft = (props) => {
                           </>
                         )}
                       </div>
-
                     );
                   })}
                 </div>
@@ -412,7 +408,6 @@ const BookNowLeft = (props) => {
                                 {/* <button className="applycoupen-button1">
                                   Submit
                                 </button> */}
-
                               </div>
                             ) : (
                               <div className="error-message1">
@@ -625,7 +620,6 @@ const BookNowLeft = (props) => {
                                       </div>
                                     )}
                                   </div>
-
                                 )}
                               </motion.div>
                             )}
@@ -638,7 +632,6 @@ const BookNowLeft = (props) => {
               })}
             </>
           )}
-
         </>
       ) : (
         <>

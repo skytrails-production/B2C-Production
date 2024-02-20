@@ -135,13 +135,18 @@ export default function Popularfilter({
         setTimeout(() => {
           setError(null);
         }, 4000); // Adjust the timeout duration as needed (4 seconds in this case)
-      } else {
+      } if(error.response && error.response.data.statusCode === 404){
+        setError(error.response.data.responseMessage)
+      }
+      
+      else {
         setError(
-          error.response?.data?.responseMessage ||
+          error.response?.data?.message ||
             "Error applying coupon. Please try again."
         );
         setCouponStatus(false);
       }
+    
     } finally {
       setLoading(false);
     }

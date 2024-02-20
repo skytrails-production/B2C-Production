@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -8,26 +8,27 @@ import { apiURL } from '../../Constants/constant';
 import { useNavigate } from 'react-router-dom';
 
 const Advertise = () => {
-    // const [advertisementData, setAdvertisementData] = useState([]);
-    const navigate = useNavigate();
-    const fetchData = async () => {
-        if (!localData) {
-            try {
-                const response = await axios.get(`${apiURL.baseURL}/skyTrails/api/user/getWebBanner`);
-                const data = response.data.result;
-                // sessionStorage.setItem("advertise", data);
-                const jsonData = JSON.stringify(data);
-                sessionStorage.setItem("advertise", jsonData);
-                // setAdvertisementData(data);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
 
-    }
+    const navigate = useNavigate();
+    const localData = sessionStorage.getItem("advertise");
+    const localDataArray = JSON.parse(localData);
     useEffect(() => {
+        const fetchData = async () => {
+            if (!localData) {
+                try {
+                    const response = await axios.get(`${apiURL.baseURL}/skyTrails/api/user/getWebBanner`);
+                    const data = response.data.result;
+                    const jsonData = JSON.stringify(data);
+                    sessionStorage.setItem("advertise", jsonData);
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            }
+        };
+
         fetchData();
-    }, [fetchData]);
+    }, [localData]);
+
 
 
     const settings = {
@@ -40,8 +41,7 @@ const Advertise = () => {
         autoplaySpeed: 2000,
     };
 
-    const localData = sessionStorage.getItem("advertise");
-    const localDataArray = JSON.parse(localData);
+
 
 
 

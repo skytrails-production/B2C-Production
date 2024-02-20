@@ -242,10 +242,11 @@ const Events = () => {
                     eventHistoryData.length !== 0 ?
                         ("") :
                         (
-                            <div className='passAbs d-none d-sm-flex' onClick={handlePassAbsClick}>
-                                <p>Get Your Event Pass</p>
-                                <img src={scroll} alt="scroll" />
-                            </div>
+                            // <div className='passAbs d-none d-sm-flex' onClick={handlePassAbsClick}>
+                            //     <p>Get Your Event Pass</p>
+                            //     <img src={scroll} alt="scroll" />
+                            // </div>
+                            ""
                         )
 
                 }

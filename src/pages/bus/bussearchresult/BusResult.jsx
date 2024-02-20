@@ -6,8 +6,6 @@ import axios from "axios";
 import { apiURL } from "../../../Constants/constant";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 import "./bussearchresult.css";
-
-
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -17,11 +15,10 @@ import { motion } from "framer-motion";
 import busGif from "../../../images/busGif.gif";
 import busFilter from "../../../images/busFilter.png";
 import dayjs from "dayjs";
-import { Helmet } from "react-helmet-async";
-
+// import { Helmet } from "react-helmet-async";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { swalModal } from "../../../utility/swal"
+// import { swalModal } from "../../../utility/swal"
 
 const variants = {
   initial: {

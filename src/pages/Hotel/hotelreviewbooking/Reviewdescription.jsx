@@ -410,48 +410,81 @@ const Flightdetail = () => {
   //   return emailRegex.test(email);
   // }
 
+  // async function validation() {
+  //   const email = await document.getElementById("Email1").value;
+  //   const contact = await document.getElementById("phoneNumber1").value;
+  //   const em = await validateEmail(email);
+  //   const con = await validatePhoneNumber(contact);
+  //   if (!em || !con) {
+  //     setValidationRes(false);
+
+  //     return;
+  //   }
+  //   const trry = (item) => {
+  //     // console.log(item.PAN, "pancard&&&&&&&&&&&&&&&&&&&&&7");
+  //     if (
+  //       validatePAN(item.PAN) &&
+  //       item.FirstName !== "" &&
+  //       item.LastName !== "" &&
+  //       toString(item.Age) !== "" &&
+  //       passportCheck
+  //         ? isValidPassportNumber(item.PassportNo)
+  //         : true
+  //     )
+  //       return true;
+  //   };
+  //   // console.warn(passengerData, "passengerdata validation functionnnnnnnnnnn")
+  //   const other = await passengerData.filter(
+  //     trry
+  //     // =>
+  //     // toString(item.Age) === "" ||
+  //     // item.FirstName === "" ||
+  //     // item.LastName === "" ||
+  //     // validatePAN(item.PAN) === true
+  //     //  { console.log(item.PAN,"pancard&&&&&&&&&&&&&&&&&&&&&7");
+  //     //   true}
+  //   );
+  //   const result = await (other.length === passengerData.length &&
+  //   passengerData.length
+  //     ? true
+  //     : false);
+  //   setValidationRes(result);
+  //   // console.warn(other, "resulttryyy");
+  //   return result;
+  // }
+
   async function validation() {
-    const email = await document.getElementById("Email1").value;
-    const contact = await document.getElementById("phoneNumber1").value;
+    const email = document.getElementById("Email1").value;
+    const contact = document.getElementById("phoneNumber1").value;
     const em = await validateEmail(email);
     const con = await validatePhoneNumber(contact);
+  
     if (!em || !con) {
       setValidationRes(false);
-
       return;
     }
+  
     const trry = (item) => {
-      // console.log(item.PAN, "pancard&&&&&&&&&&&&&&&&&&&&&7");
       if (
         validatePAN(item.PAN) &&
         item.FirstName !== "" &&
         item.LastName !== "" &&
-        toString(item.Age) !== "" &&
-        passportCheck
-          ? isValidPassportNumber(item.PassportNo)
-          : true
-      )
+        item.Age !== "" && // corrected condition
+        (passportCheck ? isValidPassportNumber(item.PassportNo) : true)
+      ) {
         return true;
+      }
+      return false;
     };
-    // console.warn(passengerData, "passengerdata validation functionnnnnnnnnnn")
-    const other = await passengerData.filter(
-      trry
-      // =>
-      // toString(item.Age) === "" ||
-      // item.FirstName === "" ||
-      // item.LastName === "" ||
-      // validatePAN(item.PAN) === true
-      //  { console.log(item.PAN,"pancard&&&&&&&&&&&&&&&&&&&&&7");
-      //   true}
-    );
-    const result = await (other.length === passengerData.length &&
-    passengerData.length
-      ? true
-      : false);
+  
+    const other = passengerData.filter(trry);
+  
+    const result = other.length === passengerData.length && passengerData.length > 0;
     setValidationRes(result);
-    // console.warn(other, "resulttryyy");
+  
     return result;
   }
+  
   // console.warn("passengerDataNew", emailRef,"sss");
 
   useEffect(() => {

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import "./holidaysuggestion.css"
 import { apiURL } from "../../../Constants/constant";
-import { clearHolidayReducer, searchOnePackageAction } from "../../../Redux/OnePackageSearchResult/actionOneSearchPackage";
+// import { clearHolidayReducer, searchOnePackageAction } from "../../../Redux/OnePackageSearchResult/actionOneSearchPackage";
 // import Skeleton from "react-loading-skeleton";
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
@@ -14,8 +14,8 @@ const HolidaySuggestion = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [destination, setDestination] = useState("")
-    const reducerState = useSelector((state) => state);
-    const dispatch = useDispatch();
+    // const reducerState = useSelector((state) => state);
+    // const dispatch = useDispatch();
     const navigate = useNavigate()
 
 
@@ -152,6 +152,7 @@ const HolidaySuggestion = () => {
                         </div>
 
                     </div>
+
                 </div>
             </section>
 

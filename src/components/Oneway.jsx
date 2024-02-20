@@ -25,15 +25,15 @@ import TravelerCounter from "./TravelerCounter";
 import { CiSearch } from "react-icons/ci";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
-import { format } from "date-fns";
+// import { format } from "date-fns";
 import { Helmet } from "react-helmet-async";
 import SecureStorage from 'react-secure-storage';
 
 const Homeform = (props) => {
 
+
+
   const reducerState = useSelector((state) => state);
-
-
 
   const getDayOfWeek = (date) => {
     const daysOfWeek = [
@@ -52,20 +52,7 @@ const Homeform = (props) => {
   const [fromSearchResults, setFromSearchResults] = useState([]);
   const [fromQuery, setFromQuery] = useState("delhi");
   const [isLoading, setIsLoading] = useState(false);
-  //const [isLoadingFrom, setIsLoadingFrom] = useState(false);
 
-  // const [selectedFrom, setSelectedFrom] = useState({
-  //   AirportCode: "DEL",
-  //   CityCode: "DEL",
-  //   CountryCode: "IN ",
-  //   code: "Indira Gandhi Airport",
-  //   createdAt: "2023-01-30T14:58:34.428Z",
-  //   id: "DEL",
-  //   name: "Delhi",
-  //   updatedAt: "2023-01-30T14:58:34.428Z",
-  //   __v: 0,
-  //   _id: "63d7db1a64266cbf450e07c1",
-  // });
 
 
   const [startDate, setStartDate] = useState(new Date());
@@ -74,7 +61,6 @@ const Homeform = (props) => {
   const handleDateChange = (date) => {
     setStartDate(date);
   };
-
 
 
   const initialSelectedFromData = {
@@ -111,25 +97,15 @@ const Homeform = (props) => {
 
 
 
-
   useEffect(() => {
     const storedData = SecureStorage.getItem('revisitOnewayData');
     const parsedStoredData = JSON?.parse(storedData);
     if (storedData) {
-      // const storedDate = new Date(parsedStoredData[2].startDate);
-      // if (storedDate < new Date()) {
-      //   setStartDate(new Date());
-      // } else {
-      //   setStartDate(storedDate);
-      //   // console.log(storedData, "stored data")
-      // }
-
       setSelectedFrom(parsedStoredData[0]);
       setSelectedTo(parsedStoredData[1]);
     } else {
       setSelectedFrom(initialSelectedFromData);
       setSelectedTo(initialSelectedToData);
-      // setStartDate(new Date());
     }
   }, []);
 
@@ -141,43 +117,23 @@ const Homeform = (props) => {
   const [fromToggle, setFromToggle] = useState(false);
   const [toToggle, setToggle] = useState(false);
   const fromCityRef = useRef(null);
-  // const toCityRef = useRef(null);
-
   const [displayFrom, setdisplayFrom] = useState(true);
   const [toQuery, setToQuery] = useState("mumbai");
   const [to, setTO] = useState("");
-  const [isLoadingTo, setIsLoadingTo] = useState(false);
+  // const [isLoadingTo, setIsLoadingTo] = useState(false);
   const [toSearchResults, setToSearchResults] = useState([]);
-  // const [selectedTo, setSelectedTo] = useState({
-  //   AirportCode: "BOM",
-  //   CityCode: "BOM",
-  //   CountryCode: "IN ",
-  //   code: "Mumbai",
-  //   createdAt: "2023-01-30T14:57:03.696Z",
-  //   id: "BOM",
-  //   name: "Mumbai",
-  //   updatedAt: "2023-01-30T14:57:03.696Z",
-  //   __v: 0,
-  //   _id: "63d7dabf64266cbf450e0451",
-  // });
-
-
-
 
   const [displayTo, setdisplayTo] = useState(true);
 
-  // Travel modal code ⬇️
+
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
   const [activeIdClass, setActiveIdClass] = useState(1);
   const [activeIdChild, setActiveIdChild] = useState(0);
   const [activeIdInfant, setActiveIdInfant] = useState(0);
   const [activeIdAdult, setActiveIdAdult] = useState(1);
-  // const [activeFareType, setActiveFareType] = useState(1);
   const [totalCount, setCountPassanger] = useState(0);
-  // const [showDropdown, setShowDropdown] = useState(false);
   const [departureDate, setDepartureDate] = useState("");
 
-  // handle travellers modal
 
   const handleTravelerCountChange = (category, value) => {
     if (category === "adult") {
@@ -189,14 +145,6 @@ const Homeform = (props) => {
     }
   };
 
-  // const getClassLabel = (classId) => {
-  //   const selectedClass = ClassItems.find((item) => item.id === classId);
-  //   return selectedClass ? selectedClass.label : "";
-  // };
-
-  // const handleClassItemClick = (classId) => {
-  //   setActiveIdClass(classId);
-  // };
 
   // handle travellers modal
   useEffect(() => {
@@ -300,7 +248,7 @@ const Homeform = (props) => {
   const handleToClick = (result) => {
     setSelectedTo(result);
     setdisplayTo(false);
-    setIsLoadingTo(false);
+    // setIsLoadingTo(false);
   };
 
   const handleFromInputChange = (event) => {
@@ -647,7 +595,7 @@ const Homeform = (props) => {
                       e.stopPropagation(); // Stop event bubbling
                       setToggle(true);
                       setdisplayTo(true);
-                      setIsLoadingTo(true);
+                      // setIsLoadingTo(true);
                       setTimeout(() => {
                         toCityRef?.current?.focus();
                       }, 300)
@@ -691,7 +639,7 @@ const Homeform = (props) => {
                                     ref={toCityRef}
                                     onChange={(event) => {
                                       handleToInputChange(event);
-                                      setIsLoadingTo(true);
+                                      // setIsLoadingTo(true);
                                       handleToSearch(event.target.value);
 
                                     }}

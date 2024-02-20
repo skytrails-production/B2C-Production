@@ -98,9 +98,11 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
         setTimeout(() => {
           setError(null);
         }, 4000);
+      }if(error.response && error.response.data.statusCode === 404){
+        setError(error.response.data.responseMessage)
       } else {
         setError(
-          error.response?.data?.responseMessage ||
+          error.response?.data?.message ||
             "Error applying coupon. Please try again."
         );
         setCouponStatus(false);

@@ -64,12 +64,12 @@ import Login from "../../../components/Login"
 
 import HolidayLoader from "../holidayLoader/HolidayLoader"
 import HolidaySimilar from "./HolidaySimilar";
-import { validateEmail, validateName, validatePhoneNumber } from "../../../utility/validationFunctions"
+import { validateEmail, validatePhoneNumber } from "../../../utility/validationFunctions"
 import { formatDate } from "../../../utility/utils"
 import { searchOnePackageAction } from "../../../Redux/OnePackageSearchResult/actionOneSearchPackage";
 import { useParams } from "react-router";
 import SharePackages from "./SharePackages";
-import { async } from "q";
+// import { async } from "q";
 
 function Holidayinfo() {
   // const navigate = useNavigate();
@@ -77,7 +77,7 @@ function Holidayinfo() {
   const reducerState = useSelector((state) => state);
   const onePackage =
     reducerState?.searchOneResult?.OneSearchPackageResult?.data?.data;
-  const loading = reducerState?.searchOneResult?.OneSearchPackageResult?.data?.data;
+  // const loading = reducerState?.searchOneResult?.OneSearchPackageResult?.data?.data;
   // console.log("One Package", onePackage);
   // const [daysDetailsValues, setDaysDetails] = useState([]);
 

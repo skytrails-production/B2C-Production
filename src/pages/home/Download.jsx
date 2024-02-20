@@ -115,13 +115,13 @@ const Download = () => {
                     <img src={scan} className="scan-logo" alt="scan logo" />
                   </div>
                   <div class="d-sm-flex">
-                    <a
+                    <a rel="noreferrer"
                       href="https://play.google.com/store/apps/details?id=com.skytrails"
                       target="_blank"
                     >
                       <img src={google} alt="google" />
                     </a>
-                    <a
+                    <a rel="noreferrer"
                       href="https://apps.apple.com/in/app/the-skytrails/id6475768819"
                       target="_blank"
                     >
@@ -139,7 +139,7 @@ const Download = () => {
                       value={mobileNumber}
                       onChange={(e) => {
                         setMobileNumber(e.target.value);
-                        if(e.target.value===""){
+                        if (e.target.value === "") {
                           setvalidmobileclick(false);
                         }
                         setvalidno(
@@ -157,7 +157,7 @@ const Download = () => {
                             ? setvalidmobileclick(true)
                             : handleDownloadLink();
                         }}
-                        //  disabled={loading || sent || !validno }
+                      //  disabled={loading || sent || !validno }
                       >
                         {loading ? (
                           <>Sending...</>
@@ -191,17 +191,17 @@ const Download = () => {
                           "GET APP LINK"
                         )}
                       </button>
-                      
-                     
+
+
 
                     </div>
-                   
+
                   </div>
                   {validmobileclick && !validno && (
-                        <div style={{ color: 'red', fontSize: '12px' }}>
-                          Enter valid Mobile Number
-                        </div>
-                      )}
+                    <div style={{ color: 'red', fontSize: '12px' }}>
+                      Enter valid Mobile Number
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
