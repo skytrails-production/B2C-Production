@@ -130,6 +130,8 @@ function api() {
       },
     });
   };
+
+
   const flightBookingDataSave = (payload) => {
     const token = sessionStorage?.getItem("jwtToken");
     return axios({
@@ -143,6 +145,39 @@ function api() {
       },
     });
   };
+
+
+
+  // return flight api
+
+  const returnSearch = async (payload) => {
+    // console.log({ payload, emtPayload });
+    return axios({
+      method: "POST",
+      url: "/skyTrails/flight/search/return",
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      },
+    });
+  };
+
+
+  const flightGetTicketLccReturn = (payload) => {
+    return axios({
+      method: "POST",
+      url: "/skyTrails/flight/getticketlcc",
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
+
 
   //Hotel API's Start
   const hotelSearch = (payload) => {
@@ -356,6 +391,8 @@ function api() {
     flightGetTicketLcc,
     flightBookGDS,
     flightGetTicketNonLcc,
+    returnSearch,
+    flightGetTicketLccReturn,
     hotelSearch,
     hotelSearchInfo,
     hotelRoomInfo,

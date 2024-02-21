@@ -53,7 +53,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
 
       <div className="mainimg">
         {/* <img className="bannerBack" src="https://img.freepik.com/premium-vector/landscape-with-buildings-vehicles-morning-city-life_95169-195.jpg?w=1060" alt="background" /> */}
-        <img className="bannerBack" src={onewayBG} alt="background" />
+        <img className="bannerBack" src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/onewayBG.jpg" alt="background" />
         <InsideNavbar />
         {/* <BigNavbar /> */}
         <Oneway header="" />

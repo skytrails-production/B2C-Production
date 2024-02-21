@@ -47,7 +47,7 @@ const Taxi = () => {
       </Helmet>
 
       <div className="mainimg">
-        <img className="bannerBack" src={onewayBG} alt="banner" />
+        <img className="bannerBack" src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/onewayBG.jpg" alt="banner" />
         <InsideNavbar />
         {/* <BigNavbar /> */}
         <Bussearch />

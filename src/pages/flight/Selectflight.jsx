@@ -1981,10 +1981,6 @@ export default function BasicGrid() {
     const selectedValue = event.target.value;
     const radioGroupName = event.target.name;
 
-    // console.log('selectedValue:', selectedValue);
-    // console.log('radioGroupName:', radioGroupName);
-
-
     if (selectedValue === "All") {
       setSelectedCategory([]);
       document.querySelectorAll('input[type="checkbox"]').forEach((radio) => {
@@ -2008,7 +2004,7 @@ export default function BasicGrid() {
           ),
           `${radioGroupName}:${selectedValue}`,
         ];
-      // console.log('updatedCategory:', updatedCategory);
+
       return updatedCategory;
     });
   };
