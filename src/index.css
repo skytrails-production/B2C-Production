@@ -1,13 +1,9 @@
-/* body {
+body {
   margin: 0;
-   font-family: "Montserrat";
+  font-family: "Montserrat";
 }
 
-.error-message{
-  color:'red !important';
-  font-size:'12px';
-} */
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.error-message {
+  color: 'red !important';
+  font-size: '12px';
+}
