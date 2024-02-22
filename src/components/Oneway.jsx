@@ -325,6 +325,7 @@ const Homeform = (props) => {
 
   function handleOnewaySubmit(event) {
     event.preventDefault();
+    sessionStorage.setItem("SessionExpireTime", new Date())
 
     const formData = new FormData(event.target);
     setDepartureDate(formData.get("departure"));
@@ -415,6 +416,8 @@ const Homeform = (props) => {
     setSelectedFrom(selectedTo);
     setSelectedTo(tempFrom);
   };
+
+
 
 
   return (

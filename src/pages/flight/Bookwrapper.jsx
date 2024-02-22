@@ -52,6 +52,7 @@ import {
   validatePhoneNumber,
   isValidPassportNumber,
 } from "../../utility/validationFunctions";
+import { convertMillisecondsToMinutesAndSeconds, checkSearchTime } from "../../utility/utils";
 
 
 const variants = {
@@ -73,21 +74,14 @@ export default function BookWrapper() {
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
   const [transactionAmount, setTransactionAmount] = useState(null);
 
-  const handleTravelClickOpen = () => {
-    if (authenticUser !== 200) {
-      setIsLoginModalOpen(true);
-    } else {
-      setOpenTravelModal(true);
-    }
-  };
+
 
   // //////////////////////coupon api//////////////
   const couponconfirmation = async () => {
     try {
       const token = sessionStorage.getItem("jwtToken");
       const response = await axios.get(
-        `${
-          apiURL.baseURL
+        `${apiURL.baseURL
         }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
           "couponCode"
         )}`,
@@ -129,7 +123,9 @@ export default function BookWrapper() {
   const [farePrice, setFarePrice] = useState("");
   const [toggle, setToggle] = useState(false);
   const [V_aliation, setValidation] = useState(false);
+  const [timer_11, setTimer11] = useState(false);
   const [loaderPayment, setLoaderPayment] = useState(false);
+  const [SessionTImeLeft, setSessionTimeLeft] = useState(0);
   const [errorMessage, setErrorMassage] = useState({
     error: false,
     Message: "",
@@ -364,7 +360,7 @@ export default function BookWrapper() {
       !isDummyTicketBooking
     ) {
       getTicketForNonLCC();
-    } 
+    }
     else if (
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage == "" &&
       isDummyTicketBooking
@@ -376,7 +372,7 @@ export default function BookWrapper() {
     } else if (
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !==
-        undefined
+      undefined
     ) {
       swalModal("flight", reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage, false)
       // Swal.fire({
@@ -521,6 +517,7 @@ export default function BookWrapper() {
   // }, [Razorpay]);
 
   const handlePayment = async () => {
+    // setSub(true)
     const token = sessionStorage?.getItem("jwtToken");
     const payload = {
       firstname: passengerData[0].FirstName,
@@ -530,9 +527,9 @@ export default function BookWrapper() {
         transactionAmount ||
         (!isDummyTicketBooking
           ? parseInt(
-              reducerState?.flightFare?.flightQuoteData?.Results?.Fare
-                ?.PublishedFare
-            ) + parseInt(markUpamount)
+            reducerState?.flightFare?.flightQuoteData?.Results?.Fare
+              ?.PublishedFare
+          ) + parseInt(markUpamount)
           : 99),
       // amount: 1,
 
@@ -583,8 +580,9 @@ export default function BookWrapper() {
         if (response.status === "success") {
           try {
             // Make API call if payment status is 'success'
+            const easeBuzzPayId=response.easepayid;
             const verifyResponse = await axios.post(
-              `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`
+              `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`,{easeBuzzPayId:easeBuzzPayId}
             );
             setLoaderPayment(true);
             dispatch(PassengersAction(passengerData));
@@ -606,8 +604,10 @@ export default function BookWrapper() {
             // console.log(verifyResponse.data);
             swalModal("py", verifyResponse.data.responseMessage, false)
             // Handle verifyResponse as needed
-          setTransactionAmount(null);
+            setTransactionAmount(null);
             sessionStorage.removeItem("couponCode");
+            setTimer11(false);
+
             setToggle(false);
           } catch (error) {
             console.error("Error verifying payment:", error);
@@ -847,6 +847,61 @@ export default function BookWrapper() {
       return false;
     }
   };
+
+  // useEffect(() => {
+  //   if (sub && timer_11) {
+  //     const checkSearchTime = () => {
+  //       const lastSearchTime = new Date(sessionStorage.getItem('SessionExpireTime'));
+  //       if (lastSearchTime) {
+  //         const currentTime = new Date();
+  //         const differenceInMinutes = Math.floor((currentTime.getTime() - lastSearchTime.getTime()) / (1000 * 60));
+  //         // const differenceInMinutes = currentTime - lastSearchTime;
+  //         if (differenceInMinutes < 2) {
+  //           console.log('Search time is less than 15 minutes ago.');
+  //           setSessionTimeLeft(convertMillisecondsToMinutesAndSeconds(currentTime.getTime() - lastSearchTime.getTime()));
+  //           setTimer11(false);
+
+  //           console.log(differenceInMinutes, lastSearchTime, currentTime, SessionTImeLeft, timer_11, "timeleft......");
+
+
+  //         }
+  //         else if (2 <= differenceInMinutes && timer_11) {
+  //           // console.log('Search time is more than 15 minutes ago.');
+  //           swalModal("flight", "Session is Expired", false);
+  //           navigate("/");
+  //           sessionStorage.removeItem("SessionExpireTime");
+  //         }
+  //         // else {
+
+  //         // }
+  //       }
+  //     };
+
+  //     const interval = setInterval(checkSearchTime, 5000); // Check every second
+
+  //     return () => clearInterval(interval); // Clean up the interval
+  //   }
+  // }, [sub]);
+
+  const handleTravelClickOpen = () => {
+
+    if (authenticUser !== 200) {
+      setIsLoginModalOpen(true);
+
+
+    } else {
+      setOpenTravelModal(true);
+      setSub(true);
+      if (!checkSearchTime()) {
+        navigate("/");
+        return
+      }
+
+
+      // setTimer11(true);
+
+    }
+  };
   // const Props = {
   //   transactionAmount: transactionAmount,
   //   handleClick: handleClickButton,
@@ -900,10 +955,10 @@ export default function BookWrapper() {
                                 </p>
                                 <div className="aboveSpan">
                                   <span className="aboveSOne">
-                                  {dayjs(TicketDetails?.Segments[0][0]?.Origin?.DepTime).format("DD MMM, YY")}
+                                    {dayjs(TicketDetails?.Segments[0][0]?.Origin?.DepTime).format("DD MMM, YY")}
                                   </span>
                                   <span>
-                                  {`1 stop via ${TicketDetails?.Segments[0][0]?.Destination?.Airport?.CityName}`}{" "}
+                                    {`1 stop via ${TicketDetails?.Segments[0][0]?.Destination?.Airport?.CityName}`}{" "}
                                     {duration}
                                   </span>
                                 </div>
@@ -950,8 +1005,8 @@ export default function BookWrapper() {
                               <div className="bookbottomBox">
                                 <div>
                                   <div className="bookBottomOne">
-                                  <p>{dayjs(TicketDetails?.Segments[0][0]?.Origin?.DepTime).format("h:mm A")}</p>
-                                  <p>{dayjs(TicketDetails?.Segments[0][0]?.Destination?.ArrTime).format("h:mm A")}</p>
+                                    <p>{dayjs(TicketDetails?.Segments[0][0]?.Origin?.DepTime).format("h:mm A")}</p>
+                                    <p>{dayjs(TicketDetails?.Segments[0][0]?.Destination?.ArrTime).format("h:mm A")}</p>
 
                                   </div>
                                   <div className="bookBottomTwo">
@@ -973,7 +1028,7 @@ export default function BookWrapper() {
                                     <p>
                                       {
                                         TicketDetails?.Segments[0][0]?.Destination
-                                        ?.Airport?.CityName
+                                          ?.Airport?.CityName
                                       }{" "}
                                       <span>
                                         {
@@ -1009,8 +1064,8 @@ export default function BookWrapper() {
                             <div className="bookbottomBox ">
                               <div>
                                 <div className="bookBottomOne">
-                                <p>{dayjs(TicketDetails?.Segments[0][1]?.Origin?.DepTime).format("h:mm A")}</p>
-                                <p>{dayjs(TicketDetails?.Segments[0][1]?.Destination?.ArrTime).format("h:mm A")}</p>
+                                  <p>{dayjs(TicketDetails?.Segments[0][1]?.Origin?.DepTime).format("h:mm A")}</p>
+                                  <p>{dayjs(TicketDetails?.Segments[0][1]?.Destination?.ArrTime).format("h:mm A")}</p>
                                 </div>
                                 <div className="bookBottomTwo">
                                   <img src={fromTo} alt="icon" />
@@ -1081,7 +1136,7 @@ export default function BookWrapper() {
                                 </p>
                                 <div className="aboveSpan">
                                   <span className="aboveSOne">
-                                  {dayjs(TicketDetails?.Segments[0][0]?.Origin?.DepTime).format("h:mm A")}
+                                    {dayjs(TicketDetails?.Segments[0][0]?.Origin?.DepTime).format("h:mm A")}
                                   </span>
                                   <span>Non Stop {duration}</span>
                                 </div>
@@ -1127,8 +1182,8 @@ export default function BookWrapper() {
                             <div className="bookbottomBox">
                               <div>
                                 <div className="bookBottomOne">
-                                <p>{dayjs(TicketDetails?.Segments[0][0]?.Origin?.DepTime).format("h:mm A")}</p>
-                                <p>{dayjs(TicketDetails?.Segments[0][0]?.Destination?.ArrTime).format("h:mm A")}</p>
+                                  <p>{dayjs(TicketDetails?.Segments[0][0]?.Origin?.DepTime).format("h:mm A")}</p>
+                                  <p>{dayjs(TicketDetails?.Segments[0][0]?.Destination?.ArrTime).format("h:mm A")}</p>
                                 </div>
                                 <div className="bookBottomTwo">
                                   <img src={fromTo} alt="icon" />
@@ -1189,7 +1244,7 @@ export default function BookWrapper() {
                           <p>Cancellation Refund Policy</p>
                           <div>
                             <img
-                             src={`${process.env.PUBLIC_URL}/FlightImages/${TicketDetails?.Segments[0][0]?.Airline?.AirlineCode}.png`}
+                              src={`${process.env.PUBLIC_URL}/FlightImages/${TicketDetails?.Segments[0][0]?.Airline?.AirlineCode}.png`}
                             />{" "}
                             <span>
                               {
@@ -1319,9 +1374,9 @@ export default function BookWrapper() {
                                       handleServiceChange(e, index)
                                     }
                                     class="form-control">
-                                    </input>
-                                    {sub && !validateName(passengerData[index].FirstName) && <span className="error10">First name </span>}
-                                    
+                                  </input>
+                                  {sub && !validateName(passengerData[index].FirstName) && <span className="error10">First name </span>}
+
                                 </div>
                                 <div className="col-lg-3 col-md-3">
                                   {/* <div class="form-floating">
@@ -1350,7 +1405,7 @@ export default function BookWrapper() {
                                   >
 
                                   </input>
-                                   {sub && !validateName(passengerData[index].LastName) && <span className="error10">Last name </span>}
+                                  {sub && !validateName(passengerData[index].LastName) && <span className="error10">Last name </span>}
                                 </div>
                                 <div className="col-lg-3 col-md-3">
                                   {/* <label htmlFor="DateOfBirth">DOB</label> */}
@@ -1448,7 +1503,7 @@ export default function BookWrapper() {
                                   </div> */}
 
 
-                                  <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
+                                      <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
                                       <input
                                         type="date"
                                         name="PassportExpiry"
@@ -1456,7 +1511,7 @@ export default function BookWrapper() {
                                         class="form-control"
                                         onChange={(e) => {
                                           handleServiceChange(e, index);
-                                          
+
                                         }}
                                         min={currentDate}
                                       ></input>
@@ -1615,7 +1670,7 @@ export default function BookWrapper() {
                                     max={maxDateChild}
                                     min={minDateChild}
                                   ></input>
-                                   {sub && !validateDate(passengerData[index + Number(adultCount)].DateOfBirth) && <span className="error10">DOB </span>}
+                                  {sub && !validateDate(passengerData[index + Number(adultCount)].DateOfBirth) && <span className="error10">DOB </span>}
                                   {/* <div class="form-floating">
                                     <input
                                       type="date"
@@ -1768,12 +1823,12 @@ export default function BookWrapper() {
                                       handleServiceChange(
                                         e,
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       )
                                     }
                                   ></input>
-                                   {sub && !validateName(passengerData[index + Number(adultCount) + Number(childCount)].FirstName) && <span className="error10">First name </span>}
+                                  {sub && !validateName(passengerData[index + Number(adultCount) + Number(childCount)].FirstName) && <span className="error10">First name </span>}
                                 </div>
                                 <div className="col-lg-3 col-md-3">
                                   {/* <div class="form-floating">
@@ -1806,8 +1861,8 @@ export default function BookWrapper() {
                                       handleServiceChange(
                                         e,
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       )
                                     }
                                   ></input>
@@ -1828,8 +1883,8 @@ export default function BookWrapper() {
                                       handleServiceChange(
                                         e,
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       )
                                     }
                                   >
@@ -1872,14 +1927,14 @@ export default function BookWrapper() {
                                       handleServiceChange(
                                         e,
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       )
                                     }
                                     min={minDateInfer}
                                     max={currentDate}
                                   ></input>
-                                    {sub && !validateDate(passengerData[index + Number(adultCount) + Number(childCount)].DateOfBirth) && <span className="error10">DOB </span>}
+                                  {sub && !validateDate(passengerData[index + Number(adultCount) + Number(childCount)].DateOfBirth) && <span className="error10">DOB </span>}
                                 </div>
                               </div>
                               {/* passport details here */}
@@ -1920,8 +1975,8 @@ export default function BookWrapper() {
                                           handleServiceChange(
                                             e,
                                             index +
-                                              Number(adultCount) +
-                                              Number(childCount)
+                                            Number(adultCount) +
+                                            Number(childCount)
                                           )
                                         }
                                       >
@@ -1961,8 +2016,8 @@ export default function BookWrapper() {
                                           handleServiceChange(
                                             e,
                                             index +
-                                              Number(adultCount) +
-                                              Number(childCount)
+                                            Number(adultCount) +
+                                            Number(childCount)
                                           );
                                           // console.log(
                                           //   e.target.value,
@@ -2077,7 +2132,7 @@ export default function BookWrapper() {
                     </div>
 
                     <div className="col-lg-12 my-4 smallButtMobile">
-                    {V_aliation ? <button
+                      {V_aliation ? <button
                         className="bookWrapperButton"
                         type="submit"
                         onClick={() => handleTravelClickOpen()}

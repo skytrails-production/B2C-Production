@@ -50,6 +50,7 @@ import Modal from "@mui/material/Modal";
 
 import loginnew from "../../../images/login-01.jpg";
 import CloseIcon from "@mui/icons-material/Close";
+import { checkSearchTime } from "../../../utility/utils"
 
 const variants = {
   initial: {
@@ -71,7 +72,9 @@ const BusReviewBooking = () => {
   const navigate = useNavigate();
   const reducerState = useSelector((state) => state);
   const [transactionAmount, setTransactionAmount] = useState(null);
-
+  const [SessionTImeLeft, setSessionTimeLeft] = useState(0);
+  const [timer_11, setTimer11] = useState(false);
+  const [sub, setSub] = useState(false);
   const [loaderPayment, setLoaderPayment] = useState(false);
   const [publishedPrice, setPublishedPrice] = useState(0);
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
@@ -110,7 +113,7 @@ const BusReviewBooking = () => {
   ) {
     return accumulator + currentValue?.Price?.PublishedPriceRoundedOff;
   },
-  0);
+    0);
 
   // const tdsTotal = markUpamount + seatObject.reduce((accumulator, currentValue) => {
   //     return accumulator + currentValue?.Price?.TDS;
@@ -125,7 +128,7 @@ const BusReviewBooking = () => {
     sessionStorage.removeItem("totalaftercoupon");
     // sessionStorage.removeItem("couponCode")
   }, []);
-  
+
   useEffect(() => {
     if (
       busBlockData?.Error?.ErrorCode !== 0 &&
@@ -269,46 +272,58 @@ const BusReviewBooking = () => {
 
   const handlePayment = async () => {
     if (authenticUser !== 200) {
+      setSub(false);
+      // setTimer11(false);
       setIsLoginModalOpen(true);
+
     } else {
-      const token = sessionStorage?.getItem("jwtToken");
-      const payload = {
-        firstname: passengerSessionStorageParsed[0].FirstName,
-        phone: passengerSessionStorageParsed[0].Phoneno,
-        amount:
-        transactionAmount ||
-          published + markUpamount,
-        // amount: 1,
-        email: passengerSessionStorageParsed[0].Email,
-        productinfo: "ticket",
-        bookingType: "BUS",
-        surl: `${apiURL.baseURL}/skyTrails/api/transaction/successVerifyApi?merchantTransactionId=`,
-        furl: `${apiURL.baseURL}/skyTrails/api/transaction/paymentFailure?merchantTransactionId=`,
-      };
+      if (!checkSearchTime()) {
+        navigate("/");
+        return;
+      }
+      else {
 
-      try {
-        const response = await fetch(apiUrlPayment, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            token: token,
-          },
-          body: JSON.stringify(payload),
-        });
+        const token = sessionStorage?.getItem("jwtToken");
+        const payload = {
+          firstname: passengerSessionStorageParsed[0].FirstName,
+          phone: passengerSessionStorageParsed[0].Phoneno,
+          amount:
+            transactionAmount ||
+            published + markUpamount,
+          // amount: 1,
+          email: passengerSessionStorageParsed[0].Email,
+          productinfo: "ticket",
+          bookingType: "BUS",
+          surl: `${apiURL.baseURL}/skyTrails/api/transaction/successVerifyApi?merchantTransactionId=`,
+          furl: `${apiURL.baseURL}/skyTrails/api/transaction/paymentFailure?merchantTransactionId=`,
+        };
 
-        if (response.ok) {
-          const data = await response.json();
+        try {
+          const response = await fetch(apiUrlPayment, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              token: token,
+            },
+            body: JSON.stringify(payload),
+          });
 
-          proceedPayment(data.result.access, "prod", data.result.key);
-          // console.log("API call successful:", data);
-        } else {
-          // console.error("API call failed with status:", response.status);
-          const errorData = await response.json();
-          // console.error("Error details:", errorData);
+          if (response.ok) {
+            const data = await response.json();
+
+            proceedPayment(data.result.access, "prod", data.result.key);
+            // console.log("API call successful:", data);
+          } else {
+            // console.error("API call failed with status:", response.status);
+            const errorData = await response.json();
+            setSub(false);
+            // setTimer11(false);
+            // console.error("Error details:", errorData);
+          }
+        } catch (error) {
+          // Handle network errors or exceptions
+          // console.error("API call failed with an exception:", error.message);
         }
-      } catch (error) {
-        // Handle network errors or exceptions
-        // console.error("API call failed with an exception:", error.message);
       }
     }
   };
@@ -322,8 +337,9 @@ const BusReviewBooking = () => {
         if (response.status === "success") {
           try {
             // Make API call if payment status is 'success'
+            const easeBuzzPayId=response.easepayid;
             const verifyResponse = await axios.post(
-              `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`
+              `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`,{easeBuzzPayId:easeBuzzPayId}
             );
             setLoaderPayment(true);
             // sessionStorage.removeItem("totalaftercoupon");
@@ -465,6 +481,50 @@ const BusReviewBooking = () => {
   };
   // const cancelFromDateFormatted = cancelFromDate.format("DD MMM, YY");
   // const cancelToDateTimeFormatted = cancelToDateTime.format("DD MMM, YY");
+  // function convertMillisecondsToMinutesAndSeconds(milliseconds) {
+  //   // Convert milliseconds to seconds
+  //   const totalSeconds = Math.floor(milliseconds / 1000);
+
+  //   // Calculate minutes and remaining seconds
+  //   const minutes = Math.floor(totalSeconds / 60);
+  //   const seconds = totalSeconds % 60;
+  //   const timeleft = `${minutes}:${seconds}`
+  //   console.log(timeleft, "time left")
+  //   return timeleft;
+  // }
+  // useEffect(() => {
+  //   if (sub) {
+  //     const checkSearchTime = () => {
+  //       const lastSearchTime = new Date(sessionStorage.getItem('SessionExpireTime'));
+  //       if (lastSearchTime) {
+  //         const currentTime = new Date();
+  //         const differenceInMinutes = Math.floor((currentTime.getTime() - lastSearchTime.getTime()) / (1000 * 60));
+  //         // const differenceInMinutes = currentTime - lastSearchTime;
+  //         if (differenceInMinutes < 11 && !timer_11) {
+  //           console.log('Search time is less than 15 minutes ago.');
+  //           setSessionTimeLeft(convertMillisecondsToMinutesAndSeconds(currentTime.getTime() - lastSearchTime.getTime()));
+  //           setTimer11(true);
+
+
+  //         }
+  //         // else if (differenceInMinutes <= 15) {
+  //         //   // console.log('Search time is more than 15 minutes ago.');
+  //         //   swalModal("flight", "Session is Expired", false);
+  //         //   navigate("/");
+  //         //   sessionStorage.removeItem("SessionExpireTime");
+  //         // }
+  //         // else {
+
+  //         //   console.log(differenceInMinutes, lastSearchTime, currentTime, SessionTImeLeft, "timeleft......")
+  //         // }
+  //       }
+  //     };
+
+  //     const interval = setInterval(checkSearchTime, 5000); // Check every second
+
+  //     return () => clearInterval(interval); // Clean up the interval
+  //   }
+  // }, [sub]);
 
   const storedPassengerData = JSON.parse(sessionStorage.getItem("busPassName"));
   if (loaderPayment == false) {
@@ -659,8 +719,8 @@ const BusReviewBooking = () => {
                 transition={{ duration: 0.5 }}
                 className="col-lg-3 order-lg-2 mb-md-4 mb-sm-4  order-md-1 order-1"
               >
-                <BusSaleSummary toggle={toggle} toggleState={toggleState}  transactionAmount={setTransactionAmountState}
-                    Amount={transactionAmount} />
+                <BusSaleSummary toggle={toggle} toggleState={toggleState} transactionAmount={setTransactionAmountState}
+                  Amount={transactionAmount} />
               </motion.div>
             </div>
           </div>

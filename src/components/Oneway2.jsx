@@ -46,7 +46,7 @@ const Oneway2 = (props) => {
   const isPopularSearch = JSON.parse(sessionStorage.getItem("isPopularSearch"))
   const isDummyTicketBooking = JSON.parse(
     sessionStorage.getItem("hdhhfb7383__3u8748")
-    
+
   );
 
   const date = new Date();
@@ -371,6 +371,7 @@ const Oneway2 = (props) => {
   }
   function handleOnewaySubmit(event) {
     event.preventDefault();
+    sessionStorage.setItem("SessionExpireTime", new Date());
     const formData = new FormData(event.target);
     // setDepartureDate(formData.get("departure"));
 

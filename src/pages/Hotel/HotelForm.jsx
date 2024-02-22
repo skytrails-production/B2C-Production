@@ -547,6 +547,7 @@ const HotelForm = () => {
 
   function handleSubmit(event) {
     event.preventDefault();
+    sessionStorage.setItem("SessionExpireTime", new Date());
 
     const dynamicFormData = formDataDynamic.map((data) => ({
       NoOfAdults: data.NoOfAdults || 0,

@@ -20,6 +20,7 @@ import Loadingbus from "./Busloading/Loadingbus";
 // import CloseIcon from '@mui/icons-material/Close';
 import { CiSearch } from "react-icons/ci";
 import { swalModal } from "../../utility/swal"
+
 // const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 
@@ -364,7 +365,9 @@ const Homeform = (props) => {
     //   setIsLoginModalOpen(true);
     // }
     // else {
+
     setIsLoadingFlight(true)
+    sessionStorage.setItem("SessionExpireTime", new Date())
     const formData = new FormData(event.target);
     const selectedDate = startDate;
     let formattedDate = "";
