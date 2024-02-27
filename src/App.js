@@ -61,6 +61,12 @@ import FlightETicket from "../src/components/FlightETicket"
 import DummyPnrHome from "./components/DummyPnrHome"
 import HolidayCountryDetails from './pages/holidaypackages/holidayCategory/HolidayCountryDetails';
 import Events from './pages/Event/Events';
+import ReturnMain from './pages/flight/ReturnFlight/ReturnMain';
+import ReturnResult from './pages/flight/ReturnFlight/ReturnResult';
+import ReturnPassenger from './pages/flight/ReturnFlight/ReturnPassenger';
+
+import Whatsapp from './Whatsapp';
+
 
 
 
@@ -179,6 +185,13 @@ function App() {
 
       <Routes>
         <Route index element={<Home />}></Route>
+        <Route path="/Return" element={<ReturnMain />}></Route>
+        <Route path="/ReturnResult" element={<ReturnResult />}></Route>
+        <Route
+          exact
+          path="/FlightresultReturn/Passengerdetail"
+          element={<ReturnPassenger />}
+        />
         <Route path="login" element={<LoginForm />}></Route>
         <Route path="signup" element={<SignUp />}></Route>
         <Route path="flighterror" element={<Flighterror />}></Route>
@@ -286,6 +299,7 @@ function App() {
         <Route path="/oneWayDummyHome" element={<DummyPnrHome />}></Route>
         <Route path="/pefaevent" element={<Events />}></Route>
       </Routes>
+      <Whatsapp />
       <Footer />
     </div>
   );

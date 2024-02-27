@@ -3,8 +3,13 @@ import * as types from "./actionType";
 const initialState = {
   flightRuleData: {},
   flightQuoteData: {},
+  flightRuleDataReturn: {},
+  flightQuoteDataReturn: {},
   isLogin: false,
-  isLoading: false,
+  isLoadingRuleDone: false,
+  isLoadingQuoteDoneReturn: false,
+  isLoadingRuleDoneReturn: false,
+  isLoadingQuoteDone: false,
   isError: false,
 };
 
@@ -41,6 +46,37 @@ export const flightFareReducer = (state = initialState, action) => {
         isLoading: true,
         isError: false,
       };
+
+
+    case types.QUOTE_REQUEST_RETURN:
+      return {
+        ...state,
+        isLoadingQuoteDoneReturn: false,
+        isError: false,
+      };
+
+    case types.QUOTE_SUCCESS_RETURN:
+      return {
+        ...state,
+        flightQuoteDataReturn: payload?.data?.data?.Response,
+        isLoadingQuoteDoneReturn: true,
+        isError: false,
+      };
+
+    case types.RULE_REQUEST_RETURN:
+      return {
+        ...state,
+        isLoadingRuleDoneReturn: false,
+        isError: false,
+      };
+
+    case types.RULE_SUCCESS_RETURN:
+      return {
+        ...state,
+        flightRuleDataReturn: payload?.data?.data?.Response,
+        isLoadingRuleDoneReturn: true,
+        isError: false,
+      };
     case types.CLEAR_FARE_DETAILS_REDUCER:
       // console.log('=======================================');
       // console.log('Resetting Fare details state');
@@ -52,14 +88,29 @@ export const flightFareReducer = (state = initialState, action) => {
         isError: false,
         showSuccessMessage: true,
       };
+
+    case types.SET_LOADING:
+      return {
+        ...state,
+        isLoadingQuoteDone: false,
+        isLoadingRuleDone: false,
+      };
     case types.CLEAR_ALL_FARE_DETAILS_REDUCER:
 
       return {
 
         flightRuleData: {},
         flightQuoteData: {},
+        flightRuleDataReturn: {},
+        flightQuoteDataReturn: {},
         isLogin: false,
         isLoading: false,
+        isError: false,
+        isLogin: false,
+        isLoadingRuleDone: false,
+        isLoadingQuoteDoneReturn: false,
+        isLoadingRuleDoneReturn: false,
+        isLoadingQuoteDone: false,
         isError: false,
 
       };

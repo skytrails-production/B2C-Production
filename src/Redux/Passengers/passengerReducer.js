@@ -2,7 +2,7 @@ import * as types from "./passengerActionType";
 
 const initState = {
   passengersData: [],
-  passengerDataReturn:[],
+  passengerDataReturn: [],
 
   isLoading: false,
 
@@ -43,6 +43,17 @@ export const passengersReducer = (state = initState, action) => {
         isError: false,
         showSuccessMessage: true,
       };
+    case type.CLEAR_PASSENGERS_REDUCER:
+      return {
+        passengersData: [],
+        passengerDataReturn: [],
+
+        isLoading: false,
+
+        isError: false,
+
+        showSuccessMessage: false,
+      }
 
     default:
       return state;

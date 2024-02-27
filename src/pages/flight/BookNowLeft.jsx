@@ -2,6 +2,7 @@ import { Box, Grid, Typography } from "@mui/material";
 
 import React, { useState, useRef, useEffect } from "react";
 
+
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import axios from "axios";
@@ -10,6 +11,7 @@ import { apiURL } from "../../Constants/constant";
 import "./booknowleft.css";
 
 const KeyValue = ({ data, value }) => {
+
   return (
     <>
       <Grid item xs={12} md={6}>
@@ -68,6 +70,7 @@ const BookNowLeft = (props) => {
   //   }
   // }, [couponApplied]);
 
+
   const couponamount1 = sessionStorage.getItem("couponCode");
   const [couponStatus, setCouponStatus] = useState(false);
   const handleApplyCoupon1 = async () => {
@@ -78,7 +81,7 @@ const BookNowLeft = (props) => {
       const couponCode = inputRef.current.value;
 
       const response = await axios.put(
-        `  ${apiURL.baseURL}/skyTrails/api/coupons/applyCoupon`,
+        `${apiURL.baseURL}/skyTrails/api/coupons/applyCoupon`,
         { couponCode: couponCode },
         {
           headers: {
@@ -108,11 +111,10 @@ const BookNowLeft = (props) => {
         setTimeout(() => {
           setError(null);
         }, 4000); // Adjust the timeout duration as needed (4 seconds in this case)
-      } if(error.response && error.response.data.statusCode === 404){
-        setError(error.response.data.responseMessage)
-      }else {
+      } else {
         setError(
-          error.response?.data?.message || "Error applying coupon. Please try again."
+          error.response?.data?.responseMessage ||
+          "Error applying coupon. Please try again."
         );
         setCouponStatus(false);
       }
@@ -125,6 +127,7 @@ const BookNowLeft = (props) => {
       // amountChange();
     }
   };
+
 
   useEffect(() => {
     if (!props.toggle) {
@@ -227,411 +230,216 @@ const BookNowLeft = (props) => {
     <>
       {fareQuote === 0 ? (
         <>
-          {TicketDetails?.Segments[0].length == 2 ? (
-            <>
-              <div className="priceSummary">
-                <div className="headFlight">
-                  <span>Price Summary</span>
-                </div>
-                {/* <div className="hotName">
-                      <p>hotel name</p> 
-                    </div> */}
-                <div className="totCOmmFlight">
-                  <div>
-                    <span>{formattedDate}</span>
-                    <p>{fareValue?.Segments[0][0]?.Airline?.FlightNumber}</p>
-                    <p>{fareValue?.Segments[0][0]?.Airline?.FareClass} Class</p>
-                  </div>
-                </div>
-                <div className="priceChart">
-                  <div>
-                    <span className="text-bold">From</span>
-                    <p className="text-bold">
-                      {fareValue?.Segments[0][0]?.Origin?.Airport?.AirportCode}
-                    </p>
-                  </div>
-                  <div>
-                    <span className="text-bold">To</span>
-                    <p className="text-bold">
-                      {
-                        fareValue?.Segments[0][1]?.Destination?.Airport
-                          ?.AirportCode
-                      }
-                    </p>
-                  </div>
-                </div>
-                <div className="totCOmmFlight">
-                  {fareValue?.FareBreakdown?.map((data) => {
-                    return (
-                      <div className="">
-                        {data?.PassengerType === 1 && (
-                          <>
-                            <span>Adult x {data?.PassengerCount}</span>
-                            <p>
-                              {"₹"}
-                              {data?.BaseFare + data?.Tax}
-                            </p>
-                          </>
-                        )}
-                        {data?.PassengerType === 2 && (
-                          <>
-                            <span>Child x {data?.PassengerCount}</span>
-                            <p>
-                              {"₹"}
-                              {data?.BaseFare + data?.Tax}
-                            </p>
-                          </>
-                        )}
-                        {data?.PassengerType === 3 && (
-                          <>
-                            <span>Infant x {data?.PassengerCount}</span>
-                            <p>
-                              {"₹"}
-                              {data?.BaseFare + data?.Tax}
-                            </p>
-                          </>
-                        )}
+          <div className="priceSummary">
+            <div className="headFlight">
+              <span>Price Summary</span>
+            </div>
+            {fareValue?.Segments?.map((dat, index) => {
+              return dat?.map((data1) => {
+                const dateString = data1?.Origin?.DepTime;
+                const date = new Date(dateString);
+                const day = date.getDate();
+                const month = date.toLocaleString("default", {
+                  month: "short",
+                });
+                const year = date.getFullYear();
+                const formattedDate = `${day} ${month} ${year}`;
+                return (
+                  <>
+                    <div className="totCOmmFlight">
+                      <div>
+                        <span>{formattedDate}</span>
+                        <p>{data1?.Airline?.FlightNumber}</p>
+                        <p>{data1?.Airline?.FareClass} Class</p>
                       </div>
-                    );
-                  })}
-                </div>
+                    </div>
+                    <div className="priceChart">
+                      <div>
+                        <span className="text-bold">From</span>
+                        <p className="text-bold">
+                          {data1?.Origin?.Airport?.AirportCode}
+                        </p>
+                      </div>
+                      <div>
+                        <span className="text-bold">To</span>
+                        <p className="text-bold">
+                          {data1?.Destination?.Airport?.AirportCode}
+                        </p>
+                      </div>
+                    </div>
 
-                <div className="TotGstFlight">
-                  <div>
-                    <span>Total TAX: </span>
-                    <p>
-                      {"₹"}
-                      {markUpamount}
-                    </p>
-                  </div>
-                  <div>
-                    <span>Grand Total:</span>
-                    <p>
-                      {"₹"}
-                      {fareValue?.Fare?.PublishedFare + markUpamount}
-                    </p>
-                  </div>
-                </div>
-                {isDummyStorageTrue === "false" ? (
-                  <div
-                    className="applycoupenbuttontext"
-                    style={{ overflow: "hidden" }}
-                  >
-                    {!couponApplied ? (
-                      <button
-                        onClick={handleApplyCoupon}
-                        className="applycoupen-button"
-                      >
-                        Apply Coupon
-                      </button>
-                    ) : (
-                      <motion.div
-                        initial={{ opacity: 0, y: 4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <div style={{ position: "relative" }}>
-                          <input
-                            ref={inputRef}
-                            type="text"
-                            className="inputfieldtext"
-                            placeholder="Apply Coupon..."
-                            autoFocus
-                            value={couponCode}
-                            onChange={handleInputChange}
-                          />
-                          {loading && (
-                            <div className="loader-inside-input"></div>
-                          )}
-                          {showApplyButton && (
-                            <p
-                              onClick={handleApplyCoupon1}
-                              style={{
-                                position: "absolute",
-                                top: 6,
-                                right: 0,
-                                cursor: "pointer",
-                                height: "100%",
-                                color: "#4949c0",
-                                padding: "12px",
-                                fontWeight: "bold",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              }}
-                            >
-                              Apply Code
-                            </p>
-                          )}
-                        </div>
-                        {loading ? (
-                          <div className="loader-container">
-                            <div className="loader"></div>
-                          </div>
-                        ) : (
-                          <div>
-                            {couponStatus && props.toggle ? (
-                              <div>
-                                <div className="TotGstFlight mt-4">
-                                  <div>
-                                    <span>Coupon Amount: </span>
-                                    <p>
-                                      {"₹"}
-                                      {coupondiscount}
-                                    </p>
-                                  </div>
-                                  <div>
-                                    <span>Total:</span>
-                                    <p>
-                                      {"₹"}
-                                      {fareValue?.Fare?.PublishedFare +
-                                        markUpamount}
-                                    </p>
-                                  </div>
-                                </div>
 
-                                <div className="TotGstFlight">
-                                  <div>
-                                    <span>After Discount:</span>
-                                    <p>
-                                      {"₹"}
-                                      {parseFloat(
-                                        (
-                                          fareValue?.Fare?.PublishedFare +
-                                          markUpamount -
-                                          coupondiscount
-                                        ).toFixed(2)
-                                      )}
-                                    </p>
-                                  </div>
-                                </div>
-                                {/* <button className="applycoupen-button1">
-                                  Submit
-                                </button> */}
-                              </div>
-                            ) : (
-                              <div className="error-message1">
-                                {props.toggle && <p>{error}</p>}
-                              </div>
-                            )}
-                          </div>
-                        )}
-                      </motion.div>
+                  </>
+                );
+              });
+            })}
+
+            <div className="totCOmmFlight">
+              {fareValue?.FareBreakdown?.map((data) => {
+                return (
+                  <div className="">
+                    {data?.PassengerType === 1 && (
+                      <>
+                        <span>Adult x {data?.PassengerCount}</span>
+                        <p>
+                          {"₹"}
+                          {data?.BaseFare + data?.Tax}
+                        </p>
+                      </>
+                    )}
+                    {data?.PassengerType === 2 && (
+                      <>
+                        <span>Child x {data?.PassengerCount}</span>
+                        <p>
+                          {"₹"}
+                          {data?.BaseFare + data?.Tax}
+                        </p>
+                      </>
+                    )}
+                    {data?.PassengerType === 3 && (
+                      <>
+                        <span>Infant x {data?.PassengerCount}</span>
+                        <p>
+                          {"₹"}
+                          {data?.BaseFare + data?.Tax}
+                        </p>
+                      </>
                     )}
                   </div>
-                ) : null}
+                );
+              })}
+            </div>
+
+            <div className="TotGstFlight">
+              <div>
+                <span>Total TAX: </span>
+                <p>
+                  {"₹"}
+                  {markUpamount}
+                </p>
               </div>
-            </>
-          ) : (
-            <>
-              {fareValue?.Segments?.map((dat, index) => {
-                return dat?.map((data1) => {
-                  const dateString = data1?.Origin?.DepTime;
-                  const date = new Date(dateString);
-                  const day = date.getDate();
-                  const month = date.toLocaleString("default", {
-                    month: "short",
-                  });
-                  const year = date.getFullYear();
-                  const formattedDate = `${day} ${month} ${year}`;
-                  return (
-                    <>
-                      <div className="priceSummary">
-                        <div className="headFlight">
-                          <span>Price Summary</span>
-                        </div>
+              <div>
+                <span>Grand Total:</span>
+                <p>
+                  {"₹"}
+                  {fareValue?.Fare?.PublishedFare + markUpamount}
+                </p>
+              </div>
+            </div>
 
-                        <div className="totCOmmFlight">
+            {isDummyStorageTrue === "false" ? (
+              <div
+                className="applycoupenbuttontext"
+                style={{ overflow: "hidden" }}
+              >
+                {!couponApplied ? (
+                  <button
+                    onClick={handleApplyCoupon}
+                    className="applycoupen-button"
+                  >
+                    Apply Coupon
+                  </button>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div style={{ position: "relative" }}>
+                      <input
+                        ref={inputRef}
+                        type="text"
+                        className="inputfieldtext"
+                        placeholder="Apply Coupon..."
+                        autoFocus
+                        value={couponCode}
+                        onChange={handleInputChange}
+                      />
+                      {loading && (
+                        <div className="loader-inside-input"></div>
+                      )}
+                      {showApplyButton && (
+                        <p
+                          onClick={handleApplyCoupon1}
+                          style={{
+                            position: "absolute",
+                            top: 6,
+                            right: 0,
+                            cursor: "pointer",
+                            height: "100%",
+                            color: "#4949c0",
+                            padding: "12px",
+                            fontWeight: "bold",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          Apply Code
+                        </p>
+                      )}
+                    </div>
+                    {loading ? (
+                      <div className="loader-container">
+                        <div className="loader"></div>
+                      </div>
+                    ) : (
+                      <div>
+                        {couponStatus && props.toggle ? (
                           <div>
-                            <span>{formattedDate}</span>
-                            <p>{data1?.Airline?.FlightNumber}</p>
-                            <p>{data1?.Airline?.FareClass} Class</p>
-                          </div>
-                        </div>
-                        <div className="priceChart">
-                          <div>
-                            <span className="text-bold">From</span>
-                            <p className="text-bold">
-                              {data1?.Origin?.Airport?.AirportCode}
-                            </p>
-                          </div>
-                          <div>
-                            <span className="text-bold">To</span>
-                            <p className="text-bold">
-                              {data1?.Destination?.Airport?.AirportCode}
-                            </p>
-                          </div>
-                        </div>
-                        <div className="totCOmmFlight">
-                          {fareValue?.FareBreakdown?.map((data) => {
-                            return (
-                              <div className="">
-                                {data?.PassengerType === 1 && (
-                                  <>
-                                    <span>Adult x {data?.PassengerCount}</span>
-                                    <p>
-                                      {"₹"}
-                                      {data?.BaseFare + data?.Tax}
-                                    </p>
-                                  </>
-                                )}
-                                {data?.PassengerType === 2 && (
-                                  <>
-                                    <span>Child x {data?.PassengerCount}</span>
-                                    <p>
-                                      {"₹"}
-                                      {data?.BaseFare + data?.Tax}
-                                    </p>
-                                  </>
-                                )}
-                                {data?.PassengerType === 3 && (
-                                  <>
-                                    <span>Infant x {data?.PassengerCount}</span>
-                                    <p>
-                                      {"₹"}
-                                      {data?.BaseFare + data?.Tax}
-                                    </p>
-                                  </>
-                                )}
+                            <div className="TotGstFlight mt-4">
+                              <div>
+                                <span>Coupon Amount: </span>
+                                <p>
+                                  {"₹"}
+                                  {coupondiscount}
+                                </p>
                               </div>
-                            );
-                          })}
-                        </div>
+                              <div>
+                                <span>Total:</span>
+                                <p>
+                                  {"₹"}
+                                  {fareValue?.Fare?.PublishedFare +
+                                    markUpamount}
+                                </p>
+                              </div>
+                            </div>
 
-                        <div className="TotGstFlight">
-                          <div>
-                            <span>Total TAX: </span>
-                            <p>
-                              {"₹"}
-                              {markUpamount}
-                            </p>
-                          </div>
-                          <div>
-                            <span>Grand Total:</span>
-                            <p>
-                              {"₹"}
-                              {fareValue?.Fare?.PublishedFare + markUpamount}
-                            </p>
-                          </div>
-                        </div>
+                            <div className="TotGstFlight">
+                              <div>
+                                <span>After Discount:</span>
 
-                        {isDummyStorageTrue === "false" ? (
-                          <div
-                            className="applycoupenbuttontext"
-                            style={{ overflow: "hidden" }}
-                          >
-                            {!couponApplied ? (
-                              <button
-                                onClick={handleApplyCoupon}
-                                className="applycoupen-button"
-                              >
-                                Apply Coupon
-                              </button>
-                            ) : (
-                              <motion.div
-                                initial={{ opacity: 0, y: 4 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.3 }}
-                              >
-                                <div style={{ position: "relative" }}>
-                                  <input
-                                    ref={inputRef}
-                                    type="text"
-                                    className="inputfieldtext"
-                                    placeholder="Apply Coupon..."
-                                    autoFocus
-                                    value={couponCode}
-                                    onChange={handleInputChange}
-                                  />
-                                  {loading && (
-                                    <div className="loader-inside-input"></div>
+                                <p>
+                                  {"₹"}
+                                  {parseFloat(
+                                    (
+                                      fareValue?.Fare
+                                        ?.PublishedFare +
+                                      markUpamount -
+                                      coupondiscount
+                                    ).toFixed(2)
                                   )}
-                                  {showApplyButton && (
-                                    <p
-                                      onClick={handleApplyCoupon1}
-                                      style={{
-                                        position: "absolute",
-                                        top: 6,
-                                        right: 0,
-                                        cursor: "pointer",
-                                        height: "100%",
-                                        color: "#4949c0",
-                                        padding: "12px",
-                                        fontWeight: "bold",
-                                        display: "flex",
-                                        justifyContent: "center",
-                                        alignItems: "center",
-                                      }}
-                                    >
-                                      Apply Code
-                                    </p>
-                                  )}
-                                </div>
-                                {loading ? (
-                                  <div className="loader-container">
-                                    <div className="loader"></div>
-                                  </div>
-                                ) : (
-                                  <div>
-                                    {couponStatus && props.toggle ? (
-                                      <div>
-                                        <div className="TotGstFlight mt-4">
-                                          <div>
-                                            <span>Coupon Amount: </span>
-                                            <p>
-                                              {"₹"}
-                                              {coupondiscount}
-                                            </p>
-                                          </div>
-                                          <div>
-                                            <span>Total:</span>
-                                            <p>
-                                              {"₹"}
-                                              {fareValue?.Fare?.PublishedFare +
-                                                markUpamount}
-                                            </p>
-                                          </div>
-                                        </div>
-
-                                        <div className="TotGstFlight">
-                                          <div>
-                                            <span>After Discount:</span>
-
-                                            <p>
-                                              {"₹"}
-                                              {parseFloat(
-                                                (
-                                                  fareValue?.Fare
-                                                    ?.PublishedFare +
-                                                  markUpamount -
-                                                  coupondiscount
-                                                ).toFixed(2)
-                                              )}
-                                            </p>
-                                          </div>
-                                        </div>
-                                        {/* <button className="applycoupen-button1">
+                                </p>
+                              </div>
+                            </div>
+                            {/* <button className="applycoupen-button1">
                                           Submit
                                         </button> */}
-                                      </div>
-                                    ) : (
-                                      <div className="error-message1">
-                                        {props.toggle && <p>{error}</p>}
-                                      </div>
-                                    )}
-                                  </div>
-                                )}
-                              </motion.div>
-                            )}
                           </div>
-                        ) : null}
+                        ) : (
+                          <div className="error-message1">
+                            {props.toggle && <p>{error}</p>}
+                          </div>
+                        )}
                       </div>
-                    </>
-                  );
-                });
-              })}
-            </>
-          )}
+
+                    )}
+                  </motion.div>
+                )}
+              </div>
+            ) : null}
+          </div>
+
         </>
       ) : (
         <>

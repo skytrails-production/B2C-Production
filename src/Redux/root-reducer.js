@@ -13,7 +13,7 @@ import { packageBookingReducer } from "./HolidayBook/bookingHolidayReducer"
 import storage from "redux-persist/lib/storage/session";
 import { passengersReducer } from "./Passengers/passengerReducer";
 // import {packageBookingReducer} from "./HolidayBook/bookingHolidayReducer"
-
+import { returnReducer } from "./FlightSearch/Return/returnReducer";
 import { busSearchReducer } from "./busSearch/busSearchReducer";
 import { packageBookIDReducer } from "./HolidayBookingRequest/bookingHolidayReducer";
 import { packageBookingIDReducer } from "./BookingPackageData/bookingHolidayReducer";
@@ -22,6 +22,7 @@ import { markUpDataReducer } from "./markup/markupReducer";
 const appReducer = combineReducers({
   logIn: logInReducer,
   oneWay: oneWayReducer,
+  return: returnReducer,
   ip: ipReducer,
   flightFare: flightFareReducer,
   flightBook: flightBookReducer,

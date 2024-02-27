@@ -41,6 +41,8 @@ import packageFilter from "../../../images/packageFilter.png"
 import { motion } from "framer-motion";
 import { searchPackageAction } from "../../../Redux/SearchPackage/actionSearchPackage";
 import HolidayLoader from "../holidayLoader/HolidayLoader";
+import { apiURL } from "../../../Constants/constant";
+// import { countryDB } from './countryDB';
 
 function HolidayPackagesDetail() {
 
@@ -51,13 +53,47 @@ function HolidayPackagesDetail() {
 
   // console.log(keyword, "keywrod")
 
-
   useEffect(() => {
     dispatch(searchPackageAction(keyword));
     sessionStorage.setItem("searchPackageData", JSON.stringify(keyword));
   }, []);
 
   // toggle the filter for small device
+
+
+
+
+  const [data, setData] = useState([])
+
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(
+        `${apiURL.baseURL}/skyTrails/package/getPackageCityData?keyword=${keyword}`,
+      );
+      const result = await response.json();
+
+      setData(result.data);
+      // setLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      // setLoading(false);
+    }
+  };
+
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+
+  // console.log(data, "data ")
+
+
+
+
+
+
 
   const variants = {
     open: {
@@ -260,9 +296,33 @@ function HolidayPackagesDetail() {
   }
 
 
+  console.log(data, "data")
+
+
   return (
 
     <section className="">
+      <div className="container-fluid position-relative px-0" style={{
+        zIndex: "1", top: "-50px", backgroundColor: "white"
+      }}>
+        <div className="container ">
+          <div className="row">
+            <div className="col-lg-12 px-0">
+              {
+                Object.keys(data).length > 0 && (
+                  <div className="countryDescCardUpper">
+                    <div className="packbannerCountrywise">
+                      <img src={data?.imageUrl} alt="" />
+                    </div>
+                    <h2 style={{ marginTop: "20px" }}>{data?.cityName} Tourism and Travel Guide</h2>
+                    <p>{data?.description}</p>
+                  </div>
+                )
+              }
+            </div>
+          </div>
+        </div>
+      </div >
       <div className="container pt-3 px-0">
         <div className="row position-relative">
 
@@ -594,7 +654,7 @@ function HolidayPackagesDetail() {
                 sortedAndFilteredResults
                   ?.map((item, index) => {
                     return (
-                      <div className="col-lg-12">
+                      <div key={index} className="col-lg-12">
 
                         {/* for bigger device  */}
                         <div onClick={(e) => searchOneHoliday(item?._id)} className="d-none d-sm-flex packageResultBox" key={index}>
@@ -1120,7 +1180,7 @@ function HolidayPackagesDetail() {
         </div>
       </div>
 
-    </section>
+    </section >
   );
 }
 

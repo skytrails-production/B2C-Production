@@ -1427,7 +1427,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           <div className="columnFLightName d-flex d-sm-none">
                             <div>
                               <img
-                                src={`${process.env.PUBLIC_URL}/FlightImages/${results?.[0][item]?.AirlineCode}.png`}
+                                src={`${process.env.PUBLIC_URL}/FlightImages/${results?.[0][item]?.ValidatingAirline}.png`}
                                 alt="flight"
                               />{" "}
                             </div>
@@ -1456,7 +1456,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                             <div className="singleFlightBoxOne">
                               <div>
                                 <img
-                                  src={`${process.env.PUBLIC_URL}/FlightImages/${results[0][item]?.AirlineCode}.png`}
+                                  src={`${process.env.PUBLIC_URL}/FlightImages/${results[0][item]?.ValidatingAirline}.png`}
                                   alt="flight"
                                 />{" "}
                               </div>

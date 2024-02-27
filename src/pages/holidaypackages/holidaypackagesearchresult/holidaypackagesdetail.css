@@ -439,6 +439,40 @@
 
 
 
+
+.countryDescCardUpper {
+    padding: 15px 0px;
+    border-radius: 8px;
+    background-color: white;
+}
+
+
+.packbannerCountrywise {
+    width: 100%;
+    height: 250px;
+}
+
+.packbannerCountrywise img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.countryDescCardUpper h2 {
+    font-weight: 700;
+    font-size: 1.7rem;
+    font-family: 'Montserrat';
+
+}
+
+.countryDescCardUpper p {
+    font-weight: 500;
+    font-size: 1rem;
+    font-family: 'Montserrat';
+}
+
+
+
 @media (max-width: 850px) {
 
     .packageImage {

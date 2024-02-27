@@ -195,7 +195,14 @@ const Hotelpackages = () => {
         />
         <Hotelpackageform />
       </motion.div>
-
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        style={{ position: "relative", top: "30px" }}
+      >
+        <Advertise variants={variants} />
+      </motion.div>
       <motion.div variants={variants} initial="initial" whileInView="animate">
         <HolidayCategory variants={variants} />
       </motion.div>
@@ -203,14 +210,7 @@ const Hotelpackages = () => {
         <HolidaySuggestion variants={variants} />
       </motion.div>
 
-      <motion.div
-        variants={variants}
-        initial="initial"
-        whileInView="animate"
-        style={{ position: "relative", top: "-30px" }}
-      >
-        <Advertise variants={variants} />
-      </motion.div>
+
 
       <motion.div variants={variants} initial="initial" whileInView="animate">
         <HolidayDomestic variants={variants} />

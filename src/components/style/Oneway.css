@@ -35,6 +35,13 @@
   grid-template-columns: 24% 24% 22% 16% 14%;
 }
 
+.your-containerReturn {
+  display: grid;
+  /* border: 1px #888 solid; */
+  border-radius: 10px;
+  grid-template-columns: 20% 20% 15% 15% 16% 14%;
+}
+
 .from-container {
   padding: 6px 21px;
   border-top-left-radius: 12px;

@@ -28,12 +28,12 @@ const HolidayPackageSearchResult = () => {
             </div> */}
 
             <div className="holidayInfoBackWall">
-                <div className="packInfoBackdrop">
+                {/* <div className="packInfoBackdrop">
                     <img src={filteredPackage?.[0]?.pakage_img} alt="package" />
                 </div>
                 <div className="opacityPack">
 
-                </div>
+                </div> */}
                 <InsideNavbar />
             </div>
 
