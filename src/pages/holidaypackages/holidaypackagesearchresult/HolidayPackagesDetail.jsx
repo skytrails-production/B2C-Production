@@ -42,7 +42,10 @@ import { motion } from "framer-motion";
 import { searchPackageAction } from "../../../Redux/SearchPackage/actionSearchPackage";
 import HolidayLoader from "../holidayLoader/HolidayLoader";
 import { apiURL } from "../../../Constants/constant";
-// import { countryDB } from './countryDB';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Skeleton } from "@mui/material";
+
 
 function HolidayPackagesDetail() {
 
@@ -50,7 +53,19 @@ function HolidayPackagesDetail() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const { keyword } = useParams();
+  const [showToast, setShowToast] = useState(false);
 
+
+  useEffect(() => {
+    if (keyword === "Europe") {
+      const timer = setTimeout(() => {
+        notify(); // Trigger the notification after 4 seconds
+      }, 4000);
+
+      // Cleanup function to clear the timer on component unmount or keyword change
+      return () => clearTimeout(timer);
+    }
+  }, [keyword]);
   // console.log(keyword, "keywrod")
 
   useEffect(() => {
@@ -58,15 +73,38 @@ function HolidayPackagesDetail() {
     sessionStorage.setItem("searchPackageData", JSON.stringify(keyword));
   }, []);
 
+
+  const notify = () => {
+    toast(' Explore More Europe Packages', {
+      position: "bottom-right",
+      autoClose: false,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Slide,
+      onClick: () => {
+        // Redirect to the specified URL
+        window.location.href = 'https://www.europamundo.com/eng/embed/multisearch.aspx?opeIP=499&ageKEY=44890%27';
+      }
+    });
+    setShowToast(true); // Set state to show the toast
+  };
+
+
   // toggle the filter for small device
 
 
 
 
   const [data, setData] = useState([])
+  const [loading, setLoading] = useState(false);
 
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         `${apiURL.baseURL}/skyTrails/package/getPackageCityData?keyword=${keyword}`,
@@ -74,10 +112,10 @@ function HolidayPackagesDetail() {
       const result = await response.json();
 
       setData(result.data);
-      // setLoading(false);
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
-      // setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -133,6 +171,8 @@ function HolidayPackagesDetail() {
   //   }
 
   // }, [])
+
+  console.log(filteredPackage, "filtered package")
 
   const searchOneHoliday = (id) => {
     navigate(`/holidayInfo/${id}`);
@@ -253,19 +293,7 @@ function HolidayPackagesDetail() {
             case "20-30Days":
               return noOfDays >= 20 && noOfDays <= 30;
           }
-        // case "price":
-        //   switch (value) {
-        //     case "25000":
-        //       return publishedPrice <= 25000;
-        //     case "25001":
-        //       return publishedPrice > 25001 && publishedPrice <= 50000;
-        //     case "50001":
-        //       return publishedPrice > 50001 && publishedPrice <= 75000;
-        //     case "75001":
-        //       return publishedPrice > 75001 && publishedPrice <= 100000;
-        //     case "100000":
-        //       return publishedPrice > 100000;
-        //   }
+
 
         default:
           return false;
@@ -296,8 +324,6 @@ function HolidayPackagesDetail() {
   }
 
 
-  console.log(data, "data")
-
 
   return (
 
@@ -307,19 +333,48 @@ function HolidayPackagesDetail() {
       }}>
         <div className="container ">
           <div className="row">
-            <div className="col-lg-12 px-0">
-              {
-                Object.keys(data).length > 0 && (
-                  <div className="countryDescCardUpper">
-                    <div className="packbannerCountrywise">
-                      <img src={data?.imageUrl} alt="" />
+
+            {
+              loading ? (
+
+                <div className="col-lg-12 px-0">
+                  {
+
+                    <div className="countryDescCardUpper">
+                      <div className="packbannerCountrywise">
+                        <Skeleton>
+                          <img src="" alt="dummy" />
+                        </Skeleton>
+                      </div>
+                      <Skeleton>
+                        <h2 style={{ height: "10px", width: "70px" }}></h2>
+                      </Skeleton>
+                      <Skeleton>
+                        <p style={{ height: "10px", width: "100%" }}></p>
+                      </Skeleton>
                     </div>
-                    <h2 style={{ marginTop: "20px" }}>{data?.cityName} Tourism and Travel Guide</h2>
-                    <p>{data?.description}</p>
-                  </div>
-                )
-              }
-            </div>
+
+                  }
+                </div>
+              ) : (
+                <div className="col-lg-12 px-0">
+                  {
+                    Object.keys(data).length > 0 && (
+                      <div className="countryDescCardUpper">
+                        <div className="packbannerCountrywise">
+                          <img src={data?.imageUrl} alt="city" />
+                        </div>
+                        <h2 style={{ marginTop: "20px" }}>{data?.cityName} Tourism and Travel Guide</h2>
+                        <p>{data?.description}</p>
+                      </div>
+                    )
+                  }
+                </div>
+              )
+            }
+
+
+
           </div>
         </div>
       </div >
@@ -527,13 +582,6 @@ function HolidayPackagesDetail() {
 
                   />
                 </div>
-                {/* <div>
-                  <h2 className="sidebar-title">Sort By</h2>
-                  <select className="highSelect" value={sortOption} onChange={handleSortChange}>
-                    <option value="lowToHigh">Low to High</option>
-                    <option value="highToLow">High to Low</option>
-                  </select>
-                </div> */}
 
                 <div className="busDepartureMain">
                   <h2 className="sidebar-title">Sort By</h2>
@@ -610,37 +658,6 @@ function HolidayPackagesDetail() {
                   <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                 </div>
 
-                {/* <div>
-                  <h2 className="sidebar-title">By Price</h2>
-                  <div>
-                    {[
-                      { value: "25000", min: 0, max: 25000, label: "₹ 0-25,000" },
-                      { value: "25001", min: 25000, max: 50000, label: "₹25,000-50,000" },
-                      { value: "50001", min: 50000, max: 75000, label: "₹50,000-75,000" },
-                      { value: "75001", min: 75000, max: 100000, label: "₹75,000-1,00,000" },
-                      { value: "100000", min: 100000, max: Infinity, label: "₹1,00,000 and Above" }
-                    ].map((priceRange, index) => {
-                      const itemCount = filteredPackage?.filter(item =>
-                        item?.pakage_amount.amount >= priceRange.min && item?.pakage_amount.amount <= priceRange.max
-                      ).length;
-
-                      return (
-                        <label className="sidebar-label-container exceptionalFlex" key={index}>
-                          <input
-                            type="checkbox"
-                            onChange={handleRadioChange}
-                            value={priceRange.value}
-                            name="price"
-                            checked={selectedCategory.includes(`price:${priceRange.value}`)}
-                          />
-                          <span>({itemCount})</span>
-                          <span className="checkmark"></span>{priceRange.label}
-                        </label>
-                      );
-                    })}
-                  </div>
-                  <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
-                </div> */}
               </div>
             </div>
 
@@ -1179,6 +1196,20 @@ function HolidayPackagesDetail() {
 
         </div>
       </div>
+
+
+      {keyword === "Europe" && showToast && (
+        <ToastContainer
+          position="bottom-right"
+          autoClose={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl
+          pauseOnFocusLoss
+          draggable
+          theme="light"
+        />
+      )}
 
     </section >
   );

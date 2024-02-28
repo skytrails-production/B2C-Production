@@ -47,7 +47,7 @@ import { apiURL } from "../../../Constants/constant";
 
 import Login from "../../../components/Login";
 import Modal from "@mui/material/Modal";
-
+import flightPaymentLoding from "../../../images/loading/loading-ban.gif"
 import loginnew from "../../../images/login-01.jpg";
 import CloseIcon from "@mui/icons-material/Close";
 import { checkSearchTime } from "../../../utility/utils"
@@ -77,6 +77,7 @@ const BusReviewBooking = () => {
   const [sub, setSub] = useState(false);
   const [loaderPayment, setLoaderPayment] = useState(false);
   const [publishedPrice, setPublishedPrice] = useState(0);
+  const [loaderPayment1, setLoaderPayment1] = useState(false);
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
   // const [offerPrice, setOfferedPrice] = useState(0);
   // const [tds, setTds] = useState(0);
@@ -282,7 +283,7 @@ const BusReviewBooking = () => {
         return;
       }
       else {
-
+        setLoaderPayment1(true)
         const token = sessionStorage?.getItem("jwtToken");
         const payload = {
           firstname: passengerSessionStorageParsed[0].FirstName,
@@ -322,7 +323,11 @@ const BusReviewBooking = () => {
           }
         } catch (error) {
           // Handle network errors or exceptions
-          // console.error("API call failed with an exception:", error.message);
+          console.error("API call failed with an exception:", error.message);
+        }
+ 
+        finally {
+          setLoaderPayment1(false)
         }
       }
     }
@@ -337,9 +342,9 @@ const BusReviewBooking = () => {
         if (response.status === "success") {
           try {
             // Make API call if payment status is 'success'
-            const easeBuzzPayId=response.easepayid;
+            const easeBuzzPayId = response.easepayid;
             const verifyResponse = await axios.post(
-              `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`,{easeBuzzPayId:easeBuzzPayId}
+              `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`, { easeBuzzPayId: easeBuzzPayId }
             );
             setLoaderPayment(true);
             // sessionStorage.removeItem("totalaftercoupon");
@@ -787,6 +792,15 @@ const BusReviewBooking = () => {
                 </div>
               </div>
             </div>
+          </div>
+        </Modal>
+        <Modal
+          open={loaderPayment1}
+          onClose={loaderPayment1}
+        >
+          <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <img src={flightPaymentLoding} alt="" />
+            {/* <h1>ghiiiii</h1> */}
           </div>
         </Modal>
       </>

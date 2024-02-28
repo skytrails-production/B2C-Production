@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-// import goa from "../../../images/goa.jpg";
 import LocationCityIcon from "@mui/icons-material/LocationCity";
 import FastfoodIcon from "@mui/icons-material/Fastfood";
-// import StarIcon from "@mui/icons-material/Star";
 import CommitIcon from "@mui/icons-material/Commit";
 import TramIcon from "@mui/icons-material/Tram";
 import DirectionsBusIcon from "@mui/icons-material/DirectionsBus";
@@ -33,22 +31,15 @@ import KayakingIcon from "@mui/icons-material/Kayaking";
 import SportsKabaddiIcon from "@mui/icons-material/SportsKabaddi";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
-// import Tab from '@mui/material/Tab';
-// import TabContext from '@mui/lab/TabContext';
-// import TabList from '@mui/lab/TabList';
-// import TabPanel from '@mui/lab/TabPanel';
 import WifiPasswordIcon from "@mui/icons-material/WifiPassword";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import Accordion from "react-bootstrap/Accordion";
 import { Box, Typography } from "@mui/material";
 import "./holidayinfo.css";
-// import { useNavigate } from "react-router-dom";
-// import Modal from "@mui/material/Modal";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import { apiURL } from "../../../Constants/constant";
-
 import { SpinnerCircular } from "spinners-react";
 import Timeline from "@mui/lab/Timeline";
 import TimelineItem, { timelineItemClasses } from "@mui/lab/TimelineItem";
@@ -57,11 +48,9 @@ import TimelineConnector from "@mui/lab/TimelineConnector";
 import TimelineContent from "@mui/lab/TimelineContent";
 import TimelineDot from "@mui/lab/TimelineDot";
 import Modal from "@mui/material/Modal";
-
 import CloseIcon from "@mui/icons-material/Close";
 import loginnew from "../../../images/login-01.jpg"
 import Login from "../../../components/Login"
-
 import HolidayLoader from "../holidayLoader/HolidayLoader"
 import HolidaySimilar from "./HolidaySimilar";
 import { validateEmail, validatePhoneNumber } from "../../../utility/validationFunctions"
@@ -69,17 +58,73 @@ import { formatDate } from "../../../utility/utils"
 import { searchOnePackageAction } from "../../../Redux/OnePackageSearchResult/actionOneSearchPackage";
 import { useParams } from "react-router";
 import SharePackages from "./SharePackages";
-// import { async } from "q";
+import { motion, AnimatePresence } from "framer-motion";
+import { wrap } from "popmotion";
+
+
+const variants = {
+  enter: (direction) => {
+    return {
+      x: direction > 0 ? 1000 : -1000,
+      opacity: 0
+    };
+  },
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1
+  },
+  exit: (direction) => {
+    return {
+      zIndex: 0,
+      x: direction < 0 ? 1000 : -1000,
+      opacity: 0
+    };
+  }
+};
+
+
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset, velocity) => {
+  return Math.abs(offset) * velocity;
+};
 
 function Holidayinfo() {
+
+
+  // image slider logic
+
+  const images = [
+    "https://travvolt.s3.amazonaws.com/Switzerland.jpg",
+    "https://travvolt.s3.amazonaws.com/Scenic%20Switzerland.jpg",
+    "https://travvolt.s3.amazonaws.com/Golden%20pass.jpg"
+  ];
+
+
+  const [[page, direction], setPage] = useState([0, 0]);
+  const imageIndex = wrap(0, images.length, page);
+
+  const paginate = (newDirection) => {
+    setPage([page + newDirection, newDirection]);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      paginate(1);
+    }, 2000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [page]);
+
+
+
   // const navigate = useNavigate();
   const dispatch = useDispatch();
   const reducerState = useSelector((state) => state);
   const onePackage =
     reducerState?.searchOneResult?.OneSearchPackageResult?.data?.data;
-  // const loading = reducerState?.searchOneResult?.OneSearchPackageResult?.data?.data;
-  // console.log("One Package", onePackage);
-  // const [daysDetailsValues, setDaysDetails] = useState([]);
 
   const [spinner, setSpinner] = useState(false);
   const [adultCount, setAdultCount] = useState(1)
@@ -122,13 +167,8 @@ function Holidayinfo() {
     boxShadow: 10,
   };
 
-  // const [value, setValue] = React.useState("1");
 
-  // const handleChange = (event, newValue) => {
-  //   setValue(newValue);
-  // };
   const authenticUser = reducerState?.logIn?.loginData?.status;
-
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
 
@@ -140,14 +180,6 @@ function Holidayinfo() {
 
 
   const { id } = useParams();
-
-
-  // const searchOneHoliday = (id) => {
-  //   // const payload = {
-  //   //   id,
-  //   // };
-  //   navigate(`/holidayInfo/${id}`);
-  // };
 
 
 
@@ -178,24 +210,7 @@ function Holidayinfo() {
   }, [authenticUser])
 
 
-  // const savedDataString = sessionStorage.getItem("searchPackageData");
-  // const savedData = JSON?.parse(savedDataString);
-  // const savedDestination = savedData?.destination?.toUpperCase();
-  // const savedDays = savedData?.days;
 
-  // useEffect(() => {
-  //   if (
-  //     savedDataString === null ||
-  //     (reducerState?.searchOneResult?.isLoading === true &&
-  //       reducerState?.searchOneResult?.OneSearchPackageResult.length === 0)
-  //   ) {
-  //     navigate("/HolidayPackageSearchResult");
-  //   }
-  // }, [reducerState?.searchOneResult?.OneSearchPackageResult]);
-
-  // function of enquiry for booking
-
-  // const [openModal, setOpenModal] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     fullname: "",
@@ -267,28 +282,34 @@ function Holidayinfo() {
         departureDate: formData.departure_date,
         packageType: "tour",
       };
-      const res = await axios({
+      await axios({
         method: "post",
         url: `${apiURL.baseURL}/skyTrails/api/user/packageBookingEnquiry`,
         data: enquiryPayload,
         headers: {
           token: token,
         },
-      });
-      setSpinner(false);
-      setSub(false)
-      setTimeout(() => {
+      }).then(function (response) {
+        console.log(response);
         handleModalOpenConfirmation();
-      }, 1000);
-      setFormData({
-        email: "",
-        fullname: "",
-        contact_number: "",
-        departure_city: "",
-        number_of_people: Number(),
-        departure_date: "",
-      });
-      // setOpenModal((prev) => !prev);
+        setFormData({
+          email: "",
+          fullname: "",
+          contact_number: "",
+          departure_city: "",
+          number_of_people: Number(),
+          departure_date: "",
+        });
+        setChildCount(0);
+        setAdultCount(1);
+        setSpinner(false);
+        setSub(false)
+      })
+        .catch(function (error) {
+          console.log(error);
+          setSpinner(false);
+          setSub(false)
+        });
     }
   };
 
@@ -296,10 +317,6 @@ function Holidayinfo() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [])
-
-  // function of enquiry for booking
-
-  // console.log(onePackage, "one package")
 
 
   if (onePackage?.country === undefined) {
@@ -331,7 +348,40 @@ function Holidayinfo() {
             <div className="row MobileDesign">
               <div className="col-lg-12 mb-0  packageImgBox">
                 <div className="PackageImg">
-                  <img src={onePackage?.pakage_img} alt="banned" />
+                  {/* <img src={onePackage?.pakage_img} alt="banned" /> */}
+                  <AnimatePresence initial={false} custom={direction}>
+                    <motion.img
+                      key={page}
+                      src={images[imageIndex]}
+                      custom={direction}
+                      variants={variants}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
+                      transition={{
+                        x: { type: "spring", stiffness: 300, damping: 30 },
+                        opacity: { duration: 0.2 }
+                      }}
+                      drag="x"
+                      dragConstraints={{ left: 0, right: 0 }}
+                      dragElastic={1}
+                      onDragEnd={(e, { offset, velocity }) => {
+                        const swipe = swipePower(offset.x, velocity.x);
+
+                        if (swipe < -swipeConfidenceThreshold) {
+                          paginate(1);
+                        } else if (swipe > swipeConfidenceThreshold) {
+                          paginate(-1);
+                        }
+                      }}
+                    />
+                  </AnimatePresence>
+                  <div className="next" onClick={() => paginate(1)}>
+                    <svg enable-background="new 0 0 256 256" height="12" viewBox="0 0 256 256" width="12" xmlns="http://www.w3.org/2000/svg" id="fi_9903638"><g id="_x30_7_Arrow_Right"><g><path d="m228.992 146.827-180.398 103.224c-17.497 9.998-38.04-7.264-31.166-26.206l34.642-95.842-34.642-95.843c-6.874-18.982 13.669-36.205 31.166-26.207l180.398 103.224c14.606 8.319 14.568 29.331 0 37.65z"></path></g></g></svg>
+                  </div>
+                  <div className="prev" onClick={() => paginate(-1)}>
+                    <svg enable-background="new 0 0 256 256" height="12" viewBox="0 0 256 256" width="12" xmlns="http://www.w3.org/2000/svg" id="fi_9903638"><g id="_x30_7_Arrow_Right"><g><path d="m228.992 146.827-180.398 103.224c-17.497 9.998-38.04-7.264-31.166-26.206l34.642-95.842-34.642-95.843c-6.874-18.982 13.669-36.205 31.166-26.207l180.398 103.224c14.606 8.319 14.568 29.331 0 37.65z"></path></g></g></svg>
+                  </div>
                   <SharePackages id={onePackage?._id} />
                 </div>
               </div>
@@ -880,33 +930,6 @@ function Holidayinfo() {
                         {sub && formData.departure_city === "" && <span className="floatingSpan">Please Fill City</span>}
                       </div>
                     </div>
-                    {/* <div className="col-lg-12 col-md-12 mb-3">
-                      <div className="form-floating">
-                        <input
-                          type="number"
-                          name="number_of_adult"
-                          min={1}
-                          value={formData.number_of_adult}
-                          onChange={handleInputChange}
-                          className="form-control"
-                        />
-                        <label for="floatingInput">Number of Adult</label>
-                        {sub && formData.number_of_adult < 1 && <span className="floatingSpan">Number of adult can't be lass than 1</span>}
-                      </div>
-                    </div> */}
-                    {/* <div className="col-lg-12 col-md-12 mb-3">
-                      <div className="form-floating">
-                        <input
-                          type="number"
-                          name="number_of_child"
-                          // min={1}
-                          value={formData.number_of_child}
-                          onChange={handleInputChange}
-                          className="form-control"
-                        />
-                        <label for="floatingInput">Number of Child</label>
-                      </div>
-                    </div> */}
 
                     <div className="col-lg-12 col-md-12 mb-3">
                       <div class="form-floating packDatePick">
@@ -967,13 +990,6 @@ function Holidayinfo() {
                               "Submit"
                             )}
                           </button>}
-                        {/* <button type="submit">
-                          {spinner ? (
-                            <SpinnerCircular size={30} сolor="#ffffff" />
-                          ) : (
-                            "Submit"
-                          )}
-                        </button> */}
                       </div>
                     </div>
                   </div>
@@ -1076,11 +1092,3 @@ function Holidayinfo() {
 
 export default Holidayinfo;
 
-// <>
-//   <div className='mainimg'>
-//     <Navbar />
-//     <BigNavbar />
-//     <Mainheader />
-//   </div>
-
-// </>

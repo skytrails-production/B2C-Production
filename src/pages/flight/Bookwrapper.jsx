@@ -37,7 +37,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 // import Login from "./Login"
 import Modal from "@mui/material/Modal";
-
+import Accordion from "react-bootstrap/Accordion";
 import loginnew from "../../images/login-01.jpg"
 
 // import CloseIcon from '@mui/icons-material/Close';
@@ -52,7 +52,7 @@ import {
   validatePhoneNumber,
   isValidPassportNumber,
 } from "../../utility/validationFunctions";
-
+import flightPaymentLoding from "../../images/loading/loading-ban.gif"
 
 const variants = {
   initial: {
@@ -129,6 +129,7 @@ export default function BookWrapper() {
   const [toggle, setToggle] = useState(false);
   const [V_aliation, setValidation] = useState(false);
   const [loaderPayment, setLoaderPayment] = useState(false);
+  const [loaderPayment1, setLoaderPayment1] = useState(false);
   const [errorMessage, setErrorMassage] = useState({
     error: false,
     Message: "",
@@ -164,6 +165,8 @@ export default function BookWrapper() {
       ?.IsPassportRequiredAtTicket;
   // const results =
   //   reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Results;
+
+  const fareRule = reducerState?.flightFare?.flightRuleData?.FareRules
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
 
   const payload = {
@@ -521,6 +524,7 @@ export default function BookWrapper() {
 
   const handlePayment = async () => {
     const token = sessionStorage?.getItem("jwtToken");
+    setLoaderPayment1(true)
     const payload = {
       firstname: passengerData[0].FirstName,
       phone: passengerData[0].ContactNo,
@@ -570,6 +574,9 @@ export default function BookWrapper() {
     } catch (error) {
       // Handle network errors or exceptions
       console.error("API call failed with an exception:", error.message);
+    }
+    finally {
+      setLoaderPayment1(false);
     }
   };
 
@@ -829,6 +836,12 @@ export default function BookWrapper() {
   maxDateValueChild.setFullYear(datet.getFullYear() - 2);
   minDateValueInfer.setFullYear(datet.getFullYear() - 2);
 
+
+
+
+  console.log(TicketDetails?.Segments[0], "ticket details")
+
+
   const currentDate = formatDate(datet);
   const maxDate = formatDate(maxDateValue);
   const minDateChild = formatDate(minDateValueChild);
@@ -914,12 +927,24 @@ export default function BookWrapper() {
 
                           {
                             TicketDetails?.Segments[0]?.map((item, index) => {
+
+                              const nextFlight = TicketDetails?.Segments[0][index + 1];
+                              let layoverHours = 0;
+                              let layoverMinutes = 0;
+
+                              if (nextFlight) {
+                                const arrivalTime = dayjs(item?.Destination?.ArrTime);
+                                const departureTime = dayjs(nextFlight?.Origin?.DepTime);
+                                const layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
+                                layoverHours = Math.floor(layoverDuration / 60); // Extract hours
+                                layoverMinutes = layoverDuration % 60; // Extract remaining minutes
+                              }
                               return (
                                 <>
                                   <div className="bookcenteredBox">
                                     <div>
                                       <img
-                                        src={`${process.env.PUBLIC_URL}/FlightImages/${item?.Airline?.AirlineCode}.png`}
+                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline?.AirlineCode}.png`}
                                       />{" "}
                                     </div>
                                     <span>
@@ -940,8 +965,6 @@ export default function BookWrapper() {
 
                                     </p>
                                   </div>
-
-
                                   <div className="bookbottomBox">
                                     <div>
                                       <div className="bookBottomOne">
@@ -962,6 +985,9 @@ export default function BookWrapper() {
                                               item?.Origin
                                                 ?.Airport?.AirportName
                                             }
+                                            {", "}
+
+                                            Terminal-{item?.Origin?.Airport?.Terminal ? item?.Origin?.Airport?.Terminal : "X"}
                                           </span>
                                         </p>
                                         <p>
@@ -974,6 +1000,10 @@ export default function BookWrapper() {
                                               item
                                                 ?.Destination?.Airport?.AirportName
                                             }
+                                            {", "}
+
+                                            Terminal-{item?.Destination?.Airport?.Terminal ? item?.Destination?.Airport?.Terminal : "Y"}
+
                                           </span>
                                         </p>
                                       </div>
@@ -997,6 +1027,11 @@ export default function BookWrapper() {
                                       </div>
                                     </div>
                                   </div>
+                                  <div>
+                                    {(layoverHours !== 0 && layoverMinutes !== 0) && (
+                                      <p className="text-bold">Layover Time: {layoverHours} hours {layoverMinutes} minutes</p>
+                                    )}
+                                  </div>
                                 </>
                               )
                             })
@@ -1005,13 +1040,16 @@ export default function BookWrapper() {
 
                       }
                     </motion.div>
-                    <motion.div variants={variants} className="col-lg-12 mt-3">
+
+
+
+                    {/* <motion.div variants={variants} className="col-lg-12 mt-3">
                       <div className="bookNowCancel">
                         <div className="bookCancleOne">
                           <p>Cancellation Refund Policy</p>
                           <div>
                             <img
-                              src={`${process.env.PUBLIC_URL}/FlightImages/${TicketDetails?.Segments[0][0]?.Airline?.AirlineCode}.png`}
+                              src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${TicketDetails?.Segments[0][0]?.Airline?.AirlineCode}.png`}
                             />{" "}
                             <span>
                               {
@@ -1080,12 +1118,35 @@ export default function BookWrapper() {
                               <span>{detailsOfCancel?.[0]?.Details}</span>
                               <span>{detailsOfCancel?.[1]?.Details}</span>
                             </div>
-                            {/* <div>
-                      </div> */}
+
                           </div>
                         </div>
                       </div>
-                    </motion.div>
+                    </motion.div> */}
+
+                    <div className="col-lg-12 accor_dian mt-4" >
+                      {fareRule &&
+                        (
+                          <div my={2}>
+                            <Accordion
+                              defaultActiveKey={null}
+                            >
+                              <Accordion.Item>
+                                <Accordion.Header>
+                                  <p>Fare Rule and Cancellation Policy</p>
+                                </Accordion.Header>
+                                <Accordion.Body>
+                                  <div className="htmlFare"
+                                    dangerouslySetInnerHTML={{
+                                      __html: fareRule?.[0]?.FareRuleDetail,
+                                    }}
+                                  />
+                                </Accordion.Body>
+                              </Accordion.Item>
+                            </Accordion>
+                          </div>
+                        )}
+                    </div>
 
                     <motion.div variants={variants} className="col-lg-12 mt-3">
                       <div className="bookflightPassenger">
@@ -1882,6 +1943,15 @@ export default function BookWrapper() {
                 </div>
               </div>
             </div>
+          </div>
+        </Modal>
+        <Modal
+          open={loaderPayment1}
+          onClose={loaderPayment1}
+        >
+          <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <img src={flightPaymentLoding} alt="" />
+            {/* <h1>ghiiiii</h1> */}
           </div>
         </Modal>
       </>

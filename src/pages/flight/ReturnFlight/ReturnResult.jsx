@@ -198,7 +198,7 @@ const ReturnResult = () => {
                                                             <div className="columnFLightName d-flex d-sm-none">
                                                                 <div>
                                                                     <img
-                                                                        src={`${process.env.PUBLIC_URL}/FlightImages/${item?.AirlineCode}.png`}
+                                                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.AirlineCode}.png`}
                                                                         alt="flight"
                                                                     />{" "}
                                                                 </div>
@@ -227,7 +227,7 @@ const ReturnResult = () => {
                                                                 <div className="singleFlightBoxOne">
                                                                     <div>
                                                                         <img
-                                                                            src={`${process.env.PUBLIC_URL}/FlightImages/${item?.AirlineCode}.png`}
+                                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.AirlineCode}.png`}
                                                                             alt="flight"
                                                                         />{" "}
                                                                     </div>
@@ -449,7 +449,7 @@ const ReturnResult = () => {
                                                                 <div className="columnFLightName d-flex d-sm-none">
                                                                     <div>
                                                                         <img
-                                                                            src={`${process.env.PUBLIC_URL}/FlightImages/${item?.AirlineCode}.png`}
+                                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.AirlineCode}.png`}
                                                                             alt="flight"
                                                                         />{" "}
                                                                     </div>
@@ -478,7 +478,7 @@ const ReturnResult = () => {
                                                                     <div className="singleFlightBoxOne">
                                                                         <div>
                                                                             <img
-                                                                                src={`${process.env.PUBLIC_URL}/FlightImages/${item?.AirlineCode}.png`}
+                                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.AirlineCode}.png`}
                                                                                 alt="flight"
                                                                             />{" "}
                                                                         </div>
@@ -652,7 +652,7 @@ const ReturnResult = () => {
                                         <div className="columnFLightName d-flex d-sm-none">
                                             <div>
                                                 <img
-                                                    src={`${process.env.PUBLIC_URL}/FlightImages/${ongoFlight?.AirlineCode}.png`}
+                                                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${ongoFlight?.AirlineCode}.png`}
                                                     alt="flight"
                                                 />{" "}
                                             </div>
@@ -681,7 +681,7 @@ const ReturnResult = () => {
                                             <div className="singleFlightBoxOne">
                                                 <div>
                                                     <img
-                                                        src={`${process.env.PUBLIC_URL}/FlightImages/${ongoFlight?.AirlineCode}.png`}
+                                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${ongoFlight?.AirlineCode}.png`}
                                                         alt="flight"
                                                     />{" "}
                                                 </div>
@@ -842,7 +842,7 @@ const ReturnResult = () => {
                                         <div className="columnFLightName d-flex d-sm-none">
                                             <div>
                                                 <img
-                                                    src={`${process.env.PUBLIC_URL}/FlightImages/${incomeGlight?.AirlineCode}.png`}
+                                                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${incomeGlight?.AirlineCode}.png`}
                                                     alt="flight"
                                                 />{" "}
                                             </div>
@@ -871,7 +871,7 @@ const ReturnResult = () => {
                                             <div className="singleFlightBoxOne">
                                                 <div>
                                                     <img
-                                                        src={`${process.env.PUBLIC_URL}/FlightImages/${incomeGlight?.AirlineCode}.png`}
+                                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${incomeGlight?.AirlineCode}.png`}
                                                         alt="flight"
                                                     />{" "}
                                                 </div>

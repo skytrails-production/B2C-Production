@@ -344,7 +344,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                         <div>
                           <span className="checkedSVG pe-2">
                             <img
-                              src={`${process.env.PUBLIC_URL}/FlightImages/SG.png`}
+                              src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/SG.png`}
                               alt="flight"
                             />{" "}
                           </span>
@@ -366,7 +366,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                         <div>
                           <span className="checkedSVG pe-2">
                             <img
-                              src={`${process.env.PUBLIC_URL}/FlightImages/UK.png`}
+                              src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/UK.png`}
                               alt="flight"
                             />{" "}
                           </span>
@@ -729,7 +729,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           <span className="checkedSVG pe-2">
 
                             <img
-                              src={`${process.env.PUBLIC_URL}/FlightImages/AI.png`}
+                              src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/AI.png`}
                               alt="flight"
                             />{" "}
                           </span>
@@ -751,7 +751,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                         <div>
                           <span className="checkedSVG pe-2">
                             <img
-                              src={`${process.env.PUBLIC_URL}/FlightImages/6E.png`}
+                              src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/6E.png`}
                               alt="flight"
                             />{" "}
                           </span>
@@ -773,7 +773,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                         <div>
                           <span className="checkedSVG pe-2">
                             <img
-                              src={`${process.env.PUBLIC_URL}/FlightImages/SG.png`}
+                              src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/SG.png`}
                               alt="flight"
                             />{" "}
                           </span>
@@ -795,7 +795,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                         <div>
                           <span className="checkedSVG pe-2">
                             <img
-                              src={`${process.env.PUBLIC_URL}/FlightImages/UK.png`}
+                              src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/UK.png`}
                               alt="flight"
                             />{" "}
                           </span>
@@ -900,7 +900,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                         <div>
                           <span className="checkedSVG pe-2">
                             <img
-                              src={`${process.env.PUBLIC_URL}/FlightImages/SG.png`}
+                              src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/SG.png`}
                               alt="flight"
                             />{" "}
                           </span>
@@ -922,7 +922,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                         <div>
                           <span className="checkedSVG pe-2">
                             <img
-                              src={`${process.env.PUBLIC_URL}/FlightImages/UK.png`}
+                              src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/UK.png`}
                               alt="flight"
                             />{" "}
                           </span>
@@ -1277,7 +1277,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                                 <span className="checkedSVG imgBoxFilter pe-2">
 
                                   <img
-                                    src={`${process.env.PUBLIC_URL}/FlightImages/${airline.split(',')[1].trim()}.png`}
+                                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${airline.split(',')[1].trim()}.png`}
                                     alt="flight"
                                   />{" "}
                                 </span>
@@ -1427,7 +1427,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                           <div className="columnFLightName d-flex d-sm-none">
                             <div>
                               <img
-                                src={`${process.env.PUBLIC_URL}/FlightImages/${results?.[0][item]?.ValidatingAirline}.png`}
+                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${results?.[0][item]?.ValidatingAirline}.png`}
                                 alt="flight"
                               />{" "}
                             </div>
@@ -1456,7 +1456,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                             <div className="singleFlightBoxOne">
                               <div>
                                 <img
-                                  src={`${process.env.PUBLIC_URL}/FlightImages/${results[0][item]?.ValidatingAirline}.png`}
+                                  src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${results[0][item]?.ValidatingAirline}.png`}
                                   alt="flight"
                                 />{" "}
                               </div>

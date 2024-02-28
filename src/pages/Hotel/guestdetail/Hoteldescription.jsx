@@ -16,7 +16,8 @@ import dayjs from "dayjs";
 import { SpinnerCircular } from 'spinners-react';
 import { swalModal } from "../../../utility/swal";
 import { convertMillisecondsToMinutesAndSeconds, checkSearchTime } from "../../../utility/utils"
-
+import flightPaymentLoding from "../../../images/loading/loading-ban.gif"
+import Modal from "@mui/material/Modal";
 
 const variants = {
   initial: {
@@ -63,7 +64,7 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
   const [SessionTImeLeft, setSessionTimeLeft] = useState(0);
   const [timer_11, setTimer11] = useState(false);
   const [sub, setSub] = useState(false);
-
+  const [loaderPayment1, setLoaderPayment1] = useState(false);
   const [loaderPayment, setLoaderPayment] = useState(false);
   const reducerState = useSelector((state) => state);
 
@@ -238,6 +239,7 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
   const handlePayment = async () => {
     setPaymentLoading(true);
     setSub(true)
+    setLoaderPayment1(true)
     if (!checkSearchTime()) {
       navigate("/");
       return
@@ -292,6 +294,7 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
       }
       finally {
         setPaymentLoading(false); // Reset loading state regardless of success or failure
+        setLoaderPayment1(false);
       }
     }
   };
@@ -341,9 +344,9 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
         if (response.status === "success") {
           try {
             // Make API call if payment status is 'success'
-            const easeBuzzPayId=response.easepayid;
+            const easeBuzzPayId = response.easepayid;
             const verifyResponse = await axios.post(
-              `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`,{easeBuzzPayId:easeBuzzPayId}
+              `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`, { easeBuzzPayId: easeBuzzPayId }
             );
             setLoaderPayment(true);
             couponconfirmation3();
@@ -636,6 +639,15 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
           }
 
         </div>
+        <Modal
+          open={loaderPayment1}
+          onClose={loaderPayment1}
+        >
+          <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <img src={flightPaymentLoding} alt="" />
+            {/* <h1>ghiiiii</h1> */}
+          </div>
+        </Modal>
       </motion.div>
     );
   } else {

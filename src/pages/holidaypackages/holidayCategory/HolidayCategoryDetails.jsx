@@ -43,8 +43,38 @@ import { motion } from "framer-motion";
 import { useLocation } from 'react-router-dom';
 import { apiURL } from "../../../Constants/constant";
 import HolidayLoader from "../holidayLoader/HolidayLoader";
-
+import { Skeleton } from "@mui/material";
 const HolidayCategoryDetails = () => {
+
+
+
+
+
+    const [data, setData] = useState([])
+    const [loadings, setLoadings] = useState(false);
+
+
+    const fetchData = async () => {
+        setLoadings(true);
+        try {
+            const response = await fetch(
+                `${apiURL.baseURL}/skyTrails/package/getPackageCityData?keyword=${keyword}`,
+            );
+            const result = await response.json();
+
+            setData(result.data);
+            setLoadings(false);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoadings(false);
+        }
+    };
+
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
 
 
     const { keyword } = useParams();
@@ -282,12 +312,12 @@ const HolidayCategoryDetails = () => {
         <>
 
             <div className="holidayInfoBackWall">
-                <div className="packInfoBackdrop">
+                {/* <div className="packInfoBackdrop">
                     <img src={newData?.[0]?.pakage_img} alt="package" />
                 </div>
                 <div className="opacityPack">
 
-                </div>
+                </div> */}
                 <InsideNavbar />
             </div>
             {/* <div className="container" style={{ position: "relative" }}>
@@ -306,6 +336,56 @@ const HolidayCategoryDetails = () => {
                     </div>
                 </div>
             </section> */}
+            <div className="container-fluid position-relative px-0" style={{
+                zIndex: "1", top: "-50px", backgroundColor: "white"
+            }}>
+                <div className="container ">
+                    <div className="row">
+
+                        {
+                            loadings ? (
+
+                                <div className="col-lg-12 px-0">
+                                    {
+
+                                        <div className="countryDescCardUpper">
+                                            <div className="packbannerCountrywise">
+                                                <Skeleton>
+                                                    <img src="" alt="" />
+                                                </Skeleton>
+                                            </div>
+                                            <Skeleton>
+                                                <h2 style={{ height: "10px", width: "70px" }}></h2>
+                                            </Skeleton>
+                                            <Skeleton>
+                                                <p style={{ height: "10px", width: "100%" }}></p>
+                                            </Skeleton>
+                                        </div>
+
+                                    }
+                                </div>
+                            ) : (
+                                <div className="col-lg-12 px-0">
+                                    {
+                                        Object.keys(data).length > 0 && (
+                                            <div className="countryDescCardUpper">
+                                                <div className="packbannerCountrywise">
+                                                    <img src={data?.imageUrl} alt="city" />
+                                                </div>
+                                                <h2 style={{ marginTop: "20px" }}>Most Popular {data?.cityName} Around The World</h2>
+                                                <p>{data?.description}</p>
+                                            </div>
+                                        )
+                                    }
+                                </div>
+                            )
+                        }
+
+
+
+                    </div>
+                </div>
+            </div >
 
             <section className="" style={{ position: "relative" }}>
                 <div className="container pt-3 px-0">

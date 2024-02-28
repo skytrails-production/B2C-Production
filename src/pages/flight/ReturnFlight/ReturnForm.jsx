@@ -115,7 +115,7 @@ const ReturnForm = () => {
 
 
     useEffect(() => {
-        const storedData = SecureStorage.getItem('revisitOnewayData');
+        const storedData = SecureStorage.getItem('revisitReturnData');
         const parsedStoredData = JSON?.parse(storedData);
         if (storedData) {
             setSelectedFrom(parsedStoredData[0]);
@@ -369,35 +369,7 @@ const ReturnForm = () => {
         //     Sources: null,
         // };
 
-        // SecureStorage.setItem(
-        //     "revisitOnewayData", JSON.stringify([
-        //         {
-        //             AirportCode: selectedFrom.AirportCode,
-        //             CityCode: selectedFrom.CityCode,
-        //             CountryCode: selectedFrom.CountryCode,
-        //             code: selectedFrom.code,
-        //             createdAt: selectedFrom.createdAt,
-        //             id: selectedFrom.id,
-        //             name: selectedFrom.name,
-        //             updatedAt: selectedFrom.updatedAt,
-        //             __v: selectedFrom._v,
-        //             _id: selectedFrom._id,
-        //         },
-        //         {
-        //             AirportCode: selectedTo.AirportCode,
-        //             CityCode: selectedTo.CityCode,
-        //             CountryCode: selectedTo.CountryCode,
-        //             code: selectedTo.code,
-        //             createdAt: selectedTo.createdAt,
-        //             id: selectedTo.id,
-        //             name: selectedTo.name,
-        //             updatedAt: selectedTo.updatedAt,
-        //             __v: selectedTo._v,
-        //             _id: selectedTo._id,
-        //         },
 
-        //     ])
-        // )
 
 
 
@@ -429,6 +401,40 @@ const ReturnForm = () => {
             ],
             Sources: null,
         };
+
+
+        SecureStorage.setItem(
+            "revisitReturnData", JSON.stringify([
+                {
+                    AirportCode: selectedFrom.AirportCode,
+                    CityCode: selectedFrom.CityCode,
+                    CountryCode: selectedFrom.CountryCode,
+                    code: selectedFrom.code,
+                    createdAt: selectedFrom.createdAt,
+                    id: selectedFrom.id,
+                    name: selectedFrom.name,
+                    updatedAt: selectedFrom.updatedAt,
+                    __v: selectedFrom._v,
+                    _id: selectedFrom._id,
+                },
+                {
+                    AirportCode: selectedTo.AirportCode,
+                    CityCode: selectedTo.CityCode,
+                    CountryCode: selectedTo.CountryCode,
+                    code: selectedTo.code,
+                    createdAt: selectedTo.createdAt,
+                    id: selectedTo.id,
+                    name: selectedTo.name,
+                    updatedAt: selectedTo.updatedAt,
+                    __v: selectedTo._v,
+                    _id: selectedTo._id,
+                },
+
+            ])
+        )
+
+
+
         sessionStorage.setItem("adults", activeIdAdult);
         sessionStorage.setItem("childs", activeIdChild);
         sessionStorage.setItem("infants", activeIdInfant);

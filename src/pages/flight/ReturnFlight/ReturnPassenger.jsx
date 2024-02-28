@@ -283,11 +283,9 @@ const ReturnPassenger = () => {
     const maxDateChild = formatDate(maxDateValueChild)
     const minDateInfer = formatDate(maxDateValueChild)
 
+    console.log(passengerData, "passemger data")
+    const handleSubmit = () => {
 
-    function handleSubmit(event) {
-
-
-        event.preventDefault();
         setSub(true)
 
         const valid = passengerData.filter(
@@ -332,7 +330,7 @@ const ReturnPassenger = () => {
         dispatch(PassengersAction(passengerData));
         dispatch(PassengersActionReturn(passengerDataReturn))
 
-        // navigate("/Flightresult/passengerdetail/flightReturnreviewbooking");
+        navigate("/FlightresultReturn/Passengerdetail/returnreviewbooking");
     }
 
 
@@ -410,7 +408,7 @@ const ReturnPassenger = () => {
                                     <div className="bookcenteredBox">
                                         <div>
                                             <img
-                                                src={`${process.env.PUBLIC_URL}/FlightImages/${flightDeparture[0][0]?.Airline?.AirlineCode}.png`}
+                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${flightDeparture[0][0]?.Airline?.AirlineCode}.png`}
                                             />{" "}
                                         </div>
                                         <span>
@@ -545,7 +543,7 @@ const ReturnPassenger = () => {
                                     <div className="bookcenteredBox">
                                         <div>
                                             <img
-                                                src={`${process.env.PUBLIC_URL}/FlightImages/${flightReturn?.[0][0]?.Airline?.AirlineCode}.png`}
+                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${flightReturn?.[0][0]?.Airline?.AirlineCode}.png`}
                                             />{" "}
                                         </div>
                                         <span>
@@ -1097,7 +1095,7 @@ const ReturnPassenger = () => {
                                 <p>Cancellation Refund Policy</p>
                                 <div>
                                     <img
-                                        src={`${process.env.PUBLIC_URL}/FlightImages/${flightDeparture?.[0][0]?.Airline?.AirlineCode}.png`}
+                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${flightDeparture?.[0][0]?.Airline?.AirlineCode}.png`}
                                     />{" "}
                                     <span>
                                         {

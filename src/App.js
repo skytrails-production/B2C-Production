@@ -66,6 +66,7 @@ import ReturnResult from './pages/flight/ReturnFlight/ReturnResult';
 import ReturnPassenger from './pages/flight/ReturnFlight/ReturnPassenger';
 
 import Whatsapp from './Whatsapp';
+import ReturnReviewBooking from './pages/flight/ReturnFlight/ReturnReviewBooking';
 
 
 
@@ -191,6 +192,11 @@ function App() {
           exact
           path="/FlightresultReturn/Passengerdetail"
           element={<ReturnPassenger />}
+        />
+        <Route
+          exact
+          path="/FlightresultReturn/Passengerdetail/returnreviewbooking"
+          element={<ReturnReviewBooking />}
         />
         <Route path="login" element={<LoginForm />}></Route>
         <Route path="signup" element={<SignUp />}></Route>
