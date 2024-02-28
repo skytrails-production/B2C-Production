@@ -43,11 +43,43 @@ import { motion } from "framer-motion";
 import { useLocation } from 'react-router-dom';
 import { apiURL } from "../../../Constants/constant";
 import HolidayLoader from "../holidayLoader/HolidayLoader"
-
+import { Skeleton } from "@mui/material";
 const HolidayCountryDetails = () => {
 
 
     const { keyword } = useParams();
+
+
+
+
+    const [data, setData] = useState([])
+    const [loadings, setLoadings] = useState(false);
+
+
+    const fetchData = async () => {
+        setLoadings(true);
+        try {
+            const response = await fetch(
+                `${apiURL.baseURL}/skyTrails/package/getPackageCityData?keyword=${keyword}`,
+            );
+            const result = await response.json();
+
+            setData(result.data);
+            setLoadings(false);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoadings(false);
+        }
+    };
+
+
+    useEffect(() => {
+        fetchData();
+    }, []);
+
+
+
+
 
     const variants = {
         open: {
@@ -137,6 +169,26 @@ const HolidayCountryDetails = () => {
         setSearchInput(event.target.value);
     };
 
+    const maxPrice = newData?.reduce((max, hotel) => {
+        return Math.max(max, hotel?.pakage_amount?.amount || 0);
+    }, 0);
+    const minPrice = newData?.reduce((min, hotel) => {
+        return Math.min(min, hotel?.pakage_amount?.amount || Infinity);
+    }, Infinity);
+
+    // console.log(maxPrice, "max pric")
+    const [priceRangeValue, setPriceRangeValue] = useState(maxPrice + 5001)
+
+    const handlePriceRangeChange = (event) => {
+        setPriceRangeValue(event.target.value);
+    };
+
+
+    useEffect(() => {
+        setPriceRangeValue(maxPrice + 5001);
+    }, [maxPrice])
+
+
     const handleRadioChange = (event) => {
         setSearchInput('');
         const selectedValue = event.target.value;
@@ -198,19 +250,6 @@ const HolidayCountryDetails = () => {
                         case "20-30Days":
                             return noOfDays >= 20 && noOfDays <= 30;
                     }
-                case "price":
-                    switch (value) {
-                        case "25000":
-                            return publishedPrice <= 25000;
-                        case "25001":
-                            return publishedPrice > 25001 && publishedPrice <= 50000;
-                        case "50001":
-                            return publishedPrice > 50001 && publishedPrice <= 75000;
-                        case "75001":
-                            return publishedPrice > 75001 && publishedPrice <= 100000;
-                        case "100000":
-                            return publishedPrice > 100000;
-                    }
 
                 default:
                     return false;
@@ -221,7 +260,9 @@ const HolidayCountryDetails = () => {
         const packageNameMatch = packageName?.includes(searchInputLower);
         const destinationMatch = filteredDestinations?.some(dest => dest.includes(searchInputLower));
 
-        return categoryFilters?.every((filter) => filter) && (packageNameMatch || destinationMatch);
+        const priceInRange = item?.pakage_amount?.amount <= priceRangeValue;
+        return categoryFilters?.every((filter) => filter) && (packageNameMatch || destinationMatch) && priceInRange;
+
     })?.sort((a, b) =>
         sortOption === "lowToHigh"
             ? a?.pakage_amount.amount - b?.pakage_amount.amount
@@ -232,6 +273,7 @@ const HolidayCountryDetails = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [sortedAndFilteredResults])
+
 
 
 
@@ -255,30 +297,65 @@ const HolidayCountryDetails = () => {
         <>
 
             <div className="holidayInfoBackWall">
-                <div className="packInfoBackdrop">
+                {/* <div className="packInfoBackdrop">
                     <img src={newData?.[0]?.pakage_img} alt="package" />
                 </div>
                 <div className="opacityPack">
 
-                </div>
+                </div> */}
                 <InsideNavbar />
             </div>
-            {/* <div className="container" style={{ position: "relative" }}>
-                <h1>{categoryData[0].pakage_title}</h1>
 
-            </div> */}
 
-            {/* <section className="mx-5" style={{ position: "relative" }}>
-                <div className="contaier-xxl pt-3">
+            <div className="container-fluid position-relative px-0" style={{
+                zIndex: "1", top: "-50px", backgroundColor: "white"
+            }}>
+                <div className="container ">
                     <div className="row">
-                        <div className="col-lg-12">
-                            <div className="catDetailsAbout">
-                                <p>{quote}</p>
-                            </div>
-                        </div>
+
+                        {
+                            loadings ? (
+
+                                <div className="col-lg-12 px-0">
+                                    {
+
+                                        <div className="countryDescCardUpper">
+                                            <div className="packbannerCountrywise">
+                                                <Skeleton>
+                                                    <img src="" alt="" />
+                                                </Skeleton>
+                                            </div>
+                                            <Skeleton>
+                                                <h2 style={{ height: "10px", width: "70px" }}></h2>
+                                            </Skeleton>
+                                            <Skeleton>
+                                                <p style={{ height: "10px", width: "100%" }}></p>
+                                            </Skeleton>
+                                        </div>
+
+                                    }
+                                </div>
+                            ) : (
+                                <div className="col-lg-12 px-0">
+                                    {
+                                        Object.keys(data).length > 0 && (
+                                            <div className="countryDescCardUpper">
+                                                <div className="packbannerCountrywise">
+                                                    <img src={data?.imageUrl} alt="city" />
+                                                </div>
+                                                <h2 style={{ marginTop: "20px" }}>Most Popular {data?.cityName} Around The World</h2>
+                                                <p>{data?.description}</p>
+                                            </div>
+                                        )
+                                    }
+                                </div>
+                            )
+                        }
+
                     </div>
                 </div>
-            </section> */}
+            </div >
+
 
             <section className="" style={{ position: "relative" }}>
                 <div className="container pt-3 px-0">
@@ -323,6 +400,22 @@ const HolidayCountryDetails = () => {
                                         </select>
                                     </div>
 
+                                    <div className="PackageDepartureMain">
+                                        <h2 className="sidebar-title">By Price</h2>
+                                        <div>
+                                            <input
+                                                type="range"
+                                                min={minPrice + 1}
+                                                max={maxPrice + 5001}
+                                                step="5000"
+                                                value={priceRangeValue}
+                                                onChange={handlePriceRangeChange}
+                                            />
+                                            <span>Max price ₹{""}{priceRangeValue}</span>
+                                        </div>
+                                        <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
+                                    </div>
+
                                     <div>
                                         <h2 className="sidebar-title">By Days</h2>
                                         <div>
@@ -369,37 +462,7 @@ const HolidayCountryDetails = () => {
                                         <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                                     </div>
 
-                                    <div>
-                                        <h2 className="sidebar-title">By Price</h2>
-                                        <div>
-                                            {[
-                                                { value: "25000", min: 0, max: 25000, label: "₹ 0-25,000" },
-                                                { value: "25001", min: 25000, max: 50000, label: "₹25,000-50,000" },
-                                                { value: "50001", min: 50000, max: 75000, label: "₹50,000-75,000" },
-                                                { value: "75001", min: 75000, max: 100000, label: "₹75,000-1,00,000" },
-                                                { value: "100000", min: 100000, max: Infinity, label: "₹1,00,000 and Above" }
-                                            ].map((priceRange, index) => {
-                                                const itemCount = newData?.filter(item =>
-                                                    item?.pakage_amount.amount >= priceRange.min && item?.pakage_amount.amount <= priceRange.max
-                                                ).length;
 
-                                                return (
-                                                    <label className="sidebar-label-container exceptionalFlex" key={index}>
-                                                        <input
-                                                            type="checkbox"
-                                                            onChange={handleRadioChange}
-                                                            value={priceRange.value}
-                                                            name="price"
-                                                            checked={selectedCategory.includes(`price:${priceRange.value}`)}
-                                                        />
-                                                        <span>({itemCount})</span>
-                                                        <span className="checkmark"></span>{priceRange.label}
-                                                    </label>
-                                                );
-                                            })}
-                                        </div>
-                                        <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
-                                    </div>
                                 </div>
                             </div>
                         </motion.div>
@@ -442,12 +505,29 @@ const HolidayCountryDetails = () => {
 
                                         />
                                     </div>
-                                    <div>
+                                    <div className="busDepartureMain">
                                         <h2 className="sidebar-title">Sort By</h2>
                                         <select className="highSelect" value={sortOption} onChange={handleSortChange}>
                                             <option value="lowToHigh">Low to High</option>
                                             <option value="highToLow">High to Low</option>
                                         </select>
+                                    </div>
+
+
+                                    <div className="PackageDepartureMain">
+                                        <h2 className="sidebar-title">By Price</h2>
+                                        <div>
+                                            <input
+                                                type="range"
+                                                min={minPrice + 1}
+                                                max={maxPrice + 5001}
+                                                step="5000"
+                                                value={priceRangeValue}
+                                                onChange={handlePriceRangeChange}
+                                            />
+                                            <span>Max price ₹{""}{priceRangeValue}</span>
+                                        </div>
+                                        <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                                     </div>
 
                                     <div>
@@ -496,42 +576,11 @@ const HolidayCountryDetails = () => {
                                         <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                                     </div>
 
-                                    <div>
-                                        <h2 className="sidebar-title">By Price</h2>
-                                        <div>
-                                            {[
-                                                { value: "25000", min: 0, max: 25000, label: "₹ 0-25,000" },
-                                                { value: "25001", min: 25000, max: 50000, label: "₹25,000-50,000" },
-                                                { value: "50001", min: 50000, max: 75000, label: "₹50,000-75,000" },
-                                                { value: "75001", min: 75000, max: 100000, label: "₹75,000-1,00,000" },
-                                                { value: "100000", min: 100000, max: Infinity, label: "₹1,00,000 and Above" }
-                                            ].map((priceRange, index) => {
-                                                const itemCount = newData?.filter(item =>
-                                                    item?.pakage_amount.amount >= priceRange.min && item?.pakage_amount.amount <= priceRange.max
-                                                ).length;
 
-                                                return (
-                                                    <label className="sidebar-label-container exceptionalFlex" key={index}>
-                                                        <input
-                                                            type="checkbox"
-                                                            onChange={handleRadioChange}
-                                                            value={priceRange.value}
-                                                            name="price"
-                                                            checked={selectedCategory.includes(`price:${priceRange.value}`)}
-                                                        />
-                                                        <span>({itemCount})</span>
-                                                        <span className="checkmark"></span>{priceRange.label}
-                                                    </label>
-                                                );
-                                            })}
-                                        </div>
-                                        <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
-                                    </div>
                                 </div>
                             </div>
 
                         </div>
-
 
 
                         {/* main code for bigger device  */}
@@ -547,7 +596,15 @@ const HolidayCountryDetails = () => {
                                                     <div onClick={(e) => searchOneHoliday(item)} className="d-none d-sm-flex packageResultBox" key={index}>
                                                         <div className="packOuterBox">
                                                             <div className="packageImage">
-                                                                <img src={item?.pakage_img} alt="package-img" />
+                                                                {
+                                                                    item?.package_img.length > 0 ? (
+                                                                        <img src={item?.package_img[0]} alt="package-img" />
+
+                                                                    ) : (
+
+                                                                        <img src={item?.pakage_img} alt="package-img" />
+                                                                    )
+                                                                }
                                                             </div>
                                                             <div className="packageResultDetails">
                                                                 <div className="packageTitle">

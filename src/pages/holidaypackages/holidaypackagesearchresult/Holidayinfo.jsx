@@ -92,31 +92,7 @@ const swipePower = (offset, velocity) => {
 function Holidayinfo() {
 
 
-  // image slider logic
 
-  const images = [
-    "https://travvolt.s3.amazonaws.com/Switzerland.jpg",
-    "https://travvolt.s3.amazonaws.com/Scenic%20Switzerland.jpg",
-    "https://travvolt.s3.amazonaws.com/Golden%20pass.jpg"
-  ];
-
-
-  const [[page, direction], setPage] = useState([0, 0]);
-  const imageIndex = wrap(0, images.length, page);
-
-  const paginate = (newDirection) => {
-    setPage([page + newDirection, newDirection]);
-  };
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      paginate(1);
-    }, 2000);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [page]);
 
 
 
@@ -149,6 +125,34 @@ function Holidayinfo() {
     }
     return
   }
+
+
+
+
+  // image slider logic
+
+
+  const [[page, direction], setPage] = useState([0, 0]);
+  const imageIndex = wrap(0, onePackage?.package_img.length, page);
+
+  const paginate = (newDirection) => {
+    setPage([page + newDirection, newDirection]);
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      paginate(1);
+    }, 2000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [page]);
+
+  // image slider logic
+
+
+
 
 
   const [openConfirmationModal, setOpenConfirmationModal] = useState(false);
@@ -328,6 +332,8 @@ function Holidayinfo() {
   }
 
 
+  console.log(onePackage, "one package")
+
 
   return (
     <>
@@ -348,40 +354,58 @@ function Holidayinfo() {
             <div className="row MobileDesign">
               <div className="col-lg-12 mb-0  packageImgBox">
                 <div className="PackageImg">
-                  {/* <img src={onePackage?.pakage_img} alt="banned" /> */}
-                  <AnimatePresence initial={false} custom={direction}>
-                    <motion.img
-                      key={page}
-                      src={images[imageIndex]}
-                      custom={direction}
-                      variants={variants}
-                      initial="enter"
-                      animate="center"
-                      exit="exit"
-                      transition={{
-                        x: { type: "spring", stiffness: 300, damping: 30 },
-                        opacity: { duration: 0.2 }
-                      }}
-                      drag="x"
-                      dragConstraints={{ left: 0, right: 0 }}
-                      dragElastic={1}
-                      onDragEnd={(e, { offset, velocity }) => {
-                        const swipe = swipePower(offset.x, velocity.x);
+                  {
+                    onePackage?.package_img.length > 0 ? (
+                      <>
+                        <AnimatePresence initial={false} custom={direction}>
 
-                        if (swipe < -swipeConfidenceThreshold) {
-                          paginate(1);
-                        } else if (swipe > swipeConfidenceThreshold) {
-                          paginate(-1);
-                        }
-                      }}
-                    />
-                  </AnimatePresence>
-                  <div className="next" onClick={() => paginate(1)}>
-                    <svg enable-background="new 0 0 256 256" height="12" viewBox="0 0 256 256" width="12" xmlns="http://www.w3.org/2000/svg" id="fi_9903638"><g id="_x30_7_Arrow_Right"><g><path d="m228.992 146.827-180.398 103.224c-17.497 9.998-38.04-7.264-31.166-26.206l34.642-95.842-34.642-95.843c-6.874-18.982 13.669-36.205 31.166-26.207l180.398 103.224c14.606 8.319 14.568 29.331 0 37.65z"></path></g></g></svg>
-                  </div>
-                  <div className="prev" onClick={() => paginate(-1)}>
-                    <svg enable-background="new 0 0 256 256" height="12" viewBox="0 0 256 256" width="12" xmlns="http://www.w3.org/2000/svg" id="fi_9903638"><g id="_x30_7_Arrow_Right"><g><path d="m228.992 146.827-180.398 103.224c-17.497 9.998-38.04-7.264-31.166-26.206l34.642-95.842-34.642-95.843c-6.874-18.982 13.669-36.205 31.166-26.207l180.398 103.224c14.606 8.319 14.568 29.331 0 37.65z"></path></g></g></svg>
-                  </div>
+
+                          <motion.img
+                            key={page}
+                            // src={images[imageIndex]}
+                            src={onePackage?.package_img[imageIndex]}
+                            custom={direction}
+                            variants={variants}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                            transition={{
+                              x: { type: "spring", stiffness: 300, damping: 30 },
+                              opacity: { duration: 0.2 }
+                            }}
+                            drag="x"
+                            dragConstraints={{ left: 0, right: 0 }}
+                            dragElastic={1}
+                            onDragEnd={(e, { offset, velocity }) => {
+                              const swipe = swipePower(offset.x, velocity.x);
+
+                              if (swipe < -swipeConfidenceThreshold) {
+                                paginate(1);
+                              } else if (swipe > swipeConfidenceThreshold) {
+                                paginate(-1);
+                              }
+                            }}
+                          />
+
+
+                        </AnimatePresence>
+                        <div className="next" onClick={() => paginate(1)}>
+                          <svg enable-background="new 0 0 256 256" height="12" viewBox="0 0 256 256" width="12" xmlns="http://www.w3.org/2000/svg" id="fi_9903638"><g id="_x30_7_Arrow_Right"><g><path d="m228.992 146.827-180.398 103.224c-17.497 9.998-38.04-7.264-31.166-26.206l34.642-95.842-34.642-95.843c-6.874-18.982 13.669-36.205 31.166-26.207l180.398 103.224c14.606 8.319 14.568 29.331 0 37.65z"></path></g></g></svg>
+                        </div>
+                        <div className="prev" onClick={() => paginate(-1)}>
+                          <svg enable-background="new 0 0 256 256" height="12" viewBox="0 0 256 256" width="12" xmlns="http://www.w3.org/2000/svg" id="fi_9903638"><g id="_x30_7_Arrow_Right"><g><path d="m228.992 146.827-180.398 103.224c-17.497 9.998-38.04-7.264-31.166-26.206l34.642-95.842-34.642-95.843c-6.874-18.982 13.669-36.205 31.166-26.207l180.398 103.224c14.606 8.319 14.568 29.331 0 37.65z"></path></g></g></svg>
+                        </div>
+                      </>
+                    ) :
+
+                      (
+                        <img src={onePackage?.pakage_img} alt="banned" />
+                      )
+                  }
+
+
+
+
                   <SharePackages id={onePackage?._id} />
                 </div>
               </div>

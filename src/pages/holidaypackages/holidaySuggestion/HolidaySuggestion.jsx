@@ -125,7 +125,15 @@ const HolidaySuggestion = () => {
                                         <div key={index} onClick={(e) => searchOneHoliday(item)} class="col-lg-4 col-md-4 col-sm-4 col-6 mb-4 p-2" style={{ cursor: "pointer" }}>
                                             <div class="trend-item1">
                                                 <div class="trend-image position-relative rounded">
-                                                    <img src={item?.pakage_img} alt="package-img" />
+                                                    {
+                                                        item?.package_img.length > 0 ? (
+                                                            <img src={item?.package_img[0]} alt="package-img" />
+
+                                                        ) : (
+
+                                                            <img src={item?.pakage_img} alt="package-img" />
+                                                        )
+                                                    }
                                                     <div class="trend-content d-flex align-items-center justify-content-between  w-100">
                                                         <div class="trend-content-title">
                                                             {item?.destination?.slice(0, 3).map((destinationItem, index, array) => (

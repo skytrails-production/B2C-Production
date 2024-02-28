@@ -677,7 +677,16 @@ function HolidayPackagesDetail() {
                         <div onClick={(e) => searchOneHoliday(item?._id)} className="d-none d-sm-flex packageResultBox" key={index}>
                           <div className="packOuterBox">
                             <div className="packageImage">
-                              <img src={item?.pakage_img} alt="package-img" />
+
+                              {
+                                item?.package_img.length > 0 ? (
+                                  <img src={item?.package_img[0]} alt="package-img" />
+
+                                ) : (
+
+                                  <img src={item?.pakage_img} alt="package-img" />
+                                )
+                              }
                             </div>
                             <div className="packageResultDetails">
                               <div className="packageTitle">

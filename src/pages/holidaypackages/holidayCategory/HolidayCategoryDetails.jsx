@@ -47,7 +47,7 @@ import { Skeleton } from "@mui/material";
 const HolidayCategoryDetails = () => {
 
 
-
+    const { keyword } = useParams();
 
 
     const [data, setData] = useState([])
@@ -77,7 +77,7 @@ const HolidayCategoryDetails = () => {
 
 
 
-    const { keyword } = useParams();
+
 
     const variants = {
         open: {
@@ -636,37 +636,7 @@ const HolidayCategoryDetails = () => {
                                         <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
                                     </div>
 
-                                    <div>
-                                        <h2 className="sidebar-title">By Price</h2>
-                                        <div>
-                                            {[
-                                                { value: "25000", min: 0, max: 25000, label: "₹ 0-25,000" },
-                                                { value: "25001", min: 25000, max: 50000, label: "₹25,000-50,000" },
-                                                { value: "50001", min: 50000, max: 75000, label: "₹50,000-75,000" },
-                                                { value: "75001", min: 75000, max: 100000, label: "₹75,000-1,00,000" },
-                                                { value: "100000", min: 100000, max: Infinity, label: "₹1,00,000 and Above" }
-                                            ].map((priceRange, index) => {
-                                                const itemCount = newData?.filter(item =>
-                                                    item?.pakage_amount.amount >= priceRange.min && item?.pakage_amount.amount <= priceRange.max
-                                                ).length;
 
-                                                return (
-                                                    <label className="sidebar-label-container exceptionalFlex" key={index}>
-                                                        <input
-                                                            type="checkbox"
-                                                            onChange={handleRadioChange}
-                                                            value={priceRange.value}
-                                                            name="price"
-                                                            checked={selectedCategory.includes(`price:${priceRange.value}`)}
-                                                        />
-                                                        <span>({itemCount})</span>
-                                                        <span className="checkmark"></span>{priceRange.label}
-                                                    </label>
-                                                );
-                                            })}
-                                        </div>
-                                        <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
-                                    </div>
                                 </div>
                             </div>
 
@@ -687,7 +657,16 @@ const HolidayCategoryDetails = () => {
                                                     <div onClick={(e) => searchOneHoliday(item)} className="d-none d-sm-flex packageResultBox" key={index}>
                                                         <div className="packOuterBox">
                                                             <div className="packageImage">
-                                                                <img src={item?.pakage_img} alt="package-img" />
+                                                                {/* <img src={item?.pakage_img} alt="package-img" /> */}
+                                                                {
+                                                                    item?.package_img.length > 0 ? (
+                                                                        <img src={item?.package_img[0]} alt="package-img" />
+
+                                                                    ) : (
+
+                                                                        <img src={item?.pakage_img} alt="package-img" />
+                                                                    )
+                                                                }
                                                             </div>
                                                             <div className="packageResultDetails">
                                                                 <div className="packageTitle">
