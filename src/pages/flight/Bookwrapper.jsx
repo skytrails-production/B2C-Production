@@ -839,7 +839,7 @@ export default function BookWrapper() {
 
 
 
-  console.log(TicketDetails?.Segments[0], "ticket details")
+
 
 
   const currentDate = formatDate(datet);
@@ -871,7 +871,7 @@ export default function BookWrapper() {
     <Flighterror props={errorMessage.errorMessage} />;
   }
 
-  // console.log(TicketDetails, "ticket details")
+  console.log(TicketDetails, "ticket details")
   if (loaderPayment == false) {
 
     return (
@@ -903,6 +903,15 @@ export default function BookWrapper() {
                         <div className="booknowFlight">
                           <div className="bookaboveBox">
                             <div>
+                              {
+                                (TicketDetails?.AirlineRemark !== null && TicketDetails?.AirlineRemark !== "--.") ? (
+                                  <p className="text-center w-100 mandaField">{TicketDetails?.AirlineRemark}</p>
+                                ) :
+                                  (
+                                    ""
+                                  )
+                              }
+
                               <p>
                                 {
                                   TicketDetails?.Segments[0][0]?.Origin

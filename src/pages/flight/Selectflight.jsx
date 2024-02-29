@@ -1607,6 +1607,15 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results }) {
                               </button>
                             </div>
                           </motion.div>
+                          {
+                            (results[0][item]?.AirlineRemark !== null && results[0][item]?.AirlineRemark !== "--.") ? (
+                              <p className="text-center w-100 mandaField">{results[0][item]?.AirlineRemark}</p>
+                            ) :
+                              (
+                                ""
+                              )
+                          }
+
                         </motion.div>
                       </motion.div>
 

@@ -9,7 +9,8 @@ import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 import { useDispatch, useSelector, useReducer } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
+import Accordion from "react-bootstrap/Accordion";
+import { Typography, Button } from "@mui/material";
 
 const ReturnReviewBooking = () => {
 
@@ -33,6 +34,10 @@ const ReturnReviewBooking = () => {
         reducerState?.flightFare?.flightRuleDataReturn?.FareRules;
     const data = reducerState?.oneWay?.oneWayData?.data?.data?.Response;
     const result = reducerState?.flightFare?.flightQuoteData?.Results
+
+    const Passengers = reducerState?.passengers?.passengersData;
+    // console.log(Passengers, "passenger ka data");
+    const PassengersReturn = reducerState?.passengers?.passengerDataReturn;
     const flightDeparture = reducerState?.flightFare?.flightQuoteData?.Results?.Segments;
     const flightReturn = isPassportRequired ? reducerState?.flightFare?.flightQuoteData?.Results?.Segments : reducerState?.flightFare?.flightQuoteDataReturn?.Results?.Segments;
 
@@ -311,6 +316,88 @@ const ReturnReviewBooking = () => {
                                     }
                                 </div>
                             </div>
+
+                            <div className="col-lg-12 accor_dian mt-4" >
+                                {fareRule &&
+                                    fareRule.length > 0 &&
+                                    fareRule.map((dat) => {
+                                        return (
+                                            <div my={2}>
+                                                <Accordion
+                                                    defaultActiveKey={null}
+                                                >
+                                                    <Accordion.Item>
+                                                        <Accordion.Header>
+                                                            <p>Detailed Fare Rules</p>
+                                                        </Accordion.Header>
+                                                        <Accordion.Body>
+                                                            <div className="htmlFare"
+                                                                dangerouslySetInnerHTML={{
+                                                                    __html: dat?.FareRuleDetail,
+                                                                }}
+                                                            />
+                                                        </Accordion.Body>
+                                                    </Accordion.Item>
+                                                </Accordion>
+                                            </div>
+                                        );
+                                    })}
+                            </div>
+                            <div className="col-lg-8 my-3">
+                                {Passengers?.map((passenger, key) => {
+                                    return (
+                                        <>
+                                            <div style={{ marginBottom: "15px" }}>
+                                                <p >
+                                                    Passenger {key + 1}{" "}
+                                                    <span
+                                                        style={{
+                                                            color: "black",
+                                                            fontSize: 16,
+                                                            fontFamily: "Montserrat",
+                                                            fontWeight: "500",
+                                                            wordWrap: "break-word",
+                                                        }}
+                                                    >
+                                                        (
+                                                        {passenger.PaxType === 1
+                                                            ? "Adult"
+                                                            : passenger.PaxType === 2
+                                                                ? "Child"
+                                                                : "Infant"}
+                                                        )
+                                                    </span>
+                                                </p>
+                                            </div>
+
+                                            <div key={key} className="passDetails">
+                                                <div>
+                                                    <p>Name:</p>
+                                                    <p>Gender</p>
+                                                    {passenger.Email && <p>Email:</p>}
+
+                                                </div>
+                                                <div>
+                                                    <span>
+                                                        {passenger.Title} {passenger.FirstName} {passenger.LastName}
+                                                    </span>
+                                                    <span>
+                                                        {passenger.Gender === 1
+                                                            ? "Male"
+                                                            : passenger.Gender === 2
+                                                                ? "Female"
+                                                                : "Transgender"}
+                                                    </span>
+                                                    <span>{passenger.Email}</span>
+                                                </div>
+                                            </div>
+                                        </>
+                                    );
+                                })}
+                            </div>
+
+
+
                         </div>
                     </div>
                 </div>

@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Links from './Links';
 import LinksInner from './LinksInner';
 import newlogo from '../../images/newlogo.png';
-import whiteLogo from '../../images/whiteLogo.png';
+
 import Countrypicker from '../../layouts/Countrypicker';
 import { Link } from 'react-router-dom';
 
@@ -57,7 +57,7 @@ const BigNavbar = () => {
                         ) :
                             (
 
-                                <img style={{ paddingLeft: "10px", width: "185px" }} src={whiteLogo} alt="Logo" />
+                                <img style={{ paddingLeft: "10px", width: "185px" }} src={newlogo} alt="Logo" />
                             )
                     }
 

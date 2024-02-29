@@ -172,9 +172,8 @@ function App() {
       {/* /Searchresult */}
 
 
-      {showPopup && (
+      {/* {showPopup && (
         <div className="popup-container">
-          {/* Popup content, e.g., image and close button */}
           <div className="popup-content">
 
             <img onClick={handleDownload} src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/eventBanner.jpeg" alt="Popup" />
@@ -182,7 +181,7 @@ function App() {
             <button className="close-button" onClick={closePopup}>X</button>
           </div>
         </div>
-      )}
+      )} */}
 
       <Routes>
         <Route index element={<Home />}></Route>
