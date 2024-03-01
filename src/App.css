@@ -9,7 +9,7 @@ body {
   /* height: 100vh; */
   font-family: "Montserrat";
   background-color: #F4F3F3;
-
+  overflow: unset !important;
 }
 
 #root {
