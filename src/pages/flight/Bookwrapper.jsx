@@ -1833,7 +1833,12 @@ export default function BookWrapper() {
                     {/* trip security  */}
 
                     <div className="d-block mt-3 d-sm-none col-lg-3 col-md-3">
-                      <BookNowLeft />
+                      <BookNowLeft
+                        toggle={toggle}
+                        toggleState={toggleState}
+                        transactionAmount={setTransactionAmountState}
+                        Amount={transactionAmount}
+                      />
                     </div>
 
                     <div className="col-lg-12 my-4 smallButtMobile">

@@ -101,3 +101,8 @@
     padding: 8px 10px;
     transition: .5s;
 }
+
+
+.returnFixedBottomDesign {
+    padding: 8px 10px !important;
+}

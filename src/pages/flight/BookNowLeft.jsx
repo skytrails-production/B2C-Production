@@ -32,10 +32,8 @@ const BookNowLeft = (props) => {
   const [showInput, setShowInput] = useState(false);
 
   const isDummyStorageTrue = sessionStorage.getItem("hdhhfb7383__3u8748");
-
-  // console.log(props, "props");
   const propFunction = props.handleClick;
-  // console.log(propFunction, "propFunction");
+
   const [couponApplied, setCouponApplied] = useState(false);
 
   const inputRef = useRef(null);
@@ -44,31 +42,6 @@ const BookNowLeft = (props) => {
 
   const [couponCode, setCouponCode] = useState("");
   const [showApplyButton, setShowApplyButton] = useState(false);
-  // props = {
-  //   transactionAmount: { transactionAmount },
-  //   handleClick: { handleClickButton },
-  //   toggle: { toggle },
-  //   toggleState: { toggleState },
-  //   amountChange: 500,
-  // };
-  // const inputRef = useRef(null);
-
-  // const handleInputChange = (event) => {
-  //   const inputValue = event.target.value;
-  //   setCouponCode(inputValue);
-  //   setShowApplyButton(!!inputValue);
-  //   setError(null);
-
-  //   if (!inputValue) {
-  //     setCouponStatus(false);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (inputRef.current) {
-  //     inputRef.current.focus();
-  //   }
-  // }, [couponApplied]);
 
 
   const couponamount1 = sessionStorage.getItem("couponCode");
@@ -92,11 +65,6 @@ const BookNowLeft = (props) => {
 
       if (response?.data?.statusCode === 200) {
         setCouponStatus(true);
-        // setSuccessMessage("Coupon applied successfully");
-        // sessionStorage.setItem(
-        //   "flightcoupon",
-        //   fareValue?.Fare?.PublishedFare + markUpamount - coupondiscount
-        // );
         sessionStorage.setItem("couponCode", couponCode);
         await props.transactionAmount(
           fareValue?.Fare?.PublishedFare + markUpamount - coupondiscount
@@ -121,10 +89,7 @@ const BookNowLeft = (props) => {
     } finally {
       setLoading(false);
       props.toggleState(true);
-      // props.handleClick;
 
-      // console.log(props.handleClick, "props.handleClick");
-      // amountChange();
     }
   };
 
@@ -137,30 +102,6 @@ const BookNowLeft = (props) => {
     }
   }, [props.toggle]);
 
-  // }
-
-  // console.log(couponStatus, "statuis of coupon")
-
-  // const handleInputChange = (event) => {
-  //   const inputValue = event.target.value;
-  //   setShowInput(true);
-  //   setError(null);
-  //   // toggleState(true);
-  //   setCouponStatus(false);
-  //   // setSuccessMessage(null);
-  //   setCouponCode(inputValue);
-  //   setCouponApplied(true);
-  //   if (couponamount1) {
-  //     sessionStorage.removeItem("flightcoupon");
-  //     sessionStorage.removeItem("couponCode");
-  //   }
-
-  //   if (!inputValue) {
-  //     setCouponStatus(false);
-  //     sessionStorage.removeItem("flightcoupon");
-  //     sessionStorage.removeItem("couponCode");
-  //   }
-  // };
 
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
@@ -169,9 +110,6 @@ const BookNowLeft = (props) => {
     setError(null);
     props.toggleState(true);
     setCouponStatus(false);
-    // amountChange();
-    // console.warn(toggle, "toggle value........");
-    // setSuccessMessage(null);
     if (couponamount1) {
       props.transactionAmount(null);
       sessionStorage.removeItem("couponCode");
@@ -198,11 +136,7 @@ const BookNowLeft = (props) => {
   const coupondiscount = integerValue + markUpamount;
 
   let total = 0;
-  // console.log(fareValue, "segments");
-  // const summary = fareValue?.Segments?.
 
-  // const flightcoupon = (fareValue?.Fare?.PublishedFare +
-  //   markUpamount)-coupondiscount;
   const dateString = fareValue?.Segments[0][0]?.Origin?.DepTime;
   const date = new Date(dateString);
   const day = date.getDate();
@@ -422,9 +356,6 @@ const BookNowLeft = (props) => {
                                 </p>
                               </div>
                             </div>
-                            {/* <button className="applycoupen-button1">
-                                          Submit
-                                        </button> */}
                           </div>
                         ) : (
                           <div className="error-message1">

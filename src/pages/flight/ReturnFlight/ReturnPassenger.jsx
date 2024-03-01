@@ -16,7 +16,8 @@ import dayjs from "dayjs";
 import fromTo from "../../../images/fromTo.png"
 import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
-
+import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
+import ReturnSummary from "./ReturnSummary";
 
 
 const variants = {
@@ -351,12 +352,13 @@ const ReturnPassenger = () => {
         </div>)
     }
 
-    // const duration = `${Math.floor(
-    //     flightDeparture[0][0]?.Duration / 60
-    // )}hr ${flightDeparture[0][0]?.Duration % 60}min`;
+    console.log(flightReturn, "flight return")
 
     return (
         <div>
+            <div className="mainimgFlightSearch">
+                <InsideNavbar />
+            </div>
             <div style={{
                 position: "fixed",
                 top: "20%",
@@ -371,9 +373,9 @@ const ReturnPassenger = () => {
                 {showAleart &&
                     <Alert severity="error">Please fill all the details</Alert>}
             </div>
-            <div className="container px-0 pt-4">
+            <div className="container  px-0 pt-4">
                 <div className="row">
-                    <div className="col-lg-9">
+                    <div className="col-lg-9 martop">
                         <div className="row">
 
                             {/* for departure  */}
@@ -405,39 +407,50 @@ const ReturnPassenger = () => {
                                         </div>
                                     </div>
 
-                                    <div className="bookcenteredBox">
-                                        <div>
-                                            <img
-                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${flightDeparture[0][0]?.Airline?.AirlineCode}.png`}
-                                            />{" "}
-                                        </div>
-                                        <span>
-                                            {
-                                                flightDeparture[0][0]?.Airline
-                                                    ?.AirlineName
-                                            }
-                                        </span>
-                                        <p>
-                                            {
-                                                flightDeparture[0][0]?.Airline
-                                                    ?.AirlineCode
-                                            }
-                                            {
-                                                flightDeparture[0][0]?.Airline
-                                                    ?.FlightNumber
-                                            }
 
-                                        </p>
-                                    </div>
                                     {
                                         flightDeparture[0]?.map((item, index) => {
+
+                                            const nextFlight = flightDeparture[0][index + 1];
+                                            let layoverHours = 0;
+                                            let layoverMinutes = 0;
+
+                                            if (nextFlight) {
+                                                const arrivalTime = dayjs(item?.Destination?.ArrTime);
+                                                const departureTime = dayjs(nextFlight?.Origin?.DepTime);
+                                                const layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
+                                                layoverHours = Math.floor(layoverDuration / 60); // Extract hours
+                                                layoverMinutes = layoverDuration % 60;
+                                            }
                                             return (
-                                                <div style={{ position: "relative" }}>
+                                                <>
+
+                                                    <div className="bookcenteredBox">
+                                                        <div>
+                                                            <img
+                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline?.AirlineCode}.png`}
+                                                            />{" "}
+                                                        </div>
+                                                        <span>
+                                                            {
+                                                                item?.Airline
+                                                                    ?.AirlineName
+                                                            }
+                                                        </span>
+                                                        <p>
+                                                            {
+                                                                item?.Airline
+                                                                    ?.AirlineCode
+                                                            }
+                                                            {
+                                                                item?.Airline
+                                                                    ?.FlightNumber
+                                                            }
+
+                                                        </p>
+                                                    </div>
 
                                                     <div className="bookbottomBox">
-
-
-
                                                         <div>
                                                             <div className="bookBottomOne">
                                                                 <p>{dayjs(item?.Origin?.DepTime).format("h:mm A")}</p>
@@ -456,8 +469,9 @@ const ReturnPassenger = () => {
                                                                     <span>
                                                                         {
                                                                             item?.Origin
-                                                                                ?.Airport?.AirportName
+                                                                                ?.Airport?.AirportName?.slice(0, 26)
                                                                         }
+                                                                        {" "}Terminal-{item?.Origin?.Airport?.Terminal ? item?.Origin?.Airport?.Terminal : "X"}
                                                                     </span>
                                                                 </p>
                                                                 <p>
@@ -468,8 +482,9 @@ const ReturnPassenger = () => {
                                                                     <span>
                                                                         {
                                                                             item
-                                                                                ?.Destination?.Airport?.AirportName
+                                                                                ?.Destination?.Airport?.AirportName?.slice(0, 26)
                                                                         }
+                                                                        {" "}Terminal-{item?.Destination?.Airport?.Terminal ? item?.Destination?.Airport?.Terminal : "Y"}
                                                                     </span>
                                                                 </p>
                                                             </div>
@@ -495,10 +510,13 @@ const ReturnPassenger = () => {
                                                                 }{" "} Kgs</span>
                                                             </div>
                                                         </div>
-
                                                     </div>
-
-                                                </div>
+                                                    <div>
+                                                        {(layoverHours !== 0 && layoverMinutes !== 0) && (
+                                                            <p className="text-bold">Layover Time: {layoverHours} hours {layoverMinutes} minutes</p>
+                                                        )}
+                                                    </div>
+                                                </>
                                             )
                                         })
                                     }
@@ -539,40 +557,51 @@ const ReturnPassenger = () => {
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div className="bookcenteredBox">
-                                        <div>
-                                            <img
-                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${flightReturn?.[0][0]?.Airline?.AirlineCode}.png`}
-                                            />{" "}
-                                        </div>
-                                        <span>
-                                            {
-                                                flightReturn?.[0][0]?.Airline
-                                                    ?.AirlineName
-                                            }
-                                        </span>
-                                        <p>
-                                            {
-                                                flightReturn?.[0][0]?.Airline
-                                                    ?.AirlineCode
-                                            }
-                                            {
-                                                flightReturn?.[0][0]?.Airline
-                                                    ?.FlightNumber
-                                            }
-
-                                        </p>
-                                    </div>
                                     {
                                         flightReturn?.[0]?.map((item, index) => {
+
+                                            const nextFlight = flightReturn?.[0][index + 1];
+                                            let layoverHours = 0;
+                                            let layoverMinutes = 0;
+
+                                            if (nextFlight) {
+                                                const arrivalTime = dayjs(item?.Destination?.ArrTime);
+                                                const departureTime = dayjs(nextFlight?.Origin?.DepTime);
+                                                const layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
+                                                layoverHours = Math.floor(layoverDuration / 60); // Extract hours
+                                                layoverMinutes = layoverDuration % 60;
+                                            }
                                             return (
-                                                <div style={{ position: "relative" }}>
+                                                <>
+
+
+                                                    <div className="bookcenteredBox">
+                                                        <div>
+                                                            <img
+                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline
+                                                                    ?.AirlineCode}.png`}
+                                                            />{" "}
+                                                        </div>
+                                                        <span>
+                                                            {
+                                                                item?.Airline
+                                                                    ?.AirlineName
+                                                            }
+                                                        </span>
+                                                        <p>
+                                                            {
+                                                                item?.Airline
+                                                                    ?.AirlineCode
+                                                            }
+                                                            {
+                                                                item?.Airline
+                                                                    ?.FlightNumber
+                                                            }
+
+                                                        </p>
+                                                    </div>
 
                                                     <div className="bookbottomBox">
-
-
-
                                                         <div>
                                                             <div className="bookBottomOne">
                                                                 <p>{dayjs(item?.Origin?.DepTime).format("h:mm A")}</p>
@@ -591,8 +620,9 @@ const ReturnPassenger = () => {
                                                                     <span>
                                                                         {
                                                                             item?.Origin
-                                                                                ?.Airport?.AirportName
+                                                                                ?.Airport?.AirportName?.slice(0, 26)
                                                                         }
+                                                                        {" "}Terminal-{item?.Origin?.Airport?.Terminal ? item?.Origin?.Airport?.Terminal : "X"}
                                                                     </span>
                                                                 </p>
                                                                 <p>
@@ -603,8 +633,9 @@ const ReturnPassenger = () => {
                                                                     <span>
                                                                         {
                                                                             item
-                                                                                ?.Destination?.Airport?.AirportName
+                                                                                ?.Destination?.Airport?.AirportName?.slice(0, 26)
                                                                         }
+                                                                        {" "}Terminal-{item?.Destination?.Airport?.Terminal ? item?.Destination?.Airport?.Terminal : "Y"}
                                                                     </span>
                                                                 </p>
                                                             </div>
@@ -632,370 +663,284 @@ const ReturnPassenger = () => {
                                                         </div>
 
                                                     </div>
-
-                                                </div>
+                                                    <div>
+                                                        {(layoverHours !== 0 && layoverMinutes !== 0) && (
+                                                            <p className="text-bold">Layover Time: {layoverHours} hours {layoverMinutes} minutes</p>
+                                                        )}
+                                                    </div>
+                                                </>
                                             )
                                         })
                                     }
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
 
-
-
-                    <motion.div variants={variants} className="col-lg-12 mt-3">
-                        <div className="bookflightPassenger">
-                            <div className="headingBookFlight">
-                                <h3>Traveller Details</h3>
-                            </div>
-                            {adults > 0 &&
-                                Array.from({ length: adults }, (err, i) => (
-                                    <div className="bookFlightPassInner">
-                                        <div className="bookAdultIndex">
-                                            <p>Adult {i + 1}</p>
-                                        </div>
-                                        <div className="row g-3 mb-3">
-                                            <div className="col-lg-3 col-md-3">
-                                                <label for="exampleInputEmail1"
-                                                    class="form-label">Title</label>
-                                                <select
-                                                    className="form-select "
-                                                    name="Title"
-                                                    onChange={(e) =>
-                                                        handleServiceChange(e, i)
-                                                    }
-                                                >
-                                                    <option value="Mr">Mr.</option>
-                                                    <option value="Mrs">Mrs.</option>
-                                                    <option value="Miss">Miss</option>
-                                                </select>
-                                            </div>
-                                            <div className="col-lg-3 col-md-3">
-                                                <label for="exampleInputEmail1" class="form-label">First Name</label>
-                                                <input type="text"
-                                                    name="FirstName"
-                                                    id="floatingInput"
-                                                    onChange={(e) =>
-                                                        handleServiceChange(e, i)
-                                                    }
-                                                    class="form-control">
-                                                </input>
-                                                {passengerData[i].FirstName == "" && sub && <span id="error1">Enter First Name</span>}
-                                            </div>
-                                            <div className="col-lg-3 col-md-3">
-                                                <label for="exampleInputEmail1" class="form-label">Last Name</label>
-                                                <input type="text"
-                                                    name="LastName"
-                                                    id="floatingInput"
-                                                    class="form-control"
-                                                    onChange={(e) =>
-                                                        handleServiceChange(e, i)
-                                                    }
-                                                >
-                                                </input>
-                                                {passengerData[i].LastName == "" && sub && <span id="error1">Enter Last Name</span>}
-                                            </div>
-                                            <div className="col-lg-3 col-md-3">
-                                                <label for="exampleInputEmail1" class="form-label">Date of Birth</label>
-                                                <input type="date"
-                                                    name="DateOfBirth"
-                                                    id="floatingInput"
-                                                    class="form-control"
-                                                    onChange={(e) =>
-                                                        handleServiceChange(e, i)
-                                                    }
-                                                    max={maxDate}
-                                                >
-
-                                                </input>
-                                                {passengerData[i].DateOfBirth == "" && sub && <span id="error1">Enter DOB</span>}
-                                            </div>
-                                        </div>
-
-                                        {/* passport details here */}
-                                        {isPassportRequired == true ? (
-                                            <>
+                            <motion.div variants={variants} className="col-lg-12 mt-3">
+                                <div className="bookflightPassenger">
+                                    <div className="headingBookFlight">
+                                        <h3>Traveller Details</h3>
+                                    </div>
+                                    {adults > 0 &&
+                                        Array.from({ length: adults }, (err, i) => (
+                                            <div className="bookFlightPassInner">
                                                 <div className="bookAdultIndex">
-                                                    <p>Passport Details</p>
+                                                    <p>Adult {i + 1}</p>
                                                 </div>
                                                 <div className="row g-3 mb-3">
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">Passport Number</label>
+                                                        <label for="exampleInputEmail1"
+                                                            class="form-label">Title</label>
+                                                        <select
+                                                            className="form-select "
+                                                            name="Title"
+                                                            onChange={(e) =>
+                                                                handleServiceChange(e, i)
+                                                            }
+                                                        >
+                                                            <option value="Mr">Mr.</option>
+                                                            <option value="Mrs">Mrs.</option>
+                                                            <option value="Miss">Miss</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="col-lg-3 col-md-3">
+                                                        <label for="exampleInputEmail1" class="form-label">First Name</label>
                                                         <input type="text"
-                                                            name="PassportNo"
+                                                            name="FirstName"
+                                                            id="floatingInput"
+                                                            onChange={(e) =>
+                                                                handleServiceChange(e, i)
+                                                            }
+                                                            class="form-control">
+                                                        </input>
+                                                        {passengerData[i].FirstName == "" && sub && <span id="error1">Enter First Name</span>}
+                                                    </div>
+                                                    <div className="col-lg-3 col-md-3">
+                                                        <label for="exampleInputEmail1" class="form-label">Last Name</label>
+                                                        <input type="text"
+                                                            name="LastName"
                                                             id="floatingInput"
                                                             class="form-control"
-                                                            onChange={(e) => {
-                                                                handleServiceChange(e, i);
-                                                            }}
+                                                            onChange={(e) =>
+                                                                handleServiceChange(e, i)
+                                                            }
+                                                        >
+                                                        </input>
+                                                        {passengerData[i].LastName == "" && sub && <span id="error1">Enter Last Name</span>}
+                                                    </div>
+                                                    <div className="col-lg-3 col-md-3">
+                                                        <label for="exampleInputEmail1" class="form-label">Date of Birth</label>
+                                                        <input type="date"
+                                                            name="DateOfBirth"
+                                                            id="floatingInput"
+                                                            class="form-control"
+                                                            onChange={(e) =>
+                                                                handleServiceChange(e, i)
+                                                            }
+                                                            max={maxDate}
                                                         >
 
                                                         </input>
-                                                        {!isValidPassportNumber(passengerData[i].PassportNo) && sub && <span id="error1">Enter Valid Passport number</span>}
-                                                    </div>
-                                                    <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
-                                                        <input
-                                                            type="date"
-                                                            name="PassportExpiry"
-                                                            id="floatingInput"
-                                                            class="form-control"
-                                                            onChange={(e) => {
-                                                                handleServiceChange(e, i);
-
-                                                            }}
-
-                                                        ></input>
+                                                        {passengerData[i].DateOfBirth == "" && sub && <span id="error1">Enter DOB</span>}
                                                     </div>
                                                 </div>
-                                            </>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </div>
-                                ))}
 
-                            {/* child details here  */}
+                                                {/* passport details here */}
+                                                {isPassportRequired == true ? (
+                                                    <>
+                                                        <div className="bookAdultIndex">
+                                                            <p>Passport Details</p>
+                                                        </div>
+                                                        <div className="row g-3 mb-3">
+                                                            <div className="col-lg-3 col-md-3">
+                                                                <label for="exampleInputEmail1" class="form-label">Passport Number</label>
+                                                                <input type="text"
+                                                                    name="PassportNo"
+                                                                    id="floatingInput"
+                                                                    class="form-control"
+                                                                    onChange={(e) => {
+                                                                        handleServiceChange(e, i);
+                                                                    }}
+                                                                >
 
-                            {childs > 0 &&
-                                Array.from({ length: childs }, (err, i) => (
-                                    <div className="bookFlightPassInner">
-                                        <div className="bookAdultIndex">
-                                            <p>Child {i + 1}</p>
-                                        </div>
-                                        <div className="row g-3 mb-3">
-                                            <div className="col-lg-3 col-md-3">
-                                                <label
-                                                    for="exampleInputEmail1"
-                                                    class="form-label"
-                                                >
-                                                    First Name
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    name="FirstName"
-                                                    id="floatingInput"
-                                                    class="form-control"
-                                                    onChange={(e) =>
-                                                        handleServiceChange(e, i + Number(adults))
-                                                    }
-                                                >
-                                                </input>
-                                                {passengerData[Number(adults) + i].FirstName == "" && sub && <span id="error1">Enter First Name</span>}
+                                                                </input>
+                                                                {!isValidPassportNumber(passengerData[i].PassportNo) && sub && <span id="error1">Enter Valid Passport number</span>}
+                                                            </div>
+                                                            <div className="col-lg-3 col-md-3">
+                                                                <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
+                                                                <input
+                                                                    type="date"
+                                                                    name="PassportExpiry"
+                                                                    id="floatingInput"
+                                                                    class="form-control"
+                                                                    onChange={(e) => {
+                                                                        handleServiceChange(e, i);
+
+                                                                    }}
+
+                                                                ></input>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    ""
+                                                )}
                                             </div>
-                                            <div className="col-lg-3 col-md-3">
-                                                <label
-                                                    for="exampleInputEmail1"
-                                                    class="form-label"
-                                                >
-                                                    Last Name
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    name="LastName"
-                                                    id="floatingInput"
-                                                    class="form-control"
-                                                    onChange={(e) =>
-                                                        handleServiceChange(e, i + Number(adults))
-                                                    }
-                                                    required
-                                                >
+                                        ))}
 
-                                                </input>
-                                            </div>
+                                    {/* child details here  */}
 
-                                            <div className="col-lg-3 col-md-3">
-                                                <label
-                                                    for="exampleInputEmail1"
-                                                    class="form-label"
-                                                >
-                                                    Gender
-                                                </label>
-                                                <select
-                                                    className="form-select"
-                                                    name="Gender"
-                                                    onChange={(e) =>
-                                                        handleServiceChange(e, i + Number(adults))
-                                                    }
-                                                >
-                                                    <option value="1">Female</option>
-                                                    <option value="2">Male</option>
-                                                    <option value="3">Others</option>
-                                                </select>
-                                            </div>
-                                            <div className="col-lg-3 col-md-3">
-                                                <label
-                                                    for="exampleInputEmail1"
-                                                    class="form-label"
-                                                >
-                                                    Date of Birth
-                                                </label>
-                                                <input
-                                                    type="date"
-                                                    name="DateOfBirth"
-                                                    id="floatingInput"
-                                                    class="form-control"
-                                                    max={maxDateChild}
-                                                    min={minDateChild}
-                                                    onChange={(e) =>
-                                                        handleServiceChange(e, i + Number(adults))
-                                                    }
-                                                ></input>
-                                                {passengerData[Number(adults) + i].DateOfBirth == "" && sub && <span id="error1">Enter DOB</span>}
-                                            </div>
-                                        </div>
-
-
-                                        {/* passport details here */}
-                                        {isPassportRequired == true ? (
-                                            <>
+                                    {childs > 0 &&
+                                        Array.from({ length: childs }, (err, i) => (
+                                            <div className="bookFlightPassInner">
                                                 <div className="bookAdultIndex">
-                                                    <p>Passport Details</p>
+                                                    <p>Child {i + 1}</p>
                                                 </div>
                                                 <div className="row g-3 mb-3">
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">Passport Number</label>
+                                                        <label
+                                                            for="exampleInputEmail1"
+                                                            class="form-label"
+                                                        >
+                                                            First Name
+                                                        </label>
                                                         <input
                                                             type="text"
-                                                            name="PassportNo"
+                                                            name="FirstName"
                                                             id="floatingInput"
                                                             class="form-control"
                                                             onChange={(e) =>
                                                                 handleServiceChange(e, i + Number(adults))
                                                             }
-                                                        />
-                                                        {!isValidPassportNumber(passengerData[Number(adults) + i].PassportNo) && sub && <span id="error1">Enter a valid passport</span>}
+                                                        >
+                                                        </input>
+                                                        {passengerData[Number(adults) + i].FirstName == "" && sub && <span id="error1">Enter First Name</span>}
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
                                                         <label
                                                             for="exampleInputEmail1"
                                                             class="form-label"
                                                         >
-                                                            Passport Expiry
+                                                            Last Name
+                                                        </label>
+                                                        <input
+                                                            type="text"
+                                                            name="LastName"
+                                                            id="floatingInput"
+                                                            class="form-control"
+                                                            onChange={(e) =>
+                                                                handleServiceChange(e, i + Number(adults))
+                                                            }
+                                                            required
+                                                        >
+
+                                                        </input>
+                                                    </div>
+
+                                                    <div className="col-lg-3 col-md-3">
+                                                        <label
+                                                            for="exampleInputEmail1"
+                                                            class="form-label"
+                                                        >
+                                                            Gender
+                                                        </label>
+                                                        <select
+                                                            className="form-select"
+                                                            name="Gender"
+                                                            onChange={(e) =>
+                                                                handleServiceChange(e, i + Number(adults))
+                                                            }
+                                                        >
+                                                            <option value="1">Female</option>
+                                                            <option value="2">Male</option>
+                                                            <option value="3">Others</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="col-lg-3 col-md-3">
+                                                        <label
+                                                            for="exampleInputEmail1"
+                                                            class="form-label"
+                                                        >
+                                                            Date of Birth
                                                         </label>
                                                         <input
                                                             type="date"
-                                                            name="PassportExpiry"
+                                                            name="DateOfBirth"
                                                             id="floatingInput"
                                                             class="form-control"
-                                                            min={currentDate}
+                                                            max={maxDateChild}
+                                                            min={minDateChild}
                                                             onChange={(e) =>
                                                                 handleServiceChange(e, i + Number(adults))
                                                             }
                                                         ></input>
+                                                        {passengerData[Number(adults) + i].DateOfBirth == "" && sub && <span id="error1">Enter DOB</span>}
                                                     </div>
                                                 </div>
-                                            </>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </div>
-                                ))}
 
-                            {/* child details here  */}
 
-                            {/* infant details here  */}
+                                                {/* passport details here */}
+                                                {isPassportRequired == true ? (
+                                                    <>
+                                                        <div className="bookAdultIndex">
+                                                            <p>Passport Details</p>
+                                                        </div>
+                                                        <div className="row g-3 mb-3">
+                                                            <div className="col-lg-3 col-md-3">
+                                                                <label for="exampleInputEmail1" class="form-label">Passport Number</label>
+                                                                <input
+                                                                    type="text"
+                                                                    name="PassportNo"
+                                                                    id="floatingInput"
+                                                                    class="form-control"
+                                                                    onChange={(e) =>
+                                                                        handleServiceChange(e, i + Number(adults))
+                                                                    }
+                                                                />
+                                                                {!isValidPassportNumber(passengerData[Number(adults) + i].PassportNo) && sub && <span id="error1">Enter a valid passport</span>}
+                                                            </div>
+                                                            <div className="col-lg-3 col-md-3">
+                                                                <label
+                                                                    for="exampleInputEmail1"
+                                                                    class="form-label"
+                                                                >
+                                                                    Passport Expiry
+                                                                </label>
+                                                                <input
+                                                                    type="date"
+                                                                    name="PassportExpiry"
+                                                                    id="floatingInput"
+                                                                    class="form-control"
+                                                                    min={currentDate}
+                                                                    onChange={(e) =>
+                                                                        handleServiceChange(e, i + Number(adults))
+                                                                    }
+                                                                ></input>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    ""
+                                                )}
+                                            </div>
+                                        ))}
 
-                            {infants > 0 &&
-                                Array.from({ length: infants }, (err, i) => (
-                                    <div className="bookFlightPassInner">
-                                        <div className="bookAdultIndex">
-                                            <p>Infant {i + 1}</p>
-                                        </div>
-                                        <div className="row g-3 mb-3">
-                                            <div className="col-lg-3 col-md-3">
-                                                <label for="exampleInputEmail1" class="form-label">First Name</label>
-                                                <input
-                                                    type="text"
-                                                    name="FirstName"
-                                                    id="floatingInput"
-                                                    class="form-control"
-                                                    onChange={(e) =>
-                                                        handleServiceChange(
-                                                            e,
-                                                            i + Number(adults) + Number(childs)
-                                                        )
-                                                    }
-                                                />
-                                                {passengerData[i + Number(adults) + Number(childs)].FirstName == "" && sub && <span id="error1">Enter First Name</span>}
-                                            </div>
-                                            <div className="col-lg-3 col-md-3">
-                                                <label for="exampleInputEmail1" class="form-label">Last Name</label>
-                                                <input
-                                                    type="text"
-                                                    name="LastName"
-                                                    id="floatingInput"
-                                                    class="form-control"
-                                                    onChange={(e) =>
-                                                        handleServiceChange(
-                                                            e,
-                                                            i + Number(adults) + Number(childs)
-                                                        )
-                                                    }
-                                                />
-                                                {passengerData[i + Number(adults) + Number(childs)].LastName == "" && sub && <span id="error1">Enter Last Name</span>}
-                                            </div>
+                                    {/* child details here  */}
 
-                                            <div className="col-lg-3 col-md-3">
-                                                <label
-                                                    for="exampleInputEmail1"
-                                                    class="form-label"
-                                                >
-                                                    Gender
-                                                </label>
-                                                <select
-                                                    className="form-select"
-                                                    name="Gender"
-                                                    onChange={(e) =>
-                                                        handleServiceChange(
-                                                            e,
-                                                            i + Number(adults) + Number(childs)
-                                                        )
-                                                    }
-                                                >
-                                                    <option value="1">Female</option>
-                                                    <option value="2">Male</option>
-                                                </select>
-                                            </div>
-                                            <div className="col-lg-3 col-md-3">
-                                                <label
-                                                    for="exampleInputEmail1"
-                                                    class="form-label"
-                                                >
-                                                    Date of Birth
-                                                </label>
-                                                <input
-                                                    type="date"
-                                                    name="DateOfBirth"
-                                                    id="floatingInput"
-                                                    class="form-control"
-                                                    required
-                                                    min={minDateInfer}
-                                                    max={currentDate}
-                                                    onChange={(e) =>
-                                                        handleServiceChange(
-                                                            e,
-                                                            i + Number(adults) + Number(childs)
-                                                        )
-                                                    }
-                                                />
-                                                {passengerData[i + Number(adults) + Number(childs)].DateOfBirth == "" && sub && <span id="error1">Enter DOB</span>}
-                                            </div>
-                                        </div>
-                                        {/* passport details here */}
-                                        {isPassportRequired == true ? (
-                                            <>
+                                    {/* infant details here  */}
+
+                                    {infants > 0 &&
+                                        Array.from({ length: infants }, (err, i) => (
+                                            <div className="bookFlightPassInner">
                                                 <div className="bookAdultIndex">
-                                                    <p>Passport Details</p>
+                                                    <p>Infant {i + 1}</p>
                                                 </div>
                                                 <div className="row g-3 mb-3">
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">Passport Number</label>
+                                                        <label for="exampleInputEmail1" class="form-label">First Name</label>
                                                         <input
                                                             type="text"
-                                                            name="PassportNo"
+                                                            name="FirstName"
                                                             id="floatingInput"
                                                             class="form-control"
                                                             onChange={(e) =>
@@ -1005,16 +950,15 @@ const ReturnPassenger = () => {
                                                                 )
                                                             }
                                                         />
-                                                        {!isValidPassportNumber(passengerData[i + Number(adults) + Number(childs)].PassportNo) && sub && <span id="error1">Enter a valid Passport Number</span>}
+                                                        {passengerData[i + Number(adults) + Number(childs)].FirstName == "" && sub && <span id="error1">Enter First Name</span>}
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
+                                                        <label for="exampleInputEmail1" class="form-label">Last Name</label>
                                                         <input
-                                                            type="date"
-                                                            name="PassportExpiry"
+                                                            type="text"
+                                                            name="LastName"
                                                             id="floatingInput"
                                                             class="form-control"
-                                                            min={currentDate}
                                                             onChange={(e) =>
                                                                 handleServiceChange(
                                                                     e,
@@ -1022,195 +966,210 @@ const ReturnPassenger = () => {
                                                                 )
                                                             }
                                                         />
+                                                        {passengerData[i + Number(adults) + Number(childs)].LastName == "" && sub && <span id="error1">Enter Last Name</span>}
+                                                    </div>
+
+                                                    <div className="col-lg-3 col-md-3">
+                                                        <label
+                                                            for="exampleInputEmail1"
+                                                            class="form-label"
+                                                        >
+                                                            Gender
+                                                        </label>
+                                                        <select
+                                                            className="form-select"
+                                                            name="Gender"
+                                                            onChange={(e) =>
+                                                                handleServiceChange(
+                                                                    e,
+                                                                    i + Number(adults) + Number(childs)
+                                                                )
+                                                            }
+                                                        >
+                                                            <option value="1">Female</option>
+                                                            <option value="2">Male</option>
+                                                        </select>
+                                                    </div>
+                                                    <div className="col-lg-3 col-md-3">
+                                                        <label
+                                                            for="exampleInputEmail1"
+                                                            class="form-label"
+                                                        >
+                                                            Date of Birth
+                                                        </label>
+                                                        <input
+                                                            type="date"
+                                                            name="DateOfBirth"
+                                                            id="floatingInput"
+                                                            class="form-control"
+                                                            required
+                                                            min={minDateInfer}
+                                                            max={currentDate}
+                                                            onChange={(e) =>
+                                                                handleServiceChange(
+                                                                    e,
+                                                                    i + Number(adults) + Number(childs)
+                                                                )
+                                                            }
+                                                        />
+                                                        {passengerData[i + Number(adults) + Number(childs)].DateOfBirth == "" && sub && <span id="error1">Enter DOB</span>}
                                                     </div>
                                                 </div>
-                                            </>
-                                        ) : (
-                                            ""
-                                        )}
-                                    </div>
-                                ))}
+                                                {/* passport details here */}
+                                                {isPassportRequired == true ? (
+                                                    <>
+                                                        <div className="bookAdultIndex">
+                                                            <p>Passport Details</p>
+                                                        </div>
+                                                        <div className="row g-3 mb-3">
+                                                            <div className="col-lg-3 col-md-3">
+                                                                <label for="exampleInputEmail1" class="form-label">Passport Number</label>
+                                                                <input
+                                                                    type="text"
+                                                                    name="PassportNo"
+                                                                    id="floatingInput"
+                                                                    class="form-control"
+                                                                    onChange={(e) =>
+                                                                        handleServiceChange(
+                                                                            e,
+                                                                            i + Number(adults) + Number(childs)
+                                                                        )
+                                                                    }
+                                                                />
+                                                                {!isValidPassportNumber(passengerData[i + Number(adults) + Number(childs)].PassportNo) && sub && <span id="error1">Enter a valid Passport Number</span>}
+                                                            </div>
+                                                            <div className="col-lg-3 col-md-3">
+                                                                <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
+                                                                <input
+                                                                    type="date"
+                                                                    name="PassportExpiry"
+                                                                    id="floatingInput"
+                                                                    class="form-control"
+                                                                    min={currentDate}
+                                                                    onChange={(e) =>
+                                                                        handleServiceChange(
+                                                                            e,
+                                                                            i + Number(adults) + Number(childs)
+                                                                        )
+                                                                    }
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                ) : (
+                                                    ""
+                                                )}
+                                            </div>
+                                        ))}
 
-                            {/* infant details here  */}
-                        </div>
-                    </motion.div>
-
-
-
-
-
-                    <motion.div variants={variants} className="col-lg-12 mt-3">
-                        <div className="bookflightPassenger">
-                            <form>
-                                <div className="bookFlightPassInner">
-                                    <div className="bookAdultIndex">
-                                        <p>Your Booking Details will be sent to</p>
-                                    </div>
-                                    <div className="row g-3 mb-3">
-                                        <div className="col-lg-5 col-md-5">
-
-                                            <label
-                                                for="exampleInputEmail1"
-                                                class="form-label"
-                                            >
-                                                Enter Email
-                                            </label>
-                                            <input
-                                                type="text"
-                                                name="Email"
-                                                id="floatingInput"
-                                                class="form-control"
-                                                onChange={(e) => handleServiceChange(e, 0)}
-                                            />
-                                            {!validateEmail1(passengerData[0].Email) && sub && <span id="error1">Enter Email</span>}
-                                        </div>
-                                        <div className="col-lg-5 col-md-5">
-
-                                            <label
-                                                for="exampleInputEmail1"
-                                                class="form-label"
-                                            >
-                                                Mobile Number
-                                            </label>
-                                            <input
-                                                type="phone"
-                                                name="ContactNo"
-                                                id="floatingInput"
-                                                class="form-control"
-                                                onChange={(e) => handleServiceChange(e, 0)}
-                                            />
-                                            {!validatePhoneNumber(passengerData[0].ContactNo) == true && sub && <span id="error1">Enter Contact</span>}
-                                        </div>
-                                    </div>
+                                    {/* infant details here  */}
                                 </div>
-                            </form>
-                        </div>
-                    </motion.div>
+                            </motion.div>
 
 
 
-                    {/* <motion.div variants={variants} className="col-lg-12 mt-3">
-                        <div className="bookNowCancel">
-                            <div className="bookCancleOne">
-                                <p>Cancellation Refund Policy</p>
-                                <div>
-                                    <img
-                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${flightDeparture?.[0][0]?.Airline?.AirlineCode}.png`}
-                                    />{" "}
-                                    <span>
-                                        {
-                                            flightDeparture[0][0]?.Airline
-                                                ?.AirlineName
-                                        }
-                                    </span>
+
+
+                            <motion.div variants={variants} className="col-lg-12 mt-3">
+                                <div className="bookflightPassenger">
+                                    <form>
+                                        <div className="bookFlightPassInner">
+                                            <div className="bookAdultIndex">
+                                                <p>Your Booking Details will be sent to</p>
+                                            </div>
+                                            <div className="row g-3 mb-3">
+                                                <div className="col-lg-5 col-md-5">
+
+                                                    <label
+                                                        for="exampleInputEmail1"
+                                                        class="form-label"
+                                                    >
+                                                        Enter Email
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="Email"
+                                                        id="floatingInput"
+                                                        class="form-control"
+                                                        onChange={(e) => handleServiceChange(e, 0)}
+                                                    />
+                                                    {!validateEmail1(passengerData[0].Email) && sub && <span id="error1">Enter Email</span>}
+                                                </div>
+                                                <div className="col-lg-5 col-md-5">
+
+                                                    <label
+                                                        for="exampleInputEmail1"
+                                                        class="form-label"
+                                                    >
+                                                        Mobile Number
+                                                    </label>
+                                                    <input
+                                                        type="phone"
+                                                        name="ContactNo"
+                                                        id="floatingInput"
+                                                        class="form-control"
+                                                        onChange={(e) => handleServiceChange(e, 0)}
+                                                    />
+                                                    {!validatePhoneNumber(passengerData[0].ContactNo) == true && sub && <span id="error1">Enter Contact</span>}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                <span>Cancellation Penalty :</span>
-                            </div>
+                            </motion.div>
 
-                            <div className="bookCancleTwo">
-                                <span>Cancel Between</span>
-                                <div className="svgLineBox">
-                                    <div>
-                                        <div className="svgCircle"></div>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            max-width="560"
-                                            height="9"
-                                            viewBox="0 0 560 9"
-                                            fill="none"
-                                        >
-                                            <path
-                                                d="M4 5L662 4"
-                                                stroke="#dc817e"
-                                                stroke-width="8"
-                                                stroke-linecap="round"
-                                            />
-                                            <defs>
-                                                <linearGradient
-                                                    id="paint0_linear_367_27446"
-                                                    x1="4.00583"
-                                                    y1="7.99358"
-                                                    x2="662.006"
-                                                    y2="7.98716"
-                                                    gradientUnits="userSpaceOnUse"
+
+
+
+                            <div className="col-lg-12 accor_dian mt-4" >
+                                {fareRule &&
+                                    fareRule.length > 0 &&
+                                    fareRule.map((dat) => {
+                                        return (
+                                            <div my={2}>
+                                                <Accordion
+                                                    defaultActiveKey={null}
                                                 >
-                                                    <stop stop-color="#41754C" />
-                                                    <stop
-                                                        offset="0.494792"
-                                                        stop-color="#E2C735"
-                                                    />
-                                                    <stop
-                                                        offset="0.494892"
-                                                        stop-color="#DFCB66"
-                                                    />
-                                                    <stop offset="1" stop-color="#DA3030" />
-                                                </linearGradient>
-                                            </defs>
-                                        </svg>
-                                    </div>
-                                    <div>
-                                        <span>
-                                            From {detailsOfCancel?.[0]?.From}-
-                                            {detailsOfCancel?.[0]?.To}{" "}
-                                            {detailsOfCancel?.[0]?.Unit}
-                                        </span>
-                                        <span>
-                                            From {detailsOfCancel?.[1]?.From}-
-                                            {detailsOfCancel?.[1]?.To}{" "}
-                                            {detailsOfCancel?.[1]?.Unit}
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <span>{detailsOfCancel?.[0]?.Details}</span>
-                                        <span>{detailsOfCancel?.[1]?.Details}</span>
-                                    </div>
-                                </div>
+                                                    <Accordion.Item>
+                                                        <Accordion.Header>
+                                                            <p>Detailed Fare Rules</p>
+                                                        </Accordion.Header>
+                                                        <Accordion.Body>
+                                                            <div className="htmlFare"
+                                                                dangerouslySetInnerHTML={{
+                                                                    __html: dat?.FareRuleDetail,
+                                                                }}
+                                                            />
+                                                        </Accordion.Body>
+                                                    </Accordion.Item>
+                                                </Accordion>
+                                            </div>
+                                        );
+                                    })}
+                            </div>
+
+
+
+
+                            <div className="col-lg-12 mt-5 mb-4 leftDetBut">
+                                <button onClick={handleSubmit}
+                                    type="submit"
+                                    className="bookWrapperButton"
+                                >
+                                    Proceed to Book
+                                </button>
                             </div>
                         </div>
-                    </motion.div> */}
 
-
-
-
-
-
-                    <div className="col-lg-12 accor_dian mt-4" >
-                        {fareRule &&
-                            fareRule.length > 0 &&
-                            fareRule.map((dat) => {
-                                return (
-                                    <div my={2}>
-                                        <Accordion
-                                            defaultActiveKey={null}
-                                        >
-                                            <Accordion.Item>
-                                                <Accordion.Header>
-                                                    <p>Detailed Fare Rules</p>
-                                                </Accordion.Header>
-                                                <Accordion.Body>
-                                                    <div className="htmlFare"
-                                                        dangerouslySetInnerHTML={{
-                                                            __html: dat?.FareRuleDetail,
-                                                        }}
-                                                    />
-                                                </Accordion.Body>
-                                            </Accordion.Item>
-                                        </Accordion>
-                                    </div>
-                                );
-                            })}
                     </div>
 
 
+                    <div className="col-lg-3 col-md-3">
+                        <ReturnSummary />
 
-
-                    <div className="col-lg-12 mt-5 mb-4 leftDetBut">
-                        <button onClick={handleSubmit}
-                            type="submit"
-                        >
-                            Proceed to Book
-                        </button>
                     </div>
+
+
                 </div>
             </div>
         </div>

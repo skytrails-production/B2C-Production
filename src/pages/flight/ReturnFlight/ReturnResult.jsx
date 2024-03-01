@@ -52,7 +52,7 @@ const ReturnResult = () => {
     };
     const [selectedFlightIndexReturn, setSelectedFlightIndexReturn] = useState(null);
 
-    console.log(result, "result")
+
 
     const handleFlightSelectionReturn = (index) => {
         setSelectedFlightIndexReturn(index);
@@ -79,7 +79,7 @@ const ReturnResult = () => {
     }, [])
 
 
-    console.log(result, "initial go flight")
+
 
 
     const handleIndexId = (ResultIndex) => {
@@ -99,8 +99,9 @@ const ReturnResult = () => {
 
 
     const handleFareRuleAndQuote = async () => {
-        // console.log(ongoFlight, "ongoFlight");
-        // console.log(incomeGlight, "incomeGlight");
+
+        sessionStorage.setItem("goingResultIndex", JSON.stringify(ongoFlight?.ResultIndex))
+        sessionStorage.setItem("ReturnResultIndex", JSON.stringify(incomeGlight?.ResultIndex))
         // setLoading(true);
         const payload = {
             EndUserIp: reducerState?.ip?.ipData,
@@ -205,7 +206,7 @@ const ReturnResult = () => {
                                                                 <div className="columnFLightName d-flex d-sm-none">
                                                                     <div>
                                                                         <img
-                                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.AirlineCode}.png`}
+                                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.ValidatingAirline}.png`}
                                                                             alt="flight"
                                                                         />{" "}
                                                                     </div>
@@ -234,7 +235,7 @@ const ReturnResult = () => {
                                                                     <div className="singleFlightBoxOne">
                                                                         <div>
                                                                             <img
-                                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.AirlineCode}.png`}
+                                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.ValidatingAirline}.png`}
                                                                                 alt="flight"
                                                                             />{" "}
                                                                         </div>
@@ -450,13 +451,13 @@ const ReturnResult = () => {
                                                                     onClick={() => {
                                                                         handleIndexIdreturn(item);
                                                                         handleFlightSelectionReturn(index)
-                                                                        console.log(item, "result index")
+
                                                                     }}
                                                                     className="mobileflexDesign">
                                                                     <div className="columnFLightName d-flex d-sm-none">
                                                                         <div>
                                                                             <img
-                                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.AirlineCode}.png`}
+                                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.ValidatingAirline}.png`}
                                                                                 alt="flight"
                                                                             />{" "}
                                                                         </div>
@@ -485,7 +486,7 @@ const ReturnResult = () => {
                                                                         <div className="singleFlightBoxOne">
                                                                             <div>
                                                                                 <img
-                                                                                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.AirlineCode}.png`}
+                                                                                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.ValidatingAirline}.png`}
                                                                                     alt="flight"
                                                                                 />{" "}
                                                                             </div>
@@ -642,9 +643,9 @@ const ReturnResult = () => {
 
                 </div>
 
-                <div className='container-fluid fixedReturnBottom' style={{ backgroundColor: "red", position: "fixed", bottom: "0" }}>
+                <div className='container-fluid fixedReturnBottom' style={{ position: "fixed", bottom: "0", zIndex: "9999" }}>
                     <div className="row ">
-                        <div className="col-4">
+                        <div className="col-5">
                             <div className="row">
                                 <div className="col-lg-12">
 
@@ -655,11 +656,11 @@ const ReturnResult = () => {
                                     >
                                         <motion.div variants={variants}
 
-                                            className="mobileflexDesign">
+                                            className="mobileflexDesign returnFixedBottomDesign">
                                             <div className="columnFLightName d-flex d-sm-none">
                                                 <div>
                                                     <img
-                                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${ongoFlight?.AirlineCode}.png`}
+                                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${ongoFlight?.ValidatingAirline}.png`}
                                                         alt="flight"
                                                     />{" "}
                                                 </div>
@@ -669,7 +670,7 @@ const ReturnResult = () => {
                                                             ?.AirlineName
                                                     }
                                                 </span>
-                                                <p>
+                                                {/* <p>
                                                     {
                                                         ongoFlight?.Segments?.[0][0]?.Airline
                                                             ?.AirlineCode
@@ -679,7 +680,7 @@ const ReturnResult = () => {
                                                             ?.FlightNumber
                                                     }
 
-                                                </p>
+                                                </p> */}
                                             </div>
                                             <motion.div
                                                 variants={variants}
@@ -688,7 +689,7 @@ const ReturnResult = () => {
                                                 <div className="singleFlightBoxOne">
                                                     <div>
                                                         <img
-                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${ongoFlight?.AirlineCode}.png`}
+                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${ongoFlight?.ValidatingAirline}.png`}
                                                             alt="flight"
                                                         />{" "}
                                                     </div>
@@ -698,7 +699,7 @@ const ReturnResult = () => {
                                                                 ?.AirlineName
                                                         }
                                                     </span>
-                                                    <p>
+                                                    {/* <p>
                                                         {
                                                             ongoFlight?.Segments[0][0]?.Airline
                                                                 ?.AirlineCode
@@ -707,7 +708,7 @@ const ReturnResult = () => {
                                                             ongoFlight?.Segments[0][0]?.Airline
                                                                 ?.FlightNumber
                                                         }
-                                                    </p>
+                                                    </p> */}
                                                 </div>
                                                 <div className="singleFlightBoxTwo">
                                                     <span>
@@ -733,38 +734,10 @@ const ReturnResult = () => {
                                                 <div className="singleFlightBoxThree">
 
 
+                                                    <span className="">
+                                                        <svg id="fi_9170928" height="25" viewBox="0 0 64 64" width="25" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path d="m51.93 33-50.93-.041a1 1 0 0 1 0-2l50.931.041a1 1 0 0 1 0 2z"></path><path d="m64 32.012c-5.681 2.1-12.731 5.692-17.1 9.5l3.446-9.512-3.433-9.513c4.365 3.813 11.409 7.413 17.087 9.525z"></path></svg>
+                                                    </span>
 
-                                                    {
-                                                        ongoFlight?.Segments[0].length > 1 ?
-                                                            (
-                                                                <div className="stopBef">
-                                                                    <Divider
-                                                                        orientation="vertical"
-                                                                        flexItem
-                                                                        sx={{
-                                                                            backgroundColor: "#21325d",
-                                                                            marginX: "8px",
-                                                                            height: "3px",
-                                                                        }}
-                                                                        className=""
-                                                                    />
-                                                                </div>
-                                                            ) :
-
-                                                            (
-                                                                <div>
-                                                                    <Divider
-                                                                        orientation="vertical"
-                                                                        flexItem
-                                                                        sx={{
-                                                                            backgroundColor: "#21325d",
-                                                                            marginX: "8px",
-                                                                            height: "3px",
-                                                                        }}
-                                                                    />
-                                                                </div>
-                                                            )
-                                                    }
 
                                                 </div>
 
@@ -802,7 +775,7 @@ const ReturnResult = () => {
                         </div>
 
 
-                        <div className="col-4">
+                        <div className="col-5">
                             <div className="row">
                                 <div className="col-lg-12">
 
@@ -813,11 +786,11 @@ const ReturnResult = () => {
                                     >
                                         <motion.div variants={variants}
 
-                                            className="mobileflexDesign">
+                                            className="mobileflexDesign returnFixedBottomDesign">
                                             <div className="columnFLightName d-flex d-sm-none">
                                                 <div>
                                                     <img
-                                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${incomeGlight?.AirlineCode}.png`}
+                                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${incomeGlight?.ValidatingAirline}.png`}
                                                         alt="flight"
                                                     />{" "}
                                                 </div>
@@ -827,7 +800,7 @@ const ReturnResult = () => {
                                                             ?.AirlineName
                                                     }
                                                 </span>
-                                                <p>
+                                                {/* <p>
                                                     {
                                                         incomeGlight?.Segments?.[0][0]?.Airline
                                                             ?.AirlineCode
@@ -837,7 +810,7 @@ const ReturnResult = () => {
                                                             ?.FlightNumber
                                                     }
 
-                                                </p>
+                                                </p> */}
                                             </div>
                                             <motion.div
                                                 variants={variants}
@@ -846,7 +819,7 @@ const ReturnResult = () => {
                                                 <div className="singleFlightBoxOne">
                                                     <div>
                                                         <img
-                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${incomeGlight?.AirlineCode}.png`}
+                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${incomeGlight?.ValidatingAirline}.png`}
                                                             alt="flight"
                                                         />{" "}
                                                     </div>
@@ -856,7 +829,7 @@ const ReturnResult = () => {
                                                                 ?.AirlineName
                                                         }
                                                     </span>
-                                                    <p>
+                                                    {/* <p>
                                                         {
                                                             incomeGlight?.Segments[0][0]?.Airline
                                                                 ?.AirlineCode
@@ -865,7 +838,7 @@ const ReturnResult = () => {
                                                             incomeGlight?.Segments[0][0]?.Airline
                                                                 ?.FlightNumber
                                                         }
-                                                    </p>
+                                                    </p> */}
                                                 </div>
                                                 <div className="singleFlightBoxTwo">
                                                     <span>
@@ -891,37 +864,9 @@ const ReturnResult = () => {
                                                 <div className="singleFlightBoxThree">
 
 
-                                                    {
-                                                        incomeGlight?.Segments[0].length > 1 ?
-                                                            (
-                                                                <div className="stopBef">
-                                                                    <Divider
-                                                                        orientation="vertical"
-                                                                        flexItem
-                                                                        sx={{
-                                                                            backgroundColor: "#21325d",
-                                                                            marginX: "8px",
-                                                                            height: "3px",
-                                                                        }}
-                                                                        className=""
-                                                                    />
-                                                                </div>
-                                                            ) :
-
-                                                            (
-                                                                <div>
-                                                                    <Divider
-                                                                        orientation="vertical"
-                                                                        flexItem
-                                                                        sx={{
-                                                                            backgroundColor: "#21325d",
-                                                                            marginX: "8px",
-                                                                            height: "3px",
-                                                                        }}
-                                                                    />
-                                                                </div>
-                                                            )
-                                                    }
+                                                    <span>
+                                                        <svg id="fi_9170928" height="25" viewBox="0 0 64 64" width="25" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path d="m51.93 33-50.93-.041a1 1 0 0 1 0-2l50.931.041a1 1 0 0 1 0 2z"></path><path d="m64 32.012c-5.681 2.1-12.731 5.692-17.1 9.5l3.446-9.512-3.433-9.513c4.365 3.813 11.409 7.413 17.087 9.525z"></path></svg>
+                                                    </span>
 
                                                 </div>
 

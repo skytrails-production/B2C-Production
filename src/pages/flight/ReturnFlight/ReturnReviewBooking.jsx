@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
 import FlightLoader from '../FlightLoader/FlightLoader';
 import Alert from '@mui/material/Alert';
 import { isValidPassportNumber } from "./passportValidation"
@@ -11,6 +11,13 @@ import { useDispatch, useSelector, useReducer } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Accordion from "react-bootstrap/Accordion";
 import { Typography, Button } from "@mui/material";
+import ReturnSummaryWithCoupon from './ReturnSummaryWithCoupon';
+import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
+import Modal from "@mui/material/Modal";
+import loginnew from "../../../images/login-01.jpg"
+import Login from "../../../components/Login"
+import CloseIcon from "@mui/icons-material/Close";
+
 
 const ReturnReviewBooking = () => {
 
@@ -34,23 +41,43 @@ const ReturnReviewBooking = () => {
         reducerState?.flightFare?.flightRuleDataReturn?.FareRules;
     const data = reducerState?.oneWay?.oneWayData?.data?.data?.Response;
     const result = reducerState?.flightFare?.flightQuoteData?.Results
-
     const Passengers = reducerState?.passengers?.passengersData;
-    // console.log(Passengers, "passenger ka data");
     const PassengersReturn = reducerState?.passengers?.passengerDataReturn;
     const flightDeparture = reducerState?.flightFare?.flightQuoteData?.Results?.Segments;
     const flightReturn = isPassportRequired ? reducerState?.flightFare?.flightQuoteData?.Results?.Segments : reducerState?.flightFare?.flightQuoteDataReturn?.Results?.Segments;
-
+    const authenticUser = reducerState?.logIn?.loginData?.status;
 
     console.log(flightDeparture, "flight departure")
     console.log(flightReturn, "flight rturn")
 
+    const [openTravelModal, setOpenTravelModal] = React.useState(false);
+
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+    const handleModalClose = () => {
+        setIsLoginModalOpen(false)
+    }
+
+    useEffect(() => {
+        if (authenticUser == 200) {
+            handleModalClose();
+        }
+    }, [authenticUser])
+
+    const handlePayment = () => {
+        if (authenticUser !== 200) {
+            setIsLoginModalOpen(true);
+        }
+    };
 
     return (
         <div>
+            <div className="mainimgFlightSearch">
+                <InsideNavbar />
+            </div>
             <div className="container px-0 pt-4">
                 <div className="row">
-                    <div className="col-lg-9">
+                    <div className="col-lg-9 martop">
                         <div className="row">
 
                             {/* for departure  */}
@@ -67,54 +94,65 @@ const ReturnReviewBooking = () => {
                                                 }
                                                 <FiArrowRight style={{ margin: "5px" }} />{" "}
                                                 {
-                                                    flightDeparture?.[0][flightDeparture[0].length - 1]?.Destination
+                                                    flightDeparture[0][flightDeparture[0].length - 1]?.Destination
                                                         ?.Airport?.CityName
                                                 }
                                             </p>
                                             <div className="aboveSpan">
                                                 <span className="aboveSOne">
-                                                    {dayjs(flightDeparture?.[0][0]?.Origin?.DepTime).format("DD MMM, YY")}
+                                                    {dayjs(flightDeparture[0][0]?.Origin?.DepTime).format("DD MMM, YY")}
                                                 </span>
                                                 <span>
-                                                    {flightDeparture?.[0].length > 1 ? `${flightDeparture?.[0].length - 1} stop via ${flightDeparture[0][0]?.Destination?.Airport?.CityName}` : "Non Stop"}
+                                                    {flightDeparture[0].length > 1 ? `${flightDeparture[0].length - 1} stop via ${flightDeparture[0][0]?.Destination?.Airport?.CityName}` : "Non Stop"}
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div className="bookcenteredBox">
-                                        <div>
-                                            <img
-                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${flightDeparture?.[0][0]?.Airline?.AirlineCode}.png`}
-                                            />{" "}
-                                        </div>
-                                        <span>
-                                            {
-                                                flightDeparture?.[0][0]?.Airline
-                                                    ?.AirlineName
-                                            }
-                                        </span>
-                                        <p>
-                                            {
-                                                flightDeparture?.[0][0]?.Airline
-                                                    ?.AirlineCode
-                                            }
-                                            {
-                                                flightDeparture?.[0][0]?.Airline
-                                                    ?.FlightNumber
-                                            }
 
-                                        </p>
-                                    </div>
                                     {
-                                        flightDeparture?.[0]?.map((item, index) => {
+                                        flightDeparture[0]?.map((item, index) => {
+
+                                            const nextFlight = flightDeparture[0][index + 1];
+                                            let layoverHours = 0;
+                                            let layoverMinutes = 0;
+
+                                            if (nextFlight) {
+                                                const arrivalTime = dayjs(item?.Destination?.ArrTime);
+                                                const departureTime = dayjs(nextFlight?.Origin?.DepTime);
+                                                const layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
+                                                layoverHours = Math.floor(layoverDuration / 60); // Extract hours
+                                                layoverMinutes = layoverDuration % 60;
+                                            }
                                             return (
-                                                <div style={{ position: "relative" }}>
+                                                <>
+
+                                                    <div className="bookcenteredBox">
+                                                        <div>
+                                                            <img
+                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline?.AirlineCode}.png`}
+                                                            />{" "}
+                                                        </div>
+                                                        <span>
+                                                            {
+                                                                item?.Airline
+                                                                    ?.AirlineName
+                                                            }
+                                                        </span>
+                                                        <p>
+                                                            {
+                                                                item?.Airline
+                                                                    ?.AirlineCode
+                                                            }
+                                                            {
+                                                                item?.Airline
+                                                                    ?.FlightNumber
+                                                            }
+
+                                                        </p>
+                                                    </div>
 
                                                     <div className="bookbottomBox">
-
-
-
                                                         <div>
                                                             <div className="bookBottomOne">
                                                                 <p>{dayjs(item?.Origin?.DepTime).format("h:mm A")}</p>
@@ -133,8 +171,9 @@ const ReturnReviewBooking = () => {
                                                                     <span>
                                                                         {
                                                                             item?.Origin
-                                                                                ?.Airport?.AirportName
+                                                                                ?.Airport?.AirportName?.slice(0, 26)
                                                                         }
+                                                                        {" "}Terminal-{item?.Origin?.Airport?.Terminal ? item?.Origin?.Airport?.Terminal : "X"}
                                                                     </span>
                                                                 </p>
                                                                 <p>
@@ -145,8 +184,9 @@ const ReturnReviewBooking = () => {
                                                                     <span>
                                                                         {
                                                                             item
-                                                                                ?.Destination?.Airport?.AirportName
+                                                                                ?.Destination?.Airport?.AirportName?.slice(0, 26)
                                                                         }
+                                                                        {" "}Terminal-{item?.Destination?.Airport?.Terminal ? item?.Destination?.Airport?.Terminal : "Y"}
                                                                     </span>
                                                                 </p>
                                                             </div>
@@ -172,10 +212,13 @@ const ReturnReviewBooking = () => {
                                                                 }{" "} Kgs</span>
                                                             </div>
                                                         </div>
-
                                                     </div>
-
-                                                </div>
+                                                    <div>
+                                                        {(layoverHours !== 0 && layoverMinutes !== 0) && (
+                                                            <p className="text-bold">Layover Time: {layoverHours} hours {layoverMinutes} minutes</p>
+                                                        )}
+                                                    </div>
+                                                </>
                                             )
                                         })
                                     }
@@ -216,40 +259,51 @@ const ReturnReviewBooking = () => {
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div className="bookcenteredBox">
-                                        <div>
-                                            <img
-                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${flightReturn?.[0][0]?.Airline?.AirlineCode}.png`}
-                                            />{" "}
-                                        </div>
-                                        <span>
-                                            {
-                                                flightReturn?.[0][0]?.Airline
-                                                    ?.AirlineName
-                                            }
-                                        </span>
-                                        <p>
-                                            {
-                                                flightReturn?.[0][0]?.Airline
-                                                    ?.AirlineCode
-                                            }
-                                            {
-                                                flightReturn?.[0][0]?.Airline
-                                                    ?.FlightNumber
-                                            }
-
-                                        </p>
-                                    </div>
                                     {
                                         flightReturn?.[0]?.map((item, index) => {
+
+                                            const nextFlight = flightReturn?.[0][index + 1];
+                                            let layoverHours = 0;
+                                            let layoverMinutes = 0;
+
+                                            if (nextFlight) {
+                                                const arrivalTime = dayjs(item?.Destination?.ArrTime);
+                                                const departureTime = dayjs(nextFlight?.Origin?.DepTime);
+                                                const layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
+                                                layoverHours = Math.floor(layoverDuration / 60); // Extract hours
+                                                layoverMinutes = layoverDuration % 60;
+                                            }
                                             return (
-                                                <div style={{ position: "relative" }}>
+                                                <>
+
+
+                                                    <div className="bookcenteredBox">
+                                                        <div>
+                                                            <img
+                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline
+                                                                    ?.AirlineCode}.png`}
+                                                            />{" "}
+                                                        </div>
+                                                        <span>
+                                                            {
+                                                                item?.Airline
+                                                                    ?.AirlineName
+                                                            }
+                                                        </span>
+                                                        <p>
+                                                            {
+                                                                item?.Airline
+                                                                    ?.AirlineCode
+                                                            }
+                                                            {
+                                                                item?.Airline
+                                                                    ?.FlightNumber
+                                                            }
+
+                                                        </p>
+                                                    </div>
 
                                                     <div className="bookbottomBox">
-
-
-
                                                         <div>
                                                             <div className="bookBottomOne">
                                                                 <p>{dayjs(item?.Origin?.DepTime).format("h:mm A")}</p>
@@ -268,8 +322,9 @@ const ReturnReviewBooking = () => {
                                                                     <span>
                                                                         {
                                                                             item?.Origin
-                                                                                ?.Airport?.AirportName
+                                                                                ?.Airport?.AirportName?.slice(0, 26)
                                                                         }
+                                                                        {" "}Terminal-{item?.Origin?.Airport?.Terminal ? item?.Origin?.Airport?.Terminal : "X"}
                                                                     </span>
                                                                 </p>
                                                                 <p>
@@ -280,8 +335,9 @@ const ReturnReviewBooking = () => {
                                                                     <span>
                                                                         {
                                                                             item
-                                                                                ?.Destination?.Airport?.AirportName
+                                                                                ?.Destination?.Airport?.AirportName?.slice(0, 26)
                                                                         }
+                                                                        {" "}Terminal-{item?.Destination?.Airport?.Terminal ? item?.Destination?.Airport?.Terminal : "Y"}
                                                                     </span>
                                                                 </p>
                                                             </div>
@@ -309,13 +365,20 @@ const ReturnReviewBooking = () => {
                                                         </div>
 
                                                     </div>
-
-                                                </div>
+                                                    <div>
+                                                        {(layoverHours !== 0 && layoverMinutes !== 0) && (
+                                                            <p className="text-bold">Layover Time: {layoverHours} hours {layoverMinutes} minutes</p>
+                                                        )}
+                                                    </div>
+                                                </>
                                             )
                                         })
                                     }
                                 </div>
                             </div>
+
+
+
 
                             <div className="col-lg-12 accor_dian mt-4" >
                                 {fareRule &&
@@ -400,8 +463,91 @@ const ReturnReviewBooking = () => {
 
                         </div>
                     </div>
+
+
+                    <div className="col-lg-3 col-md-3">
+                        <ReturnSummaryWithCoupon />
+
+                    </div>
+
+                </div>
+                <div className="col-lg-12 my-4 smallButtMobile">
+                    <button
+                        className="bookWrapperButton"
+                        type="submit"
+                        onClick={() => handlePayment()}
+                    >
+                        Continue
+                    </button>
+
                 </div>
             </div>
+
+
+
+            <Modal
+                open={isLoginModalOpen}
+                onClose={handleModalClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                sx={{ zIndex: "999999" }}
+            >
+                {/* <Box className="loginModalBox">
+          <p>Please Login to Continue</p>
+          <Login />
+        </Box> */}
+                <div class="login-page">
+                    <div class="container ">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-lg-5 ">
+                                <div class="bg-white shadow roundedCustom">
+                                    <div class="">
+                                        <div class="col-md-12 ps-0  d-md-block">
+                                            <div class="form-right leftLogin h-100 text-white text-center ">
+                                                {/* <h2 class="fs-1" >Send OTP</h2> */}
+                                                <CloseIcon
+                                                    className="closeIncon"
+                                                    onClick={handleModalClose}
+                                                />
+                                                <div className="loginImg logg">
+                                                    <img src={loginnew} alt="loginnew" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 pe-0">
+                                            <div class="form-left h-100 d-flex justify-content-center flex-column py-4 px-3">
+                                                <div class="row g-4">
+                                                    <div
+                                                        class="col-12"
+                                                        style={{
+                                                            display: "flex",
+                                                            justifyContent: "center",
+                                                        }}
+                                                    >
+                                                        <label className="mb-3">
+                                                            Please Login to Continue
+                                                            <span class="text-danger">*</span>
+                                                        </label>
+                                                    </div>
+                                                    <div
+                                                        class="col-12"
+                                                        style={{
+                                                            display: "flex",
+                                                            justifyContent: "center",
+                                                        }}
+                                                    >
+                                                        <Login />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
         </div>
     )
 }
