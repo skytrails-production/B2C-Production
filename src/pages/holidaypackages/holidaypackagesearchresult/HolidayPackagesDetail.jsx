@@ -258,7 +258,10 @@ function HolidayPackagesDetail() {
       return updatedCategory;
     });
   };
-
+  const handelClearOne = (item) => {
+    let select = selectedCategory.filter((item1) => item1 !== item)
+    setSelectedCategory(select)
+  }
 
   useEffect(() => {
     if (filteredPackage === undefined) {
@@ -311,10 +314,49 @@ function HolidayPackagesDetail() {
       : b?.pakage_amount.amount - a?.pakage_amount.amount
   );
 
+  const [valueShow, setValueShow] = useState(false);
+  const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
+  const [xMaxLocation, setxMaxLocation] = useState(0);
+
+  const handleMouseMove = (e) => {
+    // setCursorPosition({...pre, x: e.clientX, y: e.clientY });
+    if (xMaxLocation === 0) {
+      setxMaxLocation(e.clientX);
+    }
+    if ((minPrice + 10) <= Number(priceRangeValue) && Number(priceRangeValue) < (maxPrice - 5050)) {
+      if (xMaxLocation < e.clientX) {
+
+        setCursorPosition((prevState) => ({ ...prevState, x: xMaxLocation }))
+      }
+      else {
+        setCursorPosition((prevState) => ({ ...prevState, x: e.clientX }))
+
+      }
+    }
+    if (xMaxLocation < e.clientX) {
+      setCursorPosition((prevState) => ({ ...prevState, x: xMaxLocation }))
+    }
+    console.log(minPrice, Number(priceRangeValue), maxPrice)
+    if (cursorPosition.y === 0) {
+      setCursorPosition((prevState) => ({ ...prevState, y: e.clientY }))
+    }
+    // console.log(e.clientX,e.clientY,)
+  };
+  useEffect(() => {
+    if (xMaxLocation < cursorPosition.x) {
+      setCursorPosition((prevState) => ({ ...prevState, x: xMaxLocation }))
+      // console.log(xMaxLocation)
+    }
+  }, [cursorPosition])
+
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    if (!valueShow) {
+
+      window.scrollTo(0, 0);
+    }
   }, [sortedAndFilteredResults])
+
 
 
   if (filteredPackage == null) {
@@ -420,7 +462,27 @@ function HolidayPackagesDetail() {
                     className="inputSearch"
                     value={searchInput}
                     onChange={handleSearchChange}
+                    onMouseOver={() => setValueShow(true)}
+                    // onMouseUp={()=>setValueShow(true)}
+
+                    onMouseLeave={() => {
+                      setValueShow(false);
+                      setCursorPosition({ x: 0, y: 0 });
+                    }}
+                    onMouseOut={() => {
+                      setValueShow(false);
+                      setCursorPosition({ x: 0, y: 0 });
+
+                    }}
+                    onMouseMove={(e) => handleMouseMove(e)}
                   />
+                  {
+                    valueShow && (
+
+                      <span className="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top" style={{ position: "fixed", left: cursorPosition.x - 20, top: cursorPosition.y - 60, }} > ₹{priceRangeValue}</span>
+                    )
+                  }
+
                 </div>
 
                 {/* <div>
@@ -456,7 +518,28 @@ function HolidayPackagesDetail() {
                       step="5000"
                       value={priceRangeValue}
                       onChange={handlePriceRangeChange}
+                      onMouseOver={() => setValueShow(true)}
+                      // onMouseUp={()=>setValueShow(true)}
+
+                      onMouseLeave={() => {
+                        setValueShow(false);
+                        setCursorPosition({ x: 0, y: 0 });
+                      }}
+                      onMouseOut={() => {
+                        setValueShow(false);
+                        setCursorPosition({ x: 0, y: 0 });
+
+                      }}
+                      onMouseMove={(e) => handleMouseMove(e)}
                     />
+                    {
+                      valueShow && (
+
+                        <span className="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top" style={{ position: "fixed", left: cursorPosition.x - 20, top: cursorPosition.y - 60, }} > ₹{priceRangeValue}</span>
+                      )
+                    }
+
+
                     <span>Max price ₹{""}{priceRangeValue}</span>
                   </div>
                   <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
@@ -555,6 +638,17 @@ function HolidayPackagesDetail() {
               <div className="filterTitle">
                 <p>Select Filters</p>
               </div>
+              <div className="ClearFilterOneyOneContainer">
+                {
+                  selectedCategory.map((item, index) => (
+                    <div onClick={() => handelClearOne(item)} className="ClearFilterOneyOneItemDev" >
+                      <div className="ClearFilterOneyOneItem">{item} </div>
+                      <div className="ClearFilterOneyOneItemX">X</div>
+
+                    </div>
+                  ))
+                }
+              </div>
               <div className="innerFilter">
 
                 <div>
@@ -605,7 +699,27 @@ function HolidayPackagesDetail() {
                       step="5000"
                       value={priceRangeValue}
                       onChange={handlePriceRangeChange}
+                      onMouseOver={() => setValueShow(true)}
+                      // onMouseUp={()=>setValueShow(true)}
+
+                      onMouseLeave={() => {
+                        setValueShow(false);
+                        setCursorPosition({ x: 0, y: 0 });
+                      }}
+                      onMouseOut={() => {
+                        setValueShow(false);
+                        setCursorPosition({ x: 0, y: 0 });
+
+                      }}
+                      onMouseMove={(e) => handleMouseMove(e)}
                     />
+                    {
+                      valueShow && (
+
+                        <span className="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top" style={{ position: "fixed", left: cursorPosition.x - 20, top: cursorPosition.y - 60, }} > ₹{priceRangeValue}</span>
+                      )
+                    }
+
                     <span>Max price ₹{""}{priceRangeValue}</span>
                   </div>
                   <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />

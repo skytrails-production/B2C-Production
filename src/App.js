@@ -67,6 +67,8 @@ import ReturnPassenger from './pages/flight/ReturnFlight/ReturnPassenger';
 
 import Whatsapp from './Whatsapp';
 import ReturnReviewBooking from './pages/flight/ReturnFlight/ReturnReviewBooking';
+// import BookedTicketWithReturn from './pages/flight/ReturnFlight/BookedTicketWithReturn';
+import BookedTicketWithReturn from "./pages/flight/ReturnFlight/BookTicketWithReturn"
 
 
 
@@ -76,6 +78,32 @@ function App() {
   // const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const disableInspect = (e) => {
+      if (
+        e.shiftKey && e.ctrlKey && e.keyCode === 123 || // F12
+        e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74) || // Ctrl + Shift + I/J
+        e.ctrlKey && e.keyCode === 85 // Ctrl + U
+      ) {
+        e.preventDefault();
+        return false;
+      }
+    };
+  
+    const disableRightClick = (e) => {
+      e.preventDefault();
+    };
+  
+    document.addEventListener('keydown', disableInspect);
+    document.addEventListener('contextmenu', disableRightClick);
+  
+    return () => {
+      document.removeEventListener('keydown', disableInspect);
+      document.removeEventListener('contextmenu', disableRightClick);
+    };
+  }, []);
+  
 
 
 
@@ -299,6 +327,7 @@ function App() {
         <Route path="aboutus" element={<AboutUs />}></Route>
         <Route path="contactus" element={<ContactUs />}></Route>
         <Route path="/bookedTicket" element={<BookedTicket />}></Route>
+        <Route path="/bookedTicketWithReturn" element={<BookedTicketWithReturn />}></Route>
         <Route path="/bookinghistory" element={<BookingHistory />}></Route>
         <Route path="/oneWayDummyPnr" element={<DummyTicketBookingForm />}></Route>
         <Route path="/oneWayDummyHome" element={<DummyPnrHome />}></Route>

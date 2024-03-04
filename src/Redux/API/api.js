@@ -147,7 +147,6 @@ function api() {
   };
 
 
-
   // return flight api
 
   const returnSearch = async (payload) => {
@@ -163,7 +162,6 @@ function api() {
       },
     });
   };
-
 
   const flightGetTicketLccReturn = (payload) => {
     return axios({

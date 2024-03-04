@@ -1,116 +1,116 @@
 .flightFilterBox {
-    background-color: white;
-    /* border: 1px solid lightgray; */
-    border-radius: 5px;
-    padding: 10px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  background-color: white;
+  /* border: 1px solid lightgray; */
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .flightFilterBox .filterTitle {
-    background-color: white;
-    border: 1px solid lightgray;
-    border-radius: 5px;
-    color: #071c2c;
-    text-align: center;
-    padding: 12px 0px;
-    font-family: "Montserrat";
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 600;
-    margin-bottom: 16px;
-    line-height: normal;
+  background-color: white;
+  border: 1px solid lightgray;
+  border-radius: 5px;
+  color: #071c2c;
+  text-align: center;
+  padding: 12px 0px;
+  font-family: "Montserrat";
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 600;
+  margin-bottom: 16px;
+  line-height: normal;
 }
 
 .imgBoxFilter {
-    width: 31px !important;
-    height: 31px !important;
+  width: 31px !important;
+  height: 31px !important;
 }
 
 .imgBoxFilter img {
-    width: 100% !important;
-    height: unset !important;
-    border-radius: 8px;
+  width: 100% !important;
+  height: unset !important;
+  border-radius: 8px;
 }
 
-.innerFilter>p {
-    color: #b03737;
-    font-family: "Montserrat";
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    margin: 8px 0px !important;
-    line-height: normal;
+.innerFilter > p {
+  color: #b03737;
+  font-family: "Montserrat";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  margin: 8px 0px !important;
+  line-height: normal;
 }
 
 .sidebar-title {
-    font-weight: normal;
-    margin-bottom: 20px;
-    color: #d90429;
-    font-family: "Montserrat";
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
+  font-weight: normal;
+  margin-bottom: 20px;
+  color: #d90429;
+  font-family: "Montserrat";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
 
 .sidebar-items {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 
 .sidebar-label-container {
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-bottom: 12px;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .sidebar-label-container input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
 }
 
 .checkmark {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 20px;
-    width: 20px;
-    background-color: #eee;
-    border-radius: 50%;
-    border: 2px solid rgb(165, 164, 164);
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #eee;
+  border-radius: 50%;
+  border: 2px solid rgb(165, 164, 164);
 }
 
-.checkmark .sidebar-label-container:hover input~.checkmark {
-    background-color: #ccc;
+.checkmark .sidebar-label-container:hover input ~ .checkmark {
+  background-color: #ccc;
 }
 
-.sidebar-label-container input:checked~.checkmark {
-    background-color: #d90429;
+.sidebar-label-container input:checked ~ .checkmark {
+  background-color: #d90429;
 }
 
 .checkmark:after {
-    content: "";
-    position: absolute;
-    display: none;
+  content: "";
+  position: absolute;
+  display: none;
 }
 
-.sidebar-label-container input:checked~.checkmark:after {
-    display: block;
+.sidebar-label-container input:checked ~ .checkmark:after {
+  display: block;
 }
 
 .sidebar-label-container .checkmark:after {
-    top: 4.4px;
-    left: 4.4px;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: white;
+  top: 4.4px;
+  left: 4.4px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: white;
 }
 
 /* .sidebar-label-container input:checked ~ .checkedSVG svg {
@@ -118,87 +118,124 @@
 } */
 
 .checkedSVG svg {
-    fill: gray;
-    transition: all 0.1s;
+  fill: gray;
+  transition: all 0.1s;
 }
 
 .busDepartureMain {
-    /* display: flex; */
-    padding: 14px 8px;
-    background: #eee;
-    border-radius: 8px;
-    margin-bottom: 10px;
+  /* display: flex; */
+  padding: 14px 8px;
+  background: #eee;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
-.busDepartureMain>div {
-    display: grid;
-    grid-template-columns: auto auto;
-    gap: 10px;
+.busDepartureMain > div {
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 10px;
 }
 
 .svgBOx {
-    display: flex;
-    justify-content: center;
-    border: 1px solid transparent;
-    background-color: white;
-    border-radius: 5px;
-    padding: 6px;
+  display: flex;
+  justify-content: center;
+  border: 1px solid transparent;
+  background-color: white;
+  border-radius: 5px;
+  padding: 6px;
 }
 
-.svgBOx>div {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    justify-content: center;
-    align-items: center;
+.svgBOx > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
 }
 
 .sidebar-label-container:has(input:checked) .svgBOx {
-    border: 1px solid #d90429 !important;
+  border: 1px solid #d90429 !important;
 }
 
-.sidebar-label-container:has(input:checked)>div .checkedSVG svg {
-    fill: #d90429;
+.sidebar-label-container:has(input:checked) > div .checkedSVG svg {
+  fill: #d90429;
 }
 
-.sidebar-label-container:has(input:checked)>div span {
-    color: #d90429;
+.sidebar-label-container:has(input:checked) > div span {
+  color: #d90429;
 }
-
-
 
 .svgBOx span {
-    font-size: 13px;
-    display: block;
-    max-width: 80px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-size: 13px;
+  display: block;
+  max-width: 80px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .svgBOx img {
-    width: 30px;
-    height: 30px;
-    border-radius: 8px;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
 }
 
 .checkedSVG {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-right: 0 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 0 !important;
 }
-
 
 .busDepartureMain .sidebar-label-container {
-    margin-bottom: 0 !important;
+  margin-bottom: 0 !important;
+}
+.ClearFilterOneyOneContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.ClearFilterOneyOneItemDev {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f7dcdc;
+
+  border-radius: 15px;
+  align-items: center;
+  padding: 4px 4px;
+  margin: 2px 4px;
+}
+.ClearFilterOneyOneItem {
+  font-size: 13px;
+  color: #6c757d;
+  text-transform: capitalize;
+}
+.ClearFilterOneyOneItemX {
+  font-size: 9px;
+  color: #d90429;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  font-size: 13px;
+  border-radius: 50%;
+  font-weight: bold;
+  /* color: #fff; */
+  cursor: pointer;
+  border: #d90429;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ClearFilterOneyOneItemX:hover {
+  background-color: #d90429;
+  color: #fff;
 }
 
-
-@media(max-width:1200px) {
-    .busDepartureMain>div {
-        display: grid;
-        grid-template-columns: auto auto;
-        gap: 3px;
-    }
+@media (max-width: 1200px) {
+  .busDepartureMain > div {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 3px;
+  }
 }

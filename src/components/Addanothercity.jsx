@@ -91,7 +91,7 @@ const Dynamicform = () => {
 
                             </div>
 
-                          </div>
+                          </div> 
                         </div>
 
                       </div>

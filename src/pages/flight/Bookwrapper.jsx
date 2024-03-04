@@ -7,7 +7,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-// import DatePicker from "react-datepicker";
 import Login from "../../components/Login";
 import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 import { motion } from "framer-motion";
@@ -17,7 +16,6 @@ import {
   bookTicketGDS,
 } from "../../Redux/FlightBook/actionFlightBook";
 import { FiArrowRight } from "react-icons/fi";
-// import TripSecureComponent from "./TripSecureComponent";
 import {
   quoteAction,
   resetFareData,
@@ -28,23 +26,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PassengersAction } from "../../Redux/Passengers/passenger";
 import BookNowLeft from "./BookNowLeft";
-// razorpay intergration
-// import useRazorpay from "react-razorpay";
 import PaymentLoader from "./FlightLoader/paymentLoader";
 import Flighterror from "./Flighterror";
-// import Swal from "sweetalert2";
 import axios from "axios";
 import dayjs from "dayjs";
-// import Login from "./Login"
 import Modal from "@mui/material/Modal";
 import Accordion from "react-bootstrap/Accordion";
 import loginnew from "../../images/login-01.jpg"
 
-// import CloseIcon from '@mui/icons-material/Close';
-// import { validateEmail, validateName, validatePhoneNumber, isValidPassportNumber } from "../../utility/validationFunctions";
+
 import { swalModal } from "../../utility/swal"
-// import loginGif from "../images/loginGif.gif"
-// import loginGif from "../../images/loginGif.gif";
+
 import CloseIcon from "@mui/icons-material/Close";
 import {
   validateEmail,
@@ -81,7 +73,6 @@ export default function BookWrapper() {
     }
   };
 
-  // //////////////////////coupon api//////////////
   const couponconfirmation = async () => {
     try {
       const token = sessionStorage.getItem("jwtToken");
@@ -97,18 +88,14 @@ export default function BookWrapper() {
           },
         }
       );
-      // sessionStorage.removeItem("flightcoupon");
-      // sessionStorage.removeItem("couponCode");
     } catch (error) {
-      // console.log(error);
+
     }
   };
 
   const handleTravelClose = (event, reason) => {
     if (reason !== "backdropClick") {
       setOpenTravelModal(false);
-      // setToggle(false);
-      // sessionStorage.removeItem("couponCode");
     }
   };
 
@@ -137,16 +124,13 @@ export default function BookWrapper() {
   const [sub, setSub] = useState(false);
   const toggleState = (e) => {
     setToggle(e);
-    // console.warn("toggling state", e);
-    // console.log("Ammount ////", transactionAmount);
+
   };
   const setTransactionAmountState = (e) => {
     setTransactionAmount(e);
-    // console.log("setTransactionAmountState");
+
   };
-  const handleClickButton = () => {
-    // console.log("Button clicked!");
-  };
+
 
   const TicketDetails = reducerState?.flightFare?.flightQuoteData?.Results;
   const cancellationPolicy =
@@ -159,12 +143,10 @@ export default function BookWrapper() {
   const ResultIndex = sessionStorage.getItem("ResultIndex");
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
-  // const [paymentResponse, setPaymentResponse] = useState("");
   const isPassportRequired =
     reducerState?.flightFare?.flightQuoteData?.Results
       ?.IsPassportRequiredAtTicket;
-  // const results =
-  //   reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Results;
+
 
   const fareRule = reducerState?.flightFare?.flightRuleData?.FareRules
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
@@ -175,11 +157,7 @@ export default function BookWrapper() {
     TraceId: reducerState?.oneWay?.oneWayData?.data?.data?.Response?.TraceId,
     ResultIndex: ResultIndex,
   };
-  // const [accordionExpanded, setAccordionExpanded] = React.useState(false);
 
-  // const handleAccordionChange = (index) => (event, isExpanded) => {
-  //   setAccordionExpanded(isExpanded ? index : false);
-  // };
   useEffect(() => {
     dispatch(ruleAction(payload));
     dispatch(quoteAction(payload));
@@ -189,16 +167,7 @@ export default function BookWrapper() {
     dispatch(resetFareData());
   }, [dispatch]);
 
-  // const [expanded, setExpanded] = React.useState("panel1");
 
-  // const handleChange = (panel) => (event, newExpanded) => {
-  //   setExpanded(newExpanded ? panel : false);
-  // };
-
-  // const [value, setValue] = React.useState("1");
-  // console.log("reducerState", reducerState);
-
-  // Add form of passenger
   const passengerTemplate = {
     Title: "Mr",
     FirstName: "",
@@ -286,6 +255,7 @@ export default function BookWrapper() {
     }
   }, [fareValue]);
 
+
   useEffect(() => {
     if (loaderPayment == true) {
       handleButtonClick();
@@ -296,69 +266,25 @@ export default function BookWrapper() {
     if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {
       setLoaderPayment(false);
       navigate("/bookedTicket");
-      // sessionStorage.removeItem("flightcoupon");
-      // sessionStorage.removeItem("couponCode");
     } else if (
       reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
       reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== undefined
     ) {
       swalModal("flight", reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage, false)
-      // Swal.fire({
-      //   icon: "error",
-      //   title: "Oops",
-      //   text: reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
-
-      //   showClass: {
-      //     popup: `
-      //       animate__animated
-      //       animate__fadeInUp
-      //       animate__faster
-      //     `,
-      //   },
-      //   hideClass: {
-      //     popup: `
-      //       animate__animated
-      //       animate__fadeOutDown
-      //       animate__faster
-      //     `,
-      //   },
-      // });
       navigate("/");
-      // sessionStorage.removeItem("flightcoupon");
-      // sessionStorage.removeItem("couponCode");
     }
   }, [reducerState?.flightBook?.flightBookData?.Response]);
+
   useEffect(() => {
     if (
       reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode !== 0 &&
       reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode !== undefined
     ) {
       swalModal("flight", reducerState?.flightFare?.flightQuoteData?.Error?.ErrorMessage, false)
-      // Swal.fire({
-      //   icon: "error",
-      //   title: "Oops",
-      //   text: reducerState?.flightFare?.flightQuoteData?.Error?.ErrorMessage,
-
-      //   showClass: {
-      //     popup: `
-      //       animate__animated
-      //       animate__fadeInUp
-      //       animate__faster
-      //     `,
-      //   },
-      //   hideClass: {
-      //     popup: `
-      //       animate__animated
-      //       animate__fadeOutDown
-      //       animate__faster
-      //     `,
-      //   },
-      // });
       navigate("/");
-      // sessionStorage.removeItem("flightcoupon");
-      // sessionStorage.removeItem("couponCode");
     }
   }, [reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode]);
+
 
   useEffect(() => {
     if (
@@ -373,40 +299,18 @@ export default function BookWrapper() {
     ) {
       setLoaderPayment(false);
       navigate("/bookedTicket");
-      // sessionStorage.removeItem("flightcoupon");
-      // sessionStorage.removeItem("couponCode");
     } else if (
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !==
       undefined
     ) {
       swalModal("flight", reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage, false)
-      // Swal.fire({
-      //   icon: "error",
-      //   title: "Oops",
-      //   text: reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage,
-      //   // timer: 3000,
-
-      //   showClass: {
-      //     popup: `
-      //       animate__animated
-      //       animate__fadeInUp
-      //       animate__faster
-      //     `,
-      //   },
-      //   hideClass: {
-      //     popup: `
-      //       animate__animated
-      //       animate__fadeOutDown
-      //       animate__faster
-      //     `,
-      //   },
-      // });
       navigate("/");
-      // sessionStorage.removeItem("flightcoupon");
-      // sessionStorage.removeItem("couponCode");
     }
   }, [reducerState?.flightBook?.flightBookDataGDS?.Response]);
+
+
+
   useEffect(() => {
     if (
       reducerState?.flightBook?.flightTicketDataGDS?.data?.data?.Response?.Error
@@ -471,9 +375,6 @@ export default function BookWrapper() {
     // console.warn(passengerData, "passenger data");
   };
 
-  // console.log(passengerData, "passenger Data");
-
-  // duration
   const totalMinutes = TicketDetails?.Segments[0][0]?.Duration;
   const durationHours = Math.floor(totalMinutes / 60);
   const durationMinutes = totalMinutes % 60;
@@ -654,6 +555,8 @@ export default function BookWrapper() {
     }
   };
 
+
+
   useEffect(() => {
     // console.warn(reducerState, "reducer state");
     if (
@@ -679,6 +582,7 @@ export default function BookWrapper() {
       });
     }
   });
+
   function convertDateFormat(inputDate) {
     // Split the input date string into year, month, and day
     const [year, month, day] = inputDate.split("-");
@@ -767,35 +671,7 @@ export default function BookWrapper() {
     }
   }, [authenticUser])
 
-  // check login and authentication when booking
-  // function validatePhoneNumber(phoneNumber) {
-  //   // Define the regular expression pattern for a valid phone number
-  //   var phonePattern = /^\d{10}$/;
 
-  //   // Test the phone number against the pattern
-  //   return phonePattern.test(phoneNumber);
-  // }
-  // function validateEmail(email) {
-  //   // Define the regular expression pattern for a valid phone number
-  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  //   // Test the phone number against the pattern
-  //   return emailRegex.test(email);
-  // }
-  // function validateName(name) {
-  //   // Check if the name is not empty
-  //   if (!name) {
-  //     return false;
-  //   }
-
-  //   // Check if the name contains only letters
-  //   if (!/^[A-Za-z]+$/.test(name)) {
-  //     return false;
-  //   }
-
-  //   // If all checks pass, the name is considered valid
-  //   return true;
-  // }
   const validation = async () => {
     const result = await passengerData.filter(
       (item) =>
@@ -813,9 +689,13 @@ export default function BookWrapper() {
       return setValidation(true);
     } else setValidation(false);
   };
+
+
   useEffect(() => {
     validation();
   }, [passengerData]);
+
+
   const formatDate = (date) => {
     const year = date.getFullYear();
     const month = ("0" + (date.getMonth() + 1)).slice(-2);

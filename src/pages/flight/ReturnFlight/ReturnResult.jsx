@@ -100,8 +100,8 @@ const ReturnResult = () => {
 
     const handleFareRuleAndQuote = async () => {
 
-        sessionStorage.setItem("goingResultIndex", JSON.stringify(ongoFlight?.ResultIndex))
-        sessionStorage.setItem("ReturnResultIndex", JSON.stringify(incomeGlight?.ResultIndex))
+        sessionStorage.setItem("goingResultIndex", ongoFlight?.ResultIndex)
+        sessionStorage.setItem("ReturnResultIndex", incomeGlight?.ResultIndex)
         // setLoading(true);
         const payload = {
             EndUserIp: reducerState?.ip?.ipData,

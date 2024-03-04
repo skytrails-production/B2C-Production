@@ -61,7 +61,7 @@ const ReturnSummaryWithCoupon = (props) => {
                 setCouponStatus(true);
                 sessionStorage.setItem("couponCode", couponCode);
                 await props.transactionAmount(
-                    fareValue?.Fare?.PublishedFare + markUpamount - coupondiscount
+                    Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare) + Number(markUpamount) - Number(coupondiscount)
                 );
             }
         } catch (error) {
@@ -121,7 +121,7 @@ const ReturnSummaryWithCoupon = (props) => {
     const fareValueReturn = reducerState?.flightFare?.flightQuoteDataReturn?.Results;
     const fareQuote = reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode;
     const discountValue =
-        fareValue?.Fare?.PublishedFare - fareValue?.Fare?.OfferedFare;
+        Number(fareValue?.Fare?.PublishedFare - fareValue?.Fare?.OfferedFare) + Number(fareValueReturn?.Fare?.PublishedFare - fareValueReturn?.Fare?.OfferedFare);
 
     const markUpamount =
         reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
@@ -129,7 +129,6 @@ const ReturnSummaryWithCoupon = (props) => {
     const integerValue = parseInt(discountValue);
     const coupondiscount = integerValue + markUpamount;
 
-    console.log(reducerState, "reducer state")
 
     let total = 0;
 
@@ -422,10 +421,11 @@ const ReturnSummaryWithCoupon = (props) => {
                                                                     {"₹"}
                                                                     {parseFloat(
                                                                         (
-                                                                            fareValue?.Fare
-                                                                                ?.PublishedFare +
-                                                                            markUpamount -
-                                                                            coupondiscount
+                                                                            Number(fareValue?.Fare
+                                                                                ?.PublishedFare) + Number(fareValueReturn?.Fare
+                                                                                    ?.PublishedFare) +
+                                                                            Number(markUpamount) -
+                                                                            Number(coupondiscount)
                                                                         ).toFixed(2)
                                                                     )}
                                                                 </p>

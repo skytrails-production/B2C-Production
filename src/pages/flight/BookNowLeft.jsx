@@ -78,10 +78,15 @@ const BookNowLeft = (props) => {
         setError("Coupon already applied");
         setTimeout(() => {
           setError(null);
-        }, 4000); // Adjust the timeout duration as needed (4 seconds in this case)
-      } else {
+        }, 4000); 
+      } else if(error.response && error.response.data.statusCode === 404){
         setError(
-          error.response?.data?.responseMessage ||
+          error.response?.data?.responseMessage || "Error Applying coupon . Please try again."
+        )
+      }
+      else {
+        setError(
+          error.response?.data?.message ||
           "Error applying coupon. Please try again."
         );
         setCouponStatus(false);
