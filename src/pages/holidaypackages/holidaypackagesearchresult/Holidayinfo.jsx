@@ -60,6 +60,7 @@ import { useParams } from "react-router";
 import SharePackages from "./SharePackages";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
+import SecureStorage from "react-secure-storage";
 
 
 const variants = {
@@ -260,7 +261,7 @@ function Holidayinfo() {
   //   setOpenModal((prev) => !prev);
   // };
 
-  const token = sessionStorage.getItem("jwtToken");
+  const token = SecureStorage.getItem("jwtToken");
 
   const handleSubmit = async (e) => {
     // e.preventDefault();

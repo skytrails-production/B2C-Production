@@ -1,8 +1,7 @@
 import { Box, Grid, Typography } from "@mui/material";
 
 import React, { useState, useRef, useEffect } from "react";
-
-
+import SecureStorage from "react-secure-storage";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import axios from "axios";
@@ -11,7 +10,6 @@ import { apiURL } from "../../Constants/constant";
 import "./booknowleft.css";
 
 const KeyValue = ({ data, value }) => {
-
   return (
     <>
       <Grid item xs={12} md={6}>
@@ -43,14 +41,13 @@ const BookNowLeft = (props) => {
   const [couponCode, setCouponCode] = useState("");
   const [showApplyButton, setShowApplyButton] = useState(false);
 
-
   const couponamount1 = sessionStorage.getItem("couponCode");
   const [couponStatus, setCouponStatus] = useState(false);
   const handleApplyCoupon1 = async () => {
     try {
       setLoading(true);
 
-      const token = sessionStorage.getItem("jwtToken");
+      const token = SecureStorage.getItem("jwtToken");
       const couponCode = inputRef.current.value;
 
       const response = await axios.put(
@@ -67,7 +64,9 @@ const BookNowLeft = (props) => {
         setCouponStatus(true);
         sessionStorage.setItem("couponCode", couponCode);
         await props.transactionAmount(
-          fareValue?.Fare?.PublishedFare + markUpamount - coupondiscount
+          parseInt(fareValue?.Fare?.PublishedFare) +
+            markUpamount * parseInt(fareValue?.Fare?.PublishedFare) -
+            coupondiscount
         );
       }
     } catch (error) {
@@ -78,26 +77,24 @@ const BookNowLeft = (props) => {
         setError("Coupon already applied");
         setTimeout(() => {
           setError(null);
-        }, 4000); 
-      } else if(error.response && error.response.data.statusCode === 404){
+        }, 4000);
+      } else if (error.response && error.response.data.statusCode === 404) {
         setError(
-          error.response?.data?.responseMessage || "Error Applying coupon . Please try again."
-        )
-      }
-      else {
+          error.response?.data?.responseMessage ||
+            "Error Applying coupon . Please try again."
+        );
+      } else {
         setError(
           error.response?.data?.message ||
-          "Error applying coupon. Please try again."
+            "Error applying coupon. Please try again."
         );
         setCouponStatus(false);
       }
     } finally {
       setLoading(false);
       props.toggleState(true);
-
     }
   };
-
 
   useEffect(() => {
     if (!props.toggle) {
@@ -106,7 +103,6 @@ const BookNowLeft = (props) => {
       // console.log(props.Amount, "Amount///////////////");
     }
   }, [props.toggle]);
-
 
   const handleInputChange = (event) => {
     const inputValue = event.target.value;
@@ -131,15 +127,20 @@ const BookNowLeft = (props) => {
   const fareValue = reducerState?.flightFare?.flightQuoteData?.Results;
   const fareQuote = reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode;
   const discountValue =
-    fareValue?.Fare?.PublishedFare - fareValue?.Fare?.OfferedFare;
+    parseInt(fareValue?.Fare?.PublishedFare) -
+    parseInt(fareValue?.Fare?.OfferedFare);
 
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
   // console.log("fareValue", discountValue);
 
-  const integerValue = parseInt(discountValue);
-  const coupondiscount = integerValue + markUpamount;
+  const integerValue = discountValue;
+  const coupondiscount = integerValue;
 
+  const taxvalue = markUpamount * parseInt(fareValue?.Fare?.PublishedFare);
+  const taxvaluetotal =
+    parseInt(fareValue?.Fare?.PublishedFare) +
+    markUpamount * parseInt(fareValue?.Fare?.PublishedFare);
   let total = 0;
 
   const dateString = fareValue?.Segments[0][0]?.Origin?.DepTime;
@@ -206,8 +207,6 @@ const BookNowLeft = (props) => {
                         </p>
                       </div>
                     </div>
-
-
                   </>
                 );
               });
@@ -254,14 +253,14 @@ const BookNowLeft = (props) => {
                 <span>Total TAX: </span>
                 <p>
                   {"₹"}
-                  {markUpamount}
+                  {parseInt(taxvalue)}
                 </p>
               </div>
               <div>
                 <span>Grand Total:</span>
                 <p>
                   {"₹"}
-                  {fareValue?.Fare?.PublishedFare + markUpamount}
+                  {parseInt(taxvaluetotal)}
                 </p>
               </div>
             </div>
@@ -294,9 +293,7 @@ const BookNowLeft = (props) => {
                         value={couponCode}
                         onChange={handleInputChange}
                       />
-                      {loading && (
-                        <div className="loader-inside-input"></div>
-                      )}
+                      {loading && <div className="loader-inside-input"></div>}
                       {showApplyButton && (
                         <p
                           onClick={handleApplyCoupon1}
@@ -338,8 +335,9 @@ const BookNowLeft = (props) => {
                                 <span>Total:</span>
                                 <p>
                                   {"₹"}
-                                  {fareValue?.Fare?.PublishedFare +
-                                    markUpamount}
+                                  {parseInt(fareValue?.Fare?.PublishedFare) +
+                                    markUpamount *
+                                      parseInt(fareValue?.Fare?.PublishedFare)}
                                 </p>
                               </div>
                             </div>
@@ -350,14 +348,10 @@ const BookNowLeft = (props) => {
 
                                 <p>
                                   {"₹"}
-                                  {parseFloat(
-                                    (
-                                      fareValue?.Fare
-                                        ?.PublishedFare +
-                                      markUpamount -
-                                      coupondiscount
-                                    ).toFixed(2)
-                                  )}
+                                  {parseInt(fareValue?.Fare?.PublishedFare) +
+                                    markUpamount *
+                                      parseInt(fareValue?.Fare?.PublishedFare) -
+                                    coupondiscount}
                                 </p>
                               </div>
                             </div>
@@ -368,14 +362,12 @@ const BookNowLeft = (props) => {
                           </div>
                         )}
                       </div>
-
                     )}
                   </motion.div>
                 )}
               </div>
             ) : null}
           </div>
-
         </>
       ) : (
         <>

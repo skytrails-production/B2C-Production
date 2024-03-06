@@ -106,3 +106,41 @@
 .returnFixedBottomDesign {
     padding: 8px 10px !important;
 }
+
+
+.singleFlightBoxReturn img {
+    width: 32px;
+}
+
+.singleFlightBoxReturn span {
+    font-size: 13px;
+    max-width: 95px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.singleFlightBoxOneReturn p {
+    font-size: 12px;
+}
+
+.singleFlightBoxTwoReturn p {
+    font-size: 15px;
+}
+
+.singleFlightBoxTwoReturn h5 {
+    font-size: 13px;
+}
+
+.singleFlightBoxFourReturn p {
+    font-size: 15px;
+}
+
+.singleFlightBoxFourReturn h5 {
+    font-size: 13px;
+}
+
+
+.singleFlightBoxSevenReturn p {
+    font-size: 16px;
+}

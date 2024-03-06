@@ -198,7 +198,7 @@ function BusResult() {
     if (xMaxLocation < e.clientX) {
       setCursorPosition((prevState) => ({ ...prevState, x: xMaxLocation }))
     }
-    console.log(minPrice, Number(priceRangeValue), maxPrice)
+    // console.log(minPrice, Number(priceRangeValue), maxPrice)
     if (cursorPosition.y === 0) {
       setCursorPosition((prevState) => ({ ...prevState, y: e.clientY }))
     }
@@ -207,12 +207,12 @@ function BusResult() {
   useEffect(() => {
     if (xMaxLocation < cursorPosition.x) {
       setCursorPosition((prevState) => ({ ...prevState, x: xMaxLocation }))
-      console.log(xMaxLocation)
+      // console.log(xMaxLocation)
     }
   }, [cursorPosition])
-  useEffect(()=>{
-    console.log("cursorPosition",cursorPosition.x)
-      },[cursorPosition])
+  useEffect(() => {
+    console.log("cursorPosition", cursorPosition.x)
+  }, [cursorPosition])
 
 
 
@@ -496,8 +496,8 @@ function BusResult() {
   // useEffect(() => {
   //   window.scrollTo(0, 0);
   // }, [sortedAndFilteredResults])
- 
- 
+
+
 
 
   return (
@@ -518,16 +518,16 @@ function BusResult() {
                   <p>Select Filters</p>
                 </div>
                 <div className="ClearFilterOneyOneContainer">
-                {
-                  selectedCategory.map((item, index) => (
-                    <div onClick={() => handelClearOne(item)} className="ClearFilterOneyOneItemDev" >
-                      <div className="ClearFilterOneyOneItem">{item} </div>
-                      <div className="ClearFilterOneyOneItemX">X</div>
+                  {
+                    selectedCategory.map((item, index) => (
+                      <div onClick={() => handelClearOne(item)} className="ClearFilterOneyOneItemDev" >
+                        <div className="ClearFilterOneyOneItem">{item} </div>
+                        <div className="ClearFilterOneyOneItemX">X</div>
 
-                    </div>
-                  ))
-                }
-              </div>
+                      </div>
+                    ))
+                  }
+                </div>
                 <div className="innerFilter">
                   <div className="busDepartureMain">
                     <h2 className="sidebar-title">Sort By</h2>
@@ -552,7 +552,7 @@ function BusResult() {
                         onChange={handlePriceRangeChange}
                         onMouseOver={() => setValueShow(true)}
                         // onMouseUp={()=>setValueShow(true)}
-    
+
                         onMouseLeave={() => {
                           setValueShow(false);
                           setCursorPosition({ x: 0, y: 0 });
@@ -560,17 +560,17 @@ function BusResult() {
                         onMouseOut={() => {
                           setValueShow(false);
                           setCursorPosition({ x: 0, y: 0 });
-    
+
                         }}
                         onMouseMove={(e) => handleMouseMove(e)}
                       />
                       {
                         valueShow && (
-    
+
                           <span className="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Tooltip on top" style={{ position: "fixed", left: cursorPosition.x - 20, top: cursorPosition.y - 60, }} > ₹{priceRangeValue}</span>
                         )
                       }
-                      
+
                       <span>Max price ₹{""}{priceRangeValue}</span>
                     </div>
                     <Divider sx={{ marginBottom: "15px", backgroundColor: "gray" }} />
@@ -940,6 +940,7 @@ function BusResult() {
                         variants={variants2}
                         initial="initial"
                         whileInView="animate"
+                        viewport={{ once: true, amount: 0.8 }}
                         className="col-lg-12"
                         key={busDetails?.ResultIndex}
                       >

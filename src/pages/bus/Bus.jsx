@@ -53,13 +53,14 @@ const Taxi = () => {
         <Bussearch />
       </div>
 
-      <motion.div variants={variants} initial="initial" whileInView="animate">
+      <motion.div variants={variants} initial="initial" viewport={{ once: true, amount: 0.8 }} whileInView="animate">
         <FLightOffer variants={variants} />
       </motion.div>
       <motion.div
         variants={variants}
         initial="initial"
         whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
         style={{ position: "relative", top: "-30px" }}
       >
         <Advertise variants={variants} />

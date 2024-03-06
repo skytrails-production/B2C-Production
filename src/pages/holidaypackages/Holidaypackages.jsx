@@ -199,20 +199,21 @@ const Hotelpackages = () => {
         variants={variants}
         initial="initial"
         whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
         style={{ position: "relative", top: "30px" }}
       >
         <Advertise variants={variants} />
       </motion.div>
-      <motion.div variants={variants} initial="initial" whileInView="animate">
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <HolidayCategory variants={variants} />
       </motion.div>
-      <motion.div variants={variants} initial="initial" whileInView="animate">
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <HolidaySuggestion variants={variants} />
       </motion.div>
 
 
 
-      <motion.div variants={variants} initial="initial" whileInView="animate">
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <HolidayDomestic variants={variants} />
       </motion.div>
 

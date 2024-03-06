@@ -19,7 +19,7 @@ import {
 // import HotelLoading from "../hotelLoading/HotelLoading";
 import Hotelmainloading from "../hotelLoading/Hotelmainloading";
 import Swal from "sweetalert2"
-import {swalModal} from "../../../utility/swal";
+import { swalModal } from "../../../utility/swal";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -57,7 +57,7 @@ const HotelBooknow = () => {
   }, [])
   useEffect(() => {
     if (ResultIndex === null || HotelCode === null) {
-      swalModal('hotel',"room not found",false);
+      swalModal('hotel', "room not found", false);
       // Swal.fire({
       //   icon: "error",
       //   title: "Oops",
@@ -99,7 +99,7 @@ const HotelBooknow = () => {
   }, []);
   useEffect(() => {
     if (reducerState?.hotelSearchResult?.hotelInfo?.HotelInfoResult?.Error?.ErrorCode !== 0 && reducerState?.hotelSearchResult?.hotelInfo?.HotelInfoResult?.Error?.ErrorCode !== undefined) {
-      swalModal('hotel',reducerState?.hotelSearchResult?.hotelInfo?.HotelInfoResult?.Error?.ErrorMessage,false);
+      swalModal('hotel', reducerState?.hotelSearchResult?.hotelInfo?.HotelInfoResult?.Error?.ErrorMessage, false);
       // Swal.fire({
       //   icon: "error",
       //   title: "Oops",
@@ -124,7 +124,7 @@ const HotelBooknow = () => {
 
     }
     else if (reducerState?.hotelSearchResult?.hotelRoom?.GetHotelRoomResult?.Error?.ErrorCode !== 0 && reducerState?.hotelSearchResult?.hotelRoom?.GetHotelRoomResult?.Error?.ErrorCode !== undefined) {
-      swalModal('hotel',reducerState?.hotelSearchResult?.hotelRoom?.GetHotelRoomResult?.Error?.ErrorMessage,false)
+      swalModal('hotel', reducerState?.hotelSearchResult?.hotelRoom?.GetHotelRoomResult?.Error?.ErrorMessage, false)
       // Swal.fire({
       //   icon: "error",
       //   title: "Oops",
@@ -178,7 +178,7 @@ const HotelBooknow = () => {
     else if (reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult?.Error
       ?.ErrorCode !== 0 && reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult?.Error
         ?.ErrorCode !== undefined) {
-          swalModal('hotel',reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult?.Error?.ErrorMessage,false)
+      swalModal('hotel', reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult?.Error?.ErrorMessage, false)
       // Swal.fire({
       //   icon: "error",
       //   title: "Oops",
@@ -270,7 +270,7 @@ const HotelBooknow = () => {
           <div className="row">
 
             <motion.div className="col-lg-12" variants={variants} initial="initial"
-              whileInView="animate">
+              whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
               <div className="row">
                 <motion.div variants={variants} className="col-lg-12 mb-3">
                   <div className="hotelTitleBoxAccord">

@@ -127,7 +127,7 @@ const Homeform = (props) => {
 
 
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
-  const [activeIdClass, setActiveIdClass] = useState(1);
+  const [activeIdClass, setActiveIdClass] = useState(2);
   const [activeIdChild, setActiveIdChild] = useState(0);
   const [activeIdInfant, setActiveIdInfant] = useState(0);
   const [activeIdAdult, setActiveIdAdult] = useState(1);
@@ -137,13 +137,26 @@ const Homeform = (props) => {
 
   const handleTravelerCountChange = (category, value) => {
     if (category === "adult") {
-      setActiveIdAdult((prevCount) => Math.max(0, prevCount + value));
+      const newAdultCount = Math.min(Math.max(1, activeIdAdult + value), 9);
+      const maxAllowedChild = Math.max(0, 9 - newAdultCount);
+      const newChildCount = Math.min(activeIdChild, maxAllowedChild);
+
+      setActiveIdAdult(newAdultCount);
+      setActiveIdChild(newChildCount);
+
+      const newInfantCount = Math.min(activeIdInfant, newAdultCount);
+      setActiveIdInfant(newInfantCount);
     } else if (category === "child") {
-      setActiveIdChild((prevCount) => Math.max(0, prevCount + value));
+      const newChildCount = Math.min(Math.max(0, activeIdChild + value), 9 - activeIdAdult);
+      setActiveIdChild(newChildCount);
     } else if (category === "infant") {
-      setActiveIdInfant((prevCount) => Math.max(0, prevCount + value));
+      const newInfantCount = Math.min(Math.max(0, activeIdInfant + value), activeIdAdult);
+      setActiveIdInfant(newInfantCount);
     }
   };
+
+
+
 
 
   // handle travellers modal
@@ -153,17 +166,19 @@ const Homeform = (props) => {
   }, []);
 
   const ClassItems = [
-    { id: "1", label: "All" },
-    { id: "2", label: "Economy" },
-    { id: "3", label: "Premium Economy" },
-    { id: "4", label: "Business" },
-    { id: "5", label: "Business Economy" },
+    { id: 1, label: "All" },
+    { id: 2, label: "Economy" },
+    { id: 3, label: "Premium Economy" },
+    { id: 4, label: "Business" },
+    { id: 5, label: "Premium Business" },
+    { id: 6, label: "First" },
   ];
 
 
 
+
   const handleTravelClickOpen = () => {
-    setActiveIdClass(1);
+    setActiveIdClass(activeIdClass);
     setActiveIdChild(0);
     setActiveIdInfant(0);
     setActiveIdAdult(1);
@@ -321,7 +336,7 @@ const Homeform = (props) => {
     dispatch(resetOneWay());
   }, [dispatch, departureDate]);
 
-
+  // console.log(reducerState, "active id class")
 
   function handleOnewaySubmit(event) {
     event.preventDefault();
@@ -738,9 +753,9 @@ const Homeform = (props) => {
                           {(activeIdClass === 1 && "All") ||
                             (activeIdClass === 2 && "Economy") ||
                             (activeIdClass === 3 && "Premium Economy") ||
-                            (activeIdClass === 4 && "Business")(
-                              activeIdClass === 5 && "Business Economy"
-                            )(activeIdClass === 6 && "First Class")}
+                            (activeIdClass === 4 && "Business") ||
+                            (activeIdClass === 5 && "Premium Business"
+                            ) || (activeIdClass === 6 && "First Class")}
                         </span>
                       </div>
                     </div>
@@ -793,24 +808,17 @@ const Homeform = (props) => {
                             </div>
                             <div>
                               <ul className="classButtonTravel">
-                                {ClassItems?.map((ele) => (
-                                  <>
-                                    <li
-                                      style={{
-                                        backgroundColor:
-                                          ele.id === activeIdClass
-                                            ? "#d90429"
-                                            : "#fff",
-                                        color:
-                                          ele.id === activeIdClass
-                                            ? "#fff"
-                                            : "#d90429",
-                                      }}
-                                      data-id={ele.id}
-                                    >
-                                      {ele?.label}
-                                    </li>
-                                  </>
+                                {ClassItems.map((ele) => (
+                                  <li
+                                    key={ele.id}
+                                    style={{
+                                      backgroundColor: ele.id === activeIdClass ? "#d90429" : "#fff",
+                                      color: ele.id === activeIdClass ? "#fff" : "#d90429",
+                                    }}
+                                    onClick={() => setActiveIdClass(ele.id)}
+                                  >
+                                    {ele.label}
+                                  </li>
                                 ))}
                               </ul>
                             </div>

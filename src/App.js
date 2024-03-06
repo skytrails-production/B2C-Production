@@ -69,6 +69,8 @@ import Whatsapp from './Whatsapp';
 import ReturnReviewBooking from './pages/flight/ReturnFlight/ReturnReviewBooking';
 // import BookedTicketWithReturn from './pages/flight/ReturnFlight/BookedTicketWithReturn';
 import BookedTicketWithReturn from "./pages/flight/ReturnFlight/BookTicketWithReturn"
+import { useNetworkState } from "react-use"
+import Offline from "./components/Offline"
 
 
 
@@ -79,6 +81,8 @@ function App() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const notOnline = useNetworkState();
+  // console.log(state, "network state..............")
   useEffect(() => {
     const disableInspect = (e) => {
       if (
@@ -90,20 +94,20 @@ function App() {
         return false;
       }
     };
-  
+
     const disableRightClick = (e) => {
       e.preventDefault();
     };
-  
+
     document.addEventListener('keydown', disableInspect);
     document.addEventListener('contextmenu', disableRightClick);
-  
+
     return () => {
       document.removeEventListener('keydown', disableInspect);
       document.removeEventListener('contextmenu', disableRightClick);
     };
   }, []);
-  
+
 
 
 
@@ -192,7 +196,11 @@ function App() {
     navigate("/pefaevent")
     setShowPopup(false);
   }
-
+  if (!notOnline.online) {
+    return (<div>
+      <Offline />
+    </div>)
+  }
 
 
   return (

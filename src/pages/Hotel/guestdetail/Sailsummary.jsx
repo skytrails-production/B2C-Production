@@ -2,7 +2,7 @@ import * as React from "react";
 
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-
+import SecureStorage from "react-secure-storage";
 // import { styled } from "@mui/material/styles";
 // import Paper from "@mui/material/Paper";
 import { apiURL } from "../../../Constants/constant";
@@ -63,7 +63,7 @@ export default function Popularfilter({
     setCouponCode(inputValue);
     setShowApplyButton(!!inputValue);
     setError(null);
-    setCouponAmountFun(null)
+    setCouponAmountFun(null);
     toggleState(true);
     setCouponStatus(false);
     sessionStorage.removeItem("couponCode");
@@ -77,7 +77,7 @@ export default function Popularfilter({
     if (!inputValue) {
       setCouponStatus(false);
       // sessionStorage.removeItem("hotelAmount");
-      setCouponAmountFun(false)
+      setCouponAmountFun(false);
       sessionStorage.removeItem("couponCode");
     }
   };
@@ -106,11 +106,11 @@ export default function Popularfilter({
     try {
       setLoading(true);
 
-      const token = sessionStorage.getItem("jwtToken");
+      const token = SecureStorage.getItem("jwtToken");
       const couponCode = inputRef.current.value;
 
       const response = await axios.put(
-       `${apiURL.baseURL}/skyTrails/api/coupons/applyCoupon`,
+        `${apiURL.baseURL}/skyTrails/api/coupons/applyCoupon`,
         { couponCode: couponCode },
         {
           headers: {
@@ -121,7 +121,7 @@ export default function Popularfilter({
 
       if (response?.data?.statusCode === 200) {
         setCouponStatus(true);
-       
+
         sessionStorage.setItem("couponCode", couponCode);
         setCouponAmountFun(discountamount);
         // setSuccessMessage("Coupon applied successfully");
@@ -135,18 +135,16 @@ export default function Popularfilter({
         setTimeout(() => {
           setError(null);
         }, 4000); // Adjust the timeout duration as needed (4 seconds in this case)
-      } if(error.response && error.response.data.statusCode === 404){
-        setError(error.response.data.responseMessage)
       }
-      
-      else {
+      if (error.response && error.response.data.statusCode === 404) {
+        setError(error.response.data.responseMessage);
+      } else {
         setError(
           error.response?.data?.message ||
             "Error applying coupon. Please try again."
         );
         setCouponStatus(false);
       }
-    
     } finally {
       setLoading(false);
     }
@@ -165,7 +163,8 @@ export default function Popularfilter({
     reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult;
 
   const getBookingDetails =
-  reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult?.HotelRoomsDetails;
+    reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult
+      ?.HotelRoomsDetails;
 
   // console.log(getBookingDetails, "booking details")
   const totalAmount = getBookingDetails?.reduce((accumulator, item) => {
@@ -178,21 +177,24 @@ export default function Popularfilter({
 
   // const roomBlock = reducerState?.hotelSearchResult?.blockRoom;
   // console.log(roomBlock, "room block ")
+  // console.log(totalAmount, totalOfferAmount, "totalOfferAmount");
   const handleCoupon = () => {
     inputRef.current.focus();
-  }
+  };
 
   const markUpamount =
-    reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup;
+    reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup *
+    totalAmount;
   // console.log("fareValue", markUpamount);
 
   const grandTotal = totalAmount + markUpamount;
   const discount = totalAmount - totalOfferAmount;
-  const TotalDiscount = discount + markUpamount;
+  const TotalDiscount = discount;
   // console.log(grandTotal,"grandTotal//////");
 
   const discountamount = grandTotal - TotalDiscount;
   // const storedFormData = JSON.parse(sessionStorage.getItem('hotelFormData'));
+  // console.log(totalOfferAmount + markUpamount);
 
   return (
     <>
@@ -323,7 +325,6 @@ export default function Popularfilter({
                             </motion.div>
                           )}
                         </div> */}
-
 
         {/* <div className="applycoupenbuttontext" style={{ overflow: "hidden" }}>
           {!couponApplied ? (

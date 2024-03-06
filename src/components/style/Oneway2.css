@@ -306,6 +306,10 @@ cursor: "pointer", */
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .wrapper_oneway {

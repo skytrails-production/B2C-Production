@@ -10,6 +10,7 @@ import { FaPlaneDeparture } from "react-icons/fa";
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
 import { SpinnerCircular } from 'spinners-react';
+import SecureStorage from "react-secure-storage";
 
 
 const FlightHistory = () => {
@@ -77,7 +78,7 @@ const FlightHistory = () => {
     // cancel flight request 
 
 
-    const token = sessionStorage.getItem("jwtToken");
+    const token = SecureStorage.getItem("jwtToken");
 
     // fetch api data
 

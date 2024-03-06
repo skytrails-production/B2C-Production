@@ -44,6 +44,14 @@ export const logInReducer = (state = initialState, action) => {
         isLoading: false,
         isError: false,
       };
+    case types.LOGOUT_REQUEST:
+      return {
+        loginData: [],
+        userData: [],
+        isLogin: false,
+        isLoading: false,
+        isError: false,
+      };
 
     default:
       return state;

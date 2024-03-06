@@ -11,7 +11,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 // import Swal from "sweetalert2";
 import Loadingbus from "./Busloading/Loadingbus";
-
+import SecureStorage from "react-secure-storage";
 // import Login from "./Login"
 // import Login from "../../components/Login"
 // import Modal from "@mui/material/Modal";
@@ -327,7 +327,7 @@ const Homeform = (props) => {
   // };
 
 
-  const token = sessionStorage.getItem("jwtToken");
+  const token = SecureStorage.getItem("jwtToken");
   // console.log(selectedFromLast.CityName, "city name")
 
   // const createSearchHistory = async () => {

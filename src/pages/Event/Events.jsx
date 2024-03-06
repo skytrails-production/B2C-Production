@@ -17,7 +17,7 @@ import mobil from "../../images/download/mobil.png"
 import check from "../../images/download/check.png"
 import scan from "../../images/scan.png";
 import { useSelector } from 'react-redux';
-
+import SecureStorage from "react-secure-storage";
 
 
 const Events = () => {
@@ -48,7 +48,7 @@ const Events = () => {
     const handlePassAbsClick = () => {
         firstInputRef.current.focus();
     };
-    const token = sessionStorage.getItem("jwtToken");
+    const token = SecureStorage.getItem("jwtToken");
     const [loadingEvent, setLoadingEvent] = useState(false)
     const [eventDetails, setEventDetails] = useState([]);
     const [formData, setFormData] = useState({

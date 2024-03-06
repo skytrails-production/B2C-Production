@@ -17,8 +17,11 @@ import Divider from "@mui/material/Divider";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 
 import "./seatlayout.css";
-import { validateEmail, validatePhoneNumber, validateName, } from "../../../utility/validationFunctions"
-
+import {
+  validateEmail,
+  validatePhoneNumber,
+  validateName,
+} from "../../../utility/validationFunctions";
 
 const variants = {
   initial: {
@@ -42,7 +45,7 @@ const BusPassengerDetail = () => {
   const dispatch = useDispatch();
   const busFullData =
     reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult;
-  // console.log(busFullData, "bus full data");
+  // console.log(reducerState, "bus full data");
   const passengerLists = [];
   // const [accordionExpanded, setAccordionExpanded] = useState(false);
   const [sub, setSub] = useState(false);
@@ -251,9 +254,9 @@ const BusPassengerDetail = () => {
   //   // console.warn("Please enter", ph, result)
   //   return result;
   // }
-   function validtion() {
+  function validtion() {
     // const res =await passengerData.filter(filterValidation)
-    const res =  passengerData.filter(
+    const res = passengerData.filter(
       (item) =>
         validatePhoneNumber(item.Phoneno) &&
         validateEmail(item.Email) &&
@@ -267,13 +270,11 @@ const BusPassengerDetail = () => {
     return result;
   }
   async function result() {
-
     const vali = await validtion();
     if (vali) {
       await setShowBtn(true);
     } else {
       await setShowBtn(false);
-
     }
 
     // console.warn("setShowBtn(true)", showBtn)
@@ -324,7 +325,7 @@ const BusPassengerDetail = () => {
                 whileInView="animate"
                 className="row "
               >
-                <div className="col-lg-12 busmarTTT" >
+                <div className="col-lg-12 busmarTTT">
                   <div className="singleBusSearchBox">
                     <div className="singleBusSearchBoxOne">
                       <span>{selectedBus?.BusType}</span>
@@ -392,12 +393,9 @@ const BusPassengerDetail = () => {
                       <div>
                         <p>
                           {selectedBus?.BoardingPointsDetails &&
-
                             selectedBus.BoardingPointsDetails.length > 0 &&
                             selectedBus.BoardingPointsDetails[boardingPoint - 1]
                               ?.CityPointLocation}
-
-                          
                         </p>
                       </div>
                       <div>
@@ -415,14 +413,15 @@ const BusPassengerDetail = () => {
                         <p>
                           {selectedBus?.DroppingPointsDetails &&
                             selectedBus?.DroppingPointsDetails.length > 0 &&
-                            selectedBus?.DroppingPointsDetails[droppingPoint - 1]
-                              ?.CityPointLocation}
+                            selectedBus?.DroppingPointsDetails[
+                              droppingPoint - 1
+                            ]?.CityPointLocation}
                         </p>
                       </div>
                       <div>
-
-                        <span>{dayjs(selectedBus?.ArrivalTime).format("h:mm A")}</span>
-
+                        <span>
+                          {dayjs(selectedBus?.ArrivalTime).format("h:mm A")}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -504,7 +503,6 @@ const BusPassengerDetail = () => {
                                   }
                                 />
 
-
                                 {sub &&
                                   !validateEmail(
                                     passengerData[index].Email
@@ -532,7 +530,6 @@ const BusPassengerDetail = () => {
                                   }
                                 />
                                 {sub &&
-
                                   !validatePhoneNumber(
                                     passengerData[index].Phoneno
                                   ) && (
@@ -540,7 +537,6 @@ const BusPassengerDetail = () => {
                                       Enter a valid phone number
                                     </span>
                                   )}
-
 
                                 {/* <label for="floatingInput">
                                     Phone Number

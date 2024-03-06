@@ -59,7 +59,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         <Oneway header="" />
       </div>
 
-      <motion.div variants={variants} initial="initial" whileInView="animate">
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <HolidayCategory variants={variants} />
       </motion.div>
 
@@ -68,6 +68,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         variants={variants}
         initial="initial"
         whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
         style={{ position: "relative" }}
       >
         <Topflightroute variants={variants} />
@@ -76,6 +77,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         variants={variants}
         initial="initial"
         whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
         style={{ position: "relative" }}
       >
         <HolidaySuggestion variants={variants} />
@@ -84,13 +86,14 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         variants={variants}
         initial="initial"
         whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
         style={{ position: "relative" }}
       >
         <Advertise variants={variants} />
       </motion.div>
 
 
-      <motion.div variants={variants} initial="initial" whileInView="animate">
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <HolidayDomestic variants={variants} />
       </motion.div>
 
@@ -98,16 +101,16 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                 whileInView="animate" style={{ position: "relative", top: "-100px" }} >
                 <OfferCard variants={variants} />
             </motion.div> */}
-      <motion.div variants={variants} initial="initial" whileInView="animate">
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <SwipeToSlide variants={variants} />
       </motion.div>
-      <motion.div variants={variants} initial="initial" whileInView="animate">
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <Download variants={variants} />
       </motion.div>
-      <motion.div variants={variants} initial="initial" whileInView="animate">
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <WhyChooseUs variants={variants} />
       </motion.div>
-      <motion.div variants={variants} initial="initial" whileInView="animate">
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <FLightOffer variants={variants} />
       </motion.div>
     </div>

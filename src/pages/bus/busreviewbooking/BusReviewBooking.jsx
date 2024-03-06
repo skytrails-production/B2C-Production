@@ -37,7 +37,7 @@ import "./busreviewbooking.css";
 import dayjs from "dayjs";
 import axios from "axios";
 import Swal from "sweetalert2";
-import { swalModal } from "../../../utility/swal"
+import { swalModal } from "../../../utility/swal";
 // import { apiURL } from "../../../Constants/constant";
 import { motion } from "framer-motion";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
@@ -47,10 +47,11 @@ import { apiURL } from "../../../Constants/constant";
 
 import Login from "../../../components/Login";
 import Modal from "@mui/material/Modal";
-import flightPaymentLoding from "../../../images/loading/loading-ban.gif"
+import flightPaymentLoding from "../../../images/loading/loading-ban.gif";
 import loginnew from "../../../images/login-01.jpg";
 import CloseIcon from "@mui/icons-material/Close";
-import { checkSearchTime } from "../../../utility/utils"
+import { checkSearchTime } from "../../../utility/utils";
+import secureLocalStorage from "react-secure-storage";
 
 const variants = {
   initial: {
@@ -135,7 +136,7 @@ const BusReviewBooking = () => {
       busBlockData?.Error?.ErrorCode !== 0 &&
       busBlockData?.Error?.ErrorCode !== undefined
     ) {
-      swalModal('bus', busBlockData?.Error?.ErrorMessage, false)
+      swalModal("bus", busBlockData?.Error?.ErrorMessage, false);
       // Swal.fire({
       //   icon: "error",
       //   title: "Oops",
@@ -256,6 +257,24 @@ const BusReviewBooking = () => {
   // }, [Razorpay]);
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isDisableScroll, setIsDisableScroll] = useState(false);
+  useEffect(() => {
+    if (isDisableScroll) {
+
+      document.body.classList.add("disableTrue");
+      document.body.classList.remove("disableFalse");
+    }
+    else {
+      document.body.classList.remove("disableTrue");
+      document.body.classList.add("disableFalse");
+
+    }
+    return () => {
+      document.body.classList.add("disableFalse");
+
+      document.body.classList.remove("disableTrue");
+    }
+  }, [isDisableScroll]);
 
   const handleModalClose = () => {
     setIsLoginModalOpen(false);
@@ -268,29 +287,29 @@ const BusReviewBooking = () => {
     }
   }, [authenticUser]);
 
-  const token = sessionStorage?.getItem("jwtToken");
+  const token = secureLocalStorage?.getItem("jwtToken");
+  // console.log(token, "token //////////////////")
   const totalAfterCoupon = sessionStorage?.getItem("totalaftercoupon");
+
 
   const handlePayment = async () => {
     if (authenticUser !== 200) {
       setSub(false);
       // setTimer11(false);
       setIsLoginModalOpen(true);
-
     } else {
       if (!checkSearchTime()) {
         navigate("/");
         return;
-      }
-      else {
-        setLoaderPayment1(true)
-        const token = sessionStorage?.getItem("jwtToken");
+      } else {
+        setLoaderPayment1(true);
+        setIsDisableScroll(true);
+
+        const token = secureLocalStorage?.getItem("jwtToken");
         const payload = {
           firstname: passengerSessionStorageParsed[0].FirstName,
           phone: passengerSessionStorageParsed[0].Phoneno,
-          amount:
-            transactionAmount ||
-            published + markUpamount,
+          amount: transactionAmount || published + markUpamount * published,
           // amount: 1,
           email: passengerSessionStorageParsed[0].Email,
           productinfo: "ticket",
@@ -318,16 +337,16 @@ const BusReviewBooking = () => {
             // console.error("API call failed with status:", response.status);
             const errorData = await response.json();
             setSub(false);
+            setIsDisableScroll(false);
             // setTimer11(false);
             // console.error("Error details:", errorData);
           }
         } catch (error) {
           // Handle network errors or exceptions
+          setIsDisableScroll(false);
           console.error("API call failed with an exception:", error.message);
-        }
- 
-        finally {
-          setLoaderPayment1(false)
+        } finally {
+          setLoaderPayment1(false);
         }
       }
     }
@@ -344,13 +363,16 @@ const BusReviewBooking = () => {
             // Make API call if payment status is 'success'
             const easeBuzzPayId = response.easepayid;
             const verifyResponse = await axios.post(
-              `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`, { easeBuzzPayId: easeBuzzPayId }
+              `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`,
+              { easeBuzzPayId: easeBuzzPayId }
             );
             setLoaderPayment(true);
+            setIsDisableScroll(false);
             // sessionStorage.removeItem("totalaftercoupon");
             // sessionStorage.removeItem("couponCode");
           } catch (error) {
             // console.error("Error verifying payment:", error);
+            setIsDisableScroll(false);
             // Handle error
           }
         } else {
@@ -364,10 +386,12 @@ const BusReviewBooking = () => {
             sessionStorage.removeItem("couponCode");
             setToggle(false);
 
+            setIsDisableScroll(false);
             // console.log(verifyResponse.data);
             // Handle verifyResponse as needed
           } catch (error) {
-            // console.error("Error verifying payment:", error);
+            console.error("Error verifying payment:", error);
+            setIsDisableScroll(false);
             // Handle error
           }
         }
@@ -417,7 +441,7 @@ const BusReviewBooking = () => {
       busFullData?.Error?.ErrorCode !== 0 &&
       busFullData?.Error?.ErrorCode !== undefined
     ) {
-      swalModal('bus', busBook?.ErrorMessage, false)
+      swalModal("bus", busBook?.ErrorMessage, false);
       //   Swal.fire({
       //     icon: "error",
       //     title: "Oops",
@@ -440,6 +464,7 @@ const BusReviewBooking = () => {
       //   });
     }
   }, [busBook]);
+
 
   // console.log(selectedBus, "selectedBus")
   const cancellationPolicy = selectedBus?.CancellationPolicies;
@@ -510,7 +535,6 @@ const BusReviewBooking = () => {
   //           setSessionTimeLeft(convertMillisecondsToMinutesAndSeconds(currentTime.getTime() - lastSearchTime.getTime()));
   //           setTimer11(true);
 
-
   //         }
   //         // else if (differenceInMinutes <= 15) {
   //         //   // console.log('Search time is more than 15 minutes ago.');
@@ -552,7 +576,6 @@ const BusReviewBooking = () => {
                 <motion.div
                   variants={variants}
                   className="col-lg-12 shad martopBus"
-
                 >
                   <div className="busAllDetail">
                     <div className="heead">
@@ -724,8 +747,12 @@ const BusReviewBooking = () => {
                 transition={{ duration: 0.5 }}
                 className="col-lg-3 order-lg-2 mb-md-4 mb-sm-4  order-md-1 order-1"
               >
-                <BusSaleSummary toggle={toggle} toggleState={toggleState} transactionAmount={setTransactionAmountState}
-                  Amount={transactionAmount} />
+                <BusSaleSummary
+                  toggle={toggle}
+                  toggleState={toggleState}
+                  transactionAmount={setTransactionAmountState}
+                  Amount={transactionAmount}
+                />
               </motion.div>
             </div>
           </div>
@@ -794,11 +821,16 @@ const BusReviewBooking = () => {
             </div>
           </div>
         </Modal>
-        <Modal
-          open={loaderPayment1}
-          onClose={loaderPayment1}
-        >
-          <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <Modal open={loaderPayment1} onClose={loaderPayment1}>
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <img src={flightPaymentLoding} alt="" />
             {/* <h1>ghiiiii</h1> */}
           </div>

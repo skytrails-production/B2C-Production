@@ -15,7 +15,7 @@ export const userData = (response) => {
 };
 
 export const loginAction = (user) => {
-  console.error("funtion", user);
+  // console.error("funtion", user);
   if (user) {
     return {
       type: types.LOGIN_REQUEST,

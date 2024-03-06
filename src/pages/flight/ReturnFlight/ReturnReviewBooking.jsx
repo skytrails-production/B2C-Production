@@ -35,6 +35,7 @@ import flightPaymentLoding from "../../../images/loading/loading-ban.gif"
 import { apiURL } from "../../../Constants/constant";
 import { PassengersAction } from "../../../Redux/Passengers/passenger";
 import { swalModal } from "../../../utility/swal"
+import SecureStorage from "react-secure-storage";
 const ReturnReviewBooking = () => {
 
     const dispatch = useDispatch();
@@ -102,7 +103,7 @@ const ReturnReviewBooking = () => {
     // coupon logic here 
     const couponconfirmation = async () => {
         try {
-            const token = sessionStorage.getItem("jwtToken");
+            const token = SecureStorage.getItem("jwtToken");
             const response = await axios.get(
                 `${apiURL.baseURL
                 }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(

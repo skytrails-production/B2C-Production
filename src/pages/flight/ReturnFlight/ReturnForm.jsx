@@ -154,11 +154,21 @@ const ReturnForm = () => {
 
     const handleTravelerCountChange = (category, value) => {
         if (category === "adult") {
-            setActiveIdAdult((prevCount) => Math.max(0, prevCount + value));
+            const newAdultCount = Math.min(Math.max(1, activeIdAdult + value), 9);
+            const maxAllowedChild = Math.max(0, 9 - newAdultCount);
+            const newChildCount = Math.min(activeIdChild, maxAllowedChild);
+
+            setActiveIdAdult(newAdultCount);
+            setActiveIdChild(newChildCount);
+
+            const newInfantCount = Math.min(activeIdInfant, newAdultCount);
+            setActiveIdInfant(newInfantCount);
         } else if (category === "child") {
-            setActiveIdChild((prevCount) => Math.max(0, prevCount + value));
+            const newChildCount = Math.min(Math.max(0, activeIdChild + value), 9 - activeIdAdult);
+            setActiveIdChild(newChildCount);
         } else if (category === "infant") {
-            setActiveIdInfant((prevCount) => Math.max(0, prevCount + value));
+            const newInfantCount = Math.min(Math.max(0, activeIdInfant + value), activeIdAdult);
+            setActiveIdInfant(newInfantCount);
         }
     };
 

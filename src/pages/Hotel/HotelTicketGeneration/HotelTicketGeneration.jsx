@@ -33,7 +33,7 @@ const HotelTicketGeneration = () => {
 
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup;
-  const grandTotal = totalAmount + markUpamount;
+  const grandTotal = totalAmount + markUpamount*totalAmount;
   useEffect(() => {
   const payload = {
       userId: reducerState?.logIn?.loginData?.data?.data?.id,
@@ -69,9 +69,11 @@ const HotelTicketGeneration = () => {
           ?.GetBookingDetailResult?.AddressLine1,
       room: reducerState?.hotelSearchResult?.hotelDetails?.data?.data
         ?.GetBookingDetailResult?.NoOfRooms,
-      amount:hotelcoupon? totalAmountAfterCoupon:grandTotal,
+      amount:hotelcoupon? totalAmountAfterCoupon+(markUpamount*totalAmount):grandTotal,
+      
       noOfPeople: 2,
     };
+    // console.log(payload.amount, "amount");
     if (reducerState?.hotelSearchResult?.hotelDetails?.data?.data?.GetBookingDetailResult?.BookingId !== undefined) {
 
       userApi.hotelBookingDetailsSave(payload);

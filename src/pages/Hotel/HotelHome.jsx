@@ -42,22 +42,23 @@ const Hotelhome = () => {
         <InsideNavbar />
         <HotelForm />
       </div>
-      <motion.div variants={variants} initial="initial" whileInView="animate">
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <FLightOffer variants={variants} />
       </motion.div>
       <motion.div
         variants={variants}
         initial="initial"
         whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
         style={{ position: "relative", top: "-30px" }}
       >
         <Advertise variants={variants} />
       </motion.div>
 
-      <motion.div variants={variants} initial="initial" whileInView="animate">
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <Download variants={variants} />
       </motion.div>
-      <motion.div variants={variants} initial="initial" whileInView="animate">
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <WhyChooseUs variants={variants} />
       </motion.div>
     </motion.div>

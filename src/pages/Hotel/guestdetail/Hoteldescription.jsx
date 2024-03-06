@@ -13,11 +13,15 @@ import useRazorpay from "react-razorpay";
 import PaymentLoader from "../../flight/FlightLoader/paymentLoader";
 import axios from "axios";
 import dayjs from "dayjs";
-import { SpinnerCircular } from 'spinners-react';
+import { SpinnerCircular } from "spinners-react";
 import { swalModal } from "../../../utility/swal";
-import { convertMillisecondsToMinutesAndSeconds, checkSearchTime } from "../../../utility/utils"
-import flightPaymentLoding from "../../../images/loading/loading-ban.gif"
+import {
+  convertMillisecondsToMinutesAndSeconds,
+  checkSearchTime,
+} from "../../../utility/utils";
+import flightPaymentLoding from "../../../images/loading/loading-ban.gif";
 import Modal from "@mui/material/Modal";
+import SecureStorage from "react-secure-storage";
 
 const variants = {
   initial: {
@@ -34,12 +38,17 @@ const variants = {
   },
 };
 
-const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => {
+const Hoteldescription = ({
+  toggleState,
+  setCouponAmountFun,
+  couponAmount,
+}) => {
   const couponconfirmation3 = async () => {
     try {
-      const token = sessionStorage.getItem("jwtToken");
+      const token = SecureStorage.getItem("jwtToken");
       const response = await axios.get(
-        `${apiURL.baseURL
+        `${
+          apiURL.baseURL
         }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
           "couponCode"
         )}`,
@@ -67,6 +76,11 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
   const [loaderPayment1, setLoaderPayment1] = useState(false);
   const [loaderPayment, setLoaderPayment] = useState(false);
   const reducerState = useSelector((state) => state);
+  const [isDisableScroll, setIsDisableScroll] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    setIsLogin(reducerState?.logIn?.isLogin);
+  }, [reducerState?.logIn?.isLogin]);
 
   const bookingId =
     reducerState?.hotelSearchResult?.bookRoom?.BookResult?.BookingId;
@@ -76,6 +90,23 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
   const passenger = reducerState?.passengers?.passengersData;
 
   // console.log(reducerState, "passenger");
+  // useEffect(() => {
+  //   // console.log(couponAmount, "couponAmount..................");
+  // }, [couponAmount]);
+  useEffect(() => {
+    if (isDisableScroll) {
+      document.body.classList.add("disableTrue");
+      document.body.classList.remove("disableFalse");
+    } else {
+      document.body.classList.remove("disableTrue");
+      document.body.classList.add("disableFalse");
+    }
+    return () => {
+      document.body.classList.add("disableFalse");
+
+      document.body.classList.remove("disableTrue");
+    };
+  }, [isDisableScroll]);
 
   const hotelBlockDetails =
     reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult;
@@ -90,6 +121,7 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
   // console.log(resultIndex, hotelCode);
   const hotelInfo = reducerState?.hotelSearchResult?.hotelInfo?.HotelInfoResult;
 
+  // console.log("markUpamount", markUpamount);
   // const checkInDate = moment(hotelDetails?.CheckInDate).format("MMMM DD, YYYY");
   // const checkOutDate = moment(hotelDetails?.CheckOutDate).format(
   //   "MMMM DD, YYYY"
@@ -116,12 +148,18 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
       navigate(
         "/hotel/hotelsearch/HotelBooknow/Reviewbooking/GuestDetail/ticket"
       );
-      return
-    }
-    else if (reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Error?.ErrorCode !==
-      0 && reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Error?.ErrorCode !==
-      undefined) {
-      swalModal('py', "Booking Issue - Your refund will be processed within 7 working days. We apologize for any inconvenience caused.", true)
+      return;
+    } else if (
+      reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Error
+        ?.ErrorCode !== 0 &&
+      reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Error
+        ?.ErrorCode !== undefined
+    ) {
+      swalModal(
+        "py",
+        "Booking Issue - Your refund will be processed within 7 working days. We apologize for any inconvenience caused.",
+        true
+      );
     }
   }, [reducerState?.hotelSearchResult?.bookRoom?.BookResult]);
   useEffect(() => {
@@ -231,29 +269,25 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
 
   // razorpay integration
 
-
   const [paymentLoading, setPaymentLoading] = useState(false);
-
 
   // balance subtract and update
   const handlePayment = async () => {
     setPaymentLoading(true);
-    setSub(true)
-    setLoaderPayment1(true)
+    setIsDisableScroll(true);
+    setSub(true);
+    setLoaderPayment1(true);
     if (!checkSearchTime()) {
       navigate("/");
-      return
-    }
-    else {
-
-
-
-      const token = sessionStorage?.getItem("jwtToken");
+      return;
+    } else {
+      const token = SecureStorage?.getItem("jwtToken");
       const payload = {
         firstname: passenger[0].FirstName,
         phone: passenger[0].Phoneno,
-        amount: sessionStorage?.getItem("hotelAmount") || (totalAmount + markUpamount),
-        amount: couponAmount || (totalAmount + markUpamount),
+        // amount: sessionStorage?.getItem("hotelAmount") || (totalAmount + markUpamount),
+        amount: couponAmount || totalAmount + markUpamount * totalAmount,
+
         // amount: 1,
         email: passenger[0].Email,
         productinfo: "ticket",
@@ -261,6 +295,7 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
         surl: `${apiURL.baseURL}/skyTrails/successVerifyApi?merchantTransactionId=`,
         furl: `${apiURL.baseURL}/skyTrails/paymentFailure?merchantTransactionId=`,
       };
+      // console.log("paylod///////", payload);
 
       try {
         const response = await fetch(apiUrlPayment, {
@@ -277,7 +312,6 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
 
           // setPaymentLoading(false);
 
-
           proceedPayment(data.result.access, "prod", data.result.key);
           // console.log("API call successful:", data);
         } else {
@@ -285,14 +319,13 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
           const errorData = await response.json();
           console.error("Error details:", errorData);
           setTimer11(false);
-
+          setIsDisableScroll(false);
         }
       } catch (error) {
         // Handle network errors or exceptions
         console.error("API call failed with an exception:", error.message);
-
-      }
-      finally {
+        setIsDisableScroll(false);
+      } finally {
         setPaymentLoading(false); // Reset loading state regardless of success or failure
         setLoaderPayment1(false);
       }
@@ -314,7 +347,6 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
   //           console.log('Search time is less than 15 minutes ago.');
   //           setSessionTimeLeft(convertMillisecondsToMinutesAndSeconds(currentTime.getTime() - lastSearchTime.getTime()));
   //           setTimer11(true);
-
 
   //         }
   //         // else if (differenceInMinutes <= 15) {
@@ -346,7 +378,8 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
             // Make API call if payment status is 'success'
             const easeBuzzPayId = response.easepayid;
             const verifyResponse = await axios.post(
-              `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`, { easeBuzzPayId: easeBuzzPayId }
+              `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`,
+              { easeBuzzPayId: easeBuzzPayId }
             );
             setLoaderPayment(true);
             couponconfirmation3();
@@ -362,17 +395,16 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
             );
             // console.log(verifyResponse.data);
             // Handle verifyResponse as needed
-            swalModal("hotel", verifyResponse.data.responseMessage
-              , false)
-
+            swalModal("hotel", verifyResponse.data.responseMessage, false);
 
             sessionStorage.removeItem("couponCode");
             toggleState(false);
             setCouponAmountFun(null);
-
           } catch (error) {
             console.error("Error verifying payment:", error);
             // Handle error
+          } finally {
+            setIsDisableScroll(false);
           }
         }
       },
@@ -423,11 +455,7 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
         whileInView="animate"
         className="row"
       >
-        <motion.div
-          variants={variants}
-          className="col-lg-12 reviewTMT"
-
-        >
+        <motion.div variants={variants} className="col-lg-12 reviewTMT">
           <div className="hotelDetailsDesc">
             <div>
               <p className="hotelName">{hotelInfo?.HotelDetails?.HotelName}</p>
@@ -448,17 +476,18 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
                   {
                     // reducerState?.hotelSearchResult?.ticketData?.data?.data
                     //   ?.HotelSearchResult?.CheckInDate
-                    dayjs(reducerState?.hotelSearchResult?.ticketData?.data?.data
-                      ?.HotelSearchResult?.CheckInDate).format("DD MMM, YY")
+                    dayjs(
+                      reducerState?.hotelSearchResult?.ticketData?.data?.data
+                        ?.HotelSearchResult?.CheckInDate
+                    ).format("DD MMM, YY")
                   }
                 </p>
                 <p className="text-end">
                   <b>Check Out: {"  "}</b>
-                  {
-
-                    dayjs(reducerState?.hotelSearchResult?.ticketData?.data?.data
-                      ?.HotelSearchResult?.CheckOutDate).format("DD MMM, YY")
-                  }
+                  {dayjs(
+                    reducerState?.hotelSearchResult?.ticketData?.data?.data
+                      ?.HotelSearchResult?.CheckOutDate
+                  ).format("DD MMM, YY")}
                 </p>
               </div>
             </div>
@@ -506,19 +535,20 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
                       // reducerState?.hotelSearchResult?.ticketData?.data?.data
                       //   ?.HotelSearchResult?.CheckInDate
 
-                      dayjs(reducerState?.hotelSearchResult?.ticketData?.data?.data
-                        ?.HotelSearchResult?.CheckInDate).format("DD MMM, YY")
+                      dayjs(
+                        reducerState?.hotelSearchResult?.ticketData?.data?.data
+                          ?.HotelSearchResult?.CheckInDate
+                      ).format("DD MMM, YY")
                     }
                   </span>
                 </div>
                 <div>
                   <p>Check Out: {"  "} </p>
                   <span>
-                    {
-
-                      dayjs(reducerState?.hotelSearchResult?.ticketData?.data?.data
-                        ?.HotelSearchResult?.CheckOutDate).format("DD MMM, YY")
-                    }
+                    {dayjs(
+                      reducerState?.hotelSearchResult?.ticketData?.data?.data
+                        ?.HotelSearchResult?.CheckOutDate
+                    ).format("DD MMM, YY")}
                   </span>
                 </div>
               </div>
@@ -531,7 +561,7 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
         <motion.div variants={variants} className="col-lg-12">
           <div className="bookingDetailsGuestDesc">
             <div className="bookingDetailsGuestHeaderDesc">
-              <p>Passenger Details</p>
+              <p>Guest Details</p>
             </div>
             {passenger?.map((name, index) => {
               return (
@@ -624,26 +654,30 @@ const Hoteldescription = ({ toggleState, setCouponAmountFun, couponAmount }) => 
         </motion.div>
 
         <div className="guestDetailsHistoryDesc mt-3">
-
-          {
-
-            paymentLoading ? (
-              <button type="submit" onClick={handlePayment}>
-                <SpinnerCircular secondaryColor="white" size={20} сolor="#ffffff" />
-              </button>
-            ) : (
-              <button type="submit" onClick={handlePayment}>
-                Continue
-              </button>
-            )
-          }
-
+          {paymentLoading ? (
+            <button type="submit" onClick={handlePayment}>
+              <SpinnerCircular
+                secondaryColor="white"
+                size={20}
+                сolor="#ffffff"
+              />
+            </button>
+          ) : (
+            <button type="submit" onClick={handlePayment}>
+              Continue
+            </button>
+          )}
         </div>
-        <Modal
-          open={loaderPayment1}
-          onClose={loaderPayment1}
-        >
-          <div style={{ width: "100%", height: "100%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <Modal open={loaderPayment1} onClose={loaderPayment1}>
+          <div
+            style={{
+              width: "100%",
+              height: "100%",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <img src={flightPaymentLoding} alt="" />
             {/* <h1>ghiiiii</h1> */}
           </div>

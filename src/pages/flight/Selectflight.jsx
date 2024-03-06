@@ -1502,6 +1502,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results, han
                         variants={variants}
                         initial="initial"
                         whileInView="animate"
+                        viewport={{ once: true, amount: 0.8 }}
                       >
                         <motion.div variants={variants} className="mobileflexDesign">
                           <div className="columnFLightName d-flex d-sm-none">

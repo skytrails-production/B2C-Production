@@ -1,5 +1,7 @@
 import axios from "axios";
 import { apiURL } from "../../Constants/constant";
+import SecureStorage from 'react-secure-storage';
+import secureLocalStorage from "react-secure-storage";
 
 function api() {
   const userIP = (formData) => {
@@ -24,7 +26,7 @@ function api() {
 
   const userB2CLogin = (payload) => {
     // console.log("payload", payload);
-    const token = sessionStorage.getItem("jwtToken");
+    const token = SecureStorage.getItem("jwtToken");
     // console.log("jwt token", token);
     return axios({
       method: "PUT",
@@ -46,7 +48,7 @@ function api() {
 
 
   // const loginUserData = () => {
-  //   const token = sessionStorage.getItem("jwtToken");
+  //   const token = SecureStorage.getItem("jwtToken");
   //   return axios({
   //     method: "GET",
   //     url: "/skytrails/api/user/getUserProfile",
@@ -251,7 +253,7 @@ function api() {
     });
   };
   const hotelBookingDetailsSave = (payload) => {
-    const token = sessionStorage?.getItem("jwtToken");
+    const token = secureLocalStorage?.getItem("jwtToken");
     return axios({
       method: "POST",
       url: "/skyTrails/api/user/hotelBooking",

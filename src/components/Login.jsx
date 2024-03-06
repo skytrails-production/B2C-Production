@@ -9,7 +9,11 @@ import loginImg from "../images/login.png";
 import loginOtp from "../images/login-01.jpg";
 import { LoginButton } from "../utility/CSS/Button/Button";
 import CloseIcon from "@mui/icons-material/Close";
-import { loginAction, logoutAction, LoginFail } from "../Redux/Auth/logIn/actionLogin";
+import {
+  loginAction,
+  logoutAction,
+  LoginFail,
+} from "../Redux/Auth/logIn/actionLogin";
 // import { loginAction, logoutAction, userData } from "../Redux/Auth/logIn/actionLogin";
 import EventIcon from "@mui/icons-material/Event";
 // import PhoneIcon from "@mui/icons-material/Phone";
@@ -21,15 +25,19 @@ import { apiURL } from "../Constants/constant";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 // import LogoutIcon from "@mui/icons-material/Logout";
 import question from "../images/question.png";
-
+import SecureStorage from "react-secure-storage";
 //import toast, { Toaster } from 'react-hot-toast';
 import { MdLogout } from "react-icons/md";
 import { motion } from "framer-motion";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
-import { validateName, validateEmail, validatePhoneNumber } from "../utility/validationFunctions"
+import {
+  validateName,
+  validateEmail,
+  validatePhoneNumber,
+} from "../utility/validationFunctions";
 import { ModeOutlined } from "@mui/icons-material";
-import Alert from '@mui/material/Alert';
+import Alert from "@mui/material/Alert";
 // import { setTimeout } from "timers/promises";
 const MySwal = withReactContent(Swal);
 
@@ -46,8 +54,8 @@ export default function LoginForm() {
 
     // Format the date as 'yyyy-mm-dd'
     let year = currentDate.getFullYear();
-    let month = String(currentDate.getMonth() + 1).padStart(2, '0');
-    let day = String(currentDate.getDate()).padStart(2, '0');
+    let month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    let day = String(currentDate.getDate()).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
   }
@@ -55,10 +63,6 @@ export default function LoginForm() {
   // Example usage
   let twelveYearsAgoDate = getTwelveYearsAgoDate();
   // console.log(twelveYearsAgoDate, "twelveYearsAgoDate")
-
-
-
-
 
   const [numvalidation, setNumvalidation] = useState(false);
   const [open, setOpen] = useState(false);
@@ -71,18 +75,18 @@ export default function LoginForm() {
   const [otp, setOtp] = useState("");
   const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
-  const [loader, setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     setDisableButton(false);
-    setMobileNumber("")
+    setMobileNumber("");
     setOtp("");
     otpvalidReset();
     setSignUpp(false);
     setSignUp(false);
-    setNumvalidation(false)
-  }
+    setNumvalidation(false);
+  };
 
   const handleOtpModalOpen = () => setOpenOtpModal(true);
   const handleOtpModalClose = () => setOpenOtpModal(false);
@@ -91,19 +95,15 @@ export default function LoginForm() {
     setOpenSignUpModal(false);
     setEmail("");
     setName("");
-    setLoader(false)
+    setLoader(false);
     setFinalDate("");
-
-
-
-  }
+  };
   const reducerState = useSelector((state) => state);
   const userName = reducerState?.logIn?.loginData?.data?.result?.username;
   // const userDataS = reducerState?.logIn?.loginData?.data?.result;
   // const data = reducerState?.logIn?.loginData?.data;
   const status = reducerState?.logIn?.loginData?.data?.statusCode;
   // const AuthenticUser = reducerState?.logIn?.isLogin;
-
 
   // console.log(reducerState, "reducer state")
 
@@ -115,15 +115,14 @@ export default function LoginForm() {
   const [error, setError] = useState(true);
   const [sub, setSub] = useState(false);
   // const [apiCallCount,setOptCallCount]=useState(0);
-  const [numError, setNumError] = useState(true)
+  const [numError, setNumError] = useState(true);
   const [otpError, setOTPError] = useState(true);
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState(false);
-  const [longinError, setLoginError] = useState(false)
-
+  const [longinError, setLoginError] = useState(false);
 
   const Typewriter = () => {
-    const [text, setText] = useState('...');
+    const [text, setText] = useState("...");
     const [index, setIndex] = useState(0);
 
     useEffect(() => {
@@ -145,7 +144,7 @@ export default function LoginForm() {
     );
   };
 
-  // mobile number validation 
+  // mobile number validation
 
   const isValidMobileNumber = (mobileNumber) => {
     return /^[6-9]\d{9}$/.test(mobileNumber);
@@ -154,7 +153,6 @@ export default function LoginForm() {
   const requestSignInSignInCheck = () => {
     if (!isValidMobileNumber(mobileNumber)) {
       setNumError(true);
-
     } else {
       setNumError(false);
     }
@@ -162,13 +160,11 @@ export default function LoginForm() {
 
   useEffect(() => {
     requestSignInSignInCheck();
-  }, [mobileNumber])
+  }, [mobileNumber]);
 
   // const otpToken = reducerState?.logIn?.loginData?.data?.result?.token;
 
-
-
-  // opt validation 
+  // opt validation
 
   const isValidOTP = (otp) => {
     return /^[0-9]\d{5}$/.test(otp);
@@ -177,18 +173,16 @@ export default function LoginForm() {
   const requestOTPCheck = () => {
     if (!isValidOTP(otp)) {
       setOTPError(true);
-      return false
-
+      return false;
     } else {
       setOTPError(false);
-      return true
+      return true;
     }
   };
 
   useEffect(() => {
     requestOTPCheck();
-  }, [otp])
-
+  }, [otp]);
 
   const requestSignIn = async () => {
     // event.preventDefault();
@@ -210,7 +204,7 @@ export default function LoginForm() {
       });
 
       const newToken = await res.data.result.token;
-      sessionStorage.setItem("jwtToken", newToken);
+      SecureStorage.setItem("jwtToken", newToken);
       // console.log(newToken, res.data, res.data.result.otpVerified, "new token")
 
       if (res.data.statusCode === 200 && res.data.result.firstTime === false) {
@@ -231,24 +225,17 @@ export default function LoginForm() {
         setCountdown(59);
       }
       setToken(newToken);
-
     } catch (error) {
       // console.log('error', error);
-      setDisableButton(false)
-      setLoginError(true)
+      setDisableButton(false);
+      setLoginError(true);
       // useEffect(() => {
       setTimeout(() => {
-        setLoginError(false)
+        setLoginError(false);
       }, 1000);
       // }, [longinError])
     }
-
-
-
-
   };
-
-
 
   //  if user is already registered
 
@@ -258,8 +245,6 @@ export default function LoginForm() {
       otp: otp,
     };
     dispatch(loginAction(payload));
-
-
   };
 
   // first time user data
@@ -275,8 +260,6 @@ export default function LoginForm() {
     };
 
     dispatch(loginAction(payloadotp));
-
-
   };
 
   useEffect(() => {
@@ -314,8 +297,6 @@ export default function LoginForm() {
     }
   };
 
-
-
   // Define the countdown update function using useCallback
   const handleCountdownUpdate = useCallback(() => {
     setCountdown((prev) => {
@@ -345,22 +326,23 @@ export default function LoginForm() {
 
   // handle the resend otp part
 
-
   const signupFromValidation = () => {
-    if (validateName(name) && validateEmail(email) && requestOTPCheck() && finalDate !== "") {
+    if (
+      validateName(name) &&
+      validateEmail(email) &&
+      requestOTPCheck() &&
+      finalDate !== ""
+    ) {
       setSignUp(true);
-
-    }
-    else {
+    } else {
       setSignUp(false);
     }
     // console.log(name, finalDate, email, otp, subSignUp)
-    return
-  }
+    return;
+  };
   useEffect(() => {
-    signupFromValidation()
-
-  }, [email, mobileNumber, otp])
+    signupFromValidation();
+  }, [email, mobileNumber, otp]);
   const handleLogout = () => {
     MySwal.fire({
       html: `
@@ -382,7 +364,9 @@ export default function LoginForm() {
     }).then((result) => {
       if (result.isConfirmed) {
         dispatch(logoutAction());
+        SecureStorage.removeItem("jwtToken");
         setIsMenu(false);
+        navigate("/");
       }
     });
   };
@@ -392,11 +376,14 @@ export default function LoginForm() {
   // }
   useEffect(() => {
     // console.warn(reducerState?.logIn?.loginData, "error,sub ndbfjhdfbvufbyvubfyuv")
-    if (reducerState?.logIn?.loginData?.statusCode !== 200 && reducerState?.logIn?.loginData?.statusCode !== undefined) {
-      setError(false)
-      setLoader(false)
+    if (
+      reducerState?.logIn?.loginData?.statusCode !== 200 &&
+      reducerState?.logIn?.loginData?.statusCode !== undefined
+    ) {
+      setError(false);
+      setLoader(false);
     }
-  }, [reducerState?.logIn?.loginData])
+  }, [reducerState?.logIn?.loginData]);
   function otpvalidReset() {
     if (!error) {
       setError(true);
@@ -409,7 +396,6 @@ export default function LoginForm() {
       {/* <div><Toaster /></div> */}
 
       {status === 200 ? (
-
         <div className="position-relative account-btn" onClick={handleDropdown}>
           <p className="d-none d-sm-flex" variant="subtitle3" color="#fff">
             Hi {userName}
@@ -417,7 +403,9 @@ export default function LoginForm() {
           </p>
           {/* for mobile design  */}
 
-          <p className="d-flex d-sm-none"><AccountCircleIcon sx={{ color: "black", marginRight: "8px" }} /></p>
+          <p className="d-flex d-sm-none">
+            <AccountCircleIcon sx={{ color: "black", marginRight: "8px" }} />
+          </p>
 
           {/* for mobile design  */}
           {isMenu && (
@@ -426,7 +414,7 @@ export default function LoginForm() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.6 }}
               className="position-absolute dropdownLogin bg-gray-50 shadow rounded-lg d-flex flex-column align-items-end"
-            // style={{ left: 0 }}
+              // style={{ left: 0 }}
             >
               <p
                 className="px-4 py-2 d-flex align-items-center cursor-pointer gap-3 cursor-pointer hover-bg-slate-100 transition-all duration-100 ease-in-out"
@@ -455,7 +443,6 @@ export default function LoginForm() {
           </p>
           {/* for mobile device  */}
 
-
           <p className="d-none d-sm-block" variant="subtitle3" color="#fff">
             <AccountCircleIcon sx={{ color: "white", marginRight: "8px" }} />
             Login / Signup
@@ -467,7 +454,9 @@ export default function LoginForm() {
 
       <Modal
         open={open}
-        onClose={() => { handleClose(); }}
+        onClose={() => {
+          handleClose();
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
         sx={{ zIndex: "999999" }}
@@ -483,7 +472,9 @@ export default function LoginForm() {
                         {/* <h2 class="fs-1" >Send OTP</h2> */}
                         <CloseIcon
                           className="closeIncon"
-                          onClick={() => { handleClose() }}
+                          onClick={() => {
+                            handleClose();
+                          }}
                         />
                         <div className="loginImg logg">
                           <img src={loginOtp} alt="loginGif" />
@@ -514,32 +505,32 @@ export default function LoginForm() {
                                   type="tel"
                                   value={mobileNumber}
                                   onChange={(e) => {
-                                    setMobileNumber(e.target.value)
-                                    requestSignInSignInCheck()
-                                  }
-                                  }
+                                    setMobileNumber(e.target.value);
+                                    requestSignInSignInCheck();
+                                  }}
                                   name="phone"
                                   class="form-control"
                                   placeholder="Mobile Number"
                                 />
-                                {
-                                  numvalidation && !validatePhoneNumber(mobileNumber) &&
-                                  <div className="input-group-absolute">
-                                    Enter a valid 10-digit number
+                                {numvalidation &&
+                                  !validatePhoneNumber(mobileNumber) && (
+                                    <div className="input-group-absolute">
+                                      Enter a valid 10-digit number
+                                    </div>
+                                  )}
+                                {longinError && (
+                                  <div className="network-error-modal">
+                                    <Alert severity="error">
+                                      Network Error
+                                    </Alert>
                                   </div>
-                                }
-                                {
-                                  longinError && <div className="network-error-modal">
-
-                                    <Alert severity="error">Network Error</Alert>
-                                  </div>
-                                }
-
+                                )}
                               </div>
                             </div>
-                            <div onClick={() => setNumvalidation(true)} class="col-12">
-
-
+                            <div
+                              onClick={() => setNumvalidation(true)}
+                              class="col-12"
+                            >
                               {/* {disableButton ? <button
                                 class="btn btn-primaryLogin px-4 float-end mt-2"><Typewriter /></button>
                                 : numError ? <button type="submit"
@@ -549,10 +540,7 @@ export default function LoginForm() {
                               } */}
 
                               {disableButton ? (
-                                <button
-                                  className="btn btn-primaryLogin px-4 float-end mt-2"
-
-                                >
+                                <button className="btn btn-primaryLogin px-4 float-end mt-2">
                                   <Typewriter />
                                 </button>
                               ) : (
@@ -565,7 +553,6 @@ export default function LoginForm() {
                                   Send OTP
                                 </button>
                               )}
-
                             </div>
                           </div>
                         </div>
@@ -610,19 +597,23 @@ export default function LoginForm() {
                         <div>
                           <div class="row g-4">
                             <div class="col-12">
-                              {error ?
-                                <label className="mb-3">
-                                  Enter OTP
-                                </label> :
+                              {error ? (
+                                <label className="mb-3">Enter OTP</label>
+                              ) : (
                                 <label className="mb-3">
                                   <span class="text-danger">Invalid OTP</span>
-                                </label>}
+                                </label>
+                              )}
                               {/* <label className="mb-3">
                                 Enter OTP<span class="text-danger"></span>
                               </label>  */}
                               :
                               <div class="input-group ">
-                                <div class={`input-group-text ${!error && "invalidOptLogin"} `}>
+                                <div
+                                  class={`input-group-text ${
+                                    !error && "invalidOptLogin"
+                                  } `}
+                                >
                                   <i>
                                     <PasswordIcon />
                                   </i>
@@ -635,14 +626,15 @@ export default function LoginForm() {
                                     requestOTPCheck();
                                     otpvalidReset();
                                   }}
-
                                   // onChange={(e) => {
                                   //   setMobileNumber(e.target.value)
                                   //   requestSignInSignInCheck()
                                   // }
                                   // }
                                   name="phone"
-                                  class={`form-control  ${!error && "invalidOptLogin"}`}
+                                  class={`form-control  ${
+                                    !error && "invalidOptLogin"
+                                  }`}
                                   placeholder="Enter OTP"
                                   autoComplete="off"
                                 />
@@ -664,31 +656,32 @@ export default function LoginForm() {
                                 </p>
                               )}
                             </div>
-                            {
-                              loader ?
-                                <div class="col-12 mt-3">
-
-                                  <button
-                                    // type="submit"
-                                    // onClick={(e) => { setSub(true); verifyOTP(e) }}
-                                    class="btn btn-primaryLogin px-4 float-end mt-2"
+                            {loader ? (
+                              <div class="col-12 mt-3">
+                                <button
+                                  // type="submit"
+                                  // onClick={(e) => { setSub(true); verifyOTP(e) }}
+                                  class="btn btn-primaryLogin px-4 float-end mt-2"
                                   // disabled={otpError}
-                                  >
-                                    <Typewriter />
-                                  </button>
-
-                                </div> :
-                                <div class="col-12 mt-3">
-
-                                  <button
-                                    // type="submit"
-                                    onClick={(e) => { setSub(true); verifyOTP(e); setLoader(true) }}
-                                    class="btn btn-primaryLogin px-4 float-end mt-2"
-                                    disabled={otpError}
-                                  >
-                                    Verify OTP
-                                  </button>
-                                  {/* {disableButtonVerifyOPT ? <button
+                                >
+                                  <Typewriter />
+                                </button>
+                              </div>
+                            ) : (
+                              <div class="col-12 mt-3">
+                                <button
+                                  // type="submit"
+                                  onClick={(e) => {
+                                    setSub(true);
+                                    verifyOTP(e);
+                                    setLoader(true);
+                                  }}
+                                  class="btn btn-primaryLogin px-4 float-end mt-2"
+                                  disabled={otpError}
+                                >
+                                  Verify OTP
+                                </button>
+                                {/* {disableButtonVerifyOPT ? <button
                              <button
                                  // type="submit"
                                  onClick={()=>{verifyOTP();setDisableButtonVerifyOPT(true)}}
@@ -699,10 +692,8 @@ export default function LoginForm() {
                                class="btn btn-primaryLogin px-4 float-end mt-2"><Typewriter /></button>
                                : 
                              } */}
-                                </div>
-                            }
-
-
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
@@ -753,9 +744,11 @@ export default function LoginForm() {
                                   class="form-control"
                                   placeholder="Enter Name"
                                 />
-                                {subSignUpp && !validateName(name) && <div className="input-group-absolute">
-                                  Enter a Valid Name
-                                </div>}
+                                {subSignUpp && !validateName(name) && (
+                                  <div className="input-group-absolute">
+                                    Enter a Valid Name
+                                  </div>
+                                )}
                               </div>
                             </div>
                             <div class="col-12">
@@ -777,12 +770,11 @@ export default function LoginForm() {
                                   class="form-control"
                                   placeholder="Enter Email"
                                 />
-                                {
-                                  subSignUpp && !validateEmail(email) &&
+                                {subSignUpp && !validateEmail(email) && (
                                   <div className="input-group-absolute">
                                     Enter a valid email
                                   </div>
-                                }
+                                )}
                               </div>
                             </div>
                             <div class="col-12">
@@ -803,25 +795,24 @@ export default function LoginForm() {
                                   class="form-control"
                                   placeholder="Enter OTP"
                                   max={twelveYearsAgoDate}
-                                //  readOnly
-                                //  max="1979-12-31"
+                                  //  readOnly
+                                  //  max="1979-12-31"
                                 />
-                                {subSignUpp && finalDate === "" &&
-
+                                {subSignUpp && finalDate === "" && (
                                   <div className="input-group-absolute">
                                     Please select a date
                                   </div>
-                                }
+                                )}
                               </div>
                             </div>
                             <div class="col-12">
-                              {error ?
-                                <label className="mb-3">
-                                  Enter OTP
-                                </label> :
+                              {error ? (
+                                <label className="mb-3">Enter OTP</label>
+                              ) : (
                                 <label className="mb-3">
                                   <span class="text-danger">Invalid OTP</span>
-                                </label>}
+                                </label>
+                              )}
                               <div class="input-group">
                                 <div class="input-group-text">
                                   <i>
@@ -838,15 +829,12 @@ export default function LoginForm() {
                                   name="phone"
                                   class="form-control"
                                   placeholder="Enter OTP"
-
-
                                 />
-                                {subSignUpp && !isValidOTP(otp) &&
-
+                                {subSignUpp && !isValidOTP(otp) && (
                                   <div className="input-group-absolute">
                                     Enter a valid 6-digit number
                                   </div>
-                                }
+                                )}
                               </div>
                             </div>
                             <div className="col-12 mt-3">
@@ -869,48 +857,43 @@ export default function LoginForm() {
                                 </p>
                               )}
                             </div>
-                            {
-                              subSignUp ?
-
-                                <div class="col-12 mt-3">
-                                  {
-                                    loader ? <button
-                                      // type="submit"
-                                      // onClick={signUpUser}
-                                      className={`btn btn-primaryLogin px-4 float-end mt-2 ${!subSignUp && "invalidOptLogin"}`}
-                                    >
-                                      {<Typewriter />}
-                                    </button> :
-                                      <button
-                                        // type="submit"
-                                        onClick={() => {
-                                          signUpUser();
-                                          setLoader(true);
-                                        }
-
-                                        }
-                                        className={`btn btn-primaryLogin px-4 float-end mt-2 `}
-                                      >
-                                        Sign up
-                                      </button>
-                                  }
-
-                                </div> :
-
-                                <div class="col-12 mt-3 ">
+                            {subSignUp ? (
+                              <div class="col-12 mt-3">
+                                {loader ? (
                                   <button
                                     // type="submit"
-                                    onClick={() => setSignUpp(true)}
+                                    // onClick={signUpUser}
+                                    className={`btn btn-primaryLogin px-4 float-end mt-2 ${
+                                      !subSignUp && "invalidOptLogin"
+                                    }`}
+                                  >
+                                    {<Typewriter />}
+                                  </button>
+                                ) : (
+                                  <button
+                                    // type="submit"
+                                    onClick={() => {
+                                      signUpUser();
+                                      setLoader(true);
+                                    }}
                                     className={`btn btn-primaryLogin px-4 float-end mt-2 `}
-                                    id="logInDisabled"
                                   >
                                     Sign up
                                   </button>
-                                </div>
-
-
-                            }
-
+                                )}
+                              </div>
+                            ) : (
+                              <div class="col-12 mt-3 ">
+                                <button
+                                  // type="submit"
+                                  onClick={() => setSignUpp(true)}
+                                  className={`btn btn-primaryLogin px-4 float-end mt-2 `}
+                                  id="logInDisabled"
+                                >
+                                  Sign up
+                                </button>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>

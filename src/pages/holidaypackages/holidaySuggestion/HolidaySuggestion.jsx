@@ -136,12 +136,12 @@ const HolidaySuggestion = () => {
                                                     }
                                                     <div class="trend-content d-flex align-items-center justify-content-between  w-100">
                                                         <div class="trend-content-title">
-                                                            {item?.destination?.slice(0, 3).map((destinationItem, index, array) => (
-                                                                <React.Fragment key={index}>
-                                                                    <span className="theme1">{destinationItem?.addMore}</span>
-                                                                    {index !== array.length - 1 && <span className="theme1">, {" "}</span>}
-                                                                </React.Fragment>
-                                                            ))}
+                                                            {/* {item?.destination?.slice(0, 3).map((destinationItem, index, array) => (
+                                                                <React.Fragment key={index}> */}
+                                                            <span className="theme1">{item?.pakage_title}</span>
+                                                            {/* {index !== array.length - 1 && <span className="theme1">, {" "}</span>} */}
+                                                            {/* </React.Fragment> */}
+                                                            {/* ))} */}
                                                             <h3 class="mb-0 white">{item?.country}</h3>
                                                         </div>
                                                         <div className="holiSuggSpan">

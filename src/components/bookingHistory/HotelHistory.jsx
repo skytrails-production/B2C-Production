@@ -11,7 +11,7 @@ import hotelFilter from "../../images/hotelFilter.png"
 import { SpinnerCircular } from 'spinners-react';
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
-
+import SecureStorage from "react-secure-storage";
 
 
 const HotelHistory = () => {
@@ -41,7 +41,7 @@ const HotelHistory = () => {
 
 
 
-    const token = sessionStorage.getItem("jwtToken");
+    const token = SecureStorage.getItem("jwtToken");
 
 
     // console.log(hotelBookingData, "hotel booking data")

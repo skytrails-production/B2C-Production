@@ -11,6 +11,7 @@ import { MdAirlineSeatReclineExtra } from "react-icons/md";
 import { SpinnerCircular } from 'spinners-react';
 import Modal from "@mui/material/Modal";
 import Box from "@mui/material/Box";
+import SecureStorage from "react-secure-storage";
 
 
 const BusHistory = () => {
@@ -60,7 +61,7 @@ const BusHistory = () => {
     }
     const handleModalCloseCancelRequest = () => setOpenModalCancelRequest(false);
 
-    const token = sessionStorage.getItem("jwtToken");
+    const token = SecureStorage.getItem("jwtToken");
 
     // fetch api data
 

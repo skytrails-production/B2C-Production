@@ -317,7 +317,7 @@ export default function Popularfilter() {
                       // step="5000"
                       value={priceRangeValue}
                       onChange={handlePriceRangeChange}
-                       // onMouseDown={()=>{setValueShow(true);
+                      // onMouseDown={()=>{setValueShow(true);
                       // }
                       // }
                       onMouseOver={() => setValueShow(true)}
@@ -485,7 +485,7 @@ export default function Popularfilter() {
                   const hotelCode = result?.HotelCode;
                   return (
                     <motion.div variants={variants} initial="initial"
-                      whileInView="animate" className="col-lg-12" >
+                      whileInView="animate" viewport={{ once: true, amount: 0.8 }} className="col-lg-12" >
 
                       <motion.div variants={variants} onClick={(e) => handleClick(resultIndex, hotelCode)} className="hotelResultBoxSearch" key={index}>
                         <div>

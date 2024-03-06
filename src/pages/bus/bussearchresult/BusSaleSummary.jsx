@@ -4,6 +4,7 @@ import axios from "axios";
 import { apiURL } from "../../../Constants/constant";
 
 
+import SecureStorage from "react-secure-storage";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
@@ -39,7 +40,7 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
   ) {
     return accumulator + currentValue?.Price?.PublishedPriceRoundedOff;
   },
-  0);
+    0);
 
   const offeredPrice = seatObject.reduce(
     (accumulator, currentValue, currentIndex, array) => {
@@ -48,10 +49,12 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
     0
   );
 
-  const grandTotal = published + markUpamount;
+
+  const grandTotal = published + markUpamount * published;
+  
 
   const discount = published - offeredPrice;
-  const couponDiscount = discount + markUpamount;
+  const couponDiscount = discount;
 
   const discount1 = parseInt(discount);
   const coupondiscount1 = parseInt(couponDiscount);
@@ -63,12 +66,11 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
     try {
       setLoading(true);
 
-      const token = sessionStorage.getItem("jwtToken");
+      const token = SecureStorage.getItem("jwtToken");
       const couponCode = inputRef.current.value;
 
-
       const response = await axios.put(
-       ` ${apiURL.baseURL}/skyTrails/api/coupons/applyCoupon`,
+        ` ${apiURL.baseURL}/skyTrails/api/coupons/applyCoupon`,
         { couponCode: couponCode },
         {
           headers: {
@@ -80,9 +82,7 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
       if (response?.data?.statusCode === 200) {
         setCouponStatus(true);
         // setSuccessMessage("Coupon applied successfully");
-        await transactionAmount(
-          totalaftercoupon
-        );
+        await transactionAmount(totalaftercoupon);
         // sessionStorage.setItem("totalaftercoupon", totalaftercoupon);
         sessionStorage.setItem("couponCode", couponCode);
 
@@ -91,19 +91,21 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
     } catch (error) {
       setLoading(false);
 
-
       if (error.response && error.response.data.statusCode === 409) {
         setCouponStatus(false);
         setError("Coupon already applied");
         setTimeout(() => {
           setError(null);
         }, 4000);
-      }if(error.response && error.response.data.statusCode === 404){
-        setError(error.response.data.responseMessage)
+
+      }
+      if (error.response && error.response.data.statusCode === 404) {
+        setError(error.response.data.responseMessage);
+
       } else {
         setError(
           error.response?.data?.message ||
-            "Error applying coupon. Please try again."
+          "Error applying coupon. Please try again."
         );
         setCouponStatus(false);
       }
@@ -156,12 +158,14 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
   useEffect(() => {
     setOfferedPrice(offeredPrice);
     setPublishedPrice(published);
-       // setTds(tdsTotal);
+    // setTds(tdsTotal);
   }, []);
 
-  useEffect(()=> {
+  useEffect(() => {
     sessionStorage.removeItem("couponCode");
-  },[])
+
+  }, []);
+
 
   return (
     <>
@@ -184,7 +188,7 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
             <span>Other Tax</span>
             <p>
               {"₹"}
-              {markUpamount}
+              {markUpamount * published}
             </p>
           </div>
         </div>

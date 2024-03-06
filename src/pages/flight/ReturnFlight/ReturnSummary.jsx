@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { apiURL } from "../../../Constants/constant";
+import SecureStorage from 'react-secure-storage';
 
 const KeyValue = ({ data, value }) => {
 
@@ -44,7 +45,7 @@ const ReturnSummary = (props) => {
         try {
             setLoading(true);
 
-            const token = sessionStorage.getItem("jwtToken");
+            const token = SecureStorage.getItem("jwtToken");
             const couponCode = inputRef.current.value;
 
             const response = await axios.put(

@@ -513,9 +513,9 @@ const HotelForm = () => {
   //   }
   // }, [hotelInputRef.current]);
 
-  // search history logic
+  // search history logics
 
-  // const token = sessionStorage.getItem("jwtToken");
+  // const token = SecureStorage.getItem("jwtToken");
 
   // const createSearchHistory = async () => {
 

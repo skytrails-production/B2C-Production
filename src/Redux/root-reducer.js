@@ -41,23 +41,23 @@ const appReducer = combineReducers({
 
 const rootReducer = (state, action) => {
   if (action.type === LOGOUT_REQUEST) {
-    storage.removeItem("persist:root");
-    sessionStorage.clear();
-    localStorage.clear();
-    return appReducer(undefined, action);
+  storage.removeItem("persist:root");
+  sessionStorage.clear();
+  localStorage.clear();
+  return appReducer(undefined, action);
   } else
-    if (action.type === "CLEAR_ONEWAY_REDUCER") {
-      return {
-        ...state,
-        oneWay: oneWayReducer(undefined, action),
-      };
-    }
-    else if (action.type === "CLEAR_BUS_SEARCH_REDUCER") {
-      return {
-        ...state,
-        getBusResult: busSearchReducer(undefined, action),
-      };
-    }
+  if (action.type === "CLEAR_ONEWAY_REDUCER") {
+    return {
+      ...state,
+      oneWay: oneWayReducer(undefined, action),
+    };
+  }
+  else if (action.type === "CLEAR_BUS_SEARCH_REDUCER") {
+    return {
+      ...state,
+      getBusResult: busSearchReducer(undefined, action),
+    };
+  }
   // else if (action.type === "CLEAR_HOTEL_REDUCER") {
   //   return {
   //     ...state,

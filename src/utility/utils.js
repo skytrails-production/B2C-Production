@@ -17,9 +17,9 @@ export const checkSearchTime = () => {
     const currentTime = new Date();
     const differenceInMinutes = Math.floor((currentTime.getTime() - lastSearchTime.getTime()) / (1000 * 60));
     // const differenceInMinutes = currentTime - lastSearchTime;
-    console.log(differenceInMinutes, "differenceInMinutes/////////")
+    // console.log(differenceInMinutes, "differenceInMinutes/////////")
     if (differenceInMinutes < 11) {
-      console.log('Search time is less than 15 minutes ago.');
+      // console.log('Search time is less than 15 minutes ago.');
       // setSessionTimeLeft(convertMillisecondsToMinutesAndSeconds(currentTime.getTime() - lastSearchTime.getTime()));
 
 
@@ -48,6 +48,6 @@ export function convertMillisecondsToMinutesAndSeconds(milliseconds) {
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
   const timeleft = `${minutes}:${seconds}`
-  console.log(timeleft, "time left");
+  // console.log(timeleft, "time left");
   return timeleft;
 }

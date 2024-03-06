@@ -7,3 +7,9 @@ body {
   color: 'red !important';
   font-size: '12px';
 }
+.disableTrue{
+  overflow: hidden !important;
+}
+.disableFalse{
+  overflow: unset !important;
+}

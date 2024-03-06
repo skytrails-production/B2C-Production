@@ -5,9 +5,10 @@ import { apiURL } from "../../../Constants/constant";
 import userApi from "../../../Redux/API/api";
 import { Mode } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import SecureStorage from "react-secure-storage";
 const BusBookingConfirmation = () => {
   const reducerState = useSelector((state) => state);
-  
+
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.busMarkup;
   const passengerNames = JSON.parse(sessionStorage.getItem("busPassName"));
@@ -16,7 +17,7 @@ const BusBookingConfirmation = () => {
 
   const couponconfirmation = async () => {
     try {
-      const token = sessionStorage.getItem("jwtToken");
+      const token = SecureStorage.getItem("jwtToken");
       const response = await axios.get(
         `${
           apiURL.baseURL
@@ -44,12 +45,16 @@ const BusBookingConfirmation = () => {
           ?.GetBookingDetailResult?.Itinerary;
       const totalAmount =
         reducerState?.getBusResult?.busDetails?.data?.data
-          ?.GetBookingDetailResult?.Itinerary?.Price?.PublishedPrice;
-
-      const grandtotal = totalAmount + markUpamount;
+          ?.GetBookingDetailResult?.Itinerary?.Price?.PublishedPriceRoundedOff;
+      //  console.log(totalAmount, "totalAmount");
+      const grandtotal = totalAmount + markUpamount * totalAmount;
       const buscouponamount =
         reducerState?.getBusResult?.busDetails?.data?.data
-          ?.GetBookingDetailResult?.Itinerary?.Price?.OfferedPriceRoundedOff;
+          ?.GetBookingDetailResult?.Itinerary?.Price?.OfferedPriceRoundedOff +
+        markUpamount *
+          reducerState?.getBusResult?.busDetails?.data?.data
+            ?.GetBookingDetailResult?.Itinerary?.Price
+            ?.PublishedPriceRoundedOff;
 
       const payloadSavedata = {
         userId: reducerState?.logIn?.loginData?.data?.data?.id,

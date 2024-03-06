@@ -9,7 +9,7 @@ body {
   /* height: 100vh; */
   font-family: "Montserrat";
   background-color: #F4F3F3;
-  overflow: unset !important;
+  /* overflow: unset !important; */
 
 }
 
@@ -59,6 +59,10 @@ body {
 
 .scroll_style::-webkit-scrollbar-thumb {
   background-color: rgb(217, 4, 41);
+}
+
+[id^="easebuzz-container-v2-"] {
+  z-index: 2147483640 !important;
 }
 
 .classButton {

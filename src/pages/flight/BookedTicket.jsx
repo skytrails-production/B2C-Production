@@ -38,10 +38,12 @@ const BookedTicket = () => {
         destination: bookingDataLcc?.FlightItinerary?.Destination,
         paymentStatus: "success",
         totalAmount: couponvalue
-          ? bookingDataLcc?.FlightItinerary?.Fare?.OfferedFare
+          ? parseInt(bookingDataLcc?.FlightItinerary?.Fare?.OfferedFare) +
+            parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) *
+              markUpamount
           : parseInt(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare) +
-            markUpamount +
-            1,
+            markUpamount *
+              parseInt(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare),
         airlineDetails: bookingDataLcc?.FlightItinerary?.Segments.map(
           (item, index) => {
             return {
@@ -106,9 +108,12 @@ const BookedTicket = () => {
         destination: bookingDataNonLcc?.FlightItinerary?.Destination,
         paymentStatus: "success",
         totalAmount: couponvalue
-          ? bookingDataNonLcc?.FlightItinerary?.Fare?.OfferedFare
+          ? parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.OfferedFare) +
+            parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) *
+              markUpamount
           : parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) +
-            markUpamount,
+            markUpamount *
+              parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare),
         airlineDetails: bookingDataNonLcc?.FlightItinerary?.Segments.map(
           (item, index) => {
             return {
@@ -311,7 +316,9 @@ const BookedTicket = () => {
         </div>
       </div> */}
 
-      <div className="tempBox" style={{ marginTop: "150px", marginBottom: "150px" }}
+      <div
+        className="tempBox"
+        style={{ marginTop: "150px", marginBottom: "150px" }}
       >
         <div className="container">
           <h2>Thank You for Booking With Us</h2>

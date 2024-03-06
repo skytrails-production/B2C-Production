@@ -835,8 +835,8 @@ p: 4, */
 }
 
 .shareBox svg {
-  /* fill: #d90429; */
-  /* stroke: #fff; */
+  fill: #d90429;
+  stroke: #fff;
 }
 
 @media (max-width: 600px) {
