@@ -135,7 +135,7 @@ function api() {
 
 
   const flightBookingDataSave = (payload) => {
-    const token = sessionStorage?.getItem("jwtToken");
+    const token = SecureStorage?.getItem("jwtToken");
     return axios({
       method: "POST",
       url: "skyTrails/api/user/flightBooking",
@@ -367,7 +367,7 @@ function api() {
     });
   };
   const busBookingDataSave = (payload) => {
-    const token = sessionStorage?.getItem("jwtToken");
+    const token = SecureStorage?.getItem("jwtToken");
     return axios({
       method: "POST",
       url: "/skyTrails/api/user/busBooking",

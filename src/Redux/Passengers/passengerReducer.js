@@ -3,11 +3,8 @@ import * as types from "./passengerActionType";
 const initState = {
   passengersData: [],
   passengerDataReturn: [],
-
   isLoading: false,
-
   isError: false,
-
   showSuccessMessage: false,
 };
 

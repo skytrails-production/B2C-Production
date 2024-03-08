@@ -62,7 +62,7 @@ const ReturnSummaryWithCoupon = (props) => {
                 setCouponStatus(true);
                 sessionStorage.setItem("couponCode", couponCode);
                 await props.transactionAmount(
-                    Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare) + Number(markUpamount) - Number(coupondiscount)
+                    Number((Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare))+ markUpamount* (Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare)) - discountValue).toFixed(0)
                 );
             }
         } catch (error) {
@@ -122,13 +122,29 @@ const ReturnSummaryWithCoupon = (props) => {
     const fareValueReturn = reducerState?.flightFare?.flightQuoteDataReturn?.Results;
     const fareQuote = reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode;
     const discountValue =
-        Number(fareValue?.Fare?.PublishedFare - fareValue?.Fare?.OfferedFare) + Number(fareValueReturn?.Fare?.PublishedFare - fareValueReturn?.Fare?.OfferedFare);
+       Number( Number(fareValue?.Fare?.PublishedFare - fareValue?.Fare?.OfferedFare) + Number(fareValueReturn?.Fare?.PublishedFare - fareValueReturn?.Fare?.OfferedFare).toFixed(0));
 
     const markUpamount =
         reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
 
-    const integerValue = parseInt(discountValue);
-    const coupondiscount = integerValue + markUpamount;
+        const taxvalue = Number(markUpamount*(fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare)).toFixed(0);
+        const grandtotal = Number((fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare )+markUpamount*(fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare)).toFixed(0);
+        
+
+        const Afterdiscount =   Number((Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare))+ markUpamount* (Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare)) - discountValue).toFixed(0)
+        
+        // {parseFloat(
+        //     (
+        //         Number(fareValue?.Fare
+        //             ?.PublishedFare) + Number(fareValueReturn?.Fare
+        //                 ?.PublishedFare) +
+        //         Number(markUpamount) -
+        //         Number(coupondiscount)
+        //     ).toFixed(2)
+        // )}
+
+    // const integerValue = parseInt(discountValue);
+    // const coupondiscount = integerValue + markUpamount;
 
 
     let total = 0;
@@ -164,7 +180,7 @@ const ReturnSummaryWithCoupon = (props) => {
                         <div className="headFlight">
                             <span>Price Summary</span>
                         </div>
-                        <p>Departure</p>
+                        <p className="depRet">Departure</p>
                         {fareValue?.Segments?.map((dat, index) => {
                             return dat?.map((data1) => {
                                 const dateString = data1?.Origin?.DepTime;
@@ -241,7 +257,7 @@ const ReturnSummaryWithCoupon = (props) => {
                             })}
                         </div>
 
-                        <p>Return</p>
+                        <p className="depRet">Return</p>
                         {fareValueReturn?.Segments?.map((dat, index) => {
                             return dat?.map((data1) => {
                                 const dateString = data1?.Origin?.DepTime;
@@ -323,14 +339,15 @@ const ReturnSummaryWithCoupon = (props) => {
                                 <span>Total TAX: </span>
                                 <p>
                                     {"₹"}
-                                    {markUpamount}
+                                    {taxvalue}
                                 </p>
                             </div>
                             <div>
                                 <span>Grand Total:</span>
                                 <p>
                                     {"₹"}
-                                    {fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare + markUpamount}
+                                    {/* {fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare + markUpamount} */}
+                                    {grandtotal}
                                 </p>
                             </div>
                         </div>
@@ -401,15 +418,17 @@ const ReturnSummaryWithCoupon = (props) => {
                                                                 <span>Coupon Amount: </span>
                                                                 <p>
                                                                     {"₹"}
-                                                                    {coupondiscount}
+                                                                    {/* {coupondiscount} */}
+                                                                    {discountValue}
                                                                 </p>
                                                             </div>
                                                             <div>
                                                                 <span>Total:</span>
                                                                 <p>
                                                                     {"₹"}
-                                                                    {fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare +
-                                                                        markUpamount}
+                                                                    {/* {fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare +
+                                                                        markUpamount} */}
+                                                                        {grandtotal}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -420,15 +439,16 @@ const ReturnSummaryWithCoupon = (props) => {
 
                                                                 <p>
                                                                     {"₹"}
-                                                                    {parseFloat(
+                                                                    {/* {parseFloat(
                                                                         (
                                                                             Number(fareValue?.Fare
                                                                                 ?.PublishedFare) + Number(fareValueReturn?.Fare
                                                                                     ?.PublishedFare) +
                                                                             Number(markUpamount) -
-                                                                            Number(coupondiscount)
+                                                                            Number(discountValue)
                                                                         ).toFixed(2)
-                                                                    )}
+                                                                    )} */}
+                                                                    {Afterdiscount}
                                                                 </p>
                                                             </div>
                                                         </div>

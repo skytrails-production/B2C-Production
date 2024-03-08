@@ -28,7 +28,16 @@ export const returnReducer = (state = initState, action) => {
         isError: false,
         showSuccessMessage: true,
       };
+    case types.CLEAR_RETURN_REDUCER:
+      return {
+        returnData: [],
 
+        isLoading: false,
+
+        isError: false,
+
+        showSuccessMessage: false,
+      };
     default:
       return state;
   }

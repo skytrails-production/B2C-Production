@@ -11,7 +11,7 @@ import FlightTakeoffTwoToneIcon from "@mui/icons-material/FlightTakeoffTwoTone";
 import FlightLandIcon from '@mui/icons-material/FlightLand';
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-
+import FlightLoader from '../FlightLoader/FlightLoader';
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -25,7 +25,7 @@ import { clearbookTicketGDS } from "../../../Redux/FlightBook/actionFlightBook";
 import { resetAllFareData } from "../../../Redux/FlightFareQuoteRule/actionFlightQuote";
 import { Helmet } from "react-helmet-async";
 import SecureStorage from 'react-secure-storage';
-import { returnAction } from "../../../Redux/FlightSearch/Return/return";
+import { returnAction, returnActionClear } from "../../../Redux/FlightSearch/Return/return";
 
 
 const ReturnForm = () => {
@@ -77,6 +77,9 @@ const ReturnForm = () => {
             return prevReturnDate;
         });
     }, [startDate]);
+    useEffect(() => {
+        dispatch(returnActionClear())
+    }, [])
 
 
 
@@ -139,7 +142,7 @@ const ReturnForm = () => {
     const [to, setTO] = useState("");
     // const [isLoadingTo, setIsLoadingTo] = useState(false);
     const [toSearchResults, setToSearchResults] = useState([]);
-
+    const [loader, setLoader] = useState(false);
     const [displayTo, setdisplayTo] = useState(true);
 
 
@@ -150,6 +153,41 @@ const ReturnForm = () => {
     const [activeIdAdult, setActiveIdAdult] = useState(1);
     const [totalCount, setCountPassanger] = useState(0);
     const [departureDate, setDepartureDate] = useState("");
+
+
+    useEffect(() => {
+        if (reducerState?.return?.isLoading === true) {
+            setLoader(true);
+        }
+    }, [reducerState?.return?.isLoading]);
+
+
+    const returnResults =
+        reducerState?.return?.returnData?.data?.data?.Response?.Results;
+
+
+    useEffect(() => {
+
+        // console.log(returnResults,'result return')
+
+        if (returnResults) {
+            // navigate("/FlightresultReturn");
+            if (returnResults[1] !== undefined) {
+                navigate(`/ReturnResult`);
+            } else {
+                navigate("/ReturnResultInternational");
+            }
+        }
+        else {
+            navigate("/return")
+        }
+
+        if (returnResults) {
+            setLoader(false);
+        }
+    }, [
+        reducerState?.return?.returnData?.data?.data?.Response?.Results
+    ]);
 
 
     const handleTravelerCountChange = (category, value) => {
@@ -450,9 +488,7 @@ const ReturnForm = () => {
         sessionStorage.setItem("infants", activeIdInfant);
 
         dispatch(returnAction(payload));
-        navigate(
-            `/ReturnResult`
-        );
+
     }
 
 
@@ -463,7 +499,9 @@ const ReturnForm = () => {
         setSelectedTo(tempFrom);
     };
 
-
+    if (loader) {
+        return <FlightLoader />;
+    }
 
     return (
         <>

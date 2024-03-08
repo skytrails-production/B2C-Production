@@ -7,16 +7,18 @@ import {
     PassengersAction,
     PassengersActionReturn,
 } from "../../../Redux/Passengers/passenger";
-import FlightLoader from "../FlightLoader/FlightLoader";
-import Alert from "@mui/material/Alert";
-import { isValidPassportNumber } from "./passportValidation";
+import FlightLoader from '../FlightLoader/FlightLoader';
+import Alert from '@mui/material/Alert';
+import { isValidPassportNumber } from "./passportValidation"
 import dayjs from "dayjs";
 // import fromTo from "../../images/fromTo.png";
-import fromTo from "../../../images/fromTo.png";
+import fromTo from "../../../images/fromTo.png"
 import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
+import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
 import ReturnSummary from "./ReturnSummary";
+import ReturnSummaryInternational from "./ReturnSummaryInternational";
+
 
 const variants = {
     initial: {
@@ -33,7 +35,8 @@ const variants = {
     },
 };
 
-const ReturnPassenger = () => {
+
+const PassengerInternational = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const adults = sessionStorage.getItem("adults");
@@ -48,41 +51,35 @@ const ReturnPassenger = () => {
     const isPassportRequired =
         reducerState?.flightFare?.flightQuoteData?.Results
             ?.IsPassportRequiredAtTicket;
-    const fareValueReturn = isPassportRequired
-        ? reducerState?.flightFare?.flightQuoteData?.Results
-        : reducerState?.flightFare?.flightQuoteDataReturn?.Results;
-    const fareRule = isPassportRequired
-        ? reducerState?.flightFare?.flightRuleData?.FareRules
+    const fareValueReturn =
+        isPassportRequired ? reducerState?.flightFare?.flightQuoteData?.Results :
+            reducerState?.flightFare?.flightQuoteDataReturn?.Results;
+    const fareRule = isPassportRequired ?
+        reducerState?.flightFare?.flightRuleData?.FareRules
         : reducerState?.flightFare?.flightRuleDataReturn?.FareRules;
     const fareRuleReturn =
         reducerState?.flightFare?.flightRuleDataReturn?.FareRules;
     const data = reducerState?.oneWay?.oneWayData?.data?.data?.Response;
-    const result = reducerState?.flightFare?.flightQuoteData?.Results;
-    const flightDeparture =
-        reducerState?.flightFare?.flightQuoteData?.Results?.Segments;
-    const flightReturn =
-        reducerState?.flightFare?.flightQuoteDataReturn?.Results?.Segments;
-
+    const result = reducerState?.flightFare?.flightQuoteData?.Results
+    const flightDeparture = reducerState?.flightFare?.flightQuoteData?.Results?.Segments[0];
+    const flightReturn = reducerState?.flightFare?.flightQuoteData?.Results?.Segments[1];
+    const [loading, setLoading] = useState(false)
     const cancellationPolicy =
         reducerState?.flightFare?.flightQuoteData?.Results?.MiniFareRules?.[0];
     const detailsOfCancel = cancellationPolicy?.filter(
         (rule) => rule.Type === "Cancellation"
     );
 
-    console.log(cancellationPolicy, "details of cancel");
+    const pending = reducerState?.passengers?.isLoading || false;
 
     useEffect(() => {
-        if (
-            adults === undefined ||
-            adults === null ||
-            childs === undefined ||
-            childs === null ||
-            infants === undefined ||
-            infants === null
-        ) {
-            navigate("/FlightresultReturn");
+        if (adults === undefined || adults === null || childs === undefined || childs === null || infants === undefined || infants === null) {
+            navigate("/FlightresultReturn")
         }
-    });
+    })
+
+    console.log(farePrice[0], "fae price")
+
 
     const passengerTemplate = {
         Title: "Mr",
@@ -141,14 +138,12 @@ const ReturnPassenger = () => {
         FFNumber: "",
     };
 
-    console.log(farePrice[0], "fare price");
-
     let totalPassenger = Number(adults) + Number(childs) + Number(infants);
     const passengerLists = [];
     const passengerChildLists = [];
     const passengerInfantLists = [];
     useEffect(() => {
-        if (fareValue && fareValueReturn) {
+        if (fareValue) {
             const fareDetails = fareValue?.Fare;
             const fareBreakdown = fareValue?.FareBreakdown;
             const fareBreakdownReturn = fareValueReturn?.FareBreakdown;
@@ -184,7 +179,7 @@ const ReturnPassenger = () => {
                 setFarePriceReturn(arrReturn);
             });
         }
-    }, [fareValue, fareValueReturn]);
+    }, [fareValue]);
     for (let i = 0; i < adults; i++) {
         passengerLists.push({
             ...passengerTemplate,
@@ -204,6 +199,7 @@ const ReturnPassenger = () => {
             IsLeadPax: false, // Set the first passenger as the lead passenger
         });
     }
+
 
     const [passengerList, setPassengerList] = useState(passengerLists);
     const allPassenger = [
@@ -235,7 +231,6 @@ const ReturnPassenger = () => {
         setPassengerData(list);
     };
 
-    console.log(passengerData, "passenger data")
 
     const fareQuoteData = reducerState?.flightFare?.flightQuoteData?.Results;
     function validatePhoneNumber(phoneNumber) {
@@ -255,22 +250,19 @@ const ReturnPassenger = () => {
         const result3 = isPassportRequired ? isValidPassportNumber(passport) : true;
         const result = result1 && result2 && result3;
         console.warn(result, "Please fill all the details/////");
-        return result;
+        return result
     }
     function convertDateFormat(inputDate) {
         const [year, month, day] = inputDate.split("-");
         const newDate = new Date(year, month - 1, day);
-        const outputDate = newDate
-            .toISOString()
-            .slice(0, 19)
-            .replace("T", "T00:00:00");
+        const outputDate = newDate.toISOString().slice(0, 19).replace("T", "T00:00:00");
         return outputDate;
     }
 
     const formatDate = (date) => {
         const year = date.getFullYear();
-        const month = ("0" + (date.getMonth() + 1)).slice(-2);
-        const day = ("0" + date.getDate()).slice(-2);
+        const month = ('0' + (date.getMonth() + 1)).slice(-2);
+        const day = ('0' + date.getDate()).slice(-2);
         return `${year}-${month}-${day}`;
     };
     const datet = new Date();
@@ -280,114 +272,77 @@ const ReturnPassenger = () => {
     const maxDateValueChild = new Date(datet);
     const minDateValueInfer = new Date(datet);
 
-    minDateValueChild.setFullYear(datet.getFullYear() - 11);
-    maxDateValueChild.setFullYear(datet.getFullYear() - 2);
-    minDateValueInfer.setFullYear(datet.getFullYear() - 2);
+    minDateValueChild.setFullYear(datet.getFullYear() - 11)
+    maxDateValueChild.setFullYear(datet.getFullYear() - 2)
+    minDateValueInfer.setFullYear(datet.getFullYear() - 2)
 
-    const currentDate = formatDate(datet);
-    const maxDate = formatDate(maxDateValue);
-    const minDateChild = formatDate(minDateValueChild);
-    const maxDateChild = formatDate(maxDateValueChild);
-    const minDateInfer = formatDate(maxDateValueChild);
 
-    console.log(passengerData, "passemger data");
+
+    const currentDate = formatDate(datet)
+    const maxDate = formatDate(maxDateValue)
+    const minDateChild = formatDate(minDateValueChild)
+    const maxDateChild = formatDate(maxDateValueChild)
+    const minDateInfer = formatDate(maxDateValueChild)
+
+    console.log(pending, "pending data")
+
+
     const handleSubmit = () => {
-        setSub(true);
+
+        setLoading(true);
+
+        setSub(true)
 
         const valid = passengerData.filter(
             (item) =>
                 item.FirstName === "" || item.LastName === "" || item.DateOfBirth === ""
         );
 
-        const emailVal = passengerList.filter(
-            (item) => !isValidEmail(item.Email, item.ContactNo, item.PassportNo)
-        );
+        const emailVal = passengerList.filter((item) =>
+            !isValidEmail(item.Email, item.ContactNo, item.PassportNo)
+        )
 
         if (valid.length !== 0 && emailVal.length !== 0) {
-            setShowAleart(true);
+            setShowAleart(true)
             setTimeout(() => {
-                setShowAleart(false);
+                setShowAleart(false)
             }, 3000);
-            return;
+            return
         }
 
-        const passengerDataReturn = passengerData?.map((item, index) => {
-            if (item?.PaxType == 1) {
-                return {
-                    ...item,
-                    PassportExpiry: isPassportRequired
-                        ? convertDateFormat(item.PassportExpiry)
-                        : "",
-                    Fare: farePriceReturn[0],
-                };
-            } else if (item?.PaxType == 2) {
-                return {
-                    ...item,
-                    PassportExpiry: isPassportRequired
-                        ? convertDateFormat(item.PassportExpiry)
-                        : "",
-                    Fare: farePriceReturn[1],
-                };
-            } else {
-                return {
-                    ...item,
-                    PassportExpiry: isPassportRequired
-                        ? convertDateFormat(item.PassportExpiry)
-                        : "",
-                    Fare: farePriceReturn[2],
-                };
-            }
-        });
-
         dispatch(PassengersAction(passengerData));
-        dispatch(PassengersActionReturn(passengerDataReturn));
+        navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational");
 
-        navigate("/FlightresultReturn/Passengerdetail/returnreviewbooking");
-    };
-
-    const [Loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        if (flightDeparture?.[0]?.[0]?.Airline?.AirlineCode === undefined) {
-            setLoading(true);
-        } else setLoading(false);
-    }, [flightDeparture?.[0]?.[0]?.Airline?.AirlineCode]);
-
-    if (Loading) {
-        return (
-            <div>
-                <FlightLoader />
-            </div>
-        );
     }
 
-    console.log(flightReturn, "flight return");
+
+
+
 
     return (
         <div>
             <div className="mainimgFlightSearch">
                 <InsideNavbar />
             </div>
-            <div
-                style={{
-                    position: "fixed",
-                    top: "20%",
-                    left: 0,
-                    display: "flex",
-                    width: "100%",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    zIndex: 99999,
-                }}
-            >
-                {showAleart && (
-                    <Alert severity="error">Please fill all the details</Alert>
-                )}
+            <div style={{
+                position: "fixed",
+                top: "20%",
+                left: 0,
+                display: "flex",
+                width: "100%",
+                alignItems: 'center',
+                justifyContent: "center",
+                zIndex: 99999
+
+            }}>
+                {showAleart &&
+                    <Alert severity="error">Please fill all the details</Alert>}
             </div>
             <div className="container  px-0 pt-4">
                 <div className="row">
                     <div className="col-lg-9 martop">
                         <div className="row">
+
                             {/* for departure  */}
 
                             <div className="col-lg-12 mb-3">
@@ -396,145 +351,146 @@ const ReturnPassenger = () => {
                                         <div>
                                             <p className="text-center">Departure</p>
                                             <p>
-                                                {flightDeparture?.[0][0]?.Origin?.Airport?.CityName}
+                                                {
+                                                    flightDeparture?.[0]?.Origin
+                                                        ?.Airport?.CityName
+                                                }
                                                 <FiArrowRight style={{ margin: "5px" }} />{" "}
                                                 {
-                                                    flightDeparture[0][flightDeparture[0].length - 1]
-                                                        ?.Destination?.Airport?.CityName
+                                                    flightDeparture?.[flightDeparture.length - 1]?.Destination
+                                                        ?.Airport?.CityName
                                                 }
                                             </p>
                                             <div className="aboveSpan">
                                                 <span className="aboveSOne">
-                                                    {dayjs(flightDeparture[0][0]?.Origin?.DepTime).format(
-                                                        "DD MMM, YY"
-                                                    )}
+                                                    {dayjs(flightDeparture?.[0]?.Origin?.DepTime).format("DD MMM, YY")}
                                                 </span>
                                                 <span>
-                                                    {flightDeparture[0].length > 1
-                                                        ? `${flightDeparture[0].length - 1} stop via ${flightDeparture[0][0]?.Destination?.Airport
-                                                            ?.CityName
-                                                        }`
-                                                        : "Non Stop"}
+                                                    {flightDeparture?.length > 1 ? `${flightDeparture?.length - 1} stop via ${flightDeparture[0]?.Destination?.Airport?.CityName}` : "Non Stop"}
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
 
-                                    {flightDeparture[0]?.map((item, index) => {
-                                        const nextFlight = flightDeparture[0][index + 1];
-                                        let layoverHours = 0;
-                                        let layoverMinutes = 0;
 
-                                        if (nextFlight) {
-                                            const arrivalTime = dayjs(item?.Destination?.ArrTime);
-                                            const departureTime = dayjs(nextFlight?.Origin?.DepTime);
-                                            const layoverDuration = departureTime.diff(
-                                                arrivalTime,
-                                                "minutes"
-                                            ); // Calculate difference in minutes
-                                            layoverHours = Math.floor(layoverDuration / 60); // Extract hours
-                                            layoverMinutes = layoverDuration % 60;
-                                        }
-                                        return (
-                                            <>
-                                                <div className="bookcenteredBox">
-                                                    <div>
-                                                        <img
-                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline?.AirlineCode}.png`}
-                                                        />{" "}
-                                                    </div>
-                                                    <span>{item?.Airline?.AirlineName}</span>
-                                                    <p>
-                                                        {item?.Airline?.AirlineCode}
-                                                        {item?.Airline?.FlightNumber}
-                                                    </p>
-                                                </div>
+                                    {
+                                        flightDeparture?.map((item, index) => {
 
-                                                <div className="bookbottomBox">
-                                                    <div>
-                                                        <div className="bookBottomOne">
-                                                            <p>
-                                                                {dayjs(item?.Origin?.DepTime).format("h:mm A")}
-                                                            </p>
-                                                            <p>
-                                                                {dayjs(item?.Destination?.ArrTime).format(
-                                                                    "h:mm A"
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                        <div className="bookBottomTwo">
-                                                            <img src={fromTo} alt="icon" />
-                                                        </div>
-                                                        <div className="bookBottomThree">
-                                                            <p>
-                                                                {item?.Origin?.Airport?.CityName}{" "}
-                                                                <span>
-                                                                    {item?.Origin?.Airport?.AirportName?.slice(
-                                                                        0,
-                                                                        26
-                                                                    )}{" "}
-                                                                    Terminal-
-                                                                    {item?.Origin?.Airport?.Terminal
-                                                                        ? item?.Origin?.Airport?.Terminal
-                                                                        : "X"}
-                                                                </span>
-                                                            </p>
-                                                            <p>
-                                                                {item?.Destination?.Airport?.CityName}{" "}
-                                                                <span>
-                                                                    {item?.Destination?.Airport?.AirportName?.slice(
-                                                                        0,
-                                                                        26
-                                                                    )}{" "}
-                                                                    Terminal-
-                                                                    {item?.Destination?.Airport?.Terminal
-                                                                        ? item?.Destination?.Airport?.Terminal
-                                                                        : "Y"}
-                                                                </span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
+                                            const nextFlight = flightDeparture[index + 1];
+                                            let layoverHours = 0;
+                                            let layoverMinutes = 0;
 
-                                                    <div className="bookBottomFour">
+                                            if (nextFlight) {
+                                                const arrivalTime = dayjs(item?.Destination?.ArrTime);
+                                                const departureTime = dayjs(nextFlight?.Origin?.DepTime);
+                                                const layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
+                                                layoverHours = Math.floor(layoverDuration / 60); // Extract hours
+                                                layoverMinutes = layoverDuration % 60;
+                                            }
+                                            return (
+                                                <>
+
+                                                    <div className="bookcenteredBox">
                                                         <div>
-                                                            <p>Baggage</p>
-                                                            <span>ADULT</span>
+                                                            <img
+                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline?.AirlineCode}.png`}
+                                                            />{" "}
                                                         </div>
-                                                        <div>
-                                                            <p>Check-in</p>
-                                                            <span>
-                                                                {flightDeparture[0][0]?.Baggage.split(" ")[0]}{" "}
-                                                                Kgs
-                                                            </span>
-                                                        </div>
-                                                        <div>
-                                                            <p>Cabin</p>
-                                                            <span>
-                                                                {
-                                                                    flightDeparture[0][0]?.CabinBaggage.split(
-                                                                        " "
-                                                                    )[0]
-                                                                }{" "}
-                                                                Kgs
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    {layoverHours !== 0 && layoverMinutes !== 0 && (
-                                                        <p className="text-bold">
-                                                            Layover Time: {layoverHours} hours{" "}
-                                                            {layoverMinutes} minutes
+                                                        <span>
+                                                            {
+                                                                item?.Airline
+                                                                    ?.AirlineName
+                                                            }
+                                                        </span>
+                                                        <p>
+                                                            {
+                                                                item?.Airline
+                                                                    ?.AirlineCode
+                                                            }
+                                                            {
+                                                                item?.Airline
+                                                                    ?.FlightNumber
+                                                            }
+
                                                         </p>
-                                                    )}
-                                                </div>
-                                            </>
-                                        );
-                                    })}
+                                                    </div>
+
+                                                    <div className="bookbottomBox">
+                                                        <div>
+                                                            <div className="bookBottomOne">
+                                                                <p>{dayjs(item?.Origin?.DepTime).format("h:mm A")}</p>
+                                                                <p>{dayjs(item?.Destination?.ArrTime).format("h:mm A")}</p>
+
+                                                            </div>
+                                                            <div className="bookBottomTwo">
+                                                                <img src={fromTo} alt="icon" />
+                                                            </div>
+                                                            <div className="bookBottomThree">
+                                                                <p>
+                                                                    {
+                                                                        item?.Origin
+                                                                            ?.Airport?.CityName
+                                                                    }{" "}
+                                                                    <span>
+                                                                        {
+                                                                            item?.Origin
+                                                                                ?.Airport?.AirportName?.slice(0, 26)
+                                                                        }
+                                                                        {" "}Terminal-{item?.Origin?.Airport?.Terminal ? item?.Origin?.Airport?.Terminal : "X"}
+                                                                    </span>
+                                                                </p>
+                                                                <p>
+                                                                    {
+                                                                        item?.Destination
+                                                                            ?.Airport?.CityName
+                                                                    }{" "}
+                                                                    <span>
+                                                                        {
+                                                                            item
+                                                                                ?.Destination?.Airport?.AirportName?.slice(0, 26)
+                                                                        }
+                                                                        {" "}Terminal-{item?.Destination?.Airport?.Terminal ? item?.Destination?.Airport?.Terminal : "Y"}
+                                                                    </span>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <div className="bookBottomFour">
+                                                            <div>
+                                                                <p>Baggage</p>
+                                                                <span>ADULT</span>
+                                                            </div>
+                                                            <div>
+                                                                <p>Check-in</p>
+                                                                <span>{
+                                                                    flightDeparture[0]?.Baggage.split(" ")[0]
+                                                                }{" "} Kgs</span>
+                                                            </div>
+                                                            <div>
+                                                                <p>Cabin</p>
+                                                                <span>{
+                                                                    flightDeparture[0]?.CabinBaggage.split(" ")[0]
+                                                                }{" "} Kgs</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        {(layoverHours !== 0 && layoverMinutes !== 0) && (
+                                                            <p className="text-bold">Layover Time: {layoverHours} hours {layoverMinutes} minutes</p>
+                                                        )}
+                                                    </div>
+                                                </>
+                                            )
+                                        })
+                                    }
                                 </div>
                             </div>
 
                             {/* for departure  */}
+
+
 
                             {/* for return  */}
 
@@ -544,144 +500,146 @@ const ReturnPassenger = () => {
                                         <div>
                                             <p className="text-center">Return</p>
                                             <p>
-                                                {flightReturn?.[0]?.[0]?.Origin?.Airport?.CityName}
+                                                {
+                                                    flightReturn?.[0]?.Origin
+                                                        ?.Airport?.CityName
+                                                }
                                                 <FiArrowRight style={{ margin: "5px" }} />{" "}
                                                 {
-                                                    flightReturn?.[0][flightReturn?.[0].length - 1]
-                                                        ?.Destination?.Airport?.CityName
+                                                    flightReturn?.[flightReturn?.length - 1]?.Destination
+                                                        ?.Airport?.CityName
                                                 }
                                             </p>
                                             <div className="aboveSpan">
                                                 <span className="aboveSOne">
-                                                    {dayjs(flightReturn?.[0][0]?.Origin?.DepTime).format(
-                                                        "DD MMM, YY"
-                                                    )}
+                                                    {dayjs(flightReturn?.[0]?.Origin?.DepTime).format("DD MMM, YY")}
                                                 </span>
                                                 <span>
                                                     {/* {`${flightReturn[0].length -1} stop via ${flightReturn[0][0]?.Destination?.Airport?.CityName}`}{" "} */}
-                                                    {flightReturn?.[0].length > 1
-                                                        ? `${flightReturn?.[0].length - 1} stop via ${flightReturn?.[0][0]?.Destination?.Airport
-                                                            ?.CityName
-                                                        }`
-                                                        : "Non Stop"}
+                                                    {flightReturn?.length > 1 ? `${flightReturn?.length - 1} stop via ${flightReturn?.[0]?.Destination?.Airport?.CityName}` : "Non Stop"}
                                                     {/* {duration} */}
                                                 </span>
                                             </div>
                                         </div>
                                     </div>
-                                    {flightReturn?.[0]?.map((item, index) => {
-                                        const nextFlight = flightReturn?.[0][index + 1];
-                                        let layoverHours = 0;
-                                        let layoverMinutes = 0;
+                                    {
+                                        flightReturn?.map((item, index) => {
 
-                                        if (nextFlight) {
-                                            const arrivalTime = dayjs(item?.Destination?.ArrTime);
-                                            const departureTime = dayjs(nextFlight?.Origin?.DepTime);
-                                            const layoverDuration = departureTime.diff(
-                                                arrivalTime,
-                                                "minutes"
-                                            ); // Calculate difference in minutes
-                                            layoverHours = Math.floor(layoverDuration / 60); // Extract hours
-                                            layoverMinutes = layoverDuration % 60;
-                                        }
-                                        return (
-                                            <>
-                                                <div className="bookcenteredBox">
-                                                    <div>
-                                                        <img
-                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline?.AirlineCode}.png`}
-                                                        />{" "}
-                                                    </div>
-                                                    <span>{item?.Airline?.AirlineName}</span>
-                                                    <p>
-                                                        {item?.Airline?.AirlineCode}
-                                                        {item?.Airline?.FlightNumber}
-                                                    </p>
-                                                </div>
+                                            const nextFlight = flightReturn?.[index + 1];
+                                            let layoverHours = 0;
+                                            let layoverMinutes = 0;
 
-                                                <div className="bookbottomBox">
-                                                    <div>
-                                                        <div className="bookBottomOne">
-                                                            <p>
-                                                                {dayjs(item?.Origin?.DepTime).format("h:mm A")}
-                                                            </p>
-                                                            <p>
-                                                                {dayjs(item?.Destination?.ArrTime).format(
-                                                                    "h:mm A"
-                                                                )}
-                                                            </p>
-                                                        </div>
-                                                        <div className="bookBottomTwo">
-                                                            <img src={fromTo} alt="icon" />
-                                                        </div>
-                                                        <div className="bookBottomThree">
-                                                            <p>
-                                                                {item?.Origin?.Airport?.CityName}{" "}
-                                                                <span>
-                                                                    {item?.Origin?.Airport?.AirportName?.slice(
-                                                                        0,
-                                                                        26
-                                                                    )}{" "}
-                                                                    Terminal-
-                                                                    {item?.Origin?.Airport?.Terminal
-                                                                        ? item?.Origin?.Airport?.Terminal
-                                                                        : "X"}
-                                                                </span>
-                                                            </p>
-                                                            <p>
-                                                                {item?.Destination?.Airport?.CityName}{" "}
-                                                                <span>
-                                                                    {item?.Destination?.Airport?.AirportName?.slice(
-                                                                        0,
-                                                                        26
-                                                                    )}{" "}
-                                                                    Terminal-
-                                                                    {item?.Destination?.Airport?.Terminal
-                                                                        ? item?.Destination?.Airport?.Terminal
-                                                                        : "Y"}
-                                                                </span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
+                                            if (nextFlight) {
+                                                const arrivalTime = dayjs(item?.Destination?.ArrTime);
+                                                const departureTime = dayjs(nextFlight?.Origin?.DepTime);
+                                                const layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
+                                                layoverHours = Math.floor(layoverDuration / 60); // Extract hours
+                                                layoverMinutes = layoverDuration % 60;
+                                            }
+                                            return (
+                                                <>
 
-                                                    <div className="bookBottomFour">
+
+                                                    <div className="bookcenteredBox">
                                                         <div>
-                                                            <p>Baggage</p>
-                                                            <span>ADULT</span>
+                                                            <img
+                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline
+                                                                    ?.AirlineCode}.png`}
+                                                            />{" "}
                                                         </div>
-                                                        <div>
-                                                            <p>Check-in</p>
-                                                            <span>
-                                                                {flightDeparture?.[0][0]?.Baggage.split(" ")[0]}{" "}
-                                                                Kgs
-                                                            </span>
-                                                        </div>
-                                                        <div>
-                                                            <p>Cabin</p>
-                                                            <span>
-                                                                {
-                                                                    flightDeparture?.[0][0]?.CabinBaggage.split(
-                                                                        " "
-                                                                    )[0]
-                                                                }{" "}
-                                                                Kgs
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    {layoverHours !== 0 && layoverMinutes !== 0 && (
-                                                        <p className="text-bold">
-                                                            Layover Time: {layoverHours} hours{" "}
-                                                            {layoverMinutes} minutes
+                                                        <span>
+                                                            {
+                                                                item?.Airline
+                                                                    ?.AirlineName
+                                                            }
+                                                        </span>
+                                                        <p>
+                                                            {
+                                                                item?.Airline
+                                                                    ?.AirlineCode
+                                                            }
+                                                            {
+                                                                item?.Airline
+                                                                    ?.FlightNumber
+                                                            }
+
                                                         </p>
-                                                    )}
-                                                </div>
-                                            </>
-                                        );
-                                    })}
+                                                    </div>
+
+                                                    <div className="bookbottomBox">
+                                                        <div>
+                                                            <div className="bookBottomOne">
+                                                                <p>{dayjs(item?.Origin?.DepTime).format("h:mm A")}</p>
+                                                                <p>{dayjs(item?.Destination?.ArrTime).format("h:mm A")}</p>
+
+                                                            </div>
+                                                            <div className="bookBottomTwo">
+                                                                <img src={fromTo} alt="icon" />
+                                                            </div>
+                                                            <div className="bookBottomThree">
+                                                                <p>
+                                                                    {
+                                                                        item?.Origin
+                                                                            ?.Airport?.CityName
+                                                                    }{" "}
+                                                                    <span>
+                                                                        {
+                                                                            item?.Origin
+                                                                                ?.Airport?.AirportName?.slice(0, 26)
+                                                                        }
+                                                                        {" "}Terminal-{item?.Origin?.Airport?.Terminal ? item?.Origin?.Airport?.Terminal : "X"}
+                                                                    </span>
+                                                                </p>
+                                                                <p>
+                                                                    {
+                                                                        item?.Destination
+                                                                            ?.Airport?.CityName
+                                                                    }{" "}
+                                                                    <span>
+                                                                        {
+                                                                            item
+                                                                                ?.Destination?.Airport?.AirportName?.slice(0, 26)
+                                                                        }
+                                                                        {" "}Terminal-{item?.Destination?.Airport?.Terminal ? item?.Destination?.Airport?.Terminal : "Y"}
+                                                                    </span>
+                                                                </p>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                        <div className="bookBottomFour">
+                                                            <div>
+                                                                <p>Baggage</p>
+                                                                <span>ADULT</span>
+                                                            </div>
+                                                            <div>
+                                                                <p>Check-in</p>
+                                                                <span>{
+                                                                    flightDeparture?.[0]?.Baggage.split(" ")[0]
+                                                                }{" "} Kgs</span>
+                                                            </div>
+                                                            <div>
+                                                                <p>Cabin</p>
+                                                                <span>{
+                                                                    flightDeparture?.[0]?.CabinBaggage.split(" ")[0]
+                                                                }{" "} Kgs</span>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div>
+                                                        {(layoverHours !== 0 && layoverMinutes !== 0) && (
+                                                            <p className="text-bold">Layover Time: {layoverHours} hours {layoverMinutes} minutes</p>
+                                                        )}
+                                                    </div>
+                                                </>
+                                            )
+                                        })
+                                    }
                                 </div>
                             </div>
+
 
                             <motion.div variants={variants} className="col-lg-12 mt-3">
                                 <div className="bookflightPassenger">
@@ -696,13 +654,14 @@ const ReturnPassenger = () => {
                                                 </div>
                                                 <div className="row g-3 mb-3">
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">
-                                                            Title
-                                                        </label>
+                                                        <label for="exampleInputEmail1"
+                                                            class="form-label">Title</label>
                                                         <select
                                                             className="form-select "
                                                             name="Title"
-                                                            onChange={(e) => handleServiceChange(e, i)}
+                                                            onChange={(e) =>
+                                                                handleServiceChange(e, i)
+                                                            }
                                                         >
                                                             <option value="Mr">Mr.</option>
                                                             <option value="Mrs">Mrs.</option>
@@ -710,50 +669,44 @@ const ReturnPassenger = () => {
                                                         </select>
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">
-                                                            First Name
-                                                        </label>
-                                                        <input
-                                                            type="text"
+                                                        <label for="exampleInputEmail1" class="form-label">First Name</label>
+                                                        <input type="text"
                                                             name="FirstName"
                                                             id="floatingInput"
-                                                            onChange={(e) => handleServiceChange(e, i)}
-                                                            class="form-control"
-                                                        ></input>
-                                                        {passengerData[i].FirstName == "" && sub && (
-                                                            <span id="error1">Enter First Name</span>
-                                                        )}
+                                                            onChange={(e) =>
+                                                                handleServiceChange(e, i)
+                                                            }
+                                                            class="form-control">
+                                                        </input>
+                                                        {passengerData[i].FirstName == "" && sub && <span id="error1">Enter First Name</span>}
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">
-                                                            Last Name
-                                                        </label>
-                                                        <input
-                                                            type="text"
+                                                        <label for="exampleInputEmail1" class="form-label">Last Name</label>
+                                                        <input type="text"
                                                             name="LastName"
                                                             id="floatingInput"
                                                             class="form-control"
-                                                            onChange={(e) => handleServiceChange(e, i)}
-                                                        ></input>
-                                                        {passengerData[i].LastName == "" && sub && (
-                                                            <span id="error1">Enter Last Name</span>
-                                                        )}
+                                                            onChange={(e) =>
+                                                                handleServiceChange(e, i)
+                                                            }
+                                                        >
+                                                        </input>
+                                                        {passengerData[i].LastName == "" && sub && <span id="error1">Enter Last Name</span>}
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">
-                                                            Date of Birth
-                                                        </label>
-                                                        <input
-                                                            type="date"
+                                                        <label for="exampleInputEmail1" class="form-label">Date of Birth</label>
+                                                        <input type="date"
                                                             name="DateOfBirth"
                                                             id="floatingInput"
                                                             class="form-control"
-                                                            onChange={(e) => handleServiceChange(e, i)}
+                                                            onChange={(e) =>
+                                                                handleServiceChange(e, i)
+                                                            }
                                                             max={maxDate}
-                                                        ></input>
-                                                        {passengerData[i].DateOfBirth == "" && sub && (
-                                                            <span id="error1">Enter DOB</span>
-                                                        )}
+                                                        >
+
+                                                        </input>
+                                                        {passengerData[i].DateOfBirth == "" && sub && <span id="error1">Enter DOB</span>}
                                                     </div>
                                                 </div>
 
@@ -765,37 +718,21 @@ const ReturnPassenger = () => {
                                                         </div>
                                                         <div className="row g-3 mb-3">
                                                             <div className="col-lg-3 col-md-3">
-                                                                <label
-                                                                    for="exampleInputEmail1"
-                                                                    class="form-label"
-                                                                >
-                                                                    Passport Number
-                                                                </label>
-                                                                <input
-                                                                    type="text"
+                                                                <label for="exampleInputEmail1" class="form-label">Passport Number</label>
+                                                                <input type="text"
                                                                     name="PassportNo"
                                                                     id="floatingInput"
                                                                     class="form-control"
                                                                     onChange={(e) => {
                                                                         handleServiceChange(e, i);
                                                                     }}
-                                                                ></input>
-                                                                {!isValidPassportNumber(
-                                                                    passengerData[i].PassportNo
-                                                                ) &&
-                                                                    sub && (
-                                                                        <span id="error1">
-                                                                            Enter Valid Passport number
-                                                                        </span>
-                                                                    )}
+                                                                >
+
+                                                                </input>
+                                                                {!isValidPassportNumber(passengerData[i].PassportNo) && sub && <span id="error1">Enter Valid Passport number</span>}
                                                             </div>
                                                             <div className="col-lg-3 col-md-3">
-                                                                <label
-                                                                    for="exampleInputEmail1"
-                                                                    class="form-label"
-                                                                >
-                                                                    Passport Expiry
-                                                                </label>
+                                                                <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
                                                                 <input
                                                                     type="date"
                                                                     name="PassportExpiry"
@@ -803,7 +740,9 @@ const ReturnPassenger = () => {
                                                                     class="form-control"
                                                                     onChange={(e) => {
                                                                         handleServiceChange(e, i);
+
                                                                     }}
+
                                                                 ></input>
                                                             </div>
                                                         </div>
@@ -824,7 +763,10 @@ const ReturnPassenger = () => {
                                                 </div>
                                                 <div className="row g-3 mb-3">
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">
+                                                        <label
+                                                            for="exampleInputEmail1"
+                                                            class="form-label"
+                                                        >
                                                             First Name
                                                         </label>
                                                         <input
@@ -835,13 +777,15 @@ const ReturnPassenger = () => {
                                                             onChange={(e) =>
                                                                 handleServiceChange(e, i + Number(adults))
                                                             }
-                                                        ></input>
-                                                        {passengerData[Number(adults) + i].FirstName ==
-                                                            "" &&
-                                                            sub && <span id="error1">Enter First Name</span>}
+                                                        >
+                                                        </input>
+                                                        {passengerData[Number(adults) + i].FirstName == "" && sub && <span id="error1">Enter First Name</span>}
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">
+                                                        <label
+                                                            for="exampleInputEmail1"
+                                                            class="form-label"
+                                                        >
                                                             Last Name
                                                         </label>
                                                         <input
@@ -853,11 +797,16 @@ const ReturnPassenger = () => {
                                                                 handleServiceChange(e, i + Number(adults))
                                                             }
                                                             required
-                                                        ></input>
+                                                        >
+
+                                                        </input>
                                                     </div>
 
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">
+                                                        <label
+                                                            for="exampleInputEmail1"
+                                                            class="form-label"
+                                                        >
                                                             Gender
                                                         </label>
                                                         <select
@@ -873,7 +822,10 @@ const ReturnPassenger = () => {
                                                         </select>
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">
+                                                        <label
+                                                            for="exampleInputEmail1"
+                                                            class="form-label"
+                                                        >
                                                             Date of Birth
                                                         </label>
                                                         <input
@@ -887,11 +839,10 @@ const ReturnPassenger = () => {
                                                                 handleServiceChange(e, i + Number(adults))
                                                             }
                                                         ></input>
-                                                        {passengerData[Number(adults) + i].DateOfBirth ==
-                                                            "" &&
-                                                            sub && <span id="error1">Enter DOB</span>}
+                                                        {passengerData[Number(adults) + i].DateOfBirth == "" && sub && <span id="error1">Enter DOB</span>}
                                                     </div>
                                                 </div>
+
 
                                                 {/* passport details here */}
                                                 {isPassportRequired == true ? (
@@ -901,12 +852,7 @@ const ReturnPassenger = () => {
                                                         </div>
                                                         <div className="row g-3 mb-3">
                                                             <div className="col-lg-3 col-md-3">
-                                                                <label
-                                                                    for="exampleInputEmail1"
-                                                                    class="form-label"
-                                                                >
-                                                                    Passport Number
-                                                                </label>
+                                                                <label for="exampleInputEmail1" class="form-label">Passport Number</label>
                                                                 <input
                                                                     type="text"
                                                                     name="PassportNo"
@@ -916,14 +862,7 @@ const ReturnPassenger = () => {
                                                                         handleServiceChange(e, i + Number(adults))
                                                                     }
                                                                 />
-                                                                {!isValidPassportNumber(
-                                                                    passengerData[Number(adults) + i].PassportNo
-                                                                ) &&
-                                                                    sub && (
-                                                                        <span id="error1">
-                                                                            Enter a valid passport
-                                                                        </span>
-                                                                    )}
+                                                                {!isValidPassportNumber(passengerData[Number(adults) + i].PassportNo) && sub && <span id="error1">Enter a valid passport</span>}
                                                             </div>
                                                             <div className="col-lg-3 col-md-3">
                                                                 <label
@@ -963,9 +902,7 @@ const ReturnPassenger = () => {
                                                 </div>
                                                 <div className="row g-3 mb-3">
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">
-                                                            First Name
-                                                        </label>
+                                                        <label for="exampleInputEmail1" class="form-label">First Name</label>
                                                         <input
                                                             type="text"
                                                             name="FirstName"
@@ -978,14 +915,10 @@ const ReturnPassenger = () => {
                                                                 )
                                                             }
                                                         />
-                                                        {passengerData[i + Number(adults) + Number(childs)]
-                                                            .FirstName == "" &&
-                                                            sub && <span id="error1">Enter First Name</span>}
+                                                        {passengerData[i + Number(adults) + Number(childs)].FirstName == "" && sub && <span id="error1">Enter First Name</span>}
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">
-                                                            Last Name
-                                                        </label>
+                                                        <label for="exampleInputEmail1" class="form-label">Last Name</label>
                                                         <input
                                                             type="text"
                                                             name="LastName"
@@ -998,13 +931,14 @@ const ReturnPassenger = () => {
                                                                 )
                                                             }
                                                         />
-                                                        {passengerData[i + Number(adults) + Number(childs)]
-                                                            .LastName == "" &&
-                                                            sub && <span id="error1">Enter Last Name</span>}
+                                                        {passengerData[i + Number(adults) + Number(childs)].LastName == "" && sub && <span id="error1">Enter Last Name</span>}
                                                     </div>
 
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">
+                                                        <label
+                                                            for="exampleInputEmail1"
+                                                            class="form-label"
+                                                        >
                                                             Gender
                                                         </label>
                                                         <select
@@ -1022,7 +956,10 @@ const ReturnPassenger = () => {
                                                         </select>
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
-                                                        <label for="exampleInputEmail1" class="form-label">
+                                                        <label
+                                                            for="exampleInputEmail1"
+                                                            class="form-label"
+                                                        >
                                                             Date of Birth
                                                         </label>
                                                         <input
@@ -1040,9 +977,7 @@ const ReturnPassenger = () => {
                                                                 )
                                                             }
                                                         />
-                                                        {passengerData[i + Number(adults) + Number(childs)]
-                                                            .DateOfBirth == "" &&
-                                                            sub && <span id="error1">Enter DOB</span>}
+                                                        {passengerData[i + Number(adults) + Number(childs)].DateOfBirth == "" && sub && <span id="error1">Enter DOB</span>}
                                                     </div>
                                                 </div>
                                                 {/* passport details here */}
@@ -1053,12 +988,7 @@ const ReturnPassenger = () => {
                                                         </div>
                                                         <div className="row g-3 mb-3">
                                                             <div className="col-lg-3 col-md-3">
-                                                                <label
-                                                                    for="exampleInputEmail1"
-                                                                    class="form-label"
-                                                                >
-                                                                    Passport Number
-                                                                </label>
+                                                                <label for="exampleInputEmail1" class="form-label">Passport Number</label>
                                                                 <input
                                                                     type="text"
                                                                     name="PassportNo"
@@ -1071,24 +1001,10 @@ const ReturnPassenger = () => {
                                                                         )
                                                                     }
                                                                 />
-                                                                {!isValidPassportNumber(
-                                                                    passengerData[
-                                                                        i + Number(adults) + Number(childs)
-                                                                    ].PassportNo
-                                                                ) &&
-                                                                    sub && (
-                                                                        <span id="error1">
-                                                                            Enter a valid Passport Number
-                                                                        </span>
-                                                                    )}
+                                                                {!isValidPassportNumber(passengerData[i + Number(adults) + Number(childs)].PassportNo) && sub && <span id="error1">Enter a valid Passport Number</span>}
                                                             </div>
                                                             <div className="col-lg-3 col-md-3">
-                                                                <label
-                                                                    for="exampleInputEmail1"
-                                                                    class="form-label"
-                                                                >
-                                                                    Passport Expiry
-                                                                </label>
+                                                                <label for="exampleInputEmail1" class="form-label">Passport Expiry</label>
                                                                 <input
                                                                     type="date"
                                                                     name="PassportExpiry"
@@ -1115,6 +1031,10 @@ const ReturnPassenger = () => {
                                 </div>
                             </motion.div>
 
+
+
+
+
                             <motion.div variants={variants} className="col-lg-12 mt-3">
                                 <div className="bookflightPassenger">
                                     <form>
@@ -1124,7 +1044,11 @@ const ReturnPassenger = () => {
                                             </div>
                                             <div className="row g-3 mb-3">
                                                 <div className="col-lg-5 col-md-5">
-                                                    <label for="exampleInputEmail1" class="form-label">
+
+                                                    <label
+                                                        for="exampleInputEmail1"
+                                                        class="form-label"
+                                                    >
                                                         Enter Email
                                                     </label>
                                                     <input
@@ -1134,12 +1058,14 @@ const ReturnPassenger = () => {
                                                         class="form-control"
                                                         onChange={(e) => handleServiceChange(e, 0)}
                                                     />
-                                                    {!validateEmail1(passengerData[0].Email) && sub && (
-                                                        <span id="error1">Enter Email</span>
-                                                    )}
+                                                    {!validateEmail1(passengerData[0].Email) && sub && <span id="error1">Enter Email</span>}
                                                 </div>
                                                 <div className="col-lg-5 col-md-5">
-                                                    <label for="exampleInputEmail1" class="form-label">
+
+                                                    <label
+                                                        for="exampleInputEmail1"
+                                                        class="form-label"
+                                                    >
                                                         Mobile Number
                                                     </label>
                                                     <input
@@ -1149,9 +1075,7 @@ const ReturnPassenger = () => {
                                                         class="form-control"
                                                         onChange={(e) => handleServiceChange(e, 0)}
                                                     />
-                                                    {!validatePhoneNumber(passengerData[0].ContactNo) ==
-                                                        true &&
-                                                        sub && <span id="error1">Enter Contact</span>}
+                                                    {!validatePhoneNumber(passengerData[0].ContactNo) == true && sub && <span id="error1">Enter Contact</span>}
                                                 </div>
                                             </div>
                                         </div>
@@ -1159,7 +1083,10 @@ const ReturnPassenger = () => {
                                 </div>
                             </motion.div>
 
-                            <div className="col-lg-12 accor_dian mt-4">
+
+
+
+                            <div className="col-lg-12 accor_dian mt-4" >
                                 {fareRule &&
                                     fareRule.length > 0 &&
 
@@ -1185,9 +1112,11 @@ const ReturnPassenger = () => {
                                 }
                             </div>
 
+
+
+
                             <div className="col-lg-12 mt-5 mb-4 leftDetBut">
-                                <button
-                                    onClick={handleSubmit}
+                                <button onClick={handleSubmit}
                                     type="submit"
                                     className="bookWrapperButton"
                                 >
@@ -1195,15 +1124,22 @@ const ReturnPassenger = () => {
                                 </button>
                             </div>
                         </div>
+
                     </div>
 
+
                     <div className="col-lg-3 col-md-3">
-                        <ReturnSummary />
+                        <ReturnSummaryInternational />
+
                     </div>
+
+
                 </div>
             </div>
         </div>
     );
 };
 
-export default ReturnPassenger;
+export default PassengerInternational;
+
+

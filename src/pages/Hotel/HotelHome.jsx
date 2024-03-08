@@ -14,7 +14,7 @@ import { Helmet } from "react-helmet-async";
 const variants = {
   initial: {
     y: 50,
-    opacity: 0,
+    opacity: 1,
   },
   animate: {
     y: 0,

@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react'
 import {
     quoteAction,
     ruleAction,
-    quoteActionReturn,
-    ruleActionReturn,
 } from "../../../Redux/FlightFareQuoteRule/actionFlightQuote";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +11,7 @@ import { motion } from "framer-motion";
 import Divider from "@mui/material/Divider";
 
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
+import FlightLoader from '../FlightLoader/FlightLoader';
 // import InsideNavbar from "./../../UI/BigNavbar/InsideNavbar"
 
 const variants = {
@@ -31,22 +30,17 @@ const variants = {
 };
 
 
-const ReturnResult = () => {
+const ReturnResultInternational = () => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const reducerState = useSelector((state) => state);
     const [loading, setLoading] = useState(false);
     const result = reducerState?.return?.returnData?.data?.data?.Response?.Results;
-    let initialGoFlight;
-    let initialReturnFlight;
-    let onGoTime
-    let IncomeTime
-    const [ongoFlight, setOngoFlight] = useState(initialGoFlight);
-    const [incomeGlight, setIncomeFlight] = useState(initialReturnFlight);
     const [selectedCategory, setSelectedCategory] = useState([]);
     const [selectedFlightIndex, setSelectedFlightIndex] = useState(null);
-
+    let statusRule = reducerState?.flightFare?.isLoadingRuleDone || false;
+    let statusQuote = reducerState?.flightFare?.isLoadingQuoteDone || false;
 
 
     const maxPrice = result?.[0]?.reduce((max, item) => {
@@ -72,88 +66,42 @@ const ReturnResult = () => {
 
 
 
-    const handleFlightSelection = (index) => {
-        setSelectedFlightIndex(index);
-    };
-    const [selectedFlightIndexReturn, setSelectedFlightIndexReturn] = useState(null);
 
-
-
-    const handleFlightSelectionReturn = (index) => {
-        setSelectedFlightIndexReturn(index);
-    };
-
-
-    if (result !== undefined) {
-        initialGoFlight = result?.[0]?.[0];
-        initialReturnFlight = result?.[1]?.[0];
-        // destination =
-        //     result[0][0]?.Segments[0][0]?.Destination?.Airport?.CityName;
-        // origin = result[0][0]?.Segments[0][0]?.Origin?.Airport?.CityName;
-        onGoTime = result?.[0][0]?.Segments[0][0]?.Destination?.ArrTime;
-        IncomeTime = result?.[1][0]?.Segments[0][0]?.Destination?.ArrTime;
-    }
+    console.log(statusQuote, "status quote")
 
 
     useEffect(() => {
-        setOngoFlight(initialGoFlight);
-        setIncomeFlight(initialReturnFlight);
-    }, [initialGoFlight, initialReturnFlight]);
-    useEffect(() => {
-        sessionStorage.setItem("flightDetailsONGo", JSON.stringify(initialGoFlight));
-        sessionStorage.setItem("flightDetailsIncome", JSON.stringify(initialReturnFlight));
-    }, [])
+        if (statusQuote && statusRule) {
+            console.log("done")
+            navigate("/ReturnResultInternational/PassengerDetailsInternational");
+            // dispatch(setLoading("data"));
+            setLoading(false);
+        }
+    }, [statusQuote, statusRule]);
 
-    if (result === undefined) {
-        return <div>Loading...</div>
-    }
+    console.log(reducerState, "reducer state")
 
 
 
 
+    const handleFLightSelectForBook = (item, i) => {
 
-    const handleIndexId = (ResultIndex) => {
-        setOngoFlight(ResultIndex)
-    };
+        setLoading(true);
 
-    const handleIndexIdreturn = (ResultIndex) => {
-        setIncomeFlight(ResultIndex)
-    };
+        sessionStorage.setItem("selectedFlightGoingInternational", JSON.stringify(result[0][i]));
 
-    // if (result === undefined) {
-    //     return (
-    //         <FlightLoader />
-    //     )
-    // }
-
-
-
-    const handleFareRuleAndQuote = async () => {
-
-        sessionStorage.setItem("goingResultIndex", ongoFlight?.ResultIndex)
-        sessionStorage.setItem("ReturnResultIndex", incomeGlight?.ResultIndex)
-        // setLoading(true);
         const payload = {
             EndUserIp: reducerState?.ip?.ipData,
             TokenId: reducerState?.ip?.tokenData,
             TraceId: reducerState?.return?.returnData?.data?.data?.Response?.TraceId,
-            ResultIndex: `${ongoFlight?.ResultIndex}`,
+            ResultIndex: `${item?.ResultIndex}`,
         };
-        const payloadReturn = {
-            EndUserIp: reducerState?.ip?.ipData,
-            TokenId: reducerState?.ip?.tokenData,
-            TraceId: reducerState?.return?.returnData?.data?.data?.Response?.TraceId,
-            ResultIndex: `${incomeGlight?.ResultIndex}`,
-        };
-        await dispatch(ruleAction(payload));
-        await dispatch(quoteAction(payload));
-        await dispatch(ruleActionReturn(payloadReturn));
-        await dispatch(quoteActionReturn(payloadReturn));
-        navigate("/FlightresultReturn/Passengerdetail");
+
+        dispatch(ruleAction(payload));
+        dispatch(quoteAction(payload));
 
     };
 
-    // console.log(ongoFlight?.Fare, "fare")
 
 
 
@@ -193,10 +141,6 @@ const ReturnResult = () => {
     };
 
 
-
-
-
-
     const filteredData =
         result[0].filter((item) => {
             const segmentLength = item?.Segments?.[0].length;
@@ -206,6 +150,10 @@ const ReturnResult = () => {
             const hourArr = ArrTime.getHours();
             const airlineName = item?.Segments?.[0][0]?.Airline?.AirlineName;
 
+            const depTimeReturn = new Date(item?.Segments?.[1][0]?.Origin?.DepTime);
+            const hourReturn = depTimeReturn.getHours();
+            const ArrTimeReturn = new Date(item?.Segments?.[1][segmentLength - 1]?.Destination?.ArrTime);
+            const hourArrReturn = ArrTimeReturn.getHours();
 
             const categoryFilters = selectedCategory.map((category) => {
 
@@ -246,7 +194,29 @@ const ReturnResult = () => {
                             case "ARRafter6PM":
                                 return hourArr >= 18;
                         }
+                    case "timeDepartReturn":
+                        switch (value) {
+                            case "before6AMReturn":
+                                return hourReturn < 6;
+                            case "6AMto12PMReturn":
+                                return hourReturn >= 6 && hourReturn < 12;
+                            case "12PMto6PMReturn":
+                                return hourReturn >= 12 && hourReturn < 18;
+                            case "after6PMReturn":
+                                return hourReturn >= 18;
+                        }
 
+                    case "timeArrivalReturn":
+                        switch (value) {
+                            case "ARRbefore6AMReturn":
+                                return hourArrReturn < 6;
+                            case "ARR6AMto12PMReturn":
+                                return hourArrReturn >= 6 && hourArrReturn < 12;
+                            case "ARR12PMto6PMReturn":
+                                return hourArrReturn >= 12 && hourArrReturn < 18;
+                            case "ARRafter6PMReturn":
+                                return hourArrReturn >= 18;
+                        }
 
                     default:
                         return false;
@@ -257,67 +227,17 @@ const ReturnResult = () => {
         });
 
 
-    const filteredDatareturn =
-        result[1].filter((item) => {
-            const segmentLength = item?.Segments?.[0].length;
-            const depTime = new Date(item?.Segments?.[0][0]?.Origin?.DepTime);
-            const hour = depTime.getHours();
-            const ArrTime = new Date(item?.Segments?.[0][segmentLength - 1]?.Destination?.ArrTime);
-            const hourArr = ArrTime.getHours();
-            const airlineName = item?.Segments?.[0][0]?.Airline?.AirlineName;
+
+    // filter logic ends here
 
 
-            const categoryFilters = selectedCategory.map((category) => {
-
-                const [groupName, value] = category.split(':');
-                switch (groupName) {
-
-                    case "stop":
-                        switch (value) {
-                            case "1":
-                                return segmentLength === 1;
-                            case "2":
-                                return segmentLength === 2;
-                        }
-
-                    case "flightname":
-                        return airlineName === value;
-
-                    case "timeDepart":
-                        switch (value) {
-                            case "before6AM":
-                                return hour < 6;
-                            case "6AMto12PM":
-                                return hour >= 6 && hour < 12;
-                            case "12PMto6PM":
-                                return hour >= 12 && hour < 18;
-                            case "after6PM":
-                                return hour >= 18;
-                        }
-
-                    case "timeArrival":
-                        switch (value) {
-                            case "ARRbefore6AM":
-                                return hourArr < 6;
-                            case "ARR6AMto12PM":
-                                return hourArr >= 6 && hourArr < 12;
-                            case "ARR12PMto6PM":
-                                return hourArr >= 12 && hourArr < 18;
-                            case "ARRafter6PM":
-                                return hourArr >= 18;
-                        }
+    if (loading) {
+        return (<div>
+            <FlightLoader />
+        </div>)
+    }
 
 
-                    default:
-                        return false;
-                }
-            });
-            const priceInRange = item?.Fare?.PublishedFare <= priceRangeValue;
-            return categoryFilters.every((filter) => filter) && priceInRange;
-        });
-
-
-    // filter logic here 
     const arrSegmentLength = result?.[0]?.[0]?.Segments?.[0]?.length;
     return (
 
@@ -327,9 +247,9 @@ const ReturnResult = () => {
                     <InsideNavbar />
                 </div>
 
-                <div className='container-fluid'>
+                <div className='container'>
 
-                    <div className="row">
+                    <div className="row ">
                         <div className="d-none d-sm-block col-lg-3 col-md-3 scrollDesign">
                             <div className="flightFilterBox">
                                 <div className="filterTitle">
@@ -720,13 +640,13 @@ const ReturnResult = () => {
                                     {/* for going flight  */}
 
 
-                                    {/* for return flight  */}
+                                    {/* for Return flight */}
 
                                     <h4 className='returnHeading'>Return Flight</h4>
 
                                     <div className="busDepartureMain">
                                         <h2 className="sidebar-title">Departure From {
-                                            result.length > 0 && result?.[1][0]?.Segments?.[0][0]?.Origin?.Airport?.CityName
+                                            result.length > 0 && result?.[0][0]?.Segments?.[1][0]?.Origin?.Airport?.CityName
                                         }</h2>
 
                                         <div>
@@ -737,9 +657,9 @@ const ReturnResult = () => {
                                                     <input
                                                         type="checkbox"
                                                         onChange={handleRadioChange}
-                                                        value="before6AM"
-                                                        name="timeDepart"
-                                                        checked={selectedCategory.includes("timeDepart:before6AM")}
+                                                        value="before6AMReturn"
+                                                        name="timeDepartReturn"
+                                                        checked={selectedCategory.includes("timeDepartReturn:before6AMReturn")}
                                                     />
                                                     <div>
                                                         <span className="checkedSVG pe-2">
@@ -774,9 +694,9 @@ const ReturnResult = () => {
                                                     <input
                                                         type="checkbox"
                                                         onChange={handleRadioChange}
-                                                        value="6AMto12PM"
-                                                        name="timeDepart"
-                                                        checked={selectedCategory.includes("timeDepart:6AMto12PM")}
+                                                        value="6AMto12PMReturn"
+                                                        name="timeDepartReturn"
+                                                        checked={selectedCategory.includes("timeDepartReturn:6AMto12PMReturn")}
                                                     />
                                                     <div>
                                                         <span className="checkedSVG pe-2">
@@ -811,9 +731,9 @@ const ReturnResult = () => {
                                                     <input
                                                         type="checkbox"
                                                         onChange={handleRadioChange}
-                                                        value="12PMto6PM"
-                                                        name="timeDepart"
-                                                        checked={selectedCategory.includes("timeDepart:12PMto6PM")}
+                                                        value="12PMto6PMReturn"
+                                                        name="timeDepartReturn"
+                                                        checked={selectedCategory.includes("timeDepartReturn:12PMto6PMReturn")}
                                                     />
                                                     <div>
                                                         <span className="checkedSVG pe-2">
@@ -846,9 +766,9 @@ const ReturnResult = () => {
                                                     <input
                                                         type="checkbox"
                                                         onChange={handleRadioChange}
-                                                        value="after6PM"
-                                                        name="timeDepart"
-                                                        checked={selectedCategory.includes("timeDepart:after6PM")}
+                                                        value="after6PMReturn"
+                                                        name="timeDepartReturn"
+                                                        checked={selectedCategory.includes("timeDepartReturn:after6PMReturn")}
                                                     />
                                                     <div>
                                                         <span className="checkedSVG pe-2">
@@ -872,7 +792,7 @@ const ReturnResult = () => {
 
                                     <div className="busDepartureMain">
                                         <h2 className="sidebar-title">Arrival at  {
-                                            result.length > 0 && result?.[1][0]?.Segments?.[0][arrSegmentLength - 1]?.Destination
+                                            result.length > 0 && result?.[0][0]?.Segments?.[1][arrSegmentLength - 1]?.Destination
                                                 ?.Airport?.CityName
                                         }</h2>
 
@@ -884,9 +804,9 @@ const ReturnResult = () => {
                                                     <input
                                                         type="checkbox"
                                                         onChange={handleRadioChange}
-                                                        value="ARRbefore6AM"
-                                                        name="timeArrival"
-                                                        checked={selectedCategory.includes("timeArrival:ARRbefore6AM")}
+                                                        value="ARRbefore6AMReturn"
+                                                        name="timeArrivalReturn"
+                                                        checked={selectedCategory.includes("timeArrivalReturn:ARRbefore6AMReturn")}
                                                     />
                                                     <div>
                                                         <span className="checkedSVG pe-2">
@@ -921,9 +841,9 @@ const ReturnResult = () => {
                                                     <input
                                                         type="checkbox"
                                                         onChange={handleRadioChange}
-                                                        value="ARR6AMto12PM"
-                                                        name="timeArrival"
-                                                        checked={selectedCategory.includes("timeArrival:ARR6AMto12PM")}
+                                                        value="ARR6AMto12PMReturn"
+                                                        name="timeArrivalReturn"
+                                                        checked={selectedCategory.includes("timeArrivalReturn:ARR6AMto12PMReturn")}
                                                     />
                                                     <div>
                                                         <span className="checkedSVG pe-2">
@@ -958,9 +878,9 @@ const ReturnResult = () => {
                                                     <input
                                                         type="checkbox"
                                                         onChange={handleRadioChange}
-                                                        value="ARR12PMto6PM"
-                                                        name="timeArrival"
-                                                        checked={selectedCategory.includes("timeArrival:ARR12PMto6PM")}
+                                                        value="ARR12PMto6PMReturn"
+                                                        name="timeArrivalReturn"
+                                                        checked={selectedCategory.includes("timeArrivalReturn:ARR12PMto6PMReturn")}
                                                     />
                                                     <div>
                                                         <span className="checkedSVG pe-2">
@@ -993,9 +913,9 @@ const ReturnResult = () => {
                                                     <input
                                                         type="checkbox"
                                                         onChange={handleRadioChange}
-                                                        value="ARRafter6PM"
-                                                        name="timeArrival"
-                                                        checked={selectedCategory.includes("timeArrival:ARRafter6PM")}
+                                                        value="ARRafter6PMReturn"
+                                                        name="timeArrivalReturn"
+                                                        checked={selectedCategory.includes("timeArrivalReturn:ARRafter6PMReturn")}
                                                     />
                                                     <div>
                                                         <span className="checkedSVG pe-2">
@@ -1017,10 +937,7 @@ const ReturnResult = () => {
                                         </div>
                                     </div>
 
-
                                     {/* for return flight  */}
-
-
 
 
                                     <div className="busDepartureMain">
@@ -1058,510 +975,327 @@ const ReturnResult = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-lg-9">
+                        <div className="col-lg-9 mt-5">
                             <div className="row">
-                                {/* <div className="col-lg-12"> */}
-                                <div className="col-6 ps-0">
+                                <div className="col-12 ps-0">
                                     <div className="row">
-                                        <div className="col-lg-12">
-                                            <div className="returnheadicons">
-                                                <div>
-                                                    <p>Flight</p>
-                                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                        <path d="M6 9.5L3 6.5M6 9.5L9 6.5M6 9.5L6 2.5" stroke="#21325D" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg></span>
-                                                </div>
-                                                <div>
-                                                    <p>Departure</p>
-                                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                        <path d="M6 9.5L3 6.5M6 9.5L9 6.5M6 9.5L6 2.5" stroke="#21325D" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg></span>
-                                                </div>
-                                                <div>
-                                                    <p>Duration</p>
-                                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                        <path d="M6 9.5L3 6.5M6 9.5L9 6.5M6 9.5L6 2.5" stroke="#21325D" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg></span>
-                                                </div>
-                                                <div>
-                                                    <p>Arrival</p>
-                                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                        <path d="M6 9.5L3 6.5M6 9.5L9 6.5M6 9.5L6 2.5" stroke="#21325D" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg></span>
-                                                </div>
-                                                <div>
-                                                    <p>Offer Fare</p>
-                                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                        <path d="M6 9.5L3 6.5M6 9.5L9 6.5M6 9.5L6 2.5" stroke="#21325D" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg></span>
-                                                </div>
-                                                {/* <div>
-                                    <p>Select</p>
-                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                        <path d="M6 9.5L3 6.5M6 9.5L9 6.5M6 9.5L6 2.5" stroke="#21325D" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg></span>
-                                </div> */}
-                                            </div>
-                                        </div>
-
-                                        {
-                                            result?.[0] !== undefined && (
-                                                <div className="col-lg-12">
-                                                    {filteredData.map((item, index) => {
-                                                        const isSelected = selectedFlightIndex === index;
-                                                        const duration = `${Math.floor(
-                                                            item?.Segments?.[0][0]?.Duration / 60
-                                                        )}hr ${item?.Segments?.[0][0]?.Duration % 60
-                                                            }min`;
-
-                                                        return (
-                                                            <>
-                                                                <motion.div
-                                                                    variants={variants}
-                                                                    initial="initial"
-                                                                    whileInView="animate"
-                                                                >
-                                                                    <motion.div variants={variants}
-                                                                        onClick={() => {
-                                                                            handleIndexId(item);
-                                                                            handleFlightSelection(index);
-                                                                            // console.log(item, "result index")
-                                                                        }}
-                                                                        className="mobileflexDesign">
-                                                                        <div className="columnFLightName d-flex d-sm-none">
-                                                                            <div>
-                                                                                <img
-                                                                                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.ValidatingAirline}.png`}
-                                                                                    alt="flight"
-                                                                                />{" "}
-                                                                            </div>
-                                                                            <span>
-                                                                                {
-                                                                                    item?.Segments[0][0]?.Airline
-                                                                                        ?.AirlineName
-                                                                                }
-                                                                            </span>
-                                                                            <p>
-                                                                                {
-                                                                                    item?.Segments?.[0][0]?.Airline
-                                                                                        ?.AirlineCode
-                                                                                }
-                                                                                {
-                                                                                    item?.Segments?.[0][0]?.Airline
-                                                                                        ?.FlightNumber
-                                                                                }
-
-                                                                            </p>
-                                                                        </div>
-                                                                        <motion.div
-                                                                            variants={variants}
-                                                                            className="singleFlightBox singleFlightBoxReturn"
-                                                                        >
-                                                                            <div className="singleFlightBoxOne singleFlightBoxOneReturn">
-                                                                                <div>
-                                                                                    <img
-                                                                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.ValidatingAirline}.png`}
-                                                                                        alt="flight"
-                                                                                    />{" "}
-                                                                                </div>
-                                                                                <span>
-                                                                                    {
-                                                                                        item?.Segments[0][0]?.Airline
-                                                                                            ?.AirlineName
-                                                                                    }
-                                                                                </span>
-                                                                                <p>
-                                                                                    {
-                                                                                        item?.Segments[0][0]?.Airline
-                                                                                            ?.AirlineCode
-                                                                                    }
-                                                                                    {
-                                                                                        item?.Segments[0][0]?.Airline
-                                                                                            ?.FlightNumber
-                                                                                    }
-                                                                                </p>
-                                                                            </div>
-                                                                            <div className="singleFlightBoxTwo singleFlightBoxTwoReturn">
-                                                                                <span>
-                                                                                    {
-                                                                                        item?.Segments[0][0]?.Origin
-                                                                                            ?.Airport?.CityName
-                                                                                    }
-                                                                                </span>
-                                                                                <p>
-                                                                                    {dayjs(
-                                                                                        item?.Segments[0][0]?.Origin
-                                                                                            ?.DepTime
-                                                                                    ).format("DD MMM, YY")}
-                                                                                </p>
-                                                                                <h5 className="daySize">
-                                                                                    {dayjs(
-                                                                                        item?.Segments[0][0]?.Origin
-                                                                                            ?.DepTime
-                                                                                    ).format("h:mm A")}
-                                                                                </h5>
-                                                                            </div>
-
-                                                                            <div className="singleFlightBoxThree">
-                                                                                {
-                                                                                    item?.Segments[0].length > 1 ?
-                                                                                        <h4>
-                                                                                            {`${Math.floor(
-                                                                                                item?.Segments[0][0]?.Duration /
-                                                                                                60
-                                                                                            )}hr ${item?.Segments[0][0]?.Duration %
-                                                                                            60
-                                                                                                }min`}{" "}
-                                                                                            -{" "}
-                                                                                            {`${Math.floor(
-                                                                                                item?.Segments[0][1]?.Duration /
-                                                                                                60
-                                                                                            )}hr ${item?.Segments[0][0]?.Duration %
-                                                                                            60
-                                                                                                }min`}
-                                                                                        </h4> : <h4>
-                                                                                            {`${Math.floor(
-                                                                                                item?.Segments[0][0]?.Duration /
-                                                                                                60
-                                                                                            )}hr ${item?.Segments[0][0]?.Duration %
-                                                                                            60
-                                                                                                }min`}
-                                                                                        </h4>}
-
-
-                                                                                {
-                                                                                    item?.Segments[0].length > 1 ?
-                                                                                        (
-                                                                                            <div className="stopBef">
-                                                                                                <Divider
-                                                                                                    orientation="vertical"
-                                                                                                    flexItem
-                                                                                                    sx={{
-                                                                                                        backgroundColor: "#21325d",
-                                                                                                        marginX: "8px",
-                                                                                                        height: "3px",
-                                                                                                    }}
-                                                                                                    className=""
-                                                                                                />
-                                                                                            </div>
-                                                                                        ) :
-
-                                                                                        (
-                                                                                            <div>
-                                                                                                <Divider
-                                                                                                    orientation="vertical"
-                                                                                                    flexItem
-                                                                                                    sx={{
-                                                                                                        backgroundColor: "#21325d",
-                                                                                                        marginX: "8px",
-                                                                                                        height: "3px",
-                                                                                                    }}
-                                                                                                />
-                                                                                            </div>
-                                                                                        )
-                                                                                }
-                                                                                <p>{
-                                                                                    item?.Segments[0].length > 1 ?
-                                                                                        `${item?.Segments[0].length - 1} stop via ${item?.Segments[0][0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
-
-                                                                                <span>
-                                                                                    {
-                                                                                        item?.Segments[0][0]
-                                                                                            ?.NoOfSeatAvailable
-                                                                                    }{" "}
-                                                                                    Seats Left
-                                                                                </span>
-                                                                            </div>
-
-                                                                            <div className="singleFlightBoxFour singleFlightBoxFourReturn">
-                                                                                <span>
-                                                                                    {
-                                                                                        item?.Segments[0][item?.Segments[0].length - 1]?.Destination
-                                                                                            ?.Airport?.CityName
-                                                                                    }
-                                                                                </span>
-                                                                                <p>
-                                                                                    {dayjs(
-                                                                                        item?.Segments?.[0][item?.Segments[0].length - 1]?.Destination?.ArrTime
-                                                                                    ).format("DD MMM, YY")}
-                                                                                </p>
-                                                                                <h5 className="daySize">
-                                                                                    {dayjs(
-                                                                                        item?.Segments?.[0][item?.Segments[0].length - 1]
-                                                                                            ?.Destination?.ArrTime
-                                                                                    ).format("h:mm A")}
-                                                                                </h5>
-                                                                            </div>
-
-                                                                            <div className="singleFlightBoxSeven singleFlightBoxSevenReturn">
-                                                                                <p>₹ {item?.Fare?.PublishedFare}</p>
-                                                                                <input type="radio" name='going' id={`going-${index}`} checked={isSelected} />
-                                                                            </div>
-                                                                        </motion.div>
-                                                                    </motion.div>
-                                                                </motion.div>
-
-                                                            </>
-                                                        );
-                                                    })}
-                                                </div>
-                                            )
-                                        }
-                                    </div>
-                                </div>
-                                <div className="col-6 ps-0">
-                                    <div className="row">
-                                        <div className="col-lg-12">
-                                            <div className="returnheadicons">
-                                                <div>
-                                                    <p>Flight</p>
-                                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                        <path d="M6 9.5L3 6.5M6 9.5L9 6.5M6 9.5L6 2.5" stroke="#21325D" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg></span>
-                                                </div>
-                                                <div>
-                                                    <p>Departure</p>
-                                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                        <path d="M6 9.5L3 6.5M6 9.5L9 6.5M6 9.5L6 2.5" stroke="#21325D" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg></span>
-                                                </div>
-                                                <div>
-                                                    <p>Duration</p>
-                                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                        <path d="M6 9.5L3 6.5M6 9.5L9 6.5M6 9.5L6 2.5" stroke="#21325D" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg></span>
-                                                </div>
-                                                <div>
-                                                    <p>Arrival</p>
-                                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                        <path d="M6 9.5L3 6.5M6 9.5L9 6.5M6 9.5L6 2.5" stroke="#21325D" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg></span>
-                                                </div>
-                                                <div>
-                                                    <p>Offer Fare</p>
-                                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                                        <path d="M6 9.5L3 6.5M6 9.5L9 6.5M6 9.5L6 2.5" stroke="#21325D" stroke-linecap="round" stroke-linejoin="round" />
-                                                    </svg></span>
-                                                </div>
-                                                {/* <div>
-                                    <p>Select</p>
-                                    <span><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                                        <path d="M6 9.5L3 6.5M6 9.5L9 6.5M6 9.5L6 2.5" stroke="#21325D" stroke-linecap="round" stroke-linejoin="round" />
-                                    </svg></span>
-                                </div> */}
-                                            </div>
-                                        </div>
-
-                                        <div className="col-lg-12">
+                                        <div className="col-lg-12 pe-0">
                                             {
                                                 result?.[0] !== undefined && (
-                                                    <div className="col-lg-12">
-                                                        {filteredDatareturn.map((item, index) => {
-                                                            const isSelected = selectedFlightIndexReturn === index;
+                                                    <>
+                                                        {
+                                                            filteredData.map((item, index) => {
+                                                                const isSelected = selectedFlightIndex === index;
 
-                                                            const duration = `${Math.floor(
-                                                                item?.Segments?.[0][0]?.Duration / 60
-                                                            )}hr ${item?.Segments?.[0][0]?.Duration % 60
-                                                                }min`;
 
-                                                            return (
-                                                                <>
-                                                                    <motion.div
-                                                                        variants={variants}
-                                                                        initial="initial"
-                                                                        whileInView="animate"
-                                                                    >
-                                                                        <motion.div variants={variants}
+                                                                return (
+                                                                    <>
+                                                                        <motion.div
+                                                                            variants={variants}
+                                                                            initial="initial"
+                                                                            whileInView="animate"
+                                                                        >
+                                                                            <motion.div variants={variants}
+                                                                                className="">
 
-                                                                            onClick={() => {
-                                                                                handleIndexIdreturn(item);
-                                                                                handleFlightSelectionReturn(index)
+                                                                                <div class="returnFlightResultBox">
+                                                                                    <div class="returnFlightResultBoxOne">
+                                                                                        <div class="returnResultFlightDetails">
+                                                                                            <div>
+                                                                                                <img
+                                                                                                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.ValidatingAirline}.png`}
+                                                                                                    alt="flight"
+                                                                                                />{" "}
+                                                                                            </div>
+                                                                                            <span>{
+                                                                                                item?.Segments[0][0]?.Airline
+                                                                                                    ?.AirlineName
+                                                                                            }</span>
+                                                                                            <p>{
+                                                                                                item?.Segments[0][0]?.Airline
+                                                                                                    ?.AirlineCode
+                                                                                            }
+                                                                                                {
+                                                                                                    item?.Segments[0][0]?.Airline
+                                                                                                        ?.FlightNumber
+                                                                                                }</p>
+                                                                                        </div>
+                                                                                        <div class="returnResultOtherDetails">
+                                                                                            <div class="returnResultTimingBox">
+                                                                                                <span>{
+                                                                                                    item?.Segments[0][0]?.Origin
+                                                                                                        ?.Airport?.CityName
+                                                                                                }</span>
+                                                                                                <p>{dayjs(
+                                                                                                    item?.Segments[0][0]?.Origin
+                                                                                                        ?.DepTime
+                                                                                                ).format("DD MMM, YY")}
+                                                                                                </p>
+                                                                                                <h5 class="daySize">{dayjs(
+                                                                                                    item?.Segments[0][0]?.Origin
+                                                                                                        ?.DepTime
+                                                                                                ).format("h:mm A")}</h5>
+                                                                                            </div>
+                                                                                            <div class="returnResultDurationBox">
+                                                                                                {
+                                                                                                    item?.Segments[0].length > 1 ?
+                                                                                                        <h4>
+                                                                                                            {`${Math.floor(
+                                                                                                                item?.Segments[0][0]?.Duration /
+                                                                                                                60
+                                                                                                            )}hr ${item?.Segments[0][0]?.Duration %
+                                                                                                            60
+                                                                                                                }min`}{" "}
+                                                                                                            -{" "}
+                                                                                                            {`${Math.floor(
+                                                                                                                item?.Segments[0][1]?.Duration /
+                                                                                                                60
+                                                                                                            )}hr ${item?.Segments[0][0]?.Duration %
+                                                                                                            60
+                                                                                                                }min`}
+                                                                                                        </h4> : <h4>
+                                                                                                            {`${Math.floor(
+                                                                                                                item?.Segments[0][0]?.Duration /
+                                                                                                                60
+                                                                                                            )}hr ${item?.Segments[0][0]?.Duration %
+                                                                                                            60
+                                                                                                                }min`}
+                                                                                                        </h4>}
 
-                                                                            }}
-                                                                            className="mobileflexDesign">
-                                                                            <div className="columnFLightName d-flex d-sm-none">
-                                                                                <div>
-                                                                                    <img
-                                                                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.ValidatingAirline}.png`}
-                                                                                        alt="flight"
-                                                                                    />{" "}
-                                                                                </div>
-                                                                                <span>
-                                                                                    {
-                                                                                        item?.Segments[0][0]?.Airline
-                                                                                            ?.AirlineName
-                                                                                    }
-                                                                                </span>
-                                                                                <p>
-                                                                                    {
-                                                                                        item?.Segments?.[0][0]?.Airline
-                                                                                            ?.AirlineCode
-                                                                                    }
-                                                                                    {
-                                                                                        item?.Segments?.[0][0]?.Airline
-                                                                                            ?.FlightNumber
-                                                                                    }
 
-                                                                                </p>
-                                                                            </div>
-                                                                            <motion.div
-                                                                                variants={variants}
-                                                                                className="singleFlightBox singleFlightBoxReturn"
-                                                                            >
-                                                                                <div className="singleFlightBoxOne singleFlightBoxOneReturn">
-                                                                                    <div>
-                                                                                        <img
-                                                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.ValidatingAirline}.png`}
-                                                                                            alt="flight"
-                                                                                        />{" "}
+                                                                                                {
+                                                                                                    item?.Segments[0].length > 1 ?
+                                                                                                        (
+                                                                                                            <div className=" stopBefReturn">
+                                                                                                                <Divider
+                                                                                                                    orientation="vertical"
+                                                                                                                    flexItem
+                                                                                                                    sx={{
+                                                                                                                        backgroundColor: "#21325d",
+                                                                                                                        marginX: "8px",
+                                                                                                                        height: "3px",
+                                                                                                                    }}
+                                                                                                                    className=""
+                                                                                                                />
+                                                                                                            </div>
+                                                                                                        ) :
+
+                                                                                                        (
+                                                                                                            <div className=" stopBefOneStop">
+                                                                                                                <Divider
+                                                                                                                    orientation="vertical"
+                                                                                                                    flexItem
+                                                                                                                    sx={{
+                                                                                                                        backgroundColor: "#21325d",
+                                                                                                                        marginX: "8px",
+                                                                                                                        height: "3px",
+                                                                                                                    }}
+                                                                                                                />
+                                                                                                            </div>
+                                                                                                        )
+                                                                                                }
+                                                                                                <p>{
+                                                                                                    item?.Segments[0].length > 1 ?
+                                                                                                        `${item?.Segments[0].length - 1} stop via ${item?.Segments[0][0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
+
+                                                                                                <span>
+                                                                                                    {
+                                                                                                        item?.Segments[0][0]
+                                                                                                            ?.NoOfSeatAvailable
+                                                                                                    }{" "}
+                                                                                                    Seats Left
+                                                                                                </span>
+                                                                                            </div>
+                                                                                            <div class="returnResultTimingBox">
+                                                                                                <span>
+                                                                                                    {
+                                                                                                        item?.Segments[0][item?.Segments[0].length - 1]?.Destination
+                                                                                                            ?.Airport?.CityName
+                                                                                                    }
+                                                                                                </span>
+                                                                                                <p>
+                                                                                                    {dayjs(
+                                                                                                        item?.Segments?.[0][item?.Segments[0].length - 1]?.Destination?.ArrTime
+                                                                                                    ).format("DD MMM, YY")}
+                                                                                                </p>
+                                                                                                <h5 className="daySize">
+                                                                                                    {dayjs(
+                                                                                                        item?.Segments?.[0][item?.Segments[0].length - 1]
+                                                                                                            ?.Destination?.ArrTime
+                                                                                                    ).format("h:mm A")}
+                                                                                                </h5>
+                                                                                            </div>
+                                                                                        </div>
                                                                                     </div>
-                                                                                    <span>
-                                                                                        {
-                                                                                            item?.Segments[0][0]?.Airline
-                                                                                                ?.AirlineName
-                                                                                        }
-                                                                                    </span>
-                                                                                    <p>
-                                                                                        {
-                                                                                            item?.Segments[0][0]?.Airline
-                                                                                                ?.AirlineCode
-                                                                                        }
-                                                                                        {
-                                                                                            item?.Segments[0][0]?.Airline
-                                                                                                ?.FlightNumber
-                                                                                        }
-                                                                                    </p>
-                                                                                </div>
-                                                                                <div className="singleFlightBoxTwo singleFlightBoxTwoReturn">
-                                                                                    <span>
-                                                                                        {
-                                                                                            item?.Segments[0][0]?.Origin
-                                                                                                ?.Airport?.CityName
-                                                                                        }
-                                                                                    </span>
-                                                                                    <p>
-                                                                                        {dayjs(
-                                                                                            item?.Segments[0][0]?.Origin
-                                                                                                ?.DepTime
-                                                                                        ).format("DD MMM, YY")}
-                                                                                    </p>
-                                                                                    <h5 className="daySize">
-                                                                                        {dayjs(
-                                                                                            item?.Segments[0][0]?.Origin
-                                                                                                ?.DepTime
-                                                                                        ).format("h:mm A")}
-                                                                                    </h5>
-                                                                                </div>
+                                                                                    <div class="returnFlightResultBoxOne">
+                                                                                        <div class="returnResultFlightDetails">
+                                                                                            <div>
+                                                                                                <img
+                                                                                                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.ValidatingAirline}.png`}
+                                                                                                    alt="flight"
+                                                                                                />{" "}
+                                                                                            </div>
+                                                                                            <span>
+                                                                                                {
+                                                                                                    item?.Segments[1][0]?.Airline
+                                                                                                        ?.AirlineName
+                                                                                                }
+                                                                                            </span>
+                                                                                            <p>
+                                                                                                {
+                                                                                                    item?.Segments[1][0]?.Airline
+                                                                                                        ?.AirlineCode
+                                                                                                }
+                                                                                                {
+                                                                                                    item?.Segments[1][0]?.Airline
+                                                                                                        ?.FlightNumber
+                                                                                                }
+                                                                                            </p>
+                                                                                        </div>
+                                                                                        <div class="returnResultOtherDetails">
+                                                                                            <div class="returnResultTimingBox">
+                                                                                                <span>
+                                                                                                    {
+                                                                                                        item?.Segments[1][0]?.Origin
+                                                                                                            ?.Airport?.CityName
+                                                                                                    }
+                                                                                                </span>
+                                                                                                <p>
+                                                                                                    {dayjs(
+                                                                                                        item?.Segments[1][0]?.Origin
+                                                                                                            ?.DepTime
+                                                                                                    ).format("DD MMM, YY")}
+                                                                                                </p>
+                                                                                                <h5 className="daySize">
+                                                                                                    {dayjs(
+                                                                                                        item?.Segments[1][0]?.Origin
+                                                                                                            ?.DepTime
+                                                                                                    ).format("h:mm A")}
+                                                                                                </h5>
+                                                                                            </div>
+                                                                                            <div class="returnResultDurationBox">
+                                                                                                {
+                                                                                                    item?.Segments[1].length > 1 ?
+                                                                                                        <h4>
+                                                                                                            {`${Math.floor(
+                                                                                                                item?.Segments[1][0]?.Duration /
+                                                                                                                60
+                                                                                                            )}hr ${item?.Segments[0][0]?.Duration %
+                                                                                                            60
+                                                                                                                }min`}{" "}
+                                                                                                            -{" "}
+                                                                                                            {`${Math.floor(
+                                                                                                                item?.Segments[1][1]?.Duration /
+                                                                                                                60
+                                                                                                            )}hr ${item?.Segments[0][0]?.Duration %
+                                                                                                            60
+                                                                                                                }min`}
+                                                                                                        </h4> : <h4>
+                                                                                                            {`${Math.floor(
+                                                                                                                item?.Segments[1][0]?.Duration /
+                                                                                                                60
+                                                                                                            )}hr ${item?.Segments[1][0]?.Duration %
+                                                                                                            60
+                                                                                                                }min`}
+                                                                                                        </h4>}
 
-                                                                                <div className="singleFlightBoxThree">
-                                                                                    {
-                                                                                        item?.Segments[0].length > 1 ?
-                                                                                            <h4>
-                                                                                                {`${Math.floor(
-                                                                                                    item?.Segments[0][0]?.Duration /
-                                                                                                    60
-                                                                                                )}hr ${item?.Segments[0][0]?.Duration %
-                                                                                                60
-                                                                                                    }min`}{" "}
-                                                                                                -{" "}
-                                                                                                {`${Math.floor(
-                                                                                                    item?.Segments[0][1]?.Duration /
-                                                                                                    60
-                                                                                                )}hr ${item?.Segments[0][0]?.Duration %
-                                                                                                60
-                                                                                                    }min`}
-                                                                                            </h4> : <h4>
-                                                                                                {`${Math.floor(
-                                                                                                    item?.Segments[0][0]?.Duration /
-                                                                                                    60
-                                                                                                )}hr ${item?.Segments[0][0]?.Duration %
-                                                                                                60
-                                                                                                    }min`}
-                                                                                            </h4>}
 
+                                                                                                {
+                                                                                                    item?.Segments[1].length > 1 ?
+                                                                                                        (
+                                                                                                            <div className=" stopBefReturn">
+                                                                                                                <Divider
+                                                                                                                    orientation="vertical"
+                                                                                                                    flexItem
+                                                                                                                    sx={{
+                                                                                                                        backgroundColor: "#21325d",
+                                                                                                                        marginX: "8px",
+                                                                                                                        height: "3px",
+                                                                                                                    }}
+                                                                                                                    className=""
+                                                                                                                />
+                                                                                                            </div>
+                                                                                                        ) :
 
-                                                                                    {
-                                                                                        item?.Segments[0].length > 1 ?
-                                                                                            (
-                                                                                                <div className="stopBef">
-                                                                                                    <Divider
-                                                                                                        orientation="vertical"
-                                                                                                        flexItem
-                                                                                                        sx={{
-                                                                                                            backgroundColor: "#21325d",
-                                                                                                            marginX: "8px",
-                                                                                                            height: "3px",
-                                                                                                        }}
-                                                                                                        className=""
-                                                                                                    />
-                                                                                                </div>
-                                                                                            ) :
+                                                                                                        (
+                                                                                                            <div className=" stopBefOneStop">
+                                                                                                                <Divider
+                                                                                                                    orientation="vertical"
+                                                                                                                    flexItem
+                                                                                                                    sx={{
+                                                                                                                        backgroundColor: "#21325d",
+                                                                                                                        marginX: "8px",
+                                                                                                                        height: "3px",
+                                                                                                                    }}
+                                                                                                                />
+                                                                                                            </div>
+                                                                                                        )
+                                                                                                }
+                                                                                                <p>{
+                                                                                                    item?.Segments[1].length > 1 ?
+                                                                                                        `${item?.Segments[1].length - 1} stop via ${item?.Segments[1][0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
 
-                                                                                            (
-                                                                                                <div>
-                                                                                                    <Divider
-                                                                                                        orientation="vertical"
-                                                                                                        flexItem
-                                                                                                        sx={{
-                                                                                                            backgroundColor: "#21325d",
-                                                                                                            marginX: "8px",
-                                                                                                            height: "3px",
-                                                                                                        }}
-                                                                                                    />
-                                                                                                </div>
-                                                                                            )
-                                                                                    }
-                                                                                    <p>{
-                                                                                        item?.Segments[0].length > 1 ?
-                                                                                            `${item?.Segments[0].length - 1} stop via ${item?.Segments[0][0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
-
-                                                                                    <span>
-                                                                                        {
-                                                                                            item?.Segments[0][0]
-                                                                                                ?.NoOfSeatAvailable
-                                                                                        }{" "}
-                                                                                        Seats Left
-                                                                                    </span>
-                                                                                </div>
-
-                                                                                <div className="singleFlightBoxFour singleFlightBoxFourReturn">
-                                                                                    <span>
-                                                                                        {
-                                                                                            item?.Segments[0][item?.Segments[0].length - 1]?.Destination
-                                                                                                ?.Airport?.CityName
-                                                                                        }
-                                                                                    </span>
-                                                                                    <p>
-                                                                                        {dayjs(
-                                                                                            item?.Segments?.[0][item?.Segments[0].length - 1]?.Destination?.ArrTime
-                                                                                        ).format("DD MMM, YY")}
-                                                                                    </p>
-                                                                                    <h5 className="daySize">
-                                                                                        {dayjs(
-                                                                                            item?.Segments?.[0][item?.Segments[0].length - 1]
-                                                                                                ?.Destination?.ArrTime
-                                                                                        ).format("h:mm A")}
-                                                                                    </h5>
-                                                                                </div>
-
-                                                                                <div className="singleFlightBoxSeven singleFlightBoxSevenReturn">
-                                                                                    <p>₹ {item?.Fare?.PublishedFare}</p>
-                                                                                    <input type="radio" name='coming' id={`coming-${index}`} checked={isSelected} />
+                                                                                                <span>
+                                                                                                    {
+                                                                                                        item?.Segments[1][0]
+                                                                                                            ?.NoOfSeatAvailable
+                                                                                                    }{" "}
+                                                                                                    Seats Left
+                                                                                                </span>
+                                                                                            </div>
+                                                                                            <div class="returnResultTimingBox">
+                                                                                                <span>
+                                                                                                    {
+                                                                                                        item?.Segments[1][item?.Segments[1].length - 1]?.Destination
+                                                                                                            ?.Airport?.CityName
+                                                                                                    }
+                                                                                                </span>
+                                                                                                <p>
+                                                                                                    {dayjs(
+                                                                                                        item?.Segments?.[1][item?.Segments[1].length - 1]?.Destination?.ArrTime
+                                                                                                    ).format("DD MMM, YY")}
+                                                                                                </p>
+                                                                                                <h5 className="daySize">
+                                                                                                    {dayjs(
+                                                                                                        item?.Segments?.[1][item?.Segments[1].length - 1]
+                                                                                                            ?.Destination?.ArrTime
+                                                                                                    ).format("h:mm A")}
+                                                                                                </h5>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    {/* <div className="singleFlightBoxSeven singleFlightBoxSevenReturn">
+                                                                                        <p>₹ {item?.Fare?.PublishedFare}</p>
+                                                                                        <input type="radio" name='coming' id={`coming-${index}`} checked={isSelected} />
+                                                                                    </div> */}
+                                                                                    <div className="returnInternationalViewDetails">
+                                                                                        {/* <p>₹ {item?.Fare?.PublishedFare}</p> */}
+                                                                                        <p> {`₹${Number(item?.Fare?.PublishedFare).toFixed(0)}`}</p>
+                                                                                        <button
+                                                                                            onClick={() => {
+                                                                                                // handleIndexId(results[0][item]?.ResultIndex);
+                                                                                                handleFLightSelectForBook(item, index)
+                                                                                            }}
+                                                                                        >
+                                                                                            See Details →
+                                                                                        </button>
+                                                                                    </div>
                                                                                 </div>
                                                                             </motion.div>
                                                                         </motion.div>
-                                                                    </motion.div>
 
-                                                                </>
-                                                            );
-                                                        })}
-                                                    </div>
+                                                                    </>
+                                                                );
+                                                            })
+                                                        }
+                                                    </>
                                                 )
                                             }
+
                                         </div>
                                     </div>
                                 </div>
-                                {/* </div> */}
+
                             </div>
                         </div>
                     </div>
@@ -1571,284 +1305,7 @@ const ReturnResult = () => {
 
                 </div>
 
-                <div className='container-fluid fixedReturnBottom' style={{ position: "fixed", bottom: "0", zIndex: "9999" }}>
-                    <div className="row ">
-                        <div className="col-5">
-                            <div className="row">
-                                <div className="col-lg-12">
 
-                                    <motion.div
-                                        variants={variants}
-                                        initial="initial"
-                                        whileInView="animate"
-                                    >
-                                        <motion.div variants={variants}
-
-                                            className="mobileflexDesign returnFixedBottomDesign">
-                                            <div className="columnFLightName d-flex d-sm-none">
-                                                <div>
-                                                    <img
-                                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${ongoFlight?.ValidatingAirline}.png`}
-                                                        alt="flight"
-                                                    />{" "}
-                                                </div>
-                                                <span>
-                                                    {
-                                                        ongoFlight?.Segments[0][0]?.Airline
-                                                            ?.AirlineName
-                                                    }
-                                                </span>
-                                                {/* <p>
-                                                    {
-                                                        ongoFlight?.Segments?.[0][0]?.Airline
-                                                            ?.AirlineCode
-                                                    }
-                                                    {
-                                                        ongoFlight?.Segments?.[0][0]?.Airline
-                                                            ?.FlightNumber
-                                                    }
-
-                                                </p> */}
-                                            </div>
-                                            <motion.div
-                                                variants={variants}
-                                                className="singleFlightBox"
-                                            >
-                                                <div className="singleFlightBoxOne">
-                                                    <div>
-                                                        <img
-                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${ongoFlight?.ValidatingAirline}.png`}
-                                                            alt="flight"
-                                                        />{" "}
-                                                    </div>
-                                                    <span>
-                                                        {
-                                                            ongoFlight?.Segments[0][0]?.Airline
-                                                                ?.AirlineName
-                                                        }
-                                                    </span>
-                                                    {/* <p>
-                                                        {
-                                                            ongoFlight?.Segments[0][0]?.Airline
-                                                                ?.AirlineCode
-                                                        }
-                                                        {
-                                                            ongoFlight?.Segments[0][0]?.Airline
-                                                                ?.FlightNumber
-                                                        }
-                                                    </p> */}
-                                                </div>
-                                                <div className="singleFlightBoxTwo">
-                                                    <span>
-                                                        {
-                                                            ongoFlight?.Segments[0][0]?.Origin
-                                                                ?.Airport?.CityName
-                                                        }
-                                                    </span>
-                                                    <p>
-                                                        {dayjs(
-                                                            ongoFlight?.Segments[0][0]?.Origin
-                                                                ?.DepTime
-                                                        ).format("DD MMM, YY")}
-                                                    </p>
-                                                    <h5 className="daySize">
-                                                        {dayjs(
-                                                            ongoFlight?.Segments[0][0]?.Origin
-                                                                ?.DepTime
-                                                        ).format("h:mm A")}
-                                                    </h5>
-                                                </div>
-
-                                                <div className="singleFlightBoxThree">
-
-
-                                                    <span className="">
-                                                        <svg id="fi_9170928" height="25" viewBox="0 0 64 64" width="25" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path d="m51.93 33-50.93-.041a1 1 0 0 1 0-2l50.931.041a1 1 0 0 1 0 2z"></path><path d="m64 32.012c-5.681 2.1-12.731 5.692-17.1 9.5l3.446-9.512-3.433-9.513c4.365 3.813 11.409 7.413 17.087 9.525z"></path></svg>
-                                                    </span>
-
-
-                                                </div>
-
-                                                <div className="singleFlightBoxFour">
-                                                    <span>
-                                                        {
-                                                            ongoFlight?.Segments[0][ongoFlight?.Segments[0].length - 1]?.Destination
-                                                                ?.Airport?.CityName
-                                                        }
-                                                    </span>
-                                                    <p>
-                                                        {dayjs(
-                                                            ongoFlight?.Segments?.[0][ongoFlight?.Segments[0].length - 1]?.Destination?.ArrTime
-                                                        ).format("DD MMM, YY")}
-                                                    </p>
-                                                    <h5 className="daySize">
-                                                        {dayjs(
-                                                            ongoFlight?.Segments?.[0][ongoFlight?.Segments[0].length - 1]
-                                                                ?.Destination?.ArrTime
-                                                        ).format("h:mm A")}
-                                                    </h5>
-                                                </div>
-
-                                                <div className="singleFlightBoxSeven">
-                                                    <p>₹ {ongoFlight?.Fare?.PublishedFare}</p>
-
-                                                </div>
-                                            </motion.div>
-                                        </motion.div>
-                                    </motion.div>
-
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div className="col-5">
-                            <div className="row">
-                                <div className="col-lg-12">
-
-                                    <motion.div
-                                        variants={variants}
-                                        initial="initial"
-                                        whileInView="animate"
-                                    >
-                                        <motion.div variants={variants}
-
-                                            className="mobileflexDesign returnFixedBottomDesign">
-                                            <div className="columnFLightName d-flex d-sm-none">
-                                                <div>
-                                                    <img
-                                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${incomeGlight?.ValidatingAirline}.png`}
-                                                        alt="flight"
-                                                    />{" "}
-                                                </div>
-                                                <span>
-                                                    {
-                                                        incomeGlight?.Segments[0][0]?.Airline
-                                                            ?.AirlineName
-                                                    }
-                                                </span>
-                                                {/* <p>
-                                                    {
-                                                        incomeGlight?.Segments?.[0][0]?.Airline
-                                                            ?.AirlineCode
-                                                    }
-                                                    {
-                                                        incomeGlight?.Segments?.[0][0]?.Airline
-                                                            ?.FlightNumber
-                                                    }
-
-                                                </p> */}
-                                            </div>
-                                            <motion.div
-                                                variants={variants}
-                                                className="singleFlightBox"
-                                            >
-                                                <div className="singleFlightBoxOne">
-                                                    <div>
-                                                        <img
-                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${incomeGlight?.ValidatingAirline}.png`}
-                                                            alt="flight"
-                                                        />{" "}
-                                                    </div>
-                                                    <span>
-                                                        {
-                                                            incomeGlight?.Segments[0][0]?.Airline
-                                                                ?.AirlineName
-                                                        }
-                                                    </span>
-                                                    {/* <p>
-                                                        {
-                                                            incomeGlight?.Segments[0][0]?.Airline
-                                                                ?.AirlineCode
-                                                        }
-                                                        {
-                                                            incomeGlight?.Segments[0][0]?.Airline
-                                                                ?.FlightNumber
-                                                        }
-                                                    </p> */}
-                                                </div>
-                                                <div className="singleFlightBoxTwo">
-                                                    <span>
-                                                        {
-                                                            incomeGlight?.Segments[0][0]?.Origin
-                                                                ?.Airport?.CityName
-                                                        }
-                                                    </span>
-                                                    <p>
-                                                        {dayjs(
-                                                            incomeGlight?.Segments[0][0]?.Origin
-                                                                ?.DepTime
-                                                        ).format("DD MMM, YY")}
-                                                    </p>
-                                                    <h5 className="daySize">
-                                                        {dayjs(
-                                                            incomeGlight?.Segments[0][0]?.Origin
-                                                                ?.DepTime
-                                                        ).format("h:mm A")}
-                                                    </h5>
-                                                </div>
-
-                                                <div className="singleFlightBoxThree">
-
-
-                                                    <span>
-                                                        <svg id="fi_9170928" height="25" viewBox="0 0 64 64" width="25" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path d="m51.93 33-50.93-.041a1 1 0 0 1 0-2l50.931.041a1 1 0 0 1 0 2z"></path><path d="m64 32.012c-5.681 2.1-12.731 5.692-17.1 9.5l3.446-9.512-3.433-9.513c4.365 3.813 11.409 7.413 17.087 9.525z"></path></svg>
-                                                    </span>
-
-                                                </div>
-
-                                                <div className="singleFlightBoxFour">
-                                                    <span>
-                                                        {
-                                                            incomeGlight?.Segments[0][incomeGlight?.Segments[0].length - 1]?.Destination
-                                                                ?.Airport?.CityName
-                                                        }
-                                                    </span>
-                                                    <p>
-                                                        {dayjs(
-                                                            incomeGlight?.Segments?.[0][incomeGlight?.Segments[0].length - 1]?.Destination?.ArrTime
-                                                        ).format("DD MMM, YY")}
-                                                    </p>
-                                                    <h5 className="daySize">
-                                                        {dayjs(
-                                                            incomeGlight?.Segments?.[0][incomeGlight?.Segments[0].length - 1]
-                                                                ?.Destination?.ArrTime
-                                                        ).format("h:mm A")}
-                                                    </h5>
-                                                </div>
-
-                                                <div className="singleFlightBoxSeven">
-                                                    <p>₹ {incomeGlight?.Fare?.PublishedFare}</p>
-
-                                                </div>
-                                            </motion.div>
-                                        </motion.div>
-                                    </motion.div>
-
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="col-2">
-
-                            <div className="returnResultButtonBox">
-                                <p>
-                                    {
-                                        ` ₹ ${(Number(ongoFlight?.Fare?.PublishedFare) +
-                                            Number(incomeGlight?.Fare?.PublishedFare)
-                                        ).toFixed(0)
-                                        }`
-                                    }
-                                </p>
-                                <div className="buttonReturnBox">
-                                    <button onClick={handleFareRuleAndQuote}>Book Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
 
@@ -1856,4 +1313,4 @@ const ReturnResult = () => {
     )
 }
 
-export default ReturnResult
+export default ReturnResultInternational

@@ -15,6 +15,14 @@ export const returnAction = (data) => {
     };
   }
 };
+export const returnActionClear = () => {
+  // if (data) {
+  return {
+    type: types.CLEAR_RETURN_REDUCER,
+    // payload: data,
+  };
+  // }
+};
 // export const oneWayEMTAction = (data) => {
 //   if (data) {
 //     return {

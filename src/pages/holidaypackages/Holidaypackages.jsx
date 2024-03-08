@@ -89,7 +89,7 @@ const sunVarient = {
 
   close: {
     y: 500,
-    opacity: 0,
+    opacity: 1,
     transition: {
       duration: 2,
       staggerChildren: 0.1,

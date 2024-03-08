@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import axios from "axios";
 import { apiURL } from "../../../Constants/constant";
 import SecureStorage from 'react-secure-storage';
+import dayjs from "dayjs";
 
 const KeyValue = ({ data, value }) => {
 
@@ -24,7 +25,8 @@ const KeyValue = ({ data, value }) => {
     );
 };
 
-const ReturnSummary = (props) => {
+const RetSummIntlWithCoupon = (props) => {
+
     const [showInput, setShowInput] = useState(false);
     const isDummyStorageTrue = sessionStorage.getItem("hdhhfb7383__3u8748");
     const propFunction = props.handleClick;
@@ -62,7 +64,7 @@ const ReturnSummary = (props) => {
                 setCouponStatus(true);
                 sessionStorage.setItem("couponCode", couponCode);
                 await props.transactionAmount(
-                    fareValue?.Fare?.PublishedFare + markUpamount - coupondiscount
+                    Number(((fareValue?.Fare?.PublishedFare) + (markUpamount) * (fareValue?.Fare?.PublishedFare) - (discountValue))).toFixed(0)
                 );
             }
         } catch (error) {
@@ -122,19 +124,25 @@ const ReturnSummary = (props) => {
     const fareValueReturn = reducerState?.flightFare?.flightQuoteDataReturn?.Results;
     const fareQuote = reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode;
     const discountValue =
-        fareValue?.Fare?.PublishedFare - fareValue?.Fare?.OfferedFare;
-
+        Number(fareValue?.Fare?.PublishedFare - fareValue?.Fare?.OfferedFare).toFixed(0);
+    // console.log(discountValue, "discount value");
     const markUpamount =
         reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
-
-        const taxvalue = Number(markUpamount*(fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare)).toFixed(0);
-
-        const grandtotal = Number((fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare )+markUpamount*(fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare)).toFixed(0)
-
+    // console.log(markUpamount, "markUpamount value");
     const integerValue = parseInt(discountValue);
-    const coupondiscount = integerValue + markUpamount;
+    // console.log(integerValue, "integerValue value");
+    // const coupondiscount = integerValue + markUpamount;
+    const coupondiscount = parseInt((fareValue?.Fare?.PublishedFare) - (fareValue?.Fare?.OfferedFare))
+    // console.log(coupondiscount, "coupondiscount value");
 
-    console.log(reducerState, "reducer state")
+    const grandtotal = (Number(fareValue?.Fare?.PublishedFare) + markUpamount * Number(fareValue?.Fare?.PublishedFare)).toFixed(0);
+
+
+    const afterdicount = (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare) - Number(discountValue)).toFixed(0)
+
+    // const discountValue =
+    //    Number( Number(fareValue?.Fare?.PublishedFare - fareValue?.Fare?.OfferedFare) + Number(fareValueReturn?.Fare?.PublishedFare - fareValueReturn?.Fare?.OfferedFare).toFixed(0));
+
 
     let total = 0;
 
@@ -170,44 +178,36 @@ const ReturnSummary = (props) => {
                             <span>Price Summary</span>
                         </div>
                         <p className="depRet">Departure</p>
-                        {fareValue?.Segments?.map((dat, index) => {
-                            return dat?.map((data1) => {
-                                const dateString = data1?.Origin?.DepTime;
-                                const date = new Date(dateString);
-                                const day = date.getDate();
-                                const month = date.toLocaleString("default", {
-                                    month: "short",
-                                });
-                                const year = date.getFullYear();
-                                const formattedDate = `${day} ${month} ${year}`;
-                                return (
-                                    <>
-                                        <div className="totCOmmFlight">
-                                            <div>
-                                                <span>{formattedDate}</span>
-                                                <p>{data1?.Airline?.FlightNumber}</p>
-                                                <p>{data1?.Airline?.FareClass} Class</p>
-                                            </div>
+                        {fareValue?.Segments?.[0]?.map((dat, index) => {
+
+                            return (
+                                <>
+                                    <div className="totCOmmFlight">
+                                        <div>
+                                            <span>{dayjs(dat?.Origin?.DepTime).format("DD MMM, YY")} </span>
+                                            <p>{dat?.Airline?.FlightNumber}</p>
+                                            <p>{dat?.Airline?.FareClass} Class</p>
                                         </div>
-                                        <div className="priceChart">
-                                            <div>
-                                                <span className="text-bold">From</span>
-                                                <p className="text-bold">
-                                                    {data1?.Origin?.Airport?.AirportCode}
-                                                </p>
-                                            </div>
-                                            <div>
-                                                <span className="text-bold">To</span>
-                                                <p className="text-bold">
-                                                    {data1?.Destination?.Airport?.AirportCode}
-                                                </p>
-                                            </div>
+                                    </div>
+                                    <div className="priceChart">
+                                        <div>
+                                            <span className="text-bold">From</span>
+                                            <p className="text-bold">
+                                                {dat?.Origin?.Airport?.AirportCode}
+                                            </p>
                                         </div>
+                                        <div>
+                                            <span className="text-bold">To</span>
+                                            <p className="text-bold">
+                                                {dat?.Destination?.Airport?.AirportCode}
+                                            </p>
+                                        </div>
+                                    </div>
 
 
-                                    </>
-                                );
-                            });
+                                </>
+                            );
+
                         })}
 
                         <div className="totCOmmFlight">
@@ -246,50 +246,41 @@ const ReturnSummary = (props) => {
                             })}
                         </div>
 
-
                         <p className="depRet">Return</p>
-                        {fareValueReturn?.Segments?.map((dat, index) => {
-                            return dat?.map((data1) => {
-                                const dateString = data1?.Origin?.DepTime;
-                                const date = new Date(dateString);
-                                const day = date.getDate();
-                                const month = date.toLocaleString("default", {
-                                    month: "short",
-                                });
-                                const year = date.getFullYear();
-                                const formattedDate = `${day} ${month} ${year}`;
-                                return (
-                                    <>
-                                        <div className="totCOmmFlight">
-                                            <div>
-                                                <span>{formattedDate}</span>
-                                                <p>{data1?.Airline?.FlightNumber}</p>
-                                                <p>{data1?.Airline?.FareClass} Class</p>
-                                            </div>
+                        {fareValue?.Segments?.[1]?.map((dat, index) => {
+
+                            return (
+                                <>
+                                    <div className="totCOmmFlight">
+                                        <div>
+                                            <span>{dayjs(dat?.Origin?.DepTime).format("DD MMM, YY")}</span>
+                                            <p>{dat?.Airline?.FlightNumber}</p>
+                                            <p>{dat?.Airline?.FareClass} Class</p>
                                         </div>
-                                        <div className="priceChart">
-                                            <div>
-                                                <span className="text-bold">From</span>
-                                                <p className="text-bold">
-                                                    {data1?.Origin?.Airport?.AirportCode}
-                                                </p>
-                                            </div>
-                                            <div>
-                                                <span className="text-bold">To</span>
-                                                <p className="text-bold">
-                                                    {data1?.Destination?.Airport?.AirportCode}
-                                                </p>
-                                            </div>
+                                    </div>
+                                    <div className="priceChart">
+                                        <div>
+                                            <span className="text-bold">From</span>
+                                            <p className="text-bold">
+                                                {dat?.Origin?.Airport?.AirportCode}
+                                            </p>
                                         </div>
+                                        <div>
+                                            <span className="text-bold">To</span>
+                                            <p className="text-bold">
+                                                {dat?.Destination?.Airport?.AirportCode}
+                                            </p>
+                                        </div>
+                                    </div>
 
 
-                                    </>
-                                );
-                            });
+                                </>
+                            );
+
                         })}
 
                         <div className="totCOmmFlight">
-                            {fareValueReturn?.FareBreakdown?.map((data) => {
+                            {fareValue?.FareBreakdown?.map((data) => {
                                 return (
                                     <div className="">
                                         {data?.PassengerType === 1 && (
@@ -329,21 +320,22 @@ const ReturnSummary = (props) => {
                                 <span>Total TAX: </span>
                                 <p>
                                     {"₹"}
-                                    {taxvalue}
+                                    {/* {(fareValue?.Fare?.PublishedFare * markUpamount).toFixed(0)} */}
+                                    {Number(fareValue?.Fare?.PublishedFare * markUpamount).toFixed(0)}
                                 </p>
                             </div>
                             <div>
                                 <span>Grand Total:</span>
                                 <p>
                                     {"₹"}
-                                    {/* {fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare + markUpamount} */}
+                                    {/* {(Number(fareValue?.Fare?.PublishedFare) + Number(fareValue?.Fare?.PublishedFare * markUpamount)).toFixed(0)} */}
                                     {grandtotal}
                                 </p>
                             </div>
                         </div>
 
 
-                        {/* {isDummyStorageTrue === "false" ? (
+                        {isDummyStorageTrue === "false" ? (
                             <div
                                 className="applycoupenbuttontext"
                                 style={{ overflow: "hidden" }}
@@ -415,8 +407,9 @@ const ReturnSummary = (props) => {
                                                                 <span>Total:</span>
                                                                 <p>
                                                                     {"₹"}
-                                                                    {fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare +
-                                                                        markUpamount}
+                                                                    {/* {(fareValue?.Fare?.PublishedFare +
+                                                                        markUpamount).toFixed(0)} */}
+                                                                    {grandtotal}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -427,14 +420,9 @@ const ReturnSummary = (props) => {
 
                                                                 <p>
                                                                     {"₹"}
-                                                                    {parseFloat(
-                                                                        (
-                                                                            fareValue?.Fare
-                                                                                ?.PublishedFare +
-                                                                            markUpamount -
-                                                                            coupondiscount
-                                                                        ).toFixed(2)
-                                                                    )}
+                                                                    {/* {parseInt((fareValue?.Fare?.PublishedFare) + (markUpamount) * (fareValue?.Fare?.PublishedFare) - (coupondiscount)).toFixed(2)
+                                                                    } */}
+                                                                    {afterdicount}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -450,7 +438,7 @@ const ReturnSummary = (props) => {
                                     </motion.div>
                                 )}
                             </div>
-                        ) : null} */}
+                        ) : null}
                     </div>
 
                 </>
@@ -465,4 +453,4 @@ const ReturnSummary = (props) => {
     );
 };
 
-export default ReturnSummary;
+export default RetSummIntlWithCoupon;

@@ -63,14 +63,21 @@ import HolidayCountryDetails from './pages/holidaypackages/holidayCategory/Holid
 import Events from './pages/Event/Events';
 import ReturnMain from './pages/flight/ReturnFlight/ReturnMain';
 import ReturnResult from './pages/flight/ReturnFlight/ReturnResult';
+import ReturnResultInternational from './pages/flight/ReturnFlight/ReturnResultInternational';
 import ReturnPassenger from './pages/flight/ReturnFlight/ReturnPassenger';
 
 import Whatsapp from './Whatsapp';
 import ReturnReviewBooking from './pages/flight/ReturnFlight/ReturnReviewBooking';
 // import BookedTicketWithReturn from './pages/flight/ReturnFlight/BookedTicketWithReturn';
 import BookedTicketWithReturn from "./pages/flight/ReturnFlight/BookTicketWithReturn"
+
+import PassengerInternational from './pages/flight/ReturnFlight/PassengerInternational';
+import ReturnReviewInternational from './pages/flight/ReturnFlight/ReturnReviewInternational';
+import BookedTicketInternationalDB from './pages/flight/ReturnFlight/BookedTicketInternationalDB';
+
 import { useNetworkState } from "react-use"
 import Offline from "./components/Offline"
+
 
 
 
@@ -83,30 +90,30 @@ function App() {
 
   const notOnline = useNetworkState();
   // console.log(state, "network state..............")
-  useEffect(() => {
-    const disableInspect = (e) => {
-      if (
-        e.shiftKey && e.ctrlKey && e.keyCode === 123 || // F12
-        e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74) || // Ctrl + Shift + I/J
-        e.ctrlKey && e.keyCode === 85 // Ctrl + U
-      ) {
-        e.preventDefault();
-        return false;
-      }
-    };
+  // useEffect(() => {
+  //   const disableInspect = (e) => {
+  //     if (
+  //       e.shiftKey && e.ctrlKey && e.keyCode === 123 || // F12
+  //       e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74) || // Ctrl + Shift + I/J
+  //       e.ctrlKey && e.keyCode === 85 // Ctrl + U
+  //     ) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //   };
 
-    const disableRightClick = (e) => {
-      e.preventDefault();
-    };
+  //   const disableRightClick = (e) => {
+  //     e.preventDefault();
+  //   };
 
-    document.addEventListener('keydown', disableInspect);
-    document.addEventListener('contextmenu', disableRightClick);
+  //   document.addEventListener('keydown', disableInspect);
+  //   document.addEventListener('contextmenu', disableRightClick);
 
-    return () => {
-      document.removeEventListener('keydown', disableInspect);
-      document.removeEventListener('contextmenu', disableRightClick);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener('keydown', disableInspect);
+  //     document.removeEventListener('contextmenu', disableRightClick);
+  //   };
+  // }, []);
 
 
 
@@ -223,6 +230,10 @@ function App() {
         <Route index element={<Home />}></Route>
         <Route path="/Return" element={<ReturnMain />}></Route>
         <Route path="/ReturnResult" element={<ReturnResult />}></Route>
+        <Route path="/ReturnResultInternational" element={<ReturnResultInternational />}></Route>
+        <Route path="/ReturnResultInternational/PassengerDetailsInternational" element={<PassengerInternational />}></Route>
+        <Route path="/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational" element={<ReturnReviewInternational />}></Route>
+        <Route path="/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl" element={<BookedTicketInternationalDB />}></Route>
         <Route
           exact
           path="/FlightresultReturn/Passengerdetail"

@@ -144,3 +144,221 @@
 .singleFlightBoxSevenReturn p {
     font-size: 16px;
 }
+
+
+
+
+
+
+
+
+
+/* return result international  */
+.returnFlightResultBox p,
+.returnFlightResultBox h4,
+.returnFlightResultBox h5 {
+    margin: 0 !important;
+}
+
+.returnFlightResultBox {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 8px;
+    padding: 10px;
+    margin: 10px 0px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.returnFlightResultBoxOne {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+    /* align-items: flex-start; */
+}
+
+.returnFlightResultBoxOne .returnResultFlightDetails {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    background: #eee;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+.returnResultOtherDetails {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.returnResultOtherDetails>div {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.returnResultTimingBox span {
+    font-size: 13px;
+    max-width: 95px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #000;
+    font-family: 'Montserrat';
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.returnResultTimingBox h5 {
+    font-size: 13px;
+    max-width: 95px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #000;
+    font-family: 'Montserrat';
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.returnResultTimingBox p {
+    color: #000;
+    font-family: 'Montserrat';
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    font-size: 15px;
+}
+
+
+.returnResultDurationBox h4,
+.returnResultDurationBox p {
+    color: #000;
+    font-family: Montserrat;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.returnResultDurationBox span {
+    color: #d90429;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    font-size: 13px;
+
+}
+
+.returnResultFlightDetails span {
+    font-size: 13px;
+    /* max-width: 95px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; */
+    color: #000;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.returnResultFlightDetails p {
+    color: #d90429;
+    font-family: 'Montserrat';
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    font-size: 12px;
+}
+
+.returnResultFlightDetails img {
+    width: 32px;
+    border-radius: 5px;
+}
+
+
+.returnInternationalViewDetails {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.returnInternationalViewDetails p {
+    font-size: 20px;
+    font-weight: 700;
+    color: #21325d;
+    font-family: 'Montserrat';
+}
+
+.returnInternationalViewDetails button {
+    padding: 8px 10px;
+    border-radius: 23px;
+    /* background: linear-gradient(180deg, #d90429, #d904279c); */
+    color: #FFF;
+    font-family: 'Montserrat';
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    border: none;
+    transition: 0.5s;
+    background-size: 200% auto;
+    background-image: linear-gradient(to right, #d90429 0%, #EA384D 51%, #d90429 100%);
+}
+
+.stopBefReturn {
+    width: 105px;
+    position: relative;
+}
+
+.stopBefOneStop {
+    width: 105px;
+    position: relative;
+}
+
+.stopBefReturn hr:before {
+    background-color: red;
+    border-radius: 50%;
+    content: "";
+    height: 10px;
+    left: 50%;
+    opacity: .7 !important;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+}
+
+/* return result international  */
+
+
+.depRet {
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 12px !important;
+}
+
+
+.returnHeading {
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-align: center;
+    margin: 10px 0px;
+}

@@ -28,9 +28,9 @@ import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote
 // import { format } from "date-fns";
 import { Helmet } from "react-helmet-async";
 import SecureStorage from 'react-secure-storage';
-
+import { returnAction, returnActionClear } from "../Redux/FlightSearch/Return/return";
+// import { returnAction } from "../../../Redux/FlightSearch/Return/return";
 const Homeform = (props) => {
-
 
 
   const reducerState = useSelector((state) => state);
@@ -47,6 +47,7 @@ const Homeform = (props) => {
     ];
     return daysOfWeek[date.getDay()];
   };
+  console.log(reducerState)
 
   // From code start from here
   const [fromSearchResults, setFromSearchResults] = useState([]);
@@ -163,6 +164,7 @@ const Homeform = (props) => {
   useEffect(() => {
     dispatch(clearbookTicketGDS());
     dispatch(resetAllFareData());
+    dispatch(returnActionClear())
   }, []);
 
   const ClassItems = [

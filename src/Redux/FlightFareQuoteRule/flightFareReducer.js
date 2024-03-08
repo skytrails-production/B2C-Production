@@ -22,13 +22,14 @@ export const flightFareReducer = (state = initialState, action) => {
         ...state,
         flightRuleData: payload?.data?.data?.Response,
         isLoading: false,
+        isLoadingRuleDone: true,
         isError: false,
       };
 
     case types.RULE_REQUEST:
       return {
         ...state,
-        isLoading: true,
+        isLoadingRuleDone: false,
         isError: false,
       };
 
@@ -36,7 +37,7 @@ export const flightFareReducer = (state = initialState, action) => {
       return {
         ...state,
         flightQuoteData: payload?.data?.data?.Response,
-        isLoading: false,
+        isLoadingQuoteDone: true,
         isError: false,
       };
 
@@ -44,6 +45,7 @@ export const flightFareReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: true,
+        isLoadingQuoteDone: false,
         isError: false,
       };
 
