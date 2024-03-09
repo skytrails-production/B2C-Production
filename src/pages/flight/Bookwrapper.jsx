@@ -624,7 +624,7 @@ export default function BookWrapper() {
 
   function convertDateFormat(inputDate) {
     // Split the input date string into year, month, and day
-    const [year, month, day] = inputDate.split("-");
+    const [year, month, day] = inputDate?.split("-");
 
     // Create a new Date object using the components
     const newDate = new Date(year, month - 1, day);
@@ -770,7 +770,7 @@ export default function BookWrapper() {
         return false;
       }
 
-      const formattedDate = parsedDate.toISOString().split("T")[0];
+      const formattedDate = parsedDate.toISOString()?.split("T")[0];
       return formattedDate === dateString;
     } catch (error) {
       // If an exception occurs, the date is not valid
@@ -949,13 +949,13 @@ export default function BookWrapper() {
                                     <div>
                                       <p>Check-in</p>
                                       <span>
-                                        {item?.Baggage.split(" ")[0]} Kgs
+                                        {item?.Baggage?.split(" ")[0]} Kgs
                                       </span>
                                     </div>
                                     <div>
                                       <p>Cabin</p>
                                       <span>
-                                        {item?.CabinBaggage.split(" ")[0]} Kgs
+                                        {item?.CabinBaggage?.split(" ")[0]} Kgs
                                       </span>
                                     </div>
                                   </div>

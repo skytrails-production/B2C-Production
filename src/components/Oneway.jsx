@@ -47,7 +47,7 @@ const Homeform = (props) => {
     ];
     return daysOfWeek[date.getDay()];
   };
-  console.log(reducerState)
+  // console.log(reducerState)
 
   // From code start from here
   const [fromSearchResults, setFromSearchResults] = useState([]);
