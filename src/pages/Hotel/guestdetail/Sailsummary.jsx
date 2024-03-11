@@ -213,14 +213,14 @@ export default function Popularfilter({
             <span>Published</span>
             <p>
               {"₹"}
-              {totalAmount}
+              {Number(totalAmount).toFixed(1)}
             </p>
           </div>
           <div>
             <span>Other Tax</span>
             <p>
               {"₹"}
-              {markUpamount}
+              {Number(markUpamount).toFixed(1)}
             </p>
           </div>
           <div>
@@ -233,7 +233,7 @@ export default function Popularfilter({
             <span>Grand Total:</span>
             <p>
               {"₹"}
-              {grandTotal}
+              {Number(grandTotal).toFixed(2)}
             </p>
           </div>
         </div>
@@ -480,14 +480,14 @@ export default function Popularfilter({
                             <span>Coupon Amount: </span>
                             <p>
                               {"₹"}
-                              {TotalDiscount}
+                              {Number(TotalDiscount).toFixed(1)}
                             </p>
                           </div>
                           <div>
                             <span>Total:</span>
                             <p>
                               {"₹"}
-                              {grandTotal}
+                              {Number(grandTotal).toFixed(2)}
                             </p>
                           </div>
                         </div>
@@ -497,7 +497,7 @@ export default function Popularfilter({
                             <span>After Discount:</span>
                             <p>
                               {"₹"}
-                              {discountamount}
+                              {Number(discountamount).toFixed(2)}
                             </p>
                           </div>
                         </div>

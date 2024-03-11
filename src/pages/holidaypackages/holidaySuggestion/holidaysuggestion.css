@@ -258,3 +258,169 @@
 }
 
 /* mobile device design  */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.holidaySuggesBox {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.holidaySuggesBox .holidaySuggesBoxOne {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+
+}
+
+.holidaySuggesBox .holidaySuggesBoxOne span {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #FF890026;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.holidaySuggesBox .holidaySuggesBoxOne span svg {
+
+    fill: #FF8900;
+    position: relative;
+}
+
+
+
+.holidaySuggesBox .holidaySuggesBoxOne p {
+    font-size: 16px;
+    margin-bottom: 0 !important;
+    font-weight: 400;
+    line-height: 1.5em;
+}
+
+.hori {
+    background-color: #888 !important;
+    width: 100%;
+    margin: 0.4rem 0 !important;
+    border-color: #999;
+}
+
+
+.holidaySuggesBox .holidaySuggesBoxTwo {
+    width: 100%;
+}
+
+.holidaySuggesBox .holidaySuggesBoxTwo h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5em;
+}
+
+
+.holidaySuggesBoxThree {
+    width: 100%;
+    height: 220px;
+}
+
+.holidaySuggesBoxThree img {
+    width: 100%;
+    border-radius: 8px;
+    height: 100%;
+}
+
+
+.holidaySuggesBoxFour {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+}
+
+.holidaySuggesBoxFour span {
+    color: #999;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.holidaySuggesBoxFour span svg {
+    fill: #999;
+    margin-right: 6px;
+    margin-bottom: 4px;
+}
+
+
+.holidaySuggesBoxFive {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.holidaySuggesBoxFive p {
+    font-size: 24px;
+    font-weight: bold;
+    line-height: 1.1em;
+    margin-bottom: 0 !important;
+}
+
+.holidaySuggesBoxFive span {
+    color: #666;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.1em;
+}
+
+.holidaySuggesBoxFive button {
+    padding: 8px 10px;
+    border-radius: 23px;
+    /* background: linear-gradient(180deg, #d90429, #d904279c); */
+    color: #FFF;
+    font-family: 'Montserrat';
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    border: none;
+    transition: 0.5s;
+    background-size: 200% auto;
+    background-image: linear-gradient(to right, #d90429 0%, #EA384D 51%, #d90429 100%);
+}
+
+.holidaySuggesBoxFive button:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+}

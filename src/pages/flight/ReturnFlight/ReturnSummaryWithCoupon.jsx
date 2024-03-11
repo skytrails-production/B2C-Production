@@ -122,7 +122,7 @@ const ReturnSummaryWithCoupon = (props) => {
     const fareValueReturn = reducerState?.flightFare?.flightQuoteDataReturn?.Results;
     const fareQuote = reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode;
     const discountValue =
-       Number( Number(fareValue?.Fare?.PublishedFare - fareValue?.Fare?.OfferedFare) + Number(fareValueReturn?.Fare?.PublishedFare - fareValueReturn?.Fare?.OfferedFare).toFixed(0));
+       Number( Number(fareValue?.Fare?.PublishedFare - fareValue?.Fare?.OfferedFare) + Number(fareValueReturn?.Fare?.PublishedFare - fareValueReturn?.Fare?.OfferedFare)).toFixed(0);
 
     const markUpamount =
         reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;

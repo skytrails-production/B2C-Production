@@ -38,6 +38,7 @@ import {
 } from "../utility/validationFunctions";
 import { ModeOutlined } from "@mui/icons-material";
 import Alert from "@mui/material/Alert";
+// import { FaWallet } from "react-icons/fa";
 // import { setTimeout } from "timers/promises";
 const MySwal = withReactContent(Swal);
 
@@ -100,6 +101,7 @@ export default function LoginForm() {
   };
   const reducerState = useSelector((state) => state);
   const userName = reducerState?.logIn?.loginData?.data?.result?.username;
+  // const wallet = reducerState?.logIn?.loginData?.data?.result?.balance;
   // const userDataS = reducerState?.logIn?.loginData?.data?.result;
   // const data = reducerState?.logIn?.loginData?.data;
   const status = reducerState?.logIn?.loginData?.data?.statusCode;
@@ -424,12 +426,20 @@ export default function LoginForm() {
                 Booking History
               </p>
 
+              {/* <p
+                className="px-4 py-2 d-flex  gap-3 cursor-pointer hover-bg-slate-100 transition-all duration-100 ease-in-out"
+                style={{ cursor: "pointer" }}
+                
+              >
+               <FaWallet/>  Wallet <span>({wallet})</span>
+              </p> */}
+
               <p
                 className="px-4 py-2 d-flex align-items-center gap-3 cursor-pointer hover-bg-slate-100 transition-all duration-100 ease-in-out"
                 style={{ cursor: "pointer" }}
                 onClick={handleLogout}
               >
-                Logout <MdLogout />
+               Logout <MdLogout />  
               </p>
             </motion.div>
           )}

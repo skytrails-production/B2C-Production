@@ -67,6 +67,9 @@
 
 .fixedReturnBottom {
     background-image: linear-gradient(to right, rgb(245, 81, 95), rgb(159, 4, 105));
+    left: 50%;
+    transform: translate(-50%, 0%);
+    border-radius: 8px;
 }
 
 
@@ -141,6 +144,17 @@
 }
 
 
+.singleFlightBoxSevenReturn {
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    /* flex: 2; */
+
+}
+
 .singleFlightBoxSevenReturn p {
     font-size: 16px;
 }
@@ -176,6 +190,7 @@
     flex-direction: column;
     justify-content: space-between;
     gap: 10px;
+    /* flex: 10; */
     /* align-items: flex-start; */
 }
 
@@ -211,21 +226,20 @@
     text-overflow: ellipsis;
     color: #000;
     font-family: 'Montserrat';
-    font-size: 17px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
 }
 
 .returnResultTimingBox h5 {
-    font-size: 13px;
     max-width: 95px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     color: #000;
     font-family: 'Montserrat';
-    font-size: 17px;
+    font-size: 13px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
@@ -234,11 +248,11 @@
 .returnResultTimingBox p {
     color: #000;
     font-family: 'Montserrat';
-    font-size: 17px;
+    /* font-size: 17px; */
     font-style: normal;
     font-weight: 700;
     line-height: normal;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 

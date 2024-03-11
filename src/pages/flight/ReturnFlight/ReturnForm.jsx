@@ -66,14 +66,10 @@ const ReturnForm = () => {
 
 
     useEffect(() => {
-        // Update the minDate of returnDate whenever startDate changes
         setReturnDate(prevReturnDate => {
-            // Check if startDate is after the current returnDate
             if (startDate > prevReturnDate) {
-                // If startDate is after returnDate, update returnDate to startDate
                 return startDate;
             }
-            // If startDate is before returnDate, no need to update returnDate
             return prevReturnDate;
         });
     }, [startDate]);
@@ -819,7 +815,8 @@ const ReturnForm = () => {
                                                 />
                                             </div>
                                         </div>
-                                        <span className="d-none d-md-block ">{getDayOfWeek(startDate)}</span>
+                                        {/* <span className="d-none d-md-block ">{getDayOfWeek(startDate)}</span> */}
+                                        <span className="d-none d-md-block ">{getDayOfWeek(returnDate)}</span>
                                     </div>
 
                                     <div className="travellerContainer " id="item-3">

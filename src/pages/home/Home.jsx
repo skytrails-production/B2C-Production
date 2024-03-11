@@ -17,6 +17,7 @@ import Topflightroute from "../flight/Topflightroute";
 import HolidayDomestic from "../holidaypackages/holidayCategory/HolidayDomestic";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
+import HolidayBudget from "../holidaypackages/holidayCategory/HolidayBudget";
 
 const variants = {
   initial: {
@@ -61,6 +62,9 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
 
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <HolidayCategory variants={variants} />
+      </motion.div>
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+        <HolidayBudget variants={variants} />
       </motion.div>
 
 

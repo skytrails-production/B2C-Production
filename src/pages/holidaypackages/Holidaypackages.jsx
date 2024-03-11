@@ -17,6 +17,7 @@ import HolidayCategory from "./holidayCategory/HolidayCategory";
 import HolidayDomestic from "./holidayCategory/HolidayDomestic";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
+import HolidayBudget from "./holidayCategory/HolidayBudget";
 
 const variants = {
   initial: {
@@ -194,6 +195,11 @@ const Hotelpackages = () => {
           variants={sunVarient} initial="initial" animate={isExit ? "open" : "close"}
         />
         <Hotelpackageform />
+      </motion.div>
+
+
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+        <HolidayBudget variants={variants} />
       </motion.div>
       <motion.div
         variants={variants}

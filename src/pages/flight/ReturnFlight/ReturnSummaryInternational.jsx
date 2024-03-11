@@ -42,7 +42,7 @@ const ReturnSummaryInternational = (props) => {
 
     const grandtotal = (Number(fareValue?.Fare?.PublishedFare) + markUpamount * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
 
-    const integerValue = parseInt(discountValue);
+    const integerValue = Number(discountValue).toFixed(0);
 
     console.log(reducerState, "reduce state")
 
@@ -211,7 +211,7 @@ const ReturnSummaryInternational = (props) => {
                                 <span>Total TAX: </span>
                                 <p>
                                     {"₹"}
-                                    {(fareValue?.Fare?.PublishedFare * markUpamount).toFixed(0)}
+                                    {Number(fareValue?.Fare?.PublishedFare * markUpamount).toFixed(0)}
                                 </p>
                             </div>
                             <div>

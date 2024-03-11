@@ -77,6 +77,7 @@ import BookedTicketInternationalDB from './pages/flight/ReturnFlight/BookedTicke
 
 import { useNetworkState } from "react-use"
 import Offline from "./components/Offline"
+import HolidayBudgetDetails from './pages/holidaypackages/holidayCategory/HolidayBudgetDetails';
 
 
 
@@ -297,6 +298,11 @@ function App() {
         <Route
           path="/holidaycategorydetails/:keyword"
           element={<HolidayCategoryDetails />}
+        ></Route>
+
+        <Route
+          path="/holidaybudgetdetails/:keyword"
+          element={<HolidayBudgetDetails />}
         ></Route>
         <Route
           path="/holidaycountrydetails/:keyword"

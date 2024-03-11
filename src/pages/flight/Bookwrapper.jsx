@@ -74,7 +74,7 @@ export default function BookWrapper() {
   }, [notOnline]);
 
 
- 
+
 
 
   const handleTravelClickOpen = () => {
@@ -89,8 +89,7 @@ export default function BookWrapper() {
     try {
       const token = SecureStorage.getItem("jwtToken");
       const response = await axios.get(
-        `${
-          apiURL.baseURL
+        `${apiURL.baseURL
         }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
           "couponCode"
         )}`,
@@ -101,7 +100,7 @@ export default function BookWrapper() {
           },
         }
       );
-    } catch (error) {}
+    } catch (error) { }
   };
 
   const handleTravelClose = (event, reason) => {
@@ -177,20 +176,20 @@ export default function BookWrapper() {
 
 
 
-   useEffect(() => {
-     if (isDisableScroll) {
-       document.body.classList.add("disableTrue");
-       document.body.classList.remove("disableFalse");
-     } else {
-       document.body.classList.remove("disableTrue");
-       document.body.classList.add("disableFalse");
-     }
-     return () => {
-       document.body.classList.add("disableFalse");
+  useEffect(() => {
+    if (isDisableScroll) {
+      document.body.classList.add("disableTrue");
+      document.body.classList.remove("disableFalse");
+    } else {
+      document.body.classList.remove("disableTrue");
+      document.body.classList.add("disableFalse");
+    }
+    return () => {
+      document.body.classList.add("disableFalse");
 
-       document.body.classList.remove("disableTrue");
-     };
-   }, [isDisableScroll]);
+      document.body.classList.remove("disableTrue");
+    };
+  }, [isDisableScroll]);
 
   const passengerTemplate = {
     Title: "Mr",
@@ -331,7 +330,7 @@ export default function BookWrapper() {
     } else if (
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !==
-        undefined
+      undefined
     ) {
       swalModal(
         "flight",
@@ -465,14 +464,14 @@ export default function BookWrapper() {
         transactionAmount ||
         (!isDummyTicketBooking
           ? parseInt(
-              reducerState?.flightFare?.flightQuoteData?.Results?.Fare
-                ?.PublishedFare
-            ) +
-            markUpamount *
-              parseInt(
-                reducerState?.flightFare?.flightQuoteData?.Results?.Fare
-                  ?.PublishedFare
-              )
+            reducerState?.flightFare?.flightQuoteData?.Results?.Fare
+              ?.PublishedFare
+          ) +
+          markUpamount *
+          parseInt(
+            reducerState?.flightFare?.flightQuoteData?.Results?.Fare
+              ?.PublishedFare
+          )
           : 99),
       // amount: 1,
 
@@ -770,7 +769,7 @@ export default function BookWrapper() {
         return false;
       }
 
-      const formattedDate = parsedDate.toISOString()?.split("T")[0];
+      const formattedDate = parsedDate?.toISOString()?.split("T")[0];
       return formattedDate === dateString;
     } catch (error) {
       // If an exception occurs, the date is not valid
@@ -818,7 +817,7 @@ export default function BookWrapper() {
                           <div className="bookaboveBox">
                             <div>
                               {TicketDetails?.AirlineRemark !== null &&
-                              TicketDetails?.AirlineRemark !== "--." ? (
+                                TicketDetails?.AirlineRemark !== "--." ? (
                                 <p className="text-center w-100 mandaField">
                                   {TicketDetails?.AirlineRemark}
                                 </p>
@@ -849,12 +848,10 @@ export default function BookWrapper() {
                                 <span>
                                   {" "}
                                   {TicketDetails?.Segments[0].length > 1
-                                    ? `${
-                                        TicketDetails?.Segments[0].length - 1
-                                      } stop via ${
-                                        TicketDetails?.Segments[0][0]
-                                          ?.Destination?.Airport?.CityName
-                                      }`
+                                    ? `${TicketDetails?.Segments[0].length - 1
+                                    } stop via ${TicketDetails?.Segments[0][0]
+                                      ?.Destination?.Airport?.CityName
+                                    }`
                                     : "Non Stop"}
                                 </span>
                               </div>
@@ -935,7 +932,7 @@ export default function BookWrapper() {
                                           Terminal-
                                           {item?.Destination?.Airport?.Terminal
                                             ? item?.Destination?.Airport
-                                                ?.Terminal
+                                              ?.Terminal
                                             : "Y"}
                                         </span>
                                       </p>
@@ -1557,8 +1554,8 @@ export default function BookWrapper() {
                                       handleServiceChange(
                                         e,
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       )
                                     }
                                   ></input>
@@ -1566,8 +1563,8 @@ export default function BookWrapper() {
                                     !validateName(
                                       passengerData[
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       ].FirstName
                                     ) && (
                                       <span className="error10">
@@ -1611,8 +1608,8 @@ export default function BookWrapper() {
                                       handleServiceChange(
                                         e,
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       )
                                     }
                                   ></input>
@@ -1620,8 +1617,8 @@ export default function BookWrapper() {
                                     !validateName(
                                       passengerData[
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       ].LastName
                                     ) && (
                                       <span className="error10">
@@ -1644,8 +1641,8 @@ export default function BookWrapper() {
                                       handleServiceChange(
                                         e,
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       )
                                     }
                                   >
@@ -1688,8 +1685,8 @@ export default function BookWrapper() {
                                       handleServiceChange(
                                         e,
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       )
                                     }
                                     min={minDateInfer}
@@ -1699,8 +1696,8 @@ export default function BookWrapper() {
                                     !validateDate(
                                       passengerData[
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       ].DateOfBirth
                                     ) && <span className="error10">DOB </span>}
                                 </div>
@@ -1748,8 +1745,8 @@ export default function BookWrapper() {
                                           handleServiceChange(
                                             e,
                                             index +
-                                              Number(adultCount) +
-                                              Number(childCount)
+                                            Number(adultCount) +
+                                            Number(childCount)
                                           )
                                         }
                                       ></input>
@@ -1792,8 +1789,8 @@ export default function BookWrapper() {
                                           handleServiceChange(
                                             e,
                                             index +
-                                              Number(adultCount) +
-                                              Number(childCount)
+                                            Number(adultCount) +
+                                            Number(childCount)
                                           );
                                           // console.log(
                                           //   e.target.value,

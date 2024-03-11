@@ -253,14 +253,14 @@ const BookNowLeft = (props) => {
                 <span>Total TAX: </span>
                 <p>
                   {"₹"}
-                  {parseInt(taxvalue)}
+                  {Number(taxvalue).toFixed(1)}
                 </p>
               </div>
               <div>
                 <span>Grand Total:</span>
                 <p>
                   {"₹"}
-                  {parseInt(taxvaluetotal)}
+                  {Number(taxvaluetotal).toFixed(2)}
                 </p>
               </div>
             </div>
@@ -328,16 +328,16 @@ const BookNowLeft = (props) => {
                                 <span>Coupon Amount: </span>
                                 <p>
                                   {"₹"}
-                                  {coupondiscount}
+                                  {Number(coupondiscount).toFixed(1)}
                                 </p>
                               </div>
                               <div>
                                 <span>Total:</span>
                                 <p>
                                   {"₹"}
-                                  {parseInt(fareValue?.Fare?.PublishedFare) +
+                                  {Number((fareValue?.Fare?.PublishedFare) +
                                     markUpamount *
-                                      parseInt(fareValue?.Fare?.PublishedFare)}
+                                      (fareValue?.Fare?.PublishedFare)).toFixed(2)}
                                 </p>
                               </div>
                             </div>
@@ -348,10 +348,10 @@ const BookNowLeft = (props) => {
 
                                 <p>
                                   {"₹"}
-                                  {parseInt(fareValue?.Fare?.PublishedFare) +
+                                  {Number((fareValue?.Fare?.PublishedFare) +
                                     markUpamount *
-                                      parseInt(fareValue?.Fare?.PublishedFare) -
-                                    coupondiscount}
+                                      (fareValue?.Fare?.PublishedFare) -
+                                    coupondiscount).toFixed(2)}
                                 </p>
                               </div>
                             </div>

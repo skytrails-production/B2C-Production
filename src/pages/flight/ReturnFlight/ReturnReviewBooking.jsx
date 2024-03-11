@@ -68,7 +68,7 @@ const ReturnReviewBooking = () => {
   const flightReturn =
     reducerState?.flightFare?.flightQuoteDataReturn?.Results?.Segments;
   const authenticUser = reducerState?.logIn?.loginData?.status;
-  console.log(reducerState, "reducer state review return");
+  // console.log(reducerState, "reducer state review return");
   const isDummyTicketBooking = JSON.parse(
     sessionStorage.getItem("hdhhfb7383__3u8748")
   );
@@ -352,7 +352,7 @@ const ReturnReviewBooking = () => {
   // ticket apis
 
   // ********************** easebuzz payment gateway integration *************************
-  console.log(transactionAmount, "markup amount");
+  // console.log(transactionAmount, "markup amount");
 
   const setTransactionAmountState = (e) => {
     setTransactionAmount(e);
@@ -522,7 +522,7 @@ const ReturnReviewBooking = () => {
     }
   };
 
-  console.log(reducerState, "reducer state");
+  // console.log(reducerState, "reducer state");
 
   // going flight error
 

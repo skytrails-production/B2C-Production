@@ -69,7 +69,7 @@ const ReturnPassenger = () => {
         (rule) => rule.Type === "Cancellation"
     );
 
-    console.log(cancellationPolicy, "details of cancel");
+    // console.log(cancellationPolicy, "details of cancel");
 
     useEffect(() => {
         if (
@@ -141,7 +141,7 @@ const ReturnPassenger = () => {
         FFNumber: "",
     };
 
-    console.log(farePrice[0], "fare price");
+    // console.log(farePrice[0], "fare price");
 
     let totalPassenger = Number(adults) + Number(childs) + Number(infants);
     const passengerLists = [];
@@ -235,7 +235,7 @@ const ReturnPassenger = () => {
         setPassengerData(list);
     };
 
-    console.log(passengerData, "passenger data")
+    // console.log(passengerData, "passenger data")
 
     const fareQuoteData = reducerState?.flightFare?.flightQuoteData?.Results;
     function validatePhoneNumber(phoneNumber) {
@@ -254,7 +254,7 @@ const ReturnPassenger = () => {
         const result1 = validateEmail1(email);
         const result3 = isPassportRequired ? isValidPassportNumber(passport) : true;
         const result = result1 && result2 && result3;
-        console.warn(result, "Please fill all the details/////");
+        // console.warn(result, "Please fill all the details/////");
         return result;
     }
     function convertDateFormat(inputDate) {
@@ -290,7 +290,7 @@ const ReturnPassenger = () => {
     const maxDateChild = formatDate(maxDateValueChild);
     const minDateInfer = formatDate(maxDateValueChild);
 
-    console.log(passengerData, "passemger data");
+    // console.log(passengerData, "passemger data");
     const handleSubmit = () => {
         setSub(true);
 
@@ -361,7 +361,7 @@ const ReturnPassenger = () => {
         );
     }
 
-    console.log(flightReturn, "flight return");
+    // console.log(flightReturn, "flight return");
 
     return (
         <div>

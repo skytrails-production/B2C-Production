@@ -1678,7 +1678,7 @@ function Items({ currentItems, selectedCategory, handleRadioChange, results, han
                             </div>
 
                             <div className="singleFlightBoxSeven">
-                              <p>₹ {results[0][item]?.Fare?.PublishedFare}</p>
+                              <p>₹ {(results[0][item]?.Fare?.PublishedFare).toFixed(0)}</p>
                               <button
                                 onClick={() => {
                                   handleIndexId(results[0][item]?.ResultIndex);
@@ -2049,6 +2049,9 @@ export default function BasicGrid() {
 
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [newResults, setNewResult] = useState([])
+
+  console.log(results, "results")
+
   useEffect(() => {
 
     const uniqueData = !results ? [] : (results[0]?.filter((item, index, array) => {

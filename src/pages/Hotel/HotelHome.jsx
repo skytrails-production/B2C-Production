@@ -10,6 +10,7 @@ import InsideNavbar from "../../UI/BigNavbar/InsideNavbar"
 import onewayBG from "../../images/onewayBG.jpg";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
+import HolidayBudget from "../holidaypackages/holidayCategory/HolidayBudget";
 
 const variants = {
   initial: {
@@ -42,6 +43,11 @@ const Hotelhome = () => {
         <InsideNavbar />
         <HotelForm />
       </div>
+
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+        <HolidayBudget variants={variants} />
+      </motion.div>
+
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <FLightOffer variants={variants} />
       </motion.div>

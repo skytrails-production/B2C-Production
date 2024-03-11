@@ -44,7 +44,7 @@ import { useLocation } from 'react-router-dom';
 import { apiURL } from "../../../Constants/constant";
 import HolidayLoader from "../holidayLoader/HolidayLoader";
 import { Skeleton } from "@mui/material";
-const HolidayCategoryDetails = () => {
+const HolidayBudgetDetails = () => {
 
 
     const { keyword } = useParams();
@@ -118,7 +118,7 @@ const HolidayCategoryDetails = () => {
     const handleCategoryClick = async () => {
         setLoading(true);
         try {
-            const response = await fetch(`${apiURL.baseURL}/skyTrails/beachesPackages?keyword=${keyword}`);
+            const response = await fetch(`${apiURL.baseURL}/skyTrails/package/packagefilterAmount?amount=${keyword}`);
             const data = await response.json();
             // console.log(data)
             setNewData(data.data)
@@ -255,19 +255,6 @@ const HolidayCategoryDetails = () => {
                         case "20-30Days":
                             return noOfDays >= 20 && noOfDays <= 30;
                     }
-                // case "price":
-                //     switch (value) {
-                //         case "25000":
-                //             return publishedPrice <= 25000;
-                //         case "25001":
-                //             return publishedPrice > 25001 && publishedPrice <= 50000;
-                //         case "50001":
-                //             return publishedPrice > 50001 && publishedPrice <= 75000;
-                //         case "75001":
-                //             return publishedPrice > 75001 && publishedPrice <= 100000;
-                //         case "100000":
-                //             return publishedPrice > 100000;
-                //     }
 
                 default:
                     return false;
@@ -291,14 +278,6 @@ const HolidayCategoryDetails = () => {
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [sortedAndFilteredResults])
-
-
-
-    // useEffect(() => {
-    //     if (newData === undefined) {
-    //         dispatch(clearHolidayReducer());
-    //     }
-    // }, [])
 
 
 
@@ -647,7 +626,6 @@ const HolidayCategoryDetails = () => {
 
 
                         {/* main code for bigger device  */}
-
                         {
                             !loading && (
                                 <div className="col-lg-9 col-md-9">
@@ -921,7 +899,6 @@ const HolidayCategoryDetails = () => {
                                 </div>
                             )
                         }
-
 
 
                         {/* main code for smaller device  */}
@@ -1198,4 +1175,4 @@ const HolidayCategoryDetails = () => {
     );
 };
 
-export default HolidayCategoryDetails;
+export default HolidayBudgetDetails;

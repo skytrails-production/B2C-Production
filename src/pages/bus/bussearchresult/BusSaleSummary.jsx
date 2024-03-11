@@ -50,16 +50,18 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
   );
 
 
-  const grandTotal = published + markUpamount * published;
+  const grandTotal = Number(published + markUpamount * published).toFixed(2);
   
 
-  const discount = published - offeredPrice;
+  const discount = Number(published - offeredPrice).toFixed(1);
   const couponDiscount = discount;
 
-  const discount1 = parseInt(discount);
-  const coupondiscount1 = parseInt(couponDiscount);
+  const discount1 = Number(discount).toFixed(1);
+  const coupondiscount1 = Number(couponDiscount).toFixed(1);
 
-  const totalaftercoupon = grandTotal - coupondiscount1;
+  const othertax =  Number(markUpamount * published).toFixed(1)
+
+  const totalaftercoupon = Number(grandTotal - coupondiscount1).toFixed(2);
   // const couponamount = sessionStorage.getItem("totalaftercoupon");
 
   const handleApplyCoupon3 = async () => {
@@ -188,7 +190,7 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
             <span>Other Tax</span>
             <p>
               {"₹"}
-              {markUpamount * published}
+              {othertax}
             </p>
           </div>
         </div>
@@ -197,7 +199,7 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
             <span>Grand Total:</span>
             <p>
               {"₹"}
-              {grandTotal}
+             {Number(grandTotal).toFixed(2)}
             </p>
           </div>
         </div>
