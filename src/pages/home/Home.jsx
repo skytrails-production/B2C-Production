@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SwipeToSlide from "../../components/Card";
 import Download from "./Download";
 import Oneway from "../../components/Oneway";
@@ -18,6 +18,7 @@ import HolidayDomestic from "../holidaypackages/holidayCategory/HolidayDomestic"
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
 import HolidayBudget from "../holidaypackages/holidayCategory/HolidayBudget";
+import ReturnForm from "../flight/ReturnFlight/ReturnForm";
 
 const variants = {
   initial: {
@@ -36,11 +37,23 @@ const variants = {
 
 const Home = () => {
   // console.log("helllo")
+
+  const [activeTab, setActiveTab] = useState('oneway');
+
+  const handleTabChange = (event) => {
+    setActiveTab(event.target.value);
+  };
+
   useEffect(() => {
     sessionStorage.setItem("hdhhfb7383__3u8748", false);
   }, [])
+
+
+
   return (
     <div className="home_banner">
+
+
       <Helmet>
         <title>The Skytrails</title>
         <link rel="canonical" href="/" />
@@ -57,7 +70,40 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         <img className="bannerBack" src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/onewayBG.jpg" alt="background" />
         <InsideNavbar />
         {/* <BigNavbar /> */}
-        <Oneway header="" />
+
+
+        <div className="buttonTabs">
+          <div className="container ps-0">
+            {/* <button onClick={() => setActiveTab('oneway')}>Oneway</button>
+            <button onClick={() => setActiveTab('return')}>Return</button> */}
+            <div className="tabBox">
+              <div className={activeTab === "oneway" ? "inputTabs" : ""}>
+                <input
+                  type="radio"
+                  id="oneway"
+                  name="tab"
+                  value="oneway"
+                  checked={activeTab === "oneway"}
+                  onChange={handleTabChange}
+                />
+                <label htmlFor="oneway">Oneway</label>
+              </div>
+              <div className={activeTab === "return" ? "inputTabs" : ""}>
+                <input
+                  type="radio"
+                  id="return"
+                  name="tab"
+                  value="return"
+                  checked={activeTab === "return"}
+                  onChange={handleTabChange}
+                />
+                <label htmlFor="return">Return</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        {activeTab === 'oneway' && <Oneway />}
+        {activeTab === 'return' && <ReturnForm />}
       </div>
 
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
@@ -101,10 +147,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         <HolidayDomestic variants={variants} />
       </motion.div>
 
-      {/* <motion.div variants={variants} initial="initial"
-                whileInView="animate" style={{ position: "relative", top: "-100px" }} >
-                <OfferCard variants={variants} />
-            </motion.div> */}
+
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <SwipeToSlide variants={variants} />
       </motion.div>

@@ -621,8 +621,39 @@ body .form-group:not(:last-child) {
 }
 
 
+.tabBox {
+    display: flex;
+    width: 200px;
+    gap: 5px;
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 10px 10px 0px 0px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tabBox>div {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    gap: 4px;
+}
+
+.inputTabs {
+    border-radius: 10px 10px 0px 0px;
+    padding: 8px;
+    background-color: #e5eaf7;
+}
 
 
+.buttonTabs {
+    width: 100%;
+    position: absolute;
+    left: 50%;
+    top: 37%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
 
 
 /* media start Here */

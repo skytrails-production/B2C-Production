@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {
     quoteAction,
+    resetAllFareData,
     ruleAction,
 } from "../../../Redux/FlightFareQuoteRule/actionFlightQuote";
 import { useNavigate } from 'react-router-dom';
@@ -12,6 +13,8 @@ import Divider from "@mui/material/Divider";
 
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
 import FlightLoader from '../FlightLoader/FlightLoader';
+import { swalModal } from '../../../utility/swal';
+import { clearPassengersReducer } from '../../../Redux/Passengers/passenger';
 // import InsideNavbar from "./../../UI/BigNavbar/InsideNavbar"
 
 const variants = {
@@ -41,6 +44,10 @@ const ReturnResultInternational = () => {
     const [selectedFlightIndex, setSelectedFlightIndex] = useState(null);
     let statusRule = reducerState?.flightFare?.isLoadingRuleDone || false;
     let statusQuote = reducerState?.flightFare?.isLoadingQuoteDone || false;
+    useEffect(() => {
+        dispatch(resetAllFareData());
+        dispatch(clearPassengersReducer())
+    }, [])
 
 
     const maxPrice = result?.[0]?.reduce((max, item) => {
@@ -64,10 +71,88 @@ const ReturnResultInternational = () => {
         setPriceRangeValue(maxPrice + 1);
     }, [maxPrice])
 
+    useEffect(() => {
+
+        console.log(reducerState, "status quote")
+        if (reducerState?.return?.
+            returnData?.data
+            ?.data?.Response?.Error?.
+            ErrorCode !== 0 && reducerState?.return?.
+                returnData?.data
+                ?.data?.Response?.Error?.
+                ErrorCode !== undefined
 
 
 
-    console.log(statusQuote, "status quote")
+        ) {
+            swalModal("flight", reducerState?.return?.
+                returnData?.data
+                ?.data?.Response?.Error?.
+                ErrorMessage, false)
+            navigate("/return")
+        }
+
+    }, [])
+    useEffect(() => {
+
+        if
+            (reducerState?.
+                flightFare?.flightQuoteData?.
+                Error?.ErrorCode !== undefined && reducerState?.
+                    flightFare?.flightQuoteData?.
+                    Error?.ErrorCode !== 0) {
+            swalModal("flight", reducerState?.
+                flightFare?.flightQuoteData?.
+                Error?.ErrorMessage)
+            navigate("/FlightresultReturn");
+        }
+        else if
+
+            (reducerState?.
+                flightFare?.flightQuoteDataReturn?.
+                Error?.ErrorCode !== undefined && reducerState?.
+                    flightFare?.flightQuoteDataReturn?.
+                    Error?.ErrorCode !== 0) {
+            swalModal("flight", reducerState?.
+                flightFare?.flightQuoteDataReturn?.
+                Error?.ErrorMessage)
+            navigate("/FlightresultReturn");
+        }
+        else if
+            (reducerState?.
+                flightFare?.
+                flightRuleData?.
+                Error?.ErrorCode !== undefined && reducerState?.
+                    flightFare?.
+                    flightRuleData?.
+                    Error?.ErrorCode !== 0) {
+            swalModal("flight", reducerState?.
+                flightFare?.flightRuleData?.
+                Error?.ErrorMessage)
+            navigate("/FlightresultReturn");
+        }
+        else if
+            (reducerState?.
+                flightFare?.
+                flightRuleDataReturn
+                ?.
+                Error?.ErrorCode !== undefined && reducerState?.
+                    flightFare?.
+                    flightRuleDataReturn
+                    ?.
+                    Error?.ErrorCode !== 0) {
+            swalModal("flight", reducerState?.
+                flightFare?.flightRuleDataReturn?.
+                Error?.ErrorMessage)
+            navigate("/FlightresultReturn");
+        }
+    }, [reducerState?.
+        flightFare]);
+
+
+
+
+
 
 
     useEffect(() => {
@@ -139,7 +224,18 @@ const ReturnResultInternational = () => {
             return updatedCategory;
         });
     };
+    useEffect(() => {
+        if (!result) {
+            navigate("/return")
+        }
+    }, [])
+    if (!result) {
+        return (
 
+            // navigate("/return")
+            <div>Loading</div>
+        )
+    }
 
     const filteredData =
         result[0].filter((item) => {

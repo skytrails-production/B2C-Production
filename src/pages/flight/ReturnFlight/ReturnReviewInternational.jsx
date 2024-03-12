@@ -104,6 +104,13 @@ const ReturnReviewInternational = () => {
             handleModalClose();
         }
     }, [authenticUser])
+    useEffect(() => {
+        if (!reducerState?.
+            passengers?.showSuccessMessage
+        ) {
+            navigate("/ReturnResultInternational/PassengerDetailsInternational")
+        }
+    }, [])
 
 
     // coupon logic here 
@@ -277,6 +284,25 @@ const ReturnReviewInternational = () => {
     const setTransactionAmountState = (e) => {
         setTransactionAmount(e);
     };
+    // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isDisableScroll, setIsDisableScroll] = useState(false);
+  useEffect(() => {
+    if (isDisableScroll) {
+
+      document.body.classList.add("disableTrue");
+      document.body.classList.remove("disableFalse");
+    }
+    else {
+      document.body.classList.remove("disableTrue");
+      document.body.classList.add("disableFalse");
+
+    }
+    return () => {
+      document.body.classList.add("disableFalse");
+
+      document.body.classList.remove("disableTrue");
+    }
+  }, [isDisableScroll]);
 
 
 
@@ -289,13 +315,13 @@ const ReturnReviewInternational = () => {
         const payload = {
             firstname: Passengers[0].FirstName,
             phone: Passengers[0].ContactNo,
-            // amount:
+            amount:
 
-            // transactionAmount ||
-            // (!isDummyTicketBooking
-            //     ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
-            //     : 99),
-            amount: 1,
+            transactionAmount ||
+            (!isDummyTicketBooking
+                ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                : 99),
+            // amount: 1,
 
             email: Passengers[0].Email,
             productinfo: "ticket",
@@ -463,6 +489,12 @@ const ReturnReviewInternational = () => {
     //  flight error
 
     console.log(result, "flight result")
+    if (!reducerState?.
+        passengers?.showSuccessMessage) {
+        return (<div>
+            loding
+        </div>)
+    }
 
 
     return (

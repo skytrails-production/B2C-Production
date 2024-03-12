@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import {
     PassengersAction,
     PassengersActionReturn,
+    clearPassengersReducer,
 } from "../../../Redux/Passengers/passenger";
 import FlightLoader from '../FlightLoader/FlightLoader';
 import Alert from '@mui/material/Alert';
@@ -18,6 +19,7 @@ import { motion } from "framer-motion";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
 import ReturnSummary from "./ReturnSummary";
 import ReturnSummaryInternational from "./ReturnSummaryInternational";
+import { swalModal } from "../../../utility/swal"
 
 
 const variants = {
@@ -73,12 +75,113 @@ const PassengerInternational = () => {
     const pending = reducerState?.passengers?.isLoading || false;
 
     useEffect(() => {
-        if (adults === undefined || adults === null || childs === undefined || childs === null || infants === undefined || infants === null) {
-            navigate("/FlightresultReturn")
+        dispatch(clearPassengersReducer())
+    }, [])
+    useEffect(() => {
+        // console.log(reducerState?.passengers?.showSuccessMessage,"///////////////////////////reducerState?.passengers?.showSuccessMessage")
+        if (reducerState?.passengers
+            ?.showSuccessMessage) {
+            navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational")
         }
-    })
 
-    console.log(farePrice[0], "fae price")
+
+
+    }, [reducerState?.passengers])
+    useEffect(() => {
+        if (adults === undefined || adults === null || childs === undefined || childs === null || infants === undefined || infants === null) {
+
+            navigate("/ReturnResultInternational")
+            return
+
+        }
+        if
+            (reducerState?.
+                flightFare?.flightQuoteData?.
+                Error?.ErrorCode !== undefined && reducerState?.
+                    flightFare?.flightQuoteData?.
+                    Error?.ErrorCode !== 0) {
+            swalModal("flight", reducerState?.
+                flightFare?.flightQuoteData?.
+                Error?.ErrorMessage)
+            navigate("/ReturnResultInternational");
+            return
+        }
+        if
+
+            (reducerState?.
+                flightFare?.flightQuoteDataReturn?.
+                Error?.ErrorCode !== undefined && reducerState?.
+                    flightFare?.flightQuoteDataReturn?.
+                    Error?.ErrorCode !== 0) {
+            swalModal("flight", reducerState?.
+                flightFare?.flightQuoteDataReturn?.
+                Error?.ErrorMessage)
+            navigate("/ReturnResultInternational");
+            return
+        }
+        if
+            (reducerState?.
+                flightFare?.
+                flightRuleData?.
+                Error?.ErrorCode !== undefined && reducerState?.
+                    flightFare?.
+                    flightRuleData?.
+                    Error?.ErrorCode !== 0) {
+            swalModal("flight", reducerState?.
+                flightFare?.flightRuleData?.
+                Error?.ErrorMessage)
+            navigate("/ReturnResultInternational");
+            return
+        }
+        if
+            (reducerState?.
+                flightFare?.
+                flightRuleDataReturn
+                ?.
+                Error?.ErrorCode !== undefined && reducerState?.
+                    flightFare?.
+                    flightRuleDataReturn
+                    ?.
+                    Error?.ErrorCode !== 0) {
+            swalModal("flight", reducerState?.
+                flightFare?.flightRuleDataReturn?.
+                Error?.ErrorMessage)
+            navigate("/ReturnResultInternational");
+            return
+        }
+        // console.log(Object.getOwnPropertyNames(reducerState?.flightFare?.flightQuoteData).length
+        //     , "!reducerState?.flightFare?.flightQuoteData")
+        if (
+            Object.getOwnPropertyNames(reducerState?.
+                flightFare?.
+                isLoadingQuoteDone).length === 0 &&
+            Object.getOwnPropertyNames(reducerState?.
+                flightFare?.
+                isLoadingQuoteDoneReturn).length === 0
+            &&
+            Object.getOwnPropertyNames(reducerState?.
+                flightFare?.
+                isLoadingRuleDone).length === 0
+
+            &&
+            Object.getOwnPropertyNames(reducerState?.
+                flightFare?.isLoadingRuleDoneReturn).length === 0
+
+
+            &&
+            Object.getOwnPropertyNames(reducerState?.flightFare?.flightQuoteData).length
+            === 0
+
+        ) {
+
+            navigate("/ReturnResultInternational")
+            return
+        }
+    }, [reducerState?.
+        flightFare]);
+
+    // console.log(!!reducerState?.flightFare?.flightQuoteData, "!reducerState?.flightFare?.flightQuoteData")
+    // console.log(farePrice[0], "fae price")
 
 
     const passengerTemplate = {
@@ -249,7 +352,7 @@ const PassengerInternational = () => {
         const result1 = validateEmail1(email);
         const result3 = isPassportRequired ? isValidPassportNumber(passport) : true;
         const result = result1 && result2 && result3;
-        console.warn(result, "Please fill all the details/////");
+        // console.warn(result, "Please fill all the details/////");
         return result
     }
     function convertDateFormat(inputDate) {
@@ -284,7 +387,7 @@ const PassengerInternational = () => {
     const maxDateChild = formatDate(maxDateValueChild)
     const minDateInfer = formatDate(maxDateValueChild)
 
-    console.log(pending, "pending data")
+    // console.log(pending, "pending data")
 
 
     const handleSubmit = () => {
@@ -311,7 +414,7 @@ const PassengerInternational = () => {
         }
 
         dispatch(PassengersAction(passengerData));
-        navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational");
+        // navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational");
 
     }
 

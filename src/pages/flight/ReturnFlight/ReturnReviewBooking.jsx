@@ -79,6 +79,7 @@ const ReturnReviewBooking = () => {
   const [transactionAmount, setTransactionAmount] = useState(null);
   const [toggle, setToggle] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const token = SecureStorage.getItem("jwtToken");
 
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
   const markUpamount =
@@ -201,6 +202,7 @@ const ReturnReviewBooking = () => {
       handleReturnFlight();
     }
   }, [reducerState?.flightBook?.flightTicketDataGDS?.data?.data?.Response]);
+  console.log(reducerState,"resucer state")
 
   // for going flight
 
@@ -237,6 +239,10 @@ const ReturnReviewBooking = () => {
         false
       );
       navigate("/");
+    }
+    else if(reducerState?.passengers?.passengerDataReturn.length===0
+      ){
+        navigate("/FlightresultReturn/Passengerdetail");
     }
   }, [reducerState?.flightFare?.flightQuoteDataReturn?.Error?.ErrorCode]);
 
@@ -363,6 +369,7 @@ const ReturnReviewBooking = () => {
       setIsLoginModalOpen(true);
     }
     const token = SecureStorage?.getItem("jwtToken");
+    console.log(token, "token")
     setLoaderPayment1(true);
     const payload = {
       firstname: Passengers[0].FirstName,
@@ -578,6 +585,11 @@ const ReturnReviewBooking = () => {
     }
   });
 
+  if(!flightDeparture){
+    return (
+      <div></div>
+    )
+  }
   // return flight error
 
   return (

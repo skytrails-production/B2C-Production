@@ -4,6 +4,7 @@ import {
     ruleAction,
     quoteActionReturn,
     ruleActionReturn,
+    resetAllFareData
 } from "../../../Redux/FlightFareQuoteRule/actionFlightQuote";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +12,7 @@ import "./returnresult.css";
 import dayjs from 'dayjs';
 import { motion } from "framer-motion";
 import Divider from "@mui/material/Divider";
-
+import { swalModal } from "../../../utility/swal"
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
 // import InsideNavbar from "./../../UI/BigNavbar/InsideNavbar"
 
@@ -36,6 +37,9 @@ const ReturnResult = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const reducerState = useSelector((state) => state);
+    useEffect(() => {
+        console.log(reducerState, "reducer state")
+    }, [])
     const [loading, setLoading] = useState(false);
     const result = reducerState?.return?.returnData?.data?.data?.Response?.Results;
     let initialGoFlight;
@@ -48,6 +52,58 @@ const ReturnResult = () => {
     const [selectedFlightIndex, setSelectedFlightIndex] = useState(null);
     const [goingResult, setGoingResult] = useState([])
     const [returnResult, setReturnResult] = useState([])
+    useEffect(() => {
+        // console.log(reducerState?.
+        //     return?.
+        //     returnData?.
+        //     data?.
+        //     data?.
+        //     Response?.
+        //     Error?.
+        //     ErrorCode, "vvvvvvvvvvvvvvvvvvvvvvvvvvv")
+        if (reducerState?.
+            return?.
+            returnData?.
+            data?.
+            data?.
+            Response?.
+            Error?.
+            ErrorCode !== 0
+            &&
+            reducerState?.
+                return?.
+                returnData?.
+                data?.
+                data?.
+                Response?.
+                Error?.
+                ErrorCode !== undefined
+
+
+
+        ) {
+            swalModal("flight", reducerState?.
+                return?.
+                returnData?.
+                data?.
+                data?.
+                Response?.
+                Error?.
+                ErrorMessage)
+            navigate("/return");
+        }
+        else if (reducerState?.
+            return?.
+            returnData?.
+            data?.
+            data?.
+            Response?.
+            Error?.
+            ErrorCode !== 0) {
+            navigate("/return");
+        }
+        dispatch(resetAllFareData())
+    }, [])
 
     // fitler the array for going flight
 

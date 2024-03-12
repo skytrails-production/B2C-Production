@@ -16,8 +16,8 @@ const BookedTicketInternationalDB = () => {
         reducerState?.flightBook?.flightTicketDataGDS?.data?.data?.Response
             ?.Response || reducerState?.flightBook?.flightBookDataGDS?.Response;
 
-    console.log(reducerState, "reducerState")
-    console.log(bookingDataNonLcc, "booking data nonLcc")
+    // console.log(reducerState, "reducerState")
+    // console.log(bookingDataNonLcc, "booking data nonLcc")
     const PassengersSaved = reducerState?.passengers?.passengersData;
     const markUpamount =
         reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;

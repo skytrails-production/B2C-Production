@@ -40,7 +40,7 @@ export const passengersReducer = (state = initState, action) => {
         isError: false,
         showSuccessMessage: true,
       };
-    case type.CLEAR_PASSENGERS_REDUCER:
+    case types.CLEAR_PASSENGERS_REDUCER:
       return {
         passengersData: [],
         passengerDataReturn: [],

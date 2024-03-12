@@ -51,7 +51,8 @@ const Advertise = () => {
                 <Slider {...settings}>
                     {localDataArray?.map((ad) => (
                         <div className="slick-slide advertise-slide" key={ad._id}>
-                            <img style={{ cursor: "pointer" }} onClick={() => navigate("/pefaevent")} src={ad.image} alt={ad.title} loading='lazy' />
+                            <img style={{ cursor: "pointer" }} src={ad.image} alt={ad.title} loading='lazy' />
+                            {/* <img style={{ cursor: "pointer" }} onClick={() => navigate("/pefaevent")} src={ad.image} alt={ad.title} loading='lazy' /> */}
                         </div>
                     ))}
                 </Slider>

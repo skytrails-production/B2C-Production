@@ -26,6 +26,7 @@ import { resetAllFareData } from "../../../Redux/FlightFareQuoteRule/actionFligh
 import { Helmet } from "react-helmet-async";
 import SecureStorage from 'react-secure-storage';
 import { returnAction, returnActionClear } from "../../../Redux/FlightSearch/Return/return";
+import { swalModal } from "../../../utility/swal"
 
 
 const ReturnForm = () => {
@@ -50,6 +51,9 @@ const ReturnForm = () => {
     const [fromSearchResults, setFromSearchResults] = useState([]);
     const [fromQuery, setFromQuery] = useState("delhi");
     const [isLoading, setIsLoading] = useState(false);
+    useEffect(() => {
+        console.log(reducerState, "reducer state")
+    }, [])
 
 
 
@@ -75,7 +79,9 @@ const ReturnForm = () => {
     }, [startDate]);
     useEffect(() => {
         dispatch(returnActionClear())
+
     }, [])
+
 
 
 
@@ -174,9 +180,7 @@ const ReturnForm = () => {
                 navigate("/ReturnResultInternational");
             }
         }
-        else {
-            navigate("/return")
-        }
+
 
         if (returnResults) {
             setLoader(false);
@@ -184,6 +188,21 @@ const ReturnForm = () => {
     }, [
         reducerState?.return?.returnData?.data?.data?.Response?.Results
     ]);
+    useEffect(() => {
+        if (reducerState?.return?.returnData?.data?.data?.Response?.
+            Error?.ErrorCode !== 0 && reducerState?.return?.returnData?.data?.data?.Response?.
+                Error?.ErrorCode !== undefined) {
+            // navigate("/return")
+            dispatch(returnActionClear());
+            swalModal("flight", reducerState?.return?.returnData?.data?.data?.Response?.
+                Error?.
+                ErrorMessage, false
+
+            )
+            setLoader(false)
+        }
+    }, [reducerState?.return?.returnData?.data?.data?.Response?.
+        Error?.ErrorCode])
 
 
     const handleTravelerCountChange = (category, value) => {

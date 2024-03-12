@@ -39,6 +39,7 @@ export const PassengersActionReturn=(data)=>{
 // };
 
 export const clearPassengersReducer = () => {
+  
   return {
     type: types.CLEAR_PASSENGERS_REDUCER,
   };

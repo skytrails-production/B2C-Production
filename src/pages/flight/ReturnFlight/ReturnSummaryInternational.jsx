@@ -44,7 +44,7 @@ const ReturnSummaryInternational = (props) => {
 
     const integerValue = Number(discountValue).toFixed(0);
 
-    console.log(reducerState, "reduce state")
+    // console.log(reducerState, "reduce state")
 
     let total = 0;
 

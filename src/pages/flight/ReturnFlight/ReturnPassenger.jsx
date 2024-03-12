@@ -17,6 +17,7 @@ import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 import ReturnSummary from "./ReturnSummary";
+import { swalModal } from "../../../utility/swal"
 
 const variants = {
     initial: {
@@ -78,11 +79,77 @@ const ReturnPassenger = () => {
             childs === undefined ||
             childs === null ||
             infants === undefined ||
-            infants === null
-        ) {
-            navigate("/FlightresultReturn");
+            infants === null) {
+            navigate("/ReturnResult");
         }
-    });
+        else if
+            (reducerState?.
+                flightFare?.flightQuoteData?.
+                Error?.ErrorCode !== undefined && reducerState?.
+                    flightFare?.flightQuoteData?.
+                    Error?.ErrorCode !== 0) {
+            swalModal("flight", reducerState?.
+                flightFare?.flightQuoteData?.
+                Error?.ErrorMessage)
+            navigate("/ReturnResult");
+        }
+        else if
+
+            (reducerState?.
+                flightFare?.flightQuoteDataReturn?.
+                Error?.ErrorCode !== undefined && reducerState?.
+                    flightFare?.flightQuoteDataReturn?.
+                    Error?.ErrorCode !== 0) {
+            swalModal("flight", reducerState?.
+                flightFare?.flightQuoteDataReturn?.
+                Error?.ErrorMessage)
+            navigate("/ReturnResult");
+        }
+        else if
+            (reducerState?.
+                flightFare?.
+                flightRuleData?.
+                Error?.ErrorCode !== undefined && reducerState?.
+                    flightFare?.
+                    flightRuleData?.
+                    Error?.ErrorCode !== 0) {
+            swalModal("flight", reducerState?.
+                flightFare?.flightRuleData?.
+                Error?.ErrorMessage)
+            navigate("/ReturnResult");
+        }
+        else if
+            (reducerState?.
+                flightFare?.
+                flightRuleDataReturn
+                ?.
+                Error?.ErrorCode !== undefined && reducerState?.
+                    flightFare?.
+                    flightRuleDataReturn
+                    ?.
+                    Error?.ErrorCode !== 0) {
+            swalModal("flight", reducerState?.
+                flightFare?.flightRuleDataReturn?.
+                Error?.ErrorMessage)
+            navigate("/ReturnResult");
+        }
+        else if (!reducerState?.
+            flightFare?.isLoading && reducerState?.
+                flightFare?.
+                flightRuleDataReturn
+                ?.
+                Error?.ErrorCode !== 0 && reducerState?.
+                    flightFare?.
+                    flightRuleData?.
+                    Error?.ErrorCode !== 0 && reducerState?.
+                        flightFare?.flightQuoteDataReturn?.
+                        Error?.ErrorCode !== 0 && reducerState?.
+                            flightFare?.flightQuoteData?.
+                            Error?.ErrorCode !== 0) {
+            navigate("/ReturnResult");
+        }
+    }, [reducerState?.
+        flightFare]);
 
     const passengerTemplate = {
         Title: "Mr",
@@ -303,7 +370,7 @@ const ReturnPassenger = () => {
             (item) => !isValidEmail(item.Email, item.ContactNo, item.PassportNo)
         );
 
-        if (valid.length !== 0 && emailVal.length !== 0) {
+        if (valid.length !== 0 || emailVal.length !== 0) {
             setShowAleart(true);
             setTimeout(() => {
                 setShowAleart(false);
