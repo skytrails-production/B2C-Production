@@ -569,13 +569,13 @@ const PassengerInternational = () => {
                                                                 <p>Check-in</p>
                                                                 <span>{
                                                                     flightDeparture[0]?.Baggage.split(" ")[0]
-                                                                }{" "} Kgs</span>
+                                                                }{" "} </span>
                                                             </div>
                                                             <div>
                                                                 <p>Cabin</p>
                                                                 <span>{
                                                                     flightDeparture[0]?.CabinBaggage.split(" ")[0]
-                                                                }{" "} Kgs</span>
+                                                                }{" "} </span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -720,13 +720,13 @@ const PassengerInternational = () => {
                                                                 <p>Check-in</p>
                                                                 <span>{
                                                                     flightDeparture?.[0]?.Baggage.split(" ")[0]
-                                                                }{" "} Kgs</span>
+                                                                }{" "} </span>
                                                             </div>
                                                             <div>
                                                                 <p>Cabin</p>
                                                                 <span>{
                                                                     flightDeparture?.[0]?.CabinBaggage.split(" ")[0]
-                                                                }{" "} Kgs</span>
+                                                                }{" "} </span>
                                                             </div>
                                                         </div>
 

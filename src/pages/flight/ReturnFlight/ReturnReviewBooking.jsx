@@ -79,7 +79,22 @@ const ReturnReviewBooking = () => {
   const [transactionAmount, setTransactionAmount] = useState(null);
   const [toggle, setToggle] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isDisableScroll, setIsDisableScroll] = useState(false);
   const token = SecureStorage.getItem("jwtToken");
+  useEffect(() => {
+    if (isDisableScroll) {
+      document.body.classList.add("disableTrue");
+      document.body.classList.remove("disableFalse");
+    } else {
+      document.body.classList.remove("disableTrue");
+      document.body.classList.add("disableFalse");
+    }
+    return () => {
+      document.body.classList.add("disableFalse");
+
+      document.body.classList.remove("disableTrue");
+    };
+  }, [isDisableScroll]);
 
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
   const markUpamount =
@@ -202,7 +217,7 @@ const ReturnReviewBooking = () => {
       handleReturnFlight();
     }
   }, [reducerState?.flightBook?.flightTicketDataGDS?.data?.data?.Response]);
-  console.log(reducerState,"resucer state")
+  console.log(reducerState, "resucer state")
 
   // for going flight
 
@@ -240,9 +255,9 @@ const ReturnReviewBooking = () => {
       );
       navigate("/");
     }
-    else if(reducerState?.passengers?.passengerDataReturn.length===0
-      ){
-        navigate("/FlightresultReturn/Passengerdetail");
+    else if (reducerState?.passengers?.passengerDataReturn.length === 0
+    ) {
+      navigate("/FlightresultReturn/Passengerdetail");
     }
   }, [reducerState?.flightFare?.flightQuoteDataReturn?.Error?.ErrorCode]);
 
@@ -368,8 +383,9 @@ const ReturnReviewBooking = () => {
     if (authenticUser !== 200) {
       setIsLoginModalOpen(true);
     }
+
     const token = SecureStorage?.getItem("jwtToken");
-    console.log(token, "token")
+    // console.log(token, "token")
     setLoaderPayment1(true);
     const payload = {
       firstname: Passengers[0].FirstName,
@@ -585,7 +601,7 @@ const ReturnReviewBooking = () => {
     }
   });
 
-  if(!flightDeparture){
+  if (!flightDeparture) {
     return (
       <div></div>
     )
@@ -717,7 +733,7 @@ const ReturnReviewBooking = () => {
                               <p>Check-in</p>
                               <span>
                                 {flightDeparture[0][0]?.Baggage.split(" ")[0]}{" "}
-                                Kgs
+
                               </span>
                             </div>
                             <div>
@@ -728,7 +744,7 @@ const ReturnReviewBooking = () => {
                                     " "
                                   )[0]
                                 }{" "}
-                                Kgs
+
                               </span>
                             </div>
                           </div>
@@ -866,7 +882,7 @@ const ReturnReviewBooking = () => {
                               <p>Check-in</p>
                               <span>
                                 {flightDeparture?.[0][0]?.Baggage.split(" ")[0]}{" "}
-                                Kgs
+
                               </span>
                             </div>
                             <div>
@@ -877,7 +893,7 @@ const ReturnReviewBooking = () => {
                                     " "
                                   )[0]
                                 }{" "}
-                                Kgs
+
                               </span>
                             </div>
                           </div>
@@ -1056,6 +1072,21 @@ const ReturnReviewBooking = () => {
               </div>
             </div>
           </div>
+        </div>
+      </Modal>
+
+      <Modal open={loaderPayment1} onClose={loaderPayment1}>
+        <div
+          style={{
+            width: "100%",
+            height: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <img src={flightPaymentLoding} alt="" />
+          {/* <h1>ghiiiii</h1> */}
         </div>
       </Modal>
     </div>

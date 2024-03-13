@@ -127,14 +127,14 @@ const ReturnSummary = (props) => {
     const markUpamount =
         reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
 
-        const taxvalue = Number(markUpamount*(fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare)).toFixed(0);
+    const taxvalue = Number(markUpamount * (fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare)).toFixed(0);
 
-        const grandtotal = Number((fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare )+markUpamount*(fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare)).toFixed(0)
+    const grandtotal = Number((fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare) + markUpamount * (fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare)).toFixed(0)
 
     const integerValue = parseInt(discountValue);
     const coupondiscount = integerValue + markUpamount;
 
-    console.log(reducerState, "reducer state")
+    // console.log(reducerState, "reducer state")
 
     let total = 0;
 

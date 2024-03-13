@@ -571,7 +571,7 @@ const ReturnPassenger = () => {
                                                             <p>Check-in</p>
                                                             <span>
                                                                 {flightDeparture[0][0]?.Baggage.split(" ")[0]}{" "}
-                                                                Kgs
+
                                                             </span>
                                                         </div>
                                                         <div>
@@ -582,7 +582,7 @@ const ReturnPassenger = () => {
                                                                         " "
                                                                     )[0]
                                                                 }{" "}
-                                                                Kgs
+
                                                             </span>
                                                         </div>
                                                     </div>
@@ -720,7 +720,7 @@ const ReturnPassenger = () => {
                                                             <p>Check-in</p>
                                                             <span>
                                                                 {flightDeparture?.[0][0]?.Baggage.split(" ")[0]}{" "}
-                                                                Kgs
+
                                                             </span>
                                                         </div>
                                                         <div>
@@ -731,7 +731,7 @@ const ReturnPassenger = () => {
                                                                         " "
                                                                     )[0]
                                                                 }{" "}
-                                                                Kgs
+
                                                             </span>
                                                         </div>
                                                     </div>

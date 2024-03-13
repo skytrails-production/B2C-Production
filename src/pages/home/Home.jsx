@@ -73,7 +73,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
 
 
         <div className="buttonTabs">
-          <div className="container ps-0">
+          <div className="container p-0">
             {/* <button onClick={() => setActiveTab('oneway')}>Oneway</button>
             <button onClick={() => setActiveTab('return')}>Return</button> */}
             <div className="tabBox">

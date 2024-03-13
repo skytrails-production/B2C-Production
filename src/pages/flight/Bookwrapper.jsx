@@ -946,13 +946,13 @@ export default function BookWrapper() {
                                     <div>
                                       <p>Check-in</p>
                                       <span>
-                                        {item?.Baggage?.split(" ")[0]} Kgs
+                                        {item?.Baggage?.split(" ")[0]}
                                       </span>
                                     </div>
                                     <div>
                                       <p>Cabin</p>
                                       <span>
-                                        {item?.CabinBaggage?.split(" ")[0]} Kgs
+                                        {item?.CabinBaggage?.split(" ")[0]}
                                       </span>
                                     </div>
                                   </div>

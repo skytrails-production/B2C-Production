@@ -548,7 +548,7 @@ const ReturnForm = () => {
                                             }, 200);
                                         }}
                                         className="from-container"
-                                        id="item-0"
+                                        id="item-0Return"
                                     >
                                         <span>From</span>
                                         <div>
@@ -702,7 +702,7 @@ const ReturnForm = () => {
                                             }, 300)
                                         }}
                                         className="from-container"
-                                        id="item-1"
+                                        id="item-1Return"
                                     >
                                         <span>To</span>
                                         <div>
@@ -804,7 +804,7 @@ const ReturnForm = () => {
                                             <span className="d-none d-md-block ">Airport Name</span>
                                         )}
                                     </div>
-                                    <div className="from-container" id="item-2">
+                                    <div className="from-container" id="item-2Return">
                                         <span>Departure</span>
                                         <div className="">
                                             <div className="onewayDatePicker">
@@ -820,7 +820,7 @@ const ReturnForm = () => {
                                         </div>
                                         <span className="d-none d-md-block ">{getDayOfWeek(startDate)}</span>
                                     </div>
-                                    <div className="from-container" id="item-2">
+                                    <div className="from-container" id="item-3Return">
                                         <span>Return</span>
                                         <div className="">
                                             <div className="onewayDatePicker">
@@ -838,7 +838,7 @@ const ReturnForm = () => {
                                         <span className="d-none d-md-block ">{getDayOfWeek(returnDate)}</span>
                                     </div>
 
-                                    <div className="travellerContainer " id="item-3">
+                                    <div className="travellerContainer " id="item-4Return">
                                         <div
                                             onClick={handleTravelClickOpen}
                                             className="travellerButton"
@@ -958,7 +958,7 @@ const ReturnForm = () => {
                                             </DialogActions>
                                         </Dialog>
                                     </div>
-                                    <div className=" onewaySearch" id="item-4">
+                                    <div className=" onewaySearch" id="item-5Return">
                                         <button type="submit" className="searchButt">
                                             <h3 className="mb-0">Search</h3>
                                         </button>

@@ -285,24 +285,24 @@ const ReturnReviewInternational = () => {
         setTransactionAmount(e);
     };
     // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const [isDisableScroll, setIsDisableScroll] = useState(false);
-  useEffect(() => {
-    if (isDisableScroll) {
+    const [isDisableScroll, setIsDisableScroll] = useState(false);
+    useEffect(() => {
+        if (isDisableScroll) {
 
-      document.body.classList.add("disableTrue");
-      document.body.classList.remove("disableFalse");
-    }
-    else {
-      document.body.classList.remove("disableTrue");
-      document.body.classList.add("disableFalse");
+            document.body.classList.add("disableTrue");
+            document.body.classList.remove("disableFalse");
+        }
+        else {
+            document.body.classList.remove("disableTrue");
+            document.body.classList.add("disableFalse");
 
-    }
-    return () => {
-      document.body.classList.add("disableFalse");
+        }
+        return () => {
+            document.body.classList.add("disableFalse");
 
-      document.body.classList.remove("disableTrue");
-    }
-  }, [isDisableScroll]);
+            document.body.classList.remove("disableTrue");
+        }
+    }, [isDisableScroll]);
 
 
 
@@ -317,10 +317,10 @@ const ReturnReviewInternational = () => {
             phone: Passengers[0].ContactNo,
             amount:
 
-            transactionAmount ||
-            (!isDummyTicketBooking
-                ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
-                : 99),
+                transactionAmount ||
+                (!isDummyTicketBooking
+                    ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                    : 99),
             // amount: 1,
 
             email: Passengers[0].Email,
@@ -631,13 +631,13 @@ const ReturnReviewInternational = () => {
                                                                 <p>Check-in</p>
                                                                 <span>{
                                                                     flightDeparture[0]?.Baggage.split(" ")[0]
-                                                                }{" "} Kgs</span>
+                                                                }{" "} </span>
                                                             </div>
                                                             <div>
                                                                 <p>Cabin</p>
                                                                 <span>{
                                                                     flightDeparture[0]?.CabinBaggage.split(" ")[0]
-                                                                }{" "} Kgs</span>
+                                                                }{" "} </span>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -782,13 +782,13 @@ const ReturnReviewInternational = () => {
                                                                 <p>Check-in</p>
                                                                 <span>{
                                                                     flightDeparture?.[0]?.Baggage.split(" ")[0]
-                                                                }{" "} Kgs</span>
+                                                                }{" "} </span>
                                                             </div>
                                                             <div>
                                                                 <p>Cabin</p>
                                                                 <span>{
                                                                     flightDeparture?.[0]?.CabinBaggage.split(" ")[0]
-                                                                }{" "} Kgs</span>
+                                                                }{" "} </span>
                                                             </div>
                                                         </div>
 
@@ -980,6 +980,20 @@ const ReturnReviewInternational = () => {
                             </div>
                         </div>
                     </div>
+                </div>
+            </Modal>
+            <Modal open={loaderPayment1} onClose={loaderPayment1}>
+                <div
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <img src={flightPaymentLoding} alt="" />
+                    {/* <h1>ghiiiii</h1> */}
                 </div>
             </Modal>
         </div>

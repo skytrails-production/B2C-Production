@@ -655,6 +655,22 @@ body .form-group:not(:last-child) {
     z-index: 2;
 }
 
+@media(max-width:600px) {
+    .buttonTabs {
+        width: 100%;
+        position: absolute;
+        left: 50%;
+        top: 22%;
+        transform: translate(-50%, -50%);
+        z-index: 2;
+    }
+
+    .buttonTabs .container {
+        display: flex;
+        justify-content: center;
+    }
+}
+
 
 /* media start Here */
 

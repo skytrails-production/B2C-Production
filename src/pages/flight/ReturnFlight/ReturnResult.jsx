@@ -1641,39 +1641,38 @@ const ReturnResult = () => {
                         </div>
                     </div>
 
-
-
-
                 </div>
 
-                <div className='container fixedReturnBottom' style={{ position: "fixed", bottom: "13px", zIndex: "9999" }}>
-                    <div className="row ">
-                        <div className="col-5">
-                            <div className="row">
-                                <div className="col-lg-12">
+                {
+                    !isNaN(Number(ongoFlight?.Fare?.PublishedFare) + Number(incomeGlight?.Fare?.PublishedFare)) && (
+                        <div className='container fixedReturnBottom' style={{ position: "fixed", bottom: "13px", zIndex: "9999" }}>
+                            <div className="row ">
+                                <div className="col-5">
+                                    <div className="row">
+                                        <div className="col-lg-12">
 
-                                    <motion.div
-                                        variants={variants}
-                                        initial="initial"
-                                        whileInView="animate"
-                                    >
-                                        <motion.div variants={variants}
+                                            <motion.div
+                                                variants={variants}
+                                                initial="initial"
+                                                whileInView="animate"
+                                            >
+                                                <motion.div variants={variants}
 
-                                            className="mobileflexDesign returnFixedBottomDesign">
-                                            <div className="columnFLightName d-flex d-sm-none">
-                                                <div>
-                                                    <img
-                                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${ongoFlight?.ValidatingAirline}.png`}
-                                                        alt="flight"
-                                                    />{" "}
-                                                </div>
-                                                <span>
-                                                    {
-                                                        ongoFlight?.Segments[0][0]?.Airline
-                                                            ?.AirlineName
-                                                    }
-                                                </span>
-                                                {/* <p>
+                                                    className="mobileflexDesign returnFixedBottomDesign">
+                                                    <div className="columnFLightName d-flex d-sm-none">
+                                                        <div>
+                                                            <img
+                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${ongoFlight?.ValidatingAirline}.png`}
+                                                                alt="flight"
+                                                            />{" "}
+                                                        </div>
+                                                        <span>
+                                                            {
+                                                                ongoFlight?.Segments[0][0]?.Airline
+                                                                    ?.AirlineName
+                                                            }
+                                                        </span>
+                                                        {/* <p>
                                                     {
                                                         ongoFlight?.Segments?.[0][0]?.Airline
                                                             ?.AirlineCode
@@ -1684,25 +1683,25 @@ const ReturnResult = () => {
                                                     }
 
                                                 </p> */}
-                                            </div>
-                                            <motion.div
-                                                variants={variants}
-                                                className="singleFlightBox"
-                                            >
-                                                <div className="singleFlightBoxOne">
-                                                    <div>
-                                                        <img
-                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${ongoFlight?.ValidatingAirline}.png`}
-                                                            alt="flight"
-                                                        />{" "}
                                                     </div>
-                                                    <span>
-                                                        {
-                                                            ongoFlight?.Segments[0][0]?.Airline
-                                                                ?.AirlineName
-                                                        }
-                                                    </span>
-                                                    {/* <p>
+                                                    <motion.div
+                                                        variants={variants}
+                                                        className="singleFlightBox"
+                                                    >
+                                                        <div className="singleFlightBoxOne">
+                                                            <div>
+                                                                <img
+                                                                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${ongoFlight?.ValidatingAirline}.png`}
+                                                                    alt="flight"
+                                                                />{" "}
+                                                            </div>
+                                                            <span>
+                                                                {
+                                                                    ongoFlight?.Segments[0][0]?.Airline
+                                                                        ?.AirlineName
+                                                                }
+                                                            </span>
+                                                            {/* <p>
                                                         {
                                                             ongoFlight?.Segments[0][0]?.Airline
                                                                 ?.AirlineCode
@@ -1712,98 +1711,97 @@ const ReturnResult = () => {
                                                                 ?.FlightNumber
                                                         }
                                                     </p> */}
-                                                </div>
-                                                <div className="singleFlightBoxTwo">
-                                                    <span>
-                                                        {
-                                                            ongoFlight?.Segments[0][0]?.Origin
-                                                                ?.Airport?.CityName
-                                                        }
-                                                    </span>
-                                                    <p>
-                                                        {dayjs(
-                                                            ongoFlight?.Segments[0][0]?.Origin
-                                                                ?.DepTime
-                                                        ).format("DD MMM, YY")}
-                                                    </p>
-                                                    <h5 className="daySize">
-                                                        {dayjs(
-                                                            ongoFlight?.Segments[0][0]?.Origin
-                                                                ?.DepTime
-                                                        ).format("h:mm A")}
-                                                    </h5>
-                                                </div>
+                                                        </div>
+                                                        <div className="singleFlightBoxTwo">
+                                                            <span>
+                                                                {
+                                                                    ongoFlight?.Segments[0][0]?.Origin
+                                                                        ?.Airport?.CityName
+                                                                }
+                                                            </span>
+                                                            <p>
+                                                                {dayjs(
+                                                                    ongoFlight?.Segments[0][0]?.Origin
+                                                                        ?.DepTime
+                                                                ).format("DD MMM, YY")}
+                                                            </p>
+                                                            <h5 className="daySize">
+                                                                {dayjs(
+                                                                    ongoFlight?.Segments[0][0]?.Origin
+                                                                        ?.DepTime
+                                                                ).format("h:mm A")}
+                                                            </h5>
+                                                        </div>
 
-                                                <div className="singleFlightBoxThree">
-
-
-                                                    <span className="">
-                                                        <svg id="fi_9170928" height="25" viewBox="0 0 64 64" width="25" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path d="m51.93 33-50.93-.041a1 1 0 0 1 0-2l50.931.041a1 1 0 0 1 0 2z"></path><path d="m64 32.012c-5.681 2.1-12.731 5.692-17.1 9.5l3.446-9.512-3.433-9.513c4.365 3.813 11.409 7.413 17.087 9.525z"></path></svg>
-                                                    </span>
+                                                        <div className="singleFlightBoxThree">
 
 
-                                                </div>
+                                                            <span className="">
+                                                                <svg id="fi_9170928" height="25" viewBox="0 0 64 64" width="25" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path d="m51.93 33-50.93-.041a1 1 0 0 1 0-2l50.931.041a1 1 0 0 1 0 2z"></path><path d="m64 32.012c-5.681 2.1-12.731 5.692-17.1 9.5l3.446-9.512-3.433-9.513c4.365 3.813 11.409 7.413 17.087 9.525z"></path></svg>
+                                                            </span>
 
-                                                <div className="singleFlightBoxFour">
-                                                    <span>
-                                                        {
-                                                            ongoFlight?.Segments[0][ongoFlight?.Segments[0].length - 1]?.Destination
-                                                                ?.Airport?.CityName
-                                                        }
-                                                    </span>
-                                                    <p>
-                                                        {dayjs(
-                                                            ongoFlight?.Segments?.[0][ongoFlight?.Segments[0].length - 1]?.Destination?.ArrTime
-                                                        ).format("DD MMM, YY")}
-                                                    </p>
-                                                    <h5 className="daySize">
-                                                        {dayjs(
-                                                            ongoFlight?.Segments?.[0][ongoFlight?.Segments[0].length - 1]
-                                                                ?.Destination?.ArrTime
-                                                        ).format("h:mm A")}
-                                                    </h5>
-                                                </div>
 
-                                                <div className="singleFlightBoxSeven">
-                                                    <p>₹ {(ongoFlight?.Fare?.PublishedFare)}</p>
+                                                        </div>
 
-                                                </div>
+                                                        <div className="singleFlightBoxFour">
+                                                            <span>
+                                                                {
+                                                                    ongoFlight?.Segments[0][ongoFlight?.Segments[0].length - 1]?.Destination
+                                                                        ?.Airport?.CityName
+                                                                }
+                                                            </span>
+                                                            <p>
+                                                                {dayjs(
+                                                                    ongoFlight?.Segments?.[0][ongoFlight?.Segments[0].length - 1]?.Destination?.ArrTime
+                                                                ).format("DD MMM, YY")}
+                                                            </p>
+                                                            <h5 className="daySize">
+                                                                {dayjs(
+                                                                    ongoFlight?.Segments?.[0][ongoFlight?.Segments[0].length - 1]
+                                                                        ?.Destination?.ArrTime
+                                                                ).format("h:mm A")}
+                                                            </h5>
+                                                        </div>
+
+                                                        <div className="singleFlightBoxSeven">
+                                                            <p>₹ {(ongoFlight?.Fare?.PublishedFare)}</p>
+
+                                                        </div>
+                                                    </motion.div>
+                                                </motion.div>
                                             </motion.div>
-                                        </motion.div>
-                                    </motion.div>
 
 
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
 
+                                <div className="col-5">
+                                    <div className="row">
+                                        <div className="col-lg-12 pe-0">
 
-                        <div className="col-5">
-                            <div className="row">
-                                <div className="col-lg-12 pe-0">
+                                            <motion.div
+                                                variants={variants}
+                                                initial="initial"
+                                                whileInView="animate"
+                                            >
+                                                <motion.div variants={variants}
 
-                                    <motion.div
-                                        variants={variants}
-                                        initial="initial"
-                                        whileInView="animate"
-                                    >
-                                        <motion.div variants={variants}
-
-                                            className="mobileflexDesign returnFixedBottomDesign">
-                                            <div className="columnFLightName d-flex d-sm-none">
-                                                <div>
-                                                    <img
-                                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${incomeGlight?.ValidatingAirline}.png`}
-                                                        alt="flight"
-                                                    />{" "}
-                                                </div>
-                                                <span>
-                                                    {
-                                                        incomeGlight?.Segments[0][0]?.Airline
-                                                            ?.AirlineName
-                                                    }
-                                                </span>
-                                                {/* <p>
+                                                    className="mobileflexDesign returnFixedBottomDesign">
+                                                    <div className="columnFLightName d-flex d-sm-none">
+                                                        <div>
+                                                            <img
+                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${incomeGlight?.ValidatingAirline}.png`}
+                                                                alt="flight"
+                                                            />{" "}
+                                                        </div>
+                                                        <span>
+                                                            {
+                                                                incomeGlight?.Segments[0][0]?.Airline
+                                                                    ?.AirlineName
+                                                            }
+                                                        </span>
+                                                        {/* <p>
                                                     {
                                                         incomeGlight?.Segments?.[0][0]?.Airline
                                                             ?.AirlineCode
@@ -1814,25 +1812,25 @@ const ReturnResult = () => {
                                                     }
 
                                                 </p> */}
-                                            </div>
-                                            <motion.div
-                                                variants={variants}
-                                                className="singleFlightBox"
-                                            >
-                                                <div className="singleFlightBoxOne">
-                                                    <div>
-                                                        <img
-                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${incomeGlight?.ValidatingAirline}.png`}
-                                                            alt="flight"
-                                                        />{" "}
                                                     </div>
-                                                    <span>
-                                                        {
-                                                            incomeGlight?.Segments[0][0]?.Airline
-                                                                ?.AirlineName
-                                                        }
-                                                    </span>
-                                                    {/* <p>
+                                                    <motion.div
+                                                        variants={variants}
+                                                        className="singleFlightBox"
+                                                    >
+                                                        <div className="singleFlightBoxOne">
+                                                            <div>
+                                                                <img
+                                                                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${incomeGlight?.ValidatingAirline}.png`}
+                                                                    alt="flight"
+                                                                />{" "}
+                                                            </div>
+                                                            <span>
+                                                                {
+                                                                    incomeGlight?.Segments[0][0]?.Airline
+                                                                        ?.AirlineName
+                                                                }
+                                                            </span>
+                                                            {/* <p>
                                                         {
                                                             incomeGlight?.Segments[0][0]?.Airline
                                                                 ?.AirlineCode
@@ -1842,88 +1840,92 @@ const ReturnResult = () => {
                                                                 ?.FlightNumber
                                                         }
                                                     </p> */}
-                                                </div>
-                                                <div className="singleFlightBoxTwo">
-                                                    <span>
-                                                        {
-                                                            incomeGlight?.Segments[0][0]?.Origin
-                                                                ?.Airport?.CityName
-                                                        }
-                                                    </span>
-                                                    <p>
-                                                        {dayjs(
-                                                            incomeGlight?.Segments[0][0]?.Origin
-                                                                ?.DepTime
-                                                        ).format("DD MMM, YY")}
-                                                    </p>
-                                                    <h5 className="daySize">
-                                                        {dayjs(
-                                                            incomeGlight?.Segments[0][0]?.Origin
-                                                                ?.DepTime
-                                                        ).format("h:mm A")}
-                                                    </h5>
-                                                </div>
+                                                        </div>
+                                                        <div className="singleFlightBoxTwo">
+                                                            <span>
+                                                                {
+                                                                    incomeGlight?.Segments[0][0]?.Origin
+                                                                        ?.Airport?.CityName
+                                                                }
+                                                            </span>
+                                                            <p>
+                                                                {dayjs(
+                                                                    incomeGlight?.Segments[0][0]?.Origin
+                                                                        ?.DepTime
+                                                                ).format("DD MMM, YY")}
+                                                            </p>
+                                                            <h5 className="daySize">
+                                                                {dayjs(
+                                                                    incomeGlight?.Segments[0][0]?.Origin
+                                                                        ?.DepTime
+                                                                ).format("h:mm A")}
+                                                            </h5>
+                                                        </div>
 
-                                                <div className="singleFlightBoxThree">
+                                                        <div className="singleFlightBoxThree">
 
 
-                                                    <span>
-                                                        <svg id="fi_9170928" height="25" viewBox="0 0 64 64" width="25" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path d="m51.93 33-50.93-.041a1 1 0 0 1 0-2l50.931.041a1 1 0 0 1 0 2z"></path><path d="m64 32.012c-5.681 2.1-12.731 5.692-17.1 9.5l3.446-9.512-3.433-9.513c4.365 3.813 11.409 7.413 17.087 9.525z"></path></svg>
-                                                    </span>
+                                                            <span>
+                                                                <svg id="fi_9170928" height="25" viewBox="0 0 64 64" width="25" xmlns="http://www.w3.org/2000/svg" data-name="Layer 1"><path d="m51.93 33-50.93-.041a1 1 0 0 1 0-2l50.931.041a1 1 0 0 1 0 2z"></path><path d="m64 32.012c-5.681 2.1-12.731 5.692-17.1 9.5l3.446-9.512-3.433-9.513c4.365 3.813 11.409 7.413 17.087 9.525z"></path></svg>
+                                                            </span>
 
-                                                </div>
+                                                        </div>
 
-                                                <div className="singleFlightBoxFour">
-                                                    <span>
-                                                        {
-                                                            incomeGlight?.Segments[0][incomeGlight?.Segments[0].length - 1]?.Destination
-                                                                ?.Airport?.CityName
-                                                        }
-                                                    </span>
-                                                    <p>
-                                                        {dayjs(
-                                                            incomeGlight?.Segments?.[0][incomeGlight?.Segments[0].length - 1]?.Destination?.ArrTime
-                                                        ).format("DD MMM, YY")}
-                                                    </p>
-                                                    <h5 className="daySize">
-                                                        {dayjs(
-                                                            incomeGlight?.Segments?.[0][incomeGlight?.Segments[0].length - 1]
-                                                                ?.Destination?.ArrTime
-                                                        ).format("h:mm A")}
-                                                    </h5>
-                                                </div>
+                                                        <div className="singleFlightBoxFour">
+                                                            <span>
+                                                                {
+                                                                    incomeGlight?.Segments[0][incomeGlight?.Segments[0].length - 1]?.Destination
+                                                                        ?.Airport?.CityName
+                                                                }
+                                                            </span>
+                                                            <p>
+                                                                {dayjs(
+                                                                    incomeGlight?.Segments?.[0][incomeGlight?.Segments[0].length - 1]?.Destination?.ArrTime
+                                                                ).format("DD MMM, YY")}
+                                                            </p>
+                                                            <h5 className="daySize">
+                                                                {dayjs(
+                                                                    incomeGlight?.Segments?.[0][incomeGlight?.Segments[0].length - 1]
+                                                                        ?.Destination?.ArrTime
+                                                                ).format("h:mm A")}
+                                                            </h5>
+                                                        </div>
 
-                                                <div className="singleFlightBoxSeven">
-                                                    <p>₹ {(incomeGlight?.Fare?.PublishedFare)}</p>
+                                                        <div className="singleFlightBoxSeven">
+                                                            <p>₹ {(incomeGlight?.Fare?.PublishedFare)}</p>
 
-                                                </div>
+                                                        </div>
+                                                    </motion.div>
+                                                </motion.div>
                                             </motion.div>
-                                        </motion.div>
-                                    </motion.div>
 
 
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="col-2">
+
+                                    <div className="returnResultButtonBox">
+                                        <p>
+                                            {
+                                                ` ₹ ${(Number(ongoFlight?.Fare?.PublishedFare) +
+                                                    Number(incomeGlight?.Fare?.PublishedFare)
+                                                ).toFixed(0)
+                                                }`
+                                            }
+                                        </p>
+                                        <div className="buttonReturnBox">
+                                            <button onClick={handleFareRuleAndQuote}>Book Now</button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    )
+                }
 
-                        <div className="col-2">
 
-                            <div className="returnResultButtonBox">
-                                <p>
-                                    {
-                                        ` ₹ ${(Number(ongoFlight?.Fare?.PublishedFare) +
-                                            Number(incomeGlight?.Fare?.PublishedFare)
-                                        ).toFixed(0)
-                                        }`
-                                    }
-                                </p>
-                                <div className="buttonReturnBox">
-                                    <button onClick={handleFareRuleAndQuote}>Book Now</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
 
 
