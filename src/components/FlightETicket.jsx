@@ -2,13 +2,8 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { apiURL } from "../Constants/constant";
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
-import { Modal, Box, TextField, Button, Typography } from '@mui/material';
+import { usePDF } from 'react-to-pdf';
 import "./FlightETicket.css";
-import { useNavigate } from "react-router-dom";
-// import html2pdf from "html2pdf.js";
-// import Swal from "sweetalert2";
-// import {swalModal} from "../utility/swal"
 import InsideNavbar from "../UI/BigNavbar/InsideNavbar";
 import { BiSupport } from "react-icons/bi";
 const pdfLogo = "https://travvolt.s3.amazonaws.com/ST-Main-LogoPdf.png";
@@ -24,9 +19,8 @@ const FlightETicket = () => {
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const { toPDF, targetRef } = usePDF({filename: 'eTicket.pdf'});
 
-
-    //   const navigate = useNavigate();
     const { id } = useParams();
 
     useEffect(() => {
@@ -91,9 +85,6 @@ const FlightETicket = () => {
         return date.toLocaleString("en-US", options);
     };
 
-
-
-
     return (
         <>
             <InsideNavbar />
@@ -101,7 +92,8 @@ const FlightETicket = () => {
                 <Spinner />
             ) : (
                 <div style={{ marginTop: '100px', padding: '0px 15px', width: '100%' }}>
-                    <div
+                    <button className="downloadpdfbtn" onClick={() => toPDF()}>Download as Pdf</button>
+                    <div ref={targetRef}
                         style={{
                             background: "#fff",
                             overflow: "hidden",
