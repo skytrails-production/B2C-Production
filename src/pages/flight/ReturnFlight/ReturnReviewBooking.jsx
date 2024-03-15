@@ -561,18 +561,18 @@ const ReturnReviewBooking = () => {
     const payload = {
       firstname: Passengers[0].FirstName,
       phone: Passengers[0].ContactNo,
-      amount: 2,
-      // amount:
-      //   transactionAmount ||
-      //   (!isDummyTicketBooking
-      //     ? Number(
-      //       fareValue?.Fare?.PublishedFare +
-      //       fareValueReturn?.Fare?.PublishedFare +
-      //       markUpamount *
-      //       (fareValue?.Fare?.PublishedFare +
-      //         fareValueReturn?.Fare?.PublishedFare)
-      //     ).toFixed(0)
-      //     : 99),
+      // amount: 2,
+      amount:
+        transactionAmount ||
+        (!isDummyTicketBooking
+          ? Number(
+            fareValue?.Fare?.PublishedFare +
+            fareValueReturn?.Fare?.PublishedFare +
+            markUpamount *
+            (fareValue?.Fare?.PublishedFare +
+              fareValueReturn?.Fare?.PublishedFare)
+          ).toFixed(0)
+          : 99),
       // (!isDummyTicketBooking
       //     ? parseInt(
       //        ( reducerState?.flightFare?.flightQuoteData?.Results?.Fare
