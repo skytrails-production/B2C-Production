@@ -198,7 +198,15 @@ const HolidaySuggestion = () => {
                                             <div class="trendSmall">
 
                                                 <div className="imgBoxTrendMobile">
-                                                    <img className="uniImgShad" src={item?.pakage_img} alt="package-img" />
+                                                    {/* <img className="uniImgShad" src={ite m?.pakage_img} alt="package-img" /> */}
+                                                    {
+                                                        item?.package_img.length > 0 ? (
+                                                            <img className="uniImgShad" src={item?.package_img[0]} alt="package-img" />
+
+                                                        ) : (
+                                                            <img className="uniImgShad" src={item?.pakage_img} alt="package-img" />
+                                                        )
+                                                    }
                                                     <div class="color-overlayMobile"></div>
                                                     <div className="holiSuggSpanMobile">
                                                         <span class="trendSpanOne">{item?.days}{"D/"}{item?.days - 1}{"N"}</span>

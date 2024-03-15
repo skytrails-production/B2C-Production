@@ -80,6 +80,9 @@ const ReturnReviewBooking = () => {
   const [toggle, setToggle] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isDisableScroll, setIsDisableScroll] = useState(false);
+
+  const [refundTxnId, setRefundTxnId] = useState(null)
+
   const token = SecureStorage.getItem("jwtToken");
   useEffect(() => {
     if (isDisableScroll) {
@@ -144,23 +147,105 @@ const ReturnReviewBooking = () => {
 
   // for going flight
 
+  // useEffect(async () => {
+  //   if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {
+  //     // setLoaderPayment(false);
+  //     handleReturnFlight();
+  //     // navigate("/bookedTicket");
+  //   } else if (
+  //     reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
+  //     reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== undefined
+  //   ) {
+
+  //     try {
+  //       const token = SecureStorage.getItem("jwtToken");
+  //       const payload = {
+  //         "refund_amount": transactionAmount ||
+  //           (Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
+
+  //         "txnId": refundTxnId,
+  //       }
+
+  //       const res = await axios({
+  //         method: "POST",
+  //         url: `${apiURL.baseURL}/skyTrails/api/transaction/refundPolicy`,
+  //         data: payload,
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           token: token,
+  //         },
+  //       });
+  //     } catch (error) {
+  //       console.warn(error);
+  //     }
+
+  //     swalModal(
+  //       "flight",
+  //       reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
+  //       false
+  //     );
+  //     navigate("/");
+  //   }
+  // }, [reducerState?.flightBook?.flightBookData?.Response]);
+
   useEffect(() => {
-    if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {
-      // setLoaderPayment(false);
-      handleReturnFlight();
-      // navigate("/bookedTicket");
-    } else if (
-      reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
-      reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== undefined
-    ) {
-      swalModal(
-        "flight",
-        reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
-        false
-      );
-      navigate("/");
-    }
+    const fetchData = async () => {
+
+      if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {
+        // setLoaderPayment(false);
+        handleReturnFlight();
+        // navigate("/bookedTicket");
+      } else if (
+        reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
+        reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== undefined
+      ) {
+
+        try {
+          const token = SecureStorage.getItem("jwtToken");
+          const payload = {
+            "refund_amount": transactionAmount ||
+              (Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
+            // "refund_amount": 2,
+            "txnId": refundTxnId,
+
+          }
+
+          // console.log("i am chaling in the going flight")
+          const res = await axios({
+            method: "POST",
+            url: `${apiURL.baseURL}/skyTrails/api/transaction/refundPolicy`,
+            data: payload,
+            headers: {
+              "Content-Type": "application/json",
+              token: token,
+            },
+          });
+        } catch (error) {
+          console.warn(error);
+        }
+
+        swalModal(
+          "flight",
+          reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
+          false
+        );
+        navigate("/");
+      }
+    };
+
+    fetchData(); // Call the async function
+
+    // Cleanup function
+    const cleanup = () => {
+      // Perform cleanup tasks here if needed
+      // For example, unsubscribe from event listeners or clear timers
+    };
+
+    // Return cleanup function
+    return cleanup;
+
   }, [reducerState?.flightBook?.flightBookData?.Response]);
+
 
   useEffect(() => {
     if (
@@ -221,26 +306,112 @@ const ReturnReviewBooking = () => {
 
   // for going flight
 
+
+
+
+
+
   // for return flight
 
+  // useEffect(async () => {
+  //   if (
+  //     reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorMessage === ""
+  //   ) {
+  //     setLoaderPayment(false);
+  //     navigate("/bookedTicketWithReturn");
+  //   } else if (
+  //     reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorCode !== 0 &&
+  //     reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorCode !== undefined
+  //   ) {
+
+  //     try {
+  //       const token = SecureStorage.getItem("jwtToken");
+  //       const payload = {
+  //         "refund_amount": transactionAmount - (Number(fareValue?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare))) ||
+  //           (Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
+  //         "txnId": refundTxnId,
+  //       }
+
+  //       const res = await axios({
+  //         method: "POST",
+  //         url: `${apiURL.baseURL}/skyTrails/api/transaction/refundPolicy`,
+  //         data: payload,
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           token: token,
+  //         },
+  //       });
+  //     } catch (error) {
+  //       console.warn(error);
+  //     }
+
+  //     swalModal(
+  //       "flight",
+  //       reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorMessage,
+  //       false
+  //     );
+  //     navigate("/");
+  //   }
+  // }, [reducerState?.flightBook?.flightBookDataReturn?.Response]);
+
+
   useEffect(() => {
-    if (
-      reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorMessage === ""
-    ) {
-      setLoaderPayment(false);
-      navigate("/bookedTicketWithReturn");
-    } else if (
-      reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
-      reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== undefined
-    ) {
-      swalModal(
-        "flight",
-        reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorMessage,
-        false
-      );
-      navigate("/");
-    }
+    const fetchData = async () => {
+      if (
+        reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorMessage === ""
+      ) {
+        setLoaderPayment(false);
+        navigate("/bookedTicketWithReturn");
+      } else if (
+        reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorCode !== 0 &&
+        reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorCode !== undefined
+      ) {
+
+        try {
+          const token = SecureStorage.getItem("jwtToken");
+          const payload = {
+            "refund_amount": transactionAmount - (Number(fareValue?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare))) ||
+              (Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
+            // "refund_amount": 1,
+            "txnId": refundTxnId,
+          }
+
+          const res = await axios({
+            method: "POST",
+            url: `${apiURL.baseURL}/skyTrails/api/transaction/refundPolicy`,
+            data: payload,
+            headers: {
+              "Content-Type": "application/json",
+              token: token,
+            },
+          });
+        } catch (error) {
+          console.warn(error);
+        }
+
+        swalModal(
+          "flight",
+          reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorMessage,
+          false
+        );
+        navigate("/");
+      }
+    };
+
+    fetchData(); // Call the async function
+
+    // Cleanup function (if needed)
+    const cleanup = () => {
+      // Perform cleanup tasks here if needed
+      // For example, unsubscribe from event listeners or clear timers
+    };
+
+    // Return cleanup function
+    return cleanup;
+
   }, [reducerState?.flightBook?.flightBookDataReturn?.Response]);
+
+
 
   useEffect(() => {
     if (
@@ -390,17 +561,18 @@ const ReturnReviewBooking = () => {
     const payload = {
       firstname: Passengers[0].FirstName,
       phone: Passengers[0].ContactNo,
-      amount:
-        transactionAmount ||
-        (!isDummyTicketBooking
-          ? Number(
-            fareValue?.Fare?.PublishedFare +
-            fareValueReturn?.Fare?.PublishedFare +
-            markUpamount *
-            (fareValue?.Fare?.PublishedFare +
-              fareValueReturn?.Fare?.PublishedFare)
-          ).toFixed(0)
-          : 99),
+      amount: 2,
+      // amount:
+      //   transactionAmount ||
+      //   (!isDummyTicketBooking
+      //     ? Number(
+      //       fareValue?.Fare?.PublishedFare +
+      //       fareValueReturn?.Fare?.PublishedFare +
+      //       markUpamount *
+      //       (fareValue?.Fare?.PublishedFare +
+      //         fareValueReturn?.Fare?.PublishedFare)
+      //     ).toFixed(0)
+      //     : 99),
       // (!isDummyTicketBooking
       //     ? parseInt(
       //        ( reducerState?.flightFare?.flightQuoteData?.Results?.Fare
@@ -457,6 +629,7 @@ const ReturnReviewBooking = () => {
           try {
             // Make API call if payment status is 'success'
             const easeBuzzPayId = response.easepayid;
+            setRefundTxnId(response.easepayid)
             const verifyResponse = await axios.post(
               `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`,
               { easeBuzzPayId: easeBuzzPayId }

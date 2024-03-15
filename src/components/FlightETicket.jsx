@@ -770,7 +770,7 @@ const FlightETicket = () => {
                                                 margin: "0",
                                             }}
                                         >
-                                            +91 8917972301
+                                            +91 9209793097
                                         </p>
                                     </div>
                                     <div
@@ -814,7 +814,7 @@ const FlightETicket = () => {
                                                 wordwrap: "break-word",
                                             }}
                                         >
-                                            support@theskytrails.com
+                                            Info@theskytrails.com
                                         </div>
                                     </div>
                                 </div>

@@ -1,0 +1,24 @@
+.flight_e_tickit_container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: red;
+}
+
+.downloadpdfbtn {
+    /* background-image: linear-gradient(to right, #d90429 0%, #ea384d 51%, #d90429 100%); */
+    background-color: transparent;
+    padding: 7px 11px;
+    text-align: center;
+    /* text-transform: uppercase; */
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: #d90429;
+    border: 2px solid #d90429;
+    outline: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: auto;
+    display: block;
+}

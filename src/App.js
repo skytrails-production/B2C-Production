@@ -58,6 +58,7 @@ import { useLocation } from 'react-router-dom';
 // import InsideNavbar from "./UI/BigNavbar/InsideNavbar"
 
 import FlightETicket from "../src/components/FlightETicket"
+import BusETicket from "../src/components/BusETicket";
 import DummyPnrHome from "./components/DummyPnrHome"
 import HolidayCountryDetails from './pages/holidaypackages/holidayCategory/HolidayCountryDetails';
 import Events from './pages/Event/Events';
@@ -285,7 +286,9 @@ function App() {
           path="/hotel/hotelsearch/HotelBooknow/Reviewbooking/GuestDetail/ticket"
           element={<HotelTicketGeneration />}
         />
+        {/* e-ticket route */}
         <Route exact path="/FlightEticket/:id" element={<FlightETicket />} />
+        <Route exact path="/busEticket/:id" element={<BusETicket />} />
 
 
         {/* Holiday packages routes */}

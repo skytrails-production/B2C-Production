@@ -19,6 +19,7 @@ import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
 import HolidayBudget from "../holidaypackages/holidayCategory/HolidayBudget";
 import ReturnForm from "../flight/ReturnFlight/ReturnForm";
+import SecureStorage from "react-secure-storage";
 
 const variants = {
   initial: {
@@ -48,7 +49,7 @@ const Home = () => {
     sessionStorage.setItem("hdhhfb7383__3u8748", false);
   }, [])
 
-
+  // console.log(SecureStorage.getItem("jwtToken"))
 
   return (
     <div className="home_banner">

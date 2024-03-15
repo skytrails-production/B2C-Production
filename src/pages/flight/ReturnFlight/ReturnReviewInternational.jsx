@@ -84,7 +84,7 @@ const ReturnReviewInternational = () => {
     const [transactionAmount, setTransactionAmount] = useState(null);
     const [toggle, setToggle] = useState(false);
     const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
+    const [refundTxnId, setRefundTxnId] = useState(null)
 
     const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
     const markUpamount =
@@ -150,18 +150,95 @@ const ReturnReviewInternational = () => {
     console.log(reducerState, "reducdr state")
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {
-            navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl");
-        } else if (
-            reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
-            reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== undefined
-        ) {
-            swalModal("flight", reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage, false)
-            navigate("/");
-        }
+    //     if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {
+    //         navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl");
+    //     } else if (
+    //         reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
+    //         reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== undefined
+    //     ) {
+
+    //         try {
+    //             const token = SecureStorage.getItem("jwtToken");
+    //             const payload = {
+    //                 "refund_amount": transactionAmount ||
+    //                     (Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
+    //                 // "refund_amount": 2,
+    //                 "txnId": refundTxnId,
+
+    //             }
+
+    //             // console.log("i am chaling in the going flight")
+    //             const res = await axios({
+    //                 method: "POST",
+    //                 url: `${apiURL.baseURL}/skyTrails/api/transaction/refundPolicy`,
+    //                 data: payload,
+    //                 headers: {
+    //                     "Content-Type": "application/json",
+    //                     token: token,
+    //                 },
+    //             });
+    //         } catch (error) {
+    //             console.warn(error);
+    //         }
+    //         swalModal("flight", reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage, false)
+    //         navigate("/");
+    //     }
+    // }, [reducerState?.flightBook?.flightBookData?.Response]);
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {
+                navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl");
+            } else if (
+                reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
+                reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== undefined
+            ) {
+
+                try {
+                    const token = SecureStorage.getItem("jwtToken");
+                    const payload = {
+
+                        "refund_amount": transactionAmount ||
+                            (!isDummyTicketBooking
+                                ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                                : 99),
+                        "txnId": refundTxnId,
+                    }
+
+                    const res = await axios({
+                        method: "POST",
+                        url: `${apiURL.baseURL}/skyTrails/api/transaction/refundPolicy`,
+                        data: payload,
+                        headers: {
+                            "Content-Type": "application/json",
+                            token: token,
+                        },
+                    });
+                } catch (error) {
+                    console.warn(error);
+                }
+                swalModal("flight", reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage, false);
+                navigate("/");
+            }
+        };
+
+        fetchData(); // Call the async function
+
+        // Cleanup function (if needed)
+        const cleanup = () => {
+            // Perform cleanup tasks here if needed
+            // For example, unsubscribe from event listeners or clear timers
+        };
+
+        // Return cleanup function
+        return cleanup;
+
     }, [reducerState?.flightBook?.flightBookData?.Response]);
+
+
 
     useEffect(() => {
         if (
@@ -214,7 +291,7 @@ const ReturnReviewInternational = () => {
     const getTicketForNonLCC = () => {
         const payload = {
             EndUserIp: reducerState?.ip?.ipData,
-            TokenId: reducerState?.ip?.tokenData,
+            // TokenId: reducerState?.ip?.tokenData,
             TraceId: reducerState?.return?.returnData?.data?.data?.Response?.TraceId,
             PNR: reducerState?.flightBook?.flightBookDataGDS?.Response?.PNR,
             BookingId:
@@ -239,7 +316,7 @@ const ReturnReviewInternational = () => {
 
     const getTicketForLCC = () => {
         const payloadLcc = {
-            ResultIndex: ResultIndex?.ResultIndex,
+            // ResultIndex: ResultIndex?.ResultIndex,
             EndUserIp: reducerState?.ip?.ipData,
             TokenId: reducerState?.ip?.tokenData,
             TraceId:
@@ -315,13 +392,13 @@ const ReturnReviewInternational = () => {
         const payload = {
             firstname: Passengers[0].FirstName,
             phone: Passengers[0].ContactNo,
-            amount:
+            // amount:
 
-                transactionAmount ||
-                (!isDummyTicketBooking
-                    ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
-                    : 99),
-            // amount: 1,
+            // transactionAmount ||
+            // (!isDummyTicketBooking
+            //     ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+            //     : 99),
+            amount: 1,
 
             email: Passengers[0].Email,
             productinfo: "ticket",
@@ -367,6 +444,7 @@ const ReturnReviewInternational = () => {
                     try {
                         // Make API call if payment status is 'success'
                         const easeBuzzPayId = response.easepayid;
+                        setRefundTxnId(response.easepayid)
                         const verifyResponse = await axios.post(
                             `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`, { easeBuzzPayId: easeBuzzPayId }
                         );
