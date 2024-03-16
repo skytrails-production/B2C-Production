@@ -1,0 +1,20 @@
+.partnerBox {
+    padding: 100px 30px;
+}
+
+.partner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.partner-container h3 {
+    text-align: center !important;
+    width: 73% !important;
+    margin: auto !important;
+    padding-bottom: 10px !important;
+    font-family: Montserrat;
+    font-weight: 800;
+    font-size: 1.7rem;
+    margin-bottom: 30px;
+}

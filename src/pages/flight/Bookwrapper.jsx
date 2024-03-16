@@ -364,7 +364,8 @@ export default function BookWrapper() {
 
         swalModal(
           "flight",
-          reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
+          // reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
+          "Booking failed, your amount will be refunded within 72 hours.",
           false
         );
         navigate("/");

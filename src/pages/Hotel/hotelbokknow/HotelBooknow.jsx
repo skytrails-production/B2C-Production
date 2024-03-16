@@ -160,7 +160,7 @@ const HotelBooknow = () => {
   useEffect(() => {
     if (
       reducerState?.hotelSearchResult?.hotelRoom?.GetHotelRoomResult
-        ?.HotelRoomsDetails.length >= 0
+        ?.HotelRoomsDetails?.length >= 0
     ) {
       setLoader(false);
     }

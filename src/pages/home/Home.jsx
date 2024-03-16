@@ -20,6 +20,7 @@ import { Helmet } from "react-helmet-async";
 import HolidayBudget from "../holidaypackages/holidayCategory/HolidayBudget";
 import ReturnForm from "../flight/ReturnFlight/ReturnForm";
 import SecureStorage from "react-secure-storage";
+import Partners from "./Partners";
 
 const variants = {
   initial: {
@@ -161,6 +162,11 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <FLightOffer variants={variants} />
       </motion.div>
+      {/* <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+        <Partners variants={variants} />
+      </motion.div> */}
+
+
     </div>
   );
 };

@@ -226,7 +226,8 @@ const ReturnReviewBooking = () => {
 
         swalModal(
           "flight",
-          reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
+          // reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
+          "Booking failed, your amount will be refunded within 72 hours.",
           false
         );
         navigate("/");
@@ -391,7 +392,8 @@ const ReturnReviewBooking = () => {
 
         swalModal(
           "flight",
-          reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorMessage,
+          "Booking failed, your amount will be refunded within 72 hours.",
+          // reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorMessage,
           false
         );
         navigate("/");
@@ -573,6 +575,8 @@ const ReturnReviewBooking = () => {
               fareValueReturn?.Fare?.PublishedFare)
           ).toFixed(0)
           : 99),
+
+
       // (!isDummyTicketBooking
       //     ? parseInt(
       //        ( reducerState?.flightFare?.flightQuoteData?.Results?.Fare
@@ -648,9 +652,10 @@ const ReturnReviewBooking = () => {
             const verifyResponse = await axios.post(
               `${apiURL.baseURL}/skyTrails/api/transaction/paymentFailure?merchantTransactionId=${response.txnid}`
             );
-            // console.log(verifyResponse.data);
-            swalModal("py", verifyResponse.data.responseMessage, false);
-            // Handle verifyResponse as needed
+
+            // swalModal("py", verifyResponse.data.responseMessage, false);
+            swalModal("py", "Transaction Cancelled", false);
+
             setTransactionAmount(null);
             sessionStorage.removeItem("couponCode");
             // setTimer11(false);

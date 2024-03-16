@@ -220,7 +220,10 @@ const ReturnReviewInternational = () => {
                 } catch (error) {
                     console.warn(error);
                 }
-                swalModal("flight", reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage, false);
+                swalModal("flight",
+                    // reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
+                    "Booking failed, your amount will be refunded within 72 hours.",
+                    false);
                 navigate("/");
             }
         };
@@ -291,7 +294,7 @@ const ReturnReviewInternational = () => {
     const getTicketForNonLCC = () => {
         const payload = {
             EndUserIp: reducerState?.ip?.ipData,
-            // TokenId: reducerState?.ip?.tokenData,
+            TokenId: reducerState?.ip?.tokenData,
             TraceId: reducerState?.return?.returnData?.data?.data?.Response?.TraceId,
             PNR: reducerState?.flightBook?.flightBookDataGDS?.Response?.PNR,
             BookingId:
@@ -316,7 +319,7 @@ const ReturnReviewInternational = () => {
 
     const getTicketForLCC = () => {
         const payloadLcc = {
-            // ResultIndex: ResultIndex?.ResultIndex,
+            ResultIndex: ResultIndex?.ResultIndex,
             EndUserIp: reducerState?.ip?.ipData,
             TokenId: reducerState?.ip?.tokenData,
             TraceId:
@@ -394,10 +397,10 @@ const ReturnReviewInternational = () => {
             phone: Passengers[0].ContactNo,
             amount:
 
-            transactionAmount ||
-            (!isDummyTicketBooking
-                ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
-                : 99),
+                transactionAmount ||
+                (!isDummyTicketBooking
+                    ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                    : 99),
             // amount: 1,
 
             email: Passengers[0].Email,
