@@ -18,6 +18,8 @@ import onewayBG from "../../images/onewayBG.jpg";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
 import HolidayBudget from "../holidaypackages/holidayCategory/HolidayBudget";
+import Partners from "../home/Partners";
+import EventBanner from "../home/EventBanner";
 
 const variants = {
   initial: {
@@ -57,7 +59,15 @@ const Taxi = () => {
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <HolidayBudget variants={variants} />
       </motion.div>
-
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+        style={{ position: "relative" }}
+      >
+        <EventBanner variants={variants} />
+      </motion.div>
       <motion.div variants={variants} initial="initial" viewport={{ once: true, amount: 0.8 }} whileInView="animate">
         <FLightOffer variants={variants} />
       </motion.div>
@@ -71,6 +81,9 @@ const Taxi = () => {
         <Advertise variants={variants} />
       </motion.div>
       <Download />
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+        <Partners variants={variants} />
+      </motion.div>
       <WhyChooseUs />
     </div>
   );

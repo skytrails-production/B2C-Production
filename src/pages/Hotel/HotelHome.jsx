@@ -1,16 +1,17 @@
 import Download from "../home/Download";
+import React, { useRef } from "react";
 import "./hotelhome.css";
 import HotelForm from "./HotelForm";
 import { motion } from "framer-motion";
 import Advertise from "../home/Advertise";
 import FLightOffer from "../flight/FLightOffer";
 import InsideNavbar from "../../UI/BigNavbar/InsideNavbar"
-// import BigNavbar from "../../UI/BigNavbar/BigNavbar";
-// import onewayBG from "../../images/onewaybg.png"
 import onewayBG from "../../images/onewayBG.jpg";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
 import HolidayBudget from "../holidaypackages/holidayCategory/HolidayBudget";
+import Partners from "../home/Partners";
+import EventBanner from "../home/EventBanner";
 
 const variants = {
   initial: {
@@ -28,6 +29,18 @@ const variants = {
 };
 
 const Hotelhome = () => {
+
+
+  const downloadRef = useRef(null);
+
+  const focusDownload = () => {
+    if (downloadRef.current) {
+      downloadRef.current.focus();
+    }
+  };
+
+
+
   return (
     <motion.div className="hotel_banner">
       <Helmet>
@@ -47,7 +60,15 @@ const Hotelhome = () => {
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <HolidayBudget variants={variants} />
       </motion.div>
-
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+        style={{ position: "relative" }}
+      >
+        <EventBanner focusDownload={focusDownload} variants={variants} />
+      </motion.div>
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <FLightOffer variants={variants} />
       </motion.div>
@@ -62,10 +83,13 @@ const Hotelhome = () => {
       </motion.div>
 
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
-        <Download variants={variants} />
+        <Download downloadRef={downloadRef} variants={variants} />
       </motion.div>
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <WhyChooseUs variants={variants} />
+      </motion.div>
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+        <Partners variants={variants} />
       </motion.div>
     </motion.div>
   );

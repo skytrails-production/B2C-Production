@@ -1,5 +1,6 @@
 .partnerBox {
-    padding: 100px 30px;
+    padding: 60px 30px;
+    /* background-color: #1e429f; */
 }
 
 .partner-container {
@@ -11,10 +12,21 @@
 .partner-container h3 {
     text-align: center !important;
     width: 73% !important;
-    margin: auto !important;
+    /* margin: auto !important; */
+
     padding-bottom: 10px !important;
     font-family: Montserrat;
     font-weight: 800;
     font-size: 1.7rem;
     margin-bottom: 30px;
+}
+
+.partner-slide {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: white;
+    border-radius: 10px;
+    width: 90% !important;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }

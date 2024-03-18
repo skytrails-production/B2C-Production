@@ -14,7 +14,7 @@ import check from "../../images/download/check.png";
 import axios from "axios";
 import { apiURL } from "../../Constants/constant";
 
-const Download = () => {
+const Download = ({ downloadRef }) => {
   const [validmobileclick, setvalidmobileclick] = useState(false);
   const [validno, setvalidno] = useState(false);
   const [mobileNumber, setMobileNumber] = useState("");
@@ -125,6 +125,7 @@ const Download = () => {
                       href="https://apps.apple.com/in/app/the-skytrails/id6475768819"
                       target="_blank"
                     >
+
                       <img src={apple} alt="apple" />
                     </a>
                   </div>
@@ -133,6 +134,7 @@ const Download = () => {
                   <div class="input-group customInputGroup">
                     <div class="input-group-text designCustom">+91</div>
                     <input
+                      ref={downloadRef}
                       type="tel"
                       name="phone"
                       id="phone"

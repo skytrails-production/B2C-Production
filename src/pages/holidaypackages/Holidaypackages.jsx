@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Hotelpackageform from "../../components/Hotelpackageform";
 import Download from "../home/Download";
 import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
@@ -18,6 +18,8 @@ import HolidayDomestic from "./holidayCategory/HolidayDomestic";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
 import HolidayBudget from "./holidayCategory/HolidayBudget";
+import Partners from "../home/Partners";
+import EventBanner from "../home/EventBanner";
 
 const variants = {
   initial: {
@@ -126,7 +128,13 @@ const Hotelpackages = () => {
   // console.log(isExit);
 
 
+  const downloadRef = useRef(null);
 
+  const focusDownload = () => {
+    if (downloadRef.current) {
+      downloadRef.current.focus();
+    }
+  };
 
 
 
@@ -217,13 +225,26 @@ const Hotelpackages = () => {
         <HolidaySuggestion variants={variants} />
       </motion.div>
 
-
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+        style={{ position: "relative" }}
+      >
+        <EventBanner focusDownload={focusDownload} variants={variants} />
+      </motion.div>
 
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <HolidayDomestic variants={variants} />
       </motion.div>
 
-      <Download />
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+        <Download downloadRef={downloadRef} variants={variants} />
+      </motion.div>
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+        <Partners variants={variants} />
+      </motion.div>
       <WhyChooseUs />
     </React.Fragment>
   );

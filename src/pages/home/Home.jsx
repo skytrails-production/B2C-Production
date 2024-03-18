@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import SwipeToSlide from "../../components/Card";
 import Download from "./Download";
 import Oneway from "../../components/Oneway";
@@ -21,6 +21,7 @@ import HolidayBudget from "../holidaypackages/holidayCategory/HolidayBudget";
 import ReturnForm from "../flight/ReturnFlight/ReturnForm";
 import SecureStorage from "react-secure-storage";
 import Partners from "./Partners";
+import EventBanner from "./EventBanner";
 
 const variants = {
   initial: {
@@ -50,7 +51,13 @@ const Home = () => {
     sessionStorage.setItem("hdhhfb7383__3u8748", false);
   }, [])
 
-  // console.log(SecureStorage.getItem("jwtToken"))
+  const downloadRef = useRef(null);
+
+  const focusDownload = () => {
+    if (downloadRef.current) {
+      downloadRef.current.focus();
+    }
+  };
 
   return (
     <div className="home_banner">
@@ -111,6 +118,17 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <HolidayCategory variants={variants} />
       </motion.div>
+
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+        style={{ position: "relative" }}
+      >
+        <EventBanner focusDownload={focusDownload} variants={variants} />
+      </motion.div>
+
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <HolidayBudget variants={variants} />
       </motion.div>
@@ -154,7 +172,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         <SwipeToSlide variants={variants} />
       </motion.div>
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
-        <Download variants={variants} />
+        <Download downloadRef={downloadRef} variants={variants} />
       </motion.div>
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <WhyChooseUs variants={variants} />
@@ -162,9 +180,9 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <FLightOffer variants={variants} />
       </motion.div>
-      {/* <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <Partners variants={variants} />
-      </motion.div> */}
+      </motion.div>
 
 
     </div>

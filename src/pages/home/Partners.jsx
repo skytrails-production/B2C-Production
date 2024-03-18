@@ -15,25 +15,43 @@ const Partners = () => {
     const localDataArray = [
 
         {
-            logo: "https://storage.googleapis.com/cgiarorg/2018/02/IITA.png"
+            logo: "https://github.com/The-SkyTrails/Images/blob/main/patnerlogo/Hongkong.png?raw=true"
         },
 
         {
-            logo: "https://storage.googleapis.com/cgiarorg/2018/02/IITA.png"
+            logo: "https://github.com/The-SkyTrails/Images/blob/main/patnerlogo/australia.png?raw=true"
         },
         {
-            logo: "https://storage.googleapis.com/cgiarorg/2018/02/IITA.png"
-        },
-        {
-            logo: "https://storage.googleapis.com/cgiarorg/2018/02/IITA.png"
+            logo: "https://github.com/The-SkyTrails/Images/blob/main/patnerlogo/iata.png?raw=true"
         },
 
         {
-            logo: "https://storage.googleapis.com/cgiarorg/2018/02/IITA.png"
+            logo: "https://github.com/The-SkyTrails/Images/blob/main/patnerlogo/japan.png?raw=true"
         },
         {
-            logo: "https://storage.googleapis.com/cgiarorg/2018/02/IITA.png"
+            logo: "https://raw.githubusercontent.com/The-SkyTrails/Images/main/patnerlogo/kiwiway.png"
         },
+
+        {
+            logo: "https://raw.githubusercontent.com/The-SkyTrails/Images/main/patnerlogo/korea-tourism.png"
+        },
+        {
+            logo: "https://github.com/The-SkyTrails/Images/blob/main/patnerlogo/malysia.png?raw=true"
+        },
+
+        {
+            logo: "https://github.com/The-SkyTrails/Images/blob/main/patnerlogo/mauritius-tourism.png?raw=true"
+        },
+        {
+            logo: "https://github.com/The-SkyTrails/Images/blob/main/patnerlogo/singapore.png?raw=true"
+        },
+        {
+            logo: "https://github.com/The-SkyTrails/Images/blob/main/patnerlogo/thailand.png?raw=true"
+        },
+        {
+            logo: "https://github.com/The-SkyTrails/Images/blob/main/patnerlogo/vietnam.png?raw=true"
+        },
+
 
 
     ]
@@ -79,7 +97,7 @@ const Partners = () => {
                     </div>
                     <Slider {...settings}>
                         {localDataArray?.map((ad) => (
-                            <div className="slick-slide advertise-slide" key={ad._id}>
+                            <div className="slick-slide partner-slide" key={ad._id}>
                                 <img style={{ cursor: "pointer" }} src={ad.logo} alt={ad.logo} loading='lazy' />
                                 {/* <img style={{ cursor: "pointer" }} onClick={() => navigate("/pefaevent")} src={ad.image} alt={ad.title} loading='lazy' /> */}
                             </div>
