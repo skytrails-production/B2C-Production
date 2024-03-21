@@ -74,6 +74,16 @@ const Partners = () => {
 
 
 
+    // const settings = {
+    //     draggable: true,
+    //     arrows: false,
+    //     dots: false,
+    //     slidesToShow: 4,
+    //     slidesToScroll: 1,
+    //     autoplay: true,
+    //     autoplaySpeed: 1000,
+    // };
+
     const settings = {
         draggable: true,
         arrows: false,
@@ -82,9 +92,21 @@ const Partners = () => {
         slidesToScroll: 1,
         autoplay: true,
         autoplaySpeed: 1000,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 2 // Show 2 slides on devices with width <= 768px
+                }
+            },
+            {
+                breakpoint: 1468,
+                settings: {
+                    slidesToShow: 4 // Show 4 slides on devices with width <= 1468px
+                }
+            }
+        ]
     };
-
-
 
 
 
