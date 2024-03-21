@@ -83,7 +83,6 @@ const Partners = () => {
     //     autoplay: true,
     //     autoplaySpeed: 1000,
     // };
-
     const settings = {
         draggable: true,
         arrows: false,
@@ -107,6 +106,8 @@ const Partners = () => {
             }
         ]
     };
+
+
 
 
 

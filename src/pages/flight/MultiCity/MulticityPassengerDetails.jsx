@@ -3,23 +3,20 @@ import Accordion from "react-bootstrap/Accordion";
 import { Typography, Button } from "@mui/material";
 import { useDispatch, useSelector, useReducer } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import {
-    PassengersAction,
-    PassengersActionReturn,
-    clearPassengersReducer,
-} from "../../../Redux/Passengers/passenger";
+import { PassengersAction, clearPassengersReducer } from "../../../Redux/Passengers/passenger";
 import FlightLoader from '../FlightLoader/FlightLoader';
 import Alert from '@mui/material/Alert';
-import { isValidPassportNumber } from "./passportValidation"
+import { isValidPassportNumber } from "../ReturnFlight/passportValidation"
 import dayjs from "dayjs";
 // import fromTo from "../../images/fromTo.png";
 import fromTo from "../../../images/fromTo.png"
 import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
 import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
-import ReturnSummary from "./ReturnSummary";
-import ReturnSummaryInternational from "./ReturnSummaryInternational";
+// import ReturnSummary from "./ReturnSummary";
+// import ReturnSummaryInternational from "./ReturnSummaryInternational";
 import { swalModal } from "../../../utility/swal"
+import MulticitySummary from "./MulticitySummary";
 
 
 const variants = {
@@ -38,7 +35,7 @@ const variants = {
 };
 
 
-const PassengerInternational = () => {
+const MulticityPassengerDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const adults = sessionStorage.getItem("adults");
@@ -59,18 +56,18 @@ const PassengerInternational = () => {
     const fareRule = isPassportRequired ?
         reducerState?.flightFare?.flightRuleData?.FareRules
         : reducerState?.flightFare?.flightRuleDataReturn?.FareRules;
-    const fareRuleReturn =
-        reducerState?.flightFare?.flightRuleDataReturn?.FareRules;
     const data = reducerState?.oneWay?.oneWayData?.data?.data?.Response;
     const result = reducerState?.flightFare?.flightQuoteData?.Results
-    const flightDeparture = reducerState?.flightFare?.flightQuoteData?.Results?.Segments[0];
-    const flightReturn = reducerState?.flightFare?.flightQuoteData?.Results?.Segments[1];
+    const flightDeparture = reducerState?.flightFare?.flightQuoteData?.Results?.Segments;
     const [loading, setLoading] = useState(false)
+
     const cancellationPolicy =
         reducerState?.flightFare?.flightQuoteData?.Results?.MiniFareRules?.[0];
     const detailsOfCancel = cancellationPolicy?.filter(
         (rule) => rule.Type === "Cancellation"
     );
+
+    // console.log(reducerState, "reducer state")
 
     const pending = reducerState?.passengers?.isLoading || false;
 
@@ -81,16 +78,17 @@ const PassengerInternational = () => {
         // console.log(reducerState?.passengers?.showSuccessMessage,"///////////////////////////reducerState?.passengers?.showSuccessMessage")
         if (reducerState?.passengers
             ?.showSuccessMessage) {
-            navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational")
+            navigate("/multicityresult/PassengerDetailsMulticity/multicityreviewbooking")
         }
 
 
 
     }, [reducerState?.passengers])
+
     useEffect(() => {
         if (adults === undefined || adults === null || childs === undefined || childs === null || infants === undefined || infants === null) {
 
-            navigate("/ReturnResultInternational")
+            navigate("/multicityresult")
             return
 
         }
@@ -103,20 +101,7 @@ const PassengerInternational = () => {
             swalModal("flight", reducerState?.
                 flightFare?.flightQuoteData?.
                 Error?.ErrorMessage)
-            navigate("/ReturnResultInternational");
-            return
-        }
-        if
-
-            (reducerState?.
-                flightFare?.flightQuoteDataReturn?.
-                Error?.ErrorCode !== undefined && reducerState?.
-                    flightFare?.flightQuoteDataReturn?.
-                    Error?.ErrorCode !== 0) {
-            swalModal("flight", reducerState?.
-                flightFare?.flightQuoteDataReturn?.
-                Error?.ErrorMessage)
-            navigate("/ReturnResultInternational");
+            navigate("/multicityresult");
             return
         }
         if
@@ -130,43 +115,18 @@ const PassengerInternational = () => {
             swalModal("flight", reducerState?.
                 flightFare?.flightRuleData?.
                 Error?.ErrorMessage)
-            navigate("/ReturnResultInternational");
+            navigate("/multicityresult");
             return
         }
-        if
-            (reducerState?.
-                flightFare?.
-                flightRuleDataReturn
-                ?.
-                Error?.ErrorCode !== undefined && reducerState?.
-                    flightFare?.
-                    flightRuleDataReturn
-                    ?.
-                    Error?.ErrorCode !== 0) {
-            swalModal("flight", reducerState?.
-                flightFare?.flightRuleDataReturn?.
-                Error?.ErrorMessage)
-            navigate("/ReturnResultInternational");
-            return
-        }
-        // console.log(Object.getOwnPropertyNames(reducerState?.flightFare?.flightQuoteData).length
-        //     , "!reducerState?.flightFare?.flightQuoteData")
+
+
         if (
             Object.getOwnPropertyNames(reducerState?.
                 flightFare?.
                 isLoadingQuoteDone).length === 0 &&
             Object.getOwnPropertyNames(reducerState?.
                 flightFare?.
-                isLoadingQuoteDoneReturn).length === 0
-            &&
-            Object.getOwnPropertyNames(reducerState?.
-                flightFare?.
                 isLoadingRuleDone).length === 0
-
-            &&
-            Object.getOwnPropertyNames(reducerState?.
-                flightFare?.isLoadingRuleDoneReturn).length === 0
-
 
             &&
             Object.getOwnPropertyNames(reducerState?.flightFare?.flightQuoteData).length
@@ -174,7 +134,7 @@ const PassengerInternational = () => {
 
         ) {
 
-            navigate("/ReturnResultInternational")
+            navigate("/multicityresult")
             return
         }
     }, [reducerState?.
@@ -249,9 +209,9 @@ const PassengerInternational = () => {
         if (fareValue) {
             const fareDetails = fareValue?.Fare;
             const fareBreakdown = fareValue?.FareBreakdown;
-            const fareBreakdownReturn = fareValueReturn?.FareBreakdown;
+            // const fareBreakdownReturn = fareValueReturn?.FareBreakdown;
             const arr = [];
-            const arrReturn = [];
+            // const arrReturn = [];
 
             fareBreakdown.map((price, key) => {
                 let obj1 = {
@@ -267,20 +227,20 @@ const PassengerInternational = () => {
                 arr.push(obj1);
                 setFarePrice(arr);
             });
-            fareBreakdownReturn?.map((price, index) => {
-                let objReturn = {
-                    Currency: price?.Currency,
-                    BaseFare: price?.BaseFare / price?.PassengerCount,
-                    Tax: price?.Tax / price?.PassengerCount,
-                    YQTax: price?.YQTax / price?.PassengerCount,
-                    AdditionalTxnFeePub:
-                        price?.AdditionalTxnFeePub / price?.PassengerCount,
-                    AdditionalTxnFeeOfrd:
-                        price?.AdditionalTxnFeeOfrd / price?.PassengerCount,
-                };
-                arrReturn.push(objReturn);
-                setFarePriceReturn(arrReturn);
-            });
+            // fareBreakdownReturn?.map((price, index) => {
+            //     let objReturn = {
+            //         Currency: price?.Currency,
+            //         BaseFare: price?.BaseFare / price?.PassengerCount,
+            //         Tax: price?.Tax / price?.PassengerCount,
+            //         YQTax: price?.YQTax / price?.PassengerCount,
+            //         AdditionalTxnFeePub:
+            //             price?.AdditionalTxnFeePub / price?.PassengerCount,
+            //         AdditionalTxnFeeOfrd:
+            //             price?.AdditionalTxnFeeOfrd / price?.PassengerCount,
+            //     };
+            //     arrReturn.push(objReturn);
+            //     setFarePriceReturn(arrReturn);
+            // });
         }
     }, [fareValue]);
     for (let i = 0; i < adults; i++) {
@@ -447,305 +407,163 @@ const PassengerInternational = () => {
                         <div className="row">
 
                             {/* for departure  */}
-
-                            <div className="col-lg-12 mb-3">
-                                <div className="booknowFlight">
-                                    <div className="bookaboveBox">
-                                        <div>
-                                            <p className="text-center">Departure</p>
-                                            <p>
-                                                {
-                                                    flightDeparture?.[0]?.Origin
-                                                        ?.Airport?.CityName
-                                                }
-                                                <FiArrowRight style={{ margin: "5px" }} />{" "}
-                                                {
-                                                    flightDeparture?.[flightDeparture.length - 1]?.Destination
-                                                        ?.Airport?.CityName
-                                                }
-                                            </p>
-                                            <div className="aboveSpan">
-                                                <span className="aboveSOne">
-                                                    {dayjs(flightDeparture?.[0]?.Origin?.DepTime).format("DD MMM, YY")}
-                                                </span>
-                                                <span>
-                                                    {flightDeparture?.length > 1 ? `${flightDeparture?.length - 1} stop via ${flightDeparture[0]?.Destination?.Airport?.CityName}` : "Non Stop"}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    {
-                                        flightDeparture?.map((item, index) => {
-
-                                            const nextFlight = flightDeparture[index + 1];
-                                            let layoverHours = 0;
-                                            let layoverMinutes = 0;
-                                            let layoverDuration = 0;
-
-                                            if (nextFlight) {
-                                                const arrivalTime = dayjs(item?.Destination?.ArrTime);
-                                                const departureTime = dayjs(nextFlight?.Origin?.DepTime);
-                                                layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
-                                                layoverHours = Math.floor(layoverDuration / 60); // Extract hours
-                                                layoverMinutes = layoverDuration % 60;
-                                            }
-                                            return (
-                                                <>
-
-                                                    <div className="bookcenteredBox">
-                                                        <div>
-                                                            <img
-                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline?.AirlineCode}.png`}
-                                                            />{" "}
-                                                        </div>
-                                                        <span>
-                                                            {
-                                                                item?.Airline
-                                                                    ?.AirlineName
-                                                            }
-                                                        </span>
+                            {
+                                flightDeparture?.map((seg, i) => {
+                                    return (
+                                        <div className="col-lg-12 mb-3">
+                                            <div className="booknowFlight">
+                                                <div className="bookaboveBox">
+                                                    <div>
+                                                        {/* <p className="text-center">Departure</p> */}
                                                         <p>
                                                             {
-                                                                item?.Airline
-                                                                    ?.AirlineCode
+                                                                seg[0]?.Origin
+                                                                    ?.Airport?.CityName
                                                             }
+                                                            <FiArrowRight style={{ margin: "5px" }} />{" "}
                                                             {
-                                                                item?.Airline
-                                                                    ?.FlightNumber
+                                                                seg?.[seg?.length - 1]?.Destination
+                                                                    ?.Airport?.CityName
                                                             }
-
                                                         </p>
-                                                    </div>
-
-                                                    <div className="bookbottomBox">
-                                                        <div>
-                                                            <div className="bookBottomOne">
-                                                                <p>{dayjs(item?.Origin?.DepTime).format("h:mm A")}</p>
-                                                                <p>{dayjs(item?.Destination?.ArrTime).format("h:mm A")}</p>
-
-                                                            </div>
-                                                            <div className="bookBottomTwo">
-                                                                <img src={fromTo} alt="icon" />
-                                                            </div>
-                                                            <div className="bookBottomThree">
-                                                                <p>
-                                                                    {
-                                                                        item?.Origin
-                                                                            ?.Airport?.CityName
-                                                                    }{" "}
-                                                                    <span>
-                                                                        {
-                                                                            item?.Origin
-                                                                                ?.Airport?.AirportName?.slice(0, 26)
-                                                                        }
-                                                                        {" "}Terminal-{item?.Origin?.Airport?.Terminal ? item?.Origin?.Airport?.Terminal : "X"}
-                                                                    </span>
-                                                                </p>
-                                                                <p>
-                                                                    {
-                                                                        item?.Destination
-                                                                            ?.Airport?.CityName
-                                                                    }{" "}
-                                                                    <span>
-                                                                        {
-                                                                            item
-                                                                                ?.Destination?.Airport?.AirportName?.slice(0, 26)
-                                                                        }
-                                                                        {" "}Terminal-{item?.Destination?.Airport?.Terminal ? item?.Destination?.Airport?.Terminal : "Y"}
-                                                                    </span>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-
-
-
-                                                        <div className="bookBottomFour">
-                                                            <div>
-                                                                <p>Baggage</p>
-                                                                <span>ADULT</span>
-                                                            </div>
-                                                            <div>
-                                                                <p>Check-in</p>
-                                                                <span>{
-                                                                    flightDeparture[0]?.Baggage.split(" ")[0]
-                                                                }{" "} </span>
-                                                            </div>
-                                                            <div>
-                                                                <p>Cabin</p>
-                                                                <span>{
-                                                                    flightDeparture[0]?.CabinBaggage.split(" ")[0]
-                                                                }{" "} </span>
-                                                            </div>
+                                                        <div className="aboveSpan">
+                                                            <span className="aboveSOne">
+                                                                {dayjs(seg?.[0]?.Origin?.DepTime).format("DD MMM, YY")}
+                                                            </span>
+                                                            <span>
+                                                                {seg?.length > 1 ? `${seg?.length - 1} stop via ${seg?.[0]?.Destination?.Airport?.CityName}` : "Non Stop"}
+                                                            </span>
                                                         </div>
                                                     </div>
-                                                    <div>
-                                                        {(layoverDuration !== 0) && (
-                                                            <p className="text-bold">Layover Time: {layoverHours !== 0 && `${layoverHours} hours`} {layoverMinutes !== 0 && `${layoverMinutes} minutes`}</p>
+                                                </div>
 
-                                                        )}
-                                                    </div>
-                                                </>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            </div>
+
+                                                {
+                                                    seg?.map((item, index) => {
+                                                        // console.log(item, "item")
+
+                                                        const nextFlight = seg[index + 1];
+                                                        let layoverHours = 0;
+                                                        let layoverMinutes = 0;
+                                                        let layoverDuration = 0;
+
+                                                        if (nextFlight) {
+                                                            const arrivalTime = dayjs(item?.Destination?.ArrTime);
+                                                            const departureTime = dayjs(nextFlight?.Origin?.DepTime);
+                                                            layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
+                                                            // console.log(layoverDuration, "layoverDuration")
+                                                            layoverHours = Math.floor(layoverDuration / 60); // Extract hours
+                                                            layoverMinutes = layoverDuration % 60;
+                                                        }
+                                                        return (
+                                                            <>
+
+                                                                <div className="bookcenteredBox">
+                                                                    <div>
+                                                                        <img
+                                                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline?.AirlineCode}.png`}
+                                                                        />{" "}
+                                                                    </div>
+                                                                    <span>
+                                                                        {
+                                                                            item?.Airline
+                                                                                ?.AirlineName
+                                                                        }
+                                                                    </span>
+                                                                    <p>
+                                                                        {
+                                                                            item?.Airline
+                                                                                ?.AirlineCode
+                                                                        }
+                                                                        {
+                                                                            item?.Airline
+                                                                                ?.FlightNumber
+                                                                        }
+
+                                                                    </p>
+                                                                </div>
+
+                                                                <div className="bookbottomBox">
+                                                                    <div>
+                                                                        <div className="bookBottomOne">
+                                                                            <p>{dayjs(item?.Origin?.DepTime).format("h:mm A")}</p>
+                                                                            <p>{dayjs(item?.Destination?.ArrTime).format("h:mm A")}</p>
+
+                                                                        </div>
+                                                                        <div className="bookBottomTwo">
+                                                                            <img src={fromTo} alt="icon" />
+                                                                        </div>
+                                                                        <div className="bookBottomThree">
+                                                                            <p>
+                                                                                {
+                                                                                    item?.Origin
+                                                                                        ?.Airport?.CityName
+                                                                                }{" "}
+                                                                                <span>
+                                                                                    {
+                                                                                        item?.Origin
+                                                                                            ?.Airport?.AirportName?.slice(0, 26)
+                                                                                    }
+                                                                                    {" "}Terminal-{item?.Origin?.Airport?.Terminal ? item?.Origin?.Airport?.Terminal : "X"}
+                                                                                </span>
+                                                                            </p>
+                                                                            <p>
+                                                                                {
+                                                                                    item?.Destination
+                                                                                        ?.Airport?.CityName
+                                                                                }{" "}
+                                                                                <span>
+                                                                                    {
+                                                                                        item
+                                                                                            ?.Destination?.Airport?.AirportName?.slice(0, 26)
+                                                                                    }
+                                                                                    {" "}Terminal-{item?.Destination?.Airport?.Terminal ? item?.Destination?.Airport?.Terminal : "Y"}
+                                                                                </span>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                    <div className="bookBottomFour">
+                                                                        <div>
+                                                                            <p>Baggage</p>
+                                                                            <span>ADULT</span>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p>Check-in</p>
+                                                                            <span>{
+                                                                                // flightDeparture[0]?.Baggage.split(" ")[0]
+                                                                            }{" "} </span>
+                                                                        </div>
+                                                                        <div>
+                                                                            <p>Cabin</p>
+                                                                            <span>{
+                                                                                item?.CabinBaggage.split(" ")[0]
+                                                                            }{" "} </span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    {(layoverDuration !== 0) && (
+                                                                        <p className="text-bold">Layover Time: {layoverHours !== 0 && `${layoverHours} hours`} {layoverMinutes !== 0 && `${layoverMinutes} minutes`}</p>
+
+                                                                    )}
+                                                                </div>
+                                                            </>
+                                                        )
+                                                    })
+                                                }
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
+
 
                             {/* for departure  */}
 
 
-
-                            {/* for return  */}
-
-                            <div className="col-lg-12">
-                                <div className="booknowFlight">
-                                    <div className="bookaboveBox">
-                                        <div>
-                                            <p className="text-center">Return</p>
-                                            <p>
-                                                {
-                                                    flightReturn?.[0]?.Origin
-                                                        ?.Airport?.CityName
-                                                }
-                                                <FiArrowRight style={{ margin: "5px" }} />{" "}
-                                                {
-                                                    flightReturn?.[flightReturn?.length - 1]?.Destination
-                                                        ?.Airport?.CityName
-                                                }
-                                            </p>
-                                            <div className="aboveSpan">
-                                                <span className="aboveSOne">
-                                                    {dayjs(flightReturn?.[0]?.Origin?.DepTime).format("DD MMM, YY")}
-                                                </span>
-                                                <span>
-                                                    {/* {`${flightReturn[0].length -1} stop via ${flightReturn[0][0]?.Destination?.Airport?.CityName}`}{" "} */}
-                                                    {flightReturn?.length > 1 ? `${flightReturn?.length - 1} stop via ${flightReturn?.[0]?.Destination?.Airport?.CityName}` : "Non Stop"}
-                                                    {/* {duration} */}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {
-                                        flightReturn?.map((item, index) => {
-
-                                            const nextFlight = flightReturn?.[index + 1];
-                                            let layoverHours = 0;
-                                            let layoverMinutes = 0;
-                                            let layoverDuration = 0;
-
-                                            if (nextFlight) {
-                                                const arrivalTime = dayjs(item?.Destination?.ArrTime);
-                                                const departureTime = dayjs(nextFlight?.Origin?.DepTime);
-                                                layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
-                                                layoverHours = Math.floor(layoverDuration / 60); // Extract hours
-                                                layoverMinutes = layoverDuration % 60;
-                                            }
-                                            return (
-                                                <>
-
-
-                                                    <div className="bookcenteredBox">
-                                                        <div>
-                                                            <img
-                                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline
-                                                                    ?.AirlineCode}.png`}
-                                                            />{" "}
-                                                        </div>
-                                                        <span>
-                                                            {
-                                                                item?.Airline
-                                                                    ?.AirlineName
-                                                            }
-                                                        </span>
-                                                        <p>
-                                                            {
-                                                                item?.Airline
-                                                                    ?.AirlineCode
-                                                            }
-                                                            {
-                                                                item?.Airline
-                                                                    ?.FlightNumber
-                                                            }
-
-                                                        </p>
-                                                    </div>
-
-                                                    <div className="bookbottomBox">
-                                                        <div>
-                                                            <div className="bookBottomOne">
-                                                                <p>{dayjs(item?.Origin?.DepTime).format("h:mm A")}</p>
-                                                                <p>{dayjs(item?.Destination?.ArrTime).format("h:mm A")}</p>
-
-                                                            </div>
-                                                            <div className="bookBottomTwo">
-                                                                <img src={fromTo} alt="icon" />
-                                                            </div>
-                                                            <div className="bookBottomThree">
-                                                                <p>
-                                                                    {
-                                                                        item?.Origin
-                                                                            ?.Airport?.CityName
-                                                                    }{" "}
-                                                                    <span>
-                                                                        {
-                                                                            item?.Origin
-                                                                                ?.Airport?.AirportName?.slice(0, 26)
-                                                                        }
-                                                                        {" "}Terminal-{item?.Origin?.Airport?.Terminal ? item?.Origin?.Airport?.Terminal : "X"}
-                                                                    </span>
-                                                                </p>
-                                                                <p>
-                                                                    {
-                                                                        item?.Destination
-                                                                            ?.Airport?.CityName
-                                                                    }{" "}
-                                                                    <span>
-                                                                        {
-                                                                            item
-                                                                                ?.Destination?.Airport?.AirportName?.slice(0, 26)
-                                                                        }
-                                                                        {" "}Terminal-{item?.Destination?.Airport?.Terminal ? item?.Destination?.Airport?.Terminal : "Y"}
-                                                                    </span>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-
-
-
-                                                        <div className="bookBottomFour">
-                                                            <div>
-                                                                <p>Baggage</p>
-                                                                <span>ADULT</span>
-                                                            </div>
-                                                            <div>
-                                                                <p>Check-in</p>
-                                                                <span>{
-                                                                    flightDeparture?.[0]?.Baggage.split(" ")[0]
-                                                                }{" "} </span>
-                                                            </div>
-                                                            <div>
-                                                                <p>Cabin</p>
-                                                                <span>{
-                                                                    flightDeparture?.[0]?.CabinBaggage.split(" ")[0]
-                                                                }{" "} </span>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div>
-                                                        {(layoverDuration !== 0) && (
-                                                            <p className="text-bold">Layover Time: {layoverHours !== 0 && `${layoverHours} hours`} {layoverMinutes !== 0 && `${layoverMinutes} minutes`}</p>
-
-                                                        )}
-                                                    </div>
-                                                </>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            </div>
 
 
                             <motion.div variants={variants} className="col-lg-12 mt-3">
@@ -1236,7 +1054,7 @@ const PassengerInternational = () => {
 
 
                     <div className="col-lg-3 col-md-3">
-                        <ReturnSummaryInternational />
+                        <MulticitySummary />
 
                     </div>
 
@@ -1247,6 +1065,6 @@ const PassengerInternational = () => {
     );
 };
 
-export default PassengerInternational;
+export default MulticityPassengerDetails;
 
 

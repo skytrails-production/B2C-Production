@@ -491,14 +491,12 @@ const ReturnPassenger = () => {
                                         const nextFlight = flightDeparture[0][index + 1];
                                         let layoverHours = 0;
                                         let layoverMinutes = 0;
+                                        let layoverDuration = 0;
 
                                         if (nextFlight) {
                                             const arrivalTime = dayjs(item?.Destination?.ArrTime);
                                             const departureTime = dayjs(nextFlight?.Origin?.DepTime);
-                                            const layoverDuration = departureTime.diff(
-                                                arrivalTime,
-                                                "minutes"
-                                            ); // Calculate difference in minutes
+                                            layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
                                             layoverHours = Math.floor(layoverDuration / 60); // Extract hours
                                             layoverMinutes = layoverDuration % 60;
                                         }
@@ -588,11 +586,9 @@ const ReturnPassenger = () => {
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    {layoverHours !== 0 && layoverMinutes !== 0 && (
-                                                        <p className="text-bold">
-                                                            Layover Time: {layoverHours} hours{" "}
-                                                            {layoverMinutes} minutes
-                                                        </p>
+                                                    {(layoverDuration !== 0) && (
+                                                        <p className="text-bold">Layover Time: {layoverHours !== 0 && `${layoverHours} hours`} {layoverMinutes !== 0 && `${layoverMinutes} minutes`}</p>
+
                                                     )}
                                                 </div>
                                             </>
@@ -640,14 +636,12 @@ const ReturnPassenger = () => {
                                         const nextFlight = flightReturn?.[0][index + 1];
                                         let layoverHours = 0;
                                         let layoverMinutes = 0;
+                                        let layoverDuration = 0;
 
                                         if (nextFlight) {
                                             const arrivalTime = dayjs(item?.Destination?.ArrTime);
                                             const departureTime = dayjs(nextFlight?.Origin?.DepTime);
-                                            const layoverDuration = departureTime.diff(
-                                                arrivalTime,
-                                                "minutes"
-                                            ); // Calculate difference in minutes
+                                            layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
                                             layoverHours = Math.floor(layoverDuration / 60); // Extract hours
                                             layoverMinutes = layoverDuration % 60;
                                         }
@@ -737,11 +731,9 @@ const ReturnPassenger = () => {
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    {layoverHours !== 0 && layoverMinutes !== 0 && (
-                                                        <p className="text-bold">
-                                                            Layover Time: {layoverHours} hours{" "}
-                                                            {layoverMinutes} minutes
-                                                        </p>
+                                                    {(layoverDuration !== 0) && (
+                                                        <p className="text-bold">Layover Time: {layoverHours !== 0 && `${layoverHours} hours`} {layoverMinutes !== 0 && `${layoverMinutes} minutes`}</p>
+
                                                     )}
                                                 </div>
                                             </>

@@ -179,6 +179,24 @@ function api() {
 
 
 
+  // multicity flight api
+
+  const multicitySearch = (payload) => {
+    return axios({
+      method: "POST",
+      url: "/skyTrails/flight/search/multicity",
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
+
+  // multicity flight api 
+
+
   //Hotel API's Start
   const hotelSearch = (payload) => {
     return axios({
@@ -392,6 +410,7 @@ function api() {
     flightBookGDS,
     flightGetTicketNonLcc,
     returnSearch,
+    multicitySearch,
     flightGetTicketLccReturn,
     hotelSearch,
     hotelSearchInfo,

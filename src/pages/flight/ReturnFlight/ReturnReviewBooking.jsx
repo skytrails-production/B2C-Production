@@ -247,6 +247,65 @@ const ReturnReviewBooking = () => {
 
   }, [reducerState?.flightBook?.flightBookData?.Response]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+
+      if (reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage === "") {
+        // setLoaderPayment(false);
+        handleReturnFlight();
+        // navigate("/bookedTicket");
+      } else if (
+        reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
+        reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== undefined
+      ) {
+
+        try {
+          const token = SecureStorage.getItem("jwtToken");
+          const payload = {
+            "refund_amount": transactionAmount ||
+              (Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
+            // "refund_amount": 2,
+            "txnId": refundTxnId,
+
+          }
+
+          // console.log("i am chaling in the going flight")
+          const res = await axios({
+            method: "POST",
+            url: `${apiURL.baseURL}/skyTrails/api/transaction/refundPolicy`,
+            data: payload,
+            headers: {
+              "Content-Type": "application/json",
+              token: token,
+            },
+          });
+        } catch (error) {
+          console.warn(error);
+        }
+
+        swalModal(
+          "flight",
+          // reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
+          "Booking failed, your amount will be refunded within 72 hours.",
+          false
+        );
+        navigate("/");
+      }
+    };
+
+    fetchData(); // Call the async function
+
+    // Cleanup function
+    const cleanup = () => {
+      // Perform cleanup tasks here if needed
+      // For example, unsubscribe from event listeners or clear timers
+    };
+
+    // Return cleanup function
+    return cleanup;
+
+  }, [reducerState?.flightBook?.flightBookDataGDS?.Response]);
+
 
   useEffect(() => {
     if (
@@ -413,7 +472,62 @@ const ReturnReviewBooking = () => {
 
   }, [reducerState?.flightBook?.flightBookDataReturn?.Response]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      if (
+        reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorMessage === ""
+      ) {
+        setLoaderPayment(false);
+        navigate("/bookedTicketWithReturn");
+      } else if (
+        reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorCode !== 0 &&
+        reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorCode !== undefined
+      ) {
 
+        try {
+          const token = SecureStorage.getItem("jwtToken");
+          const payload = {
+            "refund_amount": transactionAmount - (Number(fareValue?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare))) ||
+              (Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
+            // "refund_amount": 1,
+            "txnId": refundTxnId,
+          }
+
+          const res = await axios({
+            method: "POST",
+            url: `${apiURL.baseURL}/skyTrails/api/transaction/refundPolicy`,
+            data: payload,
+            headers: {
+              "Content-Type": "application/json",
+              token: token,
+            },
+          });
+        } catch (error) {
+          console.warn(error);
+        }
+
+        swalModal(
+          "flight",
+          "Booking failed, your amount will be refunded within 72 hours.",
+          // reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorMessage,
+          false
+        );
+        navigate("/");
+      }
+    };
+
+    fetchData(); // Call the async function
+
+    // Cleanup function (if needed)
+    const cleanup = () => {
+      // Perform cleanup tasks here if needed
+      // For example, unsubscribe from event listeners or clear timers
+    };
+
+    // Return cleanup function
+    return cleanup;
+
+  }, [reducerState?.flightBook?.flightBookDataGDSReturn?.Response]);
 
   useEffect(() => {
     if (
@@ -831,14 +945,12 @@ const ReturnReviewBooking = () => {
                     const nextFlight = flightDeparture[0][index + 1];
                     let layoverHours = 0;
                     let layoverMinutes = 0;
+                    let layoverDuration = 0;
 
                     if (nextFlight) {
                       const arrivalTime = dayjs(item?.Destination?.ArrTime);
                       const departureTime = dayjs(nextFlight?.Origin?.DepTime);
-                      const layoverDuration = departureTime.diff(
-                        arrivalTime,
-                        "minutes"
-                      ); // Calculate difference in minutes
+                      layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
                       layoverHours = Math.floor(layoverDuration / 60); // Extract hours
                       layoverMinutes = layoverDuration % 60;
                     }
@@ -928,11 +1040,9 @@ const ReturnReviewBooking = () => {
                           </div>
                         </div>
                         <div>
-                          {layoverHours !== 0 && layoverMinutes !== 0 && (
-                            <p className="text-bold">
-                              Layover Time: {layoverHours} hours{" "}
-                              {layoverMinutes} minutes
-                            </p>
+                          {(layoverDuration !== 0) && (
+                            <p className="text-bold">Layover Time: {layoverHours !== 0 && `${layoverHours} hours`} {layoverMinutes !== 0 && `${layoverMinutes} minutes`}</p>
+
                           )}
                         </div>
                       </>
@@ -980,14 +1090,12 @@ const ReturnReviewBooking = () => {
                     const nextFlight = flightReturn?.[0][index + 1];
                     let layoverHours = 0;
                     let layoverMinutes = 0;
+                    let layoverDuration = 0;
 
                     if (nextFlight) {
                       const arrivalTime = dayjs(item?.Destination?.ArrTime);
                       const departureTime = dayjs(nextFlight?.Origin?.DepTime);
-                      const layoverDuration = departureTime.diff(
-                        arrivalTime,
-                        "minutes"
-                      ); // Calculate difference in minutes
+                      layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
                       layoverHours = Math.floor(layoverDuration / 60); // Extract hours
                       layoverMinutes = layoverDuration % 60;
                     }
@@ -1077,11 +1185,9 @@ const ReturnReviewBooking = () => {
                           </div>
                         </div>
                         <div>
-                          {layoverHours !== 0 && layoverMinutes !== 0 && (
-                            <p className="text-bold">
-                              Layover Time: {layoverHours} hours{" "}
-                              {layoverMinutes} minutes
-                            </p>
+                          {(layoverDuration !== 0) && (
+                            <p className="text-bold">Layover Time: {layoverHours !== 0 && `${layoverHours} hours`} {layoverMinutes !== 0 && `${layoverMinutes} minutes`}</p>
+
                           )}
                         </div>
                       </>

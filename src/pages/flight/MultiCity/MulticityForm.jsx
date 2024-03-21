@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { apiURL } from "../../../Constants/constant";
 import { ipAction, tokenAction } from "../../../Redux/IP/actionIp";
-import { oneWayAction, resetOneWay } from "../../../Redux/FlightSearch/oneWay";
+// import { oneWayAction, resetOneWay } from "../../../Redux/FlightSearch/oneWay";
 import { useNavigate } from "react-router-dom";
 import FlightTakeoffTwoToneIcon from "@mui/icons-material/FlightTakeoffTwoTone";
 import FlightLandIcon from '@mui/icons-material/FlightLand';
@@ -18,18 +18,19 @@ import DialogContent from "@mui/material/DialogContent";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
-// import TravelerCounter from "./TravelerCounter";
 import TravelerCounter from "../../../components/TravelerCounter";
 import { CiSearch } from "react-icons/ci";
 import { clearbookTicketGDS } from "../../../Redux/FlightBook/actionFlightBook";
 import { resetAllFareData } from "../../../Redux/FlightFareQuoteRule/actionFlightQuote";
 import { Helmet } from "react-helmet-async";
-import SecureStorage from 'react-secure-storage';
-import { returnAction, returnActionClear } from "../../../Redux/FlightSearch/Return/return";
+// import SecureStorage from 'react-secure-storage';
 import { swalModal } from "../../../utility/swal"
+import "./multicity.css"
+import dayjs from "dayjs";
+import { multicityAction, multicityActionClear } from "../../../Redux/FlightSearch/Multicity/multicity";
 
 
-const ReturnForm = () => {
+const MulticityForm = () => {
 
 
     const reducerState = useSelector((state) => state);
@@ -51,38 +52,15 @@ const ReturnForm = () => {
     const [fromSearchResults, setFromSearchResults] = useState([]);
     const [fromQuery, setFromQuery] = useState("delhi");
     const [isLoading, setIsLoading] = useState(false);
-    useEffect(() => {
-        console.log(reducerState, "reducer state")
-    }, [])
-
+    const [trips, setTrips] = useState([]);
 
 
     const [startDate, setStartDate] = useState(new Date());
-    const [returnDate, setReturnDate] = useState(new Date());
     const currentdate = new Date();
 
     const handleDateChange = (date) => {
         setStartDate(date);
     };
-    const handleDateChangeReturn = (date) => {
-        setReturnDate(date);
-    };
-
-
-    useEffect(() => {
-        setReturnDate(prevReturnDate => {
-            if (startDate > prevReturnDate) {
-                return startDate;
-            }
-            return prevReturnDate;
-        });
-    }, [startDate]);
-
-    useEffect(() => {
-        dispatch(returnActionClear())
-
-    }, [])
-
 
 
 
@@ -120,20 +98,6 @@ const ReturnForm = () => {
 
 
 
-    useEffect(() => {
-        const storedData = SecureStorage.getItem('revisitReturnData');
-        const parsedStoredData = JSON?.parse(storedData);
-        if (storedData) {
-            setSelectedFrom(parsedStoredData[0]);
-            setSelectedTo(parsedStoredData[1]);
-        } else {
-            setSelectedFrom(initialSelectedFromData);
-            setSelectedTo(initialSelectedToData);
-        }
-    }, []);
-
-
-
 
     const [from, setFrom] = useState("");
     const [isLoadingFrom, setIsLoadingFrom] = useState(false);
@@ -143,7 +107,6 @@ const ReturnForm = () => {
     const [displayFrom, setdisplayFrom] = useState(true);
     const [toQuery, setToQuery] = useState("mumbai");
     const [to, setTO] = useState("");
-    // const [isLoadingTo, setIsLoadingTo] = useState(false);
     const [toSearchResults, setToSearchResults] = useState([]);
     const [loader, setLoader] = useState(false);
     const [displayTo, setdisplayTo] = useState(true);
@@ -158,53 +121,9 @@ const ReturnForm = () => {
     const [departureDate, setDepartureDate] = useState("");
 
 
-    useEffect(() => {
-        if (reducerState?.return?.isLoading === true) {
-            setLoader(true);
-        }
-    }, [reducerState?.return?.isLoading]);
 
 
-    const returnResults =
-        reducerState?.return?.returnData?.data?.data?.Response?.Results;
 
-
-    useEffect(() => {
-
-        // console.log(returnResults,'result return')
-
-        if (returnResults) {
-            // navigate("/FlightresultReturn");
-            if (returnResults[1] !== undefined) {
-                navigate(`/ReturnResult`);
-            } else {
-                navigate("/ReturnResultInternational");
-            }
-        }
-
-
-        if (returnResults) {
-            setLoader(false);
-        }
-    }, [
-        reducerState?.return?.returnData?.data?.data?.Response?.Results
-    ]);
-
-    useEffect(() => {
-        if (reducerState?.return?.returnData?.data?.data?.Response?.
-            Error?.ErrorCode !== 0 && reducerState?.return?.returnData?.data?.data?.Response?.
-                Error?.ErrorCode !== undefined) {
-            // navigate("/return")
-            dispatch(returnActionClear());
-            swalModal("flight", reducerState?.return?.returnData?.data?.data?.Response?.
-                Error?.
-                ErrorMessage, false
-
-            )
-            setLoader(false)
-        }
-    }, [reducerState?.return?.returnData?.data?.data?.Response?.
-        Error?.ErrorCode])
 
 
     const handleTravelerCountChange = (category, value) => {
@@ -266,6 +185,54 @@ const ReturnForm = () => {
 
 
     // End
+
+
+
+    useEffect(() => {
+        if (reducerState?.multicity?.isLoading === true) {
+            setLoader(true);
+        }
+    }, [reducerState?.multicity?.isLoading]);
+
+
+    const returnResults =
+        reducerState?.multicity?.multicityData?.data?.data?.Response?.Results;
+
+
+    useEffect(() => {
+
+        if (returnResults) {
+
+            navigate("/multicityresult");
+        }
+        if (returnResults) {
+            setLoader(false);
+        }
+    }, [
+        reducerState?.multicity?.multicityData?.data?.data?.Response?.Results
+    ]);
+
+    useEffect(() => {
+        if (reducerState?.multicity?.multicityData?.data?.data?.Response?.
+            Error?.ErrorCode !== 0 && reducerState?.multicity?.multicityData?.data?.data?.Response?.
+                Error?.ErrorCode !== undefined) {
+            // navigate("/return")
+            dispatch(multicityActionClear());
+            swalModal("flight", reducerState?.multicity?.multicityData?.data?.data?.Response?.
+                Error?.
+                ErrorMessage, false
+
+            )
+            setLoader(false)
+        }
+    }, [reducerState?.multicity?.multicityData?.data?.data?.Response?.
+        Error?.ErrorCode])
+
+    useEffect(() => {
+        dispatch(multicityActionClear())
+
+    }, [])
+
 
     const toSearchRef = useRef(null);
     const toCityRef = useRef(null);
@@ -374,6 +341,7 @@ const ReturnForm = () => {
     };
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     useEffect(() => {
         dispatch(ipAction());
     }, []);
@@ -385,58 +353,31 @@ const ReturnForm = () => {
         dispatch(tokenAction(payload));
     }, [reducerState?.ip?.ipData]);
 
+
     const [data2, setData] = useState({
         adult: 0,
         child: 0,
         infants: 0,
         class: "1",
     });
+
     const handleKeyDown = (event) => {
         if (event.key === 'Enter') {
             event.preventDefault();
         }
     };
+
     const sendTravelClass = (data2) => {
         setData(data2);
     };
 
-    useEffect(() => {
-        dispatch(resetOneWay());
-    }, [dispatch, departureDate]);
 
 
 
-    function handleOnewaySubmit(event) {
+
+    function handleSubmit(event) {
 
         event.preventDefault();
-
-        const formData = new FormData(event.target);
-        setDepartureDate(formData.get("departure"));
-
-        // const payload = {
-        //     EndUserIp: reducerState?.ip?.ipData,
-        //     TokenId: reducerState?.ip?.tokenData,
-        //     AdultCount: activeIdAdult,
-        //     ChildCount: activeIdChild,
-        //     InfantCount: activeIdInfant,
-        //     DirectFlight: "false",
-        //     OneStopFlight: "false",
-        //     JourneyType: data2.class || "1",
-        //     PreferredAirlines: null,
-        //     Segments: [
-        //         {
-        //             Origin: selectedFrom.AirportCode,
-        //             Destination: selectedTo.AirportCode,
-        //             FlightCabinClass: activeIdClass,
-        //             PreferredDepartureTime: formData.get("departure"),
-        //             PreferredArrivalTime: formData.get("departure"),
-        //         },
-        //     ],
-        //     Sources: null,
-        // };
-
-
-
 
 
         const payload = {
@@ -447,65 +388,29 @@ const ReturnForm = () => {
             InfantCount: activeIdInfant,
             DirectFlight: "false",
             OneStopFlight: "false",
-            JourneyType: "2",
+            JourneyType: "3",
             PreferredAirlines: null,
-            Segments: [
-                {
-                    Origin: selectedFrom.AirportCode,
-                    Destination: selectedTo.AirportCode,
-                    FlightCabinClass: activeIdClass,
-                    PreferredDepartureTime: formData.get("departure"),
-                    PreferredArrivalTime: formData.get("departure"),
-                },
-                {
-                    Origin: selectedTo.AirportCode,
-                    Destination: selectedFrom.AirportCode,
-                    FlightCabinClass: activeIdClass,
-                    PreferredDepartureTime: formData.get("departure1"),
-                    PreferredArrivalTime: formData.get("departure1"),
-                },
-            ],
+            Segments: trips.map((trip) => ({
+                Origin: trip.from.AirportCode,
+                Destination: trip.to.AirportCode,
+                FlightCabinClass: activeIdClass,
+                PreferredDepartureTime: dayjs(trip.departureDate).format("DD MMM, YY"),
+                PreferredArrivalTime: dayjs(trip.departureDate).format("DD MMM, YY"),
+            })),
             Sources: null,
         };
 
-
-        SecureStorage.setItem(
-            "revisitReturnData", JSON.stringify([
-                {
-                    AirportCode: selectedFrom.AirportCode,
-                    CityCode: selectedFrom.CityCode,
-                    CountryCode: selectedFrom.CountryCode,
-                    code: selectedFrom.code,
-                    createdAt: selectedFrom.createdAt,
-                    id: selectedFrom.id,
-                    name: selectedFrom.name,
-                    updatedAt: selectedFrom.updatedAt,
-                    __v: selectedFrom._v,
-                    _id: selectedFrom._id,
-                },
-                {
-                    AirportCode: selectedTo.AirportCode,
-                    CityCode: selectedTo.CityCode,
-                    CountryCode: selectedTo.CountryCode,
-                    code: selectedTo.code,
-                    createdAt: selectedTo.createdAt,
-                    id: selectedTo.id,
-                    name: selectedTo.name,
-                    updatedAt: selectedTo.updatedAt,
-                    __v: selectedTo._v,
-                    _id: selectedTo._id,
-                },
-
-            ])
-        )
-
-
+        // console.log(payload, "multi city payload")
 
         sessionStorage.setItem("adults", activeIdAdult);
         sessionStorage.setItem("childs", activeIdChild);
         sessionStorage.setItem("infants", activeIdInfant);
 
-        dispatch(returnAction(payload));
+        // navigate(
+        //     `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
+        // );
+
+        dispatch(multicityAction(payload));
 
     }
 
@@ -521,10 +426,35 @@ const ReturnForm = () => {
         return <FlightLoader />;
     }
 
+
+
+
+    const handleAddTrip = (e) => {
+        e.preventDefault();
+        if (trips.length < 4) {
+            const newTrip = {
+                from: selectedFrom,
+                to: selectedTo,
+                departureDate: startDate,
+            };
+            setTrips([...trips, newTrip]);
+        }
+    };
+
+    const handleDeleteTrip = (e) => {
+        const updatedTrips = [...trips];
+        updatedTrips.splice(e, 1);
+        setTrips(updatedTrips);
+    };
+
+
+    // console.log(reducerState, "trips")
+
+
     return (
         <>
             <section
-                className="oneWayAbsDesign"
+                className="oneWayAbsDesignMulticity"
             >
                 <Helmet>
                     <title>The Skytrails - Flight Booking, Hotel Booking, Bus Booking</title>
@@ -538,8 +468,8 @@ const ReturnForm = () => {
                 <div className="container">
                     <div className="row oneWayBg">
                         <div className="col-12 p-0">
-                            <form onSubmit={handleOnewaySubmit}>
-                                <div className="your-containerReturn">
+                            <form >
+                                <div className="your-containerMulticity">
                                     <div
                                         onClick={(e) => {
                                             e.stopPropagation();
@@ -550,7 +480,7 @@ const ReturnForm = () => {
                                                 fromCityRef.current.focus();
                                             }, 200);
                                         }}
-                                        className="from-container"
+                                        className="from-containerMulticity"
                                         id="item-0Return"
                                     >
                                         <span>From</span>
@@ -704,7 +634,7 @@ const ReturnForm = () => {
                                                 toCityRef?.current?.focus();
                                             }, 300)
                                         }}
-                                        className="from-container"
+                                        className="from-containerMulticity"
                                         id="item-1Return"
                                     >
                                         <span>To</span>
@@ -807,7 +737,8 @@ const ReturnForm = () => {
                                             <span className="d-none d-md-block ">Airport Name</span>
                                         )}
                                     </div>
-                                    <div className="from-container" id="item-2Return">
+
+                                    <div className="from-containerMulticity" id="item-2Return">
                                         <span>Departure</span>
                                         <div className="">
                                             <div className="onewayDatePicker">
@@ -823,25 +754,9 @@ const ReturnForm = () => {
                                         </div>
                                         <span className="d-none d-md-block ">{getDayOfWeek(startDate)}</span>
                                     </div>
-                                    <div className="from-container" id="item-3Return">
-                                        <span>Return</span>
-                                        <div className="">
-                                            <div className="onewayDatePicker">
-                                                <DatePicker
-                                                    name="departure1"
-                                                    id="departure1"
-                                                    dateFormat="dd MMM, yy"
-                                                    selected={returnDate}
-                                                    onChange={handleDateChangeReturn}
-                                                    minDate={startDate}
-                                                />
-                                            </div>
-                                        </div>
-                                        {/* <span className="d-none d-md-block ">{getDayOfWeek(startDate)}</span> */}
-                                        <span className="d-none d-md-block ">{getDayOfWeek(returnDate)}</span>
-                                    </div>
 
-                                    <div className="travellerContainer " id="item-4Return">
+
+                                    <div className="travellerContainerMulticity " id="item-4Return">
                                         <div
                                             onClick={handleTravelClickOpen}
                                             className="travellerButton"
@@ -954,12 +869,48 @@ const ReturnForm = () => {
                                             </DialogActions>
                                         </Dialog>
                                     </div>
+
+
+
+
                                     <div className=" onewaySearch" id="item-5Return">
-                                        <button type="submit" className="searchButt">
-                                            <h3 className="mb-0">Search</h3>
+                                        <button className="searchButt" onClick={handleAddTrip}>
+                                            <h3 className="mb-0">ADD</h3>
                                         </button>
                                     </div>
+
                                 </div>
+                                {trips.map((trip, index) => (
+                                    <div key={index} className="addedCityBox">
+                                        <div>
+                                            <p>{trip.from.name}</p>
+                                        </div>
+                                        <div>
+                                            <p>{trip.to.name}</p>
+                                        </div>
+                                        <div>
+                                            <p>{dayjs(trip.departureDate).format("DD MMM, YY")}</p>
+                                        </div>
+                                        <div>
+                                            <button type="button" onClick={() => handleDeleteTrip(index)}>Delete</button>
+                                        </div>
+                                    </div>
+                                ))}
+
+                                {
+                                    trips.length === 1 && (
+                                        <div className="pleaseADDD">
+                                            <p>Please Add 1 More Destination to Search</p>
+                                        </div>
+                                    )
+                                }
+                                {
+                                    trips.length > 1 && (
+                                        <div className="pleaseADDD">
+                                            <button type="submit" onClick={handleSubmit}>Search</button>
+                                        </div>
+                                    )
+                                }
                             </form>
                         </div>
                     </div>
@@ -969,4 +920,4 @@ const ReturnForm = () => {
     );
 }
 
-export default ReturnForm;
+export default MulticityForm;

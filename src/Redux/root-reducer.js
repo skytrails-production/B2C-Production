@@ -14,6 +14,7 @@ import storage from "redux-persist/lib/storage/session";
 import { passengersReducer } from "./Passengers/passengerReducer";
 // import {packageBookingReducer} from "./HolidayBook/bookingHolidayReducer"
 import { returnReducer } from "./FlightSearch/Return/returnReducer";
+import { multicityReducer } from "./FlightSearch/Multicity/multicityReducer";
 import { busSearchReducer } from "./busSearch/busSearchReducer";
 import { packageBookIDReducer } from "./HolidayBookingRequest/bookingHolidayReducer";
 import { packageBookingIDReducer } from "./BookingPackageData/bookingHolidayReducer";
@@ -23,6 +24,7 @@ const appReducer = combineReducers({
   logIn: logInReducer,
   oneWay: oneWayReducer,
   return: returnReducer,
+  multicity: multicityReducer,
   ip: ipReducer,
   flightFare: flightFareReducer,
   flightBook: flightBookReducer,
@@ -32,32 +34,30 @@ const appReducer = combineReducers({
   searchOneResult: searchOnePackageReducer,
   packageBook: packageBookingReducer,
   packageBookingID: packageBookingIDReducer,
-
   markup: markUpDataReducer,
-
   passengers: passengersReducer,
 
 });
 
 const rootReducer = (state, action) => {
   if (action.type === LOGOUT_REQUEST) {
-  storage.removeItem("persist:root");
-  sessionStorage.clear();
-  localStorage.clear();
-  return appReducer(undefined, action);
+    storage.removeItem("persist:root");
+    sessionStorage.clear();
+    localStorage.clear();
+    return appReducer(undefined, action);
   } else
-  if (action.type === "CLEAR_ONEWAY_REDUCER") {
-    return {
-      ...state,
-      oneWay: oneWayReducer(undefined, action),
-    };
-  }
-  else if (action.type === "CLEAR_BUS_SEARCH_REDUCER") {
-    return {
-      ...state,
-      getBusResult: busSearchReducer(undefined, action),
-    };
-  }
+    if (action.type === "CLEAR_ONEWAY_REDUCER") {
+      return {
+        ...state,
+        oneWay: oneWayReducer(undefined, action),
+      };
+    }
+    else if (action.type === "CLEAR_BUS_SEARCH_REDUCER") {
+      return {
+        ...state,
+        getBusResult: busSearchReducer(undefined, action),
+      };
+    }
   // else if (action.type === "CLEAR_HOTEL_REDUCER") {
   //   return {
   //     ...state,

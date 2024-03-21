@@ -79,6 +79,10 @@ import BookedTicketInternationalDB from './pages/flight/ReturnFlight/BookedTicke
 import { useNetworkState } from "react-use"
 import Offline from "./components/Offline"
 import HolidayBudgetDetails from './pages/holidaypackages/holidayCategory/HolidayBudgetDetails';
+import MulticityResult from './pages/flight/MultiCity/MulticityResult';
+import MulticityPassengerDetails from './pages/flight/MultiCity/MulticityPassengerDetails';
+import MulticityReviewBooking from './pages/flight/MultiCity/MulticityReviewBooking';
+import BookedTicketMulticityDB from './pages/flight/MultiCity/BookedTicketMulticityDB';
 
 
 
@@ -230,12 +234,16 @@ function App() {
 
       <Routes>
         <Route index element={<Home />}></Route>
-        <Route path="/Return" element={<ReturnMain />}></Route>
+        {/* <Route path="/Return" element={<ReturnMain />}></Route> */}
         <Route path="/ReturnResult" element={<ReturnResult />}></Route>
         <Route path="/ReturnResultInternational" element={<ReturnResultInternational />}></Route>
         <Route path="/ReturnResultInternational/PassengerDetailsInternational" element={<PassengerInternational />}></Route>
         <Route path="/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational" element={<ReturnReviewInternational />}></Route>
         <Route path="/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl" element={<BookedTicketInternationalDB />}></Route>
+        <Route path="/multicityresult" element={<MulticityResult />}></Route>
+        <Route path="/multicityresult/PassengerDetailsMulticity" element={<MulticityPassengerDetails />}></Route>
+        <Route path="/multicityresult/PassengerDetailsMulticity/multicityreviewbooking" element={<MulticityReviewBooking />}></Route>
+        <Route path="/multicityresult/PassengerDetailsMulticity/multicityreviewbooking/bookedTicketMulticityDB" element={<BookedTicketMulticityDB />}></Route>
         <Route
           exact
           path="/FlightresultReturn/Passengerdetail"

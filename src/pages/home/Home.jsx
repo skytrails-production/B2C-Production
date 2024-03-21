@@ -22,6 +22,7 @@ import ReturnForm from "../flight/ReturnFlight/ReturnForm";
 import SecureStorage from "react-secure-storage";
 import Partners from "./Partners";
 import EventBanner from "./EventBanner";
+import MulticityForm from "../flight/MultiCity/MulticityForm";
 
 const variants = {
   initial: {
@@ -108,11 +109,23 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                 />
                 <label htmlFor="return">Return</label>
               </div>
+              <div className={activeTab === "multicity" ? "inputTabs" : ""}>
+                <input
+                  type="radio"
+                  id="multicity"
+                  name="tab"
+                  value="multicity"
+                  checked={activeTab === "multicity"}
+                  onChange={handleTabChange}
+                />
+                <label htmlFor="multicity">Multicity</label>
+              </div>
             </div>
           </div>
         </div>
         {activeTab === 'oneway' && <Oneway />}
         {activeTab === 'return' && <ReturnForm />}
+        {activeTab === 'multicity' && <MulticityForm />}
       </div>
 
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>

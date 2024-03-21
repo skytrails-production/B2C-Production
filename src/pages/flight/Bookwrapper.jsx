@@ -333,7 +333,8 @@ export default function BookWrapper() {
       if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {
         setLoaderPayment(false);
         navigate("/bookedTicket");
-      } else if (
+      }
+      else if (
         reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
         reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== undefined
       ) {
@@ -370,6 +371,7 @@ export default function BookWrapper() {
         );
         navigate("/");
       }
+
     };
 
     fetchData(); // Call the async function
@@ -384,6 +386,66 @@ export default function BookWrapper() {
     return cleanup;
 
   }, [reducerState?.flightBook?.flightBookData?.Response]);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage === "") {
+        setLoaderPayment(false);
+        navigate("/bookedTicket");
+      }
+      else if (
+        reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
+        reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== undefined
+      ) {
+
+        try {
+          const token = SecureStorage.getItem("jwtToken");
+          const payload = {
+            "refund_amount": transactionAmount ||
+              (!isDummyTicketBooking
+                ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                : 99),
+            // "refund_amount": 1,
+            "txnId": refundTxnId,
+          }
+
+          const res = await axios({
+            method: "POST",
+            url: `${apiURL.baseURL}/skyTrails/api/transaction/refundPolicy`,
+            data: payload,
+            headers: {
+              "Content-Type": "application/json",
+              token: token,
+            },
+          });
+        } catch (error) {
+          console.warn(error);
+        }
+
+        swalModal(
+          "flight",
+          // reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
+          "Booking failed, your amount will be refunded within 72 hours.",
+          false
+        );
+        navigate("/");
+      }
+
+    };
+
+    fetchData(); // Call the async function
+
+    // Cleanup function (if needed)
+    const cleanup = () => {
+      // Perform cleanup tasks here if needed
+      // For example, unsubscribe from event listeners or clear timers
+    };
+
+    // Return cleanup function
+    return cleanup;
+
+  }, [reducerState?.flightBook?.flightBookDataGDS?.Response]);
 
 
 
@@ -950,20 +1012,14 @@ export default function BookWrapper() {
                               TicketDetails?.Segments[0][index + 1];
                             let layoverHours = 0;
                             let layoverMinutes = 0;
+                            let layoverDuration = 0;
 
                             if (nextFlight) {
-                              const arrivalTime = dayjs(
-                                item?.Destination?.ArrTime
-                              );
-                              const departureTime = dayjs(
-                                nextFlight?.Origin?.DepTime
-                              );
-                              const layoverDuration = departureTime.diff(
-                                arrivalTime,
-                                "minutes"
-                              ); // Calculate difference in minutes
+                              const arrivalTime = dayjs(item?.Destination?.ArrTime);
+                              const departureTime = dayjs(nextFlight?.Origin?.DepTime);
+                              layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
                               layoverHours = Math.floor(layoverDuration / 60); // Extract hours
-                              layoverMinutes = layoverDuration % 60; // Extract remaining minutes
+                              layoverMinutes = layoverDuration % 60;
                             }
                             return (
                               <>
@@ -1045,13 +1101,9 @@ export default function BookWrapper() {
                                   </div>
                                 </div>
                                 <div>
-                                  {layoverHours !== 0 &&
-                                    layoverMinutes !== 0 && (
-                                      <p className="text-bold">
-                                        Layover Time: {layoverHours} hours{" "}
-                                        {layoverMinutes} minutes
-                                      </p>
-                                    )}
+                                  {(layoverDuration !== 0) && (
+                                    <p className="text-bold">Layover Time: {layoverHours !== 0 && `${layoverHours} hours`} {layoverMinutes !== 0 && `${layoverMinutes} minutes`}</p>
+                                  )}
                                 </div>
                               </>
                             );

@@ -623,7 +623,7 @@ body .form-group:not(:last-child) {
 
 .tabBox {
     display: flex;
-    width: 200px;
+    width: 310px;
     gap: 5px;
     background-color: #fff;
     padding: 5px;
