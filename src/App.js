@@ -96,32 +96,35 @@ function App() {
 
   const notOnline = useNetworkState();
   // console.log(state, "network state..............")
-  // useEffect(() => {
-  //   const disableInspect = (e) => {
-  //     if (
-  //       e.shiftKey && e.ctrlKey && e.keyCode === 123 || // F12
-  //       e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74) || // Ctrl + Shift + I/J
-  //       e.ctrlKey && e.keyCode === 85 // Ctrl + U
-  //     ) {
-  //       e.preventDefault();
-  //       return false;
-  //     }
-  //   };
 
-  //   const disableRightClick = (e) => {
-  //     e.preventDefault();
-  //   };
+  
+  useEffect(() => {
+    const disableInspect = (e) => {
+      if (
+        e.shiftKey && e.ctrlKey && e.keyCode === 123 || // F12
+        e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74) || // Ctrl + Shift + I/J
+        e.ctrlKey && e.keyCode === 85 // Ctrl + U
+      ) {
+        e.preventDefault();
+        return false;
+      }
+    };
 
-  //   document.addEventListener('keydown', disableInspect);
-  //   document.addEventListener('contextmenu', disableRightClick);
+    const disableRightClick = (e) => {
+      e.preventDefault();
+    };
 
-  //   return () => {
-  //     document.removeEventListener('keydown', disableInspect);
-  //     document.removeEventListener('contextmenu', disableRightClick);
-  //   };
-  // }, []);
+    document.addEventListener('keydown', disableInspect);
+    document.addEventListener('contextmenu', disableRightClick);
+
+    return () => {
+      document.removeEventListener('keydown', disableInspect);
+      document.removeEventListener('contextmenu', disableRightClick);
+    };
+  }, []);
 
 
+  
 
 
   useEffect(() => {
