@@ -125,9 +125,9 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         </div>
         {activeTab === 'oneway' && <Oneway />}
         {activeTab === 'return' && <ReturnForm />}
-        <div className="d-none d-sm-block">
+        {/* <div className="d-none d-sm-block"> */}
           {activeTab === 'multicity' && <MulticityForm />}
-        </div>
+        {/* </div> */}
       </div>
 
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
