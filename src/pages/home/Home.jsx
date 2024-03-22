@@ -109,7 +109,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                 />
                 <label htmlFor="return">Return</label>
               </div>
-              <div className={activeTab === "multicity" ? "inputTabs" : ""}>
+              <div className={activeTab === "multicity" ? "d-none d-sm-block inputTabs" : "d-none d-sm-block "}>
                 <input
                   type="radio"
                   id="multicity"
@@ -125,7 +125,9 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         </div>
         {activeTab === 'oneway' && <Oneway />}
         {activeTab === 'return' && <ReturnForm />}
-        {activeTab === 'multicity' && <MulticityForm />}
+        <div className="d-none d-sm-block">
+          {activeTab === 'multicity' && <MulticityForm />}
+        </div>
       </div>
 
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
