@@ -225,7 +225,7 @@ const Hotelpackages = () => {
         <HolidaySuggestion variants={variants} />
       </motion.div>
 
-      <motion.div
+      {/* <motion.div
         variants={variants}
         initial="initial"
         whileInView="animate"
@@ -233,7 +233,7 @@ const Hotelpackages = () => {
         style={{ position: "relative" }}
       >
         <EventBanner focusDownload={focusDownload} variants={variants} />
-      </motion.div>
+      </motion.div> */}
 
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <HolidayDomestic variants={variants} />

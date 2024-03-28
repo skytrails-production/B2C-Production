@@ -134,7 +134,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         <HolidayCategory variants={variants} />
       </motion.div>
 
-      <motion.div
+      {/* <motion.div
         variants={variants}
         initial="initial"
         whileInView="animate"
@@ -142,7 +142,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         style={{ position: "relative" }}
       >
         <EventBanner focusDownload={focusDownload} variants={variants} />
-      </motion.div>
+      </motion.div> */}
 
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <HolidayBudget variants={variants} />

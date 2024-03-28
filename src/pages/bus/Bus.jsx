@@ -59,7 +59,7 @@ const Taxi = () => {
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <HolidayBudget variants={variants} />
       </motion.div>
-      <motion.div
+      {/* <motion.div
         variants={variants}
         initial="initial"
         whileInView="animate"
@@ -67,7 +67,7 @@ const Taxi = () => {
         style={{ position: "relative" }}
       >
         <EventBanner variants={variants} />
-      </motion.div>
+      </motion.div> */}
       <motion.div variants={variants} initial="initial" viewport={{ once: true, amount: 0.8 }} whileInView="animate">
         <FLightOffer variants={variants} />
       </motion.div>
