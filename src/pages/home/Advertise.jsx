@@ -19,7 +19,9 @@ const Advertise = () => {
                     const response = await axios.get(`${apiURL.baseURL}/skyTrails/api/user/getWebBanner`);
                     const data = response.data.result;
                     const jsonData = JSON.stringify(data);
+                    // console.log(jsonData,"data");
                     sessionStorage.setItem("advertise", jsonData);
+                    
                 } catch (error) {
                     console.error('Error fetching data:', error);
                 }
@@ -30,6 +32,8 @@ const Advertise = () => {
     }, [localData]);
 
 
+
+    
 
     const settings = {
         draggable: true,
@@ -49,12 +53,20 @@ const Advertise = () => {
         <div className=' advertise-container paddMobile'  >
             <div className="container p-0 mt-4">
                 <Slider {...settings}>
-                    {localDataArray?.map((ad) => (
+                     {/* {localDataArray?.map((ad) => (
                         <div className="slick-slide advertise-slide" key={ad._id}>
                             <img style={{ cursor: "pointer" }} src={ad.image} alt={ad.title} loading='lazy' />
+                            {/* <img style={{ cursor: "pointer" }} onClick={() => navigate("/pefaevent")} src={ad.image} alt={ad.title} loading='lazy' /> 
+                         </div> 
+                    ))}  */}
+                    
+                        <div className="slick-slide advertise-slide">
+                            <a href="https://www.nsw.gov.au/visiting-and-exploring-nsw/nsw-events/vivid-sydney-2024" target='_blank' rel="noreferrer">
+                            <img style={{ cursor: "pointer" }} src={localDataArray[1]?.image} alt={localDataArray[1]?.title} loading='lazy' />
+                            </a>
                             {/* <img style={{ cursor: "pointer" }} onClick={() => navigate("/pefaevent")} src={ad.image} alt={ad.title} loading='lazy' /> */}
                         </div>
-                    ))}
+                    
                 </Slider>
             </div>
         </div>

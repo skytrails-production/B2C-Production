@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { FaLongArrowAltRight } from "react-icons/fa";
 import "./bookingHistory.css";
 import { FaUserFriends } from "react-icons/fa";
@@ -14,12 +15,15 @@ import SecureStorage from "react-secure-storage";
 
 const FlightHistory = () => {
   const [flightBookingData, setFlightBookingData] = useState([]);
+  const reducerState = useSelector((state) => state);
 
   const [loading, setLoading] = useState(true);
 
+  const [cancelLoading, setCancelLoading] = useState(false);
+
   const [responseMessage, setResponseMessage] = useState(false);
 
-  // change flight request
+  const [cancellationCharges, setCancellationCharges] = useState([]);
 
   const style = {
     position: "absolute",
@@ -31,7 +35,6 @@ const FlightHistory = () => {
     boxShadow: 10,
   };
 
-  
   const [loadingCancelRequest, setLoadingCancelRequest] = useState(false);
 
   const [openModalChange, setOpenModalChange] = useState(false);
@@ -203,8 +206,6 @@ const FlightHistory = () => {
     }
   };
 
-  // cancel flight request
-
   const currentDate = new Date();
 
   if (loading) {
@@ -219,6 +220,45 @@ const FlightHistory = () => {
     );
   }
 
+  //cancelFlight
+  const getCancellationCharges = async (item) => {
+    try {
+      // setCancelLoading(true);
+
+      setCancelLoading((prevState) => ({
+        ...prevState,
+        [item._id]: true,
+      }));
+      const requestData = {
+        BookingId: item?.bookingId,
+        RequestType: "1",
+        BookingMode: "5",
+        EndUserIp: reducerState?.ip?.ipData,
+        TokenId: reducerState?.ip?.tokenData,
+      };
+
+      const response = await axios.post(
+        `${apiURL.baseURL}/skyTrails/flight/getcancellationcharges`,
+        requestData
+      );
+      // setCancelLoading(false);
+      setCancelLoading((prevState) => ({
+        ...prevState,
+        [item._id]: false,
+      }));
+      if (response.data.ErrorCode) {
+        handleModalOpenCancelRequest();
+        setCancellationCharges(response.data.ErrorCode.ErrorMessage);
+      } else {
+        handleModalOpenCancelRequest();
+        setCancellationCharges(response.data);
+      }
+
+      console.log("Cancellation charges:", response.data);
+    } catch (error) {
+      console.error("Error fetching cancellation charges:", error);
+    }
+  };
   return (
     <>
       {flightBookingData.length == 0 && !loading ? (
@@ -368,11 +408,15 @@ const FlightHistory = () => {
                         </button>
                         <button
                           onClick={() => {
-                            handleModalOpenCancelRequest();
                             setSelectedFlight(item);
+                            getCancellationCharges(item);
                           }}
                         >
-                          Cancel Request
+                          {cancelLoading[item._id] ? (
+                            <SpinnerCircular size={30} color="#ffffff" />
+                          ) : (
+                            "Cancel Request"
+                          )}
                         </button>
                       </div>
                     )}
@@ -497,13 +541,132 @@ const FlightHistory = () => {
                   <Box sx={style}>
                     <div className="modal-boxChange">
                       <div className="modal-header">
-                        <h2>Cancel Request</h2>
+                        <h2>Cancel Request </h2>
                         {selectedFlight && (
                           <p>
                             <span>PNR:-</span> {selectedFlight.pnr}
                           </p>
                         )}
                       </div>
+                      {/* <div
+                        className="modal-header-cancel"
+                        style={{ display: "flex", flexDirection: "column" }}
+                      >
+                        {cancellationCharges &&
+                        cancellationCharges.data &&
+                        cancellationCharges.data.Response &&
+                        cancellationCharges.data.Response.CancelChargeDetails &&
+                        cancellationCharges.data.Response.CancelChargeDetails
+                          .length > 0 ? (
+                          <div
+                           className="cancel-div"
+                          >
+                           
+                            <div>
+                            <span className="bold-font">Name:</span>{" "}
+                            <p>  {
+                                cancellationCharges.data.Response
+                                  .CancelChargeDetails[0].FirstName
+                              }</p>{" "}
+                            <p>  {
+                                cancellationCharges.data.Response
+                                  .CancelChargeDetails[0].LastName
+                              }</p>{" "}
+                            </div>
+                            <div>
+                              <span className="bold-font">
+                                Cancellation Charge:
+                              </span>{" "}
+                              {
+                                cancellationCharges.data.Response
+                                  .CancellationCharge
+                              }
+                            </div>
+                            <div>
+                              <span className="bold-font">Refund Amount:</span>{" "}
+                              {
+                                cancellationCharges.data.Response
+                                  .CancelChargeDetails[0].RefundAmount
+                              }
+                            </div>
+                          </div>
+                        ) : (
+                          "Unable to Fetch Record"
+                        )}
+                      </div> */}
+
+                      <div
+                        className="modal-header-cancel"
+                        style={{ display: "flex", flexDirection: "column" }}
+                      >
+                        {cancellationCharges &&
+                        cancellationCharges.data &&
+                        cancellationCharges.data.Response &&
+                        cancellationCharges.data.Response.CancelChargeDetails &&
+                        cancellationCharges.data.Response.CancelChargeDetails
+                          .length > 0 ? (
+                          <div className="cancel-div">
+                            <div className="div1">
+                              <div>
+                                {" "}
+                                <span className="bold-font">Name</span>{" "}
+                              </div>
+                              <div
+                              
+                                className="div2"
+                              >
+                                {" "}
+                                {
+                                  cancellationCharges.data.Response
+                                    .CancelChargeDetails[0].FirstName
+                                }{" "}
+                                {
+                                  cancellationCharges.data.Response
+                                    .CancelChargeDetails[0].LastName
+                                }{" "}
+                              </div>
+                            </div>
+                            <div
+                             
+                              className="div3"
+                            >
+                              <div>
+                                {" "}
+                                <span className="bold-font">
+                                  Cancellation Charge
+                                </span>{" "}
+                              </div>
+                              <div style={{ textAlign: "center" }}>
+                                {" "}
+                                {
+                                  cancellationCharges.data.Response
+                                    .CancellationCharge
+                                }
+                              </div>
+                            </div>
+                            <div
+                             className="div3"
+                            >
+                              <div>
+                                {" "}
+                                <span className="bold-font">
+                                  Refund Amount
+                                </span>{" "}
+                              </div>
+                              <div style={{ textAlign: "center" }}>
+                                {" "}
+                                {
+                                  cancellationCharges.data.Response
+                                    .CancelChargeDetails[0].RefundAmount
+                                }
+                              </div>
+                            </div>
+                          </div>
+                        ) : (
+                          "Unable to Fetch Record"
+                        )}
+                      </div>
+
                       <form className="cancelForm">
                         <div className="input-text">
                           <p className="bold" htmlFor="reason">
