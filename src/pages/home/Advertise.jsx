@@ -62,7 +62,7 @@ const Advertise = () => {
                     
                         <div className="slick-slide advertise-slide">
                             <a href="https://www.nsw.gov.au/visiting-and-exploring-nsw/nsw-events/vivid-sydney-2024" target='_blank' rel="noreferrer">
-                            <img style={{ cursor: "pointer" }} src={localDataArray[1]?.image} alt={localDataArray[1]?.title} loading='lazy' />
+                            <img style={{ cursor: "pointer" }} src={localDataArray?.[1]?.image} alt={localDataArray?.[1]?.title} loading='lazy' />
                             </a>
                             {/* <img style={{ cursor: "pointer" }} onClick={() => navigate("/pefaevent")} src={ad.image} alt={ad.title} loading='lazy' /> */}
                         </div>
