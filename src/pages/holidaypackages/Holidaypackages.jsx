@@ -239,9 +239,7 @@ const Hotelpackages = () => {
         <HolidayDomestic variants={variants} />
       </motion.div>
 
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
-        <Download downloadRef={downloadRef} variants={variants} />
-      </motion.div>
+        <Download />
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
         <Partners variants={variants} />
       </motion.div>
