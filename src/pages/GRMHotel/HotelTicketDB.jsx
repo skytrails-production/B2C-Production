@@ -1,0 +1,114 @@
+import React from "react";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+// import userApi from "../../Redux/API/api";
+import userApi from "../../Redux/API/api";
+
+
+
+const HotelTicketDB = () => {
+
+
+    const navigate = useNavigate();
+
+    const reducerState = useSelector((state) => state);
+    // console.log(reducerState, "reducer state")
+    const passenger = reducerState?.passengers?.passengersData;
+    const getBookingDetails = reducerState?.hotelSearchResultGRN?.bookRoom;
+    const hotelDetails = reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.hotel;
+
+    const nonRefundable = getBookingDetails?.hotel?.booking_items?.[0]?.non_refundable;
+
+    console.log(getBookingDetails, "getBookingDetails state")
+    console.log(nonRefundable, "nonRefundable")
+
+
+    useEffect(() => {
+
+        const payload = {
+
+            "userId": reducerState?.logIn?.loginData?.data?.result?._id,
+            "agnet_reference": getBookingDetails?.agent_reference,
+            "booking_date": getBookingDetails?.booking_date,
+            "booking_id": getBookingDetails?.booking_id,
+            "booking_reference": getBookingDetails?.booking_reference,
+            "checkin": getBookingDetails?.checkin,
+            "checkout": getBookingDetails?.checkout,
+            "total": getBookingDetails?.price?.total,
+            "holder": {
+                "title": passenger?.[0]?.adults?.[0]?.Title,
+                "name": passenger?.[0]?.adults?.[0]?.FirstName,
+                "surname": passenger?.[0]?.adults?.[0]?.LastName,
+                "email": passenger?.[0]?.adults?.[0]?.Email,
+                "phone_number": passenger?.[0]?.adults?.[0]?.Phoneno,
+                "client_nationality": "in",
+                "pan_number": passenger?.[0]?.adults?.[0]?.PAN,
+            },
+            "hotel": {
+                "address": getBookingDetails?.hotel?.address,
+                "name": getBookingDetails?.hotel?.name,
+                "price": getBookingDetails?.price?.total,
+                "imageUrl": hotelDetails?.images?.url,
+                "phoneNumber": "",
+                "geolocation": {
+                    "latitude": getBookingDetails?.hotel?.geolocation?.latitude,
+                    "longitude": getBookingDetails?.hotel?.geolocation?.longitude,
+                },
+                "category": getBookingDetails?.hotel?.category,
+                "city_code": getBookingDetails?.hotel?.city_code,
+                "country_code": getBookingDetails?.hotel?.country_code,
+                "paxes": getBookingDetails?.hotel?.paxes?.map((item) => ({
+                    "age": item.age || "",
+                    "name": item.name,
+                    "pax_id": item.pax_id,
+                    "surname": item.surname,
+                    "title": item.title,
+                    "type": item.type
+                })),
+                "rooms": getBookingDetails?.hotel?.booking_items?.[0].rooms?.map((item) => ({
+                    "description": item?.description,
+                    "no_of_adults": item?.no_of_adults,
+                    "no_of_children": item?.no_of_children,
+                    "no_of_rooms": item?.no_of_rooms,
+                })),
+                "non_refundable": nonRefundable,
+                "cancellation_policy": nonRefundable === false ? {
+                    "amount_type": "value",
+                    "cancel_by_date": "20-05-2024T23:59:59",
+                    "details": [
+                        {
+                            "from": "21-05-2024T00:00:00"
+                        }
+                    ]
+                } : null
+
+            },
+            "bookingType": "HOTELS"
+
+        }
+        console.log(payload, "payload")
+
+        if (getBookingDetails?.booking_id !== undefined) {
+
+            // console.log(payload, "payload")
+            userApi.hotelBookingDetailsSaveGRN(payload);
+        }
+
+    }, [getBookingDetails?.booking_id]);
+    return (
+
+        <div className="tempBox" style={{ marginTop: "150px", marginBottom: "150px" }}>
+            <div className="container">
+                <h2>Thank You for Booking With Us</h2>
+                <p>Please Check your Email for Booking Details</p>
+                <button onClick={() => { navigate("/") }}>
+                    Ok
+                </button>
+            </div>
+        </div>
+    )
+
+};
+
+export default HotelTicketDB;

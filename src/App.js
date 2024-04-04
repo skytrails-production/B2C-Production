@@ -39,6 +39,7 @@ import Download from "./pages/home/Download";
 import Holidayinfo from "./pages/holidaypackages/holidaypackagesearchresult/Holidayinfo";
 
 import SsdcForm from './components/ssdc/SSDClanding'
+import Hotelresult from './pages/Hotel/hotelresult/Hotelresult';
 import HotelSearch from './pages/Hotel/hotelsearch/HotelSearch';
 import HotelBooknow from './pages/Hotel/hotelbokknow/HotelBooknow'
 import Reviewbooking from './pages/Hotel/hotelreviewbooking/Reviewbooking'
@@ -83,6 +84,11 @@ import MulticityResult from './pages/flight/MultiCity/MulticityResult';
 import MulticityPassengerDetails from './pages/flight/MultiCity/MulticityPassengerDetails';
 import MulticityReviewBooking from './pages/flight/MultiCity/MulticityReviewBooking';
 import BookedTicketMulticityDB from './pages/flight/MultiCity/BookedTicketMulticityDB';
+import GrmHotelHome from './pages/GRMHotel/GrmHotelHome';
+import HotelResult from './pages/GRMHotel/HotelResult';
+import BookingDetailsGRN from './pages/GRMHotel/BookingDetailsGRN';
+import BookingReviewGRN from './pages/GRMHotel/BookingReviewGRN';
+import HotelTicketDB from './pages/GRMHotel/HotelTicketDB';
 
 
 
@@ -96,8 +102,6 @@ function App() {
 
   const notOnline = useNetworkState();
   // console.log(state, "network state..............")
-
-  
   useEffect(() => {
     const disableInspect = (e) => {
       if (
@@ -124,7 +128,6 @@ function App() {
   }, []);
 
 
-  
 
 
   useEffect(() => {
@@ -267,16 +270,24 @@ function App() {
 
         <Route path="/payment" element={<Payment />} />
         <Route path="/download" element={<Download />} />
-        {/* <Route path="/returnflight" element={<ReturnFlight />} /> */}
-        {/* <Route path="/booking" element={<Booking />} /> */}
-        {/* <Route path="/completebooking" element={<CompleteBooking />} /> */}
-        {/* <Route path="/paymentReturn" element={<PaymentReturn />} /> */}
-        {/* <Route path="/conformation" element={<Conformation />} /> */}
-        {/* <Route path="/nonstopflight" element={<NonStopFlight />} /> */}
+
+
+        {/* new grm hotel routes  */}
+
+
+
+        {/* new grm hotel routes  */}
+
+        <Route path="GrmHotelHome" element={<GrmHotelHome />}></Route>
+        <Route exact path="/hotel/hotelsearchGRM" element={<HotelResult />} />
+        <Route path="/hotel/hotelsearchGRM/guestDetails" element={<BookingDetailsGRN />}
+        />
+        <Route path="/hotel/hotelsearchGRM/guestDetails/review" element={<BookingReviewGRN />} />
+        <Route path="/hotel/hotelsearchGRM/guestDetails/review/ticket" element={<HotelTicketDB />} />
+        {/* old hotel routes  */}
 
         <Route path="hotel" element={<Hotel />}></Route>
-        {/* <Route path="/hotelLoader" element={<HotelHomeResult />} /> */}
-        <Route path="/hotel/hotelsearch" element={<HotelSearch />} />
+        <Route exact path="/hotel/hotelsearch" element={<Hotelresult />} />
         <Route
           exact
           path="/hotel/hotelsearch/HotelBooknow"
@@ -297,6 +308,10 @@ function App() {
           path="/hotel/hotelsearch/HotelBooknow/Reviewbooking/GuestDetail/ticket"
           element={<HotelTicketGeneration />}
         />
+
+        {/* old hotel routes  */}
+
+
         {/* e-ticket route */}
         <Route exact path="/FlightEticket/:id" element={<FlightETicket />} />
         <Route exact path="/busEticket/:id" element={<BusETicket />} />

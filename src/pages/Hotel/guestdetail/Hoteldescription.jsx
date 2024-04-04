@@ -47,8 +47,7 @@ const Hoteldescription = ({
     try {
       const token = SecureStorage.getItem("jwtToken");
       const response = await axios.get(
-        `${
-          apiURL.baseURL
+        `${apiURL.baseURL
         }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
           "couponCode"
         )}`,
@@ -167,6 +166,9 @@ const Hoteldescription = ({
       handleClickBooking();
     }
   }, [loaderPayment]);
+
+
+  console.log(reducerState, "reducer state")
 
   const handleClickBooking = async () => {
     const payload = {

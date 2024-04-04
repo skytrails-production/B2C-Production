@@ -782,6 +782,7 @@ const MulticityResult = () => {
                                                                                 <div style={{ flex: "10" }}>
                                                                                     {
                                                                                         item?.Segments?.map((seg, i) => {
+
                                                                                             return (
                                                                                                 <div class="multicityFlightResultBox">
                                                                                                     <div class="multicityFlightResultBoxOne">
@@ -842,11 +843,10 @@ const MulticityResult = () => {
                                                                                                                                     </div>
                                                                                                                                 )
                                                                                                                         }
-                                                                                                                        <span>{seg?.[seg?.length - 1]?.Destination
-                                                                                                                            ?.Airport?.CityName} ({
-                                                                                                                                dayjs(
-                                                                                                                                    seg?.[0]?.Destination?.ArrTime
-                                                                                                                                ).format("h:mm A")})</span>
+                                                                                                                        <span>{seg?.[seg?.length - 1]?.Destination?.Airport?.CityName} ({
+                                                                                                                            dayjs(
+                                                                                                                                seg?.[seg?.length - 1]?.Destination?.ArrTime
+                                                                                                                            ).format("h:mm A")})</span>
                                                                                                                     </div>
                                                                                                                     <p>{
                                                                                                                         seg?.length > 1 ?

@@ -19,9 +19,11 @@ const Guestdetail = () => {
     // console.log(CouponAmount, "coupon amount////////");
   }, [CouponAmount]);
 
-  useEffect(() =>{
+  useEffect(() => {
     sessionStorage.removeItem("couponCode")
-  },[])
+  }, [])
+
+
 
 
 

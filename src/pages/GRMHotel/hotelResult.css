@@ -1,0 +1,37 @@
+.mapp a {
+    color: #d90429;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+
+.hotelGalleryBox {
+    border-radius: 10px;
+    height: 400px;
+
+}
+
+.hotelGalleryBox img {
+    border-radius: 10px;
+    height: 400px !important;
+    object-fit: unset !important;
+
+
+}
+
+.image-gallery-content .image-gallery-slide .image-gallery-image {
+    max-height: 400px !important;
+}
+
+
+.hotelGalleryBox .image-gallery-left-nav .image-gallery-svg,
+.image-gallery-right-nav .image-gallery-svg {
+    height: 54px !important;
+    width: 60px;
+}
+
+
+.bookDetail p {
+    font-weight: 600;
+    margin-bottom: 10px;
+}

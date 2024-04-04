@@ -18,6 +18,7 @@ import { watchSubmitFormData } from "./Saga/PacakgeBookingSaga";
 import { watchMarkup } from "./Saga/markUpSaga";
 
 import { passengersWatcher } from "./Saga/passengersDetailSaga";
+import { hotelSearchWatcherGRN } from "./Saga/hotelSagaGRN";
 
 
 export function* rootSaga() {
@@ -30,6 +31,7 @@ export function* rootSaga() {
     flightFareWatcher(),
     flightBookWatcher(),
     hotelSearchWatcher(),
+    hotelSearchWatcherGRN(),
     busSearchWatcher(),
     // busSeatWatcher(),
     searchResultWatcher(),

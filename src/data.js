@@ -14,6 +14,9 @@ export const mainheaderlogos = [
         // avatar: require("./images/hotel.png"),
         avatar: hotelLogo,
         name: "Hotel",
+        // path: "/GrmHotelHome"
+        // avatar: hotelLogo,
+        // name: "Hotel",
         path: "/hotel"
 
     },

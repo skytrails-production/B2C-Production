@@ -398,6 +398,84 @@ function api() {
     });
   };
 
+
+
+
+  // new hotel grn api's
+
+  const hotelSearchGRN = (payload) => {
+    return axios({
+      method: "POST",
+      url: "/skyTrails/grnconnect/hotelSearch",
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
+
+  const hotelsingleDataGRN = (payload) => {
+    // console.log("key")
+    const { data } = payload;
+    const searchId = payload.searchID;
+    return axios({
+      method: "POST",
+      url: `/skyTrails/grnconnect/rateRefetchHotel?searchId=${searchId}`,
+      baseURL: `${apiURL.baseURL}`,
+      data: data,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
+
+  const hotelGalleryGRN = (payload) => {
+    console.log("key")
+    const hotel_id = payload.hotel_id;
+    return axios({
+      method: "GET",
+      url: `/skyTrails/grnconnect/hotelimages?hotelCode=${hotel_id}`,
+      baseURL: `${apiURL.baseURL}`,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
+  const hotelBookingGRN = (payload) => {
+    return axios({
+      method: "POST",
+      url: "/skyTrails/grnconnect/hotelbooking",
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
+
+  const hotelBookingDetailsSaveGRN = (payload) => {
+    const token = secureLocalStorage?.getItem("jwtToken");
+    return axios({
+      method: "POST",
+      url: "/skyTrails/grnconnect/addhotelBooking",
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+        token: token,
+      },
+    });
+  }
+
+  // new hotel grn api's
+
+
+
   return {
     userIP,
     markUp,
@@ -413,6 +491,11 @@ function api() {
     multicitySearch,
     flightGetTicketLccReturn,
     hotelSearch,
+    hotelSearchGRN,
+    hotelsingleDataGRN,
+    hotelGalleryGRN,
+    hotelBookingGRN,
+    hotelBookingDetailsSaveGRN,
     hotelSearchInfo,
     hotelRoomInfo,
     hotelBlockRoom,

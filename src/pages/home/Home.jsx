@@ -109,7 +109,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                 />
                 <label htmlFor="return">Return</label>
               </div>
-              <div className={activeTab === "multicity" ? "d-none d-sm-block inputTabs" : "d-none d-sm-block "}>
+              <div className={activeTab === "multicity" ? "d-none d-sm-flex inputTabs" : "d-none d-sm-block "}>
                 <input
                   type="radio"
                   id="multicity"
@@ -126,7 +126,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         {activeTab === 'oneway' && <Oneway />}
         {activeTab === 'return' && <ReturnForm />}
         {/* <div className="d-none d-sm-block"> */}
-          {activeTab === 'multicity' && <MulticityForm />}
+        {activeTab === 'multicity' && <MulticityForm />}
         {/* </div> */}
       </div>
 

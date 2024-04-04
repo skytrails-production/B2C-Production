@@ -6,6 +6,7 @@ import { flightBookReducer } from "./FlightBook/flightBookReducer";
 import { logInReducer } from "./Auth/logIn/logInReducer";
 import { clearHotelReducer } from "./Hotel/hotel";
 import { hotelReducer } from "./Hotel/hotelReducer";
+import { hotelReducerGRN } from "./HotelGRN/hotelReducer";
 import { searchPackageReducer } from "./SearchPackage/searchPackageReducer";
 import { searchOnePackageReducer } from "./OnePackageSearchResult/searchOnePackageReducer";
 import { LOGOUT_REQUEST } from "./Auth/logIn/actionType";
@@ -29,6 +30,7 @@ const appReducer = combineReducers({
   flightFare: flightFareReducer,
   flightBook: flightBookReducer,
   hotelSearchResult: hotelReducer,
+  hotelSearchResultGRN: hotelReducerGRN,
   getBusResult: busSearchReducer,
   searchResult: searchPackageReducer,
   searchOneResult: searchOnePackageReducer,
