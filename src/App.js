@@ -89,6 +89,7 @@ import HotelResult from './pages/GRMHotel/HotelResult';
 import BookingDetailsGRN from './pages/GRMHotel/BookingDetailsGRN';
 import BookingReviewGRN from './pages/GRMHotel/BookingReviewGRN';
 import HotelTicketDB from './pages/GRMHotel/HotelTicketDB';
+import HotelBookRoomGRN from './pages/GRMHotel/HotelBookRoomGRN';
 
 
 
@@ -280,6 +281,7 @@ function App() {
 
         <Route path="GrmHotelHome" element={<GrmHotelHome />}></Route>
         <Route exact path="/hotel/hotelsearchGRM" element={<HotelResult />} />
+        <Route exact path="/hotel/hotelbookroom" element={<HotelBookRoomGRN />} />
         <Route path="/hotel/hotelsearchGRM/guestDetails" element={<BookingDetailsGRN />}
         />
         <Route path="/hotel/hotelsearchGRM/guestDetails/review" element={<BookingReviewGRN />} />

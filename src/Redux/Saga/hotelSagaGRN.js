@@ -23,12 +23,20 @@ function* hotelRequest(action) {
 }
 function* hotelSingleDetails(action) {
     try {
-        const data = yield call(userApi.hotelsingleDataGRN, action.payload);
+        const data = yield call(userApi.hotelBookRoomGRN, action.payload);
         yield put(singleHotelSuccess(data));
     } catch (error) {
         console.log(error);
     }
 }
+// function* hotelSingleDetails(action) {
+//     try {
+//         const data = yield call(userApi.hotelsingleDataGRN, action.payload);
+//         yield put(singleHotelSuccess(data));
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
 function* hotelGallery(action) {
     try {

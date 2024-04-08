@@ -19,9 +19,10 @@ const HotelTicketDB = () => {
     const hotelDetails = reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.hotel;
 
     const nonRefundable = getBookingDetails?.hotel?.booking_items?.[0]?.non_refundable;
+    const cancelDetails = getBookingDetails?.hotel?.booking_items?.[0]?.cancellation_policy;
 
     console.log(getBookingDetails, "getBookingDetails state")
-    console.log(nonRefundable, "nonRefundable")
+
 
 
     useEffect(() => {
@@ -74,11 +75,11 @@ const HotelTicketDB = () => {
                 })),
                 "non_refundable": nonRefundable,
                 "cancellation_policy": nonRefundable === false ? {
-                    "amount_type": "value",
-                    "cancel_by_date": "20-05-2024T23:59:59",
+                    "amount_type": cancelDetails?.amount_type,
+                    "cancel_by_date": cancelDetails?.cancel_by_date,
                     "details": [
                         {
-                            "from": "21-05-2024T00:00:00"
+                            "from": cancelDetails?.details?.[0]?.from
                         }
                     ]
                 } : null

@@ -32,6 +32,7 @@ import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import axios from "axios";
 import { apiURL } from "../../Constants/constant";
+import Hotelmainloading from "../Hotel/hotelLoading/Hotelmainloading";
 
 const styleLoader = {
     position: "absolute",
@@ -194,12 +195,15 @@ const HotelGuestDetailsGRN = () => {
                         "Content-Type": "application/json",
                     },
                 })
+                if (res?.status == 200) {
+                    setLoader(false)
+                    navigate("/hotel/hotelsearchGRM/guestDetails/review");
+
+                }
 
             } catch (error) {
                 console.log(error)
             }
-            navigate("/hotel/hotelsearchGRM/guestDetails/review");
-            setLoader(false)
         }
         // console.log('Passenger Data:', passengerData);
     };
@@ -209,7 +213,7 @@ const HotelGuestDetailsGRN = () => {
     return (
         <>
             {loader ? (
-                <HotelLoading />
+                <Hotelmainloading />
             ) : (
                 <div className="container">
                     <div

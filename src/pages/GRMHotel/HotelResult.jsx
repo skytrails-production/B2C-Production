@@ -49,13 +49,14 @@ export default function HotelResult() {
 
     useEffect(() => {
         if (reducerState?.hotelSearchResultGRN?.hotelDetails?.status === 200 && reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images?.regular?.length > 0) {
-            navigate("/hotel/hotelsearchGRM/guestDetails")
+            navigate("/hotel/hotelbookroom")
             setLoading(false)
         }
     }, [reducerState?.hotelSearchResultGRN?.hotelDetails?.status || reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images])
 
 
     const handleClick = (item) => {
+        console.log(item)
         setLoading(true);
         const payload = {
 
@@ -63,7 +64,8 @@ export default function HotelResult() {
                 "rate_key": item?.min_rate?.rate_key,
                 "group_code": item?.min_rate?.group_code,
             },
-            "searchID": searchId
+            "searchID": searchId,
+            "hotel_code": item?.hotel_code,
 
         }
 
@@ -167,7 +169,7 @@ export default function HotelResult() {
                         return starRating === parseInt(value);
 
                     // case "location":
-                    //     return location === value;
+                    //     return location === value; 
                     default:
                         return false;
                 }

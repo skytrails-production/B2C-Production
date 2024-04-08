@@ -63,13 +63,13 @@ export default function LoginForm() {
 
   // Example usage
   let twelveYearsAgoDate = getTwelveYearsAgoDate();
-  // console.log(twelveYearsAgoDate, "twelveYearsAgoDate")
+
 
   const [numvalidation, setNumvalidation] = useState(false);
   const [open, setOpen] = useState(false);
   const [openSignUpModal, setOpenSignUpModal] = useState(false);
   const [openOtpModal, setOpenOtpModal] = useState(false);
-  const [mobileNumber, setMobileNumber] = useState();
+  const [mobileNumber, setMobileNumber] = useState("");
 
   const [name, setName] = useState("");
   const [finalDate, setFinalDate] = useState("");
@@ -77,11 +77,13 @@ export default function LoginForm() {
   const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
   const [loader, setLoader] = useState(false);
+  const [alreadyExist, setAlreadyExist] = useState(false)
+
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
     setDisableButton(false);
-    setMobileNumber("");
+    // setMobileNumber("");
     setOtp("");
     otpvalidReset();
     setSignUpp(false);
@@ -91,7 +93,10 @@ export default function LoginForm() {
 
   const handleOtpModalOpen = () => setOpenOtpModal(true);
   const handleOtpModalClose = () => setOpenOtpModal(false);
-  const handleSignUpModalOpen = () => setOpenSignUpModal(true);
+  const handleSignUpModalOpen = () => {
+    setAlreadyExist(false)
+    setOpenSignUpModal(true);
+  }
   const handleSignUpModalClose = () => {
     setOpenSignUpModal(false);
     setEmail("");
@@ -101,27 +106,20 @@ export default function LoginForm() {
   };
   const reducerState = useSelector((state) => state);
   const userName = reducerState?.logIn?.loginData?.data?.result?.username;
-  // const wallet = reducerState?.logIn?.loginData?.data?.result?.balance;
-  // const userDataS = reducerState?.logIn?.loginData?.data?.result;
-  // const data = reducerState?.logIn?.loginData?.data;
   const status = reducerState?.logIn?.loginData?.data?.statusCode;
-  // const AuthenticUser = reducerState?.logIn?.isLogin;
 
-  // console.log(reducerState, "reducer state")
-
-  // resend otp part
   const [countdown, setCountdown] = useState(0);
   const [disableButton, setDisableButton] = useState(false);
   // const [disableButtonVerifyOPT, setDisableButtonVerifyOPT] = useState(false);
   const [disableResendButton, setDisableResendButton] = useState(false);
   const [error, setError] = useState(true);
   const [sub, setSub] = useState(false);
-  // const [apiCallCount,setOptCallCount]=useState(0);
-  const [numError, setNumError] = useState(true);
   const [otpError, setOTPError] = useState(true);
   const navigate = useNavigate();
   const [isMenu, setIsMenu] = useState(false);
   const [longinError, setLoginError] = useState(false);
+
+  const [reqSignInData, setReqSignInData] = useState([]);
 
   const Typewriter = () => {
     const [text, setText] = useState("...");
@@ -146,27 +144,6 @@ export default function LoginForm() {
     );
   };
 
-  // mobile number validation
-
-  const isValidMobileNumber = (mobileNumber) => {
-    return /^[6-9]\d{9}$/.test(mobileNumber);
-  };
-
-  const requestSignInSignInCheck = () => {
-    if (!isValidMobileNumber(mobileNumber)) {
-      setNumError(true);
-    } else {
-      setNumError(false);
-    }
-  };
-
-  useEffect(() => {
-    requestSignInSignInCheck();
-  }, [mobileNumber]);
-
-  // const otpToken = reducerState?.logIn?.loginData?.data?.result?.token;
-
-  // opt validation
 
   const isValidOTP = (otp) => {
     return /^[0-9]\d{5}$/.test(otp);
@@ -186,19 +163,38 @@ export default function LoginForm() {
     requestOTPCheck();
   }, [otp]);
 
+
+
+
+  // request sign in validation
+
+  const [validNumEmail, setValidNumEmail] = useState(true);
+
+  const handleChange = (e) => {
+    const value = e.target.value.trim();
+    setMobileNumber(value);
+    const phoneRegex = /^\d{10}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidInput = phoneRegex.test(value) || emailRegex.test(value);
+    setValidNumEmail(!isValidInput);
+  };
+
+  // request sign in validation 
+
+
+
+
   const requestSignIn = async () => {
-    // event.preventDefault();
 
     setDisableButton(true);
     let payload = {
-      mobileNumber: mobileNumber,
+      email: mobileNumber,
     };
 
     try {
       const res = await axios({
         method: "post",
-        url: `${apiURL.baseURL}/skytrails/api/user/mobileLogin`,
-
+        url: `${apiURL.baseURL}/skytrails/api/user/loginWithMailMobileLogin`,
         data: payload,
         headers: {
           "Content-Type": "application/json",
@@ -208,6 +204,7 @@ export default function LoginForm() {
       const newToken = await res.data.result.token;
       SecureStorage.setItem("jwtToken", newToken);
       // console.log(newToken, res.data, res.data.result.otpVerified, "new token")
+      setReqSignInData(res?.data?.result);
 
       if (res.data.statusCode === 200 && res.data.result.firstTime === false) {
         handleClose();
@@ -242,6 +239,8 @@ export default function LoginForm() {
   //  if user is already registered
 
   const verifyOTP = async (e) => {
+    // const [loader, setLoader] = useState(false);
+    setLoader(true)
     e.preventDefault();
     let payload = {
       otp: otp,
@@ -252,7 +251,8 @@ export default function LoginForm() {
   // first time user data
 
   const signUpUser = async () => {
-    // e.preventDefault();
+    setAlreadyExist(false)
+    setLoader(true)
 
     let payloadotp = {
       otp: otp,
@@ -264,8 +264,18 @@ export default function LoginForm() {
     dispatch(loginAction(payloadotp));
   };
 
+
+  useEffect(() => {
+    setLoader(false)
+    if (reducerState?.logIn?.loginData?.data?.message === "This mobile number already exists" || reducerState?.logIn?.loginData?.data?.message === "This email already exist") {
+      setAlreadyExist(true);
+    }
+  }, [reducerState?.logIn?.loginData, reducerState?.logIn?.loginData?.data?.message])
+
+
   useEffect(() => {
     if (status === 200) {
+
       handleOtpModalClose();
       handleSignUpModalClose();
       setDisableButton(false);
@@ -276,9 +286,11 @@ export default function LoginForm() {
 
   // handle the resend otp part
 
+
   const handleResendOtp = async () => {
+    setLoader(false)
     let Payload = {
-      mobileNumber: mobileNumber,
+      email: mobileNumber,
     };
 
     setDisableResendButton(true);
@@ -287,7 +299,7 @@ export default function LoginForm() {
     try {
       const res = await axios({
         method: "PUT",
-        url: `${apiURL.baseURL}/skytrails/api/user/resendOtp`,
+        url: `${apiURL.baseURL}/skytrails/api/user/resendOtp1`,
         data: Payload,
         headers: {
           "Content-Type": "application/json",
@@ -328,23 +340,8 @@ export default function LoginForm() {
 
   // handle the resend otp part
 
-  const signupFromValidation = () => {
-    if (
-      validateName(name) &&
-      validateEmail(email) &&
-      requestOTPCheck() &&
-      finalDate !== ""
-    ) {
-      setSignUp(true);
-    } else {
-      setSignUp(false);
-    }
-    // console.log(name, finalDate, email, otp, subSignUp)
-    return;
-  };
-  useEffect(() => {
-    signupFromValidation();
-  }, [email, mobileNumber, otp]);
+
+
   const handleLogout = () => {
     MySwal.fire({
       html: `
@@ -377,7 +374,6 @@ export default function LoginForm() {
   //   loginSuccess();
   // }
   useEffect(() => {
-    // console.warn(reducerState?.logIn?.loginData, "error,sub ndbfjhdfbvufbyvubfyuv")
     if (
       reducerState?.logIn?.loginData?.statusCode !== 200 &&
       reducerState?.logIn?.loginData?.statusCode !== undefined
@@ -386,12 +382,14 @@ export default function LoginForm() {
       setLoader(false);
     }
   }, [reducerState?.logIn?.loginData]);
+
   function otpvalidReset() {
     if (!error) {
       setError(true);
       dispatch(LoginFail());
     }
   }
+
 
   return (
     <div>
@@ -416,7 +414,7 @@ export default function LoginForm() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.6 }}
               className="position-absolute dropdownLogin bg-gray-50 shadow rounded-lg d-flex flex-column align-items-end"
-              // style={{ left: 0 }}
+            // style={{ left: 0 }}
             >
               <p
                 className="px-4 py-2 d-flex align-items-center cursor-pointer gap-3 cursor-pointer hover-bg-slate-100 transition-all duration-100 ease-in-out"
@@ -439,7 +437,7 @@ export default function LoginForm() {
                 style={{ cursor: "pointer" }}
                 onClick={handleLogout}
               >
-               Logout <MdLogout />  
+                Logout <MdLogout />
               </p>
             </motion.div>
           )}
@@ -497,7 +495,7 @@ export default function LoginForm() {
                           <div class="row g-4">
                             <div class="col-12">
                               <label className="mb-3">
-                                Enter Mobile Number
+                                Mobile Number or Email
                                 <span class="text-danger">*</span>
                               </label>
 
@@ -505,49 +503,28 @@ export default function LoginForm() {
                                 numError && <p>Please Enter Valid Mobile Number</p>
                               } */}
                               <div class="input-group">
-                                <div class="input-group-text">
-                                  {/* <i>
-                                    <PhoneIcon />
-                                  </i> */}
+                                {/* <div class="input-group-text">
+                                  
                                   +91
-                                </div>
+                                </div> */}
                                 <input
-                                  type="tel"
+                                  type="text"
                                   value={mobileNumber}
                                   onChange={(e) => {
                                     setMobileNumber(e.target.value);
-                                    requestSignInSignInCheck();
+                                    handleChange(e);
                                   }}
                                   name="phone"
                                   class="form-control"
-                                  placeholder="Mobile Number"
+                                  placeholder="Mobile Number or Email"
                                 />
-                                {numvalidation &&
-                                  !validatePhoneNumber(mobileNumber) && (
-                                    <div className="input-group-absolute">
-                                      Enter a valid 10-digit number
-                                    </div>
-                                  )}
-                                {longinError && (
-                                  <div className="network-error-modal">
-                                    <Alert severity="error">
-                                      Network Error
-                                    </Alert>
-                                  </div>
-                                )}
+
                               </div>
                             </div>
                             <div
                               onClick={() => setNumvalidation(true)}
                               class="col-12"
                             >
-                              {/* {disableButton ? <button
-                                class="btn btn-primaryLogin px-4 float-end mt-2"><Typewriter /></button>
-                                : numError ? <button type="submit"
-                                  onClick={requestSignIn} class="btn btn-primaryLogin px-4 float-end mt-2" disabled={!mobileNumber}>Send OTP</button>
-                                  : <button
-                                    class="btn btn-primaryLogin px-4 float-end mt-2" disabled>Send OTP</button>
-                              } */}
 
                               {disableButton ? (
                                 <button className="btn btn-primaryLogin px-4 float-end mt-2">
@@ -558,7 +535,7 @@ export default function LoginForm() {
                                   type="submit"
                                   onClick={requestSignIn}
                                   className="btn btn-primaryLogin px-4 float-end mt-2"
-                                  disabled={numError}
+                                  disabled={validNumEmail}
                                 >
                                   Send OTP
                                 </button>
@@ -620,9 +597,8 @@ export default function LoginForm() {
                               :
                               <div class="input-group ">
                                 <div
-                                  class={`input-group-text ${
-                                    !error && "invalidOptLogin"
-                                  } `}
+                                  class={`input-group-text ${!error && "invalidOptLogin"
+                                    } `}
                                 >
                                   <i>
                                     <PasswordIcon />
@@ -633,7 +609,7 @@ export default function LoginForm() {
                                   value={otp}
                                   onChange={(e) => {
                                     setOtp(e.target.value);
-                                    requestOTPCheck();
+                                    // requestOTPCheck();
                                     otpvalidReset();
                                   }}
                                   // onChange={(e) => {
@@ -642,9 +618,8 @@ export default function LoginForm() {
                                   // }
                                   // }
                                   name="phone"
-                                  class={`form-control  ${
-                                    !error && "invalidOptLogin"
-                                  }`}
+                                  class={`form-control  ${!error && "invalidOptLogin"
+                                    }`}
                                   placeholder="Enter OTP"
                                   autoComplete="off"
                                 />
@@ -672,7 +647,7 @@ export default function LoginForm() {
                                   // type="submit"
                                   // onClick={(e) => { setSub(true); verifyOTP(e) }}
                                   class="btn btn-primaryLogin px-4 float-end mt-2"
-                                  // disabled={otpError}
+                                // disabled={otpError}
                                 >
                                   <Typewriter />
                                 </button>
@@ -761,32 +736,71 @@ export default function LoginForm() {
                                 )}
                               </div>
                             </div>
-                            <div class="col-12">
-                              <label>
-                                Enter Your Email
-                                <span class="text-danger">*</span>
-                              </label>
-                              <div class="input-group">
-                                <div class="input-group-text">
-                                  <i>
-                                    <AccountCircleIcon />
-                                  </i>
-                                </div>
-                                <input
-                                  type="email"
-                                  value={email}
-                                  onChange={(e) => setEmail(e.target.value)}
-                                  name="email"
-                                  class="form-control"
-                                  placeholder="Enter Email"
-                                />
-                                {subSignUpp && !validateEmail(email) && (
-                                  <div className="input-group-absolute">
-                                    Enter a valid email
+
+
+
+                            {
+                              // reqSignInData?.result?.email !== "" && !reqSignInData?.result?.phone ?
+                              !reqSignInData.email ?
+
+                                (
+                                  <div class="col-12">
+                                    <label>
+                                      Enter Your Email
+                                      <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                      <div class="input-group-text">
+                                        <i>
+                                          <AccountCircleIcon />
+                                        </i>
+                                      </div>
+                                      <input
+                                        type="email"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        name="email"
+                                        class="form-control"
+                                        placeholder="Enter Email"
+                                      />
+                                      {alreadyExist && (
+                                        <div className="input-group-absolute">
+                                          This Email is already registered
+                                        </div>
+                                      )}
+                                    </div>
                                   </div>
-                                )}
-                              </div>
-                            </div>
+                                ) :
+
+                                (
+                                  <div class="col-12">
+                                    <label>
+                                      Enter Phone No
+                                      <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group">
+                                      <div class="input-group-text">
+                                        +91
+                                      </div>
+                                      <input
+                                        type="tel"
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        name="phone"
+                                        class="form-control"
+                                        placeholder="Mobile Number"
+                                      />
+                                      {alreadyExist && (
+                                        <div className="input-group-absolute">
+                                          This Number is already registered
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                )
+                            }
+
+
                             <div class="col-12">
                               <label>
                                 Enter Age<span class="text-danger">*</span>
@@ -805,8 +819,8 @@ export default function LoginForm() {
                                   class="form-control"
                                   placeholder="Enter OTP"
                                   max={twelveYearsAgoDate}
-                                  //  readOnly
-                                  //  max="1979-12-31"
+                                //  readOnly
+                                //  max="1979-12-31"
                                 />
                                 {subSignUpp && finalDate === "" && (
                                   <div className="input-group-absolute">
@@ -867,19 +881,21 @@ export default function LoginForm() {
                                 </p>
                               )}
                             </div>
-                            {subSignUp ? (
-                              <div class="col-12 mt-3">
-                                {loader ? (
+
+                            <div class="col-12 mt-3">
+                              {loader ? (
+                                <div class="col-12 mt-3">
                                   <button
                                     // type="submit"
-                                    // onClick={signUpUser}
-                                    className={`btn btn-primaryLogin px-4 float-end mt-2 ${
-                                      !subSignUp && "invalidOptLogin"
-                                    }`}
+                                    // onClick={(e) => { setSub(true); verifyOTP(e) }}
+                                    class="btn btn-primaryLogin px-4 float-end mt-2"
+                                  // disabled={otpError}
                                   >
-                                    {<Typewriter />}
+                                    <Typewriter />
                                   </button>
-                                ) : (
+                                </div>
+                              ) : (
+                                <div class="col-12 mt-3">
                                   <button
                                     // type="submit"
                                     onClick={() => {
@@ -890,20 +906,10 @@ export default function LoginForm() {
                                   >
                                     Sign up
                                   </button>
-                                )}
-                              </div>
-                            ) : (
-                              <div class="col-12 mt-3 ">
-                                <button
-                                  // type="submit"
-                                  onClick={() => setSignUpp(true)}
-                                  className={`btn btn-primaryLogin px-4 float-end mt-2 `}
-                                  id="logInDisabled"
-                                >
-                                  Sign up
-                                </button>
-                              </div>
-                            )}
+                                </div>
+                              )}
+
+                            </div>
                           </div>
                         </div>
                       </div>

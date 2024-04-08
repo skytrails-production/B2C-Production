@@ -147,10 +147,14 @@ const BookingReviewGRN = ({
         }
     }, [loaderPayment]);
 
-    // qk4srksvqyrcpwy
-    console.log(reducerState, "reducerState state")
-    console.log(passenger, "passenger")
-    console.log(reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.search_id, "reducerState?.hotelDetails?.data?.data?.hotel?.search_id state")
+    function generateMixedString() {
+        const fixedText = "skyTrails_";
+        const currentTime = Date.now().toString(); //add current time
+        return fixedText + currentTime;
+    }
+
+    const mixedString = generateMixedString();
+
 
     const handleClickBooking = async () => {
 
@@ -163,7 +167,7 @@ const BookingReviewGRN = ({
             "checkin": hotelMainReducer?.checkin,
             "booking_comments": "Test booking",
             "payment_type": "AT_WEB",
-            "agent_reference": "dummy",
+            "agent_reference": mixedString,
             "booking_items": [
                 {
                     "room_code": hotelinfoGRN?.rate?.room_code,

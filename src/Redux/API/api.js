@@ -30,7 +30,7 @@ function api() {
     // console.log("jwt token", token);
     return axios({
       method: "PUT",
-      url: "/skytrails/api/user/verifyUserOtp",
+      url: "/skytrails/api/user/verifyUserOtp1",
       baseURL: `${apiURL.baseURL}`,
       data: payload,
       headers: {
@@ -416,6 +416,9 @@ function api() {
   };
 
 
+
+
+
   const hotelsingleDataGRN = (payload) => {
     // console.log("key")
     const { data } = payload;
@@ -423,6 +426,25 @@ function api() {
     return axios({
       method: "POST",
       url: `/skyTrails/grnconnect/rateRefetchHotel?searchId=${searchId}`,
+      baseURL: `${apiURL.baseURL}`,
+      data: data,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
+  // book room 
+
+  const hotelBookRoomGRN = (payload) => {
+    // console.log("key")
+    const { data } = payload;
+    const searchId = payload.searchID;
+    const hcode = payload.hotel_code;
+    return axios({
+      method: "GET",
+      // url: `/skyTrails/grnconnect/rateRefetchHotel?searchId=${searchId}`,
+      url: `/skyTrails/grnconnect/refetchHotel?searchId=${searchId}&hcode=${hcode}`,
       baseURL: `${apiURL.baseURL}`,
       data: data,
       headers: {
@@ -493,6 +515,7 @@ function api() {
     hotelSearch,
     hotelSearchGRN,
     hotelsingleDataGRN,
+    hotelBookRoomGRN,
     hotelGalleryGRN,
     hotelBookingGRN,
     hotelBookingDetailsSaveGRN,
