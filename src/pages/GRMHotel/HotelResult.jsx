@@ -49,14 +49,14 @@ export default function HotelResult() {
 
     useEffect(() => {
         if (reducerState?.hotelSearchResultGRN?.hotelDetails?.status === 200 && reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images?.regular?.length > 0) {
-            navigate("/hotel/hotelbookroom")
+            navigate("/hotel/hotelsearchGRM/hotelbookroom")
             setLoading(false)
         }
     }, [reducerState?.hotelSearchResultGRN?.hotelDetails?.status || reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images])
 
 
     const handleClick = (item) => {
-        console.log(item)
+        // console.log(item)
         setLoading(true);
         const payload = {
 

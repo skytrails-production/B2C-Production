@@ -80,7 +80,7 @@ const HotelGuestDetailsGRN = () => {
     const emailRef = useRef();
 
     // new values 
-    const hotelinfoGRN = reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.hotel;
+    const hotelinfoGRN = reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel;
     const hotelMainReducer = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data;
     const hotelGallery = reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images?.regular;
     // new values
@@ -197,7 +197,7 @@ const HotelGuestDetailsGRN = () => {
                 })
                 if (res?.status == 200) {
                     setLoader(false)
-                    navigate("/hotel/hotelsearchGRM/guestDetails/review");
+                    navigate("/hotel/hotelsearchGRM/hotelbookroom/guestDetails/review");
 
                 }
 

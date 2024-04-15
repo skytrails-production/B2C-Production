@@ -6,7 +6,8 @@ export default function PriceSummaryGRN() {
     const reducerState = useSelector((state) => state);
 
 
-    const hotelinfoGRN = reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.hotel;
+    const hotelinfoGRN = reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel;
+    console.log(reducerState, "reducer state")
 
     const markUpamount =
         reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup *

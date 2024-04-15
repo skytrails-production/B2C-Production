@@ -4,12 +4,14 @@ import {
     fetchBookRoomHotelGRN,
     fetchHotel,
     singleHotelSuccess,
+    HotelRoomSelectSuccessGRN,
     hotelGallerySuccess,
 } from "../HotelGRN/hotel";
 import {
     HOTEL_B0OKROOM_REQUESTGRN,
     HOTEL_GALLERY_REQUEST,
     HOTEL_SINGLE_DETAIL_REQUEST,
+    HOTEL_ROOMSELECT_REQUEST,
     HOTEL_REQUESTGRN,
 } from "../HotelGRN/hotelActionType";
 
@@ -29,14 +31,14 @@ function* hotelSingleDetails(action) {
         console.log(error);
     }
 }
-// function* hotelSingleDetails(action) {
-//     try {
-//         const data = yield call(userApi.hotelsingleDataGRN, action.payload);
-//         yield put(singleHotelSuccess(data));
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+function* hotelSelectRoom(action) {
+    try {
+        const data = yield call(userApi.hotelsingleDataGRN, action.payload);
+        yield put(HotelRoomSelectSuccessGRN(data));
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 function* hotelGallery(action) {
     try {
@@ -64,6 +66,7 @@ export function* hotelSearchWatcherGRN() {
     yield takeLatest(HOTEL_REQUESTGRN, hotelRequest);
     yield takeLatest(HOTEL_SINGLE_DETAIL_REQUEST, hotelSingleDetails);
     yield takeLatest(HOTEL_GALLERY_REQUEST, hotelGallery);
+    yield takeLatest(HOTEL_ROOMSELECT_REQUEST, hotelSelectRoom);
     yield takeLatest(HOTEL_B0OKROOM_REQUESTGRN, hotelBookRoomRequest);
 
 }

@@ -33,6 +33,24 @@ export const singleHotelGRN = (data) => {
 };
 
 
+export const HotelRoomSelectSuccessGRN = (data) => {
+  return {
+    type: types.HOTEL_ROOMSELECT_SUCCESS,
+    payload: data,
+  }
+
+};
+export const HotelRoomSelectReqGRN = (data) => {
+  if (data) {
+    return {
+      type: types.HOTEL_ROOMSELECT_REQUEST,
+      payload: data,
+    };
+  }
+};
+
+
+
 
 // gallery 
 

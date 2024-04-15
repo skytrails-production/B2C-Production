@@ -94,9 +94,8 @@ const BookingReviewGRN = ({
     const [loaderPayment1, setLoaderPayment1] = useState(false);
     const [loaderPayment, setLoaderPayment] = useState(false);
 
-    const hotelinfoGRN = reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.hotel;
+    const hotelinfoGRN = reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel;
     const hotelMainReducer = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data;
-    const hotelGallery = reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images?.regular;
 
     const passenger = reducerState?.passengers?.passengersData;
     const [isDisableScroll, setIsDisableScroll] = useState(false);

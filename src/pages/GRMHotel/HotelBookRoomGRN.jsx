@@ -25,6 +25,7 @@ import "react-image-gallery/styles/css/image-gallery.css";
 import axios from "axios";
 import { apiURL } from "../../Constants/constant";
 import Hotelmainloading from "../Hotel/hotelLoading/Hotelmainloading";
+import { HotelRoomSelectReqGRN } from "../../Redux/HotelGRN/hotel";
 
 const styleLoader = {
     position: "absolute",
@@ -45,9 +46,7 @@ const HotelBookRoomGRN = () => {
     const navigate = useNavigate();
     const [loader, setLoader] = useState(false);
     const reducerState = useSelector((state) => state);
-    const authenticUser = reducerState?.logIn?.loginData?.status;
-    let bookingStatus = reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Status || false;
-    const [bookingSuccess, setBookingSuccess] = useState(bookingStatus);
+
 
 
 
@@ -75,6 +74,8 @@ const HotelBookRoomGRN = () => {
     const hotelinfoGRN = reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.hotel;
     const hotelMainReducer = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data;
     const hotelGallery = reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images?.regular;
+
+    console.log(hotelinfoGRN, "hotel info grn")
     // new values
 
     const galleryItems = hotelGallery?.map(image => ({
@@ -94,53 +95,50 @@ const HotelBookRoomGRN = () => {
     };
 
 
-    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-    const handleModalClose = () => {
-        setIsLoginModalOpen(false);
+    const [selectedRoomIndex, setSelectedRoomIndex] = useState(0);
+    const [selectedRoom, setSelectedRoom] = useState(hotelinfoGRN?.rates?.[selectedRoomIndex])
+
+
+    const handleRoomSelection = (index) => {
+        setSelectedRoomIndex(index);
     };
-
     useEffect(() => {
-        if (authenticUser == 200) {
-            handleModalClose();
-        }
-    }, [authenticUser]);
+
+        setSelectedRoom(hotelinfoGRN?.rates?.[selectedRoomIndex])
+    }, [selectedRoomIndex])
+
+
 
 
     // useEffect(() => {
+    //     setLoader(false)
 
-    // }, [reducerState?.hotelSearchResultGRN?.hotelGallery?.])
+    // }, [reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel])
+
+    const searchId = reducerState?.hotelSearchResultGRN?.ticketData
+        ?.data?.data?.search_id;
 
 
-    const handleClickSavePassenger = async () => {
-        if (authenticUser !== 200) {
-            setIsLoginModalOpen(true);
-        } else {
-            const payload = {
-                "rate_key": hotelinfoGRN?.rate?.rate_key,
-                "group_code": hotelinfoGRN?.rate?.group_code
-            }
+    const handleClickSaveRoom = async () => {
 
-            try {
-                setLoader(true)
-                const res = await axios({
-                    method: "POST",
-                    url: `${apiURL.baseURL}/skyTrails/grnconnect/bundledrates?searchId=${reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.search_id}`,
-                    data: payload,
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                })
-                if (res?.status == 200) {
-                    setLoader(false)
-                    navigate("/hotel/hotelsearchGRM/guestDetails/review");
+        setLoader(true);
 
-                }
 
-            } catch (error) {
-                console.log(error)
-            }
+        const payload = {
+
+            "data": {
+                "rate_key": selectedRoom?.rate_key,
+                "group_code": selectedRoom?.group_code
+            },
+            "searchID": searchId,
         }
+
+        console.log(payload, "payload")
+
+        dispatch(HotelRoomSelectReqGRN(payload))
+        navigate("/hotel/hotelsearchGRM/hotelbookroom/guestDetails")
+
     };
 
     console.log(reducerState, "reducer state")
@@ -262,60 +260,39 @@ const HotelBookRoomGRN = () => {
 
 
 
-
-                                            <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
-                                                <div className="roomCompo" >
-                                                    <div className="offer_area ">
-                                                        <div className="inneraccorHotel">
-                                                            <div className="roomTypeName">
-                                                                <p className="first">
-                                                                    "filteredComponent[0]?.RoomTypeName"
-                                                                </p>
+                                            <div>
+                                                {hotelinfoGRN?.rates?.map((item, index) => (
+                                                    <div className="roomCompo" key={index}>
+                                                        <div className="offer_area">
+                                                            <input
+                                                                className="form-check-input"
+                                                                type="checkbox"
+                                                                style={{ width: "25px", height: "25px" }}
+                                                                value=""
+                                                                checked={selectedRoomIndex === index}
+                                                                onChange={() => handleRoomSelection(index)}
+                                                            />
+                                                            <div className="inneraccorHotel">
+                                                                {item?.rooms.map((room, e) => (
+                                                                    <div className="ratePlan" key={e}>
+                                                                        <p className="first">{room?.room_type}</p>
+                                                                    </div>
+                                                                ))}
                                                             </div>
-
-                                                            <div className="ratePlan">
-
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="checkbox"
-                                                                    style={{ width: "25px", height: "25px" }}
-                                                                    value=""
-                                                                    // disabled={row >= 0 && col > 0 && filteredComponent[0].disabled}
-                                                                    checked
-                                                                // onClick={(e) => {
-                                                                //     setDisabledOption(RoomIndexArr);
-                                                                // }}
-                                                                />
-                                                                <p className="text">
-                                                                    filteredComponent[0]?.RatePlanName
-                                                                </p>
-                                                            </div>
-                                                            <div className="smolking">
-                                                                <p> Smoking Preference :filteredComponent[0]?.SmokingPreference</p>
-                                                            </div>
-
-                                                            <p className="text">
-                                                                Last Cancellation till:
-
-                                                                displayText
-
-                                                            </p>
-                                                        </div >
-                                                        <div className="priceCheck">
-                                                            <p className="price">
-                                                                ₹70900
-                                                            </p>
-                                                            <div>
-                                                                <h3
-                                                                // onClick={(e) => {
-                                                                // setDisabledOption(RoomIndexArr);
-                                                                // }}
-                                                                >Select Room</h3>
+                                                            <div className="priceCheck">
+                                                                <p className="price">₹ {item?.price}</p>
+                                                                <div>
+                                                                    <h3
+                                                                        onClick={() => handleRoomSelection(index)}
+                                                                    >Select Room</h3>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </motion.div>
+                                                ))}
+
+                                            </div>
+
                                             <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
                                                 <div className="bookflightPassenger">
                                                     <form>
@@ -402,20 +379,16 @@ const HotelBookRoomGRN = () => {
 
                                                     <button
                                                         type="submit"
-                                                        onClick={handleClickSavePassenger}
+                                                        onClick={handleClickSaveRoom}
 
                                                     >
-                                                        Proceed to Book
+                                                        Continue
                                                     </button>
 
                                                 </div>
                                             </div>
 
-                                            <Modal open={bookingSuccess}>
-                                                <Box sx={styleLoader}>
-                                                    <CircularProgress size={70} thickness={4} />
-                                                </Box>
-                                            </Modal>
+
                                         </motion.div>
                                     </div>
                                 </div>
@@ -425,64 +398,6 @@ const HotelBookRoomGRN = () => {
                 </>
             )}
 
-            <Modal
-                open={isLoginModalOpen}
-                onClose={handleModalClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                sx={{ zIndex: "999999" }}
-            >
-                <div class="login-page">
-                    <div class="container ">
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-lg-5 ">
-                                <div class="bg-white shadow roundedCustom">
-                                    <div class="">
-                                        <div class="col-md-12 ps-0  d-md-block">
-                                            <div class="form-right leftLogin h-100 text-white text-center ">
-                                                <CloseIcon
-                                                    className="closeIncon"
-                                                    onClick={handleModalClose}
-                                                />
-                                                <div className="loginImg logg">
-                                                    <img src={login01} alt="login01" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 pe-0">
-                                            <div class="form-left h-100 d-flex justify-content-center flex-column py-4 px-3">
-                                                <div class="row g-4">
-                                                    <div
-                                                        class="col-12"
-                                                        style={{
-                                                            display: "flex",
-                                                            justifyContent: "center",
-                                                        }}
-                                                    >
-                                                        <label className="mb-3">
-                                                            Please Login to Continue
-                                                            <span class="text-danger">*</span>
-                                                        </label>
-                                                    </div>
-                                                    <div
-                                                        class="col-12"
-                                                        style={{
-                                                            display: "flex",
-                                                            justifyContent: "center",
-                                                        }}
-                                                    >
-                                                        <Login />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </Modal>
         </>
     );
 };

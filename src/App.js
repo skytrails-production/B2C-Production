@@ -281,10 +281,10 @@ function App() {
 
         <Route path="GrmHotelHome" element={<GrmHotelHome />}></Route>
         <Route exact path="/hotel/hotelsearchGRM" element={<HotelResult />} />
-        <Route exact path="/hotel/hotelbookroom" element={<HotelBookRoomGRN />} />
-        <Route path="/hotel/hotelsearchGRM/guestDetails" element={<BookingDetailsGRN />}
+        <Route exact path="/hotel/hotelsearchGRM/hotelbookroom" element={<HotelBookRoomGRN />} />
+        <Route exact path="/hotel/hotelsearchGRM/hotelbookroom/guestDetails" element={<BookingDetailsGRN />}
         />
-        <Route path="/hotel/hotelsearchGRM/guestDetails/review" element={<BookingReviewGRN />} />
+        <Route exact path="/hotel/hotelsearchGRM/hotelbookroom/guestDetails/review" element={<BookingReviewGRN />} />
         <Route path="/hotel/hotelsearchGRM/guestDetails/review/ticket" element={<HotelTicketDB />} />
         {/* old hotel routes  */}
 

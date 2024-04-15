@@ -76,8 +76,10 @@ export default function LoginForm() {
   const [otp, setOtp] = useState("");
   const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
+  const [referral, setReferral] = useState("")
   const [loader, setLoader] = useState(false);
   const [alreadyExist, setAlreadyExist] = useState(false)
+  const [referralError, setReferralError] = useState(false)
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -95,12 +97,14 @@ export default function LoginForm() {
   const handleOtpModalClose = () => setOpenOtpModal(false);
   const handleSignUpModalOpen = () => {
     setAlreadyExist(false)
+    setReferralError(false);
     setOpenSignUpModal(true);
   }
   const handleSignUpModalClose = () => {
     setOpenSignUpModal(false);
     setEmail("");
     setName("");
+    setReferral("");
     setLoader(false);
     setFinalDate("");
   };
@@ -249,9 +253,11 @@ export default function LoginForm() {
   };
 
   // first time user data
+  console.log(referral, "referral")
 
   const signUpUser = async () => {
     setAlreadyExist(false)
+    setReferralError(false)
     setLoader(true)
 
     let payloadotp = {
@@ -259,16 +265,23 @@ export default function LoginForm() {
       fullName: name,
       dob: finalDate,
       email: email,
+      referrerCode: referral,
     };
 
     dispatch(loginAction(payloadotp));
+
   };
+
+
 
 
   useEffect(() => {
     setLoader(false)
     if (reducerState?.logIn?.loginData?.data?.message === "This mobile number already exists" || reducerState?.logIn?.loginData?.data?.message === "This email already exist") {
       setAlreadyExist(true);
+    }
+    if (reducerState?.logIn?.loginData?.data?.message === "Incorect referal code,please provide valid code..!") {
+      setReferralError(true);
     }
   }, [reducerState?.logIn?.loginData, reducerState?.logIn?.loginData?.data?.message])
 
@@ -800,6 +813,33 @@ export default function LoginForm() {
                                 )
                             }
 
+
+                            <div class="col-12">
+                              <label>
+                                Referral Code (Optional)
+                                {/* <span class="text-danger">*</span> */}
+                              </label>
+                              <div class="input-group">
+                                <div class="input-group-text">
+                                  <i>
+                                    <EventIcon />
+                                  </i>
+                                </div>
+                                <input
+                                  type="tel"
+                                  value={referral}
+                                  onChange={(e) => setReferral(e.target.value)}
+                                  name="phone"
+                                  class="form-control"
+                                  placeholder="Eg: DF1AF354"
+                                />
+                                {referralError && (
+                                  <div className="input-group-absolute">
+                                    This Referral Code is Invalid
+                                  </div>
+                                )}
+                              </div>
+                            </div>
 
                             <div class="col-12">
                               <label>

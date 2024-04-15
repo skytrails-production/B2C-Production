@@ -69,6 +69,26 @@ export const hotelReducerGRN = (state = initState, action) => {
       }
 
 
+
+    case types.HOTEL_ROOMSELECT_REQUEST:
+      return {
+        ...state,
+        isLoadingHotelRoom: true,
+        isError: false,
+      };
+
+    case types.HOTEL_ROOMSELECT_SUCCESS:
+      return {
+        ...state,
+        hotelRoom: payload?.data?.data,
+        isLoadingHotelRoom: false,
+        isError: false,
+        showSuccessMessage: true,
+      };
+
+
+
+
     case types.HOTEL_B0OKROOM_REQUESTGRN:
       return {
         ...state,
