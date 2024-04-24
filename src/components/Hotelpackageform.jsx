@@ -129,9 +129,10 @@ const Homeform = (props) => {
 
 
     <>
-
-      <section className="" style={{ width: "100%", position: "absolute", left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
-        <div className="container d-flex justify-content-center w-100" >
+     <div className="homeabsnew container">    
+       <section className="" style={{ width: "100%"}}>
+       <p className="hotel-heading">Your journey for <span>Fulfilled Trips</span> begins here</p>
+        <div className="container d-flex justify-content-center w-100 " style={{marginTop:"12px"}} >
           <div className="row packageBg">
             <div className="col-12 p-0">
               <form onSubmit={handleFromClicks}>
@@ -198,12 +199,14 @@ const Homeform = (props) => {
                     </div>
                   </div>
 
-                  <div className="PackageInner">
+                  <div className=" onewaySearch-btn">
                     {citylastlast === "" ?
                       <div className="searchButt" ref={fromSearchButtonRef} >
-                        <FaSearch />
+                        {/* <FaSearch /> */}
+                        Search
                       </div> : <div className="searchButt" onClick={handleFromClicks} ref={fromSearchButtonRef}>
-                        <FaSearch />
+                        {/* <FaSearch /> */}
+                        Search
                       </div>}
                   </div>
                 </div>
@@ -212,6 +215,8 @@ const Homeform = (props) => {
           </div>
         </div>
       </section>
+      </div>
+
 
     </>
   );

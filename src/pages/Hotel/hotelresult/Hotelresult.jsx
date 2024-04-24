@@ -9,7 +9,6 @@ import "./hotelresult.css";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 import { swalModal } from "../../../utility/swal"
 
 
@@ -239,9 +238,7 @@ export default function Popularfilter() {
   return (
     <section className="">
       <div className='mainimgHotelSearchResult'>
-        {/* <Navbar /> */}
-        {/* <BigNavbar /> */}
-        <InsideNavbar />
+   
         <div className="container searchMainBoxAbs">
           <div className="HotelResultSearchBarBox">
             <div className="hotelResSurBox">

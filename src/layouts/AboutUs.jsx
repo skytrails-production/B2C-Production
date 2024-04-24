@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import InsideNavbar from "../UI/BigNavbar/InsideNavbar"
 import { SpinnerCircular } from 'spinners-react';
 import { apiURL } from '../Constants/constant';
 
@@ -34,9 +33,7 @@ const AboutUs = () => {
 
     return (
         <div>
-            <>
-                <InsideNavbar />
-            </>
+           
             <div style={{ overflow: "hidden" }}>
                 <div className="container">
                     {

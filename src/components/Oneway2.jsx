@@ -313,12 +313,6 @@ const Oneway2 = (props) => {
     class: "1",
   });
 
-  // const sendTravelClass = (data2) => {
-  //   setData(data2);
-  // };
-
-
-
   useEffect(() => {
     // handleOnewaySubmit() 
     if (isPopularSearch) {
@@ -330,30 +324,7 @@ const Oneway2 = (props) => {
     };
   }, [])
 
-  // const handleDummyTicketBooking = () => {
-  //   const payload = {
-  //     EndUserIp: reducerState?.ip?.ipData,
-  //     TokenId: reducerState?.ip?.tokenData,
-  //     AdultCount: 1,
-  //     ChildCount: 0,
-  //     InfantCount: 0,
-  //     DirectFlight: "false",
-  //     OneStopFlight: "false",
-  //     JourneyType: data2.class || "1",
-  //     PreferredAirlines: null,
-  //     Segments: [
-  //       {
-  //         Origin: selectedFrom.AirportCode,
-  //         Destination: selectedTo.AirportCode,
-  //         FlightCabinClass: activeIdClass,
-  //         PreferredDepartureTime: formattedDate2,
-  //         PreferredArrivalTime: formattedDate2,
-  //       },
-  //     ],
-  //     Sources: ["GDS"],
-  //   };
-  //   dispatch(oneWayAction(payload));
-  // }
+  
 
   const handleOneWaySubmitPopularSearch = () => {
     const payload = {
@@ -458,7 +429,7 @@ const Oneway2 = (props) => {
 
         }}
       >
-        {/* <section className="margin-pecentage"> */}
+      
         <div className="container">
           <div className="row oneWayBg1">
 
@@ -466,29 +437,24 @@ const Oneway2 = (props) => {
             <div className="col-12 p-0">
 
 
-
-              {/* <TabPanel value="1"> */}
-
-
               <form onSubmit={handleOnewaySubmit}>
                 <div className="your-container1">
                   <div
                     onClick={(e) => {
-                      e.stopPropagation(); // Stop event bubbling
+                      e.stopPropagation();
                       setFromToggle(true);
                       setdisplayFrom(true);
-                      // setIsLoadingFrom(true);
-                      // ; alert(fromToggle, "/////")
+                      
 
                     }} className="from-container12">
                     <span>From</span>
                     <div>
 
                       <label  >{selectedFrom.name}</label>
-                      {/* {isLoadingFrom && <div>Loading...</div>} */}
+                     
 
                       {
-                        // fromSearchResults && fromSearchResults.length > 0 && fromQuery.length >= 2
+                       
                         fromToggle
                         && (
                           <div
@@ -524,13 +490,13 @@ const Oneway2 = (props) => {
 
                                     onChange={(event) => {
                                       handleFromInputChange(event);
-                                      // setIsLoadingFrom(true);
+                                      
                                       handleFromSearch(event.target.value);
 
 
 
                                     }}
-                                    // required
+                                    
                                     style={{
                                       outline: "none",
                                       border: "none",
@@ -556,10 +522,7 @@ const Oneway2 = (props) => {
                                       <div className="onewayResultFirst">
                                         <div><FlightTakeoffTwoToneIcon /></div>
                                         <div className="resultOriginName"
-                                        //  onClick={(e) => {
-                                        //   e.stopPropagation(); // Stop event bubbling
-
-                                        // }}
+                                       
                                         >
                                           <p>{result.name}</p>
                                           <span>{result.code}</span>
@@ -576,24 +539,7 @@ const Oneway2 = (props) => {
                           </div>
                         )}
                     </div>
-                    {/* {fromSearchResults && fromSearchResults.length > 0 && fromQuery.length >= 2 ? (
-                        <span>
-                          {selectedFrom ? (
-                            <>
-                              {selectedFrom.code}, {selectedFrom.name}
-                            </>
-                          ) : (
-                            <>
-                              {fromSearchResults[0].code}, {fromSearchResults[0].name}
-                            </>
-                          )}
-                        </span>
-                      ) :
-                        (
-                          <span>Airport Name</span>
-                        )
-
-                      } */}
+                    
 
 
                     <div className="roundlogo1" onClick={(e) => {
@@ -649,9 +595,9 @@ const Oneway2 = (props) => {
 
 
                       <label  >{selectedTo.name}</label>
-                      {/* {isLoadingTo && <div>Loading...</div>} */}
+                      
                       {
-                        // toSearchResults && toSearchResults.length > 0 && toQuery.length >= 2 &&
+                        
                         toToggle &&
                         (
                           <div
@@ -729,25 +675,7 @@ const Oneway2 = (props) => {
                           </div>
                         )}
                     </div>
-                    {/* {toSearchResults && toSearchResults.length > 0 && toQuery.length >= 2 ? (
-                        <span>
-                          {selectedTo ? (
-                            <>
-                              {selectedTo.code}, {selectedTo.name}
-                            </>
-                          ) : (
-                            <>
-                              {toSearchResults[0].code}, {toSearchResults[0].name}
-                            </>
-                          )}
-                        </span>
-                      ) :
-                        (
-                          <span>Airport Name</span>
-                        )
-
-                      } */}
-
+                    
 
 
                   </div>
@@ -766,7 +694,7 @@ const Oneway2 = (props) => {
                       </div>
 
                     </div>
-                    {/* <span>{getDayOfWeek(startDate)}</span> */}
+                    
                   </div>
 
                   <div className="travellerContainer12 ">
@@ -802,7 +730,7 @@ const Oneway2 = (props) => {
                           <div className="travellerModal">
                             <div><h3>TRAVELLERS & CLASS</h3></div>
                             <div className="travellerPeople">
-                              {/* Use the TravelerCounter component for each category */}
+                              
                               <TravelerCounter
                                 label="Adults (Age 12+ Years)"
                                 count={activeIdAdult}
@@ -875,11 +803,7 @@ const Oneway2 = (props) => {
                 </div>
               </form>
 
-              {/* =====================> 2nd form here <============================================= */}
-              {/* </TabPanel> */}
-
-
-              {/* </TabContext> */}
+              
             </div>
           </div>
         </div>

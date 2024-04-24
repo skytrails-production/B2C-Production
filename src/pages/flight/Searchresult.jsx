@@ -2,7 +2,6 @@ import Searchsection from './Searchsection';
 import Popularfilter from "./Popularfilter";
 import { useSelector } from "react-redux";
 // import FlightLoader from "./FlightLoader/FlightLoader";
-import InsideNavbar from "../../UI/BigNavbar/InsideNavbar"
 import Oneway2 from '../../components/Oneway2';
 import { useEffect, useState } from 'react';
 import { Helmet } from "react-helmet-async";
@@ -30,7 +29,6 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
             <div className="UniComp_BG">
                 <div className='mainimgFlightSearch'>
                     <Oneway2 />
-                    <InsideNavbar />
                 </div>
                 <Searchsection className='main_box' />
 

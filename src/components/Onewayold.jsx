@@ -455,7 +455,6 @@ const Homeform = (props) => {
           <div className="row oneWayBg">
             <div className="col-12 p-0">
               <form onSubmit={handleOnewaySubmit}>
-              <div >
                 <div className="your-container">
                   <div
                     onClick={(e) => {
@@ -468,7 +467,6 @@ const Homeform = (props) => {
                       }, 200);
                     }}
                     className="from-container"
-                    style={{borderTop:"none"}}
                     id="item-0"
                   >
                     <span>From</span>
@@ -623,7 +621,6 @@ const Homeform = (props) => {
                       }, 300)
                     }}
                     className="from-container"
-                    style={{borderTop:"none"}}
                     id="item-1"
                   >
                     <span>To</span>
@@ -856,30 +853,13 @@ const Homeform = (props) => {
                       </DialogActions>
                     </Dialog>
                   </div>
-                  <div className=" onewaySearch-btn" id="item-4">
+                  <div className=" onewaySearch" id="item-4">
                     <button type="submit" className="searchButt">
                       <h3 className="mb-0">Search</h3>
                     </button>
                   </div>
                 </div>
-               
-                  </div>
               </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
           </div>
         </div>

@@ -8,7 +8,6 @@ import hotelFilter from "../../images/hotelFilter.png"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 import { swalModal } from "../../utility/swal"
 import { hotelGalleryRequest, singleHotelGRN } from "../../Redux/HotelGRN/hotel";
 import "./hotelResult.css"
@@ -271,7 +270,6 @@ export default function HotelResult() {
                             <div className='mainimgHotelSearchResult'>
                                 {/* <Navbar /> */}
                                 {/* <BigNavbar /> */}
-                                <InsideNavbar />
                                 <div className="container searchMainBoxAbs">
                                     <div className="HotelResultSearchBarBox">
                                         <div className="hotelResSurBox">

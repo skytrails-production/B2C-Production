@@ -4,12 +4,10 @@ import { useParams } from "react-router-dom";
 import { apiURL } from "../Constants/constant";
 import { usePDF } from 'react-to-pdf';
 import "./FlightETicket.css";
-import InsideNavbar from "../UI/BigNavbar/InsideNavbar";
 import { BiSupport } from "react-icons/bi";
 const pdfLogo = "https://travvolt.s3.amazonaws.com/ST-Main-LogoPdf.png";
 const Spinner = () => {
     return <div className="spinner">
-        <InsideNavbar />
     </div>;
 };
 
@@ -55,7 +53,6 @@ const FlightETicket = () => {
     if (!data || data?.result?.length === 0) {
         // console.log(data, !Array.isArray(data?.result), data.result)
         return <div>
-            <InsideNavbar />
             No data available.</div>;
     }
     
@@ -87,7 +84,6 @@ const FlightETicket = () => {
 
     return (
         <>
-            <InsideNavbar />
             {loading ? (
                 <Spinner />
             ) : (

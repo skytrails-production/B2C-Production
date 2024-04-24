@@ -23,7 +23,6 @@ import {
 } from "../../../Redux/FlightBook/actionFlightBook";
 import axios from "axios";
 import ReturnSummaryWithCoupon from './ReturnSummaryWithCoupon';
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
 import Modal from "@mui/material/Modal";
 import loginnew from "../../../images/login-01.jpg"
 import Login from "../../../components/Login"
@@ -640,7 +639,6 @@ const ReturnReviewInternational = () => {
     return (
         <div>
             <div className="mainimgFlightSearch">
-                <InsideNavbar />
             </div>
             <div className="container px-0 pt-4">
                 <div className="row">

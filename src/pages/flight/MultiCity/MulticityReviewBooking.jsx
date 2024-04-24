@@ -22,7 +22,6 @@ import {
     flightReducerClear,
 } from "../../../Redux/FlightBook/actionFlightBook";
 import axios from "axios";
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
 import Modal from "@mui/material/Modal";
 import loginnew from "../../../images/login-01.jpg"
 import Login from "../../../components/Login"
@@ -566,7 +565,6 @@ const MulticityReviewBooking = () => {
     return (
         <div>
             <div className="mainimgFlightSearch">
-                <InsideNavbar />
             </div>
             <div className="container px-0 pt-4">
                 <div className="row">

@@ -1,11 +1,11 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from "react";
 import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
 import Home from "./pages/home/Home";
 import BookWrapper from "./pages/flight/Bookwrapper";
 import Searchresult from "./pages/flight/Searchresult";
 import "./App.css";
 import LoginForm from "./components/Login";
-import DummyTicketBookingForm from "./components/DummyTicketBookingForm"
+import DummyTicketBookingForm from "./components/DummyTicketBookingForm";
 import SignUp from "./components/Signup";
 import Hotel from "./pages/Hotel/HotelHome";
 import HolidayPackageSearchResult from "./pages/holidaypackages/holidaypackagesearchresult/HolidayPackageSearchResult";
@@ -27,8 +27,8 @@ import BusBookingConfirmation from "./pages/bus/busbookingconfirmation/BusBookin
 import Taxi from "./pages/taxi/Taxi";
 // import SeatLayout from "./pages/bus/bussearchresult/SeatLayout";
 import Footer from "./layouts/Footer";
-import TermandCondition from "./layouts/TermandCondition"
-import PrivacyPolicy from "./layouts/PrivacyPolicy"
+import TermandCondition from "./layouts/TermandCondition";
+import PrivacyPolicy from "./layouts/PrivacyPolicy";
 // import { useLocation } from "react-router-dom";
 // import ReturnFlight from "./pages/Return/ReturnFlight";
 // import PaymentReturn from "./pages/Return/PaymentReturn";
@@ -38,13 +38,13 @@ import BusResult from "./pages/bus/bussearchresult/BusResult";
 import Download from "./pages/home/Download";
 import Holidayinfo from "./pages/holidaypackages/holidaypackagesearchresult/Holidayinfo";
 
-import SsdcForm from './components/ssdc/SSDClanding'
-import Hotelresult from './pages/Hotel/hotelresult/Hotelresult';
-import HotelSearch from './pages/Hotel/hotelsearch/HotelSearch';
-import HotelBooknow from './pages/Hotel/hotelbokknow/HotelBooknow'
-import Reviewbooking from './pages/Hotel/hotelreviewbooking/Reviewbooking'
-import { useDispatch } from 'react-redux';
-import { getMarkUpAction } from './Redux/markup/markupAction';
+import SsdcForm from "./components/ssdc/SSDClanding";
+import Hotelresult from "./pages/Hotel/hotelresult/Hotelresult";
+import HotelSearch from "./pages/Hotel/hotelsearch/HotelSearch";
+import HotelBooknow from "./pages/Hotel/hotelbokknow/HotelBooknow";
+import Reviewbooking from "./pages/Hotel/hotelreviewbooking/Reviewbooking";
+import { useDispatch } from "react-redux";
+import { getMarkUpAction } from "./Redux/markup/markupAction";
 import Guestdetail from "./pages/Hotel/guestdetail/Guestdetail";
 import HotelTicketGeneration from "./pages/Hotel/HotelTicketGeneration/HotelTicketGeneration";
 import RefundPolicy from "./layouts/RefundPolicy";
@@ -52,49 +52,44 @@ import AboutUs from "./layouts/AboutUs";
 import BookedTicket from "./pages/flight/BookedTicket";
 import Flighterror from "./pages/flight/Flighterror";
 import ContactUs from "./layouts/ContactUs";
-import BookingHistory from "./components/bookingHistory/BookingHistory"
+import BookingHistory from "./components/bookingHistory/BookingHistory";
 import HolidayCategoryDetails from "./pages/holidaypackages/holidayCategory/HolidayCategoryDetails";
-import { debounce } from 'lodash';
-import { useLocation } from 'react-router-dom';
-// import InsideNavbar from "./UI/BigNavbar/InsideNavbar"
+import { debounce } from "lodash";
+import { useLocation } from "react-router-dom";
+import InsideNavbar from "./UI/BigNavbar/InsideNavbar";
 
-import FlightETicket from "../src/components/FlightETicket"
+import FlightETicket from "../src/components/FlightETicket";
 import BusETicket from "../src/components/BusETicket";
-import DummyPnrHome from "./components/DummyPnrHome"
-import HolidayCountryDetails from './pages/holidaypackages/holidayCategory/HolidayCountryDetails';
-import Events from './pages/Event/Events';
-import ReturnMain from './pages/flight/ReturnFlight/ReturnMain';
-import ReturnResult from './pages/flight/ReturnFlight/ReturnResult';
-import ReturnResultInternational from './pages/flight/ReturnFlight/ReturnResultInternational';
-import ReturnPassenger from './pages/flight/ReturnFlight/ReturnPassenger';
+import DummyPnrHome from "./components/DummyPnrHome";
+import HolidayCountryDetails from "./pages/holidaypackages/holidayCategory/HolidayCountryDetails";
+import Events from "./pages/Event/Events";
+import ReturnMain from "./pages/flight/ReturnFlight/ReturnMain";
+import ReturnResult from "./pages/flight/ReturnFlight/ReturnResult";
+import ReturnResultInternational from "./pages/flight/ReturnFlight/ReturnResultInternational";
+import ReturnPassenger from "./pages/flight/ReturnFlight/ReturnPassenger";
 
-import Whatsapp from './Whatsapp';
-import ReturnReviewBooking from './pages/flight/ReturnFlight/ReturnReviewBooking';
+import Whatsapp from "./Whatsapp";
+import ReturnReviewBooking from "./pages/flight/ReturnFlight/ReturnReviewBooking";
 // import BookedTicketWithReturn from './pages/flight/ReturnFlight/BookedTicketWithReturn';
-import BookedTicketWithReturn from "./pages/flight/ReturnFlight/BookTicketWithReturn"
+import BookedTicketWithReturn from "./pages/flight/ReturnFlight/BookTicketWithReturn";
 
-import PassengerInternational from './pages/flight/ReturnFlight/PassengerInternational';
-import ReturnReviewInternational from './pages/flight/ReturnFlight/ReturnReviewInternational';
-import BookedTicketInternationalDB from './pages/flight/ReturnFlight/BookedTicketInternationalDB';
+import PassengerInternational from "./pages/flight/ReturnFlight/PassengerInternational";
+import ReturnReviewInternational from "./pages/flight/ReturnFlight/ReturnReviewInternational";
+import BookedTicketInternationalDB from "./pages/flight/ReturnFlight/BookedTicketInternationalDB";
 
-import { useNetworkState } from "react-use"
-import Offline from "./components/Offline"
-import HolidayBudgetDetails from './pages/holidaypackages/holidayCategory/HolidayBudgetDetails';
-import MulticityResult from './pages/flight/MultiCity/MulticityResult';
-import MulticityPassengerDetails from './pages/flight/MultiCity/MulticityPassengerDetails';
-import MulticityReviewBooking from './pages/flight/MultiCity/MulticityReviewBooking';
-import BookedTicketMulticityDB from './pages/flight/MultiCity/BookedTicketMulticityDB';
-import GrmHotelHome from './pages/GRMHotel/GrmHotelHome';
-import HotelResult from './pages/GRMHotel/HotelResult';
-import BookingDetailsGRN from './pages/GRMHotel/BookingDetailsGRN';
-import BookingReviewGRN from './pages/GRMHotel/BookingReviewGRN';
-import HotelTicketDB from './pages/GRMHotel/HotelTicketDB';
-import HotelBookRoomGRN from './pages/GRMHotel/HotelBookRoomGRN';
-
-
-
-
-
+import { useNetworkState } from "react-use";
+import Offline from "./components/Offline";
+import HolidayBudgetDetails from "./pages/holidaypackages/holidayCategory/HolidayBudgetDetails";
+import MulticityResult from "./pages/flight/MultiCity/MulticityResult";
+import MulticityPassengerDetails from "./pages/flight/MultiCity/MulticityPassengerDetails";
+import MulticityReviewBooking from "./pages/flight/MultiCity/MulticityReviewBooking";
+import BookedTicketMulticityDB from "./pages/flight/MultiCity/BookedTicketMulticityDB";
+import GrmHotelHome from "./pages/GRMHotel/GrmHotelHome";
+import HotelResult from "./pages/GRMHotel/HotelResult";
+import BookingDetailsGRN from "./pages/GRMHotel/BookingDetailsGRN";
+import BookingReviewGRN from "./pages/GRMHotel/BookingReviewGRN";
+import HotelTicketDB from "./pages/GRMHotel/HotelTicketDB";
+import HotelBookRoomGRN from "./pages/GRMHotel/HotelBookRoomGRN";
 
 function App() {
   // const location = useLocation();
@@ -128,16 +123,12 @@ function App() {
     };
   }, []);
 
-
-
-
   useEffect(() => {
-    dispatch(getMarkUpAction())
-  }, [])
+    dispatch(getMarkUpAction());
+  }, []);
 
   // const isSearchResult = location.pathname.includes("/Searchresult");
   // const isPayment = location.pathname.includes("/payment");
-
 
   // const [windowWidth, setWindowWidth] = useState(window.innerWidth > 750);
 
@@ -171,8 +162,6 @@ function App() {
   //   }
   // }, [windowWidth]);
 
-
-
   // if (!windowWidth) {
   //   return (
 
@@ -182,20 +171,11 @@ function App() {
   //   )
   // }
 
-
-
-
-
-
   const { pathname } = useLocation();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
-
-
-
-
 
   const [showPopup, setShowPopup] = useState(false);
 
@@ -211,22 +191,21 @@ function App() {
     setShowPopup(false);
   };
 
-
   const handleDownload = () => {
-    navigate("/pefaevent")
+    navigate("/pefaevent");
     setShowPopup(false);
-  }
+  };
   if (!notOnline.online) {
-    return (<div>
-      <Offline />
-    </div>)
+    return (
+      <div>
+        <Offline />
+      </div>
+    );
   }
-
 
   return (
     <div className="background_gradient">
       {/* /Searchresult */}
-
 
       {/* {showPopup && (
         <div className="popup-container">
@@ -238,19 +217,41 @@ function App() {
           </div>
         </div>
       )} */}
+      <InsideNavbar />
 
       <Routes>
         <Route index element={<Home />}></Route>
         {/* <Route path="/Return" element={<ReturnMain />}></Route> */}
         <Route path="/ReturnResult" element={<ReturnResult />}></Route>
-        <Route path="/ReturnResultInternational" element={<ReturnResultInternational />}></Route>
-        <Route path="/ReturnResultInternational/PassengerDetailsInternational" element={<PassengerInternational />}></Route>
-        <Route path="/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational" element={<ReturnReviewInternational />}></Route>
-        <Route path="/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl" element={<BookedTicketInternationalDB />}></Route>
+        <Route
+          path="/ReturnResultInternational"
+          element={<ReturnResultInternational />}
+        ></Route>
+        <Route
+          path="/ReturnResultInternational/PassengerDetailsInternational"
+          element={<PassengerInternational />}
+        ></Route>
+        <Route
+          path="/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational"
+          element={<ReturnReviewInternational />}
+        ></Route>
+        <Route
+          path="/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl"
+          element={<BookedTicketInternationalDB />}
+        ></Route>
         <Route path="/multicityresult" element={<MulticityResult />}></Route>
-        <Route path="/multicityresult/PassengerDetailsMulticity" element={<MulticityPassengerDetails />}></Route>
-        <Route path="/multicityresult/PassengerDetailsMulticity/multicityreviewbooking" element={<MulticityReviewBooking />}></Route>
-        <Route path="/multicityresult/PassengerDetailsMulticity/multicityreviewbooking/bookedTicketMulticityDB" element={<BookedTicketMulticityDB />}></Route>
+        <Route
+          path="/multicityresult/PassengerDetailsMulticity"
+          element={<MulticityPassengerDetails />}
+        ></Route>
+        <Route
+          path="/multicityresult/PassengerDetailsMulticity/multicityreviewbooking"
+          element={<MulticityReviewBooking />}
+        ></Route>
+        <Route
+          path="/multicityresult/PassengerDetailsMulticity/multicityreviewbooking/bookedTicketMulticityDB"
+          element={<BookedTicketMulticityDB />}
+        ></Route>
         <Route
           exact
           path="/FlightresultReturn/Passengerdetail"
@@ -272,20 +273,31 @@ function App() {
         <Route path="/payment" element={<Payment />} />
         <Route path="/download" element={<Download />} />
 
-
         {/* new grm hotel routes  */}
-
-
 
         {/* new grm hotel routes  */}
 
         <Route path="GrmHotelHome" element={<GrmHotelHome />}></Route>
         <Route exact path="/hotel/hotelsearchGRM" element={<HotelResult />} />
-        <Route exact path="/hotel/hotelsearchGRM/hotelbookroom" element={<HotelBookRoomGRN />} />
-        <Route exact path="/hotel/hotelsearchGRM/hotelbookroom/guestDetails" element={<BookingDetailsGRN />}
+        <Route
+          exact
+          path="/hotel/hotelsearchGRM/hotelbookroom"
+          element={<HotelBookRoomGRN />}
         />
-        <Route exact path="/hotel/hotelsearchGRM/hotelbookroom/guestDetails/review" element={<BookingReviewGRN />} />
-        <Route path="/hotel/hotelsearchGRM/guestDetails/review/ticket" element={<HotelTicketDB />} />
+        <Route
+          exact
+          path="/hotel/hotelsearchGRM/hotelbookroom/guestDetails"
+          element={<BookingDetailsGRN />}
+        />
+        <Route
+          exact
+          path="/hotel/hotelsearchGRM/hotelbookroom/guestDetails/review"
+          element={<BookingReviewGRN />}
+        />
+        <Route
+          path="/hotel/hotelsearchGRM/guestDetails/review/ticket"
+          element={<HotelTicketDB />}
+        />
         {/* old hotel routes  */}
 
         <Route path="hotel" element={<Hotel />}></Route>
@@ -313,11 +325,9 @@ function App() {
 
         {/* old hotel routes  */}
 
-
         {/* e-ticket route */}
         <Route exact path="/FlightEticket/:id" element={<FlightETicket />} />
         <Route exact path="/busEticket/:id" element={<BusETicket />} />
-
 
         {/* Holiday packages routes */}
         <Route path="holidaypackages" element={<Holidaypackages />}></Route>
@@ -351,10 +361,7 @@ function App() {
           element={<HolidayPackageSearchResult />}
         />
 
-        <Route
-          path="/SSDC/:country"
-          element={<SsdcForm />}
-        ></Route>
+        <Route path="/SSDC/:country" element={<SsdcForm />}></Route>
 
         {/* Bus */}
         <Route path="bus" element={<Bus />}></Route>
@@ -383,9 +390,15 @@ function App() {
         <Route path="aboutus" element={<AboutUs />}></Route>
         <Route path="contactus" element={<ContactUs />}></Route>
         <Route path="/bookedTicket" element={<BookedTicket />}></Route>
-        <Route path="/bookedTicketWithReturn" element={<BookedTicketWithReturn />}></Route>
+        <Route
+          path="/bookedTicketWithReturn"
+          element={<BookedTicketWithReturn />}
+        ></Route>
         <Route path="/bookinghistory" element={<BookingHistory />}></Route>
-        <Route path="/oneWayDummyPnr" element={<DummyTicketBookingForm />}></Route>
+        <Route
+          path="/oneWayDummyPnr"
+          element={<DummyTicketBookingForm />}
+        ></Route>
         <Route path="/oneWayDummyHome" element={<DummyPnrHome />}></Route>
         <Route path="/pefaevent" element={<Events />}></Route>
       </Routes>

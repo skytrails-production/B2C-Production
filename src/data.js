@@ -1,49 +1,44 @@
-import flightLogo from "./images/flight.svg";
-import hotelLogo from "./images/hotel.svg";
-import packageLogo from "./images/holiday.svg";
-import busLogo from "./images/bus.svg";
-import visaLogo from "./images/visa.svg";
+
+import hotel from "./images/topicons/Hotel.svg";
+import flightimg from "./images/topicons/Airplane.svg";
+import packagesvg from "./images/topicons/Beach.svg";
+import bussvg from "./images/topicons/Bus.svg";
+import passportsvg from "./images/topicons/Passport.svg";
 // import flightLogo from "./images/flight.svg";
+
+
+
 export const mainheaderlogos = [
     {
-        avatar: flightLogo,
+       
+        avatar:flightimg,
         name: "Flight",
         path: "/"
     },
     {
-        // avatar: require("./images/hotel.png"),
-        avatar: hotelLogo,
+        avatar:hotel,
         name: "Hotel",
-        // path: "/GrmHotelHome"
-        // avatar: hotelLogo,
-        // name: "Hotel",
         path: "/hotel"
 
     },
     {
-        // avatar: require("./images/hotelpackages.png"),
-        avatar: packageLogo,
+
+        avatar:packagesvg,
         name: "Packages",
         path: "/holidaypackages"
     },
     {
-        // avatar: require("./images/bus.png"),
-        avatar: busLogo,
+        avatar:bussvg,
         name: "Bus",
         path: "/bus"
     },
     {
-        // avatar: require("./images/visa.png"),
-        avatar: visaLogo,
+       
+        avatar:passportsvg,
         name: "Visa",
         path: "https://theskytrails.com/"
     },
-    // {
-    //     avatar: require("./images/forex.png"),
-    //     name: "Forex",
-    //     path: "/forex"
-    // },
-
+    
 ]
 
 

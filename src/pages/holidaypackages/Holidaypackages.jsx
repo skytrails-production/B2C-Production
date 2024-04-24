@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Hotelpackageform from "../../components/Hotelpackageform";
 import Download from "../home/Download";
-import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 import { motion } from "framer-motion";
 // import onewayBG from "../../images/onewaybg.png"
 import onewayBG from "../../images/onewayBG.jpg";
@@ -151,14 +150,7 @@ const Hotelpackages = () => {
           "
         />
       </Helmet>
-      {/* <div className="mainimg">
-        <img className="bannerBack" src={onewayBG} alt="banner" />
-
-        <InsideNavbar />
-        <Hotelpackageform />
-      </div> */}
-
-      {/* <div className="mainimgPackage" style={{ backgroundImage: !isExit ? 'linear-gradient(90deg, #9ef4e9 0, #ade6e8 51%, #84c2c8)' : 'linear-gradient(to right, rgb(10, 35, 66) -140%, rgb(95 137 173) 51%, rgb(10, 35, 66) 100%)', transition: 'background-image 2s ease' }}> */}
+     
       <motion.div className="mainimgPackage" variants={ColorGradient} exit="exit" animate={isExit ? "close" : "open"}>
 
         <img
@@ -193,7 +185,6 @@ const Hotelpackages = () => {
           src={cloudright}
           alt="background"
         />
-        <InsideNavbar />
         <motion.div
           className="boxSun"
           variants={sunVarient} initial="initial" animate={isExit ? "close" : "open"}

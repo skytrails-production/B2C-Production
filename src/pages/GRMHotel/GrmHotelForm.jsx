@@ -401,7 +401,8 @@ const GrmHotelForm = () => {
             {loader ? (
                 <Hotelmainloading />
             ) : (
-                <section className="HotelAbsDesign">
+                <div className="container homeabsnew">
+                <section className="HotelAbsDesign w-100">
                     <div className="container">
                         <div className="row hotelFormBg">
                             <div className="col-12 px4 ddddd">
@@ -737,7 +738,7 @@ const GrmHotelForm = () => {
                                                     </DialogActions>
                                                 </Dialog>
                                             </div>
-                                            <div className="PackageInner" id="item-4H">
+                                            <div className="onewaySearch-btn" id="item-4H">
                                                 <button type="submit" className="searchButt">
                                                     <h3>Search</h3>
                                                 </button>
@@ -749,6 +750,8 @@ const GrmHotelForm = () => {
                         </div>
                     </div>
                 </section>
+                </div>
+                
             )}
         </>
     );

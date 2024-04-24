@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 import scroll from "../../images/scroll.png";
 import axios from "axios";
 import { apiURL } from "../../Constants/constant";
@@ -212,7 +211,6 @@ const Events = () => {
 
   return (
     <>
-      <InsideNavbar />
       <div className="mainimgEvent">
       <Link to="https://www.youtube.com/watch?v=2WnttqZmUu0" target="_blank">
         <ReactPlayer

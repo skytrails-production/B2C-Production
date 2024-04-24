@@ -108,7 +108,7 @@ const MulticityForm = () => {
     const [toQuery, setToQuery] = useState("mumbai");
     const [to, setTO] = useState("");
     const [toSearchResults, setToSearchResults] = useState([]);
-    const [loader, setLoader] = useState(false);
+    // const [loader, setLoader] = useState(false);
     const [displayTo, setdisplayTo] = useState(true);
 
 
@@ -190,7 +190,7 @@ const MulticityForm = () => {
 
     useEffect(() => {
         if (reducerState?.multicity?.isLoading === true) {
-            setLoader(true);
+            // setLoader(true);
         }
     }, [reducerState?.multicity?.isLoading]);
 
@@ -199,18 +199,6 @@ const MulticityForm = () => {
         reducerState?.multicity?.multicityData?.data?.data?.Response?.Results;
 
 
-    useEffect(() => {
-
-        if (returnResults) {
-
-            navigate("/multicityresult");
-        }
-        if (returnResults) {
-            setLoader(false);
-        }
-    }, [
-        reducerState?.multicity?.multicityData?.data?.data?.Response?.Results
-    ]);
 
     useEffect(() => {
         if (reducerState?.multicity?.multicityData?.data?.data?.Response?.
@@ -223,7 +211,7 @@ const MulticityForm = () => {
                 ErrorMessage, false
 
             )
-            setLoader(false)
+            // setLoader(false)
         }
     }, [reducerState?.multicity?.multicityData?.data?.data?.Response?.
         Error?.ErrorCode])
@@ -406,11 +394,9 @@ const MulticityForm = () => {
         sessionStorage.setItem("childs", activeIdChild);
         sessionStorage.setItem("infants", activeIdInfant);
 
-        // navigate(
-        //     `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
-        // );
 
         dispatch(multicityAction(payload));
+        navigate("/multicityresult");
 
     }
 
@@ -422,9 +408,9 @@ const MulticityForm = () => {
         setSelectedTo(tempFrom);
     };
 
-    if (loader) {
-        return <FlightLoader />;
-    }
+    // if (loader) {
+    //     return <FlightLoader />;
+    // }
 
 
 
@@ -873,8 +859,8 @@ const MulticityForm = () => {
 
 
 
-                                    <div className=" onewaySearch" id="item-5Return">
-                                        <button className="searchButt" onClick={handleAddTrip}>
+                                    <div className=" onewaySearch-btn" id="item-5Return">
+                                        <button className="searchButt w-100" onClick={handleAddTrip}>
                                             <h3 className="mb-0">ADD</h3>
                                         </button>
                                     </div>

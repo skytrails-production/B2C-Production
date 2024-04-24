@@ -5,11 +5,6 @@ import Reviewdescription from "./Reviewdescription";
 import "./review.css";
 import { useSelector } from "react-redux";
 import HotelLoading from "../hotelLoading/HotelLoading";
-import BigNavbar from "../../../UI/BigNavbar/BigNavbar";
-import Navbar from "../../../layouts/Navbar";
-import Mainheader from "../../../UI/Mainheader";
-import Hoteldescription from "../guestdetail/Hoteldescription"
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 import { motion } from "framer-motion";
 
 
@@ -42,7 +37,6 @@ const Reviewbooking = () => {
         <>
           <div className='mainimgHotelSearch'>
 
-            <InsideNavbar />
           </div>
 
 

@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 import logo from "../../images/red-logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import userApi from "../../Redux/API/api";
@@ -172,7 +171,6 @@ const BookedTicket = () => {
   return (
     <div>
       {/* <div className="mainimgFlightSearch"> */}
-      <InsideNavbar />
       {/* </div> */}
 
       {/* <div className="margin-pecentage">

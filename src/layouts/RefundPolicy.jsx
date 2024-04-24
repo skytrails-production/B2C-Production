@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import InsideNavbar from "../UI/BigNavbar/InsideNavbar"
 import "./termandcondition.css"
 import { Audio } from 'react-loader-spinner'
 import { SpinnerCircular } from 'spinners-react';
@@ -37,9 +36,7 @@ const RefundPolicy = () => {
 
     return (
         <div>
-            <>
-                <InsideNavbar />
-            </>
+           
 
             <div style={{ overflow: "hidden" }}>
                 <div className="container">

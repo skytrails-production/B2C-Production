@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import starsvg from "../../../images/star.svg"
 import FmdGoodIcon from '@mui/icons-material/FmdGood';
 import chevrondown from "../../../images/chevrondown.svg"
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 import { motion } from "framer-motion";
 import {
   clearHotelBlockRoom,
@@ -260,7 +259,6 @@ const HotelBooknow = () => {
 
       <div className='mainimgHotelSearch'>
 
-        <InsideNavbar />
       </div>
 
 

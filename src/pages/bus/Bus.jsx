@@ -3,17 +3,15 @@
 import Download from "../../pages/home/Download";
 // import Footer from "../../layouts/Footer";
 import Bussearch from "./Bussearch";
-// import OfferCard from "../flight/OfferCard";
-// import Navbar from "../../layouts/Navbar";
-// import Mainheader from "../../UI/Mainheader";
-// import BigNavbar from "../../UI/BigNavbar/BigNavbar";
-import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
+
 // bus css
 import { motion } from "framer-motion";
 import "./bus.css";
 import Advertise from "../home/Advertise";
 import FLightOffer from "../flight/FLightOffer";
+// import busimg from "../../images/"
 // import onewayBG from "../../images/onewaybg.png"
+import busimg from "../../images/aerial.png"
 import onewayBG from "../../images/onewayBG.jpg";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
@@ -50,8 +48,9 @@ const Taxi = () => {
       </Helmet>
 
       <div className="mainimg">
-        <img className="bannerBack" src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/onewayBG.jpg" alt="banner" />
-        <InsideNavbar />
+        {/* <img className="bannerBack" src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/onewayBG.jpg" alt="banner" /> */}
+        <img className="bannerBack" src={busimg} alt="banner" />
+      
         {/* <BigNavbar /> */}
         <Bussearch />
       </div>

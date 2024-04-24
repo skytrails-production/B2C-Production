@@ -11,11 +11,9 @@ import dayjs from 'dayjs';
 import { motion } from "framer-motion";
 import Divider from "@mui/material/Divider";
 
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
 import FlightLoader from '../FlightLoader/FlightLoader';
 import { swalModal } from '../../../utility/swal';
 import { clearPassengersReducer } from '../../../Redux/Passengers/passenger';
-// import InsideNavbar from "./../../UI/BigNavbar/InsideNavbar"
 
 const variants = {
     initial: {
@@ -341,7 +339,6 @@ const ReturnResultInternational = () => {
         <>
             <div className="UniComp_BG">
                 <div className='mb-5'>
-                    <InsideNavbar />
                 </div>
 
                 <div className='container'>

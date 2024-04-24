@@ -253,7 +253,7 @@ export default function LoginForm() {
   };
 
   // first time user data
-  console.log(referral, "referral")
+  // console.log(referral, "referral")
 
   const signUpUser = async () => {
     setAlreadyExist(false)
@@ -465,7 +465,7 @@ export default function LoginForm() {
           {/* for mobile device  */}
 
           <p className="d-none d-sm-block" variant="subtitle3" color="#fff">
-            <AccountCircleIcon sx={{ color: "white", marginRight: "8px" }} />
+            <AccountCircleIcon sx={{ color: "red", marginRight: "8px" }} />
             Login / Signup
           </p>
         </div>

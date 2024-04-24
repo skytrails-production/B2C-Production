@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 import HotelGuestDetailsGRN from "./HotelGuestDetailsGRN";
 import PriceSummaryGRN from "./PriceSummaryGRN";
 
@@ -14,7 +13,6 @@ const BookingDetailsGRN = () => {
 
         <>
             <div className='mainimgHotelSearch'>
-                <InsideNavbar />
             </div>
 
             <div className="my-4 ">

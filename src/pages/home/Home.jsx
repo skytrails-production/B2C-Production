@@ -7,7 +7,6 @@ import "./home.css";
 import { motion } from "framer-motion";
 import Advertise from "./Advertise";
 import FLightOffer from "../flight/FLightOffer";
-import InsideNavbar from "../../UI/BigNavbar/InsideNavbar"
 // import onewayBG from "../../images/onewaybg.png"
 import onewayBG from "../../images/onewayBG.jpg";
 // import BigNavbar from "../../UI/BigNavbar/BigNavbar";
@@ -21,6 +20,7 @@ import HolidayBudget from "../holidaypackages/holidayCategory/HolidayBudget";
 import ReturnForm from "../flight/ReturnFlight/ReturnForm";
 import SecureStorage from "react-secure-storage";
 import Partners from "./Partners";
+import flightbanner from "../../images/aerial.png";
 import EventBanner from "./EventBanner";
 import MulticityForm from "../flight/MultiCity/MulticityForm";
 
@@ -42,7 +42,7 @@ const variants = {
 const Home = () => {
   // console.log("helllo")
 
-  const [activeTab, setActiveTab] = useState('oneway');
+  const [activeTab, setActiveTab] = useState("oneway");
 
   const handleTabChange = (event) => {
     setActiveTab(event.target.value);
@@ -50,7 +50,7 @@ const Home = () => {
 
   useEffect(() => {
     sessionStorage.setItem("hdhhfb7383__3u8748", false);
-  }, [])
+  }, []);
 
   const downloadRef = useRef(null);
 
@@ -62,8 +62,6 @@ const Home = () => {
 
   return (
     <div className="home_banner">
-
-
       <Helmet>
         <title>The Skytrails</title>
         <link rel="canonical" href="/" />
@@ -76,78 +74,91 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
       </Helmet>
 
       <div className="mainimg">
-        {/* <img className="bannerBack" src="https://img.freepik.com/premium-vector/landscape-with-buildings-vehicles-morning-city-life_95169-195.jpg?w=1060" alt="background" /> */}
-        <img className="bannerBack" src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/onewayBG.jpg" alt="background" />
-        <InsideNavbar />
+        {/* <h1 style={{color:"black"}}>hellonjkedndjkn</h1> */}
+        {/* <img className="bannerBack" src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/onewayBG.jpg" alt="background" /> */}
+        <img className="bannerBack" src={flightbanner} alt="background" />
         {/* <BigNavbar /> */}
 
+        <div className="content-heading d-none d-sm-none">Find Flights , book your tickets with us</div>
 
-        <div className="buttonTabs">
-          <div className="container p-0">
-            {/* <button onClick={() => setActiveTab('oneway')}>Oneway</button>
+        {/* <div className="container"> */}
+          <div className="homeabsnew container">
+            <div className="buttonTabs">
+              <div className="container p-0">
+                {/* <button onClick={() => setActiveTab('oneway')}>Oneway</button>
             <button onClick={() => setActiveTab('return')}>Return</button> */}
-            <div className="tabBox">
-              <div className={activeTab === "oneway" ? "inputTabs" : ""}>
-                <input
-                  type="radio"
-                  id="oneway"
-                  name="tab"
-                  value="oneway"
-                  checked={activeTab === "oneway"}
-                  onChange={handleTabChange}
-                />
-                <label htmlFor="oneway">Oneway</label>
-              </div>
-              <div className={activeTab === "return" ? "inputTabs" : ""}>
-                <input
-                  type="radio"
-                  id="return"
-                  name="tab"
-                  value="return"
-                  checked={activeTab === "return"}
-                  onChange={handleTabChange}
-                />
-                <label htmlFor="return">Return</label>
-              </div>
-              <div className={activeTab === "multicity" ? "d-none d-sm-flex inputTabs" : "d-none d-sm-block "}>
-                <input
-                  type="radio"
-                  id="multicity"
-                  name="tab"
-                  value="multicity"
-                  checked={activeTab === "multicity"}
-                  onChange={handleTabChange}
-                />
-                <label htmlFor="multicity">Multicity</label>
+
+                <div className="tabBox">
+                  <div className={activeTab === "oneway" ? "inputTabs" : ""}>
+                    <input
+                      type="radio"
+                      id="oneway"
+                      name="tab"
+                      value="oneway"
+                      checked={activeTab === "oneway"}
+                      onChange={handleTabChange}
+                      style={{ display: "none" }}
+                    />
+                    <label htmlFor="oneway">Oneway</label>
+                  </div>
+                  <div className={activeTab === "return" ? "inputTabs" : ""}>
+                    <input
+                      type="radio"
+                      id="return"
+                      name="tab"
+                      value="return"
+                      checked={activeTab === "return"}
+                      onChange={handleTabChange}
+                      style={{ display: "none" }}
+                    />
+                    <label htmlFor="return">Return</label>
+                  </div>
+                  <div
+                    className={
+                      activeTab === "multicity"
+                        ? "d-none d-sm-flex inputTabs"
+                        : "d-none d-sm-block "
+                    }
+                  >
+                    <input
+                      type="radio"
+                      id="multicity"
+                      name="tab"
+                      value="multicity"
+                      checked={activeTab === "multicity"}
+                      onChange={handleTabChange}
+                      style={{ display: "none" }}
+                    />
+                    <label htmlFor="multicity">Multicity</label>
+                  </div>
+                </div>
               </div>
             </div>
+            {activeTab === "oneway" && <Oneway />}
+            {activeTab === "return" && <ReturnForm />}
+
+            {activeTab === "multicity" && <MulticityForm />}
           </div>
-        </div>
-        {activeTab === 'oneway' && <Oneway />}
-        {activeTab === 'return' && <ReturnForm />}
-        {/* <div className="d-none d-sm-block"> */}
-        {activeTab === 'multicity' && <MulticityForm />}
         {/* </div> */}
       </div>
 
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
-        <HolidayCategory variants={variants} />
-      </motion.div>
-
-      {/* <motion.div
+      <motion.div
         variants={variants}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true, amount: 0.8 }}
-        style={{ position: "relative" }}
       >
-        <EventBanner focusDownload={focusDownload} variants={variants} />
-      </motion.div> */}
-
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
-        <HolidayBudget variants={variants} />
+        <HolidayCategory variants={variants} />
       </motion.div>
 
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
+        <HolidayBudget variants={variants} />
+      </motion.div>
 
       <motion.div
         variants={variants}
@@ -177,29 +188,55 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         <Advertise variants={variants} />
       </motion.div>
 
-
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
         <HolidayDomestic variants={variants} />
       </motion.div>
 
-
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
         <SwipeToSlide variants={variants} />
       </motion.div>
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
         <Download downloadRef={downloadRef} variants={variants} />
       </motion.div>
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
         <WhyChooseUs variants={variants} />
       </motion.div>
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
         <FLightOffer variants={variants} />
       </motion.div>
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
         <Partners variants={variants} />
       </motion.div>
-
-
     </div>
   );
 };

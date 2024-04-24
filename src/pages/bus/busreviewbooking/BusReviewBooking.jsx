@@ -40,7 +40,6 @@ import Swal from "sweetalert2";
 import { swalModal } from "../../../utility/swal";
 // import { apiURL } from "../../../Constants/constant";
 import { motion } from "framer-motion";
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 import useRazorpay from "react-razorpay";
 import PaymentLoader from "../../flight/FlightLoader/paymentLoader";
 import { apiURL } from "../../../Constants/constant";
@@ -560,9 +559,7 @@ const BusReviewBooking = () => {
     return (
       <>
         <div className="mainimgBusSearch">
-          {/* <Navbar /> */}
-          {/* <BigNavbar /> */}
-          <InsideNavbar />
+         
         </div>
         <div className=" py-4">
           <div className="container ">

@@ -12,9 +12,8 @@ import "./returnresult.css";
 import dayjs from 'dayjs';
 import { motion } from "framer-motion";
 import Divider from "@mui/material/Divider";
-import { swalModal } from "../../../utility/swal"
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
-// import InsideNavbar from "./../../UI/BigNavbar/InsideNavbar"
+import { swalModal } from "../../../utility/swal";
+
 
 const variants = {
     initial: {
@@ -439,7 +438,6 @@ const ReturnResult = () => {
         <>
             <div className="UniComp_BG">
                 <div className='mb-5'>
-                    <InsideNavbar />
                 </div>
 
                 <div className='container'>
@@ -1174,7 +1172,7 @@ const ReturnResult = () => {
                             </div>
                         </div>
                         <div className="col-lg-9">
-                            <div className="row pt-5">
+                            <div className="row ">
                                 {/* <div className="col-lg-12"> */}
                                 <div className="col-6 ps-0">
                                     <div className="row">

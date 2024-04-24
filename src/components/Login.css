@@ -108,15 +108,7 @@
   color: white;
   padding: 8px 20px;
   border-radius: 8px;
-  background-image: linear-gradient(180deg, #d90429, #d904279c);
-
-  background-image: linear-gradient(
-    to right,
-    #d90429 0%,
-    #ea384d 51%,
-    #d90429 100%
-  );
-  /* padding: 15px 45px; */
+  background-color: #e73c34;
   text-align: center;
   text-transform: uppercase;
   transition: 0.5s;
@@ -132,25 +124,34 @@
 }
 
 .loginButt {
-  background-image: linear-gradient(
-    to right,
-    #d90429 0%,
-    #ea384d 51%,
-    #d90429 100%
-  );
-  padding: 7px 11px;
-  text-align: center;
-  text-transform: uppercase;
-  transition: 0.5s;
-  background-size: 200% auto;
-  color: white;
-  border-radius: 8px;
-  cursor: pointer;
+  display: flex;
+  border-radius: 64px;
+  border: 1px solid #e73c34;
+  background: var(--white, #fff);
+  color: #e73c34;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 160%;
+  padding: 8px 16px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+@media only screen and (max-width: 710px) {
+  .loginButt {
+    display: flex;
+
+    border: none !important;
+  }
 }
 
 .loginButt:hover {
   background-position: right center;
-  color: #fff;
+  cursor: pointer;
   text-decoration: none;
 }
 

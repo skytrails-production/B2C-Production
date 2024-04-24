@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Sailsummary from "./Sailsummary";
 import Hoteldescription from "./Hoteldescription";
 import "./guestdetail.css";
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 
 const Guestdetail = () => {
   const [toggle, setToggle] = useState(false);
@@ -30,7 +29,6 @@ const Guestdetail = () => {
   return (
     <>
       <div className="mainimgHotelSearch">
-        <InsideNavbar />
       </div>
 
       <div className="my-4">

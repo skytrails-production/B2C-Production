@@ -32,7 +32,6 @@ import SportsKabaddiIcon from "@mui/icons-material/SportsKabaddi";
 import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import FmdGoodIcon from "@mui/icons-material/FmdGood";
 import WifiPasswordIcon from "@mui/icons-material/WifiPassword";
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 import { useDispatch, useSelector } from "react-redux";
 import Accordion from "react-bootstrap/Accordion";
 import { Box, Typography } from "@mui/material";
@@ -346,7 +345,6 @@ function Holidayinfo() {
         <div className="opacityPack">
 
         </div>
-        <InsideNavbar />
       </div>
 
       <div className="container-lg mt-4" style={{ position: "relative" }}>

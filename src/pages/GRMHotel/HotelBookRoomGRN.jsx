@@ -18,7 +18,6 @@ import Login from "../../components/Login";
 import Modal from "@mui/material/Modal";
 import { motion } from "framer-motion";
 import CloseIcon from "@mui/icons-material/Close";
-import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 import dayjs, { Dayjs } from "dayjs";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
@@ -150,7 +149,6 @@ const HotelBookRoomGRN = () => {
             ) : (
                 <>
                     <div className='mainimgHotelSearch'>
-                        <InsideNavbar />
                     </div>
 
                     <div className="my-4 ">

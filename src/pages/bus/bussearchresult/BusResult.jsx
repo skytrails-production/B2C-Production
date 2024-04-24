@@ -4,7 +4,6 @@ import { Typography } from "@mui/material";
 import Divider from "@mui/material/Divider";
 import axios from "axios";
 import { apiURL } from "../../../Constants/constant";
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 import "./bussearchresult.css";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -504,9 +503,7 @@ function BusResult() {
     <>
 
       <div className="mainimgBusSearch">
-        {/* <Navbar /> */}
-        {/* <BigNavbar /> */}
-        <InsideNavbar />
+       
       </div>
       <ToastContainer />
       <section className="my-4">

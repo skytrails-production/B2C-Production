@@ -1,6 +1,5 @@
 import * as React from "react";
 
-import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 import HotelGuestDetailsGRN from "./HotelGuestDetailsGRN";
 import PriceSummaryGRN from "./PriceSummaryGRN";
 import moment from "moment";
@@ -332,7 +331,6 @@ const BookingReviewGRN = ({
 
         <>
             <div className='mainimgHotelSearch'>
-                <InsideNavbar />
             </div>
 
             <div className="my-4 ">

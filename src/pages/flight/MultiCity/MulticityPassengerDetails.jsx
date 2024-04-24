@@ -12,7 +12,6 @@ import dayjs from "dayjs";
 import fromTo from "../../../images/fromTo.png"
 import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
 // import ReturnSummary from "./ReturnSummary";
 // import ReturnSummaryInternational from "./ReturnSummaryInternational";
 import { swalModal } from "../../../utility/swal"
@@ -385,7 +384,6 @@ const MulticityPassengerDetails = () => {
     return (
         <div>
             <div className="mainimgFlightSearch">
-                <InsideNavbar />
             </div>
             <div style={{
                 position: "fixed",

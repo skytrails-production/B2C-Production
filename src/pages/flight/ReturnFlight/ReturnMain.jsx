@@ -3,7 +3,6 @@ import Download from "../../home/Download";
 import { motion } from "framer-motion";
 import Advertise from "./../../home/Advertise";
 import FLightOffer from "../../flight/FLightOffer";
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 // import onewayBG from "../../../images/onewayBG.jpg"
 import HolidaySuggestion from "../../holidaypackages/holidaySuggestion/HolidaySuggestion";
 import HolidayCategory from "../../holidaypackages/holidayCategory/HolidayCategory";
@@ -49,7 +48,6 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
             <div className="mainimg">
                 {/* <img className="bannerBack" src="https://img.freepik.com/premium-vector/landscape-with-buildings-vehicles-morning-city-life_95169-195.jpg?w=1060" alt="background" /> */}
                 <img className="bannerBack" src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/onewayBG.jpg" alt="background" />
-                <InsideNavbar />
                 {/* <BigNavbar /> */}
                 <ReturnForm />
             </div>

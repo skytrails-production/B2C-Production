@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import InsideNavbar from "../../UI/BigNavbar/InsideNavbar"
 import "./bookingHistory.css"
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
@@ -30,7 +29,6 @@ const BookingHistory = () => {
     return (
 
         <div>
-            <InsideNavbar />
             <div className='container bookingMargin'>
                 <Box sx={{ width: '100%', typography: 'body1' }}>
                     <TabContext value={value}>

@@ -306,7 +306,7 @@ body {
   box-shadow: inset 0px 30px 55px -18px rgba(0, 0, 0, 0.6);
   /* background-image: linear-gradient(to bottom, #ab5081, #bb8197, #dc817e); */
   /* background-color: #111; */
-  z-index: 2;
+  /* z-index: 2; */
   position: relative;
   overflow: hidden;
   transition: background-image 2s ease;

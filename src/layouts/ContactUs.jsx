@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import InsideNavbar from "../UI/BigNavbar/InsideNavbar"
 import "./termandcondition.css"
 import { SpinnerCircular } from 'spinners-react';
 import CallIcon from '@mui/icons-material/Call';
@@ -39,9 +38,7 @@ const ContactUs = () => {
 
     return (
         <div>
-            <>
-                <InsideNavbar />
-            </>
+          
             <div style={{ overflow: "hidden" }}>
                 <div className="container-fluid" style={{ marginBottom: "130px", marginTop: "100px" }}>
                     {

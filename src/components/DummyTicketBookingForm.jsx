@@ -26,9 +26,7 @@ import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote
 // import { format } from "date-fns";
 import { Helmet } from "react-helmet-async";
 
-
 const Homeform = (props) => {
-
   const reducerState = useSelector((state) => state);
 
   const StartDate = new Date();
@@ -37,7 +35,6 @@ const Homeform = (props) => {
   const [startDate, setStartDate] = useState(StartDate);
   const currentdate = new Date(); // Assuming you have defined currentdate
   currentdate.setDate(currentdate.getDate() + 3);
-
 
   const handleDateChange = (date) => {
     setStartDate(date);
@@ -161,13 +158,11 @@ const Homeform = (props) => {
       setOpenTravelModal(false);
       setCountPassanger(
         parseInt(activeIdChild) +
-        parseInt(activeIdInfant) +
-        parseInt(activeIdAdult)
+          parseInt(activeIdInfant) +
+          parseInt(activeIdAdult)
       );
     }
   };
-
-
 
   const toSearchRef = React.useRef(null);
   const fromSearchRef = React.useRef(null);
@@ -318,8 +313,6 @@ const Homeform = (props) => {
     dispatch(resetOneWay());
   }, [dispatch, departureDate]);
 
-
-
   function handleOnewaySubmit(event) {
     event.preventDefault();
     sessionStorage.setItem("hdhhfb7383__3u8748", true);
@@ -376,8 +369,6 @@ const Homeform = (props) => {
     // }
   }
 
-
-
   const handleRoundLogoClick = () => {
     const tempFrom = { ...selectedFrom };
     const tempSelectedFrom = selectedFrom;
@@ -385,51 +376,41 @@ const Homeform = (props) => {
     setSelectedTo(tempFrom);
   };
 
-
-
   return (
     <>
-      <section
-        className="oneWayAbsDesign"
-
-      >
-        <Helmet>
-          <title>Flight</title>
-          <link rel="canonical" href="/" />
-          <meta name="description" content="one way flight" />
-          <meta
-            name="keywords"
-            content="
+      <div className="homeabsnew container">
+        <section className="oneWayAbsDesign">
+          <Helmet>
+            <title>Flight</title>
+            <link rel="canonical" href="/" />
+            <meta name="description" content="one way flight" />
+            <meta
+              name="keywords"
+              content="
 online flight booking,compare flight prices,best airfare deals,last minute flights,multi-city flight booking,business class flights,non-stop flights budget airlines,family-friendly airlines,flight upgrades,round trip flights under 4000,direct flights with vistara,airports with cheapest flights to Vistara,flights with in-flight entertainment,flexible booking options"
-          />
-        </Helmet>
-        <div className="container">
-          <h2 className="dummyTitle">Book Ticket For Dummy PNR</h2>
-          <div className="row oneWayBg">
-            <div className="col-12 p-0">
+            />
+          </Helmet>
+          <div className="container">
+            <h2 className="dummyTitle">Book Ticket For Dummy PNR</h2>
+            <div className="row oneWayBg">
+              <div className="col-12 p-0">
+                <form onSubmit={handleOnewaySubmit}>
+                  <div className="your-container">
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setFromToggle(true);
+                        setdisplayFrom(true);
+                        // setIsLoadingFrom(true);
+                      }}
+                      className="from-container"
+                      id="item-0"
+                    >
+                      <span>From</span>
+                      <div>
+                        <label>{selectedFrom.name}</label>
 
-
-              <form onSubmit={handleOnewaySubmit}>
-                <div className="your-container">
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setFromToggle(true);
-                      setdisplayFrom(true);
-                      // setIsLoadingFrom(true);
-                    }}
-                    className="from-container"
-                    id="item-0"
-                  >
-                    <span>From</span>
-                    <div>
-
-
-                      <label>{selectedFrom.name}</label>
-
-                      {
-
-                        fromToggle && (
+                        {fromToggle && (
                           <div
                             ref={fromSearchRef}
                             className="from-search-results-one"
@@ -485,10 +466,10 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                                         </div>
                                         <div
                                           className="resultOriginName"
-                                        //  onClick={(e) => {
-                                        //   e.stopPropagation(); // Stop event bubbling
+                                          //  onClick={(e) => {
+                                          //   e.stopPropagation(); // Stop event bubbling
 
-                                        // }}
+                                          // }}
                                         >
                                           <p>{result.name}</p>
                                           <span>{result.code}</span>
@@ -503,91 +484,86 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                               </Box>
                             </ul>
                           </div>
-                        )
-                      }
-                    </div>
-                    {fromSearchResults &&
+                        )}
+                      </div>
+                      {fromSearchResults &&
                       fromSearchResults.length > 0 &&
                       fromQuery.length >= 2 ? (
-                      <span className="d-none d-md-block ">
-                        {selectedFrom ? (
-                          <>
-                            {selectedFrom.code}, {selectedFrom.name}
-                          </>
-                        ) : (
-                          <>
-                            {fromSearchResults[0].code},{" "}
-                            {fromSearchResults[0].name}
-                          </>
-                        )}
-                      </span>
-                    ) : (
-                      <span className="d-none d-md-block ">Airport Name</span>
-                    )}
+                        <span className="d-none d-md-block ">
+                          {selectedFrom ? (
+                            <>
+                              {selectedFrom.code}, {selectedFrom.name}
+                            </>
+                          ) : (
+                            <>
+                              {fromSearchResults[0].code},{" "}
+                              {fromSearchResults[0].name}
+                            </>
+                          )}
+                        </span>
+                      ) : (
+                        <span className="d-none d-md-block ">Airport Name</span>
+                      )}
+
+                      <div
+                        className="roundlogo"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleRoundLogoClick();
+                        }}
+                        style={{ cursor: "pointer" }}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="40"
+                          height="40"
+                          viewBox="0 0 40 40"
+                          fill="none"
+                        >
+                          <circle
+                            cx="20"
+                            cy="20"
+                            r="19"
+                            fill="white"
+                            stroke="lightgray"
+                            stroke-width="2"
+                          />
+                        </svg>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="18"
+                          height="20"
+                          viewBox="0 0 18 20"
+                          fill="none"
+                          justifyContent="center"
+                        >
+                          <path
+                            d="M13 15L1 15M1 15L5 19M1 15L5 11M5 5L17 5M17 5L13 0.999999M17 5L13 9"
+                            stroke="#071C2C"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </div>
+                    </div>
 
                     <div
-                      className="roundlogo"
                       onClick={(e) => {
-                        e.stopPropagation();
-                        handleRoundLogoClick();
+                        e.stopPropagation(); // Stop event bubbling
+                        setToggle(true);
+                        setdisplayTo(true);
+                        // setIsLoadingTo(true);
+                        // ; alert(fromToggle, "/////")
                       }}
-                      style={{ cursor: "pointer" }}
+                      className="from-container"
+                      id="item-1"
                     >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="40"
-                        height="40"
-                        viewBox="0 0 40 40"
-                        fill="none"
-                      >
-                        <circle
-                          cx="20"
-                          cy="20"
-                          r="19"
-                          fill="white"
-                          stroke="lightgray"
-                          stroke-width="2"
-                        />
-                      </svg>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="20"
-                        viewBox="0 0 18 20"
-                        fill="none"
-                        justifyContent="center"
-                      >
-                        <path
-                          d="M13 15L1 15M1 15L5 19M1 15L5 11M5 5L17 5M17 5L13 0.999999M17 5L13 9"
-                          stroke="#071C2C"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </div>
-                  </div>
+                      <span>To</span>
+                      <div>
+                        <label>{selectedTo.name}</label>
 
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation(); // Stop event bubbling
-                      setToggle(true);
-                      setdisplayTo(true);
-                      // setIsLoadingTo(true);
-                      // ; alert(fromToggle, "/////")
-                    }}
-                    className="from-container"
-                    id="item-1"
-                  >
-                    <span>To</span>
-                    <div>
-
-
-                      <label>{selectedTo.name}</label>
-
-                      {
-
-                        toToggle && (
+                        {toToggle && (
                           <div
                             ref={toSearchRef}
                             className="from-search-results-one"
@@ -659,174 +635,177 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                               </Box>
                             </ul>
                           </div>
-                        )
-                      }
-                    </div>
-                    {toSearchResults &&
+                        )}
+                      </div>
+                      {toSearchResults &&
                       toSearchResults.length > 0 &&
                       toQuery.length >= 2 ? (
-                      <span className="d-none d-md-block ">
-                        {selectedTo ? (
-                          <>
-                            {selectedTo.code}, {selectedTo.name}
-                          </>
-                        ) : (
-                          <>
-                            {toSearchResults[0].code}, {toSearchResults[0].name}
-                          </>
-                        )}
-                      </span>
-                    ) : (
-                      <span className="d-none d-md-block ">Airport Name</span>
-                    )}
-                  </div>
-                  <div className="from-container">
-                    <span>Departure</span>
-                    <div className="">
-                      <div className="onewayDatePicker" id="item-2">
-                        <DatePicker
-                          name="departure"
-                          id="departure"
-                          selected={startDate}
-                          onChange={handleDateChange}
-                          minDate={currentdate}
-                        />
-                      </div>
-                    </div>
-                    <span className="d-none d-md-block ">{getDayOfWeek(startDate)}</span>
-                  </div>
-
-                  <div className="travellerContainer " id="item-3">
-                    <div
-                      onClick={handleTravelClickOpen}
-                      className="travellerButton"
-                    >
-                      <span>Traveller & Class</span>
-                      <p>
-                        <span>{(totalCount === 0 && 1) || totalCount} </span>{" "}
-                        Traveller
-                      </p>
-                      <div className="d-none d-md-block ">
-                        <span>
-                          {(activeIdClass === 1 && "All") ||
-                            (activeIdClass === 2 && "Economy") ||
-                            (activeIdClass === 3 && "Premium Economy") ||
-                            (activeIdClass === 4 && "Business")(
-                              activeIdClass === 5 && "Business Economy"
-                            )(activeIdClass === 6 && "First Class")}
+                        <span className="d-none d-md-block ">
+                          {selectedTo ? (
+                            <>
+                              {selectedTo.code}, {selectedTo.name}
+                            </>
+                          ) : (
+                            <>
+                              {toSearchResults[0].code},{" "}
+                              {toSearchResults[0].name}
+                            </>
+                          )}
                         </span>
-                      </div>
+                      ) : (
+                        <span className="d-none d-md-block ">Airport Name</span>
+                      )}
                     </div>
-                    <Dialog
-                      sx={{ zIndex: "99999" }}
-                      disableEscapeKeyDown
-                      open={openTravelModal}
-                      onClose={handleTravelClose}
-                    >
-                      <DialogContent>
-                        <>
-                          <div className="travellerModal">
-                            <div>
-                              <h3>TRAVELLERS & CLASS</h3>
+                    <div className="from-container">
+                      <span>Departure</span>
+                      <div className="">
+                        <div className="onewayDatePicker" id="item-2">
+                          <DatePicker
+                            name="departure"
+                            id="departure"
+                            selected={startDate}
+                            onChange={handleDateChange}
+                            minDate={currentdate}
+                          />
+                        </div>
+                      </div>
+                      <span className="d-none d-md-block ">
+                        {getDayOfWeek(startDate)}
+                      </span>
+                    </div>
+
+                    <div className="travellerContainer " id="item-3">
+                      <div
+                        onClick={handleTravelClickOpen}
+                        className="travellerButton"
+                      >
+                        <span>Traveller & Class</span>
+                        <p>
+                          <span>{(totalCount === 0 && 1) || totalCount} </span>{" "}
+                          Traveller
+                        </p>
+                        <div className="d-none d-md-block ">
+                          <span>
+                            {(activeIdClass === 1 && "All") ||
+                              (activeIdClass === 2 && "Economy") ||
+                              (activeIdClass === 3 && "Premium Economy") ||
+                              (activeIdClass === 4 && "Business")(
+                                activeIdClass === 5 && "Business Economy"
+                              )(activeIdClass === 6 && "First Class")}
+                          </span>
+                        </div>
+                      </div>
+                      <Dialog
+                        sx={{ zIndex: "99999" }}
+                        disableEscapeKeyDown
+                        open={openTravelModal}
+                        onClose={handleTravelClose}
+                      >
+                        <DialogContent>
+                          <>
+                            <div className="travellerModal">
+                              <div>
+                                <h3>TRAVELLERS & CLASS</h3>
+                              </div>
+                              <div className="travellerPeople">
+                                {/* Use the TravelerCounter component for each category */}
+                                <TravelerCounter
+                                  label="Adults (Age 12+ Years)"
+                                  count={activeIdAdult}
+                                  onIncrement={() =>
+                                    handleTravelerCountChange("adult", 1)
+                                  }
+                                  onDecrement={() =>
+                                    handleTravelerCountChange("adult", -1)
+                                  }
+                                />
+                                <TravelerCounter
+                                  label="Children (Age 2-12 Years)"
+                                  count={activeIdChild}
+                                  onIncrement={() =>
+                                    handleTravelerCountChange("child", 1)
+                                  }
+                                  onDecrement={() =>
+                                    handleTravelerCountChange("child", -1)
+                                  }
+                                />
+                                <TravelerCounter
+                                  label="Infants (Age 0-2 Years)"
+                                  count={activeIdInfant}
+                                  onIncrement={() =>
+                                    handleTravelerCountChange("infant", 1)
+                                  }
+                                  onDecrement={() =>
+                                    handleTravelerCountChange("infant", -1)
+                                  }
+                                />
+                              </div>
+                              <div>
+                                <h3>Choose Travel Class</h3>
+                              </div>
+                              <div>
+                                <ul className="classButtonTravel">
+                                  {ClassItems?.map((ele) => (
+                                    <>
+                                      <li
+                                        style={{
+                                          backgroundColor:
+                                            ele.id === activeIdClass
+                                              ? "#d90429"
+                                              : "#fff",
+                                          color:
+                                            ele.id === activeIdClass
+                                              ? "#fff"
+                                              : "#d90429",
+                                        }}
+                                        data-id={ele.id}
+                                        // onClick={handleClassItemClick}
+                                      >
+                                        {ele?.label}
+                                      </li>
+                                    </>
+                                  ))}
+                                </ul>
+                              </div>
                             </div>
-                            <div className="travellerPeople">
-                              {/* Use the TravelerCounter component for each category */}
-                              <TravelerCounter
-                                label="Adults (Age 12+ Years)"
-                                count={activeIdAdult}
-                                onIncrement={() =>
-                                  handleTravelerCountChange("adult", 1)
-                                }
-                                onDecrement={() =>
-                                  handleTravelerCountChange("adult", -1)
-                                }
-                              />
-                              <TravelerCounter
-                                label="Children (Age 2-12 Years)"
-                                count={activeIdChild}
-                                onIncrement={() =>
-                                  handleTravelerCountChange("child", 1)
-                                }
-                                onDecrement={() =>
-                                  handleTravelerCountChange("child", -1)
-                                }
-                              />
-                              <TravelerCounter
-                                label="Infants (Age 0-2 Years)"
-                                count={activeIdInfant}
-                                onIncrement={() =>
-                                  handleTravelerCountChange("infant", 1)
-                                }
-                                onDecrement={() =>
-                                  handleTravelerCountChange("infant", -1)
-                                }
-                              />
-                            </div>
-                            <div>
-                              <h3>Choose Travel Class</h3>
-                            </div>
-                            <div>
-                              <ul className="classButtonTravel">
-                                {ClassItems?.map((ele) => (
-                                  <>
-                                    <li
-                                      style={{
-                                        backgroundColor:
-                                          ele.id === activeIdClass
-                                            ? "#d90429"
-                                            : "#fff",
-                                        color:
-                                          ele.id === activeIdClass
-                                            ? "#fff"
-                                            : "#d90429",
-                                      }}
-                                      data-id={ele.id}
-                                    // onClick={handleClassItemClick}
-                                    >
-                                      {ele?.label}
-                                    </li>
-                                  </>
-                                ))}
-                              </ul>
-                            </div>
-                          </div>
-                        </>
-                      </DialogContent>
-                      <DialogActions>
-                        <Button
-                          style={{
-                            backgroundColor: "#21325d",
-                            color: "white",
-                          }}
-                          onClick={handleTravelClose}
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          style={{
-                            backgroundColor: "#21325d",
-                            color: "white",
-                            marginRight: "40px",
-                          }}
-                          onClick={handleTravelClose}
-                        >
-                          Ok
-                        </Button>
-                      </DialogActions>
-                    </Dialog>
+                          </>
+                        </DialogContent>
+                        <DialogActions>
+                          <Button
+                            style={{
+                              backgroundColor: "#21325d",
+                              color: "white",
+                            }}
+                            onClick={handleTravelClose}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            style={{
+                              backgroundColor: "#21325d",
+                              color: "white",
+                              marginRight: "40px",
+                            }}
+                            onClick={handleTravelClose}
+                          >
+                            Ok
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+                    </div>
+                    <div className="  onewaySearch-btn" id="item-4">
+                      <button type="submit" className="searchButt">
+                        <h3 className="mb-0">Search</h3>
+                        {/* <KeyboardDoubleArrowRightIcon /> */}
+                      </button>
+                    </div>
                   </div>
-                  <div className=" onewaySearch" id="item-4">
-                    <button type="submit" className="searchButt">
-                      <h3 className="mb-0">Search</h3>
-                      {/* <KeyboardDoubleArrowRightIcon /> */}
-                    </button>
-                  </div>
-                </div>
-              </form>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </>
   );
 };

@@ -38,7 +38,6 @@ import { useNavigate, useParams } from "react-router-dom";
 // import "./holidaypackagesdetail.css";
 // import { clearHolidayReducer, searchOnePackageAction } from "../../../Redux/OnePackageSearchResult/actionOneSearchPackage";
 import packageFilter from "../../../images/packageFilter.png"
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar"
 import { motion } from "framer-motion";
 import { useLocation } from 'react-router-dom';
 import { apiURL } from "../../../Constants/constant";
@@ -314,13 +313,7 @@ const HolidayCategoryDetails = () => {
         <>
 
             <div className="holidayInfoBackWall">
-                {/* <div className="packInfoBackdrop">
-                    <img src={newData?.[0]?.pakage_img} alt="package" />
-                </div>
-                <div className="opacityPack">
-
-                </div> */}
-                <InsideNavbar />
+               
             </div>
             {/* <div className="container" style={{ position: "relative" }}>
                 <h1>{categoryData[0].pakage_title}</h1>

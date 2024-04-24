@@ -8,7 +8,6 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import Login from "../../components/Login";
-import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 import { motion } from "framer-motion";
 import SecureStorage from "react-secure-storage";
 import {
@@ -939,7 +938,6 @@ export default function BookWrapper() {
     return (
       <>
         <div className="mainimgFlightSearch">
-          <InsideNavbar />
         </div>
 
         {!reducerState?.flightFare?.flightQuoteData?.Results === true ? (

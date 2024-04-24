@@ -14,7 +14,6 @@ import dayjs from "dayjs";
 import { motion } from "framer-motion";
 // import { busSearchAction } from "../../../Redux/busSearch/busSearchAction";
 import Divider from "@mui/material/Divider";
-import InsideNavbar from "../../../UI/BigNavbar/InsideNavbar";
 
 import "./seatlayout.css";
 import {
@@ -310,9 +309,7 @@ const BusPassengerDetail = () => {
   return (
     <>
       <div className="mainimgBusSearch">
-        {/* <Navbar /> */}
-        {/* <BigNavbar /> */}
-        <InsideNavbar />
+       
       </div>
 
       <div className="">

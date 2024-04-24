@@ -17,10 +17,10 @@ import DialogContent from "@mui/material/DialogContent";
 import Hotelmainloading from "./hotelLoading/Hotelmainloading";
 // import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import { IoSearchOutline } from "react-icons/io5";
-import SecureStorage from 'react-secure-storage';
+import SecureStorage from "react-secure-storage";
 // import Login from "../../components/Login";
 // import Modal from "@mui/material/Modal";
-import { swalModal } from "../../utility/swal"
+import { swalModal } from "../../utility/swal";
 
 const variants = {
   initial: {
@@ -38,7 +38,6 @@ const variants = {
 };
 
 const HotelForm = () => {
-
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
   const [displayFrom, setdisplayFrom] = useState(true);
   const currentDate = new Date();
@@ -166,8 +165,9 @@ const HotelForm = () => {
     const seconds = date.getUTCSeconds();
     const gmtOffset = date.toString().match(/GMT[+-]\d{4}/);
 
-    return `${weekdays[date.getUTCDay()]
-      }, ${month} ${day}, ${year}, ${hours}:${minutes}:${seconds} ${gmtOffset}`;
+    return `${
+      weekdays[date.getUTCDay()]
+    }, ${month} ${day}, ${year}, ${hours}:${minutes}:${seconds} ${gmtOffset}`;
   }
 
   function validateDates(checkin, checkout) {
@@ -183,7 +183,6 @@ const HotelForm = () => {
 
     return;
   }
-
 
   const handleClickOutsideFrom = (event) => {
     if (
@@ -207,10 +206,6 @@ const HotelForm = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
 
-
-
-
-
   const initialSelectedCityData = {
     Destination: "New Delhi",
     StateProvinceCode: "DL",
@@ -224,9 +219,8 @@ const HotelForm = () => {
 
   const [searchTermLast, setSearchTermLast] = useState(initialSelectedCityData);
 
-
   useEffect(() => {
-    const storedData = SecureStorage.getItem('revisitHotelData');
+    const storedData = SecureStorage.getItem("revisitHotelData");
     const parsedStoredData = JSON.parse(storedData);
     if (storedData) {
       // const storedCheckInDate = new Date(parsedStoredData[1].CheckInDate);
@@ -238,8 +232,7 @@ const HotelForm = () => {
       //   setCheckIn(storedCheckInDate);
       //   setCheckOut(storedCheckOutDate);
       // }
-      setSearchTermLast(parsedStoredData[0])
-
+      setSearchTermLast(parsedStoredData[0]);
     }
     // else {
     //   setCheckIn(currentDate);
@@ -251,9 +244,7 @@ const HotelForm = () => {
   const [cityid, setCityid] = useState("130443");
   const [results, setResults] = useState(populterSearch);
 
-  useEffect(() => {
-
-  }, [results]);
+  useEffect(() => {}, [results]);
 
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -315,7 +306,6 @@ const HotelForm = () => {
     }
   }, [reducerState?.hotelSearchResult?.isLoading]);
 
-
   useEffect(() => {
     if (
       reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult
@@ -330,7 +320,6 @@ const HotelForm = () => {
       reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult
         ?.Error?.ErrorCode !== undefined
     ) {
-
       setLoader(false);
     }
   }, [
@@ -360,8 +349,12 @@ const HotelForm = () => {
       reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult
         ?.Error?.ErrorCode !== undefined
     ) {
-      swalModal('hotel', reducerState?.hotelSearchResult?.ticketData?.data?.data
-        ?.HotelSearchResult?.Error?.ErrorMessage, false)
+      swalModal(
+        "hotel",
+        reducerState?.hotelSearchResult?.ticketData?.data?.data
+          ?.HotelSearchResult?.Error?.ErrorMessage,
+        false
+      );
 
       dispatch(clearHotelReducer());
     }
@@ -395,7 +388,7 @@ const HotelForm = () => {
     setFormData(newFormData);
   };
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       event.preventDefault(); // Prevent the default form submission behavior
     }
   };
@@ -555,9 +548,6 @@ const HotelForm = () => {
       ChildAge: data.ChildAge || [],
     }));
 
-
-
-
     sessionStorage.setItem("hotelFormData", JSON.stringify(searchTermLast));
 
     const departureDate = new Date(checkIn);
@@ -590,9 +580,9 @@ const HotelForm = () => {
     };
     // console.log(payload, "payload hotel")
 
-
     SecureStorage.setItem(
-      "revisitHotelData", JSON.stringify([
+      "revisitHotelData",
+      JSON.stringify([
         {
           Destination: searchTermLast.Destination,
           StateProvinceCode: searchTermLast.StateProvinceCode,
@@ -611,7 +601,7 @@ const HotelForm = () => {
         //   CheckOutDate: checkOut,
         // }
       ])
-    )
+    );
 
     // createSearchHistory();
     dispatch(hotelAction(payload));
@@ -726,271 +716,274 @@ const HotelForm = () => {
       {loader ? (
         <Hotelmainloading />
       ) : (
-        <section className="HotelAbsDesign">
-          <div className="container">
-            <div className="row hotelFormBg">
-              <div className="col-12 px4 ddddd">
-                <>
-                  <form onSubmit={handleSubmit}>
-                    <div className="yourHotel-container">
-                      <div
-                        onClick={async (e) => {
-                          e.stopPropagation();
-                          setSub(true);
-                          await setdisplayFrom(true);
-                          setTimeout(() => {
-                            hotelInputRef.current.focus();
-                          }, 200)
-                        }}
-                        className="hotel-container"
-                        id="item-0H"
-                      >
-                        <span>City Name</span>
-                        <div>
-                          <label>{searchTermLast.Destination}</label>
-
-                          {sub && (
-                            <>
-                              <div
-                                ref={hotelSearchRef}
-                                className="city-search-results"
-                                style={{
-                                  display: "flex",
-                                }}
-                              >
-                                <div className="city-inputtt-div">
-                                  <div className="city-inputtt-div-div">
-                                    <IoSearchOutline />
-                                    <input
-                                      name="City"
-                                      id="CitySearchID"
-                                      type="text"
-                                      placeholder="Search city"
-                                      value={searchTerm}
-                                      className="city-inputtt"
-                                      onKeyDown={handleKeyDown}
-                                      onChange={(e) => {
-                                        e.stopPropagation();
-                                        setSearchTerm(e.target.value);
-                                      }}
-                                      ref={hotelInputRef}
-                                      style={{
-                                        outline: "none",
-                                        border: "none",
-                                      }}
-                                      autoComplete="off"
-                                    />
-                                  </div>
-                                </div>
-
-                                <ul className="city_Search_Container">
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      maxHeight: 280,
-                                      overflow: "hidden",
-                                      overflowY: "scroll",
-                                    }}
-                                    className="scroll_style"
-                                  >
-                                    {results.map((city, index) => (
-                                      <li
-                                        key={index}
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          handleResultClick(city);
-                                          setSearchTerm("");
-                                          setSearchTermLast(city);
-                                          setSub(false);
-                                          setResults(populterSearch);
-                                        }}
-                                      >
-                                        {city.Destination}{", "} {city.country}
-                                      </li>
-                                    ))}
-                                  </Box>
-                                </ul>
-                              </div>
-                            </>
-                          )}
-                        </div>
-
-                        <span className="d-none d-md-block">India</span>
-                      </div>
-
-                      <div
-                        onClick={() => setSub(false)}
-                        className="hotel-container"
-                        id="item-1H"
-                      >
-                        <span>Check In</span>
-                        <div className="">
-                          <div className="onewayDatePicker">
-                            <DatePicker
-                              selected={checkIn}
-                              onChange={handleStartDateChange}
-                              name="checkIn"
-                              dateFormat="dd MMM, yy"
-                              placeholderText="Check-In"
-                              //   isClearable
-                              minDate={currentDate}
-                              autoComplete="off"
-                            />
-                          </div>
-                        </div>
-                        <span className="d-none d-md-block">
-                          {getDayOfWeek(selectedDay)}
-                        </span>
-                      </div>
-
-                      <div
-                        onClick={() => setSub(false)}
-                        className="hotel-container"
-                        id="item-2H"
-                      >
-                        <span>Check Out</span>
-                        <div className="">
-                          <div className="onewayDatePicker">
-                            <DatePicker
-                              selected={checkOut}
-                              onChange={handleEndDateChange}
-                              name="checkOut"
-                              dateFormat="dd MMM, yy"
-                              placeholderText="Check-Out "
-                              minDate={checkIn}
-
-                              autoComplete="off"
-                            />
-                          </div>
-                        </div>
-                        <span className="d-none d-md-block">
-                          {getDayOfWeek(selectedDayTwo)}
-                        </span>
-                      </div>
-
-                      <div
-                        onClick={() => setSub(false)}
-                        className="travellerContainer ms-0"
-                        id="item-3H"
-                      >
+        <div className="container homeabsnew">
+          <section className="HotelAbsDesign" style={{width:"100%"}}>
+            <div className="container">
+              <div className="row hotelFormBg">
+                <div className="col-12 px4 ddddd">
+                  <>
+                    <form onSubmit={handleSubmit}>
+                      <div className="yourHotel-container">
                         <div
-                          onClick={handleTravelClickOpen}
-                          className="travellerButton"
+                          onClick={async (e) => {
+                            e.stopPropagation();
+                            setSub(true);
+                            await setdisplayFrom(true);
+                            setTimeout(() => {
+                              hotelInputRef.current.focus();
+                            }, 200);
+                          }}
+                          className="hotel-container"
+                          id="item-0H"
                         >
-                          <span>Traveller & Class</span>
-                          <p>{condition} Room</p>
-                          {/* <div> */}
-                          <span className="d-none d-md-block">
-                            {numAdults} Adults {numChildren} Child
-                          </span>
-                          {/* </div> */}
-                        </div>
-                        <Dialog
-                          sx={{ zIndex: "99999" }}
-                          disableEscapeKeyDown
-                          open={openTravelModal}
-                          onClose={handleTravelClose}
-                        >
-                          <DialogContent>
-                            <>
-                              <div className="travellerModal">
-                                <div className="roomModal">
-                                  <div className="hotel_modal_form_input px-0">
-                                    <label className="form_label">Room*</label>
-                                    <select
-                                      name="room"
-                                      value={condition}
-                                      onChange={handleConditionChange}
-                                      className="hotel_input_select"
-                                    >
-                                      <option>1</option>
-                                      <option>2</option>
-                                      <option>3</option>
-                                      <option>4</option>
-                                      <option>5</option>
-                                      <option>6</option>
-                                    </select>
+                          <span>City Name</span>
+                          <div>
+                            <label>{searchTermLast.Destination}</label>
+
+                            {sub && (
+                              <>
+                                <div
+                                  ref={hotelSearchRef}
+                                  className="city-search-results"
+                                  style={{
+                                    display: "flex",
+                                  }}
+                                >
+                                  <div className="city-inputtt-div">
+                                    <div className="city-inputtt-div-div">
+                                      <IoSearchOutline />
+                                      <input
+                                        name="City"
+                                        id="CitySearchID"
+                                        type="text"
+                                        placeholder="Search city"
+                                        value={searchTerm}
+                                        className="city-inputtt"
+                                        onKeyDown={handleKeyDown}
+                                        onChange={(e) => {
+                                          e.stopPropagation();
+                                          setSearchTerm(e.target.value);
+                                        }}
+                                        ref={hotelInputRef}
+                                        style={{
+                                          outline: "none",
+                                          border: "none",
+                                        }}
+                                        autoComplete="off"
+                                      />
+                                    </div>
                                   </div>
-                                </div>
 
-                                <div className="px-1">
-                                  {condition > 0 &&
-                                    Array.from({ length: condition }).map(
-                                      (_, index) => (
-                                        <div
+                                  <ul className="city_Search_Container">
+                                    <Box
+                                      sx={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                        maxHeight: 280,
+                                        overflow: "hidden",
+                                        overflowY: "scroll",
+                                      }}
+                                      className="scroll_style"
+                                    >
+                                      {results.map((city, index) => (
+                                        <li
                                           key={index}
-                                          className="room-modal-container"
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleResultClick(city);
+                                            setSearchTerm("");
+                                            setSearchTermLast(city);
+                                            setSub(false);
+                                            setResults(populterSearch);
+                                          }}
                                         >
-                                          <div>
-                                            <h5>ROOM {index + 1}</h5>
-                                          </div>
-                                          <div className="row">
-                                            <div className="hotel_modal_form_input">
-                                              <label className="form_label">
-                                                No of Adults:
-                                              </label>
-                                              <select
-                                                value={
-                                                  formDataDynamic[index]
-                                                    ?.NoOfAdults || 1
-                                                }
-                                                className="hotel_input_select"
-                                                onChange={(e) =>
-                                                  handleFormChange(
-                                                    index,
-                                                    "NoOfAdults",
-                                                    parseInt(e.target.value)
-                                                  )
-                                                }
-                                              >
-                                                {[1, 2, 3, 4, 5, 6, 7, 8].map(
-                                                  (num) => (
-                                                    <option
-                                                      key={num}
-                                                      value={num}
-                                                    >
-                                                      {num}
-                                                    </option>
-                                                  )
-                                                )}
-                                              </select>
-                                            </div>
+                                          {city.Destination}
+                                          {", "} {city.country}
+                                        </li>
+                                      ))}
+                                    </Box>
+                                  </ul>
+                                </div>
+                              </>
+                            )}
+                          </div>
 
-                                            <div className="hotel_modal_form_input">
-                                              <label className="form_label">
-                                                No of Child:
-                                              </label>
-                                              <select
-                                                value={
-                                                  formDataDynamic[index]
-                                                    ?.NoOfChild || 0
-                                                }
-                                                className="hotel_input_select"
-                                                name="noOfChild"
-                                                onChange={(e) =>
-                                                  handleFormChange(
-                                                    index,
-                                                    "NoOfChild",
-                                                    parseInt(e.target.value)
-                                                  )
-                                                }
-                                              >
-                                                {[0, 1, 2, 3, 4].map(
-                                                  (childCount) => (
-                                                    <option
-                                                      key={childCount}
-                                                      value={childCount}
-                                                    >
-                                                      {childCount}
-                                                    </option>
-                                                  )
-                                                )}
-                                              </select>
+                          <span className="d-none d-md-block">India</span>
+                        </div>
+
+                        <div
+                          onClick={() => setSub(false)}
+                          className="hotel-container"
+                          id="item-1H"
+                        >
+                          <span>Check In</span>
+                          <div className="">
+                            <div className="onewayDatePicker">
+                              <DatePicker
+                                selected={checkIn}
+                                onChange={handleStartDateChange}
+                                name="checkIn"
+                                dateFormat="dd MMM, yy"
+                                placeholderText="Check-In"
+                                //   isClearable
+                                minDate={currentDate}
+                                autoComplete="off"
+                              />
+                            </div>
+                          </div>
+                          <span className="d-none d-md-block">
+                            {getDayOfWeek(selectedDay)}
+                          </span>
+                        </div>
+
+                        <div
+                          onClick={() => setSub(false)}
+                          className="hotel-container"
+                          id="item-2H"
+                        >
+                          <span>Check Out</span>
+                          <div className="">
+                            <div className="onewayDatePicker">
+                              <DatePicker
+                                selected={checkOut}
+                                onChange={handleEndDateChange}
+                                name="checkOut"
+                                dateFormat="dd MMM, yy"
+                                placeholderText="Check-Out "
+                                minDate={checkIn}
+                                autoComplete="off"
+                              />
+                            </div>
+                          </div>
+                          <span className="d-none d-md-block">
+                            {getDayOfWeek(selectedDayTwo)}
+                          </span>
+                        </div>
+
+                        <div
+                          onClick={() => setSub(false)}
+                          className="travellerContainer ms-0"
+                          id="item-3H"
+                        >
+                          <div
+                            onClick={handleTravelClickOpen}
+                            className="travellerButton"
+                          >
+                            <span>Traveller & Class</span>
+                            <p>{condition} Room</p>
+                            {/* <div> */}
+                            <span className="d-none d-md-block">
+                              {numAdults} Adults {numChildren} Child
+                            </span>
+                            {/* </div> */}
+                          </div>
+                          <Dialog
+                            sx={{ zIndex: "99999" }}
+                            disableEscapeKeyDown
+                            open={openTravelModal}
+                            onClose={handleTravelClose}
+                          >
+                            <DialogContent>
+                              <>
+                                <div className="travellerModal">
+                                  <div className="roomModal">
+                                    <div className="hotel_modal_form_input px-0">
+                                      <label className="form_label">
+                                        Room*
+                                      </label>
+                                      <select
+                                        name="room"
+                                        value={condition}
+                                        onChange={handleConditionChange}
+                                        className="hotel_input_select"
+                                      >
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                      </select>
+                                    </div>
+                                  </div>
+
+                                  <div className="px-1">
+                                    {condition > 0 &&
+                                      Array.from({ length: condition }).map(
+                                        (_, index) => (
+                                          <div
+                                            key={index}
+                                            className="room-modal-container"
+                                          >
+                                            <div>
+                                              <h5>ROOM {index + 1}</h5>
                                             </div>
-                                          </div>
-                                          {formDataDynamic[index]?.NoOfChild >
-                                            0 && (
+                                            <div className="row">
+                                              <div className="hotel_modal_form_input">
+                                                <label className="form_label">
+                                                  No of Adults:
+                                                </label>
+                                                <select
+                                                  value={
+                                                    formDataDynamic[index]
+                                                      ?.NoOfAdults || 1
+                                                  }
+                                                  className="hotel_input_select"
+                                                  onChange={(e) =>
+                                                    handleFormChange(
+                                                      index,
+                                                      "NoOfAdults",
+                                                      parseInt(e.target.value)
+                                                    )
+                                                  }
+                                                >
+                                                  {[1, 2, 3, 4, 5, 6, 7, 8].map(
+                                                    (num) => (
+                                                      <option
+                                                        key={num}
+                                                        value={num}
+                                                      >
+                                                        {num}
+                                                      </option>
+                                                    )
+                                                  )}
+                                                </select>
+                                              </div>
+
+                                              <div className="hotel_modal_form_input">
+                                                <label className="form_label">
+                                                  No of Child:
+                                                </label>
+                                                <select
+                                                  value={
+                                                    formDataDynamic[index]
+                                                      ?.NoOfChild || 0
+                                                  }
+                                                  className="hotel_input_select"
+                                                  name="noOfChild"
+                                                  onChange={(e) =>
+                                                    handleFormChange(
+                                                      index,
+                                                      "NoOfChild",
+                                                      parseInt(e.target.value)
+                                                    )
+                                                  }
+                                                >
+                                                  {[0, 1, 2, 3, 4].map(
+                                                    (childCount) => (
+                                                      <option
+                                                        key={childCount}
+                                                        value={childCount}
+                                                      >
+                                                        {childCount}
+                                                      </option>
+                                                    )
+                                                  )}
+                                                </select>
+                                              </div>
+                                            </div>
+                                            {formDataDynamic[index]?.NoOfChild >
+                                              0 && (
                                               <div className="hotel_modal_form_input_child_age">
                                                 <label className="mt-3">
                                                   Child Age:
@@ -1009,7 +1002,7 @@ const HotelForm = () => {
                                                         value={
                                                           formDataDynamic[index]
                                                             ?.ChildAge?.[
-                                                          childIndex
+                                                            childIndex
                                                           ] || ""
                                                         }
                                                         className="hotel_input_select"
@@ -1038,17 +1031,17 @@ const HotelForm = () => {
                                                 </div>
                                               </div>
                                             )}
-                                        </div>
-                                      )
-                                    )}
-                                  {/* {condition > 1 && (
+                                          </div>
+                                        )
+                                      )}
+                                    {/* {condition > 1 && (
                                                             <button onClick={handleDeleteRoom} className="delete-button">
                                                                 <FaTrash />
                                                             </button>
                                                         )} */}
-                                </div>
+                                  </div>
 
-                                {/* <div className="col-lg-4 col-md-4 col-xs-12 ps-0 mb-3">
+                                  {/* <div className="col-lg-4 col-md-4 col-xs-12 ps-0 mb-3">
                                                         <div className="hotel_form_input">
                                                             <label className="form_label">Star Rating*</label>
                                                             <select
@@ -1071,7 +1064,7 @@ const HotelForm = () => {
                                                         </div>
                                                     </div>*/}
 
-                                {/* <div className="col-lg-4 col-md-4 col-xs-12 ps-0 mb-3">
+                                  {/* <div className="col-lg-4 col-md-4 col-xs-12 ps-0 mb-3">
                                                         <div className="hotel_form_input">
                                                             <label className="form_label">Nights</label>
                                                             <input
@@ -1085,7 +1078,7 @@ const HotelForm = () => {
                                                         </div>
                                                     </div> */}
 
-                                {/* <div className="col-lg-4 col-md-4 col-xs-12 ps-0 mb-3">
+                                  {/* <div className="col-lg-4 col-md-4 col-xs-12 ps-0 mb-3">
                                                         <div className="hotel_form_input">
                                                             <label className="form_label">
                                                                 Nationality*
@@ -1113,40 +1106,40 @@ const HotelForm = () => {
                                                             )}
                                                         </div>
                                                     </div> */}
-                              </div>
-                            </>
-                          </DialogContent>
-                          <DialogActions>
-                            <Button
-                              style={{
-                                backgroundColor: "#21325d",
-                                color: "white",
-                              }}
-                              onClick={handleTravelClose}
-                            >
-                              Cancel
-                            </Button>
-                            <Button
-                              style={{
-                                backgroundColor: "#21325d",
-                                color: "white",
-                              }}
-                              onClick={handleTravelClose}
-                            >
-                              Ok
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
+                                </div>
+                              </>
+                            </DialogContent>
+                            <DialogActions>
+                              <Button
+                                style={{
+                                  backgroundColor: "#21325d",
+                                  color: "white",
+                                }}
+                                onClick={handleTravelClose}
+                              >
+                                Cancel
+                              </Button>
+                              <Button
+                                style={{
+                                  backgroundColor: "#21325d",
+                                  color: "white",
+                                }}
+                                onClick={handleTravelClose}
+                              >
+                                Ok
+                              </Button>
+                            </DialogActions>
+                          </Dialog>
+                        </div>
+                        <div className="onewaySearch-btn" id="item-4H">
+                          <button type="submit" className="searchButt">
+                            <h3>Search</h3>
+                            {/* <KeyboardDoubleArrowRightIcon /> */}
+                          </button>
+                        </div>
                       </div>
-                      <div className="PackageInner" id="item-4H">
-                        <button type="submit" className="searchButt">
-                          <h3>Search</h3>
-                          {/* <KeyboardDoubleArrowRightIcon /> */}
-                        </button>
-                      </div>
-                    </div>
 
-                    {/* <Box>
+                      {/* <Box>
                                                 <div class="wrapper_hotel">
                                                     <div>
                                                         <div className="wraOne">
@@ -1184,12 +1177,13 @@ const HotelForm = () => {
                                                     </div>
                                                 </div>
                                             </Box> */}
-                  </form>
-                </>
+                    </form>
+                  </>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </div>
       )}
     </>
   );
