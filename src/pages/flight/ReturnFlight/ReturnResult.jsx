@@ -263,6 +263,8 @@ const ReturnResult = () => {
         await dispatch(quoteAction(payload));
         await dispatch(ruleActionReturn(payloadReturn));
         await dispatch(quoteActionReturn(payloadReturn));
+        // window.open("/FlightresultReturn/Passengerdetail", '_blank');
+        setLoading(false); 
         navigate("/FlightresultReturn/Passengerdetail");
 
     };

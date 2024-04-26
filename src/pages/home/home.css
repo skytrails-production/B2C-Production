@@ -681,10 +681,8 @@ body .form-group:not(:last-child) {
   /* z-index: 2; */
   border: 1px solid #f0f0f0;
   padding: var(--6, 24px);
-  background: rgba(246, 248, 251, 0.85);
+  background: rgba(246, 248, 251, 0.6);
 }
-
-
 
 @media (max-width: 1000px) {
   .mainheader_row {

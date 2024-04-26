@@ -33,7 +33,7 @@ const PrivacyPolicy = () => {
 
     return (
         <div>
-          
+
             <div style={{ overflow: "hidden" }}>
                 <div className="container">
                     {
@@ -49,11 +49,20 @@ const PrivacyPolicy = () => {
                                         <h3>Privacy policy</h3>
                                     </div>
 
-                                    <div className='termBottom'>
+                                    {/* <div className='termBottom'>
                                         {data.map(item => (
                                             <p>{item.description}</p>
                                         ))}
-                                    </div>
+                                    </div> */}
+                                    {data.map(item =>
+                                    (
+                                        <div
+                                            className="termBottom"
+                                            dangerouslySetInnerHTML={{
+                                                __html: item.description,
+                                            }}
+                                        />
+                                    ))}
                                 </div>
                             )
                     }

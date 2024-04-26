@@ -1,39 +1,85 @@
-import * as React from "react";
-import { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import "./Onewaynew.css";
 import { useDispatch, useSelector } from "react-redux";
+import { apiURL } from "../Constants/constant";
+import FlightTakeoffTwoToneIcon from "@mui/icons-material/FlightTakeoffTwoTone";
+import axios from "axios";
+import { CiSearch } from "react-icons/ci";
+import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { apiURL } from "../Constants/constant";
 import { ipAction, tokenAction } from "../Redux/IP/actionIp";
 import { oneWayAction, resetOneWay } from "../Redux/FlightSearch/oneWay";
 import { useNavigate } from "react-router-dom";
-import FlightTakeoffTwoToneIcon from "@mui/icons-material/FlightTakeoffTwoTone";
-import FlightLandIcon from '@mui/icons-material/FlightLand';
+import FlightLandIcon from "@mui/icons-material/FlightLand";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import "./style/Oneway.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./card.css";
-import "./flight.css";
-import axios from "axios";
-import TravelerCounter from "./TravelerCounter";
-import { CiSearch } from "react-icons/ci";
-import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
-import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
-// import { format } from "date-fns";
 import { Helmet } from "react-helmet-async";
-import SecureStorage from 'react-secure-storage';
-import { returnAction, returnActionClear } from "../Redux/FlightSearch/Return/return";
-// import { returnAction } from "../../../Redux/FlightSearch/Return/return";
-const Homeform = (props) => {
+import "./flight.css";
+import TravelerCounter from "./TravelerCounter";
+import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
+import SecureStorage from "react-secure-storage";
+import {
+  returnAction,
+  returnActionClear,
+} from "../Redux/FlightSearch/Return/return";
 
+function Oneway() {
+  // /////////////////////////////////States//////////////////////////////////////////////
+  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen1, setIsOpen1] = useState(false);
+  const [toQuery, setToQuery] = useState("mumbai");
+  const [to, setTO] = useState("");
+  const [toSearchResults, setToSearchResults] = useState([]);
+  const [displayTo, setdisplayTo] = useState(true);
+  const [openTravelModal, setOpenTravelModal] = React.useState(false);
+  const [activeIdClass, setActiveIdClass] = useState(2);
+  const [activeIdChild, setActiveIdChild] = useState(0);
+  const [activeIdInfant, setActiveIdInfant] = useState(0);
+  const [activeIdAdult, setActiveIdAdult] = useState(1);
+  const [totalCount, setCountPassanger] = useState(0);
+  const [departureDate, setDepartureDate] = useState("");
+  const inputRef = useRef(null);
+  const inputRef1 = useRef(null);
+  const [fromSearchResults, setFromSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [fromQuery, setFromQuery] = useState("delhi");
+  const [isLoadingFrom, setIsLoadingFrom] = useState(false);
+  const [from, setFrom] = useState("");
+  const [placeholder, setPlaceholder] = useState("Enter city or airport");
+  const [cityIndex, setcityIndex] = useState(-1);
+  const [cityIndex1, setcityIndex1] = useState(-1);
+  const [maxcity, setmaxcity] = useState(1);
+  const [maxcity1, setmaxcity1] = useState(1);
+  const [startDate, setStartDate] = useState(new Date());
+  const currentdate = new Date();
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  // const handleKeyDown = (event) => {
+  //   if (event.key === 'Enter') {
+  //     event.preventDefault();
+  //   }
+  // };
 
   const reducerState = useSelector((state) => state);
+  const scrollableRef = useRef(null);
+
+  // ///////////////////////////////date logic////////////////////////////////
+
+  const handleDateChange = (date) => {
+    setStartDate(date);
+  };
 
   const getDayOfWeek = (date) => {
     const daysOfWeek = [
@@ -47,22 +93,96 @@ const Homeform = (props) => {
     ];
     return daysOfWeek[date.getDay()];
   };
-  // console.log(reducerState)
-
-  // From code start from here
-  const [fromSearchResults, setFromSearchResults] = useState([]);
-  const [fromQuery, setFromQuery] = useState("delhi");
-  const [isLoading, setIsLoading] = useState(false);
-
-
-
-  const [startDate, setStartDate] = useState(new Date());
-  const currentdate = new Date();
-
-  const handleDateChange = (date) => {
-    setStartDate(date);
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+    }
   };
 
+  // //////////////////////////////////////////////////////////////////////
+
+  // //////////////////////////////traveller/////////////////////////////////////
+  const [data2, setData] = useState({
+    adult: 0,
+    child: 0,
+    infants: 0,
+    class: "1",
+  });
+
+  const sendTravelClass = (data2) => {
+    setData(data2);
+  };
+
+  const handleTravelerCountChange = (category, value) => {
+    if (category === "adult") {
+      const newAdultCount = Math.min(Math.max(1, activeIdAdult + value), 9);
+      const maxAllowedChild = Math.max(0, 9 - newAdultCount);
+      const newChildCount = Math.min(activeIdChild, maxAllowedChild);
+
+      setActiveIdAdult(newAdultCount);
+      setActiveIdChild(newChildCount);
+
+      const newInfantCount = Math.min(activeIdInfant, newAdultCount);
+      setActiveIdInfant(newInfantCount);
+    } else if (category === "child") {
+      const newChildCount = Math.min(
+        Math.max(0, activeIdChild + value),
+        9 - activeIdAdult
+      );
+      setActiveIdChild(newChildCount);
+    } else if (category === "infant") {
+      const newInfantCount = Math.min(
+        Math.max(0, activeIdInfant + value),
+        activeIdAdult
+      );
+      setActiveIdInfant(newInfantCount);
+    }
+  };
+
+  //  travellers modal
+  useEffect(() => {
+    dispatch(clearbookTicketGDS());
+    dispatch(resetAllFareData());
+    dispatch(returnActionClear());
+  }, []);
+
+  const ClassItems = [
+    { id: 1, label: "All" },
+    { id: 2, label: "Economy" },
+    { id: 3, label: "Premium Economy" },
+    { id: 4, label: "Business" },
+    { id: 5, label: "Premium Business" },
+    { id: 6, label: "First" },
+  ];
+
+  const handleTravelClickOpen = () => {
+    setActiveIdClass(activeIdClass);
+    setActiveIdChild(0);
+    setActiveIdInfant(0);
+    setActiveIdAdult(1);
+    setOpenTravelModal(true);
+  };
+
+  const handleTravelClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setOpenTravelModal(false);
+      setCountPassanger(
+        parseInt(activeIdChild) +
+          parseInt(activeIdInfant) +
+          parseInt(activeIdAdult)
+      );
+    }
+  };
+
+  // ///////////////////mouseoutside //////////
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutsideFrom);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideFrom);
+    };
+  }, []);
+
+  // /////////////////////////////////search from logic////////////////////////////////////
 
   const initialSelectedFromData = {
     AirportCode: "DEL",
@@ -79,160 +199,45 @@ const Homeform = (props) => {
 
   const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData);
 
-
-
-  const initialSelectedToData = {
-    AirportCode: "BOM",
-    CityCode: "BOM",
-    CountryCode: "IN ",
-    code: "Mumbai",
-    createdAt: "2023-01-30T14:57:03.696Z",
-    id: "BOM",
-    name: "Mumbai",
-    updatedAt: "2023-01-30T14:57:03.696Z",
-    __v: 0,
-    _id: "63d7dabf64266cbf450e0451",
-  }
-
-  const [selectedTo, setSelectedTo] = useState(initialSelectedToData);
-
-
-
-  useEffect(() => {
-    const storedData = SecureStorage.getItem('revisitOnewayData');
-    const parsedStoredData = JSON?.parse(storedData);
-    if (storedData) {
-      setSelectedFrom(parsedStoredData[0]);
-      setSelectedTo(parsedStoredData[1]);
-    } else {
-      setSelectedFrom(initialSelectedFromData);
-      setSelectedTo(initialSelectedToData);
-    }
-  }, []);
-
-
-
-
-  const [from, setFrom] = useState("");
-  const [isLoadingFrom, setIsLoadingFrom] = useState(false);
-  const [fromToggle, setFromToggle] = useState(false);
-  const [toToggle, setToggle] = useState(false);
-  const fromCityRef = useRef(null);
-  const [displayFrom, setdisplayFrom] = useState(true);
-  const [toQuery, setToQuery] = useState("mumbai");
-  const [to, setTO] = useState("");
-  // const [isLoadingTo, setIsLoadingTo] = useState(false);
-  const [toSearchResults, setToSearchResults] = useState([]);
-
-  const [displayTo, setdisplayTo] = useState(true);
-
-
-  const [openTravelModal, setOpenTravelModal] = React.useState(false);
-  const [activeIdClass, setActiveIdClass] = useState(2);
-  const [activeIdChild, setActiveIdChild] = useState(0);
-  const [activeIdInfant, setActiveIdInfant] = useState(0);
-  const [activeIdAdult, setActiveIdAdult] = useState(1);
-  const [totalCount, setCountPassanger] = useState(0);
-  const [departureDate, setDepartureDate] = useState("");
-
-
-  const handleTravelerCountChange = (category, value) => {
-    if (category === "adult") {
-      const newAdultCount = Math.min(Math.max(1, activeIdAdult + value), 9);
-      const maxAllowedChild = Math.max(0, 9 - newAdultCount);
-      const newChildCount = Math.min(activeIdChild, maxAllowedChild);
-
-      setActiveIdAdult(newAdultCount);
-      setActiveIdChild(newChildCount);
-
-      const newInfantCount = Math.min(activeIdInfant, newAdultCount);
-      setActiveIdInfant(newInfantCount);
-    } else if (category === "child") {
-      const newChildCount = Math.min(Math.max(0, activeIdChild + value), 9 - activeIdAdult);
-      setActiveIdChild(newChildCount);
-    } else if (category === "infant") {
-      const newInfantCount = Math.min(Math.max(0, activeIdInfant + value), activeIdAdult);
-      setActiveIdInfant(newInfantCount);
+  const scrollDown100px = (opreator) => {
+    if (inputRef.current) {
+      inputRef.current.scroll({
+        top: opreator
+          ? inputRef.current.scrollTop + 50
+          : inputRef.current.scrollTop - 50,
+        behavior: "auto",
+      });
     }
   };
 
-
-
-
-
-  // handle travellers modal
   useEffect(() => {
-    dispatch(clearbookTicketGDS());
-    dispatch(resetAllFareData());
-    dispatch(returnActionClear())
-  }, []);
-
-  const ClassItems = [
-    { id: 1, label: "All" },
-    { id: 2, label: "Economy" },
-    { id: 3, label: "Premium Economy" },
-    { id: 4, label: "Business" },
-    { id: 5, label: "Premium Business" },
-    { id: 6, label: "First" },
-  ];
-
-
-
-
-  const handleTravelClickOpen = () => {
-    setActiveIdClass(activeIdClass);
-    setActiveIdChild(0);
-    setActiveIdInfant(0);
-    setActiveIdAdult(1);
-    setOpenTravelModal(true);
-  };
-
-  const handleTravelClose = (event, reason) => {
-    if (reason !== "backdropClick") {
-      setOpenTravelModal(false);
-      setCountPassanger(
-        parseInt(activeIdChild) +
-        parseInt(activeIdInfant) +
-        parseInt(activeIdAdult)
-      );
-    }
-  };
-
-
-  // End
-
-  const toSearchRef = useRef(null);
-  const toCityRef = useRef(null);
-  const fromSearchRef = useRef(null);
+    setmaxcity1(fromSearchResults.length);
+  }, [fromSearchResults]);
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+    const handleGlobalKeyDown = (event) => {
+      if (event.key === "ArrowDown" && isOpen) {
+        setcityIndex1((pre) => Math.min(pre + 1, maxcity1 - 1));
+        scrollDown100px(1);
+      }
+      if (event.key === "ArrowUp" && isOpen) {
+        setcityIndex1((pre) => Math.max(pre - 1, 0));
+        scrollDown100px(0);
+      }
+      if (event.key === "Enter" && isOpen) {
+        // Handle Enter key press to select an option
+        if (fromSearchResults.length > 0 && cityIndex1 >= 0) {
+          const selectedOption = fromSearchResults[cityIndex1];
+          handleFromClick(selectedOption);
+        }
+      }
     };
-  }, []);
 
-  const handleClickOutside = (event) => {
-    if (toSearchRef.current && !toSearchRef.current.contains(event.target)) {
-      setdisplayTo(false);
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutsideFrom);
+    document.addEventListener("keydown", handleGlobalKeyDown);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutsideFrom);
+      document.removeEventListener("keydown", handleGlobalKeyDown);
     };
-  }, []);
-
-  const handleClickOutsideFrom = (event) => {
-    if (
-      fromSearchRef.current &&
-      !fromSearchRef.current.contains(event.target)
-    ) {
-      setdisplayFrom(false);
-    }
-  };
+  }, [isOpen, cityIndex1, maxcity1, fromSearchResults]);
 
   useEffect(() => {
     let mounted = true;
@@ -258,26 +263,113 @@ const Homeform = (props) => {
 
   const handleFromClick = (result) => {
     setSelectedFrom(result);
-    setdisplayFrom(false);
-    setIsLoadingFrom(false);
+    setFrom(result?.name);
+
+    setIsOpen(false);
+    // setIsLoadingFrom(false);
   };
 
-  const handleToClick = (result) => {
-    setSelectedTo(result);
-    setdisplayTo(false);
-    // setIsLoadingTo(false);
+  const handleClickOutsideFrom = (event) => {
+    if (inputRef.current && !inputRef?.current?.contains(event.target)) {
+      setIsOpen(false);
+    }
   };
 
-  const handleFromInputChange = (event) => {
-    setdisplayFrom(true);
-    setFrom(event.target.value);
-  };
+  function toggle(e) {
+    setIsOpen(true);
+    setIsOpen1(false);
+    setcityIndex1(0);
+  }
 
   const handleFromSearch = (e) => {
     setFromQuery(e);
   };
 
-  // ToSearch result
+  const handleFromInputChange = (event) => {
+    // setdisplayFrom(true);
+    setFrom(event.target.value);
+    setIsOpen(true); // Open the dropdown when typing
+  };
+
+  // //////////////////////////to logic ///////////////////////
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutsideTo);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideTo);
+    };
+  }, []);
+
+  const scrollDown100px1 = (opreator) => {
+    if (inputRef1.current) {
+      inputRef1.current.scroll({
+        top: opreator
+          ? inputRef1.current.scrollTop + 50
+          : inputRef1.current.scrollTop - 50,
+        behavior: "auto",
+      });
+    }
+  };
+
+  useEffect(() => {
+    const handleGlobalKeyDown1 = (event) => {
+      if (event.key === "ArrowDown" && isOpen1) {
+        setcityIndex((pre) => Math.min(pre + 1, maxcity - 1));
+        scrollDown100px1(1);
+      }
+      if (event.key === "ArrowUp" && isOpen1) {
+        setcityIndex((pre) => Math.max(pre - 1, 0));
+        scrollDown100px1(0);
+      }
+      if (event.key === "Enter" && isOpen1) {
+        event.preventDefault();
+        if (cityIndex >= 0 && cityIndex < toSearchResults.length) {
+          handleToClick(toSearchResults[cityIndex]);
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleGlobalKeyDown1);
+    return () => {
+      document.removeEventListener("keydown", handleGlobalKeyDown1);
+    };
+  }, [isOpen1, cityIndex, maxcity, toSearchResults]);
+
+  const handleClickOutsideTo = (event) => {
+    console.log(inputRef1.current, inputRef1.current.contains(event.target));
+    if (inputRef1.current && !inputRef1.current.contains(event.target)) {
+      setIsOpen1(false);
+    }
+  };
+
+  const initialSelectedToData = {
+    AirportCode: "BOM",
+    CityCode: "BOM",
+    CountryCode: "IN ",
+    code: "Mumbai",
+    createdAt: "2023-01-30T14:57:03.696Z",
+    id: "BOM",
+    name: "Mumbai",
+    updatedAt: "2023-01-30T14:57:03.696Z",
+    __v: 0,
+    _id: "63d7dabf64266cbf450e0451",
+  };
+
+  const [selectedTo, setSelectedTo] = useState(initialSelectedToData);
+
+  const handleToInputChange = (event) => {
+    // setdisplayTo(true);
+    setTO(event.target.value);
+    setIsOpen1(true);
+  };
+
+  const handleToSearch = (e) => {
+    setToQuery(e);
+  };
+
+  useEffect(() => {
+    setmaxcity(toSearchResults.length);
+  }, [toSearchResults]);
+
   useEffect(() => {
     let mounted = true;
 
@@ -288,8 +380,10 @@ const Homeform = (props) => {
       );
       if (mounted) {
         setToSearchResults(results?.data?.data);
+        // setmaxcity(results?.data?.data?.length);
         setIsLoading(false);
       }
+      await setmaxcity(results?.data?.data?.length);
     };
     if (toQuery.length >= 2) {
       fetchSearchResults();
@@ -299,50 +393,17 @@ const Homeform = (props) => {
     };
   }, [toQuery]);
 
-  const handleToInputChange = (event) => {
-    setdisplayTo(true);
-    setTO(event.target.value);
-  };
-  const handleToSearch = (e) => {
-    setToQuery(e);
-  };
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  useEffect(() => {
-    dispatch(ipAction());
-  }, []);
-
-  useEffect(() => {
-    const payload = {
-      EndUserIp: reducerState?.ip?.ipData,
-    };
-    dispatch(tokenAction(payload));
-  }, [reducerState?.ip?.ipData]);
-
-  const [data2, setData] = useState({
-    adult: 0,
-    child: 0,
-    infants: 0,
-    class: "1",
-  });
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-    }
-  };
-  const sendTravelClass = (data2) => {
-    setData(data2);
+  const handleToClick = (result) => {
+    setSelectedTo(result);
+    setTO(result?.name);
+    setIsOpen1(false);
   };
 
-  useEffect(() => {
-    dispatch(resetOneWay());
-  }, [dispatch, departureDate]);
-
-  // console.log(reducerState, "active id class")
+  // ////////////////////submit logic///////////////
 
   function handleOnewaySubmit(event) {
     event.preventDefault();
-    sessionStorage.setItem("SessionExpireTime", new Date())
+    sessionStorage.setItem("SessionExpireTime", new Date());
 
     const formData = new FormData(event.target);
     setDepartureDate(formData.get("departure"));
@@ -370,7 +431,8 @@ const Homeform = (props) => {
     };
 
     SecureStorage.setItem(
-      "revisitOnewayData", JSON.stringify([
+      "revisitOnewayData",
+      JSON.stringify([
         {
           AirportCode: selectedFrom.AirportCode,
           CityCode: selectedFrom.CityCode,
@@ -395,9 +457,8 @@ const Homeform = (props) => {
           __v: selectedTo._v,
           _id: selectedTo._id,
         },
-
       ])
-    )
+    );
 
     sessionStorage.setItem(
       "onewayprop",
@@ -426,6 +487,7 @@ const Homeform = (props) => {
     // }
   }
 
+  // ///////////////roundlogic//////////////////////////////
 
   const handleRoundLogoClick = () => {
     const tempFrom = { ...selectedFrom };
@@ -434,12 +496,11 @@ const Homeform = (props) => {
     setSelectedTo(tempFrom);
   };
 
-
-
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <>
-      <section
+     <section
         className="oneWayAbsDesign"
       >
         <Helmet>
@@ -451,441 +512,530 @@ const Homeform = (props) => {
             content="India travel, travel in India, cheap air tickets, cheap flights, flight, hotels, hotel, holidays, bus tickets, air travel, air tickets, holiday packages, travel packages, affordable flights, international flights, lowest airfare, domestic flights, pnr status, online flight booking, deals on hotels, theskytrails"
           />
         </Helmet>
-        <div className="container">
-          <div className="row oneWayBg">
-            <div className="col-12 p-0">
-              <form onSubmit={handleOnewaySubmit}>
-              <div >
-                <div className="your-container">
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setFromToggle(true);
-                      setdisplayFrom(true);
-                      setIsLoadingFrom(true);
-                      setTimeout(() => {
-                        fromCityRef.current.focus();
-                      }, 200);
-                    }}
-                    className="from-container"
-                    style={{borderTop:"none"}}
-                    id="item-0"
-                  >
-                    <span>From</span>
-                    <div>
+      <div className="onewaynew">
+        <div className="onewaynewinner">
+          <form onSubmit={handleOnewaySubmit} style={{ width: "100%" }}>
+            <div className="container ">
+              <div className="row newonewaydesign">
+                <div className="col-md-6 col-lg-3 onewaycontainernew">
+                  <div className="card">
+                    <div
+                      className="from-container"
+                      style={{
+                        border: "none",
+                        paddingLeft: "10px",
+                        paddingRight: "10px",
+                      }}
+                    >
+                      <div className="fromcity">
+                        <span
+                          style={{
+                            fontSize: "14px",
+                            fontWeight: "500",
+                            width: "100%",
+                            color: "#071c2c",
+                          }}
+                        >
+                          From
+                        </span>
+                        <div className="dropdown">
+                          <div className="control">
+                            <div
+                              className="selected-value"
+                              style={{ display: "flex" }}
+                            >
+                              <input
+                                name="from"
+                                onKeyDown={handleKeyDown}
+                                placeholder={selectedFrom.name}
+                                value={from}
+                                onClick={toggle}
+                                autoComplete="off"
+                                onChange={(event) => {
+                                  handleFromInputChange(event);
+                                  setIsLoadingFrom(true);
+                                  handleFromSearch(event.target.value);
+                                }}
+                                style={{
+                                  border: "none",
+                                  fontSize: "20px",
+                                  outline: "none",
+                                  color: "#3f454a",
+                                  fontWeight: "700",
+                                }}
+                                className="custominputplaceholder"
+                              />
+                            </div>
+                            <div
+                              style={{ display: "none" }}
+                              className={`arrow ${isOpen ? "open" : ""}`}
+                            ></div>
+                          </div>
 
-                      <label>{selectedFrom.name}</label>
-                      {
-                        fromToggle && (
                           <div
-                            ref={fromSearchRef}
-                            className="from-search-results-one"
+                            ref={inputRef}
+                            className={`options ${isOpen ? "open" : ""}`}
                             style={{
-                              display: displayFrom ? "flex" : "none",
+                              overflowX: "hidden",
+                              overflowY: "auto",
+
+                              maxHeight: "200px",
+                              scrollbarWidth: "thin",
                             }}
                           >
-                            <ul className="from_Search_Container">
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  maxHeight: 271,
-                                  overflow: "hidden",
-                                  overflowY: "scroll",
-                                }}
-                                className="scroll_style"
-                              >
-                                <div className="from_search_div">
-                                  <CiSearch size={20} />
-                                  <input
-                                    name="from"
-                                    onKeyDown={handleKeyDown}
-                                    placeholder="From"
-                                    value={from}
-                                    ref={fromCityRef}
-                                    autoComplete="off"
-                                    onChange={(event) => {
-                                      handleFromInputChange(event);
-                                      setIsLoadingFrom(true);
-                                      handleFromSearch(event.target.value);
-                                    }}
+                            {fromSearchResults.map((result1, index) => {
+                              return (
+                                <div
+                                  style={{ height: "50px" }}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleFromClick(result1);
+                                  }}
+                                  className={`${
+                                    index === cityIndex1 ? "hoverCity" : ""
+                                  }`}
+                                  key={result1._id}
+                                >
+                                  <div
+                                    className="onewayResultBox"
                                     style={{
-                                      outline: "none",
-                                      border: "none",
-                                    }}
-                                  />
-                                </div>
-                                {fromSearchResults.map((result) => (
-                                  <li
-                                    className="to_List"
-                                    key={result._id}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleFromClick(result);
-
-                                      setFromToggle(false);
+                                      paddingLeft: "1px",
+                                      paddingRight: "1px",
+                                      gap: "1px",
                                     }}
                                   >
-                                    <div className="onewayResultBox">
-                                      <div className="onewayResultFirst">
-                                        <div>
-                                          <FlightTakeoffTwoToneIcon />
-                                        </div>
-                                        <div
-                                          className="resultOriginName"
-                                        >
-                                          <p>{result.name}</p>
-                                          <span>{result.code}</span>
-                                        </div>
+                                    <div className="onewayResultFirst">
+                                      <div>
+                                        <FlightTakeoffTwoToneIcon />
                                       </div>
-                                      <div className="resultAirportCode">
-                                        <p>{result.AirportCode}</p>
+                                      <div className="resultOriginName">
+                                        <p style={{ fontSize: "14px" }}>
+                                          {result1.name}
+                                        </p>
+                                        <span
+                                          style={{
+                                            fontSize: "10px",
+                                            display: "block",
+                                            width: "175px",
+                                          }}
+                                        >
+                                          {result1.code}
+                                        </span>
                                       </div>
                                     </div>
-                                  </li>
-                                ))}
-                              </Box>
-                            </ul>
+                                    <div className="resultAirportCode">
+                                      <p style={{ fontSize: "10px" }}>
+                                        {" "}
+                                        {result1.AirportCode}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
                           </div>
-                        )
-                      }
-                    </div>
-                    {fromSearchResults &&
+                        </div>
+                      </div>
+                      {fromSearchResults &&
                       fromSearchResults.length > 0 &&
                       fromQuery.length >= 2 ? (
-                      <span className="d-none d-md-block ">
-                        {selectedFrom ? (
-                          <>
-                            {selectedFrom.code}, {selectedFrom.name}
-                          </>
-                        ) : (
-                          <>
-                            {fromSearchResults[0].code},{" "}
-                            {fromSearchResults[0].name}
-                          </>
-                        )}
-                      </span>
-                    ) : (
-                      <span className="d-none d-md-block ">Airport Name</span>
-                    )}
-
-                    <div
-                      className="roundlogo"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleRoundLogoClick();
-                      }}
-                      style={{ cursor: "pointer" }}
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="40"
-                        height="40"
-                        viewBox="0 0 40 40"
-                        fill="none"
-                      >
-                        <circle
-                          cx="20"
-                          cy="20"
-                          r="19"
-                          fill="white"
-                          stroke="lightgray"
-                          stroke-width="2"
-                        />
-                      </svg>
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="20"
-                        viewBox="0 0 18 20"
-                        fill="none"
-                        justifyContent="center"
-                      >
-                        <path
-                          d="M13 15L1 15M1 15L5 19M1 15L5 11M5 5L17 5M17 5L13 0.999999M17 5L13 9"
-                          stroke="#071C2C"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
+                        <span
+                          className="d-none d-md-block "
+                          style={{
+                            fontSize: "14px",
+                            fontWeight: "500",
+                            width: "255px",
+                          }}
+                        >
+                          {selectedFrom ? (
+                            <>
+                              {selectedFrom.code}, {selectedFrom.name}
+                            </>
+                          ) : (
+                            <>
+                              {fromSearchResults[0].code},{" "}
+                              {fromSearchResults[0].name}
+                            </>
+                          )}
+                        </span>
+                      ) : (
+                        <span className="d-none d-md-block ">Airport Name</span>
+                      )}
                     </div>
                   </div>
 
                   <div
+                    className="roundlogo"
                     onClick={(e) => {
-                      e.stopPropagation(); // Stop event bubbling
-                      setToggle(true);
-                      setdisplayTo(true);
-                      // setIsLoadingTo(true);
-                      setTimeout(() => {
-                        toCityRef?.current?.focus();
-                      }, 300)
+                      e.stopPropagation();
+                      handleRoundLogoClick();
                     }}
-                    className="from-container"
-                    style={{borderTop:"none"}}
-                    id="item-1"
+                    style={{ cursor: "pointer" }}
                   >
-                    <span>To</span>
-                    <div>
-
-                      <label>{selectedTo.name}</label>
-                      {
-                        toToggle && (
-                          <div
-                            ref={toSearchRef}
-                            className="from-search-results-one"
-                            style={{
-                              display: displayTo ? "flex" : "none",
-                            }}
-                          >
-                            <ul className="from_Search_Container">
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                  maxHeight: 271,
-                                  overflow: "hidden",
-                                  overflowY: "scroll",
-                                }}
-                                className="scroll_style"
-                              >
-                                <from className="from_search_div">
-                                  <CiSearch size={20} />
-                                  <input
-                                    name="to"
-                                    placeholder="Enter city or airport"
-                                    value={to}
-                                    // required
-                                    // autoFocus
-                                    onKeyDown={handleKeyDown}
-                                    ref={toCityRef}
-                                    onChange={(event) => {
-                                      handleToInputChange(event);
-                                      // setIsLoadingTo(true);
-                                      handleToSearch(event.target.value);
-
-                                    }}
-                                    autoComplete="off"
-                                    style={{
-                                      border: "none",
-
-                                      outline: "none",
-                                    }}
-                                  />
-                                </from>
-                                {toSearchResults.map((result) => (
-                                  <li
-                                    className="to_List"
-                                    key={result._id}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleToClick(result);
-
-                                      setToggle(false);
-                                    }}
-                                  >
-                                    <div className="onewayResultBox">
-                                      <div className="onewayResultFirst">
-
-                                        <div><FlightLandIcon /></div>
-
-                                        <div className="resultOriginName">
-                                          <p>{result.name}</p>
-                                          <span>{result.code}</span>
-                                        </div>
-                                      </div>
-
-                                      <div className="resultAirportCode">
-                                        <p>{result.AirportCode}</p>
-                                      </div>
-                                    </div>
-                                  </li>
-                                ))}
-                              </Box>
-                            </ul>
-                          </div>
-                        )
-                      }
-                    </div>
-                    {toSearchResults &&
-                      toSearchResults.length > 0 &&
-                      toQuery.length >= 2 ? (
-                      <span className="d-none d-md-block ">
-                        {selectedTo ? (
-                          <>
-                            {selectedTo.code}, {selectedTo.name}
-                          </>
-                        ) : (
-                          <>
-                            {toSearchResults[0].code}, {toSearchResults[0].name}
-                          </>
-                        )}
-                      </span>
-                    ) : (
-                      <span className="d-none d-md-block ">Airport Name</span>
-                    )}
-                  </div>
-                  <div className="from-container" id="item-2">
-                    <span>Departure</span>
-                    <div className="">
-                      <div className="onewayDatePicker">
-                        <DatePicker
-                          name="departure"
-                          id="departure"
-                          dateFormat="dd MMM, yy"
-                          selected={startDate}
-                          onChange={handleDateChange}
-                          minDate={currentdate}
-                        />
-                      </div>
-                    </div>
-                    <span className="d-none d-md-block ">{getDayOfWeek(startDate)}</span>
-                  </div>
-
-                  <div className="travellerContainer " id="item-3">
-                    <div
-                      onClick={handleTravelClickOpen}
-                      className="travellerButton"
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="40"
+                      height="40"
+                      viewBox="0 0 40 40"
+                      fill="none"
                     >
-                      <span>Traveller & Class</span>
-                      <p>
-                        <span>{(totalCount === 0 && 1) || totalCount} </span>{" "}
-                        Traveller
-                      </p>
-                      <div className="d-none d-md-block ">
-                        <span>
-                          {(activeIdClass === 1 && "All") ||
-                            (activeIdClass === 2 && "Economy") ||
-                            (activeIdClass === 3 && "Premium Economy") ||
-                            (activeIdClass === 4 && "Business") ||
-                            (activeIdClass === 5 && "Premium Business"
-                            ) || (activeIdClass === 6 && "First Class")}
-                        </span>
-                      </div>
-                    </div>
-                    <Dialog
-                      sx={{ zIndex: "99999" }}
-                      disableEscapeKeyDown
-                      open={openTravelModal}
-                      onClose={handleTravelClose}
+                      <circle
+                        cx="20"
+                        cy="20"
+                        r="19"
+                        fill="white"
+                        stroke="lightgray"
+                        stroke-width="2"
+                      />
+                    </svg>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="20"
+                      viewBox="0 0 18 20"
+                      fill="none"
+                      justifyContent="center"
                     >
-                      <DialogContent>
-                        <>
-                          <div className="travellerModal">
-                            <div>
-                              <h3>TRAVELLERS & CLASS</h3>
-                            </div>
-                            <div className="travellerPeople">
-                              <TravelerCounter
-                                label="Adults (Age 12+ Years)"
-                                count={activeIdAdult}
-                                onIncrement={() =>
-                                  handleTravelerCountChange("adult", 1)
-                                }
-                                onDecrement={() =>
-                                  handleTravelerCountChange("adult", -1)
-                                }
-                              />
-                              <TravelerCounter
-                                label="Children (Age 2-12 Years)"
-                                count={activeIdChild}
-                                onIncrement={() =>
-                                  handleTravelerCountChange("child", 1)
-                                }
-                                onDecrement={() =>
-                                  handleTravelerCountChange("child", -1)
-                                }
-                              />
-                              <TravelerCounter
-                                label="Infants (Age 0-2 Years)"
-                                count={activeIdInfant}
-                                onIncrement={() =>
-                                  handleTravelerCountChange("infant", 1)
-                                }
-                                onDecrement={() =>
-                                  handleTravelerCountChange("infant", -1)
-                                }
-                              />
-                            </div>
-                            <div>
-                              <h3 className="d-none d-md-block">Choose Travel Class</h3>
-                            </div>
-                            <div>
-                              <ul className="classButtonTravel">
-                                {ClassItems.map((ele) => (
-                                  <li
-                                    key={ele.id}
-                                    style={{
-                                      backgroundColor: ele.id === activeIdClass ? "#d90429" : "#fff",
-                                      color: ele.id === activeIdClass ? "#fff" : "#d90429",
-                                    }}
-                                    onClick={() => setActiveIdClass(ele.id)}
-                                  >
-                                    {ele.label}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          </div>
-                        </>
-                      </DialogContent>
-                      <DialogActions
-                        style={{
-                          justifyContent: "center"
-                        }}
-                      >
-                        <Button
-                          style={{
-                            backgroundColor: "#21325d",
-                            color: "white",
-                          }}
-                          onClick={handleTravelClose}
-                        >
-                          Cancel
-                        </Button>
-                        <Button
-                          style={{
-                            backgroundColor: "#21325d",
-                            color: "white",
-                          }}
-                          onClick={handleTravelClose}
-                        >
-                          Ok
-                        </Button>
-                      </DialogActions>
-                    </Dialog>
-                  </div>
-                  <div className=" onewaySearch-btn" id="item-4">
-                    <button type="submit" className="searchButt">
-                      <h3 className="mb-0">Search</h3>
-                    </button>
+                      <path
+                        d="M13 15L1 15M1 15L5 19M1 15L5 11M5 5L17 5M17 5L13 0.999999M17 5L13 9"
+                        stroke="#071C2C"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
                   </div>
                 </div>
-               
+                <div className=" col-md-6 col-lg-3">
+                  <div className="card">
+                    <div
+                      className="from-container"
+                      style={{
+                        border: "none",
+                        paddingLeft: "10px",
+                        paddingRight: "10px",
+                      }}
+                    >
+                      <div className="fromcity">
+                        <span
+                          style={{
+                            fontSize: "14px",
+                            fontWeight: "500",
+                            color: "#071c2c",
+                            width: "100%",
+                          }}
+                        >
+                          TO
+                        </span>
+                        <div className="dropdown">
+                          <div className="control">
+                            <div
+                              className="selected-value"
+                              style={{ display: "flex" }}
+                            >
+                              <input
+                                name="to"
+                                placeholder={selectedTo.name}
+                                value={to}
+                                onKeyDown={handleKeyDown}
+                                onClick={() => {
+                                  setIsOpen1(true);
+                                  setIsOpen(false);
+                                  setcityIndex(0);
+                                  // setmaxcity(toSearchResults.length);
+                                }}
+                                onChange={(event) => {
+                                  handleToInputChange(event);
+
+                                  handleToSearch(event.target.value);
+                                }}
+                                autoComplete="off"
+                                style={{
+                                  border: "none",
+                                  fontSize: "20px",
+                                  fontWeight: "500",
+                                  outline: "none",
+                                  color: "#3f454a",
+                                  fontWeight: "700",
+                                }}
+                                className="custominputplaceholder"
+                              />
+                            </div>
+                            <div
+                              style={{ display: "none" }}
+                              className={`arrow ${isOpen1 ? "open" : ""}`}
+                            ></div>
+                          </div>
+
+                          <div
+                            ref={inputRef1}
+                            className={`options ${isOpen1 ? "open" : ""}`}
+                            style={{
+                              overflowX: "hidden",
+                              overflowY: "auto",
+                              maxHeight: "200px",
+                              scrollbarWidth: "thin",
+                            }}
+                          >
+                            {toSearchResults.map((result, index) => {
+                              return (
+                                <div
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleToClick(result);
+                                  }}
+                                  className={`${
+                                    index === cityIndex ? "hoverCity" : ""
+                                  }`}
+                                  key={result._id}
+                                  style={{ height: "50px" }}
+                                >
+                                  <div
+                                    className="onewayResultBox"
+                                    style={{
+                                      paddingLeft: "1px",
+                                      paddingRight: "1px",
+                                      gap: "1px",
+                                    }}
+                                  >
+                                    <div className="onewayResultFirst">
+                                      <div>
+                                        <FlightTakeoffTwoToneIcon />
+                                      </div>
+                                      <div className="resultOriginName">
+                                        <p style={{ fontSize: "14px" }}>
+                                          {result.name}
+                                        </p>
+                                        <span
+                                          style={{
+                                            fontSize: "10px",
+                                            display: "block",
+                                            width: "175px",
+                                          }}
+                                        >
+                                          {result.code}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div className="resultAirportCode">
+                                      <p style={{ fontSize: "10px" }}>
+                                        {result.AirportCode}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                      {toSearchResults &&
+                      toSearchResults.length > 0 &&
+                      toQuery.length >= 2 ? (
+                        <span
+                          className="d-none d-md-block "
+                          style={{
+                            fontSize: "14px",
+                            fontWeight: "500",
+                            width: "255px",
+                          }}
+                        >
+                          {selectedTo ? (
+                            <>
+                              {selectedTo.code}, {selectedTo.name}
+                            </>
+                          ) : (
+                            <>
+                              {toSearchResults[0].code},{" "}
+                              {toSearchResults[0].name}
+                            </>
+                          )}
+                        </span>
+                      ) : (
+                        <span className="d-none d-md-block ">Airport Name</span>
+                      )}
+                    </div>
                   </div>
-              </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                </div>
+                <div className="col-md-6 col-lg-3">
+                  <div className="card">
+                    <div
+                      className="from-container"
+                      style={{ border: "none" }}
+                      id="item-2"
+                    >
+                      <span>Departure</span>
+                      <div className="">
+                        <div className="onewayDatePicker">
+                          <DatePicker
+                            name="departure"
+                            id="departure"
+                            dateFormat="dd MMM, yy"
+                            selected={startDate}
+                            onChange={handleDateChange}
+                            minDate={currentdate}
+                          />
+                        </div>
+                      </div>
+                      <span className="d-none d-md-block ">
+                        {getDayOfWeek(startDate)}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-md-6 col-lg-3">
+                  <div className="card">
+                    <div
+                      className="travellerContainer "
+                      id="item-3"
+                      style={{ border: "none" }}
+                    >
+                      <div
+                        onClick={handleTravelClickOpen}
+                        className="travellerButton"
+                      >
+                        <span>Traveller & Class</span>
+                        <p>
+                          <span>{(totalCount === 0 && 1) || totalCount} </span>{" "}
+                          Traveller
+                        </p>
+                        <div className="d-none d-md-block ">
+                          <span>
+                            {(activeIdClass === 1 && "All") ||
+                              (activeIdClass === 2 && "Economy") ||
+                              (activeIdClass === 3 && "Premium Economy") ||
+                              (activeIdClass === 4 && "Business") ||
+                              (activeIdClass === 5 && "Premium Business") ||
+                              (activeIdClass === 6 && "First Class")}
+                          </span>
+                        </div>
+                      </div>
+                      <Dialog
+                        sx={{ zIndex: "99999" }}
+                        disableEscapeKeyDown
+                        open={openTravelModal}
+                        onClose={handleTravelClose}
+                      >
+                        <DialogContent>
+                          <>
+                            <div className="travellerModal">
+                              <div>
+                                <h3>TRAVELLERS & CLASS</h3>
+                              </div>
+                              <div className="travellerPeople">
+                                <TravelerCounter
+                                  label="Adults (Age 12+ Years)"
+                                  count={activeIdAdult}
+                                  onIncrement={() =>
+                                    handleTravelerCountChange("adult", 1)
+                                  }
+                                  onDecrement={() =>
+                                    handleTravelerCountChange("adult", -1)
+                                  }
+                                />
+                                <TravelerCounter
+                                  label="Children (Age 2-12 Years)"
+                                  count={activeIdChild}
+                                  onIncrement={() =>
+                                    handleTravelerCountChange("child", 1)
+                                  }
+                                  onDecrement={() =>
+                                    handleTravelerCountChange("child", -1)
+                                  }
+                                />
+                                <TravelerCounter
+                                  label="Infants (Age 0-2 Years)"
+                                  count={activeIdInfant}
+                                  onIncrement={() =>
+                                    handleTravelerCountChange("infant", 1)
+                                  }
+                                  onDecrement={() =>
+                                    handleTravelerCountChange("infant", -1)
+                                  }
+                                />
+                              </div>
+                              <div>
+                                <h3 className="d-none d-md-block">
+                                  Choose Travel Class
+                                </h3>
+                              </div>
+                              <div>
+                                <ul className="classButtonTravel">
+                                  {ClassItems.map((ele) => (
+                                    <li
+                                      key={ele.id}
+                                      style={{
+                                        backgroundColor:
+                                          ele.id === activeIdClass
+                                            ? "#d90429"
+                                            : "#fff",
+                                        color:
+                                          ele.id === activeIdClass
+                                            ? "#fff"
+                                            : "#d90429",
+                                      }}
+                                      onClick={() => setActiveIdClass(ele.id)}
+                                    >
+                                      {ele.label}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
+                          </>
+                        </DialogContent>
+                        <DialogActions
+                          style={{
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Button
+                            style={{
+                              backgroundColor: "#21325d",
+                              color: "white",
+                            }}
+                            onClick={handleTravelClose}
+                          >
+                            Cancel
+                          </Button>
+                          <Button
+                            style={{
+                              backgroundColor: "#21325d",
+                              color: "white",
+                            }}
+                            onClick={handleTravelClose}
+                          >
+                            Ok
+                          </Button>
+                        </DialogActions>
+                      </Dialog>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
+            <div
+              style={{ position: "relative", top: "79px", marginTop: "-45px" }}
+              className="onewaySearch-btn"
+            >
+              <button
+                className="searchButt"
+                style={{
+                  paddingTop: "18px",
+                  paddingBottom: "18px",
+                  paddingLeft: "50px",
+                  paddingRight: "50px",
+                }}
+              >
+                Search
+              </button>
+            </div>
+          </form>
         </div>
+      </div>
       </section>
     </>
   );
-};
+}
 
-export default Homeform;
+export default Oneway;

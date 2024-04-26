@@ -417,7 +417,7 @@ const Oneway2 = (props) => {
     setSelectedTo(tempFrom);
   };
 
-  const newHeight = navbarHeight ? `${Number(navbarHeight) + 52}px` : '20%';
+  const newHeight = navbarHeight ? `${Number(navbarHeight) + 52}px` : '30%';
 
   return (
     <>

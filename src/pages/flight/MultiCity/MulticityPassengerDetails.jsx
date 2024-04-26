@@ -85,6 +85,7 @@ const MulticityPassengerDetails = () => {
     }, [reducerState?.passengers])
 
     useEffect(() => {
+        console.log(reducerState,"reducer state")
         if (adults === undefined || adults === null || childs === undefined || childs === null || infants === undefined || infants === null) {
 
             navigate("/multicityresult")
@@ -101,6 +102,7 @@ const MulticityPassengerDetails = () => {
                 flightFare?.flightQuoteData?.
                 Error?.ErrorMessage)
             navigate("/multicityresult");
+            
             return
         }
         if

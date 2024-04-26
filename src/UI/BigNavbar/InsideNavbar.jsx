@@ -1376,7 +1376,7 @@ function BigNavbar() {
                       </linearGradient>
                     </defs>
                   </svg>
-                  <p style={{ color: "black" }}>Visa</p>
+                  <p style={{ color: "black" , textAlign:"center"}}>Visa</p>
                 </Link>
               </ul>
             </div>

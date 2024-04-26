@@ -390,27 +390,7 @@ const ReturnForm = () => {
     const formData = new FormData(event.target);
     setDepartureDate(formData.get("departure"));
 
-    // const payload = {
-    //     EndUserIp: reducerState?.ip?.ipData,
-    //     TokenId: reducerState?.ip?.tokenData,
-    //     AdultCount: activeIdAdult,
-    //     ChildCount: activeIdChild,
-    //     InfantCount: activeIdInfant,
-    //     DirectFlight: "false",
-    //     OneStopFlight: "false",
-    //     JourneyType: data2.class || "1",
-    //     PreferredAirlines: null,
-    //     Segments: [
-    //         {
-    //             Origin: selectedFrom.AirportCode,
-    //             Destination: selectedTo.AirportCode,
-    //             FlightCabinClass: activeIdClass,
-    //             PreferredDepartureTime: formData.get("departure"),
-    //             PreferredArrivalTime: formData.get("departure"),
-    //         },
-    //     ],
-    //     Sources: null,
-    // };
+
 
     const payload = {
       EndUserIp: reducerState?.ip?.ipData,

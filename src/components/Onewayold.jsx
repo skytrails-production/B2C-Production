@@ -14,6 +14,7 @@ import "react-date-range/dist/theme/default.css";
 import "./style/Oneway.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
+
 import DialogContent from "@mui/material/DialogContent";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -121,12 +122,8 @@ const Homeform = (props) => {
   const [displayFrom, setdisplayFrom] = useState(true);
   const [toQuery, setToQuery] = useState("mumbai");
   const [to, setTO] = useState("");
-  // const [isLoadingTo, setIsLoadingTo] = useState(false);
   const [toSearchResults, setToSearchResults] = useState([]);
-
   const [displayTo, setdisplayTo] = useState(true);
-
-
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
   const [activeIdClass, setActiveIdClass] = useState(2);
   const [activeIdChild, setActiveIdChild] = useState(0);
@@ -277,7 +274,6 @@ const Homeform = (props) => {
     setFromQuery(e);
   };
 
-  // ToSearch result
   useEffect(() => {
     let mounted = true;
 
@@ -455,6 +451,7 @@ const Homeform = (props) => {
           <div className="row oneWayBg">
             <div className="col-12 p-0">
               <form onSubmit={handleOnewaySubmit}>
+              <div >
                 <div className="your-container">
                   <div
                     onClick={(e) => {
@@ -467,6 +464,7 @@ const Homeform = (props) => {
                       }, 200);
                     }}
                     className="from-container"
+                    style={{borderTop:"none"}}
                     id="item-0"
                   >
                     <span>From</span>
@@ -612,15 +610,15 @@ const Homeform = (props) => {
 
                   <div
                     onClick={(e) => {
-                      e.stopPropagation(); // Stop event bubbling
+                      e.stopPropagation(); 
                       setToggle(true);
                       setdisplayTo(true);
-                      // setIsLoadingTo(true);
                       setTimeout(() => {
                         toCityRef?.current?.focus();
                       }, 300)
                     }}
                     className="from-container"
+                    style={{borderTop:"none"}}
                     id="item-1"
                   >
                     <span>To</span>
@@ -853,13 +851,30 @@ const Homeform = (props) => {
                       </DialogActions>
                     </Dialog>
                   </div>
-                  <div className=" onewaySearch" id="item-4">
+                  <div className=" onewaySearch-btn" id="item-4">
                     <button type="submit" className="searchButt">
                       <h3 className="mb-0">Search</h3>
                     </button>
                   </div>
                 </div>
+               
+                  </div>
               </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             </div>
           </div>
         </div>

@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 // import onewayBG from "../../images/onewaybg.png"
 import onewayBG from "../../images/onewayBG.jpg";
 import demo from "../../images/demo.png";
-import cloud from "../../images/cloud.png"
-import cloudright from "../../images/cloudright.png"
+import cloud from "../../images/cloud.png";
+import cloudright from "../../images/cloudright.png";
 // import bird from "../../images/bird.gif"
 import Advertise from "../home/Advertise";
 // import FLightOffer from '../flight/FLightOffer';
@@ -36,38 +36,38 @@ const variants = {
 };
 const ColorGradient = {
   open: {
-    backgroundImage: "linear-gradient(90deg, #9ef4e9 -104%, #ade6e8 17%, #84c2c8)",
+    backgroundImage:
+      "linear-gradient(90deg, #9ef4e9 -104%, #ade6e8 17%, #84c2c8)",
     transition: {
       duration: 2,
     },
   },
   close: {
-    backgroundImage: "linear-gradient(90deg, rgb(10, 35, 66) -104%, rgb(95 137 173) 17%, rgb(10, 35, 66) )",
+    backgroundImage:
+      "linear-gradient(90deg, rgb(10, 35, 66) -104%, rgb(95 137 173) 17%, rgb(10, 35, 66) )",
     transition: {
       duration: 2,
     },
   },
   exit: {
-    opacity: 0
-  }
+    opacity: 0,
+  },
 };
 
 const starVarient = {
-
   open: {
     opacity: 1,
     transition: {
-      duration: 2
-    }
+      duration: 2,
+    },
   },
   close: {
     opacity: 0,
     transition: {
-      duration: 2
-    }
+      duration: 2,
+    },
   },
-}
-
+};
 
 const sunVarient = {
   initial: {
@@ -96,14 +96,10 @@ const sunVarient = {
       duration: 2,
       staggerChildren: 0.1,
     },
-  }
-
-}
-
+  },
+};
 
 const Hotelpackages = () => {
-
-
   const [isExit, setIsExit] = useState(false);
   const [hours, setHours] = useState(new Date().getHours());
   const [minutes, setMinutes] = useState(new Date().getMinutes());
@@ -126,7 +122,6 @@ const Hotelpackages = () => {
 
   // console.log(isExit);
 
-
   const downloadRef = useRef(null);
 
   const focusDownload = () => {
@@ -135,13 +130,13 @@ const Hotelpackages = () => {
     }
   };
 
-
-
-
   return (
     <React.Fragment>
       <Helmet>
-        <title>The Skytrails - Holiday Packages, Bus Booking, Hotel Booking, Flight Booking </title>
+        <title>
+          The Skytrails - Holiday Packages, Bus Booking, Hotel Booking, Flight
+          Booking{" "}
+        </title>
         <link rel="canonical" href="/holidaypackages" />
         <meta name="description" content="one packages" />
         <meta
@@ -150,16 +145,25 @@ const Hotelpackages = () => {
           "
         />
       </Helmet>
-     
-      <motion.div className="mainimgPackage" variants={ColorGradient} exit="exit" animate={isExit ? "close" : "open"}>
 
+      <motion.div
+        className="mainimgPackage"
+        variants={ColorGradient}
+        exit="exit"
+        animate={isExit ? "close" : "open"}
+      >
         <img
           className="bannerBackPackage"
           style={{ zIndex: "1" }}
           src={demo}
           alt="background"
         />
-        <motion.div variants={starVarient} initial="open" animate={isExit ? "open" : "close"} className="starsAbs"></motion.div>
+        <motion.div
+          variants={starVarient}
+          initial="open"
+          animate={isExit ? "open" : "close"}
+          className="starsAbs"
+        ></motion.div>
         <motion.img
           initial={{ opacity: 0, x: -500 }}
           animate={{
@@ -187,17 +191,27 @@ const Hotelpackages = () => {
         />
         <motion.div
           className="boxSun"
-          variants={sunVarient} initial="initial" animate={isExit ? "close" : "open"}
+          style={{ zIndex: "0" }}
+          variants={sunVarient}
+          initial="initial"
+          animate={isExit ? "close" : "open"}
         />
         <motion.div
           className="boxMoon"
-          variants={sunVarient} initial="initial" animate={isExit ? "open" : "close"}
+          style={{ zIndex: "0" }}
+          variants={sunVarient}
+          initial="initial"
+          animate={isExit ? "open" : "close"}
         />
         <Hotelpackageform />
       </motion.div>
 
-
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
         <HolidayBudget variants={variants} />
       </motion.div>
       <motion.div
@@ -209,10 +223,20 @@ const Hotelpackages = () => {
       >
         <Advertise variants={variants} />
       </motion.div>
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
         <HolidayCategory variants={variants} />
       </motion.div>
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
         <HolidaySuggestion variants={variants} />
       </motion.div>
 
@@ -226,14 +250,29 @@ const Hotelpackages = () => {
         <EventBanner focusDownload={focusDownload} variants={variants} />
       </motion.div> */}
 
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
         <HolidayDomestic variants={variants} />
       </motion.div>
 
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
         <Download downloadRef={downloadRef} variants={variants} />
       </motion.div>
-      <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+      <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
         <Partners variants={variants} />
       </motion.div>
       <WhyChooseUs />

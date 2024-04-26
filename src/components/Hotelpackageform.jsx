@@ -131,7 +131,7 @@ const Homeform = (props) => {
     <>
      <div className="homeabsnew container">    
        <section className="" style={{ width: "100%"}}>
-       <p className="hotel-heading">Your journey for <span>Fulfilled Trips</span> begins here</p>
+       <p className="hotel-heading">Your Journey For <span>Fulfilled Trips</span> Begins Here</p>
         <div className="container d-flex justify-content-center w-100 " style={{marginTop:"12px"}} >
           <div className="row packageBg">
             <div className="col-12 p-0">

@@ -36,7 +36,7 @@ const RefundPolicy = () => {
 
     return (
         <div>
-           
+
 
             <div style={{ overflow: "hidden" }}>
                 <div className="container">
@@ -48,16 +48,20 @@ const RefundPolicy = () => {
                         ) :
 
                             (
-                                <div className="termTop mt-5">
-                                    <div>
+                                <div className=" mt-5">
+                                    {/* <div>
                                         <h3>Refund Policy</h3>
-                                    </div>
+                                    </div> */}
 
-                                    <div className='termBottom'>
-                                        {data.map(item => (
-                                            <p>{item.description}</p>
-                                        ))}
-                                    </div>
+                                    {data.map(item =>
+                                    (
+                                        <div
+                                            className="termBottom"
+                                            dangerouslySetInnerHTML={{
+                                                __html: item.description,
+                                            }}
+                                        />
+                                    ))}
                                 </div>
                             )
                     }
