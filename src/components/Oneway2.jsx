@@ -295,16 +295,16 @@ const Oneway2 = (props) => {
   const navigate = useNavigate();
   // const [loader, setLoader] = useState(false);
 
-  useEffect(() => {
-    dispatch(ipAction());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(ipAction());
+  // }, []);
 
-  useEffect(() => {
-    const payload = {
-      EndUserIp: reducerState?.ip?.ipData,
-    };
-    dispatch(tokenAction(payload));
-  }, [reducerState?.ip?.ipData]);
+  // useEffect(() => {
+  //   const payload = {
+  //     EndUserIp: reducerState?.ip?.ipData,
+  //   };
+  //   dispatch(tokenAction(payload));
+  // }, [reducerState?.ip?.ipData]);
 
   const [data2, setData] = useState({
     adult: 0,

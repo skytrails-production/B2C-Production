@@ -43,7 +43,7 @@ import Hotelresult from "./pages/Hotel/hotelresult/Hotelresult";
 import HotelSearch from "./pages/Hotel/hotelsearch/HotelSearch";
 import HotelBooknow from "./pages/Hotel/hotelbokknow/HotelBooknow";
 import Reviewbooking from "./pages/Hotel/hotelreviewbooking/Reviewbooking";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getMarkUpAction } from "./Redux/markup/markupAction";
 import Guestdetail from "./pages/Hotel/guestdetail/Guestdetail";
 import HotelTicketGeneration from "./pages/Hotel/HotelTicketGeneration/HotelTicketGeneration";
@@ -90,38 +90,52 @@ import BookingDetailsGRN from "./pages/GRMHotel/BookingDetailsGRN";
 import BookingReviewGRN from "./pages/GRMHotel/BookingReviewGRN";
 import HotelTicketDB from "./pages/GRMHotel/HotelTicketDB";
 import HotelBookRoomGRN from "./pages/GRMHotel/HotelBookRoomGRN";
+import { ipAction, tokenAction } from "./Redux/IP/actionIp";
 
 function App() {
   // const location = useLocation();
+  const reducerState = useSelector((state) => state);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const notOnline = useNetworkState();
-  // console.log(state, "network state..............")
+
+
   useEffect(() => {
-    const disableInspect = (e) => {
-      if (
-        e.shiftKey && e.ctrlKey && e.keyCode === 123 || // F12
-        e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74) || // Ctrl + Shift + I/J
-        e.ctrlKey && e.keyCode === 85 // Ctrl + U
-      ) {
-        e.preventDefault();
-        return false;
-      }
-    };
-
-    const disableRightClick = (e) => {
-      e.preventDefault();
-    };
-
-    document.addEventListener('keydown', disableInspect);
-    document.addEventListener('contextmenu', disableRightClick);
-
-    return () => {
-      document.removeEventListener('keydown', disableInspect);
-      document.removeEventListener('contextmenu', disableRightClick);
-    };
+    dispatch(ipAction());
   }, []);
+
+  useEffect(() => {
+    const payload = {
+      EndUserIp: reducerState?.ip?.ipData,
+    };
+    dispatch(tokenAction(payload));
+  }, [reducerState?.ip?.ipData]);
+  // console.log(state, "network state..............")
+  // useEffect(() => {
+  //   const disableInspect = (e) => {
+  //     if (
+  //       e.shiftKey && e.ctrlKey && e.keyCode === 123 || // F12
+  //       e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74) || // Ctrl + Shift + I/J
+  //       e.ctrlKey && e.keyCode === 85 // Ctrl + U
+  //     ) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //   };
+
+  //   const disableRightClick = (e) => {
+  //     e.preventDefault();
+  //   };
+
+  //   document.addEventListener('keydown', disableInspect);
+  //   document.addEventListener('contextmenu', disableRightClick);
+
+  //   return () => {
+  //     document.removeEventListener('keydown', disableInspect);
+  //     document.removeEventListener('contextmenu', disableRightClick);
+  //   };
+  // }, []);
 
   useEffect(() => {
     dispatch(getMarkUpAction());
