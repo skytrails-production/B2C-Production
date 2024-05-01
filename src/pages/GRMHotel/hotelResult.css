@@ -35,3 +35,25 @@
     font-weight: 600;
     margin-bottom: 10px;
 }
+
+
+.selCount input::placeholder {
+    color: #3f454a;
+}
+
+
+.GrnButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.GrnButton button {
+    padding: 18px 50px;
+    border-radius: 10px;
+    border: none;
+    background-color: #e73c34;
+    color: white;
+
+}

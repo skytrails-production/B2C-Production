@@ -58,7 +58,7 @@ function BigNavbar() {
     </svg>
   );
 
-//   console.log(activeNav, "actrive nav");
+  //   console.log(activeNav, "actrive nav");
   return (
     <>
       <nav className="navbar">
@@ -68,6 +68,7 @@ function BigNavbar() {
               display: "flex",
               justifyContent: "space-between",
               flexDirection: "row",
+              alignItems: "center",
               width: "100%",
             }}
           >
@@ -1376,7 +1377,7 @@ function BigNavbar() {
                       </linearGradient>
                     </defs>
                   </svg>
-                  <p style={{ color: "black" , textAlign:"center"}}>Visa</p>
+                  <p style={{ color: "black", textAlign: "center" }}>Visa</p>
                 </Link>
               </ul>
             </div>

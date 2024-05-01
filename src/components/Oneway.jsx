@@ -168,8 +168,8 @@ function Oneway() {
       setOpenTravelModal(false);
       setCountPassanger(
         parseInt(activeIdChild) +
-          parseInt(activeIdInfant) +
-          parseInt(activeIdAdult)
+        parseInt(activeIdInfant) +
+        parseInt(activeIdAdult)
       );
     }
   };
@@ -495,12 +495,12 @@ function Oneway() {
     setSelectedFrom(selectedTo);
     setSelectedTo(tempFrom);
   };
-
+  console.log(reducerState, "reducerstate")
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   return (
     <>
-     <section
+      <section
         className="oneWayAbsDesign"
       >
         <Helmet>
@@ -512,527 +512,516 @@ function Oneway() {
             content="India travel, travel in India, cheap air tickets, cheap flights, flight, hotels, hotel, holidays, bus tickets, air travel, air tickets, holiday packages, travel packages, affordable flights, international flights, lowest airfare, domestic flights, pnr status, online flight booking, deals on hotels, theskytrails"
           />
         </Helmet>
-      <div className="onewaynew">
-        <div className="onewaynewinner">
-          <form onSubmit={handleOnewaySubmit} style={{ width: "100%" }}>
-            <div className="container ">
-              <div className="row newonewaydesign">
-                <div className="col-md-6 col-lg-3 onewaycontainernew">
-                  <div className="card">
-                    <div
-                      className="from-container"
-                      style={{
-                        border: "none",
-                        paddingLeft: "10px",
-                        paddingRight: "10px",
-                      }}
-                    >
-                      <div className="fromcity">
-                        <span
-                          style={{
-                            fontSize: "14px",
-                            fontWeight: "500",
-                            width: "100%",
-                            color: "#071c2c",
-                          }}
-                        >
-                          From
-                        </span>
-                        <div className="dropdown">
-                          <div className="control">
-                            <div
-                              className="selected-value"
-                              style={{ display: "flex" }}
-                            >
-                              <input
-                                name="from"
-                                onKeyDown={handleKeyDown}
-                                placeholder={selectedFrom.name}
-                                value={from}
-                                onClick={toggle}
-                                autoComplete="off"
-                                onChange={(event) => {
-                                  handleFromInputChange(event);
-                                  setIsLoadingFrom(true);
-                                  handleFromSearch(event.target.value);
-                                }}
-                                style={{
-                                  border: "none",
-                                  fontSize: "20px",
-                                  outline: "none",
-                                  color: "#3f454a",
-                                  fontWeight: "700",
-                                }}
-                                className="custominputplaceholder"
-                              />
-                            </div>
-                            <div
-                              style={{ display: "none" }}
-                              className={`arrow ${isOpen ? "open" : ""}`}
-                            ></div>
-                          </div>
-
-                          <div
-                            ref={inputRef}
-                            className={`options ${isOpen ? "open" : ""}`}
-                            style={{
-                              overflowX: "hidden",
-                              overflowY: "auto",
-
-                              maxHeight: "200px",
-                              scrollbarWidth: "thin",
-                            }}
-                          >
-                            {fromSearchResults.map((result1, index) => {
-                              return (
-                                <div
-                                  style={{ height: "50px" }}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleFromClick(result1);
-                                  }}
-                                  className={`${
-                                    index === cityIndex1 ? "hoverCity" : ""
-                                  }`}
-                                  key={result1._id}
-                                >
-                                  <div
-                                    className="onewayResultBox"
-                                    style={{
-                                      paddingLeft: "1px",
-                                      paddingRight: "1px",
-                                      gap: "1px",
-                                    }}
-                                  >
-                                    <div className="onewayResultFirst">
-                                      <div>
-                                        <FlightTakeoffTwoToneIcon />
-                                      </div>
-                                      <div className="resultOriginName">
-                                        <p style={{ fontSize: "14px" }}>
-                                          {result1.name}
-                                        </p>
-                                        <span
-                                          style={{
-                                            fontSize: "10px",
-                                            display: "block",
-                                            width: "175px",
-                                          }}
-                                        >
-                                          {result1.code}
-                                        </span>
-                                      </div>
-                                    </div>
-                                    <div className="resultAirportCode">
-                                      <p style={{ fontSize: "10px" }}>
-                                        {" "}
-                                        {result1.AirportCode}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      </div>
-                      {fromSearchResults &&
-                      fromSearchResults.length > 0 &&
-                      fromQuery.length >= 2 ? (
-                        <span
-                          className="d-none d-md-block "
-                          style={{
-                            fontSize: "14px",
-                            fontWeight: "500",
-                            width: "255px",
-                          }}
-                        >
-                          {selectedFrom ? (
-                            <>
-                              {selectedFrom.code}, {selectedFrom.name}
-                            </>
-                          ) : (
-                            <>
-                              {fromSearchResults[0].code},{" "}
-                              {fromSearchResults[0].name}
-                            </>
-                          )}
-                        </span>
-                      ) : (
-                        <span className="d-none d-md-block ">Airport Name</span>
-                      )}
-                    </div>
-                  </div>
-
-                  <div
-                    className="roundlogo"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleRoundLogoClick();
-                    }}
-                    style={{ cursor: "pointer" }}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="40"
-                      height="40"
-                      viewBox="0 0 40 40"
-                      fill="none"
-                    >
-                      <circle
-                        cx="20"
-                        cy="20"
-                        r="19"
-                        fill="white"
-                        stroke="lightgray"
-                        stroke-width="2"
-                      />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="18"
-                      height="20"
-                      viewBox="0 0 18 20"
-                      fill="none"
-                      justifyContent="center"
-                    >
-                      <path
-                        d="M13 15L1 15M1 15L5 19M1 15L5 11M5 5L17 5M17 5L13 0.999999M17 5L13 9"
-                        stroke="#071C2C"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      />
-                    </svg>
-                  </div>
-                </div>
-                <div className=" col-md-6 col-lg-3">
-                  <div className="card">
-                    <div
-                      className="from-container"
-                      style={{
-                        border: "none",
-                        paddingLeft: "10px",
-                        paddingRight: "10px",
-                      }}
-                    >
-                      <div className="fromcity">
-                        <span
-                          style={{
-                            fontSize: "14px",
-                            fontWeight: "500",
-                            color: "#071c2c",
-                            width: "100%",
-                          }}
-                        >
-                          TO
-                        </span>
-                        <div className="dropdown">
-                          <div className="control">
-                            <div
-                              className="selected-value"
-                              style={{ display: "flex" }}
-                            >
-                              <input
-                                name="to"
-                                placeholder={selectedTo.name}
-                                value={to}
-                                onKeyDown={handleKeyDown}
-                                onClick={() => {
-                                  setIsOpen1(true);
-                                  setIsOpen(false);
-                                  setcityIndex(0);
-                                  // setmaxcity(toSearchResults.length);
-                                }}
-                                onChange={(event) => {
-                                  handleToInputChange(event);
-
-                                  handleToSearch(event.target.value);
-                                }}
-                                autoComplete="off"
-                                style={{
-                                  border: "none",
-                                  fontSize: "20px",
-                                  fontWeight: "500",
-                                  outline: "none",
-                                  color: "#3f454a",
-                                  fontWeight: "700",
-                                }}
-                                className="custominputplaceholder"
-                              />
-                            </div>
-                            <div
-                              style={{ display: "none" }}
-                              className={`arrow ${isOpen1 ? "open" : ""}`}
-                            ></div>
-                          </div>
-
-                          <div
-                            ref={inputRef1}
-                            className={`options ${isOpen1 ? "open" : ""}`}
-                            style={{
-                              overflowX: "hidden",
-                              overflowY: "auto",
-                              maxHeight: "200px",
-                              scrollbarWidth: "thin",
-                            }}
-                          >
-                            {toSearchResults.map((result, index) => {
-                              return (
-                                <div
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleToClick(result);
-                                  }}
-                                  className={`${
-                                    index === cityIndex ? "hoverCity" : ""
-                                  }`}
-                                  key={result._id}
-                                  style={{ height: "50px" }}
-                                >
-                                  <div
-                                    className="onewayResultBox"
-                                    style={{
-                                      paddingLeft: "1px",
-                                      paddingRight: "1px",
-                                      gap: "1px",
-                                    }}
-                                  >
-                                    <div className="onewayResultFirst">
-                                      <div>
-                                        <FlightTakeoffTwoToneIcon />
-                                      </div>
-                                      <div className="resultOriginName">
-                                        <p style={{ fontSize: "14px" }}>
-                                          {result.name}
-                                        </p>
-                                        <span
-                                          style={{
-                                            fontSize: "10px",
-                                            display: "block",
-                                            width: "175px",
-                                          }}
-                                        >
-                                          {result.code}
-                                        </span>
-                                      </div>
-                                    </div>
-                                    <div className="resultAirportCode">
-                                      <p style={{ fontSize: "10px" }}>
-                                        {result.AirportCode}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      </div>
-                      {toSearchResults &&
-                      toSearchResults.length > 0 &&
-                      toQuery.length >= 2 ? (
-                        <span
-                          className="d-none d-md-block "
-                          style={{
-                            fontSize: "14px",
-                            fontWeight: "500",
-                            width: "255px",
-                          }}
-                        >
-                          {selectedTo ? (
-                            <>
-                              {selectedTo.code}, {selectedTo.name}
-                            </>
-                          ) : (
-                            <>
-                              {toSearchResults[0].code},{" "}
-                              {toSearchResults[0].name}
-                            </>
-                          )}
-                        </span>
-                      ) : (
-                        <span className="d-none d-md-block ">Airport Name</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6 col-lg-3">
-                  <div className="card">
-                    <div
-                      className="from-container"
-                      style={{ border: "none" }}
-                      id="item-2"
-                    >
-                      <span>Departure</span>
-                      <div className="">
-                        <div className="onewayDatePicker">
-                          <DatePicker
-                            name="departure"
-                            id="departure"
-                            dateFormat="dd MMM, yy"
-                            selected={startDate}
-                            onChange={handleDateChange}
-                            minDate={currentdate}
-                          />
-                        </div>
-                      </div>
-                      <span className="d-none d-md-block ">
-                        {getDayOfWeek(startDate)}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-md-6 col-lg-3">
-                  <div className="card">
-                    <div
-                      className="travellerContainer "
-                      id="item-3"
-                      style={{ border: "none" }}
-                    >
+        <div className="onewaynew">
+          <div className="onewaynewinner">
+            <form onSubmit={handleOnewaySubmit} style={{ width: "100%" }}>
+              <div className="container ">
+                <div className="row newonewaydesign">
+                  <div className="col-md-6 col-lg-3 onewaycontainernew">
+                    <div className="card">
                       <div
-                        onClick={handleTravelClickOpen}
-                        className="travellerButton"
+                        className="from-container"
+                        style={{
+                          border: "none",
+                          paddingLeft: "10px",
+                          paddingRight: "10px",
+                        }}
                       >
-                        <span>Traveller & Class</span>
-                        <p>
-                          <span>{(totalCount === 0 && 1) || totalCount} </span>{" "}
-                          Traveller
-                        </p>
-                        <div className="d-none d-md-block ">
-                          <span>
-                            {(activeIdClass === 1 && "All") ||
-                              (activeIdClass === 2 && "Economy") ||
-                              (activeIdClass === 3 && "Premium Economy") ||
-                              (activeIdClass === 4 && "Business") ||
-                              (activeIdClass === 5 && "Premium Business") ||
-                              (activeIdClass === 6 && "First Class")}
+                        <div className="fromcity">
+                          <span
+                            style={{
+                              fontSize: "14px",
+                              fontWeight: "500",
+                              width: "100%",
+                              color: "#071c2c",
+                            }}
+                          >
+                            From
                           </span>
-                        </div>
-                      </div>
-                      <Dialog
-                        sx={{ zIndex: "99999" }}
-                        disableEscapeKeyDown
-                        open={openTravelModal}
-                        onClose={handleTravelClose}
-                      >
-                        <DialogContent>
-                          <>
-                            <div className="travellerModal">
-                              <div>
-                                <h3>TRAVELLERS & CLASS</h3>
-                              </div>
-                              <div className="travellerPeople">
-                                <TravelerCounter
-                                  label="Adults (Age 12+ Years)"
-                                  count={activeIdAdult}
-                                  onIncrement={() =>
-                                    handleTravelerCountChange("adult", 1)
-                                  }
-                                  onDecrement={() =>
-                                    handleTravelerCountChange("adult", -1)
-                                  }
-                                />
-                                <TravelerCounter
-                                  label="Children (Age 2-12 Years)"
-                                  count={activeIdChild}
-                                  onIncrement={() =>
-                                    handleTravelerCountChange("child", 1)
-                                  }
-                                  onDecrement={() =>
-                                    handleTravelerCountChange("child", -1)
-                                  }
-                                />
-                                <TravelerCounter
-                                  label="Infants (Age 0-2 Years)"
-                                  count={activeIdInfant}
-                                  onIncrement={() =>
-                                    handleTravelerCountChange("infant", 1)
-                                  }
-                                  onDecrement={() =>
-                                    handleTravelerCountChange("infant", -1)
-                                  }
+                          <div className="dropdown">
+                            <div className="control">
+                              <div
+                                className="selected-value"
+                                style={{ display: "flex" }}
+                              >
+                                <input
+                                  name="from"
+                                  onKeyDown={handleKeyDown}
+                                  placeholder={selectedFrom.name}
+                                  value={from}
+                                  onClick={toggle}
+                                  autoComplete="off"
+                                  onChange={(event) => {
+                                    handleFromInputChange(event);
+                                    setIsLoadingFrom(true);
+                                    handleFromSearch(event.target.value);
+                                  }}
+                                  style={{
+                                    border: "none",
+                                    fontSize: "20px",
+                                    outline: "none",
+                                    color: "#3f454a",
+                                    fontWeight: "700",
+                                  }}
+                                  className="custominputplaceholder"
                                 />
                               </div>
-                              <div>
-                                <h3 className="d-none d-md-block">
-                                  Choose Travel Class
-                                </h3>
-                              </div>
-                              <div>
-                                <ul className="classButtonTravel">
-                                  {ClassItems.map((ele) => (
-                                    <li
-                                      key={ele.id}
-                                      style={{
-                                        backgroundColor:
-                                          ele.id === activeIdClass
-                                            ? "#d90429"
-                                            : "#fff",
-                                        color:
-                                          ele.id === activeIdClass
-                                            ? "#fff"
-                                            : "#d90429",
-                                      }}
-                                      onClick={() => setActiveIdClass(ele.id)}
-                                    >
-                                      {ele.label}
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
+                              <div
+                                style={{ display: "none" }}
+                                className={`arrow ${isOpen ? "open" : ""}`}
+                              ></div>
                             </div>
-                          </>
-                        </DialogContent>
-                        <DialogActions
-                          style={{
-                            justifyContent: "center",
-                          }}
+
+                            <div
+                              ref={inputRef}
+                              className={`options ${isOpen ? "open" : ""}`}
+                              style={{
+                                overflowX: "hidden",
+                                overflowY: "auto",
+                                maxHeight: "200px",
+                                scrollbarWidth: "thin",
+                              }}
+                            >
+                              {fromSearchResults.map((result1, index) => {
+                                return (
+                                  <div
+
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleFromClick(result1);
+                                    }}
+                                    className={`${index === cityIndex1 ? "hoverCity" : ""
+                                      }`}
+                                    key={result1._id}
+                                  >
+                                    <div
+                                      className="onewayResultBox"
+
+                                    >
+                                      <div className="onewayResultFirst">
+                                        <div>
+                                          <FlightTakeoffTwoToneIcon />
+                                        </div>
+                                        <div className="resultOriginName">
+                                          <p style={{ fontSize: "14px" }}>
+                                            {result1.name}
+                                          </p>
+                                          <span
+                                            style={{
+                                              fontSize: "10px",
+                                              display: "block",
+                                              width: "175px",
+                                            }}
+                                          >
+                                            {result1.code}
+                                          </span>
+                                        </div>
+                                      </div>
+                                      <div className="resultAirportCode">
+                                        <p style={{ fontSize: "10px" }}>
+                                          {" "}
+                                          {result1.AirportCode}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                        {fromSearchResults &&
+                          fromSearchResults.length > 0 &&
+                          fromQuery.length >= 2 ? (
+                          <span
+                            className="d-none d-md-block "
+                            style={{
+                              fontSize: "14px",
+                              fontWeight: "500",
+                              width: "255px",
+                            }}
+                          >
+                            {selectedFrom ? (
+                              <>
+                                {selectedFrom.code}, {selectedFrom.name}
+                              </>
+                            ) : (
+                              <>
+                                {fromSearchResults[0].code},{" "}
+                                {fromSearchResults[0].name}
+                              </>
+                            )}
+                          </span>
+                        ) : (
+                          <span className="d-none d-md-block ">Airport Name</span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div
+                      className="roundlogo"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRoundLogoClick();
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="40"
+                        height="40"
+                        viewBox="0 0 40 40"
+                        fill="none"
+                      >
+                        <circle
+                          cx="20"
+                          cy="20"
+                          r="19"
+                          fill="white"
+                          stroke="lightgray"
+                          stroke-width="2"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="20"
+                        viewBox="0 0 18 20"
+                        fill="none"
+                        justifyContent="center"
+                      >
+                        <path
+                          d="M13 15L1 15M1 15L5 19M1 15L5 11M5 5L17 5M17 5L13 0.999999M17 5L13 9"
+                          stroke="#071C2C"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                  <div className=" col-md-6 col-lg-3">
+                    <div className="card">
+                      <div
+                        className="from-container"
+                        style={{
+                          border: "none",
+                          paddingLeft: "10px",
+                          paddingRight: "10px",
+                        }}
+                      >
+                        <div className="fromcity">
+                          <span
+                            style={{
+                              fontSize: "14px",
+                              fontWeight: "500",
+                              color: "#071c2c",
+                              width: "100%",
+                            }}
+                          >
+                            TO
+                          </span>
+                          <div className="dropdown">
+                            <div className="control">
+                              <div
+                                className="selected-value"
+                                style={{ display: "flex" }}
+                              >
+                                <input
+                                  name="to"
+                                  placeholder={selectedTo.name}
+                                  value={to}
+                                  onKeyDown={handleKeyDown}
+                                  onClick={() => {
+                                    setIsOpen1(true);
+                                    setIsOpen(false);
+                                    setcityIndex(0);
+                                    // setmaxcity(toSearchResults.length);
+                                  }}
+                                  onChange={(event) => {
+                                    handleToInputChange(event);
+
+                                    handleToSearch(event.target.value);
+                                  }}
+                                  autoComplete="off"
+                                  style={{
+                                    border: "none",
+                                    fontSize: "20px",
+                                    fontWeight: "500",
+                                    outline: "none",
+                                    color: "#3f454a",
+                                    fontWeight: "700",
+                                  }}
+                                  className="custominputplaceholder"
+                                />
+                              </div>
+                              <div
+                                style={{ display: "none" }}
+                                className={`arrow ${isOpen1 ? "open" : ""}`}
+                              ></div>
+                            </div>
+
+                            <div
+                              ref={inputRef1}
+                              className={`options ${isOpen1 ? "open" : ""}`}
+                              style={{
+                                overflowX: "hidden",
+                                overflowY: "auto",
+                                maxHeight: "200px",
+                                scrollbarWidth: "thin",
+                              }}
+                            >
+                              {toSearchResults.map((result, index) => {
+                                return (
+                                  <div
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleToClick(result);
+                                    }}
+                                    className={`${index === cityIndex ? "hoverCity" : ""
+                                      }`}
+                                    key={result._id}
+
+                                  >
+                                    <div
+                                      className="onewayResultBox"
+
+                                    >
+                                      <div className="onewayResultFirst">
+                                        <div>
+                                          <FlightTakeoffTwoToneIcon />
+                                        </div>
+                                        <div className="resultOriginName">
+                                          <p style={{ fontSize: "14px" }}>
+                                            {result.name}
+                                          </p>
+                                          <span
+                                            style={{
+                                              fontSize: "10px",
+                                              display: "block",
+                                              width: "175px",
+                                            }}
+                                          >
+                                            {result.code}
+                                          </span>
+                                        </div>
+                                      </div>
+                                      <div className="resultAirportCode">
+                                        <p style={{ fontSize: "10px" }}>
+                                          {result.AirportCode}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                        {toSearchResults &&
+                          toSearchResults.length > 0 &&
+                          toQuery.length >= 2 ? (
+                          <span
+                            className="d-none d-md-block "
+                            style={{
+                              fontSize: "14px",
+                              fontWeight: "500",
+                              width: "255px",
+                            }}
+                          >
+                            {selectedTo ? (
+                              <>
+                                {selectedTo.code}, {selectedTo.name}
+                              </>
+                            ) : (
+                              <>
+                                {toSearchResults[0].code},{" "}
+                                {toSearchResults[0].name}
+                              </>
+                            )}
+                          </span>
+                        ) : (
+                          <span className="d-none d-md-block ">Airport Name</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-6 col-lg-3">
+                    <div className="card">
+                      <div
+                        className="from-container"
+                        style={{ border: "none" }}
+                        id="item-2"
+                      >
+                        <span>Departure</span>
+                        <div className="">
+                          <div className="onewayDatePicker">
+                            <DatePicker
+                              name="departure"
+                              id="departure"
+                              dateFormat="dd MMM, yy"
+                              selected={startDate}
+                              onChange={handleDateChange}
+                              minDate={currentdate}
+                            />
+                          </div>
+                        </div>
+                        <span className="d-none d-md-block ">
+                          {getDayOfWeek(startDate)}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-6 col-lg-3">
+                    <div className="card">
+                      <div
+                        className="travellerContainer "
+                        id="item-3"
+                        style={{ border: "none" }}
+                      >
+                        <div
+                          onClick={handleTravelClickOpen}
+                          className="travellerButton"
                         >
-                          <Button
+                          <span>Traveller & Class</span>
+                          <p>
+                            <span>{(totalCount === 0 && 1) || totalCount} </span>{" "}
+                            Traveller
+                          </p>
+                          <div className="d-none d-md-block ">
+                            <span>
+                              {(activeIdClass === 1 && "All") ||
+                                (activeIdClass === 2 && "Economy") ||
+                                (activeIdClass === 3 && "Premium Economy") ||
+                                (activeIdClass === 4 && "Business") ||
+                                (activeIdClass === 5 && "Premium Business") ||
+                                (activeIdClass === 6 && "First Class")}
+                            </span>
+                          </div>
+                        </div>
+                        <Dialog
+                          sx={{ zIndex: "99999" }}
+                          disableEscapeKeyDown
+                          open={openTravelModal}
+                          onClose={handleTravelClose}
+                        >
+                          <DialogContent>
+                            <>
+                              <div className="travellerModal">
+                                <div>
+                                  <h3>TRAVELLERS & CLASS</h3>
+                                </div>
+                                <div className="travellerPeople">
+                                  <TravelerCounter
+                                    label="Adults (Age 12+ Years)"
+                                    count={activeIdAdult}
+                                    onIncrement={() =>
+                                      handleTravelerCountChange("adult", 1)
+                                    }
+                                    onDecrement={() =>
+                                      handleTravelerCountChange("adult", -1)
+                                    }
+                                  />
+                                  <TravelerCounter
+                                    label="Children (Age 2-12 Years)"
+                                    count={activeIdChild}
+                                    onIncrement={() =>
+                                      handleTravelerCountChange("child", 1)
+                                    }
+                                    onDecrement={() =>
+                                      handleTravelerCountChange("child", -1)
+                                    }
+                                  />
+                                  <TravelerCounter
+                                    label="Infants (Age 0-2 Years)"
+                                    count={activeIdInfant}
+                                    onIncrement={() =>
+                                      handleTravelerCountChange("infant", 1)
+                                    }
+                                    onDecrement={() =>
+                                      handleTravelerCountChange("infant", -1)
+                                    }
+                                  />
+                                </div>
+                                <div>
+                                  <h3 className="d-none d-md-block">
+                                    Choose Travel Class
+                                  </h3>
+                                </div>
+                                <div>
+                                  <ul className="classButtonTravel">
+                                    {ClassItems.map((ele) => (
+                                      <li
+                                        key={ele.id}
+                                        style={{
+                                          backgroundColor:
+                                            ele.id === activeIdClass
+                                              ? "#d90429"
+                                              : "#fff",
+                                          color:
+                                            ele.id === activeIdClass
+                                              ? "#fff"
+                                              : "#d90429",
+                                        }}
+                                        onClick={() => setActiveIdClass(ele.id)}
+                                      >
+                                        {ele.label}
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              </div>
+                            </>
+                          </DialogContent>
+                          <DialogActions
                             style={{
-                              backgroundColor: "#21325d",
-                              color: "white",
+                              justifyContent: "center",
                             }}
-                            onClick={handleTravelClose}
                           >
-                            Cancel
-                          </Button>
-                          <Button
-                            style={{
-                              backgroundColor: "#21325d",
-                              color: "white",
-                            }}
-                            onClick={handleTravelClose}
-                          >
-                            Ok
-                          </Button>
-                        </DialogActions>
-                      </Dialog>
+                            <Button
+                              style={{
+                                backgroundColor: "#21325d",
+                                color: "white",
+                              }}
+                              onClick={handleTravelClose}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              style={{
+                                backgroundColor: "#21325d",
+                                color: "white",
+                              }}
+                              onClick={handleTravelClose}
+                            >
+                              Ok
+                            </Button>
+                          </DialogActions>
+                        </Dialog>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div
-              style={{ position: "relative", top: "79px", marginTop: "-45px" }}
-              className="onewaySearch-btn"
-            >
-              <button
-                className="searchButt"
-                style={{
-                  paddingTop: "18px",
-                  paddingBottom: "18px",
-                  paddingLeft: "50px",
-                  paddingRight: "50px",
-                }}
+              <div
+                style={{ position: "relative", top: "79px", marginTop: "-45px" }}
+                className="onewaySearch-btn"
               >
-                Search
-              </button>
-            </div>
-          </form>
+                <button
+                  className="searchButt"
+                  style={{
+                    paddingTop: "18px",
+                    paddingBottom: "18px",
+                    paddingLeft: "50px",
+                    paddingRight: "50px",
+                  }}
+                >
+                  Search
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
       </section>
     </>
   );

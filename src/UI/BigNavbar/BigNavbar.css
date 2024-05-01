@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
 
 .navbar {
-  height: 70px;
+  height: 80px;
   background-color: #fff;
   position: relative;
   z-index: 1;
@@ -23,8 +23,7 @@
   display: none;
 }
 
-.nav-elements {
-}
+.nav-elements {}
 
 .nav-elements ul {
   display: flex;
@@ -38,6 +37,7 @@
     justify-content: space-evenly;
     list-style-type: none;
   }
+
   .nav-elements ul li {
     margin-right: 19px !important;
   }

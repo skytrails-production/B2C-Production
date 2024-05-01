@@ -153,7 +153,9 @@ const BookingReviewGRN = ({
 
     const mixedString = generateMixedString();
 
+    const selectedFromData = JSON.parse(sessionStorage.getItem("clientNationality"));
 
+    console.log(selectedFromData, "selected from data")
     const handleClickBooking = async () => {
 
         const payload = {
@@ -197,7 +199,7 @@ const BookingReviewGRN = ({
                 "surname": passenger?.[0]?.adults?.[0]?.LastName,
                 "email": passenger?.[0]?.adults?.[0]?.Email,
                 "phone_number": passenger?.[0]?.adults?.[0]?.Phoneno,
-                "client_nationality": "in",
+                "client_nationality": selectedFromData?.countryCode,
                 "pan_number": passenger?.[0]?.adults?.[0]?.PAN,
             }
         };
