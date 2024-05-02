@@ -1534,8 +1534,8 @@ function Items({
                         }
                       </span>
                       <p>
-                        {}
-                        {}
+                        { }
+                        { }
                       </p>
                     </div>
                     <div className="singleFlightBoxTwo">
@@ -1602,9 +1602,8 @@ function Items({
 
                   const duration = `${Math.floor(
                     results?.[0][item]?.Segments?.[0][0]?.Duration / 60
-                  )}hr ${
-                    results?.[0][item]?.Segments?.[0][0]?.Duration % 60
-                  }min`;
+                  )}hr ${results?.[0][item]?.Segments?.[0][0]?.Duration % 60
+                    }min`;
 
                   // console.warn(reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode, "filtred data")
 
@@ -1647,12 +1646,12 @@ function Items({
                           ) : (
                             ""
                           )} */}
-                          <div className="" style={{display:"flex",alignItems:"center",justifyContent:"start",width:"100%"}}>  
+                          <div className="" style={{ display: "flex", alignItems: "center", justifyContent: "start", width: "100%" }}>
                             {" "}
                             {results[0][item]?.AirlineRemark &&
-                            results[0][item]?.AirlineRemark.includes(
-                              "Free Meal will be included"
-                            ) ? (
+                              results[0][item]?.AirlineRemark.includes(
+                                "Free Meal will be included"
+                              ) ? (
                               <p className="mandaField">Free Meal included</p>
                             ) : (
                               " "
@@ -1744,29 +1743,26 @@ function Items({
                                 <h4>
                                   {`${Math.floor(
                                     results[0][item]?.Segments[0][0]?.Duration /
-                                      60
-                                  )}hr ${
-                                    results[0][item]?.Segments[0][0]?.Duration %
                                     60
-                                  }min`}{" "}
+                                  )}hr ${results[0][item]?.Segments[0][0]?.Duration %
+                                    60
+                                    }min`}{" "}
                                   -{" "}
                                   {`${Math.floor(
                                     results[0][item]?.Segments[0][1]?.Duration /
-                                      60
-                                  )}hr ${
-                                    results[0][item]?.Segments[0][0]?.Duration %
                                     60
-                                  }min`}
+                                  )}hr ${results[0][item]?.Segments[0][1]?.Duration %
+                                    60
+                                    }min`}
                                 </h4>
                               ) : (
                                 <h4>
                                   {`${Math.floor(
                                     results[0][item]?.Segments[0][0]?.Duration /
-                                      60
-                                  )}hr ${
-                                    results[0][item]?.Segments[0][0]?.Duration %
                                     60
-                                  }min`}
+                                  )}hr ${results[0][item]?.Segments[0][0]?.Duration %
+                                    60
+                                    }min`}
                                 </h4>
                               )}
 
@@ -1798,12 +1794,10 @@ function Items({
                               )}
                               <p>
                                 {results[0][item]?.Segments[0].length > 1
-                                  ? `${
-                                      results[0][item]?.Segments[0].length - 1
-                                    } stop via ${
-                                      results[0][item]?.Segments[0][0]
-                                        ?.Destination?.Airport?.CityName
-                                    }`
+                                  ? `${results[0][item]?.Segments[0].length - 1
+                                  } stop via ${results[0][item]?.Segments[0][0]
+                                    ?.Destination?.Airport?.CityName
+                                  }`
                                   : "Non Stop"}
                               </p>
 
@@ -1857,7 +1851,7 @@ function Items({
                             </div>
                           </motion.div>
                           {results[0][item]?.AirlineRemark !== null &&
-                          results[0][item]?.AirlineRemark !== "--." ? (
+                            results[0][item]?.AirlineRemark !== "--." ? (
                             <p className="text-center w-100 mandaField">
                               {results[0][item]?.AirlineRemark}
                             </p>
@@ -2963,18 +2957,18 @@ export default function BasicGrid() {
     const uniqueData = !results
       ? []
       : results[0]?.filter((item, index, array) => {
-          const isUnique = !array
-            .slice(0, index)
-            .some(
-              (prevItem) =>
-                prevItem.AirlineCode === item.AirlineCode &&
-                prevItem.Segments?.[0]?.[prevItem.Segments[0].length - 1]
-                  ?.Origin?.DepTime ===
-                  item.Segments?.[0]?.[prevItem.Segments[0].length - 1]?.Origin
-                    ?.DepTime
-            );
-          return isUnique;
-        });
+        const isUnique = !array
+          .slice(0, index)
+          .some(
+            (prevItem) =>
+              prevItem.AirlineCode === item.AirlineCode &&
+              prevItem.Segments?.[0]?.[prevItem.Segments[0].length - 1]
+                ?.Origin?.DepTime ===
+              item.Segments?.[0]?.[prevItem.Segments[0].length - 1]?.Origin
+                ?.DepTime
+          );
+        return isUnique;
+      });
     const itemss = [...Array(uniqueData?.length).keys()];
     setNewResult([[...uniqueData]]);
     setCurrentItems(itemss);
@@ -2999,14 +2993,14 @@ export default function BasicGrid() {
       );
       updatedCategory = isValueSelected
         ? updatedCategory.filter(
-            (category) => category !== `${radioGroupName}:${selectedValue}`
-          )
+          (category) => category !== `${radioGroupName}:${selectedValue}`
+        )
         : [
-            ...updatedCategory.filter(
-              (category) => !category.startsWith(`${radioGroupName}:`)
-            ),
-            `${radioGroupName}:${selectedValue}`,
-          ];
+          ...updatedCategory.filter(
+            (category) => !category.startsWith(`${radioGroupName}:`)
+          ),
+          `${radioGroupName}:${selectedValue}`,
+        ];
 
       return updatedCategory;
     });

@@ -94,9 +94,9 @@ export const hotelBookRoomActionGRN = (data) => {
 // Hotel booking
 
 
-export const clearHotelReducer = () => {
+export const clearHotelReducerGRN = () => {
   return {
-    type: types.CLEAR_HOTEL_REDUCER,
+    type: types.CLEAR_HOTEL_REDUCER_GRN,
   };
 }
 export const clearHotelBlockRoom = () => {

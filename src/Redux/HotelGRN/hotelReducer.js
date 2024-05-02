@@ -111,7 +111,7 @@ export const hotelReducerGRN = (state = initState, action) => {
         ...state,
         blockRoom: [],
       }
-    case types.CLEAR_HOTEL_REDUCER:
+    case types.CLEAR_HOTEL_REDUCER_GRN:
       return {
         ticketData: [],
         hotelInfo: [],

@@ -3,7 +3,7 @@
   background-size: cover;
   background-repeat: no-repeat !important;
   background-position: center center;
-  height: 300px;
+  height: 220px;
 }
 
 .popular_content {
@@ -139,11 +139,13 @@
 .resultsdata {
   margin-top: 20px;
 }
+
 .noResultOuterDiv {
   width: 100%;
   display: flex;
   justify-content: center;
 }
+
 .noResultContainer {
   width: 500px;
   background-color: #fff;
@@ -152,36 +154,42 @@
   flex-direction: column;
   border-radius: 10px;
 }
+
 .noResultContainerInner {
   display: flex;
   flex-direction: column;
   padding: 20px;
   gap: 20px;
 }
+
 .noResultImgDiv {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+
 .noResultContentDiv {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
 }
-.noResultContentDiv > h6 {
+
+.noResultContentDiv>h6 {
   font-size: 22px;
   color: #000000;
 
   font-weight: 700;
 }
-.noResultContentDiv > p {
+
+.noResultContentDiv>p {
   font-size: 14px;
   color: #000000;
 
   padding: 8px 0px;
   margin-bottom: 6px;
 }
+
 .noResultBtnDiv {
   width: 100% !important;
 

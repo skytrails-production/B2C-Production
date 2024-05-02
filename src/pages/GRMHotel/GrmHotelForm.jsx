@@ -3,9 +3,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 import axios from "axios";
-
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Box from "@mui/material/Box";
@@ -16,7 +14,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import SecureStorage from 'react-secure-storage';
 import Hotelmainloading from "../Hotel/hotelLoading/Hotelmainloading";
 import dayjs from "dayjs";
-import { hotelActionGRN, clearHotelReducer } from "../../Redux/HotelGRN/hotel";
+import { hotelActionGRN, clearHotelReducerGRN } from "../../Redux/HotelGRN/hotel";
 
 
 
@@ -194,7 +192,7 @@ const GrmHotelForm = () => {
 
 
     useEffect(() => {
-        dispatch(clearHotelReducer());
+        dispatch(clearHotelReducerGRN());
     }, []);
 
     useEffect(() => {

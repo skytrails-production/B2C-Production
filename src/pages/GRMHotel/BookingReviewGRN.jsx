@@ -610,6 +610,69 @@ const BookingReviewGRN = ({
                                             <form>
                                                 <div className="bookFlightPassInner">
                                                     <div className="bookAdultIndex">
+                                                        <p>Property Rules</p>
+                                                    </div>
+                                                    <div className="propertyRulesBox">
+                                                        <div className="prOne">
+                                                            <p>Check-in Time Began: {hotelinfoGRN?.rate?.rate_comments?.checkin_begin_time}</p>
+                                                            <p>Check-in Time Ends: {hotelinfoGRN?.rate?.rate_comments?.checkin_end_time}</p>
+                                                        </div>
+                                                        <div className="prOne">
+                                                            <p>Check-in Minimum Age : {hotelinfoGRN?.rate?.rate_comments?.checkin_begin_time} </p>
+                                                            <p>Check-Out Time: {hotelinfoGRN?.rate?.rate_comments?.checkin_end_time}</p>
+                                                        </div>
+                                                        <div className="prTwo">
+                                                            <p>Check-in Instruction</p>
+
+                                                            <span dangerouslySetInnerHTML={{
+                                                                __html: hotelinfoGRN?.rate?.rate_comments?.checkin_instructions,
+                                                            }}>
+
+                                                            </span>
+
+                                                            {/* <span>{}</span> */}
+                                                        </div>
+                                                        <div className="prTwo">
+                                                            <p>Passenger Comment</p>
+                                                            <span>{hotelinfoGRN?.rate?.rate_comments?.pax_comments}</span>
+                                                        </div>
+                                                        {
+                                                            hotelinfoGRN?.rate?.rate_comments?.policies !== "" && (
+
+                                                                <div className="prTwo">
+                                                                    <p>Policies</p>
+                                                                    <span>{hotelinfoGRN?.rate?.rate_comments?.policies}</span>
+                                                                </div>
+                                                            )
+                                                        }
+                                                        {
+                                                            hotelinfoGRN?.rate?.rate_comments?.mealplan !== "" && (
+
+                                                                <div className="prTwo">
+                                                                    <p>Meal Plan</p>
+                                                                    <span>{hotelinfoGRN?.rate?.rate_comments?.mealplan}</span>
+                                                                </div>
+                                                            )
+                                                        }
+                                                        {
+                                                            hotelinfoGRN?.rate?.rate_comments?.mandatory_fees !== "" && (
+                                                                <div className="prOne">
+                                                                    <p>Mandatory Fees: {hotelinfoGRN?.rate?.rate_comments?.mandatory_fees}</p>
+                                                                    <p>Mandatory Tax: {hotelinfoGRN?.rate?.rate_comments?.mandatoryTax}</p>
+                                                                </div>
+                                                            )
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </motion.div>
+
+                                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                                        <div className="bookflightPassenger">
+                                            <form>
+                                                <div className="bookFlightPassInner">
+                                                    <div className="bookAdultIndex">
                                                         <p>Cancellation and Charges</p>
                                                     </div>
                                                     {

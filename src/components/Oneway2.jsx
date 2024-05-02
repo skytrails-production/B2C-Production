@@ -324,7 +324,7 @@ const Oneway2 = (props) => {
     };
   }, [])
 
-  
+
 
   const handleOneWaySubmitPopularSearch = () => {
     const payload = {
@@ -417,19 +417,14 @@ const Oneway2 = (props) => {
     setSelectedTo(tempFrom);
   };
 
-  const newHeight = navbarHeight ? `${Number(navbarHeight) + 52}px` : '30%';
 
   return (
     <>
       <section
         className="onyway2Section d-none d-md-block "
-        style={{
 
-          top: newHeight,
-
-        }}
       >
-      
+
         <div className="container">
           <div className="row oneWayBg1">
 
@@ -444,17 +439,17 @@ const Oneway2 = (props) => {
                       e.stopPropagation();
                       setFromToggle(true);
                       setdisplayFrom(true);
-                      
+
 
                     }} className="from-container12">
                     <span>From</span>
                     <div>
 
                       <label  >{selectedFrom.name}</label>
-                     
+
 
                       {
-                       
+
                         fromToggle
                         && (
                           <div
@@ -490,13 +485,13 @@ const Oneway2 = (props) => {
 
                                     onChange={(event) => {
                                       handleFromInputChange(event);
-                                      
+
                                       handleFromSearch(event.target.value);
 
 
 
                                     }}
-                                    
+
                                     style={{
                                       outline: "none",
                                       border: "none",
@@ -522,7 +517,7 @@ const Oneway2 = (props) => {
                                       <div className="onewayResultFirst">
                                         <div><FlightTakeoffTwoToneIcon /></div>
                                         <div className="resultOriginName"
-                                       
+
                                         >
                                           <p>{result.name}</p>
                                           <span>{result.code}</span>
@@ -539,7 +534,7 @@ const Oneway2 = (props) => {
                           </div>
                         )}
                     </div>
-                    
+
 
 
                     <div className="roundlogo1" onClick={(e) => {
@@ -595,9 +590,9 @@ const Oneway2 = (props) => {
 
 
                       <label  >{selectedTo.name}</label>
-                      
+
                       {
-                        
+
                         toToggle &&
                         (
                           <div
@@ -675,7 +670,7 @@ const Oneway2 = (props) => {
                           </div>
                         )}
                     </div>
-                    
+
 
 
                   </div>
@@ -694,7 +689,7 @@ const Oneway2 = (props) => {
                       </div>
 
                     </div>
-                    
+
                   </div>
 
                   <div className="travellerContainer12 ">
@@ -730,7 +725,7 @@ const Oneway2 = (props) => {
                           <div className="travellerModal">
                             <div><h3>TRAVELLERS & CLASS</h3></div>
                             <div className="travellerPeople">
-                              
+
                               <TravelerCounter
                                 label="Adults (Age 12+ Years)"
                                 count={activeIdAdult}
@@ -803,7 +798,7 @@ const Oneway2 = (props) => {
                 </div>
               </form>
 
-              
+
             </div>
           </div>
         </div>

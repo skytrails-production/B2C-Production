@@ -493,10 +493,14 @@ function Oneway() {
     const tempFrom = { ...selectedFrom };
     const tempSelectedFrom = selectedFrom;
     setSelectedFrom(selectedTo);
+    setFrom(selectedTo)
+    setTO(tempFrom)
     setSelectedTo(tempFrom);
   };
-  console.log(reducerState, "reducerstate")
+  console.log(from, "from")
+  console.log(to, "to")
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
   return (
     <>
@@ -548,7 +552,7 @@ function Oneway() {
                                   name="from"
                                   onKeyDown={handleKeyDown}
                                   placeholder={selectedFrom.name}
-                                  value={from}
+                                  value={from.name}
                                   onClick={toggle}
                                   autoComplete="off"
                                   onChange={(event) => {
@@ -638,7 +642,7 @@ function Oneway() {
                             style={{
                               fontSize: "14px",
                               fontWeight: "500",
-                              width: "255px",
+                              width: "198px",
                             }}
                           >
                             {selectedFrom ? (
@@ -730,7 +734,7 @@ function Oneway() {
                                 <input
                                   name="to"
                                   placeholder={selectedTo.name}
-                                  value={to}
+                                  value={to.name}
                                   onKeyDown={handleKeyDown}
                                   onClick={() => {
                                     setIsOpen1(true);
@@ -826,7 +830,7 @@ function Oneway() {
                             style={{
                               fontSize: "14px",
                               fontWeight: "500",
-                              width: "255px",
+                              width: "198px",
                             }}
                           >
                             {selectedTo ? (

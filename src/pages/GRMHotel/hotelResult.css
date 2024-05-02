@@ -57,3 +57,48 @@
     color: white;
 
 }
+
+
+.propertyRulesBox {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.propertyRulesBox .prOne {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 600;
+    color: #3f454a;
+}
+
+.propertyRulesBox .prTwo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.propertyRulesBox .prTwo p {
+
+    font-weight: 600;
+    color: #3f454a;
+    margin-bottom: 10px;
+}
+
+
+.othInc {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.othInc span {
+    padding: 2px 8px;
+    border: 1px solid green;
+    border-radius: 3px;
+    color: rgb(3, 87, 3);
+    background-color: rgba(171, 247, 171, 0.521);
+}

@@ -208,6 +208,8 @@ const HotelGuestDetailsGRN = () => {
         // console.log('Passenger Data:', passengerData);
     };
 
+    const mapUrl = `https://maps.google.com/maps?q=${hotelinfoGRN?.geolocation?.latitude ?? 0},${hotelinfoGRN?.geolocation?.longitude ?? 0}&hl=es&z=14&output=embed`;
+
 
 
     return (
@@ -264,17 +266,34 @@ const HotelGuestDetailsGRN = () => {
                         </div>
                         {/* room details area  */}
 
-                        <motion.div variants={variants} className="col-lg-12 p-0">
-                            <div className="roomDetails">
+                        <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                            <div className="bookflightPassenger">
+                                {/* <div className="roomDetails"> */}
                                 <div className="row">
                                     <div className="col-lg-9 mb-md-3">
-                                        <p className="titles ">{hotelinfoGRN?.rate?.rooms?.[0]?.description}</p>
+                                        <p className="titles text-bold text-xxl">{hotelinfoGRN?.rate?.rooms?.[0]?.description}</p>
+                                        <span className="text-bold">{hotelinfoGRN?.rate?.boarding_details?.[0]}</span>
                                     </div>
                                 </div>
+                                <div className="row">
+                                    <div className="col-lg-9 mb-md-3">
+                                        <p className="titles text-bold mb-3">Other Inclusions</p>
+                                        <div className="othInc">
+                                            {
+                                                hotelinfoGRN?.rate?.other_inclusions?.map((item) => {
+                                                    return (
+                                                        <span >{item}</span>
+                                                    )
+                                                })
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* </div> */}
                             </div>
                         </motion.div>
 
-                        <motion.div variants={variants} className="col-lg-12 p-0">
+                        <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
                             <div className="roomDetailsReviewDesc">
                                 <div className="row">
                                     <motion.div variants={variants} className="col-lg-4 col-4">
@@ -510,6 +529,30 @@ const HotelGuestDetailsGRN = () => {
                             </div>
                         </motion.div>
 
+
+
+
+                        <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                            <div className="bookflightPassenger">
+                                <form>
+                                    <div className="bookFlightPassInner">
+                                        <div className="bookAdultIndex">
+                                            <p>Cancellation and Charges</p>
+                                        </div>
+                                        <div>
+                                            <iframe
+                                                width="100%"
+                                                height="400px"
+                                                src={mapUrl}
+                                                className="contact-page-google-map__one"
+                                                allowFullScreen
+                                            />
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </motion.div>
                         <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
                             <div className="bookflightPassenger">
                                 <form>
@@ -533,6 +576,7 @@ const HotelGuestDetailsGRN = () => {
                                                     <div className="row g-3 ">
                                                         <div className="hotelNameAccord">
                                                             <p>{hotelinfoGRN?.rate?.rooms?.[0]?.description}</p>
+
                                                         </div>
                                                         <div className="otherDetailsData">
                                                             <div className="row">
@@ -542,18 +586,7 @@ const HotelGuestDetailsGRN = () => {
                                                                         <p>{dayjs(hotelinfoGRN?.rate?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")}</p>
                                                                     </div>
                                                                 </div>
-                                                                {/* <div className="col-lg-4">
-                                                                    <div className="cancelAccord">
-                                                                        <span>Cancelled on or Before</span>
-                                                                        <p>20 march</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-lg-4">
-                                                                    <div className="cancelAccord">
-                                                                        <span>Cancellation Charges</span>
-                                                                        <p>100%</p>
-                                                                    </div>
-                                                                </div> */}
+
                                                             </div>
                                                         </div>
                                                     </div>
