@@ -223,22 +223,9 @@ const HotelForm = () => {
     const storedData = SecureStorage.getItem("revisitHotelData");
     const parsedStoredData = JSON.parse(storedData);
     if (storedData) {
-      // const storedCheckInDate = new Date(parsedStoredData[1].CheckInDate);
-      // const storedCheckOutDate = new Date(parsedStoredData[2].CheckOutDate);
-      // if (storedCheckInDate < new Date()) {
-      //   setCheckIn(currentDate);
-      //   setCheckOut(futureDate);
-      // } else {
-      //   setCheckIn(storedCheckInDate);
-      //   setCheckOut(storedCheckOutDate);
-      // }
+      
       setSearchTermLast(parsedStoredData[0]);
     }
-    // else {
-    //   setCheckIn(currentDate);
-    //   setCheckOut(futureDate);
-
-    // }
   }, []);
 
   const [cityid, setCityid] = useState("130443");
@@ -252,8 +239,7 @@ const HotelForm = () => {
 
   // error manage
   const [cityError, setCityError] = useState("");
-  // const [checkInError, setCheckInError] = useState("");
-  // const [checkOutError, setCheckOutError] = useState("");
+  
   const [condition, setCondition] = useState(1);
   const [formDataDynamic, setFormData] = useState([
     {
@@ -264,15 +250,7 @@ const HotelForm = () => {
   ]);
 
   const reducerState = useSelector((state) => state);
-  // console.log("State Data", reducerState);
 
-  // const errorCode =
-  //   reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult
-  //     ?.Error?.ErrorCode;
-  // const errorMsg =
-  //   reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult
-  //     ?.Error?.ErrorMessage;
-  // const authenticUser = reducerState?.logIn?.loginData?.status;
 
   const initialvalue = {
     City: "",
@@ -287,14 +265,6 @@ const HotelForm = () => {
   });
   const [sub, setSub] = useState(false);
 
-  // const [isVisible, setIsVisible] = useState(false);
-  // const changeHandler = (e) => {
-  //   if (e.target.value === "number") {
-  //     setIsVisible(true);
-  //   } else {
-  //     setIsVisible(false);
-  //   }
-  // };
 
   useEffect(() => {
     dispatch(clearHotelReducer());
@@ -429,7 +399,7 @@ const HotelForm = () => {
     setResults([]); // Clear the results
     setCityError("");
     setdisplayFrom(false);
-    // console.warn(searchTerm,)
+   
   };
 
   const handleClose = (event, reason) => {

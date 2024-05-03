@@ -537,7 +537,7 @@ const HotelGuestDetailsGRN = () => {
                                 <form>
                                     <div className="bookFlightPassInner">
                                         <div className="bookAdultIndex">
-                                            <p>Cancellation and Charges</p>
+                                            <p>Hotel Location</p>
                                         </div>
                                         <div>
                                             <iframe

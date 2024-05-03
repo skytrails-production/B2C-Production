@@ -121,8 +121,6 @@ const GrmHotelForm = () => {
     }
 
 
-
-
     const handleTravelClickOpen = () => {
         setOpenTravelModal(true);
     };
@@ -178,7 +176,6 @@ const GrmHotelForm = () => {
 
     const reducerState = useSelector((state) => state);
 
-
     const initialvalue = {
         City: "",
         nationality: "IN",
@@ -188,7 +185,6 @@ const GrmHotelForm = () => {
     const [loader, setLoader] = useState(false);
     const [values, setValues] = useState(initialvalue);
     const [sub, setSub] = useState(false);
-
 
 
     useEffect(() => {
@@ -450,7 +446,6 @@ const GrmHotelForm = () => {
             const results = await axios.get(
                 `${apiURL.baseURL}/skyTrails/grnconnect/getcountrylist`
             );
-            console.log(results.data.data);
             if (mounted) {
                 const filteredResults = results?.data?.data.filter(country =>
                     country.countryName.toLowerCase().startsWith(from.toLowerCase())
@@ -468,13 +463,13 @@ const GrmHotelForm = () => {
     }, [fromQuery]);
 
     const handleFromClick = (result) => {
-        console.log(result, "result")
+
         setSelectedFrom(result);
         setFrom(result?.countryName);
         setIsOpen(false);
     };
 
-    console.log(from, "from")
+
 
     const handleClickOutsideFrom = (event) => {
         if (inputRef.current && !inputRef?.current?.contains(event.target)) {
@@ -498,9 +493,6 @@ const GrmHotelForm = () => {
 
 
     // logic for country selection 
-
-
-    console.log(selectedFrom, "selected form")
 
 
     return (

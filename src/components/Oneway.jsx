@@ -493,14 +493,10 @@ function Oneway() {
     const tempFrom = { ...selectedFrom };
     const tempSelectedFrom = selectedFrom;
     setSelectedFrom(selectedTo);
-    setFrom(selectedTo)
-    setTO(tempFrom)
+    setFrom(to)
+    setTO(from)
     setSelectedTo(tempFrom);
   };
-  console.log(from, "from")
-  console.log(to, "to")
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
   return (
     <>
@@ -552,7 +548,7 @@ function Oneway() {
                                   name="from"
                                   onKeyDown={handleKeyDown}
                                   placeholder={selectedFrom.name}
-                                  value={from.name}
+                                  value={from}
                                   onClick={toggle}
                                   autoComplete="off"
                                   onChange={(event) => {
@@ -734,7 +730,7 @@ function Oneway() {
                                 <input
                                   name="to"
                                   placeholder={selectedTo.name}
-                                  value={to.name}
+                                  value={to}
                                   onKeyDown={handleKeyDown}
                                   onClick={() => {
                                     setIsOpen1(true);

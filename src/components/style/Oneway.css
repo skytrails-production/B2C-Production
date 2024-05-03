@@ -28,7 +28,7 @@
   display: grid;
   gap: 12px;
   border-radius: 10px;
-  grid-template-columns: 18% 18% 12% 12% 20% 19%;
+  grid-template-columns: 18% 18% 20% 20% 20% ;
 }
 
 @media screen and (max-width: 1200px) {

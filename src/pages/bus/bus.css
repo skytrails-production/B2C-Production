@@ -337,7 +337,7 @@
   border-radius: 10px;
   width: 100% !important;
   gap: 12px;
-  grid-template-columns: 30% 30% 23% 35%;
+  grid-template-columns: 25% 25% 25% 25%;
 }
 
 .PackageInner_bus {
@@ -346,7 +346,7 @@
   /* border-right: 1px lightgray solid; */
   flex-direction: column;
   border: 1px solid var(--gray-300, #d1d5db);
-    background: var(--white, #fff);
+  background: var(--white, #fff);
   justify-content: center;
   align-items: flex-start;
   border-radius: 8px;
