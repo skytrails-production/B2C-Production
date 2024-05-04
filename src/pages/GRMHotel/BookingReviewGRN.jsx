@@ -645,6 +645,15 @@ const BookingReviewGRN = ({
                                                                 </div>
                                                             )
                                                         }
+                                                                                     {
+                                                            hotelinfoGRN?.rate?.rate_comments?.remarks !== "" && (
+
+                                                                <div className="prTwo">
+                                                                    <p>Remarks</p>
+                                                                    <span>{hotelinfoGRN?.rate?.rate_comments?.remarks}</span>
+                                                                </div>
+                                                            )
+                                                        }
                                                         {
                                                             hotelinfoGRN?.rate?.rate_comments?.mealplan !== "" && (
 
