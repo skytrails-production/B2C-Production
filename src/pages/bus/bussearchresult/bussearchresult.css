@@ -7,7 +7,7 @@
 
 
 
-
+   
 
 
 
@@ -195,4 +195,11 @@
 .singleBusSearchBoxSeven button:hover {
     background-color: transparent;
     color: #d90429;
+}
+
+
+@media (max-width: 767px) {
+    .busearch2-value {
+        display: none;
+    }
 }

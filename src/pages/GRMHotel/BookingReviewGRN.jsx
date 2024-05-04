@@ -618,8 +618,8 @@ const BookingReviewGRN = ({
                                                             <p>Check-in Time Ends: {hotelinfoGRN?.rate?.rate_comments?.checkin_end_time}</p>
                                                         </div>
                                                         <div className="prOne">
-                                                            <p>Check-in Minimum Age : {hotelinfoGRN?.rate?.rate_comments?.checkin_begin_time} </p>
-                                                            <p>Check-Out Time: {hotelinfoGRN?.rate?.rate_comments?.checkin_end_time}</p>
+                                                            <p>Check-in Minimum Age : {hotelinfoGRN?.rate?.rate_comments?.checkin_min_age} </p>
+                                                            <p>Check-Out Time: {hotelinfoGRN?.rate?.rate_comments?.checkout_time}</p>
                                                         </div>
                                                         <div className="prTwo">
                                                             <p>Check-in Instruction</p>

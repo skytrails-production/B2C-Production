@@ -19,6 +19,10 @@ function BigNavbar() {
     navigate(route);
   };
 
+  // const logoclick = (() =>{
+  //   navigate("/")
+  // })
+
   const Hamburger = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +77,7 @@ function BigNavbar() {
             }}
           >
             <div className="logoNav">
-              <img src={newlogo} alt="logo" />
+              <img src={newlogo} alt="logo" onClick={() => navigate("/")} style={{cursor:"pointer"}} />
             </div>
             <div className="menu-icon order-2" onClick={handleShowNavbar}>
               <Hamburger />
@@ -1377,7 +1381,7 @@ function BigNavbar() {
                       </linearGradient>
                     </defs>
                   </svg>
-                  <p style={{ color: "black", textAlign: "center" }}>Visa</p>
+                  <p className="visa-name">Visa</p>
                 </Link>
               </ul>
             </div>

@@ -18,25 +18,14 @@ import SecureStorage from "react-secure-storage";
 import { CiSearch } from "react-icons/ci";
 import { swalModal } from "../../utility/swal";
 
-const Homeform = (props) => {
-  // const [value, setValue] = React.useState("1");
-  // const [placeholderFrom, setPlaceholderFrom] = useState("from");
-  // const [labelFrom, setLabelFrom] = useState("From");
-  // // const [startDate, setStartDate] = useState(null);
-  // const [placeholderTo, setPlaceholderTo] = useState("To");
-  // const [labelTo, setLabelTo] = useState("To");
 
-  // const [display, setDisplay] = useState("");
-  // const [isLoadingFrom, setIsLoadingFrom] = useState(false);
-  // const [isLoadingTo, setIsLoadingTo] = useState(false);
 
-  // Copied state end
-
+function BusSearch2() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const reducerState = useSelector((state) => state);
   // const [isLoading, setIsLoading] = useState(false);
-  // const [isLoadingFlight, setIsLoadingFlight] = useState(false);
+  const [isLoadingFlight, setIsLoadingFlight] = useState(false);
   const populerSearch = [
     {
       CityId: "230",
@@ -75,6 +64,10 @@ const Homeform = (props) => {
       _id: "657fe0fc49ee28a4a58800b2",
     },
   ];
+
+  const busvalue = JSON.parse(sessionStorage.getItem("busOnewayData"));
+  console.log("busOnewayData", busvalue[2]);
+
   const [fromSearchResults, setFromSearchResults] = useState(populerSearch);
   const [toSearchResults, setToSearchResults] = useState(populerSearch);
   const [fromQuery, setFromQuery] = useState("");
@@ -89,17 +82,20 @@ const Homeform = (props) => {
   const [maxcity, setmaxcity] = useState(1);
   const [isOpen1, setIsOpen1] = useState(false);
   const [selectedFromLast, setSelectedFromLast] = useState({
-    CityId: "7485",
-    CityName: "Hyderabad",
+    CityId: busvalue[0].CityId,
+    CityName: busvalue[0].CityName,
     __v: 0,
     _id: "657fe0fc49ee28a4a5881810",
   });
 
+
+  
+
   // const [to, setTO] = useState("");
   const [selectedTo, setSelectedTo] = useState("");
   const [selectedToLast, setSelectedToLast] = useState({
-    CityId: "6395",
-    CityName: "Bangalore",
+    CityId: busvalue[1].CityId,
+    CityName: busvalue[1].CityName,
     __v: 0,
     _id: "657fe0fc49ee28a4a588060a",
   });
@@ -187,14 +183,7 @@ const Homeform = (props) => {
     };
   }, []);
 
-  // const handleClickOutsideFrom = (event) => {
-  //   if (
-  //     fromSearchRef.current &&
-  //     !fromSearchRef.current.contains(event.target)
-  //   ) {
-  //     setdisplayFrom(false);
-  //   }
-  // };
+  
 
   const scrollDown100px = (opreator) => {
     if (inputRef.current) {
@@ -237,7 +226,9 @@ const Homeform = (props) => {
   }, [isOpen, cityIndex1, maxcity1, fromSearchResults]);
 
   const currentDate = new Date();
-  const [startDate, setStartDate] = useState(new Date());
+  const passedDate = new Date(busvalue[2]);
+  const formattedDate = `${(passedDate.getMonth() + 1).toString().padStart(2, '0')}/${passedDate.getDate().toString().padStart(2, '0')}/${passedDate.getFullYear()}`;
+  const [startDate, setStartDate] = useState(new Date(formattedDate));
 
   const handleDateChange = (date) => {
     setStartDate(date);
@@ -275,24 +266,24 @@ const Homeform = (props) => {
         false
       );
 
-      // setIsLoadingFlight(false);
-      setStartDate(currentDate);
-      setSelectedFromLast({
-        CityId: "7485",
-        CityName: "Hyderabad",
-        __v: 0,
-        _id: "657fe0fc49ee28a4a5881810",
-      });
-      setSelectedToLast({
-        CityId: "6395",
-        CityName: "Bangalore",
-        __v: 0,
-        _id: "657fe0fc49ee28a4a588060a",
-      });
+      setIsLoadingFlight(false);
+    //   setStartDate(currentDate);
+    //   setSelectedFromLast({
+    //     CityId: "7485",
+    //     CityName: "Hyderabad",
+    //     __v: 0,
+    //     _id: "657fe0fc49ee28a4a5881810",
+    //   });
+    //   setSelectedToLast({
+    //     CityId: "6395",
+    //     CityName: "Bangalore",
+    //     __v: 0,
+    //     _id: "657fe0fc49ee28a4a588060a",
+    //   });
       setSelectedTo();
       setFromQuery("");
       setToQuery("");
-      dispatch(clearBusSearchReducer());
+    //   dispatch(clearBusSearchReducer());
       sessionStorage.removeItem("seatData");
       sessionStorage.removeItem("busPassName");
     }
@@ -390,9 +381,7 @@ const Homeform = (props) => {
     };
   }, [toQuery]);
 
-  // useEffect(() => {
-  //   setmaxcity(toSearchResults.length);
-  // }, [toSearchResults]);
+
 
   const handleFromInputChange = (event) => {
     setSelectedFrom(event.target.value);
@@ -450,7 +439,7 @@ const Homeform = (props) => {
   function handleSubmit(event) {
     event.preventDefault();
 
-    // setIsLoadingFlight(true);
+    setIsLoadingFlight(true);
     sessionStorage.setItem("SessionExpireTime", new Date());
     const formData = new FormData(event.target);
     const selectedDate = startDate;
@@ -471,26 +460,7 @@ const Homeform = (props) => {
       OriginId: selectedFromLast.CityId,
     };
 
-    sessionStorage.setItem(
-      "busOnewayData",
-      JSON.stringify([
-        {
-          CityId: selectedFromLast.CityId,
-          CityName: selectedFromLast.CityName,
-          __v: selectedFromLast.__v,
-          _id: selectedFromLast._id,
-        },
-        {
-          CityId: selectedToLast.CityId,
-          CityName: selectedToLast.CityName,
-          __v: selectedToLast.__v,
-          _id: selectedToLast._id,
-        },
-        startDate,
-      ])
-    );
     // createSearchHistory()
-    navigate("/busresult");
     dispatch(busSearchAction(payload));
 
     // }
@@ -514,28 +484,29 @@ const Homeform = (props) => {
       event.preventDefault();
     }
   };
-  // useEffect(() => {
-  //   if (
-  //     reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error
-  //       ?.ErrorCode === 0
-  //   ) {
-  //     navigate("/busresult");
-  //   }
-  // }, [
-  //   reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error,
-  // ]);
+//   useEffect(() => {
+//     if (
+//       reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error
+//         ?.ErrorCode === 0
+//     ) {
+//       navigate("/busresult");
+//     }
+//   }, [
+//     reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error,
+//   ]);
 
-  // if (isLoadingFlight) {
-  //   return (
-  //     <>
-  //       <Loadingbus />
-  //     </>
-  //   );
-  // }
+// if (isLoadingFlight) {
+//     return (
+//       <>
+//         <Loadingbus />
+//       </>
+//     );
+//   }
+
 
   return (
     <>
-      <div className="container homeabsnew">
+      <div className=" homeabsnew busearch2-value" style={{top:"135px", width:"100%",padding:"10px",borderRadius:"0px"}}>
         <section className="HotelAbsDesign" style={{}}>
           <div className="container ">
             <div className="row BusSearchBg p-0">
@@ -618,9 +589,9 @@ const Homeform = (props) => {
                         </div>
                       </div>
 
-                      <span className="d-none d-md-block">
+                      {/* <span className="d-none d-md-block">
                         {selectedFromLast?.CityId}
-                      </span>
+                      </span> */}
 
                       <div
                         className="roundlogo"
@@ -738,23 +709,7 @@ const Homeform = (props) => {
                           ))}
                         </div>
                       </div>
-                      {/* )} */}
-                      {/* <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setdisplayTo(true);
-                          setdisplayFrom(false);
-                          setTimeout(() => {
-                            toInputRef.current.focus();
-                          }, 200);
-                        }}
-                      >
-                        
-                      </div> */}
-
-                      <span className="d-none d-md-block">
-                        {selectedToLast?.CityId}
-                      </span>
+                      
                     </div>
 
                     <div
@@ -764,6 +719,7 @@ const Homeform = (props) => {
                         borderRadius: "8px",
                         border: "1px solid #d1d5db",
                         background: "#fff",
+                        justifyContent:"space-evenly"
                       }}
                       id="item-2B"
                     >
@@ -780,12 +736,12 @@ const Homeform = (props) => {
                           />
                         </div>
                       </div>
-                      <span className="d-none d-md-block">
+                      {/* <span className="d-none d-md-block">
                         {getDayOfWeek(startDate)}
-                      </span>
+                      </span> */}
                     </div>
                     <div className=" onewaySearch-btn" id="item-3B">
-                      <button type="submit" className="searchButt">
+                      <button type="submit" className="searchButt" style={{padding:"19px"}}>
                         <h3>Search</h3>
                         {/* <KeyboardDoubleArrowRightIcon /> */}
                       </button>
@@ -799,6 +755,6 @@ const Homeform = (props) => {
       </div>
     </>
   );
-};
+}
 
-export default Homeform;
+export default BusSearch2;

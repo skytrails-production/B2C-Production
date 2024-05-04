@@ -23,6 +23,7 @@ import Partners from "./Partners";
 import flightbanner from "../../images/aerial.png";
 import EventBanner from "./EventBanner";
 import MulticityForm from "../flight/MultiCity/MulticityForm";
+import Blog from "./Blog";
 
 const variants = {
   initial: {
@@ -82,63 +83,63 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
         <div className="content-heading d-none d-sm-none">Find Flights , book your tickets with us</div>
 
         {/* <div className="container"> */}
-          <div className="homeabsnew container">
-            <div className="buttonTabs">
-              <div className="container p-0">
-                {/* <button onClick={() => setActiveTab('oneway')}>Oneway</button>
+        <div className="homeabsnew container">
+          <div className="buttonTabs">
+            <div className="container p-0">
+              {/* <button onClick={() => setActiveTab('oneway')}>Oneway</button>
             <button onClick={() => setActiveTab('return')}>Return</button> */}
 
-                <div className="tabBox">
-                  <div className={activeTab === "oneway" ? "inputTabs" : ""}>
-                    <input
-                      type="radio"
-                      id="oneway"
-                      name="tab"
-                      value="oneway"
-                      checked={activeTab === "oneway"}
-                      onChange={handleTabChange}
-                      style={{ display: "none" }}
-                    />
-                    <label htmlFor="oneway">Oneway</label>
-                  </div>
-                  <div className={activeTab === "return" ? "inputTabs" : ""}>
-                    <input
-                      type="radio"
-                      id="return"
-                      name="tab"
-                      value="return"
-                      checked={activeTab === "return"}
-                      onChange={handleTabChange}
-                      style={{ display: "none" }}
-                    />
-                    <label htmlFor="return">Return</label>
-                  </div>
-                  <div
-                    className={
-                      activeTab === "multicity"
-                        ? "d-none d-sm-flex inputTabs"
-                        : "d-none d-sm-block "
-                    }
-                  >
-                    <input
-                      type="radio"
-                      id="multicity"
-                      name="tab"
-                      value="multicity"
-                      checked={activeTab === "multicity"}
-                      onChange={handleTabChange}
-                      style={{ display: "none" }}
-                    />
-                    <label htmlFor="multicity">Multicity</label>
-                  </div>
+              <div className="tabBox">
+                <div className={activeTab === "oneway" ? "inputTabs" : ""}>
+                  <input
+                    type="radio"
+                    id="oneway"
+                    name="tab"
+                    value="oneway"
+                    checked={activeTab === "oneway"}
+                    onChange={handleTabChange}
+                    style={{ display: "none" }}
+                  />
+                  <label htmlFor="oneway">Oneway</label>
+                </div>
+                <div className={activeTab === "return" ? "inputTabs" : ""}>
+                  <input
+                    type="radio"
+                    id="return"
+                    name="tab"
+                    value="return"
+                    checked={activeTab === "return"}
+                    onChange={handleTabChange}
+                    style={{ display: "none" }}
+                  />
+                  <label htmlFor="return">Return</label>
+                </div>
+                <div
+                  className={
+                    activeTab === "multicity"
+                      ? "d-none d-sm-flex inputTabs"
+                      : "d-none d-sm-block "
+                  }
+                >
+                  <input
+                    type="radio"
+                    id="multicity"
+                    name="tab"
+                    value="multicity"
+                    checked={activeTab === "multicity"}
+                    onChange={handleTabChange}
+                    style={{ display: "none" }}
+                  />
+                  <label htmlFor="multicity">Multicity</label>
                 </div>
               </div>
             </div>
-            {activeTab === "oneway" && <Oneway />}
-            {activeTab === "return" && <ReturnForm />}
-
-            {activeTab === "multicity" && <MulticityForm />}
           </div>
+          {activeTab === "oneway" && <Oneway />}
+          {activeTab === "return" && <ReturnForm />}
+
+          {activeTab === "multicity" && <MulticityForm />}
+        </div>
         {/* </div> */}
       </div>
 
@@ -205,6 +206,14 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
       >
         <SwipeToSlide variants={variants} />
       </motion.div>
+      {/* <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
+        <Blog variants={variants} />
+      </motion.div> */}
       <motion.div
         variants={variants}
         initial="initial"
@@ -221,14 +230,14 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
       >
         <WhyChooseUs variants={variants} />
       </motion.div>
-      <motion.div
+      {/* <motion.div
         variants={variants}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true, amount: 0.8 }}
       >
         <FLightOffer variants={variants} />
-      </motion.div>
+      </motion.div> */}
       <motion.div
         variants={variants}
         initial="initial"
@@ -237,6 +246,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
       >
         <Partners variants={variants} />
       </motion.div>
+
     </div>
   );
 };

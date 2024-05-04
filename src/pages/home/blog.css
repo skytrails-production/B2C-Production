@@ -1,0 +1,226 @@
+.blogBox {
+    padding: 16px 30px 78px;
+}
+
+.partner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.partner-container h3 {
+    text-align: center !important;
+    width: 73% !important;
+    padding-bottom: 10px !important;
+    font-family: Montserrat;
+    font-weight: 800;
+    font-size: 1.7rem;
+    margin-bottom: 30px;
+}
+
+.blog-slide {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    border-radius: 10px;
+    width: 100% !important;
+    padding: 10px;
+    margin-right: 10px !important;
+    flex-direction: column;
+
+}
+
+.blogMainBox {
+    padding: 10px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+
+.imgBoxBlog {
+
+    height: 230px;
+    width: 100%;
+    /* position: relative; */
+
+}
+
+/* .imgBoxBlog::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background-image: linear-gradient(to bottom, rgba(2, 2, 2, 0.068), #000000af);
+    border-radius: 26px 5px;
+} */
+
+.blogBack {
+    background-color: antiquewhite;
+}
+
+.imgBoxContentBlog {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+.imgBoxContentBlog span {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: black;
+}
+
+.imgBoxContentBlog p {
+    font-size: 1rem;
+    color: black;
+    font-weight: 500;
+}
+
+.imgBoxBlog img {
+    width: 100%;
+    object-fit: cover;
+    height: 100%;
+    border-radius: px 5px;
+
+}
+
+
+
+.locDate {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.locDataInner {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+
+}
+
+.locDataInner span {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: #FF890026;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.locDataInner span svg {
+    fill: #FF8900;
+    position: relative;
+}
+
+/* .blogContent {
+    padding: 10px;
+} */
+
+.blogContent h2 {
+    font-size: 1.3rem;
+    font-weight: 600;
+    font-family: Montserrat;
+
+}
+
+.blogContent p {
+    font-size: 0.9rem;
+    font-weight: 500;
+    font-family: Montserrat;
+}
+
+.blogBox .slick-prev,
+.blogBox .slick-next {
+    font-size: 0;
+    line-height: 0;
+    position: absolute;
+    top: 50%;
+    display: block;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    transform: translate(0, -50%);
+    cursor: pointer;
+    color: transparent;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+
+.blogBox .slick-prev:before,
+.blogBox .slick-next:before {
+    font-family: 'slick';
+    font-size: 30px;
+
+    line-height: 1;
+    opacity: 1;
+    color: #E73C34;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+@media(max-width:650px) {
+    .blog-slide img {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1000px) and (max-width:1200px) {
+    .imgBoxBlog {
+        width: 210px;
+        height: 350px;
+        position: relative;
+    }
+}
+
+
+
+.BlogheadingContainer {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding: 30px 0;
+}
+
+.BlogheadingContainer h3 {
+    font-family: Montserrat;
+    font-size: 2rem;
+    font-weight: 600;
+    padding-bottom: 17px;
+    position: relative;
+}
+
+.BlogheadingContainer h3::before {
+
+    background-color: #e73c34;
+    border-radius: 0 10px 0 10px;
+    bottom: 0;
+    content: "";
+    height: 5px;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%);
+    width: 70px;
+}
+
+
+
+/* single blog design  */
+
+.singleBlogHeading h1 {
+    font-size: 2.2rem;
+    font-weight: 600;
+    font-family: Montserrat;
+}
+
+
+/* single blog design  */

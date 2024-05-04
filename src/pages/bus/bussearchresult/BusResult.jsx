@@ -17,6 +17,9 @@ import dayjs from "dayjs";
 // import { Helmet } from "react-helmet-async";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Skeleton } from "@mui/material";
+import BusSearch2 from "../BusSearch2";
+import Loadingbus from "../Busloading/Loadingbus";
 // import { swalModal } from "../../../utility/swal"
 
 const variants = {
@@ -64,6 +67,7 @@ function BusResult() {
   const [selectedOrigin, setSelectedOrigin] = useState("");
   const [selectedDropPoint, setSelectedDropPoint] = useState("");
   const [openSeatLayout, setOpenSeatLayout] = useState(false);
+  
   const upperArray = [];
   const lowerArray = [];
   const [blockedSeatArray, setBlockedSeatArray] = useState([]);
@@ -370,8 +374,7 @@ function BusResult() {
     const selectedValue = event.target.value;
     const radioGroupName = event.target.name;
 
-    // console.log('selectedValue:', selectedValue);
-    // console.log('radioGroupName:', radioGroupName);
+
 
 
     if (selectedValue === "All") {
@@ -495,17 +498,39 @@ function BusResult() {
   // useEffect(() => {
   //   window.scrollTo(0, 0);
   // }, [sortedAndFilteredResults])
+  // const [isLoadingFlight, setIsLoadingFlight] = useState(false);
+
+  // useEffect(() => {
+  //   // Ensure reducerState exists before accessing its properties
+  //   if (reducerState) {
+  //     // Check if the API request was successful
+  //     const errorCode =
+  //       reducerState.getBusResult?.isLoading === true;
+  //       setIsLoadingFlight(true);
+
+  //     if (errorCode === 0) {
+  //       setIsLoadingFlight(false);
+  //     }
+  //   }
+  // }, [
+  //   // Ensure reducerState exists before accessing its properties
+  //   reducerState?.getBusResult?.isLoading
+  // ]);
 
 
+  // console.log("reducerstatebus",reducerState);
 
 
   return (
     <>
 
+    {/* <div><BusSearch2 /></div> */}
+
       <div className="mainimgBusSearch">
-       
+      <BusSearch2  />
       </div>
       <ToastContainer />
+     
       <section className="my-4">
         <div className="container">
           <div className="row">
@@ -912,6 +937,94 @@ function BusResult() {
               </div>
             </div>
 
+            {reducerState?.getBusResult?.isLoading === true ? (
+              <div className="col-lg-9 col-md-9">
+              {[1, 2, 3, 5, 6, 7, 8].map((item) => (
+                <motion.div
+                  variants={variants2}
+                  initial="initial"
+                  whileInView="animate"
+                >
+                  <motion.div
+                    variants={variants2}
+                    className="singleFlightBox mb-3"
+                    style={{ height: "130px", padding: "15px" }}
+                  >
+                    <div className="singleFlightBoxOne">
+                      <div>
+                        <Skeleton>
+                          <div style={{ height: "80px", width: "80px" }}></div>
+                        </Skeleton>
+                      </div>
+                      <span>
+                        {
+                          <Skeleton>
+                            <p style={{ height: "10px", width: "70px" }}></p>
+                          </Skeleton>
+                        }
+                      </span>
+                      <p>
+                        { }
+                        { }
+                      </p>
+                    </div>
+                    <div className="singleFlightBoxTwo">
+                      <span>
+                        {
+                          <Skeleton>
+                            {" "}
+                            <p style={{ height: "10px", width: "70px" }}></p>
+                          </Skeleton>
+                        }
+                      </span>
+                      <p>
+                        <Skeleton>
+                          <p style={{ height: "8px", width: "70px" }}></p>
+                        </Skeleton>
+                      </p>
+                      <Skeleton>
+                        <p style={{ height: "8px", width: "70px" }}></p>
+                      </Skeleton>
+                    </div>
+
+                    <div className="singleFlightBoxThree">
+                      <Skeleton>
+                        <p style={{ height: "8px", width: "70px" }}></p>
+                      </Skeleton>
+
+                      <Skeleton>
+                        {" "}
+                        <p style={{ height: "8px", width: "70px" }}></p>
+                      </Skeleton>
+
+                      <span></span>
+                    </div>
+
+                    <div className="singleFlightBoxFour">
+                      <span>
+                        {
+                          <Skeleton>
+                            {" "}
+                            <p style={{ height: "8px", width: "70px" }}></p>
+                          </Skeleton>
+                        }
+                      </span>
+                      <Skeleton>
+                        {" "}
+                        <p
+                          style={{
+                            height: "50px",
+                            width: "70px",
+                            borderRadius: "25%",
+                          }}
+                        ></p>
+                      </Skeleton>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              ))}
+            </div>
+      ) : (
             <div className="col-lg-9 col-md-9">
               <div className="row">
                 {sortedAndFilteredResults &&
@@ -1507,7 +1620,8 @@ function BusResult() {
                   </div>
                 )}
               </div>
-            </div>
+            </div> 
+          )}
           </div>
         </div>
       </section >

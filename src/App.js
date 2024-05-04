@@ -91,6 +91,7 @@ import BookingReviewGRN from "./pages/GRMHotel/BookingReviewGRN";
 import HotelTicketDB from "./pages/GRMHotel/HotelTicketDB";
 import HotelBookRoomGRN from "./pages/GRMHotel/HotelBookRoomGRN";
 import { ipAction, tokenAction } from "./Redux/IP/actionIp";
+import BlogDetailsSingle from "./pages/home/BlogDetailsSingle";
 
 function App() {
   // const location = useLocation();
@@ -415,6 +416,13 @@ function App() {
         ></Route>
         <Route path="/oneWayDummyHome" element={<DummyPnrHome />}></Route>
         <Route path="/pefaevent" element={<Events />}></Route>
+
+
+        {/* blog route  */}
+        <Route
+          path="/blogDetails"
+          element={<BlogDetailsSingle />}
+        ></Route>
       </Routes>
       <Whatsapp />
       <Footer />

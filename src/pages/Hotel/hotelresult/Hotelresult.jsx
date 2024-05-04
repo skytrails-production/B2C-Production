@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { swalModal } from "../../../utility/swal"
+// import Hotelform2 from "../Hotelform2";
 
 
 
@@ -238,6 +239,8 @@ export default function Popularfilter() {
   return (
     <section className="">
       <div className='mainimgHotelSearchResult'>
+
+      {/* <Hotelform2/> */}
    
         <div className="container searchMainBoxAbs">
           <div className="HotelResultSearchBarBox">

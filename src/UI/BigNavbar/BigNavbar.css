@@ -116,3 +116,15 @@
     margin-top: 22px;
   }
 }
+
+
+.visa-name{
+  text-align: center;
+  color: black;
+}
+
+@media (max-width: 800px) {
+  .visa-name {
+     text-align: left;
+  }
+}
