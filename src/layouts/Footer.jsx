@@ -60,6 +60,10 @@ const Footer = () => {
                   </li>
                   <li>
                     <KeyboardDoubleArrowRightIcon />
+                    <Link to="/randompayment">Random Payment</Link>
+                  </li>
+                  <li>
+                    <KeyboardDoubleArrowRightIcon />
                     <Link to="termAndCondition">Term &amp; Co</Link>
                   </li>
                   <li>

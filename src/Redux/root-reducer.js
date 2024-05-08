@@ -20,6 +20,7 @@ import { busSearchReducer } from "./busSearch/busSearchReducer";
 import { packageBookIDReducer } from "./HolidayBookingRequest/bookingHolidayReducer";
 import { packageBookingIDReducer } from "./BookingPackageData/bookingHolidayReducer";
 import { markUpDataReducer } from "./markup/markupReducer";
+import { tnplReducer } from "./TNPL/tnplReducer"
 
 const appReducer = combineReducers({
   logIn: logInReducer,
@@ -38,6 +39,7 @@ const appReducer = combineReducers({
   packageBookingID: packageBookingIDReducer,
   markup: markUpDataReducer,
   passengers: passengersReducer,
+  TNPL: tnplReducer,
 
 });
 

@@ -92,6 +92,17 @@ import HotelTicketDB from "./pages/GRMHotel/HotelTicketDB";
 import HotelBookRoomGRN from "./pages/GRMHotel/HotelBookRoomGRN";
 import { ipAction, tokenAction } from "./Redux/IP/actionIp";
 import BlogDetailsSingle from "./pages/home/BlogDetailsSingle";
+import PayLater from "./PayLater";
+import PaylaterDetails from "./Mihuru/PaylaterDetails";
+import VerifyPayLater from "./Mihuru/VerifyPayLater";
+
+import PayLaterUsereCredential from "./Mihuru/PayLaterUsereCredential";
+import TnplGeneratedPlan from "./Mihuru/TnplGeneratedPlan";
+import ScrollToTop from "./ScrollToTOp";
+import RandomPayment from "./RandomPayment";
+import RandomPaymentSuccess from "./RandomPaymentSuccess";
+
+
 
 function App() {
   // const location = useLocation();
@@ -395,7 +406,7 @@ function App() {
         <Route path="/busresult" element={<BusResult />}></Route>
 
         {/* Forex */}
-        <Route path="/forex" element={<Forex />} />
+        {/* <Route path="/forex" element={<Forex />} /> */}
 
         {/* Taxi */}
         <Route path="taxi" element={<Taxi />}></Route>
@@ -423,8 +434,40 @@ function App() {
           path="/blogDetails"
           element={<BlogDetailsSingle />}
         ></Route>
+
+        <Route
+          path="/payLaterDetails"
+          element={<PaylaterDetails />}
+        ></Route>
+        <Route
+          path="/payLaterDetails/verifyOtp"
+          element={<VerifyPayLater />}
+        ></Route>
+        <Route
+          path="/payLaterDetails/verifyOtp/userCredential"
+          element={<PayLaterUsereCredential />}
+        ></Route>
+        <Route
+          path="/payLaterDetails/verifyOtp/userCredential/tnplGeneratedplan"
+          element={<TnplGeneratedPlan />}
+        ></Route>
+
+
+        {/* random payment  */}
+        <Route
+          path="/randompayment"
+          element={<RandomPayment />}
+        ></Route>
+        <Route
+          path="/randompayment/randompaymentsuccess"
+          element={<RandomPaymentSuccess />}
+        ></Route>
       </Routes>
+
       <Whatsapp />
+      <ScrollToTop />
+      {/* <PayLater /> */}
+
       <Footer />
     </div>
   );

@@ -498,6 +498,33 @@ function api() {
 
 
 
+  // fetch tnpl 
+
+
+
+  const fetchTNPL = () => {
+    return axios.get(
+      `${apiURL.baseURL}/skyTrails/mihuru/partnerauthentication`
+    );
+  };
+
+
+  const tnplUserData = (payload) => {
+    // console.log("Passenger payload", payload);
+    return payload;
+  };
+
+  const tnplOTPVerified = (payload) => {
+    // console.log("Passenger payload", payload);
+    return payload;
+  };
+
+  const tnplPlanGenerator = (payload) => {
+    // console.log("Passenger payload", payload);
+    return payload;
+  };
+
+
   return {
     userIP,
     markUp,
@@ -535,7 +562,10 @@ function api() {
     passengerData,
     hotelBookingDetailsSave,
     flightBookingDataSave,
-
+    fetchTNPL,
+    tnplUserData,
+    tnplOTPVerified,
+    tnplPlanGenerator,
   };
 }
 

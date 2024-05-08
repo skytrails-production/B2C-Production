@@ -512,3 +512,191 @@ body {
 [id^="easebuzz-container-v2-"] {
   z-index: 2147483640 !important;
 }
+
+
+
+.payLaterBox {
+
+  /* width: 50px; */
+  /* height: 50px; */
+  border-radius: 50px 5px 50px 50px;
+  position: fixed;
+  color: white;
+  font-weight: 600;
+  padding: 8px 12px;
+  bottom: 80px;
+  right: 20px;
+  z-index: 990;
+  background-color: red;
+}
+
+
+
+.loaderButtonPayLater {
+  padding: 10px 20px;
+  background-color: #e73c34;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.loaderButtonPayLater button {
+  font-weight: 600;
+  color: white;
+  border: none;
+  background-color: transparent;
+  outline: none;
+}
+
+.loaderButtonPayLater button:hover {
+  font-weight: 600;
+  color: white;
+
+}
+
+.loaderPaylater {
+  width: 29px;
+  height: 29px;
+  border: 5px solid #FFF;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  /* background-color: #e73c34; */
+}
+
+.payLaterH3 {
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+
+
+
+.scrollToTop {
+  width: 40px;
+  height: 40px;
+  line-height: 45px;
+  color: #fff;
+  z-index: 999;
+  /* bottom: 3px; */
+  /* right: 3px; */
+  /* position: fixed; */
+  border-radius: 5px;
+
+  background: #19aaed;
+  text-align: center;
+  font-size: 16px;
+  cursor: pointer;
+  -webkit-transition: all ease 0.3s;
+  -moz-transition: all ease 0.3s;
+  transition: all ease 0.3s;
+}
+
+@media (min-width: 576px) {
+  .scrollToTop {
+    bottom: 30px;
+    right: 30px;
+  }
+}
+
+.scrollToTop.active {
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+  animation: bounceInDown 2s;
+  -webkit-animation: bounceInDown 2s;
+  -moz-animation: bounceInDown 2s;
+}
+
+.scrollToTop img {
+  width: 100%;
+}
+
+
+.scrollToTop svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.scrollToTop:hover svg {
+  /* position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%); */
+  animation: mymove 0.8s infinite;
+}
+
+
+@keyframes mymove {
+  from {
+    top: 50%;
+  }
+
+  to {
+    top: 40%;
+  }
+}
+
+
+.ranPayBox {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.ranPay {
+  background-color: #21be79;
+  padding: 20px;
+  border-radius: 50%;
+}
+
+.ranPayOuter {
+  padding: 15px;
+  background-color: #c2efda;
+  border-radius: 50%;
+}
+
+.copyAbletnxId {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  /* margin-top: 12px; */
+}
+
+.copyAbletnxId span {
+  border: 2px dashed #444;
+  padding: 10px 25px;
+  border-radius: 5px;
+  font-weight: 600;
+}
+
+.copyAbletnxId button {
+  padding: 10px 25px;
+  font-weight: 600;
+  border-radius: 5px;
+  background-color: #e73c34;
+  color: white;
+  border: none;
+}
