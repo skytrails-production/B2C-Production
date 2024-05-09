@@ -455,11 +455,11 @@ function App() {
 
         {/* random payment  */}
         <Route
-          path="/randompayment"
+          path="/packagepayment"
           element={<RandomPayment />}
         ></Route>
         <Route
-          path="/randompayment/randompaymentsuccess"
+          path="/packagepayment/packagepaymentsuccess"
           element={<RandomPaymentSuccess />}
         ></Route>
       </Routes>

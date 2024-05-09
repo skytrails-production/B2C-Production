@@ -122,7 +122,7 @@ const RandomPayment = () => {
                             { easepayid: easepayid }
                         );
 
-                        navigate("/randompayment/randompaymentsuccess")
+                        navigate("/packagepayment/packagepaymentsuccess")
 
                     } catch (error) {
                         console.error("Error verifying payment:", error);
@@ -149,7 +149,7 @@ const RandomPayment = () => {
         <div>
             <div className='my-5'>
                 <div className="BlogheadingContainer">
-                    <h3>Payment Page</h3 >
+                    <h3>Package Payment</h3 >
                 </div >
 
                 <div className='container'>
