@@ -105,6 +105,7 @@ const Homeform = (props) => {
   });
   const [displayFrom, setdisplayFrom] = useState(false);
   const [displayTo, setdisplayTo] = useState(false);
+  const [loader, setLoader] = useState(true);
 
   const fromInputRef = useRef(null);
   const inputRef1 = useRef(null);
@@ -176,9 +177,9 @@ const Homeform = (props) => {
     }
   };
   useEffect(() => {
-    // dispatch(clearBusSearchReducer());
-    sessionStorage.removeItem("seatData");
-    sessionStorage.removeItem("busPassName");
+    dispatch(clearBusSearchReducer());
+    // sessionStorage.removeItem("seatData");
+    // sessionStorage.removeItem("busPassName");
   }, []);
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutsideFrom);
@@ -293,6 +294,7 @@ const Homeform = (props) => {
       setFromQuery("");
       setToQuery("");
       dispatch(clearBusSearchReducer());
+      console.log(reducerState,"reducerstate")
       sessionStorage.removeItem("seatData");
       sessionStorage.removeItem("busPassName");
     }
@@ -462,6 +464,9 @@ const Homeform = (props) => {
       formattedDate = `${year}/${month.toString().padStart(2, "0")}/${day
         .toString()
         .padStart(2, "0")}`;
+    }
+    if (selectedFromLast.CityId == selectedToLast.CityId) {
+      return;
     }
     const payload = {
       EndUserIp: reducerState?.ip?.ipData,

@@ -47,7 +47,7 @@ const MulticityResult = () => {
   useEffect(() => {
     dispatch(clearPassengersReducer())
     dispatch(resetAllFareData());
-    
+
   }, [])
 
   const maxPrice = result?.[0]?.reduce((max, item) => {
@@ -950,141 +950,25 @@ const MulticityResult = () => {
                                       >
                                         See Details →
                                       </button>
+
+                                      <div className="emiBOx" onClick={() => {
+                                        sessionStorage.setItem("amountPayLater", item?.Fare?.PublishedFare);
+                                        navigate("/payLaterDetails");
+                                      }}>
+                                        <span>Book Now At</span>
+                                        <p>
+                                          {
+                                            (item?.Fare?.PublishedFare).toFixed(0) <= 5000
+                                              ? (item?.Fare?.PublishedFare / 3).toFixed(0)
+                                              : (item?.Fare?.PublishedFare <= 50000
+                                                ? (item?.Fare?.PublishedFare / 6).toFixed(0)
+                                                : (item?.Fare?.PublishedFare / 12).toFixed(0))
+                                          }/Month →
+                                        </p>
+
+                                      </div>
                                     </div>
 
-                                    {/* <div class="returnFlightResultBox">
-                                                                                    <div class="returnFlightResultBoxOne">
-                                                                                        <div class="returnResultFlightDetails">
-                                                                                            <div>
-                                                                                                <img
-                                                                                                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.ValidatingAirline}.png`}
-                                                                                                    alt="flight"
-                                                                                                />{" "}
-                                                                                            </div>
-                                                                                            <span>{
-                                                                                                item?.Segments[0][0]?.Airline
-                                                                                                    ?.AirlineName
-                                                                                            }</span>
-                                                                                            <p>{
-                                                                                                item?.Segments[0][0]?.Airline
-                                                                                                    ?.AirlineCode
-                                                                                            }
-                                                                                                {
-                                                                                                    item?.Segments[0][0]?.Airline
-                                                                                                        ?.FlightNumber
-                                                                                                }</p>
-                                                                                        </div>
-                                                                                        <div class="returnResultOtherDetails">
-                                                                                            <div class="returnResultTimingBox">
-                                                                                                <span>{
-                                                                                                    item?.Segments[0][0]?.Origin
-                                                                                                        ?.Airport?.CityName
-                                                                                                }</span>
-                                                                                                <p>{dayjs(
-                                                                                                    item?.Segments[0][0]?.Origin
-                                                                                                        ?.DepTime
-                                                                                                ).format("DD MMM, YY")}
-                                                                                                </p>
-                                                                                                <h5 class="daySize">{dayjs(
-                                                                                                    item?.Segments[0][0]?.Origin
-                                                                                                        ?.DepTime
-                                                                                                ).format("h:mm A")}</h5>
-                                                                                            </div>
-                                                                                            <div class="returnResultDurationBox">
-                                                                                                {
-                                                                                                    item?.Segments[0].length > 1 ?
-                                                                                                        <h4>
-                                                                                                            {`${Math.floor(
-                                                                                                                item?.Segments[0][0]?.Duration /
-                                                                                                                60
-                                                                                                            )}hr ${item?.Segments[0][0]?.Duration %
-                                                                                                            60
-                                                                                                                }min`}{" "}
-                                                                                                            -{" "}
-                                                                                                            {`${Math.floor(
-                                                                                                                item?.Segments[0][1]?.Duration /
-                                                                                                                60
-                                                                                                            )}hr ${item?.Segments[0][0]?.Duration %
-                                                                                                            60
-                                                                                                                }min`}
-                                                                                                        </h4> : <h4>
-                                                                                                            {`${Math.floor(
-                                                                                                                item?.Segments[0][0]?.Duration /
-                                                                                                                60
-                                                                                                            )}hr ${item?.Segments[0][0]?.Duration %
-                                                                                                            60
-                                                                                                                }min`}
-                                                                                                        </h4>}
-
-
-                                                                                                {
-                                                                                                    item?.Segments[0].length > 1 ?
-                                                                                                        (
-                                                                                                            <div className=" stopBefReturn">
-                                                                                                                <Divider
-                                                                                                                    orientation="vertical"
-                                                                                                                    flexItem
-                                                                                                                    sx={{
-                                                                                                                        backgroundColor: "#21325d",
-                                                                                                                        marginX: "8px",
-                                                                                                                        height: "3px",
-                                                                                                                    }}
-                                                                                                                    className=""
-                                                                                                                />
-                                                                                                            </div>
-                                                                                                        ) :
-
-                                                                                                        (
-                                                                                                            <div className=" stopBefOneStop">
-                                                                                                                <Divider
-                                                                                                                    orientation="vertical"
-                                                                                                                    flexItem
-                                                                                                                    sx={{
-                                                                                                                        backgroundColor: "#21325d",
-                                                                                                                        marginX: "8px",
-                                                                                                                        height: "3px",
-                                                                                                                    }}
-                                                                                                                />
-                                                                                                            </div>
-                                                                                                        )
-                                                                                                }
-                                                                                                <p>{
-                                                                                                    item?.Segments[0].length > 1 ?
-                                                                                                        `${item?.Segments[0].length - 1} stop via ${item?.Segments[0][0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
-
-                                                                                                <span>
-                                                                                                    {
-                                                                                                        item?.Segments[0][0]
-                                                                                                            ?.NoOfSeatAvailable
-                                                                                                    }{" "}
-                                                                                                    Seats Left
-                                                                                                </span>
-                                                                                            </div>
-                                                                                            <div class="returnResultTimingBox">
-                                                                                                <span>
-                                                                                                    {
-                                                                                                        item?.Segments[0][item?.Segments[0].length - 1]?.Destination
-                                                                                                            ?.Airport?.CityName
-                                                                                                    }
-                                                                                                </span>
-                                                                                                <p>
-                                                                                                    {dayjs(
-                                                                                                        item?.Segments?.[0][item?.Segments[0].length - 1]?.Destination?.ArrTime
-                                                                                                    ).format("DD MMM, YY")}
-                                                                                                </p>
-                                                                                                <h5 className="daySize">
-                                                                                                    {dayjs(
-                                                                                                        item?.Segments?.[0][item?.Segments[0].length - 1]
-                                                                                                            ?.Destination?.ArrTime
-                                                                                                    ).format("h:mm A")}
-                                                                                                </h5>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-
-
-                                                                                    
-                                                                                </div> */}
                                   </motion.div>
                                 </motion.div>
                               </>

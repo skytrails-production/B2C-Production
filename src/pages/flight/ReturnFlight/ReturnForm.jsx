@@ -51,6 +51,7 @@ const ReturnForm = () => {
   const [fromSearchResults, setFromSearchResults] = useState([]);
   const [fromQuery, setFromQuery] = useState("delhi");
   const [isLoading, setIsLoading] = useState(false);
+  const [selectDate,setSelectDate] =useState(true)
   useEffect(() => {
     // console.log(reducerState, "reducer state");
   }, []);
@@ -58,13 +59,23 @@ const ReturnForm = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(new Date());
   const currentdate = new Date();
-
   const handleDateChange = (date) => {
-    setStartDate(date);
+    if (selectDate) {
+      setStartDate(date);
+    } else if(startDate<=date) {
+      setReturnDate(date);
+    }
+    console.log(selectDate);
+    setSelectDate(!selectDate) 
   };
-  const handleDateChangeReturn = (date) => {
-    setReturnDate(date);
-  };
+  
+
+const handleDateChangeReturn = (date) => {
+  if (startDate <= date) {
+    setReturnDate(date); 
+  }
+};
+
 
   useEffect(() => {
     setReturnDate((prevReturnDate) => {
@@ -1077,6 +1088,8 @@ const ReturnForm = () => {
                               selected={startDate}
                               onChange={handleDateChange}
                               minDate={currentdate}
+                              monthsShown={2}
+                              shouldCloseOnSelect={false}
                             />
                           </div>
                         </div>
@@ -1102,6 +1115,7 @@ const ReturnForm = () => {
                               selected={returnDate}
                               onChange={handleDateChangeReturn}
                               minDate={startDate}
+                              monthsShown={2}
                             />
                           </div>
                         </div>

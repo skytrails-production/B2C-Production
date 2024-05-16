@@ -92,14 +92,15 @@ const BookingReviewGRN = ({
     const [bookingSuccess, setBookingSuccess] = useState(bookingStatus);
     const [loaderPayment1, setLoaderPayment1] = useState(false);
     const [loaderPayment, setLoaderPayment] = useState(false);
-
     const hotelinfoGRN = reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel;
     const hotelMainReducer = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data;
-
     const passenger = reducerState?.passengers?.passengersData;
     const [isDisableScroll, setIsDisableScroll] = useState(false);
-    // const [sub, setSub] = useState(false);
     const emailRef = useRef();
+    // const commnetRate = hotelinfoGRN?.rate?.rate_comments?.MandatoryTax;
+    const markUpamount =
+        reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup *
+        Number(hotelinfoGRN?.rate?.price);
 
     const star = (data) => {
         const stars = [];
@@ -116,7 +117,7 @@ const BookingReviewGRN = ({
             "confirmed"
         ) {
             setLoaderPayment(false);
-            navigate("/hotel/hotelsearchGRM/guestDetails/review/ticket");
+            navigate("/GrmHotelHome/hotelsearchGRM/hotelbookroom/guestDetails/review/ticket");
             return;
         }
     }, [reducerState?.hotelSearchResultGRN?.bookRoom?.status]);
@@ -155,7 +156,8 @@ const BookingReviewGRN = ({
 
     const selectedFromData = JSON.parse(sessionStorage.getItem("clientNationality"));
 
-    console.log(selectedFromData, "selected from data")
+
+
     const handleClickBooking = async () => {
 
         const payload = {
@@ -238,14 +240,15 @@ const BookingReviewGRN = ({
         // setSub(true);
         setLoaderPayment1(true);
         if (!checkSearchTime()) {
-            navigate("/");
+            navigate("/GrmHotelHome");
             return;
         } else {
             const token = SecureStorage?.getItem("jwtToken");
             const payload = {
                 firstname: passenger?.[0]?.adults?.[0]?.FirstName,
                 phone: passenger?.[0]?.adults?.[0]?.Phoneno,
-                amount: 1,
+                // amount: 1,
+                amount: (Number(hotelinfoGRN?.rate?.price) + Number(markUpamount)).toFixed(0),
                 email: passenger?.[0]?.adults?.[0]?.Email,
                 productinfo: "ticket",
                 bookingType: "HOTELS",
@@ -645,7 +648,7 @@ const BookingReviewGRN = ({
                                                                 </div>
                                                             )
                                                         }
-                                                                                     {
+                                                        {
                                                             hotelinfoGRN?.rate?.rate_comments?.remarks !== "" && (
 
                                                                 <div className="prTwo">
@@ -722,9 +725,9 @@ const BookingReviewGRN = ({
                                     </motion.div>
 
 
-                                    {/* <div className="guestDetailsHistoryDesc mt-3">
+                                    <div className="guestDetailsHistoryDesc mt-3">
                                         {paymentLoading ? (
-                                            <button type="submit" onClick={handlePayment}>
+                                            <button >
                                                 <SpinnerCircular
                                                     secondaryColor="white"
                                                     size={20}
@@ -748,11 +751,11 @@ const BookingReviewGRN = ({
                                             }}
                                         >
                                             <img src={flightPaymentLoding} alt="" />
-                                           
-                                        </div>
-                                    </Modal> */}
 
-                                    <div className="col-lg-12">
+                                        </div>
+                                    </Modal>
+
+                                    {/* <div className="col-lg-12">
                                         <div className="reviewDescriptionButton">
 
                                             <button
@@ -764,7 +767,7 @@ const BookingReviewGRN = ({
                                             </button>
 
                                         </div>
-                                    </div>
+                                    </div> */}
 
                                     {/* <Modal open={bookingSuccess}>
                                         <Box sx={styleLoader}>

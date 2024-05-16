@@ -1,479 +1,621 @@
 .booknowFlight {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    background-color: white;
-    padding: 24px;
-    border-radius: 8px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
-
-
 .bookaboveBox {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .bookaboveBox p {
-    color: #071C2C;
-    font-family: 'Montserrat';
-    font-size: 19px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+  color: #071c2c;
+  font-family: "Montserrat";
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
-.bookaboveBox>div {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 10px;
+.bookaboveBox > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
 }
 
-.bookaboveBox>div>.aboveSpan {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
+.bookaboveBox > div > .aboveSpan {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
 }
 
-.bookaboveBox>div>.aboveSpan span {
-    color: #d90429;
+.bookaboveBox > div > .aboveSpan span {
+  color: #d90429;
 
-    font-family: 'Montserrat';
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+  font-family: "Montserrat";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
-.bookaboveBox>div>.aboveSpan .aboveSOne {
-    color: #FFF;
-    font-family: 'Montserrat';
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    padding: 4px 8px;
-    border-radius: 4px;
-    background: #d90429;
+.bookaboveBox > div > .aboveSpan .aboveSOne {
+  color: #fff;
+  font-family: "Montserrat";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #d90429;
 }
-
-
-
-
 
 .bookaboveBox .aboveBelowSpan {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    justify-content: space-between;
-    gap: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
 }
 
 .bookaboveBox .aboveBelowSpan span {
-    color: #d90429;
+  color: #d90429;
 
-    font-family: 'Montserrat';
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+  font-family: "Montserrat";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
 .bookaboveBox .aboveBelowSpan .aboveSOne {
-    color: #FFF;
-    font-family: 'Montserrat';
-    font-size: 15px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    padding: 4px 8px;
-    border-radius: 4px;
-    background: #d90429;
+  color: #fff;
+  font-family: "Montserrat";
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #d90429;
 }
 
-
-
-
-
-
-
-
-
 .bookcenteredBox {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
 }
 
 .bookcenteredBox div img {
-    width: 42px;
-
+  width: 42px;
 }
 
 .bookcenteredBox span {
-    color: #071C2C;
+  color: #071c2c;
 
-    font-family: 'Montserrat';
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 12px;
-    /* 75% */
-    letter-spacing: 0.8px;
+  font-family: "Montserrat";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 12px;
+  /* 75% */
+  letter-spacing: 0.8px;
 }
 
 .bookcenteredBox p {
-    color: #5B5B5B;
-    font-family: 'Montserrat';
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 12px;
-    letter-spacing: 0.6px;
+  color: #5b5b5b;
+  font-family: "Montserrat";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 12px;
+  letter-spacing: 0.6px;
 }
-
-
 
 .bookbottomBox {
-    display: flex;
-    padding: 16px;
-    justify-content: space-between;
-    align-items: flex-start;
-    align-self: stretch;
-    border-radius: 8px;
-    border: 0.5px solid #ddd;
-    background: #F9EDED;
+  display: flex;
+  padding: 16px;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+  border-radius: 8px;
+  border: 0.5px solid #ddd;
+  background: #f9eded;
 }
 
-.bookbottomBox>div {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+.bookbottomBox > div {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
 }
 
 .bookbottomBox .bookBottomOne {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .bookbottomBox .bookBottomOne p {
-    color: #071C2C;
-    text-align: center;
-    font-family: 'Montserrat';
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
+  color: #071c2c;
+  text-align: center;
+  font-family: "Montserrat";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
 
-
 .bookbottomBox .bookBottomTwo img {
-    width: 30px;
-    height: 60px;
+  width: 30px;
+  height: 60px;
 }
 
 .bookbottomBox .bookBottomThree {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
 }
 
 .bookbottomBox .bookBottomThree p {
-    color: #071C2C;
+  color: #071c2c;
 
-    /* text-align: center; */
-    font-family: 'Montserrat';
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: normal;
+  /* text-align: center; */
+  font-family: "Montserrat";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
 
 .bookbottomBox .bookBottomThree span {
-    color: #777;
-    margin-left: 8px;
-    text-align: center;
-    font-family: Montserrat;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+  color: #777;
+  margin-left: 8px;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
 
 .bookbottomBox .bookBottomFour {
-    display: flex;
+  display: flex;
 }
 
-.bookbottomBox .bookBottomFour>div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 10px;
+.bookbottomBox .bookBottomFour > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
 }
 
-.bookbottomBox .bookBottomFour>div p {
-    color: #888;
+.bookbottomBox .bookBottomFour > div p {
+  color: #888;
 
-    text-align: center;
-    font-family: 'Montserrat';
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+  text-align: center;
+  font-family: "Montserrat";
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
 
-.bookbottomBox .bookBottomFour>div span {
-    color: #071C2C;
+.bookbottomBox .bookBottomFour > div span {
+  color: #071c2c;
 
-    text-align: center;
-    font-family: Montserrat;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+  text-align: center;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
-
-
 
 /* cancellation design  */
 
-
 .bookNowCancel {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 20px;
-    align-items: flex-start;
-    background-color: white;
-    padding: 24px;
-    border-radius: 8px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+  background-color: white;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .bookNowCancel .bookCancleOne {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .bookNowCancel .bookCancleOne p {
-    color: #071C2C;
-    font-family: Montserrat;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+  color: #071c2c;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
-
 
 .bookCancleOne span {
-    color: #999;
-    font-family: 'Montserrat';
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
+  color: #999;
+  font-family: "Montserrat";
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
 
-.bookNowCancel .bookCancleOne>div {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    align-items: center;
+.bookNowCancel .bookCancleOne > div {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
 }
 
-.bookNowCancel .bookCancleOne>div img {
-    width: 42px;
+.bookNowCancel .bookCancleOne > div img {
+  width: 42px;
 }
 
-.bookNowCancel .bookCancleOne>div span {
-    color: #999;
+.bookNowCancel .bookCancleOne > div span {
+  color: #999;
 
-    font-family: Montserrat;
-    font-size: 12px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+  font-family: Montserrat;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
 .bookCancleTwo {
-    color: #999;
+  color: #999;
 
-    font-family: Montserrat;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: normal;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 100%;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 }
 
-.bookCancleTwo>span {
-    word-wrap: nowrap;
-    margin-right: 20px;
+.bookCancleTwo > span {
+  word-wrap: nowrap;
+  margin-right: 20px;
 }
 
 .svgLineBox {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .svgLineBox svg {
-    position: relative;
-
+  position: relative;
 }
 
 .svgLineBox .svgCircle {
-    position: absolute;
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-    background-color: #071C2C;
-    z-index: 1;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background-color: #071c2c;
+  z-index: 1;
 }
 
-.svgLineBox>div {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-    width: 100%;
+.svgLineBox > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
 }
-
 
 .bookflightPassenger {
-    padding: 24px;
-    box-sizing: content-box;
-    border-radius: 8px;
-    background: #FFF;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 24px;
+  box-sizing: content-box;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 .headingBookFlight h3 {
-    color: #071C2C;
-    font-family: 'Montserrat';
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
+  color: #071c2c;
+  font-family: "Montserrat";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
 .roomIndexGuest {
-
-    color: #071C2C !important;
-    font-family: 'Montserrat';
-    font-size: 16px;
-    font-style: normal !important;
-    font-weight: 600 !important;
-    line-height: normal !important;
+  color: #071c2c !important;
+  font-family: "Montserrat";
+  font-size: 16px;
+  font-style: normal !important;
+  font-weight: 600 !important;
+  line-height: normal !important;
 }
 
-
 .bookAdultIndex {
-    margin-top: 20px;
-    margin-bottom: 20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .bookAdultIndex p {
-    color: #071C2C;
-    font-family: Montserrat;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-
+  color: #071c2c;
+  font-family: Montserrat;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 }
 
-
-
 .bookWrapperButton {
-    border-radius: 9px;
-    background: #d90429;
-    padding: 16px 64px;
-    color: #FFFBFB;
-    text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
-    font-family: Montserrat;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: normal;
-    background-image: linear-gradient(to right, #d90429 0%, #EA384D 51%, #d90429 100%);
-    text-align: center;
-    text-transform: uppercase;
-    transition: 0.5s;
-    background-size: 200% auto;
-    color: white;
-    border: 2px solid transparent !important;
+  border-radius: 9px;
+  background: #d90429;
+  padding: 16px 64px;
+  color: #fffbfb;
+  text-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  background-image: linear-gradient(
+    to right,
+    #d90429 0%,
+    #ea384d 51%,
+    #d90429 100%
+  );
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  border: 2px solid transparent !important;
 }
 
 .validationFalse {
-    background: #d90429b3 !important;
-    border: 2px solid transparent !important;
-
+  background: #d90429b3 !important;
+  border: 2px solid transparent !important;
 }
 
 .bookWrapperButton:hover {
-    background-position: right center;
-    color: #fff;
-    text-decoration: none;
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
 }
 
-
 .modalDialogueButtonOne {
-    background-color: white;
-    border: 2px solid #d90429;
-    color: #d90429;
-    font-weight: 600;
-    padding: 8px 24px;
-    border-radius: 5px;
-    transition: all 0.2s;
-
+  background-color: white;
+  border: 2px solid #d90429;
+  color: #d90429;
+  font-weight: 600;
+  padding: 8px 24px;
+  border-radius: 5px;
+  transition: all 0.2s;
 }
 
 .modalDialogueButtonOne:hover {
-    background-color: #d90429;
-    border: 2px solid #d90429;
-    color: #fff;
-
-
+  background-color: #d90429;
+  border: 2px solid #d90429;
+  color: #fff;
 }
 
 .modalDialogueButtonTwo {
-
-    background-color: #d90429;
-    border: 2px solid #d90429;
-    color: #fff;
-    font-weight: 600;
-    padding: 8px 24px;
-    border-radius: 5px;
-    transition: all 0.2s;
-
+  background-color: #d90429;
+  border: 2px solid #d90429;
+  color: #fff;
+  font-weight: 600;
+  padding: 8px 24px;
+  border-radius: 5px;
+  transition: all 0.2s;
 }
 
 .modalDialogueButtonOne:hover {
-    background-color: white;
-    border: 2px solid #d90429;
-    color: #d90429;
-
-
+  background-color: white;
+  border: 2px solid #d90429;
+  color: #d90429;
 }
 
 .custom-input {
-    padding: 2px !important;
+  padding: 2px !important;
+}
+.bagMnContainer {
+  width: 700px;
+  position: relative;
+  background-color: white;
+  padding: 15px;
+  gap: 15px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 2px;
+}
+.bagClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 25px;
+  height: 25px;
+  transition: all 0.3 ease-in;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+.bagClose:hover {
+  background-color: #dca1a1;
+  border-radius: 100%;
+}
+.baggageAireLine {
+  display: flex;
+  background-color: #dca1a1;
+  padding: 10px;
+  gap: 5px;
+  border-radius: 6px;
+}
+.AdditionalLeft {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+.qtyCounter {
+  display: inline-block;
+  background-color: #fff;
+  width: 130px;
+  height: 32px;
+  border-radius: 3px;
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  vertical-align: middle;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+  padding: 0px 7px;
+}
+.extraBaggageSection {
+  display: flex;
+  max-height: 200px;
+  overflow-y: scroll;
+  gap: 10px;
+  flex-direction: column;
+  /* background-color: #071c2c; */
+}
+.overlayBg {
+  background: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+.bagListMap {
+  justify-content: space-between;
+  padding: 5px;
+}
+.bagListLeft {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 300;
+}
+.bagAdditional {
+  font-size: 18px;
+}
+.bagAdditional > span {
+  color: #d90429;
+}
+.bagListRight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+.bagListRightPrice {
+  font-size: 18px;
+  font-weight: 400;
+}
+.buttonBag {
+  display: flex;
+  border-radius: 35px;
+  box-shadow: 0 1px 7px 0 rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  height: 32px;
+  padding: 0 20px;
+  border: none;
+  outline: none !important;
+  font-weight: 600;
+  background-color: #d90429;
+}
+.buttonBag:hover {
+  transform: scale(1.1);
+}
+.bagPriceCon {
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  border-radius: 7px;
+  padding: 0px 5px;
+}
+.bagPriceConRight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+.bagADDBtn {
+  width: 70px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  color:#d90429
+}
+.bagADDBtn:hover {
+  border: 1px solid #d90429;
+  border: #d90429;
+  font-weight: bold;
+  background-color: #99999986;
+}
+.qtyCounterBtn {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 3px;
+}
+.qtyCounterBtn :hover {
+  /* border: 0.5px solid #d90429; */
+  color: #d90429 !important;
+}
+.extraBaggageSection::-webkit-scrollbar {
+  width: 7px !important;
+  background-color: #dca1a1 !important;
+  display: unset !important;
+   border-radius: 2px;
+   
+}
+.extraBaggageSection::-webkit-scrollbar-track {
+  background-color: #dca1a1 !important; /* Light gray background */
+  border-radius: 10px; /* Rounded corners */
+}
+.extraBaggageSection::-webkit-scrollbar-thumb {
+  background-color: #ea384d !important; /* Gray thumb color */
+  border-radius: 10px; /* Rounded corners for the thumb */
+  height: 10px !important; /* Adjust height for desired thumb size */
+  width: 10px !important; /* Adjust height for desired thumb size */
+  cursor: pointer;
+  /* background: rgb(140, 0, 255) !important; */
+  border-radius: 10px;
 }

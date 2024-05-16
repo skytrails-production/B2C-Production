@@ -493,7 +493,7 @@ cursor: "pointer", */
   /* left: 50%; */
 
   /* transform: translate(-50%, -50%); */
-  z-index: 0;
+  z-index: 1;
   background: rgba(107, 105, 105, 0.45);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(8px);

@@ -83,6 +83,16 @@ export const tnplReducer = (state = initState, action) => {
                 isError: false,
             };
 
+        case types.CLEAR_TNPL_DATA:
+            return {
+                ...state,
+                tnplUserData: [],
+                verifiedOTPData: [],
+                planDetails: [],
+                isLoading: false,
+                isError: false,
+            }
+
         default:
             return state;
     }

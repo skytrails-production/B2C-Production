@@ -3,6 +3,7 @@ import logo from "../../images/red-logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import userApi from "../../Redux/API/api";
 import { useNavigate } from "react-router-dom";
+import SecureStorage from "react-secure-storage";
 
 import "./bookedTicket.css";
 const BookedTicket = () => {
@@ -15,158 +16,163 @@ const BookedTicket = () => {
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
   const couponvalue = sessionStorage.getItem("couponCode");
-  // console.log(reducerState, "reducerState", bookingDataNonLcc, couponvalue);
+  console.log(reducerState, "reducerState", bookingDataNonLcc, couponvalue);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    addBookingDetails();
+  // useEffect(() => {
+  //   addBookingDetails();
 
-    // sessionStorage.removeItem("couponCode");
-  }, []);
-  const addBookingDetails = () => {
-    if (bookingDataLcc) {
-      // console.log("lccCheck");
-      const payloadLCC = {
-        userId: reducerState?.logIn?.loginData?.data?.data?.id,
-        bookingId: `${bookingDataLcc?.BookingId}`,
-        oneWay: true,
-        ticketType: "Original Ticket",
-        pnr: bookingDataLcc?.PNR,
-        origin: bookingDataLcc?.FlightItinerary?.Origin,
-        destination: bookingDataLcc?.FlightItinerary?.Destination,
-        paymentStatus: "success",
-        totalAmount: couponvalue
-          ? parseInt(bookingDataLcc?.FlightItinerary?.Fare?.OfferedFare) +
-            parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) *
-              markUpamount
-          : parseInt(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare) +
-            markUpamount *
-              parseInt(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare),
-        airlineDetails: bookingDataLcc?.FlightItinerary?.Segments.map(
-          (item, index) => {
-            return {
-              Airline: {
-                AirlineCode: item.Airline.AirlineCode,
-                AirlineName: item.Airline.AirlineName,
-                FlightNumber: item.Airline.FlightNumber,
-                FareClass: item.Airline.FareClass,
-              },
-              Origin: {
-                AirportCode: item.Origin.Airport.AirportCode,
-                AirportName: item.Origin.Airport.AirportName,
-                CityName: item.Origin.Airport.CityName,
-                Terminal: item.Origin.Airport.Terminal,
-                DepTime: item.Origin.DepTime,
-              },
-              Destination: {
-                AirportCode: item.Destination.Airport.AirportCode,
-                AirportName: item.Destination.Airport.AirportName,
-                CityName: item.Destination.Airport.CityName,
-                Terminal: item.Destination.Airport.Terminal,
-                ArrTime: item.Destination.ArrTime,
-              },
-              Baggage: item.Baggage,
-            };
-          }
-        ),
-        passengerDetails: bookingDataLcc?.FlightItinerary?.Passenger?.map(
-          (item, index) => {
-            return {
-              title: item?.Title,
-              firstName: item?.FirstName,
-              lastName: item?.LastName,
-              gender: item?.Gender,
-              ContactNo:
-                PassengersSaved[index]?.ContactNo == undefined
-                  ? ""
-                  : PassengersSaved[index]?.ContactNo,
-              DateOfBirth: item?.DateOfBirth,
-              email:
-                PassengersSaved[index]?.Email == undefined
-                  ? ""
-                  : PassengersSaved[index]?.Email,
-              addressLine1: item?.addressLine1,
-              city: item?.City,
-              TicketNumber: item?.Ticket?.TicketNumber,
-              amount: item?.Fare?.PublishedFare?.toFixed(),
-            };
-          }
-        ),
-      };
-      userApi.flightBookingDataSave(payloadLCC);
-    } else {
-      // console.log("nonlccCheck");
-      const payloadNonLcc = {
-        userId: reducerState?.logIn?.loginData?.data?.data?.id,
-        bookingId: `${bookingDataNonLcc?.BookingId}`,
-        oneWay: true,
-        ticketType: "Original Ticket",
-        pnr: bookingDataNonLcc?.PNR,
-        origin: bookingDataNonLcc?.FlightItinerary?.Origin,
-        destination: bookingDataNonLcc?.FlightItinerary?.Destination,
-        paymentStatus: "success",
-        totalAmount: couponvalue
-          ? parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.OfferedFare) +
-            parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) *
-              markUpamount
-          : parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) +
-            markUpamount *
-              parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare),
-        airlineDetails: bookingDataNonLcc?.FlightItinerary?.Segments.map(
-          (item, index) => {
-            return {
-              Airline: {
-                AirlineCode: item.Airline.AirlineCode,
-                AirlineName: item.Airline.AirlineName,
-                FlightNumber: item.Airline.FlightNumber,
-                FareClass: item.Airline.FareClass,
-              },
-              Origin: {
-                AirportCode: item.Origin.Airport.AirportCode,
-                AirportName: item.Origin.Airport.AirportName,
-                CityName: item.Origin.Airport.CityName,
-                Terminal: item.Origin.Airport.Terminal,
-                DepTime: item.Origin.DepTime,
-              },
-              Destination: {
-                AirportCode: item.Destination.Airport.AirportCode,
-                AirportName: item.Destination.Airport.AirportName,
-                CityName: item.Destination.Airport.CityName,
-                Terminal: item.Destination.Airport.Terminal,
-                ArrTime: item.Destination.ArrTime,
-              },
-              Baggage: item.Baggage,
-            };
-          }
-        ),
-        passengerDetails: bookingDataNonLcc?.FlightItinerary?.Passenger?.map(
-          (item, index) => {
-            return {
-              title: item?.Title,
-              firstName: item?.FirstName,
-              lastName: item?.LastName,
-              gender: item?.Gender,
-              ContactNo:
-                PassengersSaved[index]?.ContactNo == undefined
-                  ? ""
-                  : PassengersSaved[index]?.ContactNo,
-              DateOfBirth: item?.DateOfBirth,
-              email:
-                PassengersSaved[index]?.Email == undefined
-                  ? ""
-                  : PassengersSaved[index]?.Email,
-              addressLine1: item?.addressLine1,
-              city: item?.City,
-              TicketNumber: item?.Ticket?.TicketNumber,
-              amount: item?.Fare?.PublishedFare?.toFixed(),
-            };
-          }
-        ),
-      };
-      userApi.flightBookingDataSave(payloadNonLcc);
-    }
-  };
+  //   // sessionStorage.removeItem("couponCode");
+  // }, []);
+  // const addBookingDetails = () => {
+  //   if (bookingDataLcc) {
+  //     // console.log("lccCheck");
+  //     const payloadLCC = {
+  //       userId: reducerState?.logIn?.loginData?.data?.result?._id,
+  //       bookingId: `${bookingDataLcc?.BookingId}`,
+  //       oneWay: true,
+  //       ticketType: "Original Ticket",
+  //       pnr: bookingDataLcc?.PNR,
+  //       origin: bookingDataLcc?.FlightItinerary?.Origin,
+  //       destination: bookingDataLcc?.FlightItinerary?.Destination,
+  //       paymentStatus: "success",
+  //       totalAmount: couponvalue
+  //         ? parseInt(bookingDataLcc?.FlightItinerary?.Fare?.OfferedFare) +
+  //         parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) *
+  //         markUpamount
+  //         : parseInt(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare) +
+  //         markUpamount *
+  //         parseInt(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare),
+  //       airlineDetails: bookingDataLcc?.FlightItinerary?.Segments.map(
+  //         (item, index) => {
+  //           return {
+  //             Airline: {
+  //               AirlineCode: item.Airline.AirlineCode,
+  //               AirlineName: item.Airline.AirlineName,
+  //               FlightNumber: item.Airline.FlightNumber,
+  //               FareClass: item.Airline.FareClass,
+  //             },
+  //             Origin: {
+  //               AirportCode: item.Origin.Airport.AirportCode,
+  //               AirportName: item.Origin.Airport.AirportName,
+  //               CityName: item.Origin.Airport.CityName,
+  //               Terminal: item.Origin.Airport.Terminal,
+  //               DepTime: item.Origin.DepTime,
+  //             },
+  //             Destination: {
+  //               AirportCode: item.Destination.Airport.AirportCode,
+  //               AirportName: item.Destination.Airport.AirportName,
+  //               CityName: item.Destination.Airport.CityName,
+  //               Terminal: item.Destination.Airport.Terminal,
+  //               ArrTime: item.Destination.ArrTime,
+  //             },
+  //             Baggage: item.Baggage,
+  //           };
+  //         }
+  //       ),
+  //       passengerDetails: bookingDataLcc?.FlightItinerary?.Passenger?.map(
+  //         (item, index) => {
+  //           return {
+  //             title: item?.Title,
+  //             firstName: item?.FirstName,
+  //             lastName: item?.LastName,
+  //             gender: item?.Gender,
+  //             ContactNo:
+  //               PassengersSaved[index]?.ContactNo == undefined
+  //                 ? ""
+  //                 : PassengersSaved[index]?.ContactNo,
+  //             DateOfBirth: item?.DateOfBirth,
+  //             email:
+  //               PassengersSaved[index]?.Email == undefined
+  //                 ? ""
+  //                 : PassengersSaved[index]?.Email,
+  //             addressLine1: item?.addressLine1,
+  //             city: item?.City,
+  //             TicketNumber: item?.Ticket?.TicketNumber,
+  //             amount: item?.Fare?.PublishedFare?.toFixed(),
+  //           };
+  //         }
+  //       ),
+  //       baggage: SecureStorage.getItem("baggageData")|| [],
+  //       // mealDynamic: [],
+
+  //     };
+  //     userApi.flightBookingDataSave(payloadLCC);
+  //   } else {
+  //     // console.log("nonlccCheck");
+  //     const payloadNonLcc = {
+  //       userId:reducerState?.logIn?.loginData?.data?.result?._id,
+  //       bookingId: `${bookingDataNonLcc?.BookingId}`,
+  //       oneWay: true,
+  //       ticketType: "Original Ticket",
+  //       pnr: bookingDataNonLcc?.PNR,
+  //       origin: bookingDataNonLcc?.FlightItinerary?.Origin,
+  //       destination: bookingDataNonLcc?.FlightItinerary?.Destination,
+  //       paymentStatus: "success",
+  //       totalAmount: couponvalue
+  //         ? parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.OfferedFare) +
+  //         parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) *
+  //         markUpamount
+  //         : parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) +
+  //         markUpamount *
+  //         parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare),
+  //       airlineDetails: bookingDataNonLcc?.FlightItinerary?.Segments.map(
+  //         (item, index) => {
+  //           return {
+  //             Airline: {
+  //               AirlineCode: item.Airline.AirlineCode,
+  //               AirlineName: item.Airline.AirlineName,
+  //               FlightNumber: item.Airline.FlightNumber,
+  //               FareClass: item.Airline.FareClass,
+  //             },
+  //             Origin: {
+  //               AirportCode: item.Origin.Airport.AirportCode,
+  //               AirportName: item.Origin.Airport.AirportName,
+  //               CityName: item.Origin.Airport.CityName,
+  //               Terminal: item.Origin.Airport.Terminal,
+  //               DepTime: item.Origin.DepTime,
+  //             },
+  //             Destination: {
+  //               AirportCode: item.Destination.Airport.AirportCode,
+  //               AirportName: item.Destination.Airport.AirportName,
+  //               CityName: item.Destination.Airport.CityName,
+  //               Terminal: item.Destination.Airport.Terminal,
+  //               ArrTime: item.Destination.ArrTime,
+  //             },
+  //             Baggage: item.Baggage,
+  //           };
+  //         }
+  //       ),
+  //       passengerDetails: bookingDataNonLcc?.FlightItinerary?.Passenger?.map(
+  //         (item, index) => {
+  //           return {
+  //             title: item?.Title,
+  //             firstName: item?.FirstName,
+  //             lastName: item?.LastName,
+  //             gender: item?.Gender,
+  //             ContactNo:
+  //               PassengersSaved[index]?.ContactNo == undefined
+  //                 ? ""
+  //                 : PassengersSaved[index]?.ContactNo,
+  //             DateOfBirth: item?.DateOfBirth,
+  //             email:
+  //               PassengersSaved[index]?.Email == undefined
+  //                 ? ""
+  //                 : PassengersSaved[index]?.Email,
+  //             addressLine1: item?.addressLine1,
+  //             city: item?.City,
+  //             TicketNumber: item?.Ticket?.TicketNumber,
+  //             amount: item?.Fare?.PublishedFare?.toFixed(),
+  //           };
+  //         }
+  //       ),
+  //       baggage: SecureStorage.getItem("baggageData")||[],
+  //       // mealDynamic: [],
+  //     };
+  //     userApi.flightBookingDataSave(payloadNonLcc);
+  //   }
+  // };
 
   return (
     <div>

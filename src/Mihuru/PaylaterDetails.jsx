@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { validateForm } from "./../utility/paylaterValidation"
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchTNPLRequest, setUserDataRequest } from './../Redux/TNPL/tnpl';
+import { clearTNPLReducerGRN, fetchTNPLRequest, setUserDataRequest } from './../Redux/TNPL/tnpl';
 import axios from 'axios';
-// import { apiURL } from '../Constants/constantant';
 import dayjs from 'dayjs';
+import Select from 'react-select';
 import { apiURL } from '../Constants/constant';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,9 +13,56 @@ const PaylaterDetails = () => {
     const dispatch = useDispatch();
     const reducerState = useSelector((state) => state);
     const navigate = useNavigate();
+    const [isSearchable, setIsSearchable] = useState(true);
+    const [fromsearchTerm, setfromSearchTerm] = useState('');
+    const [tosearchTerm, settoSearchTerm] = useState('');
+    const [searchResultsFrom, setSearchResultsFrom] = useState([]);
+    const [searchResultsTo, setSearchResultsTo] = useState([]);
+    const publishedFare = sessionStorage.getItem("amountPayLater");
+
+    const initialSelectedFromData = {
+        AirportCode: "DEL",
+        CityCode: "DEL",
+        CountryCode: "IN ",
+        code: "Indira Gandhi Airport",
+        createdAt: "2023-01-30T14:58:34.428Z",
+        id: "DEL",
+        name: "Delhi",
+        updatedAt: "2023-01-30T14:58:34.428Z",
+        __v: 0,
+        _id: "63d7db1a64266cbf450e07c1",
+    };
+    // ]
+
+    const initialSelectedToData = {
+        AirportCode: "BOM",
+        CityCode: "BOM",
+        CountryCode: "IN ",
+        code: "Mumbai",
+        createdAt: "2023-01-30T14:57:03.696Z",
+        id: "BOM",
+        name: "Mumbai",
+        updatedAt: "2023-01-30T14:57:03.696Z",
+        __v: 0,
+        _id: "63d7dabf64266cbf450e0451",
+    };
+
+    const [fromSelectedOption, setFromSelectedOption] = useState(initialSelectedFromData);
+    const [toSelectedOption, setToSelectedOption] = useState(initialSelectedToData);
+
+    const handleFromChange = (selectedOption) => {
+        console.log(selectedOption)
+        setFromSelectedOption(selectedOption);
+    };
+    const handleToChange = (selectedOption) => {
+        setToSelectedOption(selectedOption);
+    };
 
     useEffect(() => {
+        dispatch(clearTNPLReducerGRN());
         dispatch(fetchTNPLRequest());
+
+
     }, [])
 
     const mihuruToken = reducerState?.TNPL?.tnplData?.data?.data?.data;
@@ -65,8 +112,8 @@ const PaylaterDetails = () => {
             email: formData?.email,
             monthlyIncome: Number(formData?.income),
             travelDate: dayjs(formData?.date).format("DD-MMM-YYYY"),
-            origin: formData?.origin,
-            destination: formData?.destination,
+            origin: fromSelectedOption?.CityCode || fromSelectedOption?.value,
+            destination: toSelectedOption?.CityCode || toSelectedOption?.value,
             travelCost: Number(formData?.cost)
         }
 
@@ -95,6 +142,58 @@ const PaylaterDetails = () => {
     }
 
 
+    useEffect(() => {
+        const fetchSearchResults = async () => {
+            if (fromsearchTerm?.trim() === '') {
+                setSearchResultsFrom([]);
+                return;
+            }
+            try {
+                const response = await axios.get(
+                    `${apiURL.baseURL}/skyTrails/city/searchCityData?keyword=${fromsearchTerm}`
+                );
+                setSearchResultsFrom(response?.data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchSearchResults();
+    }, [fromsearchTerm]);
+
+
+    useEffect(() => {
+        const fetchSearchResults = async () => {
+            if (tosearchTerm?.trim() === '') {
+                setSearchResultsTo([]);
+                return;
+            }
+            try {
+                const response = await axios.get(
+                    `${apiURL.baseURL}/skyTrails/city/searchCityData?keyword=${tosearchTerm}`
+                );
+                setSearchResultsTo(response?.data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchSearchResults();
+    }, [tosearchTerm]);
+
+    const handleFromInputChange = (newValue) => {
+        setfromSearchTerm(newValue);
+    };
+
+    const handleToInputChange = (newValue) => {
+        settoSearchTerm(newValue);
+    };
+
+
+    // console.log(searchResults)
+
+
+    console.log(toSelectedOption, "to selected option")
 
 
     return (
@@ -129,15 +228,58 @@ const PaylaterDetails = () => {
                     </div>
                     <div class="col-md-4">
                         <label for="inputPassword4" class="form-label">Travel Date</label>
-                        <input type="date" id="date" name="date" class="form-control" onChange={onInputChangeHandler} />
+                        <input type="date" dateFormat="dd MMM, yy" id="date" name="date" class="form-control" onChange={onInputChangeHandler} />
                     </div>
                     <div class="col-md-4">
                         <label for="inputPassword4" class="form-label">Origin</label>
-                        <input type="text" id="origin" name="origin" class="form-control" onChange={onInputChangeHandler} />
+                        {/* <input type="text" id="origin" name="origin" class="form-control" onChange={onInputChangeHandler} /> */}
+                        <Select
+                            className="basic-single"
+                            classNamePrefix="select"
+                            // defaultValue={fromSelectedOption}
+                            defaultValue={fromSelectedOption.CityCode || fromSelectedOption.value}
+                            name='from'
+                            onChange={handleFromChange}
+                            onInputChange={handleFromInputChange}
+                            isSearchable={isSearchable}
+                            options={
+                                fromsearchTerm.trim() === ''
+                                    ? [
+                                        {
+                                            value: initialSelectedFromData.CityCode,
+                                            label: `${initialSelectedFromData.name} (${initialSelectedFromData.CityCode})`
+                                        }]
+                                    : (searchResultsFrom ? searchResultsFrom?.data?.map(result => ({
+                                        value: result?.CityCode,
+                                        label: `${result?.name} (${result?.CityCode})`
+                                    })) : [])
+                            }
+                        />
                     </div>
                     <div class="col-md-4">
                         <label for="inputPassword4" class="form-label">Destination</label>
-                        <input type="text" id="destination" name="destination" class="form-control" onChange={onInputChangeHandler} />
+                        {/* <input type="text" id="destination" name="destination" class="form-control" onChange={onInputChangeHandler} /> */}
+                        <Select
+                            className="basic-single"
+                            classNamePrefix="select"
+                            defaultValue={toSelectedOption.CityCode || toSelectedOption.value}
+                            name='from'
+                            onChange={handleToChange}
+                            onInputChange={handleToInputChange}
+                            isSearchable={isSearchable}
+                            options={
+                                tosearchTerm.trim() === ""
+                                    ? [
+                                        {
+                                            value: initialSelectedToData.CityCode,
+                                            label: `${initialSelectedToData.name} (${initialSelectedToData.CityCode})`
+                                        }]
+                                    : (searchResultsTo ? searchResultsTo?.data?.map(result => ({
+                                        value: result?.CityCode,
+                                        label: `${result?.name} (${result?.CityCode})`
+                                    })) : [])
+                            }
+                        />
                     </div>
                     <div class="col-md-4">
                         <label for="inputPassword4" class="form-label">Travel Cost</label>

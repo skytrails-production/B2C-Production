@@ -290,3 +290,24 @@ hr {
         background-position: 0% 50%;
     }
 }
+
+
+.emiBOx {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    cursor: pointer;
+}
+
+.emiBOx p {
+    font-weight: 600;
+    font-size: 12px;
+    color: blue;
+}
+
+.emiBOx span {
+    font-weight: 600;
+    color: blue;
+    font-size: 12px;
+}

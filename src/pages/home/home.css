@@ -684,6 +684,21 @@ body .form-group:not(:last-child) {
   background: rgba(246, 248, 251, 0.6);
 }
 
+
+.homeabsnew1 {
+    /* width: 100%; */
+    position: absolute;
+    left: 50%;
+    top: 22%;
+    /* border-radius: 24px; */
+    transform: translate(-50%, -50%);
+    /* z-index: 2; */
+    /* border: 1px solid #f0f0f0; */
+    padding: var(--6, 24px);
+
+}
+
+
 @media (max-width: 1000px) {
   .mainheader_row {
     background: #ffffff;
@@ -707,4 +722,11 @@ body .form-group:not(:last-child) {
   /* .wrapper{
         margin-top: -20px !important;
     } */
+}
+
+
+@media screen and (max-width: 768px) {
+  .homeabsnew1 {
+    display: none;
+  }
 }

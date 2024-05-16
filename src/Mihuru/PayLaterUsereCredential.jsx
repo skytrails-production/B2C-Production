@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { apiURL } from '../Constants/constant';
 import { useNavigate } from 'react-router-dom';
@@ -13,7 +13,7 @@ const PayLaterUsereCredential = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate()
-
+    const generatedPlans = reducerState?.TNPL?.planDetails?.data?.plan_details;
     const [loader, setLoader] = useState(false);
     const [formData, setFormData] = useState({
         panID: "",
@@ -51,6 +51,17 @@ const PayLaterUsereCredential = () => {
     };
 
 
+    const flyNowPayLater = generatedPlans?.filter((item) => item?.plan_name === "Fly Now Pay Later")
+
+    useEffect(() => {
+
+        if (reducerState?.TNPL?.planDetails?.error === null) {
+
+            window.location.href = `${flyNowPayLater?.[0]?.navigate_url}`;
+        }
+
+    }, [reducerState?.TNPL?.planDetails?.data?.plan_details])
+
 
     const onFormSubmit = async (e) => {
         e.preventDefault();
@@ -67,7 +78,7 @@ const PayLaterUsereCredential = () => {
             panid: formData.panID,
             pincode: formData.pincode,
             dob: dayjs(formData.date).format("YYYY-MM-DD"),
-            partnerCallbackUrl: "https://theskytrails.com/"
+            partnerCallbackUrl: "theskytrails.com"
 
         }
 
@@ -86,7 +97,7 @@ const PayLaterUsereCredential = () => {
             if (res?.data?.data?.error === null) {
                 setErrorData(false);
                 dispatch(tnplPlanGeneratorRequest(res?.data?.data))
-                navigate("/payLaterDetails/verifyOtp/userCredential/tnplGeneratedplan")
+
                 console.log("hiii")
             } else {
                 setErrorData(true);
@@ -101,8 +112,6 @@ const PayLaterUsereCredential = () => {
     }
 
 
-
-    console.log(reducerState, "reducer credential")
     return (
         <div>
             <div className='my-5'>

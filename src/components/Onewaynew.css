@@ -129,6 +129,16 @@
   width: 100%;
 }
 
+.react-datepicker-popper{
+  z-index: 999!important;
+}
+.react-datepicker{
+  display:flex!important;
+  position: absolute!important;
+  z-index: 999!important;
+  margin-left: -50px !important;
+}
+
 @media screen and (max-width: 768px) {
   .newonewaydesign {
     gap: 12px;

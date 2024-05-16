@@ -303,25 +303,25 @@ function App() {
 
         {/* new grm hotel routes  */}
 
-        <Route path="GrmHotelHome" element={<GrmHotelHome />}></Route>
-        <Route exact path="/hotel/hotelsearchGRM" element={<HotelResult />} />
+        <Route path="/GrmHotelHome" element={<GrmHotelHome />}></Route>
+        <Route path="/GrmHotelHome/hotelsearchGRM" element={<HotelResult />} />
         <Route
-          exact
-          path="/hotel/hotelsearchGRM/hotelbookroom"
+
+          path="/GrmHotelHome/hotelsearchGRM/hotelbookroom"
           element={<HotelBookRoomGRN />}
         />
         <Route
-          exact
-          path="/hotel/hotelsearchGRM/hotelbookroom/guestDetails"
+
+          path="/GrmHotelHome/hotelsearchGRM/hotelbookroom/guestDetails"
           element={<BookingDetailsGRN />}
         />
         <Route
-          exact
-          path="/hotel/hotelsearchGRM/hotelbookroom/guestDetails/review"
+
+          path="/GrmHotelHome/hotelsearchGRM/hotelbookroom/guestDetails/review"
           element={<BookingReviewGRN />}
         />
         <Route
-          path="/hotel/hotelsearchGRM/guestDetails/review/ticket"
+          path="/GrmHotelHome/hotelsearchGRM/hotelbookroom/guestDetails/review/ticket"
           element={<HotelTicketDB />}
         />
         {/* old hotel routes  */}
@@ -431,7 +431,7 @@ function App() {
 
         {/* blog route  */}
         <Route
-          path="/blogDetails"
+          path="/blogDetails/:keyword"
           element={<BlogDetailsSingle />}
         ></Route>
 

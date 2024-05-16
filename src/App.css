@@ -533,12 +533,25 @@ body {
 
 
 .loaderButtonPayLater {
-  padding: 10px 20px;
+  padding: 2px 20px;
   background-color: #e73c34;
   border-radius: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+
+@media(max-width:650px) {
+  .loaderButtonPayLater {
+    padding: 2px 20px;
+    background-color: #e73c34;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100% !important;
+  }
 }
 
 .loaderButtonPayLater button {
@@ -699,4 +712,19 @@ body {
   background-color: #e73c34;
   color: white;
   border: none;
+}
+
+
+
+/* Chrome, Safari, Edge, Opera */
+.editedNum input::-webkit-outer-spin-button,
+.editedNum input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.editedNum input[type=number] {
+  -moz-appearance: textfield;
+
 }

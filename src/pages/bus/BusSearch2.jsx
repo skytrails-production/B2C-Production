@@ -438,7 +438,9 @@ function BusSearch2() {
 
   function handleSubmit(event) {
     event.preventDefault();
-
+    if(selectedFromLast.CityId == selectedToLast.CityId){
+      return;
+    }
     setIsLoadingFlight(true);
     sessionStorage.setItem("SessionExpireTime", new Date());
     const formData = new FormData(event.target);

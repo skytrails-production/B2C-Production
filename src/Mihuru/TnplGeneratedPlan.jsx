@@ -5,7 +5,6 @@ const TnplGeneratedPlan = () => {
 
     const reducerState = useSelector((state) => state);
     const generatedPlans = reducerState?.TNPL?.planDetails?.data?.plan_details;
-    console.log(generatedPlans, "generated plans")
     return (
         <div>
             <div className='my-5'>

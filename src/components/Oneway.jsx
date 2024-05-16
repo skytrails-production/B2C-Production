@@ -393,6 +393,9 @@ function Oneway() {
     };
   }, [toQuery]);
 
+
+  console.log(toSearchResults, "toSearch Result")
+
   const handleToClick = (result) => {
     setSelectedTo(result);
     setTO(result?.name);
@@ -497,6 +500,11 @@ function Oneway() {
     setTO(from)
     setSelectedTo(tempFrom);
   };
+  console.log(reducerState?.logIn?.loginData?.data?.result?.
+    _id
+    
+
+    , "reducerState?.logIn?.loginData?.data?.data?.id")
 
   return (
     <>
@@ -863,6 +871,8 @@ function Oneway() {
                               selected={startDate}
                               onChange={handleDateChange}
                               minDate={currentdate}
+                              monthsShown={2}
+                              className="date-oneway"
                             />
                           </div>
                         </div>

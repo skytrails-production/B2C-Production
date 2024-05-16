@@ -485,11 +485,7 @@ const Oneway2 = (props) => {
 
                                     onChange={(event) => {
                                       handleFromInputChange(event);
-
                                       handleFromSearch(event.target.value);
-
-
-
                                     }}
 
                                     style={{

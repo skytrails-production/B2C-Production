@@ -1373,6 +1373,23 @@ const ReturnResultInternational = () => {
                                                                                         >
                                                                                             See Details →
                                                                                         </button>
+
+                                                                                        <div className="emiBOx" onClick={() => {
+                                                                                            sessionStorage.setItem("amountPayLater", item?.Fare?.PublishedFare);
+                                                                                            navigate("/payLaterDetails");
+                                                                                        }}>
+                                                                                            <span>Book Now At</span>
+                                                                                            <p>
+                                                                                                {
+                                                                                                    (item?.Fare?.PublishedFare).toFixed(0) <= 5000
+                                                                                                        ? (item?.Fare?.PublishedFare / 3).toFixed(0)
+                                                                                                        : (item?.Fare?.PublishedFare <= 50000
+                                                                                                            ? (item?.Fare?.PublishedFare / 6).toFixed(0)
+                                                                                                            : (item?.Fare?.PublishedFare / 12).toFixed(0))
+                                                                                                }/Month →
+                                                                                            </p>
+
+                                                                                        </div>
                                                                                     </div>
                                                                                 </div>
                                                                             </motion.div>

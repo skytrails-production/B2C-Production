@@ -1745,14 +1745,14 @@ function Items({
                                     results[0][item]?.Segments[0][0]?.Duration /
                                     60
                                   )}hr ${results[0][item]?.Segments[0][0]?.Duration %
-                                    60
+                                  60
                                     }min`}{" "}
                                   -{" "}
                                   {`${Math.floor(
                                     results[0][item]?.Segments[0][1]?.Duration /
                                     60
                                   )}hr ${results[0][item]?.Segments[0][1]?.Duration %
-                                    60
+                                  60
                                     }min`}
                                 </h4>
                               ) : (
@@ -1761,7 +1761,7 @@ function Items({
                                     results[0][item]?.Segments[0][0]?.Duration /
                                     60
                                   )}hr ${results[0][item]?.Segments[0][0]?.Duration %
-                                    60
+                                  60
                                     }min`}
                                 </h4>
                               )}
@@ -1848,6 +1848,22 @@ function Items({
                               >
                                 View Details →
                               </button>
+                              <div className="emiBOx" onClick={() => {
+                                sessionStorage.setItem("amountPayLater", results[0][item]?.Fare?.PublishedFare);
+                                navigate("/payLaterDetails");
+                              }}>
+                                <span>Book Now At</span>
+                                <p>
+                                  {
+                                    (results[0][item]?.Fare?.PublishedFare).toFixed(0) <= 5000
+                                      ? (results[0][item]?.Fare?.PublishedFare / 3).toFixed(0)
+                                      : (results[0][item]?.Fare?.PublishedFare <= 50000
+                                        ? (results[0][item]?.Fare?.PublishedFare / 6).toFixed(0)
+                                        : (results[0][item]?.Fare?.PublishedFare / 12).toFixed(0))
+                                  }/Month →
+                                </p>
+
+                              </div>
                             </div>
                           </motion.div>
                           {results[0][item]?.AirlineRemark !== null &&

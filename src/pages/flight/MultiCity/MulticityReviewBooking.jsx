@@ -411,7 +411,7 @@ const MulticityReviewBooking = () => {
                 (!isDummyTicketBooking
                     ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
                     : 99),
-            // amount: 1,
+
 
             email: Passengers[0].Email,
             productinfo: "ticket",

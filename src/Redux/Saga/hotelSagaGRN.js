@@ -18,6 +18,7 @@ import {
 function* hotelRequest(action) {
     try {
         const data = yield call(userApi.hotelSearchGRN, action.payload);
+        console.log(data, "dataSaga", action.payload)
         yield put(fetchHotel(data));
     } catch (error) {
         console.log(error);

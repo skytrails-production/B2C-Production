@@ -141,7 +141,7 @@ const HotelGuestDetailsGRN = () => {
         setPassengerData(newData);
     };
 
-
+    console.log(reducerState, "reducer state")
     // passenger details adding 
 
 
@@ -197,7 +197,7 @@ const HotelGuestDetailsGRN = () => {
                 })
                 if (res?.status == 200) {
                     setLoader(false)
-                    navigate("/hotel/hotelsearchGRM/hotelbookroom/guestDetails/review");
+                    navigate("/GrmHotelHome/hotelsearchGRM/hotelbookroom/guestDetails/review");
 
                 }
 

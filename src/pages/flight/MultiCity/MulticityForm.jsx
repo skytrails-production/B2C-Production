@@ -857,6 +857,7 @@ const MulticityForm = () => {
                           selected={startDate}
                           onChange={handleDateChange}
                           minDate={currentdate}
+                          monthsShown={2}
                         />
                       </div>
                     </div>

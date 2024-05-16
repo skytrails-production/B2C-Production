@@ -28,6 +28,7 @@ const KeyValue = ({ data, value }) => {
 
 const BookNowLeft = (props) => {
   const [showInput, setShowInput] = useState(false);
+  console.log(props.baggAmount, "props.BaseFareeeeeeeeeeeee")
 
   const isDummyStorageTrue = sessionStorage.getItem("hdhhfb7383__3u8748");
   const propFunction = props.handleClick;
@@ -65,8 +66,8 @@ const BookNowLeft = (props) => {
         sessionStorage.setItem("couponCode", couponCode);
         await props.transactionAmount(
           parseInt(fareValue?.Fare?.PublishedFare) +
-            markUpamount * parseInt(fareValue?.Fare?.PublishedFare) -
-            coupondiscount
+          markUpamount * parseInt(fareValue?.Fare?.PublishedFare) -
+          coupondiscount
         );
       }
     } catch (error) {
@@ -81,12 +82,12 @@ const BookNowLeft = (props) => {
       } else if (error.response && error.response.data.statusCode === 404) {
         setError(
           error.response?.data?.responseMessage ||
-            "Error Applying coupon . Please try again."
+          "Error Applying coupon . Please try again."
         );
       } else {
         setError(
           error.response?.data?.message ||
-            "Error applying coupon. Please try again."
+          "Error applying coupon. Please try again."
         );
         setCouponStatus(false);
       }
@@ -250,17 +251,17 @@ const BookNowLeft = (props) => {
 
             <div className="TotGstFlight">
               <div>
-                <span>Total TAX: </span>
+                <span>Other TAX: </span>
                 <p>
                   {"₹"}
-                  {Number(taxvalue).toFixed(1)}
+                  {(Number(taxvalue) + Number(props.baggAmount)).toFixed(2)}
                 </p>
               </div>
               <div>
                 <span>Grand Total:</span>
                 <p>
                   {"₹"}
-                  {Number(taxvaluetotal).toFixed(2)}
+                  {(Number(taxvaluetotal) + Number(props.baggAmount)).toFixed(2)}
                 </p>
               </div>
             </div>
@@ -337,7 +338,7 @@ const BookNowLeft = (props) => {
                                   {"₹"}
                                   {Number((fareValue?.Fare?.PublishedFare) +
                                     markUpamount *
-                                      (fareValue?.Fare?.PublishedFare)).toFixed(2)}
+                                    (fareValue?.Fare?.PublishedFare)).toFixed(2) + props.baggAmount}
                                 </p>
                               </div>
                             </div>
@@ -350,8 +351,8 @@ const BookNowLeft = (props) => {
                                   {"₹"}
                                   {Number((fareValue?.Fare?.PublishedFare) +
                                     markUpamount *
-                                      (fareValue?.Fare?.PublishedFare) -
-                                    coupondiscount).toFixed(2)}
+                                    (fareValue?.Fare?.PublishedFare) -
+                                    coupondiscount).toFixed(2) + props.baggAmount}
                                 </p>
                               </div>
                             </div>

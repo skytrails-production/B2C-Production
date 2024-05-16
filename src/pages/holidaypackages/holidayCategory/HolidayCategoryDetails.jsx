@@ -313,7 +313,7 @@ const HolidayCategoryDetails = () => {
         <>
 
             <div className="holidayInfoBackWall">
-               
+
             </div>
             {/* <div className="container" style={{ position: "relative" }}>
                 <h1>{categoryData[0].pakage_title}</h1>
@@ -894,6 +894,23 @@ const HolidayCategoryDetails = () => {
                                                                         <span>Offer Price</span>
                                                                         <p>₹{' '} {item?.pakage_amount?.amount}</p>
                                                                         <h4>Show More<ArrowForwardIosIcon /></h4>
+                                                                        <div className="emiBOx" onClick={(e) => {
+                                                                            e.stopPropagation()
+                                                                            sessionStorage.setItem("amountPayLater", item?.pakage_amount?.amount);
+                                                                            navigate("/payLaterDetails");
+                                                                        }}>
+                                                                            <span>Book Now At</span>
+                                                                            <p style={{ fontSize: "12px" }}>
+                                                                                {
+                                                                                    (item?.pakage_amount?.amount).toFixed(0) <= 5000
+                                                                                        ? (item?.pakage_amount?.amount / 3).toFixed(0)
+                                                                                        : (item?.pakage_amount?.amount <= 50000
+                                                                                            ? (item?.pakage_amount?.amount / 6).toFixed(0)
+                                                                                            : (item?.pakage_amount?.amount / 12).toFixed(0))
+                                                                                }/Month →
+                                                                            </p>
+
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>

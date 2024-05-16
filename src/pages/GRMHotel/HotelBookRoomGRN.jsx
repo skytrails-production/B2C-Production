@@ -110,20 +110,20 @@ const HotelBookRoomGRN = () => {
 
 
 
-    // useEffect(() => {
-    //     setLoader(false)
+    useEffect(() => {
+        if (reducerState?.hotelSearchResultGRN?.hotelRoom?.length > 0 || reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel) {
+            setLoader(false)
+            navigate("/GrmHotelHome/hotelsearchGRM/hotelbookroom/guestDetails")
+        }
 
-    // }, [reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel])
+    }, [reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel])
 
     const searchId = reducerState?.hotelSearchResultGRN?.ticketData
         ?.data?.data?.search_id;
 
 
     const handleClickSaveRoom = async () => {
-
         setLoader(true);
-
-
         const payload = {
 
             "data": {
@@ -132,12 +132,7 @@ const HotelBookRoomGRN = () => {
             },
             "searchID": searchId,
         }
-
-        console.log(payload, "payload")
-
         dispatch(HotelRoomSelectReqGRN(payload))
-        navigate("/hotel/hotelsearchGRM/hotelbookroom/guestDetails")
-
     };
 
     console.log(reducerState, "reducer state")

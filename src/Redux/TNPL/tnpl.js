@@ -78,3 +78,10 @@ export const tnplPlanGeneratorRequest = (data) => {
         };
     }
 };
+
+
+export const clearTNPLReducerGRN = () => {
+    return {
+        type: types.CLEAR_TNPL_DATA,
+    };
+}

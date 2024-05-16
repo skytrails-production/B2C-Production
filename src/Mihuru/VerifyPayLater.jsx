@@ -89,7 +89,6 @@ const VerifyPayLater = () => {
     const storedResponse = sessionStorage.getItem("response_msg");
     const parsedResponse = JSON.parse(storedResponse);
 
-    console.log(parsedResponse?.data)
 
     return (
         <div>

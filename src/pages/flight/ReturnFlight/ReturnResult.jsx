@@ -264,7 +264,7 @@ const ReturnResult = () => {
         await dispatch(ruleActionReturn(payloadReturn));
         await dispatch(quoteActionReturn(payloadReturn));
         // window.open("/FlightresultReturn/Passengerdetail", '_blank');
-        setLoading(false); 
+        setLoading(false);
         navigate("/FlightresultReturn/Passengerdetail");
 
     };
@@ -1917,6 +1917,22 @@ const ReturnResult = () => {
                                         </p>
                                         <div className="buttonReturnBox">
                                             <button onClick={handleFareRuleAndQuote}>Book Now</button>
+                                        </div>
+                                        <div className="emiBOx" onClick={() => {
+                                            sessionStorage.setItem("amountPayLater", (Number(ongoFlight?.Fare?.PublishedFare) + Number(incomeGlight?.Fare?.PublishedFare)).toFixed(0));
+                                            navigate("/payLaterDetails");
+                                        }}>
+                                            <span style={{ fontSize: "12px", color: "white" }}>Book Now At</span>
+                                            <p style={{ fontSize: "12px" }}>
+                                                {
+                                                    ((Number(ongoFlight?.Fare?.PublishedFare) + Number(incomeGlight?.Fare?.PublishedFare))).toFixed(0) <= 5000
+                                                        ? ((Number(ongoFlight?.Fare?.PublishedFare) + Number(incomeGlight?.Fare?.PublishedFare)) / 3).toFixed(0)
+                                                        : ((Number(ongoFlight?.Fare?.PublishedFare) + Number(incomeGlight?.Fare?.PublishedFare)) <= 50000
+                                                            ? ((Number(ongoFlight?.Fare?.PublishedFare) + Number(incomeGlight?.Fare?.PublishedFare)) / 6).toFixed(0)
+                                                            : ((Number(ongoFlight?.Fare?.PublishedFare) + Number(incomeGlight?.Fare?.PublishedFare)) / 12).toFixed(0))
+                                                }/Month →
+                                            </p>
+
                                         </div>
                                     </div>
                                 </div>

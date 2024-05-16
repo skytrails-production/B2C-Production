@@ -206,14 +206,14 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
       >
         <SwipeToSlide variants={variants} />
       </motion.div>
-      {/* <motion.div
+      <motion.div
         variants={variants}
         initial="initial"
         whileInView="animate"
         viewport={{ once: true, amount: 0.8 }}
       >
         <Blog variants={variants} />
-      </motion.div> */}
+      </motion.div>
       <motion.div
         variants={variants}
         initial="initial"

@@ -22,7 +22,7 @@ const RandomPayment = () => {
         name: "",
         phone: "",
         email: "",
-        // amount: "",
+        amount: "",
     })
     const onInputChangeHandler = (e) => {
         setFormData({
@@ -33,10 +33,9 @@ const RandomPayment = () => {
 
 
     const validateForm = (formData) => {
-        const errors = {
+        const errors = {};
 
-        }
-        if (formData.name.length < 4 || formData.name.length > 25) {
+        if (formData.name.length < 4 || formData.name.length > 35) {
             errors.name = "Enter valid name"
         }
         const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -46,12 +45,13 @@ const RandomPayment = () => {
         if (formData.phone.length < 10 || formData.phone.length > 10) {
             errors.phone = "Enter valid number"
         }
-        // if (formData.amount.length < 2 || formData.amount.length > 7) {
-        //     errors.amount = "Enter valid number"
-        // }
+        if (formData.amount == 0 || formData.amount < 0) {
+            errors.amount = "Enter valid number"
+        }
 
         return errors;
     };
+
 
 
     const onFormSubmit = async (e) => {
@@ -145,6 +145,13 @@ const RandomPayment = () => {
     };
 
 
+    const handleKeyDown = (event) => {
+        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+            event.preventDefault();
+        }
+    };
+
+
     return (
         <div>
             <div className='my-5'>
@@ -168,9 +175,9 @@ const RandomPayment = () => {
                             <label for="inputPassword4" class="form-label">Email ID</label>
                             <input style={{ borderColor: errors.email ? 'red' : '' }} type="email" id="email" name="email" class="form-control" onChange={onInputChangeHandler} />
                         </div>
-                        <div class="col-md-3  ">
+                        <div class="col-md-3 editedNum ">
                             <label for="inputPassword4" class="form-label">Enter Amount</label>
-                            <input style={{ borderColor: errors.amount ? 'red' : '' }} type="text" id="amount" name="amount" class="form-control" onChange={onInputChangeHandler} />
+                            <input onKeyDown={handleKeyDown} style={{ borderColor: errors.amount ? 'red' : '' }} type="number" id="amount" name="amount" class="form-control" onChange={onInputChangeHandler} />
                         </div>
 
                         <div className="col-12">

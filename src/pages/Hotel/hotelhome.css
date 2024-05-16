@@ -45,6 +45,18 @@
   grid-template-columns: 21% 22% 17% 17% 18%;
 }
 
+.yourHotel-container1 {
+  /* display: grid;
+  border-radius: 10px;
+  grid-template-columns: 21% 22% 20% 20% 20%; */
+  display: grid;
+  /* border: 1px #888 solid; */
+  border-radius: 10px;
+  width: 100% !important;
+  gap: 12px;
+  grid-template-columns: 18% 15% 15% 16% 17% 15%;
+}
+
 .hotel-container {
   padding: 6px 21px;
   /* border-top-left-radius: 12px; */
@@ -546,6 +558,16 @@ select {
   /* top: 50%; */
   /* transform: translate(-50%, -50%); */
   z-index: 2;
+  border-radius: 9px;
+}
+
+.HotelAbsDesignInner {
+  width: 100%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999999;
   border-radius: 9px;
 }
 

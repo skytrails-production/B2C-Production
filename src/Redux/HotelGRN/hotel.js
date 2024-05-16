@@ -7,11 +7,12 @@ export const fetchHotel = (data) => {
   };
 };
 
-export const hotelActionGRN = (data) => {
+export const hotelActionGRN = (data, page) => {
   if (data) {
+    console.log(data, "dataaaaaaaaaaa", page)
     return {
       type: types.HOTEL_REQUESTGRN,
-      payload: data,
+      payload: { data, page },
     };
   }
 };

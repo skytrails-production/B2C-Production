@@ -4,15 +4,17 @@ import Divider from "@mui/material/Divider";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import starsvg from "../../images/star.svg"
 import starBlank from "../../images/starBlank.svg"
-import hotelFilter from "../../images/hotelFilter.png"
+import hotelFilter from "../../images/hotelFilter.png";
+import { Skeleton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { hotelGalleryRequest, singleHotelGRN } from "../../Redux/HotelGRN/hotel";
+import { hotelActionGRN, hotelGalleryRequest, singleHotelGRN } from "../../Redux/HotelGRN/hotel";
 import "./hotelResult.css"
 import Hotelmainloading from "../Hotel/hotelLoading/Hotelmainloading";
-
-
+import GrmHotelform2 from "./GrmHotelform2";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { Pagination } from 'react-bootstrap';
 
 const variants = {
     initial: {
@@ -35,29 +37,98 @@ export default function HotelResult() {
     const navigate = useNavigate();
     const reducerState = useSelector((state) => state);
     const dispatch = useDispatch();
-    const result = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels;
-    const [loading, setLoading] = useState(false);
+    const [result, setResult] = useState([])
+    const grnPayload = JSON.parse(sessionStorage.getItem('grnPayload'));
+    // console.log("result", result)
+    const [firstLoader, setFirstLoader] = useState(true);
+    // const [loading, setLoading] = useState(false);
+    // let pageNum = 2;
+    // const [pageNum, setPageNum] = useState(2)
+    const [currentPage, setCurrentPage] = useState(1);
+    const searchId = reducerState?.hotelSearchResultGRN?.ticketData
+        ?.data?.data?.search_id;
 
-    const [searchId, setSearchId] = useState(reducerState?.hotelSearchResultGRN?.ticketData
-        ?.data?.data?.search_id);
 
 
     useEffect(() => {
-        if (reducerState?.hotelSearchResultGRN?.ticketData?.length === 0) {
-            navigate("/GrmHotelHome")
-        }
-    }, [reducerState?.hotelSearchResultGRN?.ticketData])
-
-    useEffect(() => {
+        console.log("hiiii")
         if (reducerState?.hotelSearchResultGRN?.hotelDetails?.status === 200 && reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images?.regular?.length > 0) {
-            navigate("/hotel/hotelsearchGRM/hotelbookroom")
-            setLoading(false)
+            navigate("/GrmHotelHome/hotelsearchGRM/hotelbookroom")
+            setFirstLoader(false)
+
         }
     }, [reducerState?.hotelSearchResultGRN?.hotelDetails?.status || reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images])
 
 
+
+    useEffect(() => {
+        if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels?.length > 0) {
+            setResult(reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels)
+            setFirstLoader(false)
+        }
+    }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels])
+
+
+
+    // useEffect(() => {
+    //     fetchNextPageData()
+    //     window.addEventListener("scroll", handleScroll);
+    //     return () => {
+    //         window.removeEventListener("scroll", handleScroll);
+    //     };
+    // }, []);
+
+
+    // useEffect(() => {
+    //     // Fetch data whenever pageNum changes
+    //     if (pageNum > 2) {
+    //         console.log(pageNum, "insidePageNum")
+    //         fetchNextPageData();
+    //     }
+    // }, [pageNum]);
+
+
+
+
+    // new logic for pagination infinite 
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+        dispatch(hotelActionGRN(grnPayload, pageNumber));
+        setResult([]);
+        setFirstLoader(true);
+    };
+
+
+    // const fetchNextPageData = () => {
+    //     console.log(pageNum, "page num")
+    //     // setLoading(true)
+    //     dispatch(hotelActionGRN(grnPayload, pageNum))
+    //     // setLoading(false);
+    // };
+    // const handleScroll = () => {
+    //     if (
+    //         window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+    //         !loading
+    //     ) {
+    //         setPageNum((prev) => prev + 1);
+    //         // setPageNum((prev) => prev + 1);
+    //         fetchNextPageData()
+    //         // pageNum++
+    //     }
+    // };
+
+
+
+
+    // new logic for pagination infinite 
+
+
+
+
+
     const handleClick = (item) => {
-        setLoading(true);
+        setFirstLoader(true);
         const payload = {
 
             "data": {
@@ -82,12 +153,12 @@ export default function HotelResult() {
     };
 
 
-    useEffect(() => {
-        if (reducerState?.hotelSearchResultGRN?.isLoading === false && reducerState?.hotelSearchResult?.ticketData?.data?.data?.hotels.length === 0
-        ) {
-            navigate("/GrmHotelHome")
-        }
-    })
+    // useEffect(() => {
+    //     if (reducerState?.hotelSearchResultGRN?.isLoading === false && reducerState?.hotelSearchResult?.ticketData?.data?.data?.hotels.length === 0
+    //     ) {
+    //         navigate("/GrmHotelHome")
+    //     }
+    // })
 
     const [sortOption, setSortOption] = useState("lowToHigh");
     const [searchInput, setSearchInput] = useState('');
@@ -189,9 +260,6 @@ export default function HotelResult() {
         );
 
 
-    useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [sortedAndFilteredResults])
 
     let totalAdults = 0;
     let totalChildren = 0;
@@ -239,18 +307,11 @@ export default function HotelResult() {
 
 
 
-    useEffect(() => {
-        if (!valueShow) {
-
-            window.scrollTo(0, 0);
-        }
-    }, [sortedAndFilteredResults])
-
 
     return (
         <>
             {
-                loading ? (
+                firstLoader ? (
                     <Hotelmainloading />
                 ) :
                     (
@@ -258,6 +319,7 @@ export default function HotelResult() {
                             <div className='mainimgHotelSearchResult'>
                                 {/* <Navbar /> */}
                                 {/* <BigNavbar /> */}
+                                <GrmHotelform2 />
                                 <div className="container searchMainBoxAbs">
                                     <div className="HotelResultSearchBarBox">
                                         <div className="hotelResSurBox">
@@ -416,7 +478,7 @@ export default function HotelResult() {
                                                                 ?.map((facility, index) => {
 
                                                                     const noOfTimesCame = result.reduce((count, hotel) => {
-                                                                        return count + (hotel.facilities.split(';').map(f => f.trim()).includes(facility) ? 1 : 0);
+                                                                        return count + (hotel?.facilities?.split(';').map(f => f.trim()).includes(facility) ? 1 : 0);
                                                                     }, 0);
 
                                                                     return (
@@ -470,88 +532,171 @@ export default function HotelResult() {
 
                                     {/* for bigger device  */}
 
+                                    {firstLoader ? (
+                                        <div className="col-lg-9 col-md-9">
+                                            {[1, 2, 3, 5, 6, 7, 8].map((item) => (
+                                                <motion.div
+                                                    variants={variants}
+                                                    initial="initial"
+                                                    whileInView="animate"
+                                                >
+                                                    <motion.div
+                                                        variants={variants}
+                                                        className="singleFlightBox mb-3"
+                                                        style={{ height: "130px", padding: "15px" }}
+                                                    >
+                                                        <div className="singleFlightBoxOne">
+                                                            <div>
+                                                                <Skeleton>
+                                                                    <div style={{ height: "80px", width: "80px" }}></div>
+                                                                </Skeleton>
+                                                            </div>
+                                                            <span>
+                                                                {
+                                                                    <Skeleton>
+                                                                        <p style={{ height: "10px", width: "70px" }}></p>
+                                                                    </Skeleton>
+                                                                }
+                                                            </span>
+                                                            <p>
+                                                                { }
+                                                                { }
+                                                            </p>
+                                                        </div>
+                                                        <div className="singleFlightBoxTwo">
+                                                            <span>
+                                                                {
+                                                                    <Skeleton>
+                                                                        {" "}
+                                                                        <p style={{ height: "10px", width: "70px" }}></p>
+                                                                    </Skeleton>
+                                                                }
+                                                            </span>
+                                                            <p>
+                                                                <Skeleton>
+                                                                    <p style={{ height: "8px", width: "70px" }}></p>
+                                                                </Skeleton>
+                                                            </p>
+                                                            <Skeleton>
+                                                                <p style={{ height: "8px", width: "70px" }}></p>
+                                                            </Skeleton>
+                                                        </div>
 
-                                    <div className=" col-lg-9 col-md-12 pt-4">
+                                                        <div className="singleFlightBoxThree">
+                                                            <Skeleton>
+                                                                <p style={{ height: "8px", width: "70px" }}></p>
+                                                            </Skeleton>
 
-                                        {sortedAndFilteredResults?.length > 0 ? (
-                                            sortedAndFilteredResults
-                                                ?.map((result, index) => {
-                                                    // const resultIndex = result?.ResultIndex;
-                                                    const hotelCode = result?.hotel_code;
-                                                    return (
-                                                        <motion.div variants={variants} initial="initial"
-                                                            whileInView="animate" viewport={{ once: true, amount: 0.8 }} className="col-lg-12" >
+                                                            <Skeleton>
+                                                                {" "}
+                                                                <p style={{ height: "8px", width: "70px" }}></p>
+                                                            </Skeleton>
 
-                                                            <motion.div variants={variants} onClick={() => handleClick(result)} className="hotelResultBoxSearch" key={index}>
-                                                                <div>
-                                                                    <div className="hotelImage">
-                                                                        {/* <img
-                                                            src={result?.HotelPicture === "https://b2b.tektravels.com/Images/HotelNA.jpg" ? hotelNotFound : result?.HotelPicture}
-                                                            onError={(e) => {
-                                                                e.target.onerror = null;
-                                                                e.target.src = hotelNotFound;
-                                                            }}
-                                                            alt="package-img"
-                                                        /> */}
-                                                                        <img src={result?.images?.url} alt="hotelImage" />
+                                                            <span></span>
+                                                        </div>
 
-                                                                    </div>
-                                                                    <div className="hotelResultDetails">
-                                                                        <div className="hotleTitle">
-                                                                            <p>{result?.name}</p>
+                                                        <div className="singleFlightBoxFour">
+                                                            <span>
+                                                                {
+                                                                    <Skeleton>
+                                                                        {" "}
+                                                                        <p style={{ height: "8px", width: "70px" }}></p>
+                                                                    </Skeleton>
+                                                                }
+                                                            </span>
+                                                            <Skeleton>
+                                                                {" "}
+                                                                <p
+                                                                    style={{
+                                                                        height: "50px",
+                                                                        width: "70px",
+                                                                        borderRadius: "25%",
+                                                                    }}
+                                                                ></p>
+                                                            </Skeleton>
+                                                        </div>
+                                                    </motion.div>
+                                                </motion.div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <div className=" col-lg-9 col-md-12 pt-4">
+
+                                            {sortedAndFilteredResults?.length > 0 ? (
+                                                sortedAndFilteredResults
+                                                    ?.map((result, index) => {
+                                                        // const resultIndex = result?.ResultIndex;
+                                                        const hotelCode = result?.hotel_code;
+                                                        return (
+                                                            <motion.div className="col-lg-12" >
+
+                                                                <motion.div onClick={() => handleClick(result)} className="hotelResultBoxSearch" key={index}>
+                                                                    <div>
+                                                                        <div className="hotelImage">
+                                                                            <img src={result?.images?.url} alt="hotelImage" />
                                                                         </div>
+                                                                        <div className="hotelResultDetails">
+                                                                            <div className="hotleTitle">
+                                                                                <p>{result?.name}</p>
+                                                                            </div>
 
 
-                                                                        <div className="hotelRating">
+                                                                            <div className="hotelRating">
+                                                                                <div>
+                                                                                    {Array.from({ length: result?.category }, (_, index) => (
+                                                                                        <img key={index} src={starsvg} alt={`Star ${index + 1}`} />
+                                                                                    ))}
+                                                                                </div>
+                                                                            </div>
+
                                                                             <div>
-                                                                                {Array.from({ length: result?.category }, (_, index) => (
-                                                                                    <img key={index} src={starsvg} alt={`Star ${index + 1}`} />
-                                                                                ))}
+                                                                                <p className="hotAddress">
+                                                                                    {result?.address}
+                                                                                </p>
                                                                             </div>
                                                                         </div>
+                                                                    </div>
 
-                                                                        <div>
-                                                                            <p className="hotAddress">
-                                                                                {result?.address}
-                                                                            </p>
+                                                                    <div className="priceBookHotel">
+                                                                        <div className="priceBookHotelOne ">
+                                                                            {/* <span><del>₹{result?.Price?.OfferedPrice}</del></span> */}
+                                                                            <span>Offer Price</span>
+                                                                            <p>₹{result?.min_rate?.price}</p>
+                                                                            <h4>Show More<ArrowForwardIosIcon /></h4>
                                                                         </div>
-
-                                                                        {/* <div>
-                                                                            {result?.facilities?.split(';').slice(0, 4).map((facility, facilityIndex) => (
-                                                                                <p key={facilityIndex}>{facility.trim()}</p>
-                                                                            ))}
-                                                                        </div> */}
-
-
-
                                                                     </div>
-                                                                </div>
-
-                                                                <div className="priceBookHotel">
-                                                                    <div className="priceBookHotelOne ">
-                                                                        {/* <span><del>₹{result?.Price?.OfferedPrice}</del></span> */}
-                                                                        <span>Offer Price</span>
-                                                                        <p>₹{result?.min_rate?.price}</p>
-                                                                        <h4>Show More<ArrowForwardIosIcon /></h4>
-                                                                    </div>
-                                                                </div>
+                                                                </motion.div>
                                                             </motion.div>
-                                                        </motion.div>
-                                                    );
-                                                })
-                                        ) :
+                                                        );
+                                                    })
+                                            ) :
 
-                                            (
-                                                <div className="filteredNotFound">
-                                                    <img src={hotelFilter} alt="filter" />
-                                                    <h1>Result not found</h1>
-                                                </div>
-                                            )
-                                        }
+                                                (
+                                                    <div className="filteredNotFound">
+                                                        {/* <img src={hotelFilter} alt="filter" />
+                                                        <h1>Result not found</h1> */}
+                                                    </div>
+                                                )
+                                            }
+
+                                        </div>
+
+
+                                    )}
+
+                                    <div className="col-lg-12 d-flex justify-content-center">
+                                        <Pagination>
+                                            <Pagination.Prev disabled={currentPage === 1} onClick={() => handlePageChange(currentPage - 1)} />
+                                            {/* Render pagination items based on the total number of pages */}
+                                            {/* For simplicity, assuming total pages come from reducerState */}
+                                            {Array.from({ length: 4 }, (_, index) => (
+                                                <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => handlePageChange(index + 1)}>
+                                                    {index + 1}
+                                                </Pagination.Item>
+                                            ))}
+                                            <Pagination.Next disabled={currentPage === 5} onClick={() => handlePageChange(currentPage + 1)} />
+                                        </Pagination>
                                     </div>
-                                    {/* for bigger device  */}
-
-
 
                                 </div>
                             </div>
