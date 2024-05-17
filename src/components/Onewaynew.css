@@ -18,7 +18,7 @@
   position: relative;
 }
 .onewayDatePicker{
-  width: max-content;
+  /* width: max-content; */
   font-weight: 700;
   font-size:larger ;
 }
