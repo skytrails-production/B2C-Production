@@ -254,14 +254,14 @@ const BookNowLeft = (props) => {
                 <span>Other TAX: </span>
                 <p>
                   {"₹"}
-                  {(Number(taxvalue) + Number(props.baggAmount)).toFixed(2)}
+                  {(Number(taxvalue) + Number(props.baggAmount) + Number(props.mellAmount)).toFixed(2)}
                 </p>
               </div>
               <div>
                 <span>Grand Total:</span>
                 <p>
                   {"₹"}
-                  {(Number(taxvaluetotal) + Number(props.baggAmount)).toFixed(2)}
+                  {(Number(taxvaluetotal) + Number(props.baggAmount) + Number(props.mellAmount)).toFixed(2)}
                 </p>
               </div>
             </div>

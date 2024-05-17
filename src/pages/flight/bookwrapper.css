@@ -574,17 +574,20 @@
   gap: 15px;
 }
 .bagADDBtn {
-  width: 70px;
+  /* width: 70px; */
+  padding: 0px 8px;
   height: 40px;
   border: none;
   border-radius: 8px;
-  color:#d90429
+  color: #d90429;
+  transition: all 0.2 ease-in;
+  border: 0.7px solid #d90429;
 }
 .bagADDBtn:hover {
-  border: 1px solid #d90429;
-  border: #d90429;
+  /* border: #d90429; */
   font-weight: bold;
-  background-color: #99999986;
+  color: #fff;
+  background-color: #d90429;
 }
 .qtyCounterBtn {
   width: 20px;
@@ -603,8 +606,7 @@
   width: 7px !important;
   background-color: #dca1a1 !important;
   display: unset !important;
-   border-radius: 2px;
-   
+  border-radius: 2px;
 }
 .extraBaggageSection::-webkit-scrollbar-track {
   background-color: #dca1a1 !important; /* Light gray background */

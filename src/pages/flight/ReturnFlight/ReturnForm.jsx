@@ -51,6 +51,8 @@ const ReturnForm = () => {
   const [fromSearchResults, setFromSearchResults] = useState([]);
   const [fromQuery, setFromQuery] = useState("delhi");
   const [isLoading, setIsLoading] = useState(false);
+
+  
   const [selectDate,setSelectDate] =useState(true)
   useEffect(() => {
     // console.log(reducerState, "reducer state");
@@ -1074,6 +1076,7 @@ const handleDateChangeReturn = (date) => {
                       </div>
                     </div>
                   </div>
+       
 
                   <div className="col-md-6 col-lg-2">
                     <div className="card">
@@ -1108,7 +1111,7 @@ const handleDateChangeReturn = (date) => {
                         <span>Return</span>
                         <div className="">
                           <div className="onewayDatePicker">
-                            <DatePicker
+                            {/* <DatePicker
                               name="departure1"
                               id="departure1"
                               dateFormat="dd MMM, yy"
@@ -1116,10 +1119,16 @@ const handleDateChangeReturn = (date) => {
                               onChange={handleDateChangeReturn}
                               minDate={startDate}
                               monthsShown={2}
-                            />
+                            /> */}
+                           
+                    
+                    {returnDate.getDate()} {returnDate.toLocaleString('default', { month: 'short' }).slice(0, 3)}, {returnDate.getFullYear().toString().slice(-2)}
+
+
+                            
                           </div>
                         </div>
-                        {/* <span className="d-none d-md-block ">{getDayOfWeek(startDate)}</span> */}
+                    
                         <span className="d-none d-md-block ">
                           {getDayOfWeek(returnDate)}
                         </span>

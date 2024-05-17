@@ -17,6 +17,12 @@
   align-items: center;
   position: relative;
 }
+.onewayDatePicker{
+  width: max-content;
+  font-weight: 700;
+  font-size:larger ;
+}
+
 
 .onewaycontainernew {
   background: rgba(255, 255, 255, 0.1);

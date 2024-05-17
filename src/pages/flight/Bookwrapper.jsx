@@ -70,7 +70,7 @@ const variants = {
 export default function BookWrapper() {
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
   const [transactionAmount, setTransactionAmount] = useState(null);
-  const [showADD, setShowAdd] = useState(false);
+
 
 
   const notOnline = useNetworkState();
@@ -141,15 +141,23 @@ export default function BookWrapper() {
   const [loaderPayment, setLoaderPayment] = useState(false);
   const [loaderPayment1, setLoaderPayment1] = useState(false);
   const [isDisableScroll, setIsDisableScroll] = useState(false);
+  const [showADD, setShowAdd] = useState(false);
+  const [showADDMELL, setShowAddMell] = useState(false);
   const [refundTxnId, setRefundTxnId] = useState(null);
   const [showBaggage, setShowBaggage] = useState(false);
+  const [showMell, setShowMell] = useState(false);
+  // const [showBaggage, setShowBaggage] = useState(false);
   const [baggageList, setBaggageList] = useState([]);
+  const [mellList, setMellList] = useState([]);
   const [baggageListNub, setBaggageListNub] = useState([]);
+  const [MellListNub, setMellListNub] = useState([]);
   const [baggageData, setBaggageData] = useState([]);
-
+  const [mellData, setMellData] = useState([]);
   const [baggageCountNub, setBaggageCountNub] = useState(0);
   const [baggageFare, setBaggageFare] = useState(0);
+  const [mellFare, setMellFare] = useState(0);
   const [baggageBool, setBaggageBool] = useState(true);
+  const [mellBool, setMellBool] = useState(true);
 
   const bagageFuncton = (type, bag, index) => {
     if (type == "+" && baggageData?.length < Number(adultCount) + Number(childCount)) {
@@ -181,6 +189,41 @@ export default function BookWrapper() {
       })
       setBaggageData(sub)
       setBaggageFare((pre) => pre - bag?.Price)
+    }
+    // console.log(baggageData, "baggageDatadddddddddddd", baggageListNub)
+  }
+  const mellFuncton = (type, bag, index) => {
+    if (type == "+" && mellData?.length < Number(adultCount) + Number(childCount)) {
+      setMellData((pre) => [...mellData, bag]);
+      let arr = [...MellListNub]
+      arr[index] = arr[index] + 1
+      setMellListNub(arr)
+      setMellFare((pre) => pre + bag?.Price
+      )
+      // console.log("+++++++++++++++++", baggageData?.length, Number(adultCount) + Number(childCount))
+
+
+    } if (type === "-" && mellData?.length && 0 < MellListNub[index]) {
+      let arr = [...MellListNub]
+      arr[index] = arr[index] - 1
+      setMellListNub(arr)
+      setMellBool(true)
+      let chd = true;
+      let sub = mellData.filter((bagg) => {
+        // console.log(bagg?.Weight, bag?.Weight)
+        if (bagg?.AirlineDescription
+          === bag?.AirlineDescription
+          && chd) {
+          setMellBool(false)
+          chd = false
+          return false
+        }
+        else {
+          return true
+        }
+      })
+      setMellData(sub)
+      setMellFare((pre) => pre - bag?.Price)
     }
     // console.log(baggageData, "baggageDatadddddddddddd", baggageListNub)
   }
@@ -251,12 +294,18 @@ export default function BookWrapper() {
           },
         });
         setBaggageList(res.data)
+        setMellList(res.data)
         let baglis = [...Array(res?.data?.data?.Response?.Baggage[0]?.length)].fill(0);
+        let mell = [...Array(res?.data?.data?.Response?.MealDynamic[0]?.length)].fill(0);
         setBaggageListNub(baglis)
+        setMellListNub(mell)
 
 
 
-        // console.log(res?.data?.data?.Response?.Baggage[0]?.length, baggageListNub[0], "ssrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+        console.log(
+          // res?.data?.data?.Response?.Baggage[0]?.length, baggageListNub[0], 
+          mell,
+          "ssrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
       } catch (error) {
         console.warn(error);
       }
@@ -420,7 +469,7 @@ export default function BookWrapper() {
   //   }
   // }, [reducerState?.flightBook?.flightBookData?.Response]);
 
-  console.log(baggageList?.data?.Response?.Baggage
+  console.log(baggageList?.data?.Response
     , "baggagelisttttttttttttttt")
   useEffect(() => {
     const fetchData = async () => {
@@ -716,7 +765,7 @@ export default function BookWrapper() {
     }
   }
   const handlePayment = async () => {
-    console.log(transactionAmount ,baggageFare ,"transactionAmount + baggageFare ")
+    console.log(transactionAmount, baggageFare, "transactionAmount + baggageFare ")
     const token = SecureStorage?.getItem("jwtToken");
     setLoaderPayment1(true);
     // setIsDisableScroll(true);
@@ -724,7 +773,7 @@ export default function BookWrapper() {
       firstname: passengerData[0].FirstName,
       phone: passengerData[0].ContactNo,
       amount:
-       transactionAmount && (transactionAmount + baggageFare) ||
+        transactionAmount && (transactionAmount + baggageFare + mellFare) ||
         (!isDummyTicketBooking
           ? parseInt(
             reducerState?.flightFare?.flightQuoteData?.Results?.Fare
@@ -734,7 +783,7 @@ export default function BookWrapper() {
           parseInt(
             reducerState?.flightFare?.flightQuoteData?.Results?.Fare
               ?.PublishedFare
-          ) + baggageFare
+          ) + baggageFare + mellFare
 
           : 99),
       // amount: 1,
@@ -840,7 +889,7 @@ export default function BookWrapper() {
       ResultIndex: ResultIndex,
       Passengers: passengerData.map((item, index) => {
 
-        if (index < baggageData.length) {
+        if (index < baggageData.length && index < mellData.length) {
 
 
           return {
@@ -850,7 +899,31 @@ export default function BookWrapper() {
             PassportExpiry: isPassportRequired
               ? convertDateFormat(item?.PassportExpiry)
               : "",
-            Baggage: [baggageData[index]]
+            Baggage: [baggageData[index]],
+            MealDynamic: [mellData[index]]
+          }
+        }
+        else if (index < baggageData.length) {
+          return {
+            ...item, Email: apiURL.flightEmail,
+            ContactNo: apiURL.phoneNo,
+            PassportExpiry: isPassportRequired
+              ? convertDateFormat(item?.PassportExpiry)
+              : "",
+            Baggage: [baggageData[index]],
+          }
+        }
+        else if (index < mellData.length) {
+
+
+          return {
+            ...item,
+            Email: apiURL.flightEmail,
+            ContactNo: apiURL.phoneNo,
+            PassportExpiry: isPassportRequired
+              ? convertDateFormat(item?.PassportExpiry)
+              : "",
+            MealDynamic: [mellData[index]]
           }
         }
         else {
@@ -929,7 +1002,7 @@ export default function BookWrapper() {
         reducerState?.return?.returnData?.data?.data?.Response?.TraceId,
       Passengers: passengerData.map((item, index) => {
 
-        if (index < baggageData.length) {
+        if (index < baggageData.length && index < mellData.length) {
 
 
           return {
@@ -939,7 +1012,31 @@ export default function BookWrapper() {
             PassportExpiry: isPassportRequired
               ? convertDateFormat(item?.PassportExpiry)
               : "",
-            Baggage: [baggageData[index]]
+            Baggage: [baggageData[index]],
+            MealDynamic: [mellData[index]]
+          }
+        }
+        else if (index < baggageData.length) {
+          return {
+            ...item, Email: apiURL.flightEmail,
+            ContactNo: apiURL.phoneNo,
+            PassportExpiry: isPassportRequired
+              ? convertDateFormat(item?.PassportExpiry)
+              : "",
+            Baggage: [baggageData[index]],
+          }
+        }
+        else if (index < mellData.length) {
+
+
+          return {
+            ...item,
+            Email: apiURL.flightEmail,
+            ContactNo: apiURL.phoneNo,
+            PassportExpiry: isPassportRequired
+              ? convertDateFormat(item?.PassportExpiry)
+              : "",
+            MealDynamic: [mellData[index]]
           }
         }
         else {
@@ -974,21 +1071,51 @@ export default function BookWrapper() {
       BookingId:
         reducerState?.flightBook?.flightBookDataGDS?.Response?.BookingId,
       Passengers: passengerData.map((item, index) => {
-        if (index < baggageData.length) {
+
+        if (index < baggageData.length && index < mellData.length) {
 
 
           return {
             ...item,
             Email: apiURL.flightEmail,
             ContactNo: apiURL.phoneNo,
+            PassportExpiry: isPassportRequired
+              ? convertDateFormat(item?.PassportExpiry)
+              : "",
+            Baggage: [baggageData[index]],
+            MealDynamic: [mellData[index]]
+          }
+        }
+        else if (index < baggageData.length) {
+          return {
+            ...item, Email: apiURL.flightEmail,
+            ContactNo: apiURL.phoneNo,
+            PassportExpiry: isPassportRequired
+              ? convertDateFormat(item?.PassportExpiry)
+              : "",
+            Baggage: [baggageData[index]],
+          }
+        }
+        else if (index < mellData.length) {
 
-            Baggage: [baggageData[index]]
+
+          return {
+            ...item,
+            Email: apiURL.flightEmail,
+            ContactNo: apiURL.phoneNo,
+            PassportExpiry: isPassportRequired
+              ? convertDateFormat(item?.PassportExpiry)
+              : "",
+            MealDynamic: [mellData[index]]
           }
         }
         else {
           return {
             ...item, Email: apiURL.flightEmail,
             ContactNo: apiURL.phoneNo,
+            PassportExpiry: isPassportRequired
+              ? convertDateFormat(item?.PassportExpiry)
+              : "",
           }
         }
       }),
@@ -1032,6 +1159,9 @@ export default function BookWrapper() {
 
       //   , "baggageList")
       setShowAdd(true)
+    }
+    if (mellList) {
+      setShowAddMell(true)
     }
   }, [baggageList])
 
@@ -1099,7 +1229,8 @@ export default function BookWrapper() {
     }
   };
   const addBookingDetails = () => {
-    let sub = baggageFare === 0 ? 0 : baggageFare * markUpamount;
+    let subBag = baggageFare === 0 ? 0 : baggageFare * markUpamount;
+    let subMel = baggageFare === 0 ? 0 : mellFare * markUpamount;
     if (bookingDataLcc) {
       // console.log("lccCheck");
       const payloadLCC = {
@@ -1114,12 +1245,12 @@ export default function BookWrapper() {
         totalAmount: couponvalue
           ? parseInt(bookingDataLcc?.FlightItinerary?.Fare?.OfferedFare) +
           parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) *
-          markUpamount-sub
+          markUpamount - subBag - subMel
           //  + Number(baggageFare)
           : parseInt(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare)
           //  + parseInt(baggageFare)
-          +( markUpamount *
-          parseInt(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare) )-sub,
+          + (markUpamount *
+            parseInt(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare)) - subBag - subMel,
         airlineDetails: bookingDataLcc?.FlightItinerary?.Segments.map(
           (item, index) => {
             return {
@@ -1171,7 +1302,7 @@ export default function BookWrapper() {
           }
         ),
         baggage: baggageData,
-        // mealDynamic: [],
+        mealDynamic: mellData,
 
       };
       userApi.flightBookingDataSave(payloadLCC);
@@ -1243,8 +1374,8 @@ export default function BookWrapper() {
             };
           }
         ),
-        baggage: SecureStorage.getItem("baggageData") || [],
-        // mealDynamic: [],
+        baggage: baggageData,
+        mealDynamic: mellData,
       };
       userApi.flightBookingDataSave(payloadNonLcc);
     }
@@ -1432,11 +1563,13 @@ export default function BookWrapper() {
                               </>
                             );
                           })}
-                          {showADD &&
-                            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: "12px", fontWeight: "300" }} >
-                              Got excess baggage? Don’t stress, buy extra check-in baggage allowance for DEL-BOM at fab rates!
-                              <button className="bagADDBtn" onClick={() => setShowBaggage(true)}>+ADD</button>
-                            </div>}
+
+                          <div style={{ display: "flex", gap: "15px", alignItems: "center", fontSize: "12px", fontWeight: "300" }} >
+                            {showADDMELL &&
+                              <button className="bagADDBtn" onClick={() => setShowMell(true)}>Mell ADD +</button>}
+                            {showADD &&
+                              <button className="bagADDBtn" onClick={() => setShowBaggage(true)}>Baggage ADD +</button>}
+                          </div>
 
                         </div>
                       }
@@ -2413,6 +2546,7 @@ export default function BookWrapper() {
                     transactionAmount={setTransactionAmountState}
                     Amount={transactionAmount}
                     baggAmount={baggageFare}
+                    mellAmount={mellFare}
                   />
                 </div>
               </div>
@@ -2579,6 +2713,95 @@ export default function BookWrapper() {
                     <div style={{ fontWeight: "700" }}>₹ {baggageFare}</div>
                   </div>
                   <div onClick={() => setShowBaggage(false)} className="buttonBag">Done</div>
+                </div>
+              </div>}
+            </div>
+          </div>
+        </Modal>
+        <Modal open={showMell} onClose={showBaggage}>
+          <div className="overlayBg"
+
+          >
+
+            <div className="bagMnContainer" >
+              <div className="bagClose" onClick={() => setShowMell(false)} ><MdClose size={20} /></div>
+              <div style={{
+                fontSize: "18px",
+                fontWeight: "700"
+              }}>Add Extra Baggage</div>
+              <div className="baggageAireLine">
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <img
+                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${baggageList?.data?.Response?.Baggage?.[0][0]?.AirlineCode}.png`} alt={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/AI.png`}
+                    style={{ height: "50px", objectFit: "contain" }}
+                  />
+                  <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
+                    <div style={{ fontWeight: "600" }}>
+                      {TicketDetails?.Segments[0][0]?.Origin?.Airport
+                        ?.CityName}-{TicketDetails?.Segments[0][0]
+                          ?.Destination?.Airport?.CityName
+                      }
+
+                    </div>
+                    <div>
+                      {mellData.length} of {Number(adultCount) + Number(childCount)} selected
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>Included Mell per person </div>
+              <div className="extraBaggageSection">{mellList?.data?.Response?.Error?.ErrorCode === 0 ?
+
+                mellList?.data?.Response?.MealDynamic?.[0]?.map((bag, index) => {
+                  // if (0 < bag?.price) {
+
+
+
+                  return (<div className="bagListMap" style={{ display: bag?.Price === 0 ? "none" : "flex" }}>
+                    <div className="bagListLeft" >
+
+                      <PiSuitcaseRollingThin
+                        size={30} />
+                      <div className="bagAdditional">
+                        {/* Additional  */}
+                        <span> {bag?.AirlineDescription} </span></div>
+                    </div>
+                    <div className="bagListRight" >
+                      <div className="bagListRightPrice" style={{ fontSize: "18px", fontWeight: "400" }}>₹ {bag?.Price}</div>
+                      <div className="qtyCounter" >
+                        <div className="qtyCounterBtn" onClick={() => mellFuncton("-", bag, index
+
+                        )}>
+
+
+                          < GrFormSubtract />
+                        </div>
+                        {MellListNub[index]} <div className="qtyCounterBtn" onClick={() => mellFuncton("+", bag, index)}>
+                          <IoAdd />
+                        </div>
+                      </div>
+                    </div>
+                  </div>)
+                  // } else {
+                  //   return <div>hiii{bag?.Price}</div>
+                  // }
+                }
+                ) : <div>
+                  No SSR details found.</div>
+              }
+              </div>
+              {0 < mellData?.length && <div className="bagPriceCon" >
+
+
+                <div> {mellData?.length} of {Number(adultCount) + Number(childCount)} Mell(s) Selected</div>
+                <div className="bagPriceConRight" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "15px" }}>
+
+                  <div>
+                    <div style={{ fontSize: "12px" }}>Added to fare</div>
+                    <div style={{ fontWeight: "700" }}>₹ {mellFare}</div>
+                  </div>
+                  <div onClick={() => setShowMell(false)} className="buttonBag">Done</div>
                 </div>
               </div>}
             </div>
