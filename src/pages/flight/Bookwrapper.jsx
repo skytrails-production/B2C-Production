@@ -1566,9 +1566,9 @@ export default function BookWrapper() {
 
                           <div style={{ display: "flex", gap: "15px", alignItems: "center", fontSize: "12px", fontWeight: "300" }} >
                             {showADDMELL &&
-                              <button className="bagADDBtn" onClick={() => setShowMell(true)}>Mell ADD +</button>}
+                              <button className="bagADDBtn" onClick={() => setShowMell(true)}>Add Meal +</button>}
                             {showADD &&
-                              <button className="bagADDBtn" onClick={() => setShowBaggage(true)}>Baggage ADD +</button>}
+                              <button className="bagADDBtn" onClick={() => setShowBaggage(true)}>Add Baggage +</button>}
                           </div>
 
                         </div>
