@@ -49,7 +49,7 @@ const HotelGuestDetailsGRN = () => {
     const [loader, setLoader] = useState(false);
     const reducerState = useSelector((state) => state);
     const authenticUser = reducerState?.logIn?.loginData?.status;
-    console.log(reducerState, "reducerStateInBlockResponse");
+    // console.log(reducerState, "reducerStateInBlockResponse");
     const passportCheck =
         reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult
             ?.HotelRoomsDetails[0]?.IsPassportMandatory;
@@ -626,9 +626,9 @@ const HotelGuestDetailsGRN = () => {
                                                                             name="FirstName"
                                                                             class="form-control"
                                                                             onChange={(e) => {
-                                                                                console.log(roomIndex, "room index")
-                                                                                console.log(adultIndex, "adult index")
-                                                                                console.log(e, "e")
+                                                                                // console.log(roomIndex, "room index")
+                                                                                // console.log(adultIndex, "adult index")
+                                                                                // console.log(e, "e")
 
                                                                                 handleServiceChange(e, roomIndex, {
                                                                                     adultIndex: adultIndex,
@@ -656,9 +656,9 @@ const HotelGuestDetailsGRN = () => {
                                                                             onChange={(e) =>
 
                                                                                 setTimeout(() => {
-                                                                                    console.log(roomIndex, "room index")
-                                                                                    console.log(adultIndex, "adult index")
-                                                                                    console.log(e, "e")
+                                                                                    // console.log(roomIndex, "room index")
+                                                                                    // console.log(adultIndex, "adult index")
+                                                                                    // console.log(e, "e")
                                                                                     handleServiceChange(e, roomIndex, {
                                                                                         adultIndex: adultIndex,
                                                                                     });

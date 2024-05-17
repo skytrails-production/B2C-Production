@@ -172,7 +172,7 @@ function HolidayPackagesDetail() {
 
   // }, [])
 
-  console.log(filteredPackage, "filtered package")
+  // console.log(filteredPackage, "filtered package")
 
   const searchOneHoliday = (id) => {
     navigate(`/holidayInfo/${id}`);
@@ -336,7 +336,7 @@ function HolidayPackagesDetail() {
     if (xMaxLocation < e.clientX) {
       setCursorPosition((prevState) => ({ ...prevState, x: xMaxLocation }))
     }
-    console.log(minPrice, Number(priceRangeValue), maxPrice)
+    // console.log(minPrice, Number(priceRangeValue), maxPrice)
     if (cursorPosition.y === 0) {
       setCursorPosition((prevState) => ({ ...prevState, y: e.clientY }))
     }

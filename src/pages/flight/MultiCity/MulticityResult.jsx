@@ -112,7 +112,7 @@ const MulticityResult = () => {
       );
       navigate("/multicityresult");
     }
-    console.log(reducerState, "resucer state")
+    // console.log(reducerState, "resucer state")
   }, [reducerState?.flightFare]);
 
   useEffect(() => {

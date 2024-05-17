@@ -85,7 +85,7 @@ const MulticityPassengerDetails = () => {
     }, [reducerState?.passengers])
 
     useEffect(() => {
-        console.log(reducerState,"reducer state")
+        // console.log(reducerState,"reducer state")
         if (adults === undefined || adults === null || childs === undefined || childs === null || infants === undefined || infants === null) {
 
             navigate("/multicityresult")

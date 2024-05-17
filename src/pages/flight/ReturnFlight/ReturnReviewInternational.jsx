@@ -46,7 +46,7 @@ const ReturnReviewInternational = () => {
     // const ResultIndexReturn = sessionStorage.getItem("ReturnResultIndex");
 
     const reducerState = useSelector((state) => state);
-    console.log(ResultIndex?.ResultIndex, "result index")
+    // console.log(ResultIndex?.ResultIndex, "result index")
     const [loaderPayment, setLoaderPayment] = useState(false);
     const [loaderPayment1, setLoaderPayment1] = useState(false);
     const fareValue = reducerState?.flightFare?.flightQuoteData?.Results;
@@ -627,7 +627,7 @@ const ReturnReviewInternational = () => {
 
     //  flight error
 
-    console.log(result, "flight result")
+    // console.log(result, "flight result")
     if (!reducerState?.
         passengers?.showSuccessMessage) {
         return (<div>

@@ -51,7 +51,7 @@ export default function HotelResult() {
 
 
     useEffect(() => {
-        console.log("hiiii")
+        // console.log("hiiii")
         if (reducerState?.hotelSearchResultGRN?.hotelDetails?.status === 200 && reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images?.regular?.length > 0) {
             navigate("/GrmHotelHome/hotelsearchGRM/hotelbookroom")
             setFirstLoader(false)

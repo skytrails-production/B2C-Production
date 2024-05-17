@@ -67,7 +67,7 @@ const ReturnForm = () => {
     } else if(startDate<=date) {
       setReturnDate(date);
     }
-    console.log(selectDate);
+    // console.log(selectDate);
     setSelectDate(!selectDate) 
   };
   
@@ -668,8 +668,8 @@ const handleDateChangeReturn = (date) => {
           Origin: selectedTo.AirportCode,
           Destination: selectedFrom.AirportCode,
           FlightCabinClass: activeIdClass,
-          PreferredDepartureTime: formData.get("departure1"),
-          PreferredArrivalTime: formData.get("departure1"),
+          PreferredDepartureTime: formData.get("departure"),
+          PreferredArrivalTime: formData.get("departure"),
         },
       ],
       Sources: null,

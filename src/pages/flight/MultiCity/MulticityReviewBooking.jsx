@@ -48,7 +48,7 @@ const MulticityReviewBooking = () => {
     // const ResultIndexReturn = sessionStorage.getItem("ReturnResultIndex");
 
     const reducerState = useSelector((state) => state);
-    console.log(ResultIndex?.ResultIndex, "result index")
+    // console.log(ResultIndex?.ResultIndex, "result index")
     const [loaderPayment, setLoaderPayment] = useState(false);
     const [loaderPayment1, setLoaderPayment1] = useState(false);
     const fareValue = reducerState?.flightFare?.flightQuoteData?.Results;
@@ -149,7 +149,7 @@ const MulticityReviewBooking = () => {
 
 
 
-    console.log(reducerState, "reducer state");
+    // console.log(reducerState, "reducer state");
 
     useEffect(() => {
         const fetchData = async () => {

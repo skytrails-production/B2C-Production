@@ -214,7 +214,7 @@ export default function Popularfilter() {
     if (xMaxLocation < e.clientX) {
       setCursorPosition((prevState) => ({ ...prevState, x: xMaxLocation }))
     }
-    console.log(minPrice, Number(priceRangeValue), maxPrice)
+    // console.log(minPrice, Number(priceRangeValue), maxPrice)
     if (cursorPosition.y === 0) {
       setCursorPosition((prevState) => ({ ...prevState, y: e.clientY }))
     }

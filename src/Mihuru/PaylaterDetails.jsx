@@ -51,7 +51,7 @@ const PaylaterDetails = () => {
     const [toSelectedOption, setToSelectedOption] = useState(initialSelectedToData);
 
     const handleFromChange = (selectedOption) => {
-        console.log(selectedOption)
+        // console.log(selectedOption)
         setFromSelectedOption(selectedOption);
     };
     const handleToChange = (selectedOption) => {
@@ -135,7 +135,7 @@ const PaylaterDetails = () => {
             }
 
         } catch (error) {
-            console.log('API Error:', error);
+            // console.log('API Error:', error);
         } finally {
             setLoader(false)
         }
@@ -193,7 +193,7 @@ const PaylaterDetails = () => {
     // console.log(searchResults)
 
 
-    console.log(toSelectedOption, "to selected option")
+    // console.log(toSelectedOption, "to selected option")
 
 
     return (

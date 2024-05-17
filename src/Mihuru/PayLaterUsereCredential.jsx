@@ -92,13 +92,13 @@ const PayLaterUsereCredential = () => {
                     mihiruToken: token,
                 },
             });
-            console.log(res, "fvkdsajfgkldsanfgkafgndlk")
+            // console.log(res, "fvkdsajfgkldsanfgkafgndlk")
 
             if (res?.data?.data?.error === null) {
                 setErrorData(false);
                 dispatch(tnplPlanGeneratorRequest(res?.data?.data))
 
-                console.log("hiii")
+                // console.log("hiii")
             } else {
                 setErrorData(true);
             }

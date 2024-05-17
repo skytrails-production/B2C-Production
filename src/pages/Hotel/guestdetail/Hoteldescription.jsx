@@ -168,7 +168,7 @@ const Hoteldescription = ({
   }, [loaderPayment]);
 
 
-  console.log(reducerState, "reducer state")
+  // console.log(reducerState, "reducer state")
 
   const handleClickBooking = async () => {
     const payload = {

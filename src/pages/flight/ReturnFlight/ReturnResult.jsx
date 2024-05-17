@@ -36,9 +36,9 @@ const ReturnResult = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const reducerState = useSelector((state) => state);
-    useEffect(() => {
-        console.log(reducerState, "reducer state")
-    }, [])
+    // useEffect(() => {
+    //     console.log(reducerState, "reducer state")
+    // }, [])
     const [loading, setLoading] = useState(false);
     const result = reducerState?.return?.returnData?.data?.data?.Response?.Results;
     let initialGoFlight;

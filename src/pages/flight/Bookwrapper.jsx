@@ -302,10 +302,10 @@ export default function BookWrapper() {
 
 
 
-        console.log(
-          // res?.data?.data?.Response?.Baggage[0]?.length, baggageListNub[0], 
-          mell,
-          "ssrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
+        // console.log(
+        //   // res?.data?.data?.Response?.Baggage[0]?.length, baggageListNub[0], 
+        //   mell,
+        //   "ssrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr")
       } catch (error) {
         console.warn(error);
       }
@@ -469,8 +469,8 @@ export default function BookWrapper() {
   //   }
   // }, [reducerState?.flightBook?.flightBookData?.Response]);
 
-  console.log(baggageList?.data?.Response
-    , "baggagelisttttttttttttttt")
+  // console.log(baggageList?.data?.Response
+  //   , "baggagelisttttttttttttttt")
   useEffect(() => {
     const fetchData = async () => {
       if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {

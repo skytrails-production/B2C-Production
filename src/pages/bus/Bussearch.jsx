@@ -294,7 +294,7 @@ const Homeform = (props) => {
       setFromQuery("");
       setToQuery("");
       dispatch(clearBusSearchReducer());
-      console.log(reducerState,"reducerstate")
+      // console.log(reducerState,"reducerstate")
       sessionStorage.removeItem("seatData");
       sessionStorage.removeItem("busPassName");
     }

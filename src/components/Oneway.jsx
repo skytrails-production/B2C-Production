@@ -335,7 +335,7 @@ function Oneway() {
   }, [isOpen1, cityIndex, maxcity, toSearchResults]);
 
   const handleClickOutsideTo = (event) => {
-    console.log(inputRef1.current, inputRef1.current.contains(event.target));
+    // console.log(inputRef1.current, inputRef1.current.contains(event.target));
     if (inputRef1.current && !inputRef1.current.contains(event.target)) {
       setIsOpen1(false);
     }
@@ -394,7 +394,7 @@ function Oneway() {
   }, [toQuery]);
 
 
-  console.log(toSearchResults, "toSearch Result")
+  // console.log(toSearchResults, "toSearch Result")
 
   const handleToClick = (result) => {
     setSelectedTo(result);
@@ -500,11 +500,11 @@ function Oneway() {
     setTO(from)
     setSelectedTo(tempFrom);
   };
-  console.log(reducerState?.logIn?.loginData?.data?.result?.
-    _id
+  // console.log(reducerState?.logIn?.loginData?.data?.result?.
+  //   _id
     
 
-    , "reducerState?.logIn?.loginData?.data?.data?.id")
+    // , "reducerState?.logIn?.loginData?.data?.data?.id")
 
   return (
     <>

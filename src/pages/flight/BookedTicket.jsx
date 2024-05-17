@@ -16,7 +16,7 @@ const BookedTicket = () => {
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
   const couponvalue = sessionStorage.getItem("couponCode");
-  console.log(reducerState, "reducerState", bookingDataNonLcc, couponvalue);
+  // console.log(reducerState, "reducerState", bookingDataNonLcc, couponvalue);
 
   const navigate = useNavigate();
 

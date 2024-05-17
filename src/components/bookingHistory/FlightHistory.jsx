@@ -254,7 +254,7 @@ const FlightHistory = () => {
         setCancellationCharges(response.data);
       }
 
-      console.log("Cancellation charges:", response.data);
+      // console.log("Cancellation charges:", response.data);
     } catch (error) {
       console.error("Error fetching cancellation charges:", error);
     }

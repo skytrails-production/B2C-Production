@@ -21,7 +21,7 @@ const HotelTicketDB = () => {
     const nonRefundable = getBookingDetails?.hotel?.booking_items?.[0]?.non_refundable;
     const cancelDetails = getBookingDetails?.hotel?.booking_items?.[0]?.cancellation_policy;
 
-    console.log(getBookingDetails, "getBookingDetails state")
+    // console.log(getBookingDetails, "getBookingDetails state")
 
 
 
@@ -88,7 +88,7 @@ const HotelTicketDB = () => {
             "bookingType": "HOTELS"
 
         }
-        console.log(payload, "payload")
+        // console.log(payload, "payload")
 
         if (getBookingDetails?.booking_id !== undefined) {
 

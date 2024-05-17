@@ -456,7 +456,7 @@ function api() {
 
 
   const hotelGalleryGRN = (payload) => {
-    console.log("key")
+    // console.log("key")
     const hotel_id = payload.hotel_id;
     return axios({
       method: "GET",

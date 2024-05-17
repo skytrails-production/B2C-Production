@@ -66,7 +66,7 @@ function BusSearch2() {
   ];
 
   const busvalue = JSON.parse(sessionStorage.getItem("busOnewayData"));
-  console.log("busOnewayData", busvalue[2]);
+  // console.log("busOnewayData", busvalue[2]);
 
   const [fromSearchResults, setFromSearchResults] = useState(populerSearch);
   const [toSearchResults, setToSearchResults] = useState(populerSearch);

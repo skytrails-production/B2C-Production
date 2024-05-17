@@ -74,7 +74,7 @@ const HotelBookRoomGRN = () => {
     const hotelMainReducer = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data;
     const hotelGallery = reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images?.regular;
 
-    console.log(hotelinfoGRN, "hotel info grn")
+    // console.log(hotelinfoGRN, "hotel info grn")
     // new values
 
     const galleryItems = hotelGallery?.map(image => ({
@@ -135,7 +135,7 @@ const HotelBookRoomGRN = () => {
         dispatch(HotelRoomSelectReqGRN(payload))
     };
 
-    console.log(reducerState, "reducer state")
+    // console.log(reducerState, "reducer state")
 
     return (
         <>

@@ -361,7 +361,7 @@ const ReturnReviewBooking = () => {
       handleReturnFlight();
     }
   }, [reducerState?.flightBook?.flightTicketDataGDS?.data?.data?.Response]);
-  console.log(reducerState, "resucer state")
+  // console.log(reducerState, "resucer state")
 
   // for going flight
 

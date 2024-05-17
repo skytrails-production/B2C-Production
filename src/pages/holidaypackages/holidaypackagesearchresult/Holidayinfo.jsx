@@ -294,7 +294,7 @@ function Holidayinfo() {
           token: token,
         },
       }).then(function (response) {
-        console.log(response);
+        // console.log(response);
         handleModalOpenConfirmation();
         setFormData({
           email: "",
@@ -332,7 +332,7 @@ function Holidayinfo() {
   }
 
 
-  console.log(onePackage, "one package")
+  // console.log(onePackage, "one package")
 
 
   return (

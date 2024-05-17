@@ -38,7 +38,7 @@ const ReturnResultInternational = () => {
     const reducerState = useSelector((state) => state);
     const [loading, setLoading] = useState(false);
     const result = reducerState?.return?.returnData?.data?.data?.Response?.Results;
-    console.log(result, "result")
+    // console.log(result, "result")
     const [selectedCategory, setSelectedCategory] = useState([]);
     const [selectedFlightIndex, setSelectedFlightIndex] = useState(null);
     let statusRule = reducerState?.flightFare?.isLoadingRuleDone || false;
@@ -72,7 +72,7 @@ const ReturnResultInternational = () => {
 
     useEffect(() => {
 
-        console.log(reducerState, "status quote")
+        // console.log(reducerState, "status quote")
         if (reducerState?.return?.
             returnData?.data
             ?.data?.Response?.Error?.
@@ -156,14 +156,14 @@ const ReturnResultInternational = () => {
 
     useEffect(() => {
         if (statusQuote && statusRule) {
-            console.log("done")
+            // console.log("done")
             navigate("/ReturnResultInternational/PassengerDetailsInternational");
             // dispatch(setLoading("data"));
             setLoading(false);
         }
     }, [statusQuote, statusRule]);
 
-    console.log(reducerState, "reducer state")
+    // console.log(reducerState, "reducer state")
 
 
 

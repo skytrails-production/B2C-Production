@@ -28,7 +28,7 @@ const KeyValue = ({ data, value }) => {
 
 const BookNowLeft = (props) => {
   const [showInput, setShowInput] = useState(false);
-  console.log(props.baggAmount, "props.BaseFareeeeeeeeeeeee")
+  // console.log(props.baggAmount, "props.BaseFareeeeeeeeeeeee")
 
   const isDummyStorageTrue = sessionStorage.getItem("hdhhfb7383__3u8748");
   const propFunction = props.handleClick;

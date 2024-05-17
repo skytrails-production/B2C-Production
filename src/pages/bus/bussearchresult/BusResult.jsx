@@ -234,10 +234,10 @@ const [priceRangeValue, setPriceRangeValue] = useState(maxPrice + 501);
       ?.BusResults,
   ]);
 
-  console.log(
-    "reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult",
-    reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult
-  );
+  // console.log(
+  //   "reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult",
+  //   reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult
+  // );
 
   const handlePriceRangeChange = (event) => {
     setPriceRangeValue(event.target.value);

@@ -377,7 +377,7 @@ const MulticityForm = () => {
   }, [isOpen1, cityIndex, maxcity, toSearchResults]);
 
   const handleClickOutsideTo = (event) => {
-    console.log(inputRef1.current, inputRef1.current.contains(event.target));
+    // console.log(inputRef1.current, inputRef1.current.contains(event.target));
     if (inputRef1.current && !inputRef1.current.contains(event.target)) {
       setIsOpen1(false);
     }
