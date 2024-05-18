@@ -141,7 +141,7 @@ const HotelGuestDetailsGRN = () => {
         setPassengerData(newData);
     };
 
-    // console.log(reducerState, "reducer state")
+
     // passenger details adding 
 
 

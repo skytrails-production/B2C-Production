@@ -44,7 +44,6 @@ const Blog = () => {
 
     }, []);
 
-    console.log(blogs, "blogs")
 
 
     const handleSingle = (singleBlog) => {

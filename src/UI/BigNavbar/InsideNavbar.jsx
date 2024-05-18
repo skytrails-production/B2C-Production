@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import newlogo from "../../images/newlogo.png";
+import newlogo from "../../images/logoSky.svg";
 import "./BigNavbar.css";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import Countrypicker from "../../layouts/Countrypicker";
@@ -77,7 +77,7 @@ function BigNavbar() {
             }}
           >
             <div className="logoNav">
-              <img src={newlogo} alt="logo" onClick={() => navigate("/")} style={{cursor:"pointer"}} />
+              <img src={newlogo} alt="logo" onClick={() => navigate("/")} style={{ cursor: "pointer" }} />
             </div>
             <div className="menu-icon order-2" onClick={handleShowNavbar}>
               <Hamburger />

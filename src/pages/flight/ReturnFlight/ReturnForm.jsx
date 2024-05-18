@@ -662,14 +662,14 @@ const handleDateChangeReturn = (date) => {
           Destination: selectedTo.AirportCode,
           FlightCabinClass: activeIdClass,
           PreferredDepartureTime: formData.get("departure"),
-          PreferredArrivalTime: formData.get("departure"),
+          PreferredArrivalTime: formData.get("departure")
         },
         {
           Origin: selectedTo.AirportCode,
           Destination: selectedFrom.AirportCode,
           FlightCabinClass: activeIdClass,
           PreferredDepartureTime: formData.get("departure"),
-          PreferredArrivalTime: formData.get("departure"),
+          PreferredArrivalTime: formData.get("departure")
         },
       ],
       Sources: null,

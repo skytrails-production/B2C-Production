@@ -17,10 +17,11 @@
   align-items: center;
   position: relative;
 }
-.onewayDatePicker{
+
+.onewayDatePicker {
   /* width: max-content; */
   font-weight: 700;
-  font-size:larger ;
+  font-size: larger;
 }
 
 
@@ -130,18 +131,20 @@
   background-color: #f2f9fc;
   color: #333;
 }
+
 .hoverCity {
   background-color: #e1dede;
   width: 100%;
 }
 
-.react-datepicker-popper{
-  z-index: 999!important;
+.react-datepicker-popper {
+  z-index: 999 !important;
 }
-.react-datepicker{
-  display:flex!important;
-  position: absolute!important;
-  z-index: 999!important;
+
+.react-datepicker {
+  display: flex !important;
+  position: absolute !important;
+  z-index: 999 !important;
   margin-left: -50px !important;
 }
 
