@@ -15,12 +15,7 @@ import { apiURL } from '../../Constants/constant';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
-
-
 const SkytailsTrendingPackages = () => {
-
-
-
     const [open, setOpen] = useState(false);
     const [loader, setLoader] = useState(false);
     const [selected, setSelected] = useState({})
@@ -34,6 +29,7 @@ const SkytailsTrendingPackages = () => {
         adults: '',
         child: ''
     });
+    const [thankYouMessage, setThankYouMessage] = useState(false);
 
     const [errors, setErrors] = useState({
         name: '',
@@ -41,8 +37,7 @@ const SkytailsTrendingPackages = () => {
         email: '',
         departureCity: '',
         adults: '',
-
-    })
+    });
 
     const array = [
         {
@@ -96,53 +91,66 @@ Package price starting from ₹ 139990 per person inclusive of Flight;`
     const handleOpen = (data) => {
         setSelected(data);
         setOpen(true);
-    }
-    const handleClose = () => setOpen(false);
 
+    }
+    const handleClose = () => {
+        setOpen(false);
+        setThankYouMessage(false);
+        setFormData({
+            name: '',
+            phone: '',
+            email: '',
+            date: '',
+            departureCity: '',
+            adults: '',
+            child: ''
+        });
+
+        setErrors({
+            name: '',
+            phone: '',
+            email: '',
+            departureCity: '',
+            adults: '',
+        });
+    }
 
     const validateForm = (formData) => {
-        const errors = {
-
-        }
+        const errors = {};
         if (formData.name.length < 4 || formData.name.length > 30) {
-            errors.name = "Enter valid name"
+            errors.name = "Enter valid name";
         }
 
         const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
         if (!emailRegex.test(formData.email)) {
-            errors.email = "Enter Valid Email"
+            errors.email = "Enter Valid Email";
         }
         if (formData.phone.length < 10 || formData.phone.length > 10) {
-            errors.phone = "Enter Phone Number"
+            errors.phone = "Enter Phone Number";
         }
         if (formData.departureCity.length < 3 || formData.departureCity.length > 20) {
-            errors.departureCity = "Enter Phone Number"
+            errors.departureCity = "Enter valid departure city";
         }
         if (formData.adults == 0 || formData.adults.length > 3 || formData.adults == "") {
-            errors.adults = "Enter Phone Number"
+            errors.adults = "Enter valid number of adults";
         }
-        // if (formData.child.length < 3 || formData.child.length > 20) {
-        //     errors.phone = "Enter Phone Number"
-        // }
-
         return errors;
     };
-
 
     const onInputChangeHandler = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
-        })
+        });
     }
 
     const onFormSubmit = async (e) => {
         e.preventDefault();
-        setLoader(true)
+        setLoader(true);
         const validationResult = validateForm(formData);
         if ((Object.keys(validationResult).length > 0)) {
             setErrors(validationResult);
-            setLoader(false)
+            setLoader(false);
             return;
         }
         const payload = {
@@ -166,20 +174,16 @@ Package price starting from ₹ 139990 per person inclusive of Flight;`
                     'Content-Type': 'application/json',
                 },
             });
-
-
-
+            setThankYouMessage(true);
+            setTimeout(() => {
+                handleClose();
+            }, 2000);
         } catch (error) {
             console.log('API Error:', error);
         } finally {
-            setLoader(false)
-            handleClose();
+            setLoader(false);
         }
     };
-
-
-
-
 
     useEffect(() => {
         const handleResize = () => {
@@ -191,10 +195,13 @@ Package price starting from ₹ 139990 per person inclusive of Flight;`
         };
     }, []);
 
-
-    console.log(isSmallScreen, "small screen")
-
-
+    const getTodayDate = () => {
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
 
     return (
         <>
@@ -202,7 +209,6 @@ Package price starting from ₹ 139990 per person inclusive of Flight;`
                 <img src={banner} alt="banner" />
             </div>
             <div className='container mt-5 blogHeaad'>
-
                 <div className="BlogheadingContainer">
                     <h3>Exclusive Summer special holiday packages.</h3>
                 </div>
@@ -212,7 +218,6 @@ Package price starting from ₹ 139990 per person inclusive of Flight;`
                             <div className="sttrcard">
                                 <div className="stTrPackBox" onClick={(e) => handleOpen(item)} >
                                     <img src={item?.url} alt="" />
-
                                 </div>
                                 <div className='sttrPara'>
                                     {item?.content.split(';').map((para, i) => (
@@ -231,7 +236,7 @@ Package price starting from ₹ 139990 per person inclusive of Flight;`
                             left: '50%',
                             transform: 'translate(-50%, -50%)',
                             width: isSmallScreen ? "90%" : 'auto',
-                            maxHeight: isSmallScreen ? '100vh' : 'none', // Conditional maxHeight
+                            maxHeight: isSmallScreen ? '100vh' : 'none',
                             overflowY: "scroll",
                             bgcolor: 'background.paper',
                             boxShadow: 24,
@@ -239,52 +244,48 @@ Package price starting from ₹ 139990 per person inclusive of Flight;`
                             borderRadius: 1
                         }}
                     >
-                        <form class="row g-3" onSubmit={onFormSubmit}>
+                        <form className="row g-3" onSubmit={onFormSubmit}>
                             <h2 className='formTitleTRPack'>Reach us to Book</h2>
-                            <div class="col-md-6">
-                                <label for="inputEmail4" class="form-label">Your Name</label>
+                            <div className="col-md-6">
+                                <label htmlFor="inputEmail4" className="form-label">Your Name</label>
                                 <input style={{ borderColor: errors.name ? 'red' : '' }} type="text" name="name" id="name" className="form-control" onChange={onInputChangeHandler} />
                             </div>
-                            <div class="col-md-6">
-                                <label for="inputEmail4" class="form-label">Email</label>
-                                <input style={{ borderColor: errors.email ? 'red' : '' }} type="email" id='email' name="email" class="form-control" onChange={onInputChangeHandler} />
+                            <div className="col-md-6">
+                                <label htmlFor="inputEmail4" className="form-label">Email</label>
+                                <input style={{ borderColor: errors.email ? 'red' : '' }} type="email" id='email' name="email" className="form-control" onChange={onInputChangeHandler} />
                             </div>
-                            <div class="col-md-4">
-                                <label for="inputEmail4" class="form-label">Phone No</label>
-                                <input style={{ borderColor: errors.phone ? 'red' : '' }} type="tel" name='phone' id="phone" class="form-control" onChange={onInputChangeHandler} />
+                            <div className="col-md-4">
+                                <label htmlFor="inputEmail4" className="form-label">Phone No</label>
+                                <input style={{ borderColor: errors.phone ? 'red' : '' }} type="tel" name='phone' id="phone" className="form-control" onChange={onInputChangeHandler} />
                             </div>
-
-
-                            <div class="col-md-4">
-                                <label for="inputPassword4" class="form-label">Travel Date</label>
-                                <input type="date" dateFormat="dd MMM, yy" id="date" name="date" class="form-control" onChange={onInputChangeHandler} />
+                            <div className="col-md-4">
+                                <label htmlFor="inputPassword4" className="form-label">Travel Date</label>
+                                <input type="date" min={getTodayDate()} id="date" name="date" className="form-control" onChange={onInputChangeHandler} />
                             </div>
-                            <div class="col-md-4">
-                                <label for="inputPassword4" class="form-label">Departure City</label>
-                                <input style={{ borderColor: errors.departureCity ? 'red' : '' }} type="text" id="departureCity" name="departureCity" class="form-control" onChange={onInputChangeHandler} />
+                            <div className="col-md-4">
+                                <label htmlFor="inputPassword4" className="form-label">Departure City</label>
+                                <input style={{ borderColor: errors.departureCity ? 'red' : '' }} type="text" id="departureCity" name="departureCity" className="form-control" onChange={onInputChangeHandler} />
                             </div>
-                            <div class="col-md-4">
-                                <label for="inputPassword4" class="form-label">No of Adults</label>
-                                <input style={{ borderColor: errors.adults ? 'red' : '' }} type="number" id="adults" min="0" name="adults" class="form-control" onChange={onInputChangeHandler} />
+                            <div className="col-md-4">
+                                <label htmlFor="inputPassword4" className="form-label">No of Adults</label>
+                                <input style={{ borderColor: errors.adults ? 'red' : '' }} type="number" id="adults" min="0" name="adults" className="form-control" onChange={onInputChangeHandler} />
                             </div>
-                            <div class="col-md-4">
-                                <label for="inputPassword4" class="form-label">No of Child</label>
-                                <input type="number" id="child" min="0" name="child" class="form-control" onChange={onInputChangeHandler} />
+                            <div className="col-md-4">
+                                <label htmlFor="inputPassword4" className="form-label">No of Child</label>
+                                <input type="number" id="child" min="0" name="child" className="form-control" onChange={onInputChangeHandler} />
                             </div>
-
-
-
-
                             {
-                                loader ? <div class="col-4 offset-lg-4 loaderButtonPayLater" >
+                                loader ? <div className="col-4 offset-lg-4 loaderButtonPayLater" >
                                     <span className='loaderPaylater'></span>
                                 </div>
                                     :
-                                    <div class="col-4 offset-lg-4 loaderButtonPayLater" >
-                                        <button className='w-100' type="submit" class="btn">Submit</button>
+                                    <div className="col-4 offset-lg-4 loaderButtonPayLater" >
+                                        <button className='w-100 btn' type="submit">Submit</button>
                                     </div>
-
                             }
+                            {thankYouMessage && <div className="col-12 text-center mt-3 thankYOuu">
+                                <p>Thank you for the enquiry!</p>
+                            </div>}
                         </form>
                     </Box>
                 </Modal>
