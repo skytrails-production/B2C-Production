@@ -19,6 +19,26 @@
 
 }
 
+
+.breakCancel {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    /* width: ; */
+}
+
+.breakCancel .brcl1 {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgb(19, 94, 19);
+}
+
+.breakCancel .brcl2 {
+    font-size: 12px;
+    font-weight: 600;
+    color: rgb(155, 14, 14);
+}
+
 .image-gallery-content .image-gallery-slide .image-gallery-image {
     max-height: 400px !important;
 }

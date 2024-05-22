@@ -58,7 +58,7 @@
 }
 
 .hotel-container {
-  padding: 6px 21px;
+  padding: 6px 12px;
   /* border-top-left-radius: 12px; */
   /* border-right: 1px lightgray solid; */
   flex-direction: column;
@@ -73,7 +73,7 @@
 }
 
 .hotel-container:nth-child(2) {
-  padding: 6px 34px;
+  padding: 6px 12px;
 }
 
 .hotel-container span {

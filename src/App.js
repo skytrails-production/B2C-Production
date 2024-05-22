@@ -101,6 +101,7 @@ import TnplGeneratedPlan from "./Mihuru/TnplGeneratedPlan";
 import ScrollToTop from "./ScrollToTOp";
 import RandomPayment from "./RandomPayment";
 import RandomPaymentSuccess from "./RandomPaymentSuccess";
+import SkytailsTrendingPackages from "./components/SkytrailsTrendingPackage/SkytailsTrendingPackages";
 
 
 
@@ -461,6 +462,10 @@ function App() {
         <Route
           path="/packagepayment/packagepaymentsuccess"
           element={<RandomPaymentSuccess />}
+        ></Route>
+        <Route
+          path="/trendingPackage"
+          element={<SkytailsTrendingPackages />}
         ></Route>
       </Routes>
 

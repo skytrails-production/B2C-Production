@@ -9,12 +9,15 @@ import { Skeleton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { MdCancel } from "react-icons/md";
+import { MdOutlineFreeBreakfast } from "react-icons/md";
 import { hotelActionGRN, hotelGalleryRequest, singleHotelGRN } from "../../Redux/HotelGRN/hotel";
 import "./hotelResult.css"
 import Hotelmainloading from "../Hotel/hotelLoading/Hotelmainloading";
 import GrmHotelform2 from "./GrmHotelform2";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Pagination } from 'react-bootstrap';
+import dayjs from "dayjs";
 
 const variants = {
     initial: {
@@ -69,6 +72,7 @@ export default function HotelResult() {
     }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels])
 
 
+    console.log(reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels, "result")
 
     // useEffect(() => {
     //     fetchNextPageData()
@@ -654,12 +658,31 @@ export default function HotelResult() {
                                                                                     {result?.address}
                                                                                 </p>
                                                                             </div>
+                                                                            <div className="breakCancel">
+                                                                                {result?.min_rate?.boarding_details?.[0] !== "Room Only" &&
+                                                                                    <span className="brcl1">
+                                                                                        <MdOutlineFreeBreakfast />   Breakfast Included
+                                                                                    </span>
+                                                                                }
+                                                                                {result?.min_rate?.cancellation_policy?.cancel_by_date &&
+                                                                                    <span className="brcl2">
+                                                                                        <MdCancel />
+                                                                                        {`cancellation till ${dayjs(result?.min_rate?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")}`}
+                                                                                    </span>
+                                                                                }
+                                                                                {/* <span className="">
+                                                                                    {result?.min_rate?.cancellation_policy?.cancel_by_date ? `cancellation till ${dayjs(result?.min_rate?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")}` : ""}
+                                                                                </span> */}
+
+
+                                                                            </div>
+
                                                                         </div>
                                                                     </div>
 
                                                                     <div className="priceBookHotel">
                                                                         <div className="priceBookHotelOne ">
-                                                                            {/* <span><del>₹{result?.Price?.OfferedPrice}</del></span> */}
+                                                                            <span><del> ₹{result?.min_rate?.price + Math.floor(Math.random() * (1200 - 700 + 1)) + 700}</del></span>
                                                                             <span>Offer Price</span>
                                                                             <p>₹{result?.min_rate?.price}</p>
                                                                             <h4>Show More<ArrowForwardIosIcon /></h4>

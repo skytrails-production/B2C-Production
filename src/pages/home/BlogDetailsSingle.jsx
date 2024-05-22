@@ -14,7 +14,7 @@ const BlogDetailsSingle = () => {
 
     const fetchBlogs = async () => {
         try {
-            const response = await axios.get(`${apiURL.baseURL}/skyTrails/api/blog/getBlogById?blogId=${keyword}`);
+            const response = await axios.get(`${apiURL.baseURL}/skyTrails/api/blog/getBlogByTitle?blogTitle=${keyword}`);
             setBlogData(response.data.result);
             setLoader(false);
         } catch (error) {
@@ -30,8 +30,11 @@ const BlogDetailsSingle = () => {
 
 
     const handleSingle = (singleBlog) => {
+        if (keyword === singleBlog?.title) {
+            return;
+        }
         setLoader(true)
-        navigate(`/blogdetails/${singleBlog?._id}`)
+        navigate(`/blogdetails/${singleBlog?.title}`)
     }
 
 
@@ -123,9 +126,9 @@ const BlogDetailsSingle = () => {
                                     <div class="position-relative overflow-hidden rounded">
                                         <img src={blogData?.searchedBlog?.media?.[0]} class="img-fluid rounded img-zoomin w-100" alt="" />
                                         <div class="d-flex justify-content-center px-4 position-absolute flex-wrap" style={{ bottom: "10px", left: "0" }}>
-                                            <span class="text-white me-3 link-hover"><i class="fa fa-eye"></i>{blogData?.searchedBlog?.views} Views</span>
-                                            <span class="text-white me-3 link-hover"><i class="fa fa-comment-dots"></i> {blogData?.searchedBlog?.location}</span>
-                                            <span class="text-white link-hover"><i class="fa fa-arrow-up"></i>{dayjs(blogData?.searchedBlog?.createdAt).format("DD MMM, YY")}</span>
+                                            <span class="text-white text-bold me-3 link-hover"><i class="fa fa-eye"></i>{blogData?.searchedBlog?.views} Views</span>
+                                            <span class="text-white text-bold me-3 link-hover"><i class="fa fa-comment-dots"></i> {blogData?.searchedBlog?.location}</span>
+                                            <span class="text-white text-bold link-hover"><i class="fa fa-arrow-up"></i>{dayjs(blogData?.searchedBlog?.createdAt).format("DD MMM, YY")}</span>
                                         </div>
                                     </div>
                                     <div class="border-bottom singleBlogHeading py-3">

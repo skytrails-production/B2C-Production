@@ -210,7 +210,7 @@ const HotelGuestDetailsGRN = () => {
 
     const mapUrl = `https://maps.google.com/maps?q=${hotelinfoGRN?.geolocation?.latitude ?? 0},${hotelinfoGRN?.geolocation?.longitude ?? 0}&hl=es&z=14&output=embed`;
 
-
+    console.log(hotelinfoGRN, "hotelinfoGRN")
 
     return (
         <>
@@ -275,7 +275,7 @@ const HotelGuestDetailsGRN = () => {
                                         <span className="text-bold">{hotelinfoGRN?.rate?.boarding_details?.[0]}</span>
                                     </div>
                                 </div>
-                                <div className="row">
+                                {/* <div className="row">
                                     <div className="col-lg-9 mb-md-3">
                                         <p className="titles text-bold mb-3">Other Inclusions</p>
                                         <div className="othInc">
@@ -288,7 +288,7 @@ const HotelGuestDetailsGRN = () => {
                                             }
                                         </div>
                                     </div>
-                                </div>
+                                </div> */}
                                 {/* </div> */}
                             </div>
                         </motion.div>
