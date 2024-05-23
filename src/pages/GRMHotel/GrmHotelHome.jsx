@@ -1,16 +1,20 @@
 import Download from "../home/Download";
 import React, { useRef } from "react";
-// import "./hotelhome.css";
 import { motion } from "framer-motion";
 import Advertise from "../home/Advertise";
-import FLightOffer from "../flight/FLightOffer";
-// import onewayBG from "../../images/onewayBG.jpg";
+import flightbanner from "../../images/aerial.png";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
 import HolidayBudget from "../holidaypackages/holidayCategory/HolidayBudget";
+import HolidayDomestic from "../holidaypackages/holidayCategory/HolidayDomestic";
 import Partners from "../home/Partners";
-import EventBanner from "../home/EventBanner";
 import GrmHotelForm from "./GrmHotelForm";
+import HolidayCategory from "../holidaypackages/holidayCategory/HolidayCategory";
+// import Topflightroute from "../flight/Topflightroute";
+import HolidaySuggestion from "../holidaypackages/holidaySuggestion/HolidaySuggestion";
+import SwipeToSlide from "../../components/Card";
+import Blog from "../home/Blog";
+import GrnHomeStaticHotel from "./GrnHomeStaticHotel";
 
 const variants = {
     initial: {
@@ -32,13 +36,6 @@ const GrmHotelHome = () => {
 
     const downloadRef = useRef(null);
 
-    const focusDownload = () => {
-        if (downloadRef.current) {
-            downloadRef.current.focus();
-        }
-    };
-
-
 
     return (
         <motion.div className="hotel_banner">
@@ -50,13 +47,37 @@ const GrmHotelHome = () => {
             </Helmet>
 
             <div className="mainimg">
-                <img className="bannerBack" src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/onewayBG.jpg" alt="banner" />
+                <img className="bannerBack" src={flightbanner} alt="background" />
                 {/* <BigNavbar /> */}
                 <GrmHotelForm />
             </div>
 
-            <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+            <motion.div
+                variants={variants}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true, amount: 0.8 }}
+            >
+                <HolidayCategory variants={variants} />
+            </motion.div>
+
+            <motion.div
+                variants={variants}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true, amount: 0.8 }}
+            >
                 <HolidayBudget variants={variants} />
+            </motion.div>
+
+            <motion.div
+                variants={variants}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true, amount: 0.8 }}
+                style={{ position: "relative" }}
+            >
+                <GrnHomeStaticHotel variants={variants} />
             </motion.div>
             <motion.div
                 variants={variants}
@@ -65,28 +86,73 @@ const GrmHotelHome = () => {
                 viewport={{ once: true, amount: 0.8 }}
                 style={{ position: "relative" }}
             >
-                <EventBanner focusDownload={focusDownload} variants={variants} />
-            </motion.div>
-            <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
-                <FLightOffer variants={variants} />
+                <HolidaySuggestion variants={variants} />
             </motion.div>
             <motion.div
                 variants={variants}
                 initial="initial"
                 whileInView="animate"
                 viewport={{ once: true, amount: 0.8 }}
-                style={{ position: "relative", top: "-30px" }}
+                style={{ position: "relative" }}
             >
                 <Advertise variants={variants} />
             </motion.div>
 
-            <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+            <motion.div
+                variants={variants}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true, amount: 0.8 }}
+            >
+                <HolidayDomestic variants={variants} />
+            </motion.div>
+
+            <motion.div
+                variants={variants}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true, amount: 0.8 }}
+            >
+                <SwipeToSlide variants={variants} />
+            </motion.div>
+            <motion.div
+                variants={variants}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true, amount: 0.8 }}
+            >
+                <Blog variants={variants} />
+            </motion.div>
+            <motion.div
+                variants={variants}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true, amount: 0.8 }}
+            >
                 <Download downloadRef={downloadRef} variants={variants} />
             </motion.div>
-            <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+            <motion.div
+                variants={variants}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true, amount: 0.8 }}
+            >
                 <WhyChooseUs variants={variants} />
             </motion.div>
-            <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>
+            {/* <motion.div
+        variants={variants}
+        initial="initial"
+        whileInView="animate"
+        viewport={{ once: true, amount: 0.8 }}
+      >
+        <FLightOffer variants={variants} />
+      </motion.div> */}
+            <motion.div
+                variants={variants}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true, amount: 0.8 }}
+            >
                 <Partners variants={variants} />
             </motion.div>
         </motion.div>

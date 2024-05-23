@@ -51,9 +51,6 @@ const ReturnForm = () => {
   const [fromSearchResults, setFromSearchResults] = useState([]);
   const [fromQuery, setFromQuery] = useState("delhi");
   const [isLoading, setIsLoading] = useState(false);
-
-  
-  const [selectDate,setSelectDate] =useState(true)
   useEffect(() => {
     // console.log(reducerState, "reducer state");
   }, []);
@@ -61,23 +58,13 @@ const ReturnForm = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [returnDate, setReturnDate] = useState(new Date());
   const currentdate = new Date();
+
   const handleDateChange = (date) => {
-    if (selectDate) {
-      setStartDate(date);
-    } else if(startDate<=date) {
-      setReturnDate(date);
-    }
-    // console.log(selectDate);
-    setSelectDate(!selectDate) 
+    setStartDate(date);
   };
-  
-
-const handleDateChangeReturn = (date) => {
-  if (startDate <= date) {
-    setReturnDate(date); 
-  }
-};
-
+  const handleDateChangeReturn = (date) => {
+    setReturnDate(date);
+  };
 
   useEffect(() => {
     setReturnDate((prevReturnDate) => {
@@ -662,14 +649,14 @@ const handleDateChangeReturn = (date) => {
           Destination: selectedTo.AirportCode,
           FlightCabinClass: activeIdClass,
           PreferredDepartureTime: formData.get("departure"),
-          PreferredArrivalTime: formData.get("departure")
+          PreferredArrivalTime: formData.get("departure"),
         },
         {
           Origin: selectedTo.AirportCode,
           Destination: selectedFrom.AirportCode,
           FlightCabinClass: activeIdClass,
-          PreferredDepartureTime: formData.get("departure"),
-          PreferredArrivalTime: formData.get("departure")
+          PreferredDepartureTime: formData.get("departure1"),
+          PreferredArrivalTime: formData.get("departure1"),
         },
       ],
       Sources: null,
@@ -1076,7 +1063,6 @@ const handleDateChangeReturn = (date) => {
                       </div>
                     </div>
                   </div>
-       
 
                   <div className="col-md-6 col-lg-2">
                     <div className="card">
@@ -1091,8 +1077,6 @@ const handleDateChangeReturn = (date) => {
                               selected={startDate}
                               onChange={handleDateChange}
                               minDate={currentdate}
-                              monthsShown={2}
-                              shouldCloseOnSelect={false}
                             />
                           </div>
                         </div>
@@ -1111,24 +1095,17 @@ const handleDateChangeReturn = (date) => {
                         <span>Return</span>
                         <div className="">
                           <div className="onewayDatePicker">
-                            {/* <DatePicker
+                            <DatePicker
                               name="departure1"
                               id="departure1"
                               dateFormat="dd MMM, yy"
                               selected={returnDate}
                               onChange={handleDateChangeReturn}
                               minDate={startDate}
-                              monthsShown={2}
-                            /> */}
-                           
-                    
-                    {returnDate.getDate()} {returnDate.toLocaleString('default', { month: 'short' }).slice(0, 3)}, {returnDate.getFullYear().toString().slice(-2)}
-
-
-                            
+                            />
                           </div>
                         </div>
-                    
+                        {/* <span className="d-none d-md-block ">{getDayOfWeek(startDate)}</span> */}
                         <span className="d-none d-md-block ">
                           {getDayOfWeek(returnDate)}
                         </span>
