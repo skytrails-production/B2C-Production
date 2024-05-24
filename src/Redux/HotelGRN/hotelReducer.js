@@ -7,6 +7,7 @@ const initState = {
   hotelGallery: [],
   bookRoom: [],
   hotelDetails: [],
+  onlyHotels: [],
   isLoading: false,
   isLoadingHotelInfo: false,
   isLoadingHotelRoom: false,
@@ -14,6 +15,7 @@ const initState = {
   isLoadingBookRoom: false,
   isError: false,
   showSuccessMessage: false,
+  hasMore: true
 };
 
 export const hotelReducerGRN = (state = initState, action) => {
@@ -27,13 +29,44 @@ export const hotelReducerGRN = (state = initState, action) => {
       };
 
     case types.HOTEL_SUCCESSGRN:
-      return {
-        ...state,
-        ticketData: payload,
-        isLoading: false,
-        isError: false,
-        showSuccessMessage: true,
-      };
+      // let oldHotels = [...state?.onlyHotels]
+      // oldHotels.concat(payload?.data?.data?.hotels)
+
+
+      if (payload?.data?.data?.hotels) {
+        const search_id = payload?.data?.data?.search_id;
+        const updatedHotels = payload?.data?.data?.hotels.map(hotel => ({
+          ...hotel,
+          search_id
+        }));
+        let olddata = [...state?.onlyHotels, ...updatedHotels]
+        return {
+          ...state,
+          ticketData: payload,
+          onlyHotels: olddata,
+          isLoading: false,
+          isError: false,
+          showSuccessMessage: true,
+          hasMore: true,
+        };
+      }
+      else if (payload?.data?.data?.errors) {
+
+        return {
+          ...state,
+          hasMore: false,
+          isLoading: false,
+          isError: false,
+          showSuccessMessage: true,
+        }
+
+      }
+      else {
+        return { ...state }
+      }
+
+
+
 
     case types.HOTEL_SINGLE_DETAIL_REQUEST:
       return {
@@ -111,6 +144,11 @@ export const hotelReducerGRN = (state = initState, action) => {
         ...state,
         blockRoom: [],
       }
+
+    case types.CLEAR_ONLYHOTEL_GRN:
+      return {
+        onlyHotels: [],
+      }
     case types.CLEAR_HOTEL_REDUCER_GRN:
       return {
         ticketData: [],
@@ -118,6 +156,7 @@ export const hotelReducerGRN = (state = initState, action) => {
         hotelRoom: [],
         hotelGallery: [],
         bookRoom: [],
+        onlyHotels: [],
         hotelDetails: [],
         isLoading: false,
         isLoadingHotelInfo: false,
@@ -126,6 +165,7 @@ export const hotelReducerGRN = (state = initState, action) => {
         isLoadingBookRoom: false,
         isError: false,
         showSuccessMessage: false,
+        initState: false
       }
 
     default:

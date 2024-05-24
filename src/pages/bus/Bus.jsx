@@ -12,7 +12,6 @@ import FLightOffer from "../flight/FLightOffer";
 // import busimg from "../../images/"
 // import onewayBG from "../../images/onewaybg.png"
 import busimg from "../../images/aerial.png"
-import onewayBG from "../../images/onewayBG.jpg";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
 import HolidayBudget from "../holidaypackages/holidayCategory/HolidayBudget";
@@ -50,7 +49,7 @@ const Taxi = () => {
       <div className="mainimg">
         {/* <img className="bannerBack" src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/onewayBG.jpg" alt="banner" /> */}
         <img className="bannerBack" src={busimg} alt="banner" />
-      
+
         {/* <BigNavbar /> */}
         <Bussearch />
       </div>

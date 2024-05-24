@@ -52,6 +52,17 @@ const GrmHotelHome = () => {
                 <GrmHotelForm />
             </div>
 
+
+            <motion.div
+                variants={variants}
+                initial="initial"
+                whileInView="animate"
+                viewport={{ once: true, amount: 0.8 }}
+                style={{ position: "relative" }}
+            >
+                <GrnHomeStaticHotel variants={variants} />
+            </motion.div>
+
             <motion.div
                 variants={variants}
                 initial="initial"
@@ -70,15 +81,7 @@ const GrmHotelHome = () => {
                 <HolidayBudget variants={variants} />
             </motion.div>
 
-            <motion.div
-                variants={variants}
-                initial="initial"
-                whileInView="animate"
-                viewport={{ once: true, amount: 0.8 }}
-                style={{ position: "relative" }}
-            >
-                <GrnHomeStaticHotel variants={variants} />
-            </motion.div>
+
             <motion.div
                 variants={variants}
                 initial="initial"

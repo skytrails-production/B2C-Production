@@ -102,7 +102,7 @@ const GrnHomeStaticHotel = () => {
             reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels?.length >= 0
         ) {
             setLoader(false);
-            navigate("/GrmHotelHome/hotelsearchGRM");
+            // navigate("/GrmHotelHome/hotelsearchGRM");
 
         }
     }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels]);

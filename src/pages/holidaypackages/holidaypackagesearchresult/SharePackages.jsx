@@ -9,6 +9,8 @@ const SharePackages = ({ id }) => {
 
     const [isHover, toggleHover] = useState(false);
     // const [isLinkCopied, setIsLinkCopied] = useState(false);
+
+
     const toggleHoverMenu = () => {
         toggleHover(!isHover);
     };
@@ -53,32 +55,32 @@ const SharePackages = ({ id }) => {
 
         const url = isMobileDevice
             ? `whatsapp://send?text=${encodeURIComponent(
-                `https://theskytrails.com/holidayInfo/${id}`
+                `https://theskytrails.com/blogdetails/${id}`
             )}`
             : `https://web.whatsapp.com/send?text=${encodeURIComponent(
-                `https://theskytrails.com/holidayInfo/${id}`
+                `https://theskytrails.com/blogdetails/${id}`
             )}`;
 
         window.open(url, "_blank");
     };
 
     const shareTwitter = () => {
-        const url = `http://twitter.com/share?url=https://theskytrails.com/holidayInfo/${id}`;
+        const url = `http://twitter.com/share?url=https://theskytrails.com/blogdetails/${id}`;
         window.open(url, "twitter-share-dialog", "width=650,height=auto");
     };
 
     const shareLinkedIn = () => {
-        const url = `https://www.linkedin.com/shareArticle?mini=true&summary=youtube&title=f1&url=https://theskytrails.com/holidayInfo/${id}`;
+        const url = `https://www.linkedin.com/shareArticle?mini=true&summary=youtube&title=f1&url=https://theskytrails.com/blogdetails/${id}`;
         window.open(url, "linkedin-share-dialog", "width=650,height=auto");
     };
 
     const shareFacebook = () => {
-        const url = `https://www.facebook.com/sharer/sharer.php?u=https://theskytrails.com/holidayInfo/${id}`;
+        const url = `https://www.facebook.com/sharer/sharer.php?u=https://theskytrails.com/blogdetails/${id}`;
         window.open(url, "facebook-share-dialog", "width=650,height=auto");
     };
 
     const copyLinkToClipboard = () => {
-        const linkToCopy = `https://theskytrails.com/holidayInfo/${id}`;
+        const linkToCopy = `https://theskytrails.com/blogdetails/${id}`;
         navigator.clipboard
             .writeText(linkToCopy)
             .then(() => {

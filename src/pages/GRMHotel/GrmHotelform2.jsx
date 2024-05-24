@@ -14,7 +14,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import SecureStorage from 'react-secure-storage';
 import Hotelmainloading from "../Hotel/hotelLoading/Hotelmainloading";
 import dayjs from "dayjs";
-import { hotelActionGRN, clearHotelReducerGRN } from "../../Redux/HotelGRN/hotel";
+import { hotelActionGRN, clearHotelReducerGRN, clearonlyHotelsGRN } from "../../Redux/HotelGRN/hotel";
 
 function GrmHotelform2() {
   const [isOpen, setIsOpen] = useState(false);
@@ -202,43 +202,6 @@ function GrmHotelform2() {
   const [sub, setSub] = useState(false);
 
 
-  // useEffect(() => {
-  //   dispatch(clearHotelReducerGRN());
-  // }, []);
-
-  // useEffect(() => {
-  //     if (reducerState?.hotelSearchResultGRN?.isLoading == true) {
-  //         setLoader(true);
-  //     }
-  // }, [reducerState?.hotelSearchResultGRN?.isLoading]);
-
-
-  // useEffect(() => {
-  //     if (
-  //         reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels?.length >= 0
-  //     ) {
-  //         setLoader(false);
-  //         navigate("/hotel/hotelsearchGRM");
-
-  //     }
-  // }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels]);
-
-  // sessionStorage.setItem(
-  //   "revisithotel",
-  //   JSON.stringify([
-  //     {
-  //       cityCode: searchTermLast.cityCode,
-  //       cityName: searchTermLast.cityName,
-  //       countryCode: searchTermLast.countryCode,
-  //       countryName: searchTermLast.countryName,
-  //       checkin: checkIn,
-  //       checkout: checkOut,
-  //       rooms: [...dynamicFormData],
-  //     },
-
-  //   ])
-  // );
-
 
   useEffect(() => {
     const debounceTimer = setTimeout(() => {
@@ -387,7 +350,7 @@ function GrmHotelform2() {
     )
     const pageNumber = 1;
     sessionStorage.setItem("grnPayload", JSON.stringify(payload));
-
+    dispatch(clearonlyHotelsGRN());
     dispatch(hotelActionGRN(payload, pageNumber));
     navigate("/GrmHotelHome/hotelsearchGRM");
 

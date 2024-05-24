@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { apiURL } from '../../Constants/constant';
 import dayjs from 'dayjs';
 import { Skeleton } from "@mui/material";
+import SharePackages from '../holidaypackages/holidaypackagesearchresult/SharePackages';
 
 const BlogDetailsSingle = () => {
 
@@ -36,7 +37,7 @@ const BlogDetailsSingle = () => {
         setLoader(true)
         navigate(`/blogdetails/${singleBlog?.title}`)
     }
-
+    const encodedTitle = encodeURIComponent(keyword);
 
     return (
         <div>
@@ -129,6 +130,9 @@ const BlogDetailsSingle = () => {
                                             <span class="text-white text-bold me-3 link-hover"><i class="fa fa-eye"></i>{blogData?.searchedBlog?.views} Views</span>
                                             <span class="text-white text-bold me-3 link-hover"><i class="fa fa-comment-dots"></i> {blogData?.searchedBlog?.location}</span>
                                             <span class="text-white text-bold link-hover"><i class="fa fa-arrow-up"></i>{dayjs(blogData?.searchedBlog?.createdAt).format("DD MMM, YY")}</span>
+                                        </div>
+                                        <div class="d-flex justify-content-center px-4 position-absolute flex-wrap" style={{ top: "10px", right: "0" }}>
+                                            <SharePackages id={encodedTitle} />
                                         </div>
                                     </div>
                                     <div class="border-bottom singleBlogHeading py-3">

@@ -9,6 +9,7 @@ import { Skeleton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+
 import { MdCancel } from "react-icons/md";
 import { MdOutlineFreeBreakfast } from "react-icons/md";
 import { hotelActionGRN, hotelGalleryRequest, singleHotelGRN } from "../../Redux/HotelGRN/hotel";
@@ -16,13 +17,12 @@ import "./hotelResult.css"
 import Hotelmainloading from "../Hotel/hotelLoading/Hotelmainloading";
 import GrmHotelform2 from "./GrmHotelform2";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { Pagination } from 'react-bootstrap';
 import dayjs from "dayjs";
 
 const variants = {
     initial: {
-        y: 50,
-        opacity: 0,
+        y: 0,
+        opacity: 1,
     },
     animate: {
         y: 0,
@@ -41,20 +41,17 @@ export default function HotelResult() {
     const reducerState = useSelector((state) => state);
     const dispatch = useDispatch();
     const [result, setResult] = useState([])
+    const [hasMore, setHasMore] = useState(true);
     const grnPayload = JSON.parse(sessionStorage.getItem('grnPayload'));
-    // console.log("result", result)
     const [firstLoader, setFirstLoader] = useState(true);
-    // const [loading, setLoading] = useState(false);
-    // let pageNum = 2;
-    // const [pageNum, setPageNum] = useState(2)
     const [currentPage, setCurrentPage] = useState(1);
     const searchId = reducerState?.hotelSearchResultGRN?.ticketData
         ?.data?.data?.search_id;
 
-
-
+    const fetchMoreData = () => {
+        setCurrentPage((pre) => pre + 1)
+    }
     useEffect(() => {
-        // console.log("hiiii")
         if (reducerState?.hotelSearchResultGRN?.hotelDetails?.status === 200 && reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images?.regular?.length > 0) {
             navigate("/GrmHotelHome/hotelsearchGRM/hotelbookroom")
             setFirstLoader(false)
@@ -65,67 +62,28 @@ export default function HotelResult() {
 
 
     useEffect(() => {
-        if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels?.length > 0) {
-            setResult(reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels)
+        if (reducerState?.hotelSearchResultGRN?.onlyHotels?.length > 0) {
+            setResult(reducerState?.hotelSearchResultGRN?.onlyHotels)
+            setHasMore(reducerState?.hotelSearchResultGRN?.hasMore)
             setFirstLoader(false)
         }
-    }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels])
-
-
-    console.log(reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels, "result")
-
-    // useEffect(() => {
-    //     fetchNextPageData()
-    //     window.addEventListener("scroll", handleScroll);
-    //     return () => {
-    //         window.removeEventListener("scroll", handleScroll);
-    //     };
-    // }, []);
-
-
-    // useEffect(() => {
-    //     // Fetch data whenever pageNum changes
-    //     if (pageNum > 2) {
-    //         console.log(pageNum, "insidePageNum")
-    //         fetchNextPageData();
-    //     }
-    // }, [pageNum]);
+    }, [reducerState?.hotelSearchResultGRN?.onlyHotels, reducerState?.hotelSearchResultGRN])
 
 
 
+    console.log(reducerState, "result")
 
-    // new logic for pagination infinite 
 
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-        dispatch(hotelActionGRN(grnPayload, pageNumber));
-        setResult([]);
-        setFirstLoader(true);
+
+    const handlePageChangeScrroll = () => {
+        dispatch(hotelActionGRN(grnPayload, currentPage));
     };
-
-
-    // const fetchNextPageData = () => {
-    //     console.log(pageNum, "page num")
-    //     // setLoading(true)
-    //     dispatch(hotelActionGRN(grnPayload, pageNum))
-    //     // setLoading(false);
-    // };
-    // const handleScroll = () => {
-    //     if (
-    //         window.innerHeight + window.scrollY >= document.body.offsetHeight &&
-    //         !loading
-    //     ) {
-    //         setPageNum((prev) => prev + 1);
-    //         // setPageNum((prev) => prev + 1);
-    //         fetchNextPageData()
-    //         // pageNum++
-    //     }
-    // };
+    useEffect(() => {
+        handlePageChangeScrroll()
+    }, [currentPage])
 
 
 
-
-    // new logic for pagination infinite 
 
 
 
@@ -133,6 +91,7 @@ export default function HotelResult() {
 
     const handleClick = (item) => {
         setFirstLoader(true);
+        console.log(item, "item")
         const payload = {
 
             "data": {
@@ -157,12 +116,6 @@ export default function HotelResult() {
     };
 
 
-    // useEffect(() => {
-    //     if (reducerState?.hotelSearchResultGRN?.isLoading === false && reducerState?.hotelSearchResult?.ticketData?.data?.data?.hotels.length === 0
-    //     ) {
-    //         navigate("/GrmHotelHome")
-    //     }
-    // })
 
     const [sortOption, setSortOption] = useState("lowToHigh");
     const [searchInput, setSearchInput] = useState('');
@@ -257,11 +210,11 @@ export default function HotelResult() {
             const searchFilter = hotelName?.includes(searchInput?.toLowerCase()) || hotelAddress?.includes(searchInput?.toLowerCase());
             return categoryFilters?.every((filter) => filter) && searchFilter && priceInRange;
         })
-        ?.sort((a, b) =>
-            sortOption === "lowToHigh"
-                ? a?.min_rate?.price - b?.min_rate?.price
-                : b?.min_rate?.price - a?.min_rate?.price
-        );
+    // ?.sort((a, b) =>
+    //     sortOption === "lowToHigh"
+    //         ? a?.min_rate?.price - b?.min_rate?.price
+    //         : b?.min_rate?.price - a?.min_rate?.price
+    // );
 
 
 
@@ -472,6 +425,7 @@ export default function HotelResult() {
 
                                                 <div>
                                                     <h2 className="sidebar-title">By Amenities</h2>
+
                                                     {result?.length > 0 && (
                                                         <div>
                                                             {/* Collect all facilities from all hotels */}
@@ -625,93 +579,106 @@ export default function HotelResult() {
                                         </div>
                                     ) : (
                                         <div className=" col-lg-9 col-md-12 pt-4">
+                                            <InfiniteScroll
+                                                dataLength={sortedAndFilteredResults?.length}
+                                                next={fetchMoreData}
+                                                hasMore={hasMore}
+                                                loader={<div className="col-4 offset-lg-4 loaderHotelFetching" >
+                                                    <span className='loaderFetching'></span>
+                                                </div>}
+                                                endMessage={<p style={{ textAlign: 'center' }}><b>No More Result !</b></p>}
+                                            >
 
-                                            {sortedAndFilteredResults?.length > 0 ? (
-                                                sortedAndFilteredResults
-                                                    ?.map((result, index) => {
-                                                        // const resultIndex = result?.ResultIndex;
-                                                        const hotelCode = result?.hotel_code;
-                                                        return (
-                                                            <motion.div className="col-lg-12" >
+                                                {
+                                                    // sortedAndFilteredResults
+                                                    result
+                                                        ?.length > 0 ? (
+                                                        sortedAndFilteredResults
+                                                            ?.map((result, index) => {
+                                                                // const resultIndex = result?.ResultIndex;
+                                                                const hotelCode = result?.hotel_code;
+                                                                return (
+                                                                    <motion.div className="col-lg-12" >
 
-                                                                <motion.div onClick={() => handleClick(result)} className="hotelResultBoxSearch" key={index}>
-                                                                    <div>
-                                                                        <div className="hotelImage">
-                                                                            <img src={result?.images?.url} alt="hotelImage" />
-                                                                        </div>
-                                                                        <div className="hotelResultDetails">
-                                                                            <div className="hotleTitle">
-                                                                                <p>{result?.name}</p>
-                                                                            </div>
-
-
-                                                                            <div className="hotelRating">
-                                                                                <div>
-                                                                                    {Array.from({ length: result?.category }, (_, index) => (
-                                                                                        <img key={index} src={starsvg} alt={`Star ${index + 1}`} />
-                                                                                    ))}
-                                                                                </div>
-                                                                            </div>
-
+                                                                        <motion.div onClick={() => handleClick(result)} className="hotelResultBoxSearch" key={index}>
                                                                             <div>
-                                                                                <p className="hotAddress">
-                                                                                    {result?.address}
-                                                                                </p>
-                                                                            </div>
-                                                                            <div className="breakCancel">
-                                                                                {result?.min_rate?.boarding_details?.[0] !== "Room Only" &&
-                                                                                    <span className="brcl1">
-                                                                                        <MdOutlineFreeBreakfast />   Breakfast Included
-                                                                                    </span>
-                                                                                }
-                                                                                {result?.min_rate?.cancellation_policy?.cancel_by_date &&
-                                                                                    <span className="brcl2">
-                                                                                        <MdCancel />
-                                                                                        {`cancellation till ${dayjs(result?.min_rate?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")}`}
-                                                                                    </span>
-                                                                                }
-                                                                                {/* <span className="">
+                                                                                <div className="hotelImage">
+                                                                                    <img
+                                                                                        src={result?.images?.url === "" ? hotelNotFound : result?.images?.url}
+                                                                                        alt="hotelImage" />
+                                                                                </div>
+                                                                                <div className="hotelResultDetails">
+                                                                                    <div className="hotleTitle">
+                                                                                        <p>{result?.name}</p>
+                                                                                    </div>
+
+
+                                                                                    <div className="hotelRating">
+                                                                                        <div>
+                                                                                            {Array.from({ length: result?.category }, (_, index) => (
+                                                                                                <img key={index} src={starsvg} alt={`Star ${index + 1}`} />
+                                                                                            ))}
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div>
+                                                                                        <p className="hotAddress">
+                                                                                            {result?.address}
+                                                                                        </p>
+                                                                                    </div>
+                                                                                    <div className="breakCancel">
+                                                                                        {result?.min_rate?.boarding_details?.[0] !== "Room Only" &&
+                                                                                            <span className="brcl1">
+                                                                                                <MdOutlineFreeBreakfast />   Breakfast Included
+                                                                                            </span>
+                                                                                        }
+                                                                                        {result?.min_rate?.cancellation_policy?.cancel_by_date &&
+                                                                                            <span className="brcl2">
+                                                                                                <MdCancel />
+                                                                                                {`cancellation till ${dayjs(result?.min_rate?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")}`}
+                                                                                            </span>
+                                                                                        }
+                                                                                        {/* <span className="">
                                                                                     {result?.min_rate?.cancellation_policy?.cancel_by_date ? `cancellation till ${dayjs(result?.min_rate?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")}` : ""}
                                                                                 </span> */}
 
 
+                                                                                    </div>
+
+                                                                                </div>
                                                                             </div>
 
-                                                                        </div>
-                                                                    </div>
+                                                                            <div className="priceBookHotel">
+                                                                                <div className="priceBookHotelOne ">
+                                                                                    <span><del> ₹{result?.min_rate?.price + Math.floor(Math.random() * (1200 - 700 + 1)) + 700}</del></span>
+                                                                                    <span>Offer Price</span>
+                                                                                    <p>₹{result?.min_rate?.price}</p>
+                                                                                    <h4>Show More<ArrowForwardIosIcon /></h4>
+                                                                                </div>
+                                                                            </div>
+                                                                        </motion.div>
+                                                                    </motion.div>
+                                                                );
+                                                            })
+                                                    ) :
 
-                                                                    <div className="priceBookHotel">
-                                                                        <div className="priceBookHotelOne ">
-                                                                            <span><del> ₹{result?.min_rate?.price + Math.floor(Math.random() * (1200 - 700 + 1)) + 700}</del></span>
-                                                                            <span>Offer Price</span>
-                                                                            <p>₹{result?.min_rate?.price}</p>
-                                                                            <h4>Show More<ArrowForwardIosIcon /></h4>
-                                                                        </div>
-                                                                    </div>
-                                                                </motion.div>
-                                                            </motion.div>
-                                                        );
-                                                    })
-                                            ) :
-
-                                                (
-                                                    <div className="filteredNotFound">
-                                                        {/* <img src={hotelFilter} alt="filter" />
+                                                        (
+                                                            <div className="filteredNotFound">
+                                                                {/* <img src={hotelFilter} alt="filter" />
                                                         <h1>Result not found</h1> */}
-                                                    </div>
-                                                )
-                                            }
-
+                                                            </div>
+                                                        )
+                                                }
+                                            </InfiniteScroll>
                                         </div>
 
 
                                     )}
 
-                                    <div className="col-lg-12 d-flex justify-content-center">
+                                    {/* <div className="col-lg-12 d-flex justify-content-center">
                                         <Pagination>
                                             <Pagination.Prev disabled={currentPage === 1} onClick={() => handlePageChange(currentPage - 1)} />
-                                            {/* Render pagination items based on the total number of pages */}
-                                            {/* For simplicity, assuming total pages come from reducerState */}
+
                                             {Array.from({ length: 4 }, (_, index) => (
                                                 <Pagination.Item key={index + 1} active={index + 1 === currentPage} onClick={() => handlePageChange(index + 1)}>
                                                     {index + 1}
@@ -719,7 +686,7 @@ export default function HotelResult() {
                                             ))}
                                             <Pagination.Next disabled={currentPage === 5} onClick={() => handlePageChange(currentPage + 1)} />
                                         </Pagination>
-                                    </div>
+                                    </div> */}
 
                                 </div>
                             </div>

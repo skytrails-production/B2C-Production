@@ -22,8 +22,8 @@ const Blog = () => {
     useEffect(() => {
         const fetchBlogs = async () => {
             try {
-                const response = await axios.get(apiURL.baseURL + '/skyTrails/api/blog/getAllBlogs');
-                setBlogs(response.data.result);
+                const response = await axios.get(apiURL.baseURL + '/skyTrails/api/blog/getAllBlogs?page=1');
+                setBlogs(response.data.result.docs);
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching blogs:', error);

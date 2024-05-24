@@ -38,15 +38,14 @@ const Footer = () => {
                     <KeyboardDoubleArrowRightIcon />
                     <Link to="contactus">Contact Us</Link>
                   </li>
-                  {/* <li>
-                                    <KeyboardDoubleArrowRightIcon />
-                                    <a href="https://merchant.razorpay.com/policy/NGcE9sKf640xEo/shipping" target="_blank">Shipping Policy</a></li> */}
+
                   <li>
                     <KeyboardDoubleArrowRightIcon />
-                    {/* <button onClick={handleDummyTicketBooking}>
-                      Book Dummy Ticket
-                    </button> */}
                     <Link to="/oneWayDummyHome"> Dummy Pnr</Link>
+                  </li>
+                  <li>
+                    <KeyboardDoubleArrowRightIcon />
+                    <Link to="/skytrailsblogs"> Blogs</Link>
                   </li>
                 </ul>
               </div>

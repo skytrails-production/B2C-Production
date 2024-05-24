@@ -7,9 +7,7 @@ import "./home.css";
 import { motion } from "framer-motion";
 import Advertise from "./Advertise";
 import FLightOffer from "../flight/FLightOffer";
-// import onewayBG from "../../images/onewaybg.png"
-import onewayBG from "../../images/onewayBG.jpg";
-// import BigNavbar from "../../UI/BigNavbar/BigNavbar";
+
 import HolidaySuggestion from "../holidaypackages/holidaySuggestion/HolidaySuggestion";
 import HolidayCategory from "../holidaypackages/holidayCategory/HolidayCategory";
 import Topflightroute from "../flight/Topflightroute";

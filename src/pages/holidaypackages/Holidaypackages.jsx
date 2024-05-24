@@ -2,15 +2,10 @@ import React, { useEffect, useState, useRef } from "react";
 import Hotelpackageform from "../../components/Hotelpackageform";
 import Download from "../home/Download";
 import { motion } from "framer-motion";
-// import onewayBG from "../../images/onewaybg.png"
-import onewayBG from "../../images/onewayBG.jpg";
 import demo from "../../images/demo.png";
 import cloud from "../../images/cloud.png";
 import cloudright from "../../images/cloudright.png";
-// import bird from "../../images/bird.gif"
 import Advertise from "../home/Advertise";
-// import FLightOffer from '../flight/FLightOffer';
-// import BigNavbar from "../../UI/BigNavbar/BigNavbar";
 import HolidaySuggestion from "./holidaySuggestion/HolidaySuggestion";
 import HolidayCategory from "./holidayCategory/HolidayCategory";
 import HolidayDomestic from "./holidayCategory/HolidayDomestic";

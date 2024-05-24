@@ -6,7 +6,7 @@ import Download from "../pages/home/Download";
 import { motion } from "framer-motion";
 import Advertise from "../pages/home/Advertise"
 import FLightOffer from "../pages/flight/FLightOffer";
-import onewayBG from "../images/onewayBG.jpg";
+import flightbanner from "../images/aerial.png";
 // import BigNavbar from "../../UI/BigNavbar/BigNavbar";
 import HolidaySuggestion from "../pages/holidaypackages/holidaySuggestion/HolidaySuggestion";
 import HolidayCategory from "../pages/holidaypackages/holidayCategory/HolidayCategory";
@@ -50,7 +50,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
 
             <div className="mainimg">
                 {/* <img className="bannerBack" src="https://img.freepik.com/premium-vector/landscape-with-buildings-vehicles-morning-city-life_95169-195.jpg?w=1060" alt="background" /> */}
-                <img className="bannerBack" src={onewayBG} alt="background" />
+                <img className="bannerBack" src={flightbanner} alt="background" />
                 {/* <BigNavbar /> */}
                 <DummyTicketBookingForm />
             </div>

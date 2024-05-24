@@ -100,7 +100,7 @@
     height: 100%;
     z-index: 0;
     background-image: linear-gradient(to bottom, rgba(2, 2, 2, 0.068), #000000af);
-    border-radius: 26px 5px;
+    border-radius: 5px 5px;
 }
 
 .imgBoxContent {
@@ -126,7 +126,7 @@
     width: 100%;
     object-fit: cover;
     height: 100%;
-    border-radius: 26px 5px;
+    border-radius: 5px 5px;
 
 }
 

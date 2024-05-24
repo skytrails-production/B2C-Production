@@ -102,6 +102,7 @@ import ScrollToTop from "./ScrollToTOp";
 import RandomPayment from "./RandomPayment";
 import RandomPaymentSuccess from "./RandomPaymentSuccess";
 import SkytailsTrendingPackages from "./components/SkytrailsTrendingPackage/SkytailsTrendingPackages";
+import AllBlogs from "./pages/home/AllBlogs";
 
 
 
@@ -434,6 +435,10 @@ function App() {
         <Route
           path="/blogDetails/:keyword"
           element={<BlogDetailsSingle />}
+        ></Route>
+        <Route
+          path="/skytrailsblogs"
+          element={<AllBlogs />}
         ></Route>
 
         <Route

@@ -5,7 +5,6 @@ import HotelForm from "./HotelForm";
 import { motion } from "framer-motion";
 import Advertise from "../home/Advertise";
 import FLightOffer from "../flight/FLightOffer";
-import onewayBG from "../../images/onewayBG.jpg";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import busimg from "../../images/aerial.png"
 import { Helmet } from "react-helmet-async";
@@ -53,7 +52,7 @@ const Hotelhome = () => {
       <div className="mainimg">
         {/* <img className="bannerBack" src="https://raw.githubusercontent.com/The-SkyTrails/Images/main/onewayBG.jpg" alt="banner" /> */}
         <img className="bannerBack" src={busimg} alt="banner" />
-        
+
         {/* <BigNavbar /> */}
         <HotelForm />
       </div>
