@@ -91,7 +91,7 @@
     height: unset !important;
 }
 
-.returnButton:where(.css-dev-only-do-not-override-j9bb5n).ant-btn {
+.returnButton button {
     height: unset !important;
     padding: 8px 36px !important;
     border-color: #E73C34 !important;
