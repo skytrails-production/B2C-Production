@@ -15,7 +15,7 @@ import FlightLoader from "../FlightLoader/Returnflightloader";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DatePicker from "react-datepicker";
+// import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 // import TravelerCounter from "./TravelerCounter";
@@ -30,6 +30,12 @@ import {
   returnActionClear,
 } from "../../../Redux/FlightSearch/Return/return";
 import { swalModal } from "../../../utility/swal";
+
+
+
+import { DatePicker, Space } from "antd";
+import dayjs from "dayjs";
+const { RangePicker } = DatePicker;
 
 const ReturnForm = () => {
   const reducerState = useSelector((state) => state);
@@ -117,6 +123,37 @@ const ReturnForm = () => {
   const [departureDate, setDepartureDate] = useState("");
   const [cityIndex, setcityIndex] = useState(-1);
   const [cityIndex1, setcityIndex1] = useState(-1);
+
+
+
+
+
+  // ant design date range picker
+
+  const [newDepartDate, setNewDepartDate] = useState(startDate)
+  const [newReturnDate, setNewReturnDate] = useState(startDate)
+
+  const handleRangeChange = (dates, dateStrings) => {
+    if (dates) {
+      // console.log("Selected Start Date:", dayjs(dates[0]).format("DD MMM, YY"));
+      // console.log("Selected End Date:", dates[1].format("YYYY-MM-DD"));
+      setNewDepartDate(dayjs(dates[0]).format("DD MMM, YY"))
+      setNewReturnDate(dayjs(dates[1]).format("DD MMM, YY"))
+    } else {
+      console.log("Selection cleared");
+    }
+  };
+
+  console.log(newDepartDate)
+  console.log(newReturnDate)
+
+  // ant design date range picker 
+
+
+
+
+
+
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -648,15 +685,15 @@ const ReturnForm = () => {
           Origin: selectedFrom.AirportCode,
           Destination: selectedTo.AirportCode,
           FlightCabinClass: activeIdClass,
-          PreferredDepartureTime: formData.get("departure"),
-          PreferredArrivalTime: formData.get("departure"),
+          PreferredDepartureTime: newDepartDate,
+          PreferredArrivalTime: newDepartDate,
         },
         {
           Origin: selectedTo.AirportCode,
           Destination: selectedFrom.AirportCode,
           FlightCabinClass: activeIdClass,
-          PreferredDepartureTime: formData.get("departure1"),
-          PreferredArrivalTime: formData.get("departure1"),
+          PreferredDepartureTime: newReturnDate,
+          PreferredArrivalTime: newReturnDate,
         },
       ],
       Sources: null,
@@ -708,9 +745,9 @@ const ReturnForm = () => {
     setSelectedTo(tempFrom);
   };
 
-  if (loader) {
-    return <FlightLoader />;
-  }
+  // if (loader) {
+  //   return <FlightLoader />;
+  // }
 
   return (
     <>
@@ -1064,7 +1101,27 @@ const ReturnForm = () => {
                     </div>
                   </div>
 
-                  <div className="col-md-6 col-lg-2">
+                  <div className="col-md-6 col-lg-4">
+                    {/* <div className="">
+                      <div className="from-container" style={{ border: "none" }} id="item-2Return">
+                        <span>Departure</span>
+                        <div className=""> */}
+                    <div className="onewayDatePicker">
+                      <Space direction="vertical" size={20}>
+                        <RangePicker onChange={handleRangeChange} />
+                      </Space>
+                    </div>
+                    {/* </div> */}
+                    <span className="d-none d-md-block ">
+                      {getDayOfWeek(startDate)}
+                    </span>
+                    {/* </div> */}
+                    {/* </div> */}
+
+                  </div>
+
+
+                  {/* <div className="col-md-6 col-lg-2">
                     <div className="card">
                       <div className="from-container" style={{ border: "none" }} id="item-2Return">
                         <span>Departure</span>
@@ -1086,10 +1143,10 @@ const ReturnForm = () => {
                       </div>
                     </div>
 
-                  </div>
+                  </div> */}
 
 
-                  <div className="col-md-6 col-lg-2">
+                  {/* <div className="col-md-6 col-lg-2">
                     <div className="card">
                       <div className="from-container" id="item-3Return">
                         <span>Return</span>
@@ -1105,13 +1162,12 @@ const ReturnForm = () => {
                             />
                           </div>
                         </div>
-                        {/* <span className="d-none d-md-block ">{getDayOfWeek(startDate)}</span> */}
                         <span className="d-none d-md-block ">
                           {getDayOfWeek(returnDate)}
                         </span>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
 
 
                   <div className="col-md-6 col-lg-2">
@@ -1248,16 +1304,33 @@ const ReturnForm = () => {
               <div
                 style={{ position: "relative", top: "80px", marginTop: "-45px" }}
                 className="onewaySearch-btn" id="item-5Return">
-                <button type="submit" className="searchButt"
-                  style={{
-                    paddingTop: "18px",
-                    paddingBottom: "18px",
-                    paddingLeft: "50px",
-                    paddingRight: "50px",
-                  }}>
-                  <h3 className="mb-0">Search</h3>
-                </button>
+                {loader ?
+                  <button className="searchButt"
+                    style={{
+                      paddingTop: "18px",
+                      paddingBottom: "18px",
+                      paddingLeft: "50px",
+                      paddingRight: "50px",
+                    }}>
+                    <span className='loaderPaylater'></span>
+                  </button>
+                  :
+
+                  <button type="submit" className="searchButt"
+                    style={{
+                      paddingTop: "18px",
+                      paddingBottom: "18px",
+                      paddingLeft: "50px",
+                      paddingRight: "50px",
+                    }}>
+                    Search
+                  </button>
+
+
+                }
               </div>
+
+
             </form>
 
           </div>

@@ -22,6 +22,7 @@ import flightbanner from "../../images/aerial.png";
 import EventBanner from "./EventBanner";
 import MulticityForm from "../flight/MultiCity/MulticityForm";
 import Blog from "./Blog";
+import ReturnFormNew from "../flight/ReturnFlight/ReturnFornNew";
 
 const variants = {
   initial: {
@@ -134,7 +135,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
             </div>
           </div>
           {activeTab === "oneway" && <Oneway />}
-          {activeTab === "return" && <ReturnForm />}
+          {activeTab === "return" && <ReturnFormNew />}
 
           {activeTab === "multicity" && <MulticityForm />}
         </div>

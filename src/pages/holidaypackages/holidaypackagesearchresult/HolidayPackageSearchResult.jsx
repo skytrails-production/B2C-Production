@@ -22,10 +22,10 @@ const HolidayPackageSearchResult = () => {
           "
                 />
             </Helmet>
-         
+
 
             <div className="holidayInfoBackWall">
-               
+
             </div>
 
             <section>

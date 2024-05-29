@@ -1069,7 +1069,7 @@ const ReturnResultInternational = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-lg-9 mt-5">
+                        <div className="col-lg-9">
                             <div className="row">
                                 <div className="col-12 ps-0">
                                     <div className="row">

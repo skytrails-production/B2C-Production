@@ -301,13 +301,13 @@ hr {
 }
 
 .emiBOx p {
-    font-weight: 600;
-    font-size: 12px;
-    color: blue;
+    font-weight: 600 !important;
+    font-size: 12px !important;
+    color: blue !important;
 }
 
 .emiBOx span {
-    font-weight: 600;
-    color: blue;
-    font-size: 12px;
+    font-weight: 600 !important;
+    color: blue !important;
+    font-size: 12px !important;
 }

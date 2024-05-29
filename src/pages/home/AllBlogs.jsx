@@ -7,6 +7,7 @@ import './advertise.css';
 import { apiURL } from '../../Constants/constant';
 import { useNavigate } from 'react-router-dom';
 import "./blog.css"
+import { Skeleton } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
 import cheerio from "cheerio";
@@ -72,51 +73,104 @@ const AllBlogs = () => {
                         <h3>Read Our Blogs</h3>
                     </div>
                     <div className="blogBox">
-                        <div className="container">
-                            <div className="row g-3">
+                        {loading ?
+                            <div className="container">
+                                <div className="row g-3">
+                                    {
+                                        [1, 2, 3, 4, 5, 6].map((item, index) => {
+                                            return (
+                                                <div className="col-lg-4" key={index}>
+                                                    <div className=" blog-slide">
+                                                        <div className='blogMainBox w-100'>
+                                                            <div className='imgBoxBlog'>
 
-                                {blogs?.map((blog) => {
-                                    const content = blog?.content;
-                                    const strippedContent = stripHtmlWithCheerio(content);
-                                    const preview = strippedContent.slice(0, 200);
-                                    return (
-                                        <div className="col-lg-4" key={blog._id}>
-                                            <div className=" blog-slide">
-                                                <div className='blogMainBox'>
-                                                    <div className='imgBoxBlog'>
-                                                        {isRecent(blog?.createdAt) && <span className='ibbabs'>New</span>}
-                                                        <img src={blog?.media?.[0]} alt={blog?.media?.[0]} loading='lazy' />
-                                                    </div>
-                                                    <div className="imgBoxContentBlog">
-                                                        <div className='locDate'>
-                                                            <div className="locDataInner">
-                                                                <span>
-                                                                    <svg height="15" viewBox="0 0 64 64" width="20" xmlns="http://www.w3.org/2000/svg" id="fi_3177361">
-                                                                        <g id="Pin">
-                                                                            <path d="m32 0a24.0319 24.0319 0 0 0 -24 24c0 17.23 22.36 38.81 23.31 39.72a.99.99 0 0 0 1.38 0c.95-.91 23.31-22.49 23.31-39.72a24.0319 24.0319 0 0 0 -24-24zm0 35a11 11 0 1 1 11-11 11.0066 11.0066 0 0 1 -11 11z"></path>
-                                                                        </g>
-                                                                    </svg>
-                                                                </span>
-                                                                <p>{blog?.location}</p>
+                                                                <Skeleton variant="rect" width="100%" height={220} className="rounded" />
+
+                                                                {/* <img src={blog?.media?.[0]} alt={blog?.media?.[0]} loading='lazy' /> */}
                                                             </div>
-                                                            <p>{dayjs(blog?.createdAt).format("DD MMM, YY")}</p>
+                                                            <div className="imgBoxContentBlog">
+                                                                <div className='locDate'>
+                                                                    <div className="d-flex">
+                                                                        <Skeleton>
+                                                                            <p className='me-2' style={{ height: "32px", background: "#f1f1f1", width: "18px" }}></p>
+                                                                        </Skeleton>
+                                                                        <Skeleton>
+                                                                            <p style={{ height: "32px", background: "#f1f1f1", width: "40px" }}></p>
+                                                                        </Skeleton>
+                                                                    </div>
+                                                                    <div>
+                                                                        <Skeleton>
+                                                                            <p style={{ height: "32px", background: "#f1f1f1", width: "40px" }}></p>
+                                                                        </Skeleton>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="blogContent">
+                                                                    <Skeleton variant="text" sx={{ fontSize: '2rem' }} />
+                                                                    <Skeleton variant="text" sx={{ fontSize: '0.75rem' }} />
+                                                                    <Skeleton variant="text" sx={{ fontSize: '0.75rem' }} />
+                                                                    <Skeleton variant="text" sx={{ fontSize: '0.75rem' }} />
+                                                                    <div className='d-flex justify-content-center mt-3'>
+                                                                        <Skeleton>
+                                                                            <p style={{ height: "42px", background: "#f1f1f1", width: "60px" }}></p>
+                                                                        </Skeleton>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div className="blogContent">
-                                                            <h2>{blog?.title}</h2>
-                                                            <p>{preview}</p>
-                                                            <div className='d-flex justify-content-center mt-3'>
-                                                                <button onClick={(e) => handleSingle(blog)}>Read More</button>
+                                                    </div>
+                                                </div>
+                                            )
+                                        })
+                                    }
+                                </div>
+                            </div>
+                            : <div className="container">
+                                <div className="row g-3">
+
+                                    {blogs?.map((blog) => {
+                                        const content = blog?.content;
+                                        const strippedContent = stripHtmlWithCheerio(content);
+                                        const preview = strippedContent.slice(0, 200);
+                                        return (
+                                            <div className="col-lg-4" key={blog._id}>
+                                                <div className=" blog-slide">
+                                                    <div className='blogMainBox'>
+                                                        <div className='imgBoxBlog'>
+                                                            {isRecent(blog?.createdAt) && <span className='ibbabs'>New</span>}
+                                                            <img src={blog?.media?.[0]} alt={blog?.media?.[0]} loading='lazy' />
+                                                        </div>
+                                                        <div className="imgBoxContentBlog">
+                                                            <div className='locDate'>
+                                                                <div className="locDataInner">
+                                                                    <span>
+                                                                        <svg height="15" viewBox="0 0 64 64" width="20" xmlns="http://www.w3.org/2000/svg" id="fi_3177361">
+                                                                            <g id="Pin">
+                                                                                <path d="m32 0a24.0319 24.0319 0 0 0 -24 24c0 17.23 22.36 38.81 23.31 39.72a.99.99 0 0 0 1.38 0c.95-.91 23.31-22.49 23.31-39.72a24.0319 24.0319 0 0 0 -24-24zm0 35a11 11 0 1 1 11-11 11.0066 11.0066 0 0 1 -11 11z"></path>
+                                                                            </g>
+                                                                        </svg>
+                                                                    </span>
+                                                                    <p>{blog?.location}</p>
+                                                                </div>
+                                                                <p>{dayjs(blog?.createdAt).format("DD MMM, YY")}</p>
+                                                            </div>
+                                                            <div className="blogContent">
+                                                                <h2>{blog?.title}</h2>
+                                                                <p>{preview}</p>
+                                                                <div className='d-flex justify-content-center mt-3'>
+                                                                    <button onClick={(e) => handleSingle(blog)}>Read More</button>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    );
-                                })}
+                                        );
+                                    })}
 
+                                </div>
                             </div>
-                        </div>
+
+                        }
                     </div>
                 </div>
             </div>
