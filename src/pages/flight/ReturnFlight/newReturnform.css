@@ -87,8 +87,8 @@
 }
 
 
-:where(.css-dev-only-do-not-override-j9bb5n).ant-btn {
-    height: unset !important;
+.returnButton:where(.css-dev-only-do-not-override-j9bb5n).ant-btn {
+    height: unset !important;
 }
 
 .returnButton:where(.css-dev-only-do-not-override-j9bb5n).ant-btn {
