@@ -669,9 +669,9 @@ const ReturnFormNew = () => {
                 <div
                     style={{ position: "relative", top: "80px", marginTop: "-45px" }}
                     className="onewaySearch-btn" id="item-5Return">
-                    <Button className="returnButton" onClick={handleOnewaySubmit} loading={loader}>
+                    <Button className="returnButton" style={{ padding: "8px 36px", height: "unset" }} onClick={handleOnewaySubmit} loading={loader}>
                         Search
-                    </Button>
+                    </Button>
                 </div>
             </div>
         </>
