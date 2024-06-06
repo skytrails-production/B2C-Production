@@ -83,6 +83,11 @@ const FromSearchInput = (props) => {
     const [fromValue, setFromValue] = useState(initialSelectedFromData.name);
     const [selectedItem, setSelectedItem] = useState(initialSelectedFromData);
 
+
+    const [FromPlaceholder, setFromPlaceholder] = useState('')
+    const [FromDisplayValue, setFromDisplayValue] = useState(initialSelectedFromData.name);
+
+
     useEffect(() => {
         setFromData([
             {
@@ -102,12 +107,22 @@ const FromSearchInput = (props) => {
     const handleFromChange = (newValue) => {
         const selected = fromData.find((d) => d.value === newValue);
         setFromValue(selected ? selected.name : newValue);
+        setFromDisplayValue(selected ? selected.name : newValue);
         setSelectedItem(selected ? selected.item : null);
         if (selected) {
             onItemSelect(selected.item);
         }
     };
 
+    const handleFromFocus = () => {
+        setFromPlaceholder('From');
+        setFromDisplayValue(''); // Clear display value to show placeholder
+    };
+
+    const handleFromBlur = () => {
+        setFromPlaceholder('');
+        setFromDisplayValue(fromValue); // Reset display value to selected value
+    };
     const renderFromOption = (option) => (
         <div>
             <div>
@@ -120,14 +135,18 @@ const FromSearchInput = (props) => {
     return (
         <Select
             showSearch
-            value={fromValue}
-            placeholder={props.placeholder}
+            // value={fromValue}
+            value={FromDisplayValue}
+            // placeholder={props.placeholder}
+            placeholder={FromPlaceholder || props.placeholder}
             style={props.style}
             defaultActiveFirstOption={false}
             suffixIcon={null}
             filterOption={false}
             onSearch={handleFromSearch}
             onChange={handleFromChange}
+            onFocus={handleFromFocus} // Set placeholder on focus
+            onBlur={handleFromBlur}
             notFoundContent={null}
             options={fromData.map((d) => ({
                 value: d.value,
@@ -200,6 +219,9 @@ const ToSearchInput = (props) => {
     const [toValue, setToValue] = useState(initialSelectedToData.name);
     const [selectedItem, setSelectedItem] = useState(initialSelectedToData);
 
+    const [ToPlaceholder, setToPlaceholder] = useState('')
+    const [ToDisplayValue, setToDisplayValue] = useState(initialSelectedToData.name);
+
     useEffect(() => {
         setToData([
             {
@@ -219,10 +241,21 @@ const ToSearchInput = (props) => {
     const handleToChange = (newValue) => {
         const selected = toData.find((d) => d.value === newValue);
         setToValue(selected ? selected.name : newValue);
+        setToDisplayValue(selected ? selected.name : newValue);
         setSelectedItem(selected ? selected.item : null);
         if (selected) {
             onItemSelect(selected.item);
         }
+    };
+
+    const handleToFocus = () => {
+        setToPlaceholder('To');
+        setToDisplayValue(''); // Clear display value to show placeholder
+    };
+
+    const handleTOBlur = () => {
+        setToPlaceholder('');
+        setToDisplayValue(toValue); // Reset display value to selected value
     };
 
     const renderToOption = (option) => (
@@ -237,14 +270,19 @@ const ToSearchInput = (props) => {
     return (
         <Select
             showSearch
-            value={toValue}
-            placeholder={props.placeholder}
+            // value={toValue}
+            value={ToDisplayValue}
+            // placeholder={props.placeholder}
+            placeholder={ToPlaceholder || props.placeholder}
+            // placeholder={props.placeholder}
             style={props.style}
             defaultActiveFirstOption={false}
             suffixIcon={null}
             filterOption={false}
             onSearch={handleToSearch}
             onChange={handleToChange}
+            onFocus={handleToFocus} // Set placeholder on focus
+            onBlur={handleTOBlur}
             notFoundContent={null}
             options={toData.map((d) => ({
                 value: d.value,
@@ -485,7 +523,7 @@ const ReturnFormNew = () => {
 
     return (
         <>
-            <div className="container" style={{ paddingBottom: "70px" }}>
+            <div className="container" style={{ paddingBottom: "35px" }}>
                 <div className="row g-2 newReturnForm">
                     <div className="col-lg-3">
                         <div className="newReturnSingleBox">
@@ -493,7 +531,7 @@ const ReturnFormNew = () => {
                                 <span className="nrsb">From</span>
                             </div>
                             <FromSearchInput
-                                placeholder="input search text"
+                                placeholder="Search"
                                 style={{ width: "100%" }}
                                 onItemSelect={handleFromSelect} // Pass the callback function
                             />
@@ -508,7 +546,7 @@ const ReturnFormNew = () => {
                                 <span className="nrsb">From</span>
                             </div>
                             <ToSearchInput
-                                placeholder="input search text"
+                                placeholder="Search"
                                 style={{ width: "100%" }}
                                 onItemSelect={handleToSelect} // Pass the callback function
                             />
@@ -669,9 +707,7 @@ const ReturnFormNew = () => {
                 <div
                     style={{ position: "relative", top: "80px", marginTop: "-45px" }}
                     className="onewaySearch-btn" id="item-5Return">
-                    <Button className="returnButton" style={{ padding: "8px 36px", height: "unset" }} onClick={handleOnewaySubmit} loading={loader}>
-                        Search
-                    </Button>
+                    <Button className="returnButton" style={{ padding: "8px 36px", height: "unset" }} onClick={handleOnewaySubmit} loading={loader}>Search</Button>
                 </div>
             </div>
         </>

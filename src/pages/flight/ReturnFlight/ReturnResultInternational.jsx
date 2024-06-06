@@ -237,7 +237,8 @@ const ReturnResultInternational = () => {
     }
 
     const filteredData =
-        result[0].filter((item) => {
+        result[0]?.filter((item) => {
+            console.log(item, "itenm")
             const segmentLength = item?.Segments?.[0].length;
             const depTime = new Date(item?.Segments?.[0][0]?.Origin?.DepTime);
             const hour = depTime.getHours();
@@ -245,9 +246,10 @@ const ReturnResultInternational = () => {
             const hourArr = ArrTime.getHours();
             const airlineName = item?.Segments?.[0][0]?.Airline?.AirlineName;
 
-            const depTimeReturn = new Date(item?.Segments?.[1][0]?.Origin?.DepTime);
+            console.log(item?.Segments, "segment", segmentLength)
+            const depTimeReturn = new Date(item?.Segments?.[item?.Segments?.length - 1][0]?.Origin?.DepTime);
             const hourReturn = depTimeReturn.getHours();
-            const ArrTimeReturn = new Date(item?.Segments?.[1][segmentLength - 1]?.Destination?.ArrTime);
+            const ArrTimeReturn = new Date(item?.Segments?.[item?.Segments?.length - 1][segmentLength - 1]?.Destination?.ArrTime);
             const hourArrReturn = ArrTimeReturn.getHours();
 
             const categoryFilters = selectedCategory.map((category) => {
@@ -740,7 +742,7 @@ const ReturnResultInternational = () => {
 
                                     <div className="busDepartureMain">
                                         <h2 className="sidebar-title">Departure From {
-                                            result.length > 0 && result?.[0][0]?.Segments?.[1][0]?.Origin?.Airport?.CityName
+                                            result.length > 0 && result?.[0][0]?.Segments?.[result?.[0][0]?.Segments?.length - 1][0]?.Origin?.Airport?.CityName
                                         }</h2>
 
                                         <div>
@@ -886,7 +888,7 @@ const ReturnResultInternational = () => {
 
                                     <div className="busDepartureMain">
                                         <h2 className="sidebar-title">Arrival at  {
-                                            result.length > 0 && result?.[0][0]?.Segments?.[1][arrSegmentLength - 1]?.Destination
+                                            result.length > 0 && result?.[0][0]?.Segments?.[result?.[0][0]?.Segments?.length - 1][arrSegmentLength - 1]?.Destination
                                                 ?.Airport?.CityName
                                         }</h2>
 
@@ -1231,17 +1233,17 @@ const ReturnResultInternational = () => {
                                                                                             </div>
                                                                                             <span>
                                                                                                 {
-                                                                                                    item?.Segments[1][0]?.Airline
+                                                                                                    item?.Segments[item?.Segments?.length - 1][0]?.Airline
                                                                                                         ?.AirlineName
                                                                                                 }
                                                                                             </span>
                                                                                             <p>
                                                                                                 {
-                                                                                                    item?.Segments[1][0]?.Airline
+                                                                                                    item?.Segments[item?.Segments?.length - 1][0]?.Airline
                                                                                                         ?.AirlineCode
                                                                                                 }
                                                                                                 {
-                                                                                                    item?.Segments[1][0]?.Airline
+                                                                                                    item?.Segments[item?.Segments?.length - 1][0]?.Airline
                                                                                                         ?.FlightNumber
                                                                                                 }
                                                                                             </p>
@@ -1250,52 +1252,52 @@ const ReturnResultInternational = () => {
                                                                                             <div class="returnResultTimingBox">
                                                                                                 <span>
                                                                                                     {
-                                                                                                        item?.Segments[1][0]?.Origin
+                                                                                                        item?.Segments[item?.Segments?.length - 1][0]?.Origin
                                                                                                             ?.Airport?.CityName
                                                                                                     }
                                                                                                 </span>
                                                                                                 <p>
                                                                                                     {dayjs(
-                                                                                                        item?.Segments[1][0]?.Origin
+                                                                                                        item?.Segments[item?.Segments?.length - 1][0]?.Origin
                                                                                                             ?.DepTime
                                                                                                     ).format("DD MMM, YY")}
                                                                                                 </p>
                                                                                                 <h5 className="daySize">
                                                                                                     {dayjs(
-                                                                                                        item?.Segments[1][0]?.Origin
+                                                                                                        item?.Segments[item?.Segments?.length - 1][0]?.Origin
                                                                                                             ?.DepTime
                                                                                                     ).format("h:mm A")}
                                                                                                 </h5>
                                                                                             </div>
                                                                                             <div class="returnResultDurationBox">
                                                                                                 {
-                                                                                                    item?.Segments[1].length > 1 ?
+                                                                                                    item?.Segments[item?.Segments?.length - 1].length > 1 ?
                                                                                                         <h4>
                                                                                                             {`${Math.floor(
-                                                                                                                item?.Segments[1][0]?.Duration /
+                                                                                                                item?.Segments[item?.Segments?.length - 1][0]?.Duration /
                                                                                                                 60
                                                                                                             )}hr ${item?.Segments[0][0]?.Duration %
                                                                                                             60
                                                                                                                 }min`}{" "}
                                                                                                             -{" "}
                                                                                                             {`${Math.floor(
-                                                                                                                item?.Segments[1][1]?.Duration /
+                                                                                                                item?.Segments[item?.Segments?.length - 1][1]?.Duration /
                                                                                                                 60
                                                                                                             )}hr ${item?.Segments[0][0]?.Duration %
                                                                                                             60
                                                                                                                 }min`}
                                                                                                         </h4> : <h4>
                                                                                                             {`${Math.floor(
-                                                                                                                item?.Segments[1][0]?.Duration /
+                                                                                                                item?.Segments[item?.Segments?.length - 1][0]?.Duration /
                                                                                                                 60
-                                                                                                            )}hr ${item?.Segments[1][0]?.Duration %
+                                                                                                            )}hr ${item?.Segments[item?.Segments?.length - 1][0]?.Duration %
                                                                                                             60
                                                                                                                 }min`}
                                                                                                         </h4>}
 
 
                                                                                                 {
-                                                                                                    item?.Segments[1].length > 1 ?
+                                                                                                    item?.Segments[item?.Segments?.length - 1].length > 1 ?
                                                                                                         (
                                                                                                             <div className=" stopBefReturn">
                                                                                                                 <Divider
@@ -1326,12 +1328,12 @@ const ReturnResultInternational = () => {
                                                                                                         )
                                                                                                 }
                                                                                                 <p>{
-                                                                                                    item?.Segments[1].length > 1 ?
-                                                                                                        `${item?.Segments[1].length - 1} stop via ${item?.Segments[1][0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
+                                                                                                    item?.Segments[item?.Segments?.length - 1].length > 1 ?
+                                                                                                        `${item?.Segments[item?.Segments?.length - 1].length - 1} stop via ${item?.Segments[item?.Segments?.length - 1][0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
 
                                                                                                 <span>
                                                                                                     {
-                                                                                                        item?.Segments[1][0]
+                                                                                                        item?.Segments[item?.Segments?.length - 1][0]
                                                                                                             ?.NoOfSeatAvailable
                                                                                                     }{" "}
                                                                                                     Seats Left
@@ -1340,18 +1342,18 @@ const ReturnResultInternational = () => {
                                                                                             <div class="returnResultTimingBox">
                                                                                                 <span>
                                                                                                     {
-                                                                                                        item?.Segments[1][item?.Segments[1].length - 1]?.Destination
+                                                                                                        item?.Segments[item?.Segments?.length - 1][item?.Segments[item?.Segments?.length - 1].length - 1]?.Destination
                                                                                                             ?.Airport?.CityName
                                                                                                     }
                                                                                                 </span>
                                                                                                 <p>
                                                                                                     {dayjs(
-                                                                                                        item?.Segments?.[1][item?.Segments[1].length - 1]?.Destination?.ArrTime
+                                                                                                        item?.Segments?.[item?.Segments?.length - 1][item?.Segments[item?.Segments?.length - 1].length - 1]?.Destination?.ArrTime
                                                                                                     ).format("DD MMM, YY")}
                                                                                                 </p>
                                                                                                 <h5 className="daySize">
                                                                                                     {dayjs(
-                                                                                                        item?.Segments?.[1][item?.Segments[1].length - 1]
+                                                                                                        item?.Segments?.[item?.Segments?.length - 1][item?.Segments[item?.Segments?.length - 1].length - 1]
                                                                                                             ?.Destination?.ArrTime
                                                                                                     ).format("h:mm A")}
                                                                                                 </h5>

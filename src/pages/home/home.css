@@ -134,7 +134,7 @@
   border-color: #ff8900;
 }
 
-.form_radio input:checked ~ label {
+.form_radio input:checked~label {
   color: #ff8900;
 }
 
@@ -250,28 +250,28 @@ h6 {
   width: 100%;
 }
 
-.form-group > span,
+.form-group>span,
 .form-field {
   white-space: nowrap;
   display: block;
 }
 
-.form-group > span,
+.form-group>span,
 .form-field :not(:first-child):not(:last-child) {
   border-radius: 0;
 }
 
-.form-group > span,
+.form-group>span,
 .form-field :first-child {
   border-radius: 6px 0 0 6px;
 }
 
-.form-group > span,
+.form-group>span,
 .form-field :last-child {
   border-radius: 0 6px 6px 0;
 }
 
-.form-group > span,
+.form-group>span,
 .form-field :not(:first-child) {
   margin-left: -1px;
 }
@@ -285,8 +285,8 @@ h6 {
   margin-bottom: 0;
 }
 
-.form-group > span,
-.form-field > span {
+.form-group>span,
+.form-field>span {
   text-align: center;
   padding: 8px 12px;
   font-size: 17px;
@@ -299,8 +299,8 @@ h6 {
   transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
 }
 
-.form-group > span,
-.form-field :focus-within > span {
+.form-group>span,
+.form-field :focus-within>span {
   color: #252525;
   background: #5dcbf9;
   border-color: #5dcbf9;
@@ -607,7 +607,7 @@ body .form-group:not(:last-child) {
   align-items: center;
 }
 
-.tabBox > div {
+.tabBox>div {
   display: flex;
   align-items: center;
   padding: 3px;
@@ -624,7 +624,8 @@ body .form-group:not(:last-child) {
   font-style: normal;
   font-weight: 500;
   border-bottom: 1px solid #e73c34;
-  line-height: 160%; /* 28.8px */
+  line-height: 160%;
+  /* 28.8px */
 }
 
 .buttonTabs {
@@ -651,7 +652,8 @@ body .form-group:not(:last-child) {
   z-index: 2;
   font-style: normal;
   font-weight: 500;
-  line-height: 160%; /* 57.6px */
+  line-height: 160%;
+  /* 57.6px */
   letter-spacing: 0.72px;
 }
 
@@ -675,7 +677,7 @@ body .form-group:not(:last-child) {
   /* width: 100%; */
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 45%;
   border-radius: 24px;
   transform: translate(-50%, -50%);
   /* z-index: 2; */
@@ -686,15 +688,15 @@ body .form-group:not(:last-child) {
 
 
 .homeabsnew1 {
-    /* width: 100%; */
-    position: absolute;
-    left: 50%;
-    top: 22%;
-    /* border-radius: 24px; */
-    transform: translate(-50%, -50%);
-    /* z-index: 2; */
-    /* border: 1px solid #f0f0f0; */
-    padding: var(--6, 24px);
+  /* width: 100%; */
+  position: absolute;
+  left: 50%;
+  top: 22%;
+  /* border-radius: 24px; */
+  transform: translate(-50%, -50%);
+  /* z-index: 2; */
+  /* border: 1px solid #f0f0f0; */
+  padding: var(--6, 24px);
 
 }
 

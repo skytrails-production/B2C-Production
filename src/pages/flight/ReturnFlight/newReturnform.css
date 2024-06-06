@@ -26,12 +26,23 @@
     border: none !important;
 }
 
+.newReturnForm .ant-select-selector:focus-visible {
+    padding: 0px 7px !important;
+    border: none !important;
+    box-shadow: unset !important;
+}
+
 .newReturnForm .ant-select-single {
     height: unset !important;
 }
 
 .newReturnForm .ant-select:focus-visible {
     box-shadow: unset !important;
+}
+
+.ant-select-focused:where(.css-j9bb5n).ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer) .ant-select-selector {
+    box-shadow: unset !important;
+
 }
 
 .ant-select-focused:where(.css-dev-only-do-not-override-j9bb5n).ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer) .ant-select-selector {
@@ -49,7 +60,7 @@
 
 }
 
-.newReturnSingleBox:where(.css-dev-only-do-not-override-j9bb5n).ant-picker-range .ant-picker-active-bar {
+.newReturnSingleBox:where(.css-j9bb5n).ant-picker-range .ant-picker-active-bar {
     bottom: -1px;
     height: 2px;
     background: #E73C34 !important;
@@ -87,14 +98,22 @@
 }
 
 
-.returnButton:where(.css-dev-only-do-not-override-j9bb5n).ant-btn {
-    height: unset !important;
+:where(.cssj9bb5n).ant-btn {
+    height: unset !important;
 }
 
 .returnButton button {
     height: unset !important;
     padding: 8px 36px !important;
     border-color: #E73C34 !important;
+}
+
+
+
+.returnButton:where(.css-j9bb5n).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
+    color: #fff !important;
+    border-color: #E73C34 !important;
+    background: #E73C34 !important;
 }
 
 .returnButton:where(.css-dev-only-do-not-override-j9bb5n).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
@@ -104,13 +123,24 @@
 }
 
 
-:where(.css-dev-only-do-not-override-j9bb5n).ant-picker-range .ant-picker-active-bar {
+:where(.css-j9bb5n).ant-picker-range .ant-picker-active-bar {
 
     background: #E73C34 !important;
 
 }
 
-:where(.css-dev-only-do-not-override-j9bb5n).ant-select-dropdown .ant-select-item {
+:where(.css-j9bb5n).ant-picker-range .ant-picker-active-bar {
+    background: #E73C34 !important;
+}
+
+:where(.css-j9bb5n).ant-select-dropdown .ant-select-item {
 
     border-bottom: 1px solid #ddd !important;
+}
+
+
+.ant-select-focused:where(.css-j9bb5n).ant-select-outlined:not(.ant-select-disabled):not(.ant-select-customize-input):not(.ant-pagination-size-changer) .ant-select-selector {
+    border-color: unset !important;
+    box-shadow: unset !important;
+    outline: 0;
 }
