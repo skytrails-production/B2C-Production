@@ -86,7 +86,7 @@ const FromSearchInput = (props) => {
 
     const [FromPlaceholder, setFromPlaceholder] = useState('')
     const [FromDisplayValue, setFromDisplayValue] = useState(initialSelectedFromData.name);
-
+    const [inputStyle, setInputStyle] = useState({});
 
     useEffect(() => {
         setFromData([
@@ -109,6 +109,7 @@ const FromSearchInput = (props) => {
         setFromValue(selected ? selected.name : newValue);
         setFromDisplayValue(selected ? selected.name : newValue);
         setSelectedItem(selected ? selected.item : null);
+        setInputStyle({ caretColor: 'transparent' });
         if (selected) {
             onItemSelect(selected.item);
         }
@@ -117,11 +118,13 @@ const FromSearchInput = (props) => {
     const handleFromFocus = () => {
         setFromPlaceholder('From');
         setFromDisplayValue(''); // Clear display value to show placeholder
+        setInputStyle({});
     };
 
     const handleFromBlur = () => {
         setFromPlaceholder('');
         setFromDisplayValue(fromValue); // Reset display value to selected value
+        setInputStyle({ caretColor: 'transparent' });
     };
     const renderFromOption = (option) => (
         <div>
@@ -135,11 +138,12 @@ const FromSearchInput = (props) => {
     return (
         <Select
             showSearch
+            style={inputStyle}
             // value={fromValue}
             value={FromDisplayValue}
             // placeholder={props.placeholder}
             placeholder={FromPlaceholder || props.placeholder}
-            style={props.style}
+            // style={props.style}
             defaultActiveFirstOption={false}
             suffixIcon={null}
             filterOption={false}
@@ -221,6 +225,7 @@ const ToSearchInput = (props) => {
 
     const [ToPlaceholder, setToPlaceholder] = useState('')
     const [ToDisplayValue, setToDisplayValue] = useState(initialSelectedToData.name);
+    const [inputStyle, setInputStyle] = useState({});
 
     useEffect(() => {
         setToData([
@@ -243,6 +248,7 @@ const ToSearchInput = (props) => {
         setToValue(selected ? selected.name : newValue);
         setToDisplayValue(selected ? selected.name : newValue);
         setSelectedItem(selected ? selected.item : null);
+        setInputStyle({ caretColor: 'transparent' });
         if (selected) {
             onItemSelect(selected.item);
         }
@@ -251,11 +257,13 @@ const ToSearchInput = (props) => {
     const handleToFocus = () => {
         setToPlaceholder('To');
         setToDisplayValue(''); // Clear display value to show placeholder
+        setInputStyle({});
     };
 
     const handleTOBlur = () => {
         setToPlaceholder('');
         setToDisplayValue(toValue); // Reset display value to selected value
+        setInputStyle({ caretColor: 'transparent' });
     };
 
     const renderToOption = (option) => (
@@ -275,7 +283,8 @@ const ToSearchInput = (props) => {
             // placeholder={props.placeholder}
             placeholder={ToPlaceholder || props.placeholder}
             // placeholder={props.placeholder}
-            style={props.style}
+            // style={props.style}
+            style={inputStyle}
             defaultActiveFirstOption={false}
             suffixIcon={null}
             filterOption={false}

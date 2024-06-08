@@ -144,3 +144,36 @@
     box-shadow: unset !important;
     outline: 0;
 }
+
+
+
+
+
+
+@media only screen and (max-width: 668px) {
+
+    .newReturnSingleBox:where(.css-dev-only-do-not-override-j9bb5n).ant-picker-dropdown .ant-picker-decade-panel,
+    :where(.css-dev-only-do-not-override-j9bb5n).ant-picker-dropdown .ant-picker-year-panel,
+    :where(.css-dev-only-do-not-override-j9bb5n).ant-picker-dropdown .ant-picker-quarter-panel,
+    :where(.css-dev-only-do-not-override-j9bb5n).ant-picker-dropdown .ant-picker-month-panel,
+    :where(.css-dev-only-do-not-override-j9bb5n).ant-picker-dropdown .ant-picker-week-panel,
+    :where(.css-dev-only-do-not-override-j9bb5n).ant-picker-dropdown .ant-picker-date-panel,
+    :where(.css-dev-only-do-not-override-j9bb5n).ant-picker-dropdown .ant-picker-time-panel {
+        display: flex;
+        flex-direction: column;
+        width: 187px !important;
+    }
+
+    .newReturnSingleBox:where(.css-j9bb5n).ant-picker-dropdown .ant-picker-decade-panel,
+    :where(.css-j9bb5n).ant-picker-dropdown .ant-picker-year-panel,
+    :where(.css-j9bb5n).ant-picker-dropdown .ant-picker-quarter-panel,
+    :where(.css-j9bb5n).ant-picker-dropdown .ant-picker-month-panel,
+    :where(.css-j9bb5n).ant-picker-dropdown .ant-picker-week-panel,
+    :where(.css-j9bb5n).ant-picker-dropdown .ant-picker-date-panel,
+    :where(.css-j9bb5n).ant-picker-dropdown .ant-picker-time-panel {
+        display: flex;
+        flex-direction: column;
+        width: 187px !important;
+    }
+
+}
