@@ -78,7 +78,7 @@ Input {
 .offer_area {
     width: 100%;
     height: auto;
-    background: #F9EDED 0% 0% no-repeat padding-box;
+    background: #fff 0% 0% no-repeat padding-box;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     border-radius: 10px;
     opacity: 1;
@@ -92,6 +92,18 @@ Input {
     padding-left: 10px;
 }
 
+
+.offer_area .insideOffer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.offer_area .insideOffer .insideOfferText {
+    font-size: 16px;
+    font-weight: 600;
+}
+
 .offer_area .priceCheck {
     min-width: 200px;
     border-left: 1px solid lightgray;
@@ -100,6 +112,25 @@ Input {
     justify-content: center;
     align-items: center;
     gap: 15px;
+}
+
+.panDesign {
+    font-weight: 500;
+    color: #071C2C;
+    font-size: 12px;
+}
+
+
+.panDesign2 {
+    font-weight: 500;
+    font-size: 12px;
+    color: #9b0e0e;
+}
+
+.panDesign3 {
+    font-weight: 500;
+    font-size: 12px;
+    color: #135e13;
 }
 
 .priceCheck h3 {

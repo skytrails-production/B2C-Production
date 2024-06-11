@@ -2644,10 +2644,16 @@ export default function BookWrapper() {
               }}>Add Extra Baggage</div>
               <div className="baggageAireLine">
                 <div style={{ display: "flex", gap: "10px" }}>
-                  <img
-                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${baggageList?.data?.Response?.Baggage?.[0][0]?.AirlineCode}.png`} alt={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/AI.png`}
-                    style={{ height: "50px", objectFit: "contain" }}
-                  />
+                  {baggageList?.data?.Response?.Baggage?.[0][0]?.AirlineCode ?
+
+                    <img
+                      src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${baggageList?.data?.Response?.Baggage?.[0][0]?.AirlineCode}.png`} alt={`filght img`}
+                      style={{ height: "50px", objectFit: "contain" }}
+                    /> :
+                    <img
+                      src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${TicketDetails?.Segments[0][0]?.Airline?.AirlineCode}.png`}
+                    />}
+                  {" "}
                   <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                     <div style={{ fontWeight: "600" }}>
                       {TicketDetails?.Segments[0][0]?.Origin?.Airport
@@ -2728,13 +2734,19 @@ export default function BookWrapper() {
               <div style={{
                 fontSize: "18px",
                 fontWeight: "700"
-              }}>Add Extra Baggage</div>
+              }}>Add Extra Meal</div>
               <div className="baggageAireLine">
                 <div style={{ display: "flex", gap: "10px" }}>
-                  <img
-                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${baggageList?.data?.Response?.Baggage?.[0][0]?.AirlineCode}.png`} alt={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/AI.png`}
-                    style={{ height: "50px", objectFit: "contain" }}
-                  />
+                  {baggageList?.data?.Response?.Baggage?.[0][0]?.AirlineCode ?
+
+                    <img
+                      src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${baggageList?.data?.Response?.Baggage?.[0][0]?.AirlineCode}.png`} alt={`filght img`}
+                      style={{ height: "50px", objectFit: "contain" }}
+                    /> :
+                    <img
+                      src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${TicketDetails?.Segments[0][0]?.Airline?.AirlineCode}.png`}
+                    />}
+                  {" "}
                   <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
                     <div style={{ fontWeight: "600" }}>
                       {TicketDetails?.Segments[0][0]?.Origin?.Airport
@@ -2750,7 +2762,7 @@ export default function BookWrapper() {
                   </div>
                 </div>
               </div>
-              <div>Included Mell per person </div>
+              <div>Included  Meal per person </div>
               <div className="extraBaggageSection">{mellList?.data?.Response?.Error?.ErrorCode === 0 ?
 
                 mellList?.data?.Response?.MealDynamic?.[0]?.map((bag, index) => {
@@ -2794,7 +2806,7 @@ export default function BookWrapper() {
               {0 < mellData?.length && <div className="bagPriceCon" >
 
 
-                <div> {mellData?.length} of {Number(adultCount) + Number(childCount)} Mell(s) Selected</div>
+                <div> {mellData?.length} of {Number(adultCount) + Number(childCount)}  Meal(s) Selected</div>
                 <div className="bagPriceConRight" style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "15px" }}>
 
                   <div>

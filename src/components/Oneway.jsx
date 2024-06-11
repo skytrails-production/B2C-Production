@@ -4,16 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { apiURL } from "../Constants/constant";
 import FlightTakeoffTwoToneIcon from "@mui/icons-material/FlightTakeoffTwoTone";
 import axios from "axios";
-import { CiSearch } from "react-icons/ci";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { ipAction, tokenAction } from "../Redux/IP/actionIp";
 import { oneWayAction, resetOneWay } from "../Redux/FlightSearch/oneWay";
 import { useNavigate } from "react-router-dom";
-import FlightLandIcon from "@mui/icons-material/FlightLand";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import "./style/Oneway.css";
@@ -28,10 +24,7 @@ import "./flight.css";
 import TravelerCounter from "./TravelerCounter";
 import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
 import SecureStorage from "react-secure-storage";
-import {
-  returnAction,
-  returnActionClear,
-} from "../Redux/FlightSearch/Return/return";
+import { returnActionClear } from "../Redux/FlightSearch/Return/return";
 
 function Oneway() {
   // /////////////////////////////////States//////////////////////////////////////////////
@@ -40,7 +33,6 @@ function Oneway() {
   const [toQuery, setToQuery] = useState("mumbai");
   const [to, setTO] = useState("");
   const [toSearchResults, setToSearchResults] = useState([]);
-  const [displayTo, setdisplayTo] = useState(true);
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
   const [activeIdClass, setActiveIdClass] = useState(2);
   const [activeIdChild, setActiveIdChild] = useState(0);
@@ -55,7 +47,6 @@ function Oneway() {
   const [fromQuery, setFromQuery] = useState("delhi");
   const [isLoadingFrom, setIsLoadingFrom] = useState(false);
   const [from, setFrom] = useState("");
-  const [placeholder, setPlaceholder] = useState("Enter city or airport");
   const [cityIndex, setcityIndex] = useState(-1);
   const [cityIndex1, setcityIndex1] = useState(-1);
   const [maxcity, setmaxcity] = useState(1);
@@ -65,12 +56,6 @@ function Oneway() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  // const handleKeyDown = (event) => {
-  //   if (event.key === 'Enter') {
-  //     event.preventDefault();
-  //   }
-  // };
 
   const reducerState = useSelector((state) => state);
   const scrollableRef = useRef(null);
@@ -99,9 +84,6 @@ function Oneway() {
     }
   };
 
-  // //////////////////////////////////////////////////////////////////////
-
-  // //////////////////////////////traveller/////////////////////////////////////
   const [data2, setData] = useState({
     adult: 0,
     child: 0,
@@ -502,9 +484,9 @@ function Oneway() {
   };
   // console.log(reducerState?.logIn?.loginData?.data?.result?.
   //   _id
-    
 
-    // , "reducerState?.logIn?.loginData?.data?.data?.id")
+
+  // , "reducerState?.logIn?.loginData?.data?.data?.id")
 
   return (
     <>

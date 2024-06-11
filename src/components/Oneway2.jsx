@@ -24,6 +24,7 @@ import TravelerCounter from "./TravelerCounter";
 import { CiSearch } from "react-icons/ci";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
+import dayjs from "dayjs";
 
 
 
@@ -50,11 +51,13 @@ const Oneway2 = (props) => {
   );
 
   const date = new Date();
-  const formattedDate2 = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
+  // const formattedDate2 = `${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getDate().toString().padStart(2, '0')}/${date.getFullYear()}`;
 
-  const passedDate = new Date(value2[0].startDate);
-  const formattedDate = `${(passedDate.getMonth() + 1).toString().padStart(2, '0')}/${passedDate.getDate().toString().padStart(2, '0')}/${passedDate.getFullYear()}`;
-  const [startDate, setStartDate] = useState(new Date(formattedDate));
+  const revertDate = dayjs(value2[0].newDepartDate).format("DD MMM, YY")
+
+  const passedDate = new Date(revertDate);
+  // const formattedDate = `${(passedDate.getMonth() + 1).toString().padStart(2, '0')}/${passedDate.getDate().toString().padStart(2, '0')}/${passedDate.getFullYear()}`;
+  const [startDate, setStartDate] = useState(passedDate);
   const currentdate = new Date();
 
   const handleDateChange = (date) => {
@@ -342,8 +345,8 @@ const Oneway2 = (props) => {
           Origin: selectedFrom.AirportCode,
           Destination: selectedTo.AirportCode,
           FlightCabinClass: activeIdClass,
-          PreferredDepartureTime: formattedDate2,
-          PreferredArrivalTime: formattedDate2,
+          PreferredDepartureTime: startDate,
+          PreferredArrivalTime: startDate,
         },
       ],
       Sources: null,

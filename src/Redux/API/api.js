@@ -485,7 +485,7 @@ function api() {
     const token = secureLocalStorage?.getItem("jwtToken");
     return axios({
       method: "POST",
-      url: "/skyTrails/grnconnect/addhotelBooking",
+      url: "/skyTrails/api/grn/user/grnBookig",
       baseURL: `${apiURL.baseURL}`,
       data: payload,
       headers: {

@@ -6,7 +6,7 @@ import Oneway from "../../components/Oneway";
 import "./home.css";
 import { motion } from "framer-motion";
 import Advertise from "./Advertise";
-import FLightOffer from "../flight/FLightOffer";
+// import FLightOffer from "../flight/FLightOffer";
 
 import HolidaySuggestion from "../holidaypackages/holidaySuggestion/HolidaySuggestion";
 import HolidayCategory from "../holidaypackages/holidayCategory/HolidayCategory";
@@ -15,14 +15,15 @@ import HolidayDomestic from "../holidaypackages/holidayCategory/HolidayDomestic"
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
 import HolidayBudget from "../holidaypackages/holidayCategory/HolidayBudget";
-import ReturnForm from "../flight/ReturnFlight/ReturnForm";
-import SecureStorage from "react-secure-storage";
+// import ReturnForm from "../flight/ReturnFlight/ReturnForm";
+// import SecureStorage from "react-secure-storage";
 import Partners from "./Partners";
 import flightbanner from "../../images/aerial.png";
-import EventBanner from "./EventBanner";
+// import EventBanner from "./EventBanner";
 import MulticityForm from "../flight/MultiCity/MulticityForm";
 import Blog from "./Blog";
 import ReturnFormNew from "../flight/ReturnFlight/ReturnFornNew";
+import OnewayNew from "../../components/OnewayNew";
 
 const variants = {
   initial: {
@@ -134,7 +135,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
               </div>
             </div>
           </div>
-          {activeTab === "oneway" && <Oneway />}
+          {activeTab === "oneway" && <OnewayNew />}
           {activeTab === "return" && <ReturnFormNew />}
 
           {activeTab === "multicity" && <MulticityForm />}

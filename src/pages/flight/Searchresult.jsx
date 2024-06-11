@@ -1,18 +1,10 @@
-import Searchsection from './Searchsection';
+// import Searchsection from './Searchsection';
 import Popularfilter from "./Popularfilter";
-import { useSelector } from "react-redux";
-// import FlightLoader from "./FlightLoader/FlightLoader";
 import Oneway2 from '../../components/Oneway2';
-import { useEffect, useState } from 'react';
 import { Helmet } from "react-helmet-async";
 
 const Searchresult = () => {
-    const reducerState = useSelector((state) => state);
-    // const [noResult, setNoResult] = useState(false)
 
-    useEffect(() => {
-        // console.warn(reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorMessage, "page not foundtyry")
-    }, [reducerState?.oneWay])
     return (
         <>
             <Helmet>
@@ -30,7 +22,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
                 <div className='mainimgFlightSearch'>
                     <Oneway2 />
                 </div>
-                <Searchsection className='main_box' />
+                {/* <Searchsection className='main_box' /> */}
 
                 <Popularfilter />
             </div>

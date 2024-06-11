@@ -49,7 +49,9 @@ const GrmHotelHome = () => {
             <div className="mainimg">
                 <img className="bannerBack" src={flightbanner} alt="background" />
                 {/* <BigNavbar /> */}
-                <GrmHotelForm />
+                <div className="homeabsnew container">
+                    <GrmHotelForm />
+                </div>
             </div>
 
 

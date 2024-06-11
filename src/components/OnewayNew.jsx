@@ -1,27 +1,33 @@
-import * as React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import "./Onewaynew.css";
 import { useDispatch, useSelector } from "react-redux";
-import { apiURL } from "../../../Constants/constant";
-import { ipAction, tokenAction } from "../../../Redux/IP/actionIp";
+import { apiURL } from "../Constants/constant";
+// import FlightTakeoffTwoToneIcon from "@mui/icons-material/FlightTakeoffTwoTone";
+import axios from "axios";
+import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
+import "react-datepicker/dist/react-datepicker.css";
+import { oneWayAction, resetOneWay } from "../Redux/FlightSearch/oneWay";
 import { useNavigate } from "react-router-dom";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+import "./style/Oneway.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import "react-datepicker/dist/react-datepicker.css";
-import axios from "axios";
-import TravelerCounter from "../../../components/TravelerCounter";
-import { clearbookTicketGDS } from "../../../Redux/FlightBook/actionFlightBook";
-import { resetAllFareData } from "../../../Redux/FlightFareQuoteRule/actionFlightQuote";
-import SecureStorage from "react-secure-storage";
-import "./newReturnform.css"
-import { returnAction, returnActionClear } from "../../../Redux/FlightSearch/Return/return";
-import { swalModal } from "../../../utility/swal";
+import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import "./card.css";
+// import { Helmet } from "react-helmet-async";
+import "./flight.css";
+import TravelerCounter from "./TravelerCounter";
+import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
+// import SecureStorage from "react-secure-storage";
+import { returnActionClear } from "../Redux/FlightSearch/Return/return";
+
 import { Select } from "antd";
 import { DatePicker, Space, Button } from "antd";
 import dayjs from "dayjs";
-const { RangePicker } = DatePicker;
+// const { RangePicker } = DatePicker;
 
 
 
@@ -304,13 +310,13 @@ const ToSearchInput = (props) => {
 
 // to data logic 
 
-const ReturnFormNew = () => {
 
 
-    const reducerState = useSelector((state) => state);
+function OnewayNew() {
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const [startDate, setStartDate] = useState(new Date());
+    const reducerState = useSelector((state) => state);
     const [loader, setLoader] = useState(false);
     const [openTravelModal, setOpenTravelModal] = useState(false);
     const [activeIdClass, setActiveIdClass] = useState(2);
@@ -321,6 +327,12 @@ const ReturnFormNew = () => {
     const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData);
     const [selectedTo, setSelectedTo] = useState(initialSelectedToData);
 
+    useEffect(() => {
+        dispatch(clearbookTicketGDS());
+        dispatch(resetAllFareData());
+        dispatch(returnActionClear());
+    }, []);
+
     const handleFromSelect = (item) => {
         setSelectedFrom(item);
     };
@@ -328,33 +340,16 @@ const ReturnFormNew = () => {
         setSelectedTo(item);
     };
 
-    // console.log(selectedFrom)
 
-    useEffect(() => {
-        dispatch(returnActionClear());
-        dispatch(ipAction());
-    }, []);
-
-
-    useEffect(() => {
-        const payload = {
-            EndUserIp: reducerState?.ip?.ipData,
-        };
-        dispatch(tokenAction(payload));
-    }, [reducerState?.ip?.ipData]);
-
-    // Ant Design Date Range Picker
-
-
-    const dateFormat = "DD MMM";
+    const dateFormat = "DD MMM, YY";
     const today = dayjs().format(dateFormat);
     const [newDepartDate, setNewDepartDate] = useState(today);
-    const [newReturnDate, setNewReturnDate] = useState(today);
 
-    const handleRangeChange = (dates, dateStrings) => {
-        if (dates) {
-            setNewDepartDate(dayjs(dates[0]).format("DD MMM, YY"));
-            setNewReturnDate(dayjs(dates[1]).format("DD MMM, YY"));
+    console.log(newDepartDate, "new departure date")
+
+    const handleRangeChange = (date) => {
+        if (date) {
+            setNewDepartDate(dayjs(date).format(dateFormat));
         } else {
             console.log("Selection cleared");
         }
@@ -365,54 +360,6 @@ const ReturnFormNew = () => {
         return current && current < dayjs().startOf('day');
     };
 
-
-
-
-
-
-    useEffect(() => {
-        if (reducerState?.return?.isLoading === true) {
-            setLoader(true);
-        }
-    }, [reducerState?.return?.isLoading]);
-
-    const returnResults =
-        reducerState?.return?.returnData?.data?.data?.Response?.Results;
-
-    useEffect(() => {
-        if (returnResults) {
-            if (returnResults[1] !== undefined) {
-                navigate(`/ReturnResult`);
-            } else {
-                navigate("/ReturnResultInternational");
-            }
-        }
-
-        if (returnResults) {
-            setLoader(false);
-        }
-    }, [reducerState?.return?.returnData?.data?.data?.Response?.Results]);
-
-    useEffect(() => {
-        if (
-            reducerState?.return?.returnData?.data?.data?.Response?.Error
-                ?.ErrorCode !== 0 &&
-            reducerState?.return?.returnData?.data?.data?.Response?.Error
-                ?.ErrorCode !== undefined
-        ) {
-            // navigate("/return")
-            dispatch(returnActionClear());
-            swalModal(
-                "flight",
-                reducerState?.return?.returnData?.data?.data?.Response?.Error
-                    ?.ErrorMessage,
-                false
-            );
-            setLoader(false);
-        }
-    }, [
-        reducerState?.return?.returnData?.data?.data?.Response?.Error?.ErrorCode,
-    ]);
 
     const handleTravelerCountChange = (category, value) => {
         if (category === "adult") {
@@ -474,9 +421,16 @@ const ReturnFormNew = () => {
         }
     };
 
+
+
+
+    // ////////////////////submit logic///////////////
+
     function handleOnewaySubmit(event) {
+
         event.preventDefault();
 
+        sessionStorage.setItem("SessionExpireTime", new Date());
 
         const payload = {
             EndUserIp: reducerState?.ip?.ipData,
@@ -486,7 +440,7 @@ const ReturnFormNew = () => {
             InfantCount: activeIdInfant,
             DirectFlight: "false",
             OneStopFlight: "false",
-            JourneyType: "2",
+            JourneyType: 1,
             PreferredAirlines: null,
             Segments: [
                 {
@@ -496,25 +450,81 @@ const ReturnFormNew = () => {
                     PreferredDepartureTime: newDepartDate,
                     PreferredArrivalTime: newDepartDate,
                 },
-                {
-                    Origin: selectedTo.AirportCode,
-                    Destination: selectedFrom.AirportCode,
-                    FlightCabinClass: activeIdClass,
-                    PreferredDepartureTime: newReturnDate,
-                    PreferredArrivalTime: newReturnDate,
-                },
             ],
             Sources: null,
         };
 
+        // SecureStorage.setItem(
+        //     "revisitOnewayData",
+        //     JSON.stringify([
+        //         {
+        //             AirportCode: selectedFrom.AirportCode,
+        //             CityCode: selectedFrom.CityCode,
+        //             CountryCode: selectedFrom.CountryCode,
+        //             code: selectedFrom.code,
+        //             createdAt: selectedFrom.createdAt,
+        //             id: selectedFrom.id,
+        //             name: selectedFrom.name,
+        //             updatedAt: selectedFrom.updatedAt,
+        //             __v: selectedFrom._v,
+        //             _id: selectedFrom._id,
+        //         },
+        //         {
+        //             AirportCode: selectedTo.AirportCode,
+        //             CityCode: selectedTo.CityCode,
+        //             CountryCode: selectedTo.CountryCode,
+        //             code: selectedTo.code,
+        //             createdAt: selectedTo.createdAt,
+        //             id: selectedTo.id,
+        //             name: selectedTo.name,
+        //             updatedAt: selectedTo.updatedAt,
+        //             __v: selectedTo._v,
+        //             _id: selectedTo._id,
+        //         },
+        //     ])
+        // );
 
+        sessionStorage.setItem(
+            "onewayprop",
+            JSON.stringify([
+                {
+                    Origin: selectedFrom.AirportCode,
+                    Destination: selectedTo.AirportCode,
+                    FlightCabinClass: activeIdClass,
+                    PreferredDepartureTime: newDepartDate,
+                    PreferredArrivalTime: newDepartDate,
+                    selectedFrom,
+                    selectedTo,
+                    totalCount,
+                    newDepartDate,
+                    activeIdAdult,
+                    activeIdChild,
+                    activeIdInfant,
+                },
+            ])
+        );
 
-        sessionStorage.setItem("adults", activeIdAdult);
-        sessionStorage.setItem("childs", activeIdChild);
-        sessionStorage.setItem("infants", activeIdInfant);
-
-        dispatch(returnAction(payload));
+        navigate(
+            `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
+        );
+        dispatch(oneWayAction(payload));
+        // }
     }
+
+
+
+
+
+    // ///////////////roundlogic//////////////////////////////
+
+    // const handleRoundLogoClick = () => {
+    //     const tempFrom = { ...selectedFrom };
+    //     const tempSelectedFrom = selectedFrom;
+    //     setSelectedFrom(selectedTo);
+    //     setFrom(to)
+    //     setTO(from)
+    //     setSelectedTo(tempFrom);
+    // };
 
 
     return (
@@ -557,17 +567,17 @@ const ReturnFormNew = () => {
                         <div className="newReturnSingleBox">
                             <div className="d-flex justify-content-evenly">
                                 <span className="nrsb">Depart</span>
-                                <span className="nrsb">Return</span>
+                                {/* <span className="nrsb">Return</span> */}
                             </div>
-                            <RangePicker
+                            <DatePicker
                                 onChange={handleRangeChange}
-                                defaultValue={[dayjs(), dayjs()]}
+                                defaultValue={[dayjs()]}
                                 format={dateFormat}
                                 disabledDate={disablePastDates}
                             />
                             <div className="d-flex justify-content-evenly">
                                 <span className="nrsb">{dayjs(newDepartDate).format('dddd')}</span>
-                                <span className="nrsb">{dayjs(newReturnDate).format('dddd')}</span>
+
                             </div>
 
                         </div>
@@ -708,10 +718,6 @@ const ReturnFormNew = () => {
             </div>
         </>
     );
-};
+}
 
-export default ReturnFormNew;
-
-
-
-
+export default OnewayNew;

@@ -85,10 +85,16 @@ const HotelGuestDetailsGRN = () => {
     const hotelGallery = reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images?.regular;
     // new values
 
-    const galleryItems = hotelGallery?.map(image => ({
-        original: image?.url, // Assuming 'path' contains the image src url
-    }));
-    // console.log(galleryItems)
+
+
+    let galleryItems;
+
+    if (!reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length > 0) {
+        galleryItems = hotelGallery?.map(image => ({
+            original: image?.url, // Assuming 'url' contains the image src url
+        }));
+    }
+
 
     // passenger details adding
 
@@ -259,11 +265,14 @@ const HotelGuestDetailsGRN = () => {
                             </div>
                         </div>
 
-                        <div className="col-lg-12 p-0 mt-3">
-                            <div className="hotelGalleryBox p-0">
-                                <ImageGallery style={{ height: "400px" }} showFullscreenButton={false} autoPlay={true} showThumbnails={false} lazyLoad={true} showPlayButton={false} items={galleryItems} />
+                        {
+                            reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length > 0 &&
+                            <div className="col-lg-12 p-0 mt-3">
+                                <div className="hotelGalleryBox p-0">
+                                    <ImageGallery style={{ height: "400px" }} showFullscreenButton={false} autoPlay={true} showThumbnails={false} lazyLoad={true} showPlayButton={false} items={galleryItems} />
+                                </div>
                             </div>
-                        </div>
+                        }
                         {/* room details area  */}
 
                         <motion.div variants={variants} className="col-lg-12 p-0 mt-3">

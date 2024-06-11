@@ -154,9 +154,7 @@ const BookingReviewGRN = ({
 
     const mixedString = generateMixedString();
 
-    const selectedFromData = JSON.parse(sessionStorage.getItem("clientNationality"));
-
-
+    const clientNationality = JSON.parse(sessionStorage.getItem("clientNationality"));
 
     const handleClickBooking = async () => {
 
@@ -201,7 +199,7 @@ const BookingReviewGRN = ({
                 "surname": passenger?.[0]?.adults?.[0]?.LastName,
                 "email": passenger?.[0]?.adults?.[0]?.Email,
                 "phone_number": passenger?.[0]?.adults?.[0]?.Phoneno,
-                "client_nationality": selectedFromData?.countryCode,
+                "client_nationality": clientNationality,
                 "pan_number": passenger?.[0]?.adults?.[0]?.PAN,
             }
         };
@@ -286,7 +284,7 @@ const BookingReviewGRN = ({
         }
     };
 
-
+    console.log(reducerState, "reducer state")
 
 
     const proceedPayment = (accessKey, env, key) => {

@@ -9,6 +9,7 @@ import TabPanel from '@mui/lab/TabPanel';
 import FlightHistory from './FlightHistory';
 import HotelHistory from './HotelHistory';
 import BusHistory from './BusHistory';
+import GrnHotelHistory from './GrnHotelHistory';
 
 const BookingHistory = () => {
 
@@ -39,7 +40,8 @@ const BookingHistory = () => {
                                 aria-label="lab API tabs example">
                                 <Tab label="Flight" value="1" />
                                 <Tab label="Hotel" value="2" />
-                                <Tab label="Bus" value="3" />
+                                <Tab label="GrnHotel" value="3" />
+                                <Tab label="Bus" value="4" />
                             </TabList>
                         </Box>
                         <TabPanel value="1">
@@ -49,6 +51,9 @@ const BookingHistory = () => {
                             <HotelHistory />
                         </TabPanel>
                         <TabPanel value="3">
+                            <GrnHotelHistory />
+                        </TabPanel>
+                        <TabPanel value="4">
                             <BusHistory />
                         </TabPanel>
                     </TabContext>

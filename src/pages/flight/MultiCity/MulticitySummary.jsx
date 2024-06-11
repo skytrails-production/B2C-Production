@@ -130,7 +130,9 @@ const MulticitySummary = (props) => {
 
     const taxvalue = Number(markUpamount * (fareValue?.Fare?.PublishedFare)).toFixed(0);
 
-    const grandtotal = Number((fareValue?.Fare?.PublishedFare) + markUpamount * (fareValue?.Fare?.PublishedFare)).toFixed(0)
+
+
+    const grandtotal = Number(fareValue?.Fare?.PublishedFare) + Number(taxvalue);
 
     const integerValue = parseInt(discountValue);
     const coupondiscount = integerValue + markUpamount;

@@ -48,13 +48,16 @@ export default function HotelResult() {
     const searchId = reducerState?.hotelSearchResultGRN?.ticketData
         ?.data?.data?.search_id;
 
+    const [mainLoader, setMainLoader] = useState(false)
+
     const fetchMoreData = () => {
         setCurrentPage((pre) => pre + 1)
     }
     useEffect(() => {
-        if (reducerState?.hotelSearchResultGRN?.hotelDetails?.status === 200 && reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images?.regular?.length > 0) {
+        if (reducerState?.hotelSearchResultGRN?.hotelDetails?.status === 200 && reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data) {
             navigate("/GrmHotelHome/hotelsearchGRM/hotelbookroom")
             setFirstLoader(false)
+            setMainLoader(false);
 
         }
     }, [reducerState?.hotelSearchResultGRN?.hotelDetails?.status || reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images])
@@ -91,7 +94,7 @@ export default function HotelResult() {
 
     const handleClick = (item) => {
         setFirstLoader(true);
-        console.log(item, "item")
+        setMainLoader(true);
         const payload = {
 
             "data": {
@@ -210,11 +213,14 @@ export default function HotelResult() {
             const searchFilter = hotelName?.includes(searchInput?.toLowerCase()) || hotelAddress?.includes(searchInput?.toLowerCase());
             return categoryFilters?.every((filter) => filter) && searchFilter && priceInRange;
         })
-    // ?.sort((a, b) =>
-    //     sortOption === "lowToHigh"
-    //         ? a?.min_rate?.price - b?.min_rate?.price
-    //         : b?.min_rate?.price - a?.min_rate?.price
-    // );
+        // ?.sort((a, b) =>
+        //     sortOption === "lowToHigh"
+        //         ? a?.min_rate?.price - b?.min_rate?.price
+        //         : b?.min_rate?.price - a?.min_rate?.price
+        // );
+        ?.filter((item) =>
+            item?.images?.main_image !== '' && item?.category > 2
+        );
 
 
 
@@ -268,7 +274,7 @@ export default function HotelResult() {
     return (
         <>
             {
-                firstLoader ? (
+                mainLoader ? (
                     <Hotelmainloading />
                 ) :
                     (

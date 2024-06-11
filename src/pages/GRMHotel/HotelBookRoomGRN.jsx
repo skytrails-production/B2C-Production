@@ -47,7 +47,7 @@ const HotelBookRoomGRN = () => {
     const reducerState = useSelector((state) => state);
 
 
-
+    console.log(reducerState, "reducer state")
 
 
 
@@ -75,13 +75,16 @@ const HotelBookRoomGRN = () => {
     const hotelGallery = reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images?.regular;
 
 
+    console.log(reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length > 0)
     // new values
 
-    const galleryItems = hotelGallery?.map(image => ({
-        original: image?.url, // Assuming 'path' contains the image src url
-    }));
+    let galleryItems;
 
-
+    if (!reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length > 0) {
+        galleryItems = hotelGallery?.map(image => ({
+            original: image?.url, // Assuming 'url' contains the image src url
+        }));
+    }
 
 
 
@@ -135,7 +138,7 @@ const HotelBookRoomGRN = () => {
         dispatch(HotelRoomSelectReqGRN(payload))
     };
 
-    // console.log(reducerState, "reducer state")
+    console.log(reducerState, "reducer state")
 
     return (
         <>
@@ -192,11 +195,20 @@ const HotelBookRoomGRN = () => {
                                                 </div>
                                             </div>
 
-                                            <div className="col-lg-12 p-0 mt-3">
+                                            {
+                                                reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length > 0 &&
+                                                <div className="col-lg-12 p-0 mt-3">
+                                                    <div className="hotelGalleryBox p-0">
+                                                        <ImageGallery style={{ height: "400px" }} showFullscreenButton={false} autoPlay={true} showThumbnails={false} lazyLoad={true} showPlayButton={false} items={galleryItems} />
+                                                    </div>
+                                                </div>
+                                            }
+
+                                            {/* <div className="col-lg-12 p-0 mt-3">
                                                 <div className="hotelGalleryBox p-0">
                                                     <ImageGallery style={{ height: "400px" }} showFullscreenButton={false} autoPlay={true} showThumbnails={false} lazyLoad={true} showPlayButton={false} items={galleryItems} />
                                                 </div>
-                                            </div>
+                                            </div> */}
                                             {/* room details area  */}
 
                                             <motion.div variants={variants} className="col-lg-12 p-0">
@@ -253,24 +265,64 @@ const HotelBookRoomGRN = () => {
 
 
 
-                                            <div>
+                                            <div className="mt-3 p-0">
                                                 {hotelinfoGRN?.rates?.map((item, index) => (
                                                     <div className="roomCompo" key={index}>
                                                         <div className="offer_area">
-                                                            <input
-                                                                className="form-check-input"
-                                                                type="checkbox"
-                                                                style={{ width: "25px", height: "25px" }}
-                                                                value=""
-                                                                checked={selectedRoomIndex === index}
-                                                                onChange={() => handleRoomSelection(index)}
-                                                            />
-                                                            <div className="inneraccorHotel">
-                                                                {item?.rooms.map((room, e) => (
-                                                                    <div className="ratePlan" key={e}>
-                                                                        <p className="first">{room?.room_type}</p>
+                                                            <div>
+                                                                <div className="insideOffer">
+                                                                    <input
+                                                                        className="form-check-input"
+                                                                        type="checkbox"
+                                                                        style={{ width: "25px", height: "25px" }}
+                                                                        value=""
+                                                                        checked={selectedRoomIndex === index}
+                                                                        onChange={() => handleRoomSelection(index)}
+                                                                    />
+
+                                                                    <div className="inneraccorHotel">
+                                                                        {item?.rooms.map((room, e) => (
+                                                                            <div className="ratePlan" key={e}>
+                                                                                <p className="insideOfferText">{room?.room_type}</p>
+                                                                            </div>
+                                                                        ))}
                                                                     </div>
-                                                                ))}
+                                                                </div>
+
+                                                                <div className="insideOffer">
+                                                                    {
+                                                                        item?.pan_required &&
+                                                                        <div className="inneraccorHotel">
+
+                                                                            <div className="ratePlan" >
+                                                                                <p className="panDesign">Pan Required</p>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    }
+                                                                    {
+                                                                        item?.non_refundable &&
+                                                                        <div className="inneraccorHotel">
+
+                                                                            <div className="ratePlan" >
+                                                                                <p className="panDesign2">Non Refundable</p>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    }
+                                                                    {
+                                                                        item?.cancellation_policy &&
+                                                                        <div className="inneraccorHotel">
+
+                                                                            <div className="ratePlan" >
+                                                                                <p className="panDesign3">Refundable (Cancel Before {dayjs(item?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")})</p>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    }
+                                                                </div>
+
+
                                                             </div>
                                                             <div className="priceCheck">
                                                                 <p className="price">₹ {item?.price}</p>
@@ -297,7 +349,7 @@ const HotelBookRoomGRN = () => {
                                                                 <div className="col-lg-12 my-4">
                                                                     <div className="hotelReviewAmetnities">
                                                                         <div>
-                                                                            {hotelinfoGRN?.facilities.split(';').map((item, index) => (
+                                                                            {hotelinfoGRN?.facilities?.split(';')?.map((item, index) => (
                                                                                 <p key={index}>
                                                                                     <img src={chevrondown} alt="Chevron Down" />
                                                                                     {item.trim()}
@@ -312,7 +364,7 @@ const HotelBookRoomGRN = () => {
                                                 </div>
                                             </motion.div>
 
-                                            <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                                            {/* <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
                                                 <div className="bookflightPassenger">
                                                     <form>
                                                         <div className="bookFlightPassInner">
@@ -341,21 +393,10 @@ const HotelBookRoomGRN = () => {
                                                                                     <div className="col-lg-4">
                                                                                         <div className="cancelAccord">
                                                                                             <span>Cancelled by date</span>
-                                                                                            <p>{dayjs(hotelinfoGRN?.rate?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")}</p>
+                                                                                            <p>{dayjs(hotelinfoGRN?.rates?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")}</p>
                                                                                         </div>
                                                                                     </div>
-                                                                                    {/* <div className="col-lg-4">
-                                                                    <div className="cancelAccord">
-                                                                        <span>Cancelled on or Before</span>
-                                                                        <p>20 march</p>
-                                                                    </div>
-                                                                </div>
-                                                                <div className="col-lg-4">
-                                                                    <div className="cancelAccord">
-                                                                        <span>Cancellation Charges</span>
-                                                                        <p>100%</p>
-                                                                    </div>
-                                                                </div> */}
+
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -365,7 +406,7 @@ const HotelBookRoomGRN = () => {
                                                         </div>
                                                     </form>
                                                 </div>
-                                            </motion.div>
+                                            </motion.div> */}
 
                                             <div className="col-lg-12">
                                                 <div className="reviewDescriptionButton">

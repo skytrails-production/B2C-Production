@@ -60,6 +60,10 @@
 
 }
 
+.newReturnSingleBox:nth-of-type(2) {
+    padding: 3px 20px !important;
+}
+
 .newReturnSingleBox:where(.css-j9bb5n).ant-picker-range .ant-picker-active-bar {
     bottom: -1px;
     height: 2px;
