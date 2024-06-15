@@ -122,3 +122,8 @@
     color: rgb(3, 87, 3);
     background-color: rgba(171, 247, 171, 0.521);
 }
+
+
+.hotelGall img {
+    height: 479px !important;
+}

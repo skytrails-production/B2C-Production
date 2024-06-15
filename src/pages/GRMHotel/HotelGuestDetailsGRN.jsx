@@ -16,7 +16,8 @@ import chevrondown from "../../images/chevrondown.svg";
 import login01 from "../../images/login-01.jpg";
 import Login from "../../components/Login";
 import Modal from "@mui/material/Modal";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { wrap } from "popmotion";
 import CloseIcon from "@mui/icons-material/Close";
 // import {
 //     validateEmail,
@@ -45,6 +46,33 @@ const styleLoader = {
     justifyContent: "center",
 };
 
+
+
+const variants2 = {
+    enter: (direction) => {
+        return {
+            x: direction > 0 ? 1000 : -1000,
+            opacity: 0
+        };
+    },
+    center: {
+        zIndex: 1,
+        x: 0,
+        opacity: 1
+    },
+    exit: (direction) => {
+        return {
+            zIndex: 0,
+            x: direction < 0 ? 1000 : -1000,
+            opacity: 0
+        };
+    }
+};
+
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset, velocity) => {
+    return Math.abs(offset) * velocity;
+};
 
 const HotelGuestDetailsGRN = () => {
 
@@ -87,13 +115,36 @@ const HotelGuestDetailsGRN = () => {
 
 
 
-    let galleryItems;
+    // image slider logic
 
-    if (!reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length > 0) {
-        galleryItems = hotelGallery?.map(image => ({
-            original: image?.url, // Assuming 'url' contains the image src url
-        }));
-    }
+
+    const [[page, direction], setPage] = useState([0, 0]);
+    const imageIndex = wrap(0, hotelGallery?.length, page);
+
+    const paginate = (newDirection) => {
+        setPage([page + newDirection, newDirection]);
+    };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            paginate(1);
+        }, 2000);
+
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [page]);
+
+    // image slider logic
+
+
+    useEffect(() => {
+        if (reducerState?.hotelSearchResultGRN?.hotelRoom?.length == 0) {
+
+            navigate("/st-hotel/hotelresult/selectroom")
+        }
+
+    }, [reducerState?.hotelSearchResultGRN?.hotelRoom])
 
 
     // passenger details adding
@@ -173,16 +224,12 @@ const HotelGuestDetailsGRN = () => {
     }, [authenticUser]);
 
 
-    // useEffect(() => {
-
-    // }, [reducerState?.hotelSearchResultGRN?.hotelGallery?.])
 
 
     const handleClickSavePassenger = async () => {
         if (authenticUser !== 200) {
             setIsLoginModalOpen(true);
         } else {
-            // console.log("passenger data is hittting")
 
             dispatch(PassengersAction(passengerData));
 
@@ -203,7 +250,7 @@ const HotelGuestDetailsGRN = () => {
                 })
                 if (res?.status == 200) {
                     setLoader(false)
-                    navigate("/GrmHotelHome/hotelsearchGRM/hotelbookroom/guestDetails/review");
+                    navigate("/st-hotel/hotelresult/selectroom/guestDetails/review");
 
                 }
 
@@ -223,10 +270,9 @@ const HotelGuestDetailsGRN = () => {
             {loader ? (
                 <Hotelmainloading />
             ) : (
+
                 <div className="container">
-                    <div
-                        className="row"
-                    >
+                    <div className="row">
                         <div className="col-lg-12 p-0 reviewTMT">
                             <div className="hotelDetails">
                                 <div>
@@ -266,10 +312,57 @@ const HotelGuestDetailsGRN = () => {
                         </div>
 
                         {
-                            reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length > 0 &&
-                            <div className="col-lg-12 p-0 mt-3">
-                                <div className="hotelGalleryBox p-0">
-                                    <ImageGallery style={{ height: "400px" }} showFullscreenButton={false} autoPlay={true} showThumbnails={false} lazyLoad={true} showPlayButton={false} items={galleryItems} />
+                            reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length !== 0 &&
+                            <div className="col-lg-12 mb-0 mt-3  packageImgBox">
+                                <div className="PackageImg hotelGall">
+                                    {
+                                        hotelGallery?.length > 0 &&
+                                        <>
+                                            <AnimatePresence initial={false} custom={direction}>
+
+
+                                                <motion.img
+                                                    key={page}
+                                                    // src={images[imageIndex]}
+                                                    src={hotelGallery[imageIndex]?.url}
+                                                    custom={direction}
+                                                    variants={variants2}
+                                                    initial="enter"
+                                                    animate="center"
+                                                    exit="exit"
+                                                    transition={{
+                                                        x: { type: "spring", stiffness: 300, damping: 30 },
+                                                        opacity: { duration: 0.2 }
+                                                    }}
+                                                    drag="x"
+                                                    dragConstraints={{ left: 0, right: 0 }}
+                                                    dragElastic={1}
+                                                    onDragEnd={(e, { offset, velocity }) => {
+                                                        const swipe = swipePower(offset.x, velocity.x);
+
+                                                        if (swipe < -swipeConfidenceThreshold) {
+                                                            paginate(1);
+                                                        } else if (swipe > swipeConfidenceThreshold) {
+                                                            paginate(-1);
+                                                        }
+                                                    }}
+                                                />
+
+
+                                            </AnimatePresence>
+                                            <div className="next" onClick={() => paginate(1)}>
+                                                <svg enable-background="new 0 0 256 256" height="12" viewBox="0 0 256 256" width="12" xmlns="http://www.w3.org/2000/svg" id="fi_9903638"><g id="_x30_7_Arrow_Right"><g><path d="m228.992 146.827-180.398 103.224c-17.497 9.998-38.04-7.264-31.166-26.206l34.642-95.842-34.642-95.843c-6.874-18.982 13.669-36.205 31.166-26.207l180.398 103.224c14.606 8.319 14.568 29.331 0 37.65z"></path></g></g></svg>
+                                            </div>
+                                            <div className="prev" onClick={() => paginate(-1)}>
+                                                <svg enable-background="new 0 0 256 256" height="12" viewBox="0 0 256 256" width="12" xmlns="http://www.w3.org/2000/svg" id="fi_9903638"><g id="_x30_7_Arrow_Right"><g><path d="m228.992 146.827-180.398 103.224c-17.497 9.998-38.04-7.264-31.166-26.206l34.642-95.842-34.642-95.843c-6.874-18.982 13.669-36.205 31.166-26.207l180.398 103.224c14.606 8.319 14.568 29.331 0 37.65z"></path></g></g></svg>
+                                            </div>
+                                        </>
+
+
+
+                                    }
+
+
                                 </div>
                             </div>
                         }
@@ -284,21 +377,7 @@ const HotelGuestDetailsGRN = () => {
                                         <span className="text-bold">{hotelinfoGRN?.rate?.boarding_details?.[0]}</span>
                                     </div>
                                 </div>
-                                {/* <div className="row">
-                                    <div className="col-lg-9 mb-md-3">
-                                        <p className="titles text-bold mb-3">Other Inclusions</p>
-                                        <div className="othInc">
-                                            {
-                                                hotelinfoGRN?.rate?.other_inclusions?.map((item) => {
-                                                    return (
-                                                        <span >{item}</span>
-                                                    )
-                                                })
-                                            }
-                                        </div>
-                                    </div>
-                                </div> */}
-                                {/* </div> */}
+
                             </div>
                         </motion.div>
 
@@ -337,297 +416,301 @@ const HotelGuestDetailsGRN = () => {
 
                     {/* guest details sectin  */}
 
-                    <motion.div
-                        variants={variants}
-                        initial="initial"
-                        whileInView="animate"
-                        className="row"
-                    >
 
 
-                        <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
-                            <div className="bookflightPassenger">
-                                <div className="headingBookFlight">
-                                    <h3>Guest Details</h3>
-                                </div>
-                                {
-                                    hotelinfoGRN?.rate?.rooms?.map((item, roomIndex) => {
-                                        return (
-                                            <div>
-                                                <label className="roomIndexGuest">
-                                                    Room {roomIndex + 1}
-                                                </label>
-                                                {item?.no_of_adults > 0 &&
-                                                    Array.from(
-                                                        { length: item?.no_of_adults },
-                                                        (_, adultIndex) => (
-                                                            <div className="bookFlightPassInner">
-                                                                <div className="bookAdultIndex">
-                                                                    <p>
-                                                                        Adult {adultIndex + 1}
-                                                                        {
-                                                                            roomIndex === 0 && (
-                                                                                <span>{adultIndex == 0 ? "(Lead Guest)" : ""}</span>
-                                                                            )
-                                                                        }
-                                                                    </p>
-                                                                </div>
-                                                                <div className="row g-3 mb-3">
-                                                                    <div className="col-lg-3 col-md-3">
-
-                                                                        <label for="floatingInput">Title</label>
-                                                                        <select
-                                                                            className="form-select "
-                                                                            name="Title"
-                                                                            onChange={(e) => handlePassengerDataChange(e, roomIndex, adultIndex, 'Title')}
-                                                                        >
-                                                                            <option value="Mr.">Mr</option>
-                                                                            <option value="Ms.">Miss</option>
-                                                                            <option value="Mrs.">Mrs</option>
-                                                                            <option value="Mstr.">Mstr</option>
-                                                                        </select>
-
-                                                                    </div>
-                                                                    <div className="col-lg-3 col-md-3">
-                                                                        <label for="floatingInput">First Name</label>
-                                                                        <input
-                                                                            name="FirstName"
-                                                                            class="form-control"
-                                                                            onChange={(e) => handlePassengerDataChange(e, roomIndex, adultIndex, 'FirstName')}
-                                                                        />
-
-                                                                    </div>
-                                                                    <div className="col-lg-3 col-md-3">
-                                                                        <label for="floatingInput">Last Name</label>
-                                                                        <input
-                                                                            name="LastName"
-                                                                            class="form-control"
-                                                                            onChange={(e) => handlePassengerDataChange(e, roomIndex, adultIndex, 'LastName')}
-                                                                        />
-                                                                    </div>
-
-                                                                    {
-                                                                        roomIndex === 0 && adultIndex === 0 && (
-                                                                            <>
-                                                                                <div className="col-lg-3 col-md-3">
-                                                                                    <label for="floatingInput">Pan Number</label>
-                                                                                    <input
-                                                                                        name="PAN"
-                                                                                        type="text"
-                                                                                        placeholder="Write in Capital"
-                                                                                        className="form-control"
-                                                                                        onChange={(e) => handlePassengerDataChange(e, roomIndex, adultIndex, 'PAN')}
-                                                                                    />
-                                                                                </div>
-
-
-                                                                                <div className="col-lg-5 col-md-5">
-                                                                                    <label for="floatingInput">Enter Email</label>
-                                                                                    <input
-                                                                                        name="Email"
-                                                                                        id="Email1"
-                                                                                        className="form-control"
-                                                                                        ref={emailRef}
-                                                                                        onChange={(e) => handlePassengerDataChange(e, roomIndex, adultIndex, 'Email')}
-                                                                                    />
-                                                                                </div>
-                                                                                <div className="col-lg-5 col-md-5">
-                                                                                    <label for="floatingInput">Enter Phone</label>
-                                                                                    <input
-                                                                                        name="Phoneno"
-                                                                                        id="phoneNumber1"
-                                                                                        className="form-control"
-                                                                                        onChange={(e) => handlePassengerDataChange(e, roomIndex, adultIndex, 'Phoneno')}
-
-                                                                                    />
-                                                                                </div>
-                                                                            </>
-                                                                        )
-                                                                    }
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    )}
-
-                                                {item?.no_of_children > 0 &&
-                                                    Array.from(
-                                                        {
-                                                            length: item?.no_of_children,
-                                                        },
-                                                        (_, childIndex) => (
-                                                            <div className="bookFlightPassInner">
-                                                                <div className="bookAdultIndex">
-                                                                    <p>Child {childIndex + 1}</p>
-                                                                </div>
-                                                                <div className="row g-3 mb-3">
-                                                                    <div className="col-lg-3 col-md-3">
-
-                                                                        <label for="floatingInput">Title</label>
-                                                                        <select
-                                                                            className="form-select "
-                                                                            name="Title"
-                                                                            onChange={(e) => handlePassengerDataChange(e, roomIndex, childIndex, 'Title', true)}
-                                                                        >
-                                                                            <option value="Mr.">Mr</option>
-                                                                            <option value="Ms.">Miss</option>
-                                                                            <option value="Mrs.">Mrs</option>
-                                                                            <option value="Mstr.">Mstr</option>
-                                                                        </select>
-
-                                                                    </div>
-
-                                                                    <div className="col-lg-3 col-md-3">
-
-                                                                        <label for="floatingInput">First Name</label>
-                                                                        <input
-                                                                            name="FirstName"
-                                                                            class="form-control"
-                                                                            onChange={(e) => handlePassengerDataChange(e, roomIndex, childIndex, 'FirstName', true)}
-
-                                                                        />
-
-
-
-                                                                    </div>
-                                                                    <div className="col-lg-3 col-md-3">
-                                                                        <label for="floatingInput">Last Name</label>
-                                                                        <input
-                                                                            name="LastName"
-                                                                            class="form-control"
-                                                                            onChange={(e) => handlePassengerDataChange(e, roomIndex, childIndex, 'LastName', true)}
-                                                                        />
-
-
-                                                                    </div>
-
-                                                                </div>
-                                                            </div>
-                                                        )
-                                                    )}
-                                            </div>
-                                        )
-                                    })
-                                }
-
-                            </div>
-                        </motion.div>
-
-                        <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
-                            <div className="bookflightPassenger">
-                                <form>
-                                    <div className="bookFlightPassInner">
-                                        <div className="bookAdultIndex">
-                                            <p>Amenities</p>
-                                        </div>
-                                        <div className="row g-3 ">
-                                            <div className="col-lg-12 my-4">
-                                                <div className="hotelReviewAmetnities">
-                                                    <div>
-                                                        {hotelinfoGRN?.facilities.split(';').map((item, index) => (
-                                                            <p key={index}>
-                                                                <img src={chevrondown} alt="Chevron Down" />
-                                                                {item.trim()}
-                                                            </p>
-                                                        ))}
-                                                    </div>
+                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                        <div className="bookflightPassenger">
+                            <form>
+                                <div className="bookFlightPassInner">
+                                    <div className="bookAdultIndex">
+                                        <p>Amenities</p>
+                                    </div>
+                                    <div className="row g-3 ">
+                                        <div className="col-lg-12 my-4">
+                                            <div className="hotelReviewAmetnities">
+                                                <div>
+                                                    {hotelinfoGRN?.facilities.split(';').map((item, index) => (
+                                                        <p key={index}>
+                                                            <img src={chevrondown} alt="Chevron Down" />
+                                                            {item.trim()}
+                                                        </p>
+                                                    ))}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                        </motion.div>
+                                </div>
+                            </form>
+                        </div>
+                    </motion.div>
 
 
 
 
-                        <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
-                            <div className="bookflightPassenger">
-                                <form>
-                                    <div className="bookFlightPassInner">
-                                        <div className="bookAdultIndex">
-                                            <p>Hotel Location</p>
-                                        </div>
-                                        <div>
-                                            <iframe
-                                                width="100%"
-                                                height="400px"
-                                                src={mapUrl}
-                                                className="contact-page-google-map__one"
-                                                allowFullScreen
-                                            />
-                                        </div>
-
+                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                        <div className="bookflightPassenger">
+                            <form>
+                                <div className="bookFlightPassInner">
+                                    <div className="bookAdultIndex">
+                                        <p>Hotel Location</p>
                                     </div>
-                                </form>
-                            </div>
-                        </motion.div>
-                        <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
-                            <div className="bookflightPassenger">
-                                <form>
-                                    <div className="bookFlightPassInner">
-                                        <div className="bookAdultIndex">
-                                            <p>Cancellation and Charges</p>
-                                        </div>
-                                        {
-                                            hotelinfoGRN?.rate?.non_refundable === true ?
-                                                (
-                                                    <div className="row g-3 ">
-                                                        <div className="hotelNameAccord">
-                                                            <p>Non Refundable</p>
-                                                        </div>
+                                    <div>
+                                        <iframe
+                                            width="100%"
+                                            height="400px"
+                                            src={mapUrl}
+                                            className="contact-page-google-map__one"
+                                            allowFullScreen
+                                        />
+                                    </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </motion.div>
+                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                        <div className="bookflightPassenger">
+                            <form>
+                                <div className="bookFlightPassInner">
+                                    <div className="bookAdultIndex">
+                                        <p>Cancellation and Charges</p>
+                                    </div>
+                                    {
+                                        hotelinfoGRN?.rate?.non_refundable === true ?
+                                            (
+                                                <div className="row g-3 ">
+                                                    <div className="hotelNameAccord">
+                                                        <p>Non Refundable</p>
+                                                    </div>
+
+                                                </div>
+                                            )
+                                            :
+
+                                            (
+                                                <div className="row g-3 ">
+                                                    <div className="hotelNameAccord">
+                                                        <p>{hotelinfoGRN?.rate?.rooms?.[0]?.description}</p>
 
                                                     </div>
-                                                )
-                                                :
-
-                                                (
-                                                    <div className="row g-3 ">
-                                                        <div className="hotelNameAccord">
-                                                            <p>{hotelinfoGRN?.rate?.rooms?.[0]?.description}</p>
+                                                    <div className="otherDetailsData">
+                                                        <div className="row">
+                                                            <div className="col-lg-4">
+                                                                <div className="cancelAccord">
+                                                                    <span>Cancelled by date</span>
+                                                                    <p>{dayjs(hotelinfoGRN?.rate?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")}</p>
+                                                                </div>
+                                                            </div>
 
                                                         </div>
-                                                        <div className="otherDetailsData">
-                                                            <div className="row">
-                                                                <div className="col-lg-4">
-                                                                    <div className="cancelAccord">
-                                                                        <span>Cancelled by date</span>
-                                                                        <p>{dayjs(hotelinfoGRN?.rate?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")}</p>
-                                                                    </div>
+                                                    </div>
+                                                </div>
+                                            )
+                                    }
+
+                                </div>
+                            </form>
+                        </div>
+                    </motion.div>
+
+
+                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                        <div className="bookflightPassenger">
+                            <div className="headingBookFlight">
+                                <h3>Guest Details</h3>
+                            </div>
+                            {
+                                hotelinfoGRN?.rate?.rooms?.map((item, roomIndex) => {
+                                    return (
+                                        <div>
+                                            <label className="roomIndexGuest">
+                                                Room {roomIndex + 1}
+                                            </label>
+                                            {item?.no_of_adults > 0 &&
+                                                Array.from(
+                                                    { length: item?.no_of_adults },
+                                                    (_, adultIndex) => (
+                                                        <div className="bookFlightPassInner">
+                                                            <div className="bookAdultIndex">
+                                                                <p>
+                                                                    Adult {adultIndex + 1}
+                                                                    {
+                                                                        roomIndex === 0 && (
+                                                                            <span>{adultIndex == 0 ? "(Lead Guest)" : ""}</span>
+                                                                        )
+                                                                    }
+                                                                </p>
+                                                            </div>
+                                                            <div className="row g-3 mb-3">
+                                                                <div className="col-lg-3 col-md-3">
+
+                                                                    <label for="floatingInput">Title</label>
+                                                                    <select
+                                                                        className="form-select "
+                                                                        name="Title"
+                                                                        onChange={(e) => handlePassengerDataChange(e, roomIndex, adultIndex, 'Title')}
+                                                                    >
+                                                                        <option value="Mr.">Mr</option>
+                                                                        <option value="Ms.">Miss</option>
+                                                                        <option value="Mrs.">Mrs</option>
+                                                                        <option value="Mstr.">Mstr</option>
+                                                                    </select>
+
+                                                                </div>
+                                                                <div className="col-lg-3 col-md-3">
+                                                                    <label for="floatingInput">First Name</label>
+                                                                    <input
+                                                                        name="FirstName"
+                                                                        class="form-control"
+                                                                        onChange={(e) => handlePassengerDataChange(e, roomIndex, adultIndex, 'FirstName')}
+                                                                        required
+                                                                    />
+
+                                                                </div>
+                                                                <div className="col-lg-3 col-md-3">
+                                                                    <label for="floatingInput">Last Name</label>
+                                                                    <input
+                                                                        name="LastName"
+                                                                        class="form-control"
+                                                                        onChange={(e) => handlePassengerDataChange(e, roomIndex, adultIndex, 'LastName')}
+                                                                        required
+                                                                    />
+                                                                </div>
+
+                                                                {
+                                                                    roomIndex === 0 && adultIndex === 0 && (
+                                                                        <>
+                                                                            <div className="col-lg-3 col-md-3">
+                                                                                <label for="floatingInput">Pan Number</label>
+                                                                                <input
+                                                                                    name="PAN"
+                                                                                    type="text"
+                                                                                    placeholder="Write in Capital"
+                                                                                    className="form-control"
+                                                                                    onChange={(e) => handlePassengerDataChange(e, roomIndex, adultIndex, 'PAN')}
+                                                                                    required
+                                                                                />
+                                                                            </div>
+
+
+                                                                            <div className="col-lg-5 col-md-5">
+                                                                                <label for="floatingInput">Enter Email</label>
+                                                                                <input
+                                                                                    name="Email"
+                                                                                    id="Email1"
+                                                                                    className="form-control"
+                                                                                    ref={emailRef}
+                                                                                    onChange={(e) => handlePassengerDataChange(e, roomIndex, adultIndex, 'Email')}
+                                                                                    required
+                                                                                />
+                                                                            </div>
+                                                                            <div className="col-lg-5 col-md-5">
+                                                                                <label for="floatingInput">Enter Phone</label>
+                                                                                <input
+                                                                                    name="Phoneno"
+                                                                                    id="phoneNumber1"
+                                                                                    className="form-control"
+                                                                                    onChange={(e) => handlePassengerDataChange(e, roomIndex, adultIndex, 'Phoneno')}
+                                                                                    required
+
+                                                                                />
+                                                                            </div>
+                                                                        </>
+                                                                    )
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    )
+                                                )}
+
+                                            {item?.no_of_children > 0 &&
+                                                Array.from(
+                                                    {
+                                                        length: item?.no_of_children,
+                                                    },
+                                                    (_, childIndex) => (
+                                                        <div className="bookFlightPassInner">
+                                                            <div className="bookAdultIndex">
+                                                                <p>Child {childIndex + 1}</p>
+                                                            </div>
+                                                            <div className="row g-3 mb-3">
+                                                                <div className="col-lg-3 col-md-3">
+
+                                                                    <label for="floatingInput">Title</label>
+                                                                    <select
+                                                                        className="form-select "
+                                                                        name="Title"
+                                                                        onChange={(e) => handlePassengerDataChange(e, roomIndex, childIndex, 'Title', true)}
+                                                                    >
+                                                                        <option value="Mr.">Mr</option>
+                                                                        <option value="Ms.">Miss</option>
+                                                                        <option value="Mrs.">Mrs</option>
+                                                                        <option value="Mstr.">Mstr</option>
+                                                                    </select>
+
+                                                                </div>
+
+                                                                <div className="col-lg-3 col-md-3">
+
+                                                                    <label for="floatingInput">First Name</label>
+                                                                    <input
+                                                                        name="FirstName"
+                                                                        class="form-control"
+                                                                        onChange={(e) => handlePassengerDataChange(e, roomIndex, childIndex, 'FirstName', true)}
+                                                                        required
+
+                                                                    />
+
+
+
+                                                                </div>
+                                                                <div className="col-lg-3 col-md-3">
+                                                                    <label for="floatingInput">Last Name</label>
+                                                                    <input
+                                                                        name="LastName"
+                                                                        class="form-control"
+                                                                        onChange={(e) => handlePassengerDataChange(e, roomIndex, childIndex, 'LastName', true)}
+                                                                        required
+                                                                    />
+
+
                                                                 </div>
 
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                )
-                                        }
+                                                    )
+                                                )}
+                                        </div>
+                                    )
+                                })
+                            }
 
-                                    </div>
-                                </form>
-                            </div>
-                        </motion.div>
-
-                        <div className="col-lg-12">
-                            <div className="reviewDescriptionButton">
-
-                                <button
-                                    type="submit"
-                                    onClick={handleClickSavePassenger}
-
-                                >
-                                    Proceed to Book
-                                </button>
-
-                            </div>
                         </div>
-
-                        <Modal open={bookingSuccess}>
-                            <Box sx={styleLoader}>
-                                <CircularProgress size={70} thickness={4} />
-                            </Box>
-                        </Modal>
                     </motion.div>
+
+
+                    <div className="col-lg-12">
+                        <div className="reviewDescriptionButton">
+
+                            <button
+                                type="submit"
+                                onClick={handleClickSavePassenger}
+
+                            >
+                                Proceed to Book
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <Modal open={bookingSuccess}>
+                        <Box sx={styleLoader}>
+                            <CircularProgress size={70} thickness={4} />
+                        </Box>
+                    </Modal>
+
                 </div>
+
             )}
 
             <Modal

@@ -1,30 +1,20 @@
 import * as React from "react";
-import moment from "moment";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 import { Box } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
 import StarIcon from "@mui/icons-material/Star";
-import { useDispatch, useSelector, useReducer } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { PassengersAction } from "../../Redux/Passengers/passenger";
-// import { apiURL } from "../../Constants/constant";
 import { useEffect } from "react";
-import HotelLoading from "../Hotel/hotelLoading/HotelLoading";
 import hotelNotFound from "../../images/hotelNotFound.jpg";
 import chevrondown from "../../images/chevrondown.svg";
-// import Login from "../../components/Login";
-import login01 from "../../images/login-01.jpg";
-import Login from "../../components/Login";
-import Modal from "@mui/material/Modal";
-import { motion } from "framer-motion";
-import CloseIcon from "@mui/icons-material/Close";
-import dayjs, { Dayjs } from "dayjs";
+import { motion, AnimatePresence } from "framer-motion";
+import { wrap } from "popmotion";
+import dayjs from "dayjs";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
-import axios from "axios";
-import { apiURL } from "../../Constants/constant";
 import Hotelmainloading from "../Hotel/hotelLoading/Hotelmainloading";
-import { HotelRoomSelectReqGRN } from "../../Redux/HotelGRN/hotel";
+import { HotelRoomSelectReqGRN, clearHotelRoomSelect } from "../../Redux/HotelGRN/hotel";
+import { swalModal } from "../../utility/swal";
 
 const styleLoader = {
     position: "absolute",
@@ -38,6 +28,34 @@ const styleLoader = {
 };
 
 
+const variants2 = {
+    enter: (direction) => {
+        return {
+            x: direction > 0 ? 1000 : -1000,
+            opacity: 0
+        };
+    },
+    center: {
+        zIndex: 1,
+        x: 0,
+        opacity: 1
+    },
+    exit: (direction) => {
+        return {
+            zIndex: 0,
+            x: direction < 0 ? 1000 : -1000,
+            opacity: 0
+        };
+    }
+};
+
+const swipeConfidenceThreshold = 10000;
+const swipePower = (offset, velocity) => {
+    return Math.abs(offset) * velocity;
+};
+
+
+
 const HotelBookRoomGRN = () => {
 
 
@@ -45,9 +63,6 @@ const HotelBookRoomGRN = () => {
     const navigate = useNavigate();
     const [loader, setLoader] = useState(false);
     const reducerState = useSelector((state) => state);
-
-
-    console.log(reducerState, "reducer state")
 
 
 
@@ -67,25 +82,51 @@ const HotelBookRoomGRN = () => {
     };
 
 
-    const emailRef = useRef();
 
     // new values 
     const hotelinfoGRN = reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.hotel;
     const hotelMainReducer = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data;
     const hotelGallery = reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images?.regular;
 
+    useEffect(() => {
+        dispatch(clearHotelRoomSelect())
+    }, [])
 
-    console.log(reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length > 0)
-    // new values
+    useEffect(() => {
+        if (reducerState?.hotelSearchResultGRN?.hotelDetails.length == 0 && reducerState?.hotelSearchResultGRN?.hotelGallery.length == 0) {
+            navigate("/st-hotel/hotelresult")
+        }
+    }, [])
 
-    let galleryItems;
+    // let galleryItems;
 
-    if (!reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length > 0) {
-        galleryItems = hotelGallery?.map(image => ({
-            original: image?.url, // Assuming 'url' contains the image src url
-        }));
-    }
+    // if (reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length !== 0 || reducerState?.hotelSearchResultGRN?.hotelGallery.length !== 0) {
+    //     galleryItems = hotelGallery?.map(image => ({
+    //         original: image?.url,
+    //     }));
+    // }
 
+    // image slider logic
+
+
+    const [[page, direction], setPage] = useState([0, 0]);
+    const imageIndex = wrap(0, hotelGallery?.length, page);
+
+    const paginate = (newDirection) => {
+        setPage([page + newDirection, newDirection]);
+    };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            paginate(1);
+        }, 2000);
+
+        return () => {
+            clearTimeout(timer);
+        };
+    }, [page]);
+
+    // image slider logic
 
 
     const star = (data) => {
@@ -95,7 +136,6 @@ const HotelBookRoomGRN = () => {
         }
         return stars;
     };
-
 
 
     const [selectedRoomIndex, setSelectedRoomIndex] = useState(0);
@@ -111,12 +151,17 @@ const HotelBookRoomGRN = () => {
     }, [selectedRoomIndex])
 
 
-
+    // useEffect(() => {
+    //     if (ResultIndex === null || HotelCode === null) {
+    //         swalModal('hotel', "room not found", false);
+    //         navigate("/GrmHotelHome/hotelsearchGRM")
+    //     }
+    // }, [])
 
     useEffect(() => {
         if (reducerState?.hotelSearchResultGRN?.hotelRoom?.length > 0 || reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel) {
             setLoader(false)
-            navigate("/GrmHotelHome/hotelsearchGRM/hotelbookroom/guestDetails")
+            navigate("/st-hotel/hotelresult/selectroom/guestDetails")
         }
 
     }, [reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel])
@@ -138,7 +183,7 @@ const HotelBookRoomGRN = () => {
         dispatch(HotelRoomSelectReqGRN(payload))
     };
 
-    console.log(reducerState, "reducer state")
+    // console.log(reducerState, "reducer state")
 
     return (
         <>
@@ -196,20 +241,61 @@ const HotelBookRoomGRN = () => {
                                             </div>
 
                                             {
-                                                reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length > 0 &&
-                                                <div className="col-lg-12 p-0 mt-3">
-                                                    <div className="hotelGalleryBox p-0">
-                                                        <ImageGallery style={{ height: "400px" }} showFullscreenButton={false} autoPlay={true} showThumbnails={false} lazyLoad={true} showPlayButton={false} items={galleryItems} />
+                                                reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length !== 0 &&
+                                                <div className="col-lg-12 mb-0 mt-3  packageImgBox">
+                                                    <div className="PackageImg hotelGall">
+                                                        {
+                                                            hotelGallery?.length > 0 &&
+                                                            <>
+                                                                <AnimatePresence initial={false} custom={direction}>
+
+
+                                                                    <motion.img
+                                                                        key={page}
+                                                                        // src={images[imageIndex]}
+                                                                        src={hotelGallery[imageIndex]?.url}
+                                                                        custom={direction}
+                                                                        variants={variants2}
+                                                                        initial="enter"
+                                                                        animate="center"
+                                                                        exit="exit"
+                                                                        transition={{
+                                                                            x: { type: "spring", stiffness: 300, damping: 30 },
+                                                                            opacity: { duration: 0.2 }
+                                                                        }}
+                                                                        drag="x"
+                                                                        dragConstraints={{ left: 0, right: 0 }}
+                                                                        dragElastic={1}
+                                                                        onDragEnd={(e, { offset, velocity }) => {
+                                                                            const swipe = swipePower(offset.x, velocity.x);
+
+                                                                            if (swipe < -swipeConfidenceThreshold) {
+                                                                                paginate(1);
+                                                                            } else if (swipe > swipeConfidenceThreshold) {
+                                                                                paginate(-1);
+                                                                            }
+                                                                        }}
+                                                                    />
+
+
+                                                                </AnimatePresence>
+                                                                <div className="next" onClick={() => paginate(1)}>
+                                                                    <svg enable-background="new 0 0 256 256" height="12" viewBox="0 0 256 256" width="12" xmlns="http://www.w3.org/2000/svg" id="fi_9903638"><g id="_x30_7_Arrow_Right"><g><path d="m228.992 146.827-180.398 103.224c-17.497 9.998-38.04-7.264-31.166-26.206l34.642-95.842-34.642-95.843c-6.874-18.982 13.669-36.205 31.166-26.207l180.398 103.224c14.606 8.319 14.568 29.331 0 37.65z"></path></g></g></svg>
+                                                                </div>
+                                                                <div className="prev" onClick={() => paginate(-1)}>
+                                                                    <svg enable-background="new 0 0 256 256" height="12" viewBox="0 0 256 256" width="12" xmlns="http://www.w3.org/2000/svg" id="fi_9903638"><g id="_x30_7_Arrow_Right"><g><path d="m228.992 146.827-180.398 103.224c-17.497 9.998-38.04-7.264-31.166-26.206l34.642-95.842-34.642-95.843c-6.874-18.982 13.669-36.205 31.166-26.207l180.398 103.224c14.606 8.319 14.568 29.331 0 37.65z"></path></g></g></svg>
+                                                                </div>
+                                                            </>
+
+
+
+                                                        }
+
+
                                                     </div>
                                                 </div>
                                             }
 
-                                            {/* <div className="col-lg-12 p-0 mt-3">
-                                                <div className="hotelGalleryBox p-0">
-                                                    <ImageGallery style={{ height: "400px" }} showFullscreenButton={false} autoPlay={true} showThumbnails={false} lazyLoad={true} showPlayButton={false} items={galleryItems} />
-                                                </div>
-                                            </div> */}
-                                            {/* room details area  */}
 
                                             <motion.div variants={variants} className="col-lg-12 p-0">
                                                 <div className="roomDetails">

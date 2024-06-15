@@ -9,7 +9,7 @@ export const fetchHotel = (data) => {
 
 export const hotelActionGRN = (data, page) => {
   if (data) {
-    console.log(data, "dataaaaaaaaaaa", page)
+    // console.log(data, "dataaaaaaaaaaa", page)
     return {
       type: types.HOTEL_REQUESTGRN,
       payload: { data, page },
@@ -106,8 +106,20 @@ export const clearHotelReducerGRN = () => {
     type: types.CLEAR_HOTEL_REDUCER_GRN,
   };
 }
+
+
+export const clearHotelRoomAndGallery = () => {
+  return {
+    type: types.CLEAR_HOTEL_ROOMGALLERY_GRN,
+  };
+}
 export const clearHotelBlockRoom = () => {
   return {
     type: types.CLEAR_HOTEL_BLOCK_ROOM,
+  };
+};
+export const clearHotelRoomSelect = () => {
+  return {
+    type: types.CLEAR_HOTEL_ROOM_SELECT,
   };
 };

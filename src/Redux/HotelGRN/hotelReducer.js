@@ -167,6 +167,19 @@ export const hotelReducerGRN = (state = initState, action) => {
         showSuccessMessage: false,
         initState: false
       }
+    case types.CLEAR_HOTEL_ROOMGALLERY_GRN:
+      return {
+        ...state,
+        hotelGallery: [],
+        hotelDetails: [],
+
+      }
+
+    case types.CLEAR_HOTEL_ROOM_SELECT:
+      return {
+        ...state,
+        hotelRoom: [],
+      }
 
     default:
       return state;

@@ -137,7 +137,7 @@ const GrnHomeStaticHotel = () => {
         sessionStorage.setItem("grnPayload", JSON.stringify(payload));
 
         dispatch(hotelActionGRN(payload, pageNumber));
-        navigate("/GrmHotelHome/hotelsearchGRM");
+        navigate("/st-hotel/hotelresult");
     }
 
     console.log(reducerState)

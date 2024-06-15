@@ -1,7 +1,7 @@
 import Download from "../home/Download";
 import React, { useRef } from "react";
 import "./hotelhome.css";
-import HotelForm from "./HotelForm";
+// import HotelForm from "./HotelForm";
 import { motion } from "framer-motion";
 import Advertise from "../home/Advertise";
 import FLightOffer from "../flight/FLightOffer";
@@ -10,7 +10,8 @@ import busimg from "../../images/aerial.png"
 import { Helmet } from "react-helmet-async";
 import HolidayBudget from "../holidaypackages/holidayCategory/HolidayBudget";
 import Partners from "../home/Partners";
-import EventBanner from "../home/EventBanner";
+// import EventBanner from "../home/EventBanner";
+import GrmHotelHome from "../GRMHotel/GrmHotelHome";
 
 const variants = {
   initial: {
@@ -54,7 +55,8 @@ const Hotelhome = () => {
         <img className="bannerBack" src={busimg} alt="banner" />
 
         {/* <BigNavbar /> */}
-        <HotelForm />
+        {/* <HotelForm /> */}
+        <GrmHotelHome />
       </div>
 
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>

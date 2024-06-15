@@ -404,7 +404,7 @@ function api() {
   // new hotel grn api's
 
   const hotelSearchGRN = (payload) => {
-    console.log(payload, "payload")
+
     return axios({
       method: "POST",
       url: `/skyTrails/grnconnect/hotelSearchWithPagination?page=${payload.page}`,

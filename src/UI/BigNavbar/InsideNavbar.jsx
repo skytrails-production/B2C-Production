@@ -317,7 +317,7 @@ function BigNavbar() {
 
                   <p style={{ color: "black" }}>Flight</p>
                 </li>
-                <li onClick={() => handleNavigation("/hotel", "Hotels")}>
+                <li onClick={() => handleNavigation("/st-hotel", "Hotels")}>
                   {activeNav === "Hotels" ? (
                     <svg
                       width="50"

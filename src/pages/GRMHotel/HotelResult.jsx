@@ -12,7 +12,7 @@ import { motion } from "framer-motion";
 
 import { MdCancel } from "react-icons/md";
 import { MdOutlineFreeBreakfast } from "react-icons/md";
-import { hotelActionGRN, hotelGalleryRequest, singleHotelGRN } from "../../Redux/HotelGRN/hotel";
+import { clearHotelRoomAndGallery, hotelActionGRN, hotelGalleryRequest, singleHotelGRN } from "../../Redux/HotelGRN/hotel";
 import "./hotelResult.css"
 import Hotelmainloading from "../Hotel/hotelLoading/Hotelmainloading";
 import GrmHotelform2 from "./GrmHotelform2";
@@ -43,6 +43,8 @@ export default function HotelResult() {
     const [result, setResult] = useState([])
     const [hasMore, setHasMore] = useState(true);
     const grnPayload = JSON.parse(sessionStorage.getItem('grnPayload'));
+    const grmhotel = JSON.parse(sessionStorage.getItem("revisithotel"));
+
     const [firstLoader, setFirstLoader] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const searchId = reducerState?.hotelSearchResultGRN?.ticketData
@@ -53,9 +55,14 @@ export default function HotelResult() {
     const fetchMoreData = () => {
         setCurrentPage((pre) => pre + 1)
     }
+
+    useEffect(() => {
+        dispatch(clearHotelRoomAndGallery())
+    }, [])
+
     useEffect(() => {
         if (reducerState?.hotelSearchResultGRN?.hotelDetails?.status === 200 && reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data) {
-            navigate("/GrmHotelHome/hotelsearchGRM/hotelbookroom")
+            navigate("/st-hotel/hotelresult/selectroom")
             setFirstLoader(false)
             setMainLoader(false);
 
@@ -74,22 +81,12 @@ export default function HotelResult() {
 
 
 
-    console.log(reducerState, "result")
-
-
-
     const handlePageChangeScrroll = () => {
         dispatch(hotelActionGRN(grnPayload, currentPage));
     };
     useEffect(() => {
         handlePageChangeScrroll()
     }, [currentPage])
-
-
-
-
-
-
 
 
     const handleClick = (item) => {
@@ -286,8 +283,8 @@ export default function HotelResult() {
                                 <div className="container searchMainBoxAbs">
                                     <div className="HotelResultSearchBarBox">
                                         <div className="hotelResSurBox">
-                                            <h3>Best Hotels for you in {storedFormData?.cityName}</h3>
-                                            <p>Showing {result?.length} Results in {storedFormData?.cityName}</p>
+                                            <h3>Best Hotels for you in {grmhotel?.[0]?.cityName}</h3>
+                                            <p>Showing {result?.length} Results in {grmhotel?.[0]?.cityName}</p>
                                         </div>
                                         <div className="searchBarHotelFOrm">
                                             <input

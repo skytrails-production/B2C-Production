@@ -1,135 +1,343 @@
 import { apiURL } from "../../Constants/constant";
-import React, { useEffect, useState, useRef } from "react";
-import { Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import Box from "@mui/material/Box";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import { IoSearchOutline } from "react-icons/io5";
-import SecureStorage from 'react-secure-storage';
-import Hotelmainloading from "../Hotel/hotelLoading/Hotelmainloading";
+import { Select } from "antd";
+import { DatePicker, Button } from "antd";
 import dayjs from "dayjs";
 import { hotelActionGRN, clearHotelReducerGRN, clearonlyHotelsGRN } from "../../Redux/HotelGRN/hotel";
+const { RangePicker } = DatePicker;
+
+
+
+
+
+
+
+
+
+// Select city data logic 
+
+
+let FromTimeout;
+let FromCurrentValue;
+
+
+
+
+
+const fetchFromCity = (value, callback) => {
+  if (FromTimeout) {
+    clearTimeout(FromTimeout);
+    FromTimeout = null;
+  }
+  FromCurrentValue = value;
+  const cityData = () => {
+    axios
+      .get(`${apiURL.baseURL}/skyTrails/grnconnect/getcityList?keyword=${value}`)
+      .then((response) => {
+        if (FromCurrentValue === value) {
+          const { data } = response.data;
+          const result = data.map((item) => ({
+            value: item.cityCode,
+            name: item.cityName,
+            code: item.countryCode,
+            cityCode: item.countryName,
+            item,
+          }));
+          callback(result);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  };
+  if (value) {
+    FromTimeout = setTimeout(cityData, 200);
+  } else {
+    callback([]);
+  }
+};
+
+const FromSearchInput = (props) => {
+  const { onItemSelect } = props;
+  const [fromData, setFromData] = useState([]);
+  const grmhotel = JSON.parse(sessionStorage.getItem("revisithotel"));
+  const initialSelectedFromData =
+  {
+    cityCode: grmhotel?.[0]?.cityCode,
+    cityName: grmhotel?.[0]?.cityName,
+    countryCode: grmhotel?.[0]?.countryCode,
+    countryName: grmhotel?.[0]?.countryName,
+  }
+  const [fromValue, setFromValue] = useState(initialSelectedFromData.cityName);
+  const [selectedItem, setSelectedItem] = useState(initialSelectedFromData);
+
+
+
+  const [FromPlaceholder, setFromPlaceholder] = useState('')
+  const [FromDisplayValue, setFromDisplayValue] = useState(initialSelectedFromData.cityName);
+  const [inputStyle, setInputStyle] = useState({});
+
+  useEffect(() => {
+    setFromData([
+      {
+        value: initialSelectedFromData?.cityCode,
+        name: initialSelectedFromData?.cityName,
+        code: initialSelectedFromData?.countryCode,
+        cityCode: initialSelectedFromData?.countryName,
+        item: initialSelectedFromData,
+      },
+    ]);
+  }, []);
+
+  const handleFromSearch = (newValue) => {
+    fetchFromCity(newValue, setFromData);
+  };
+
+  const handleFromChange = (newValue) => {
+    const selected = fromData.find((d) => d.value === newValue);
+    setFromValue(selected ? selected.name : newValue);
+    setFromDisplayValue(selected ? selected.name : newValue);
+    setSelectedItem(selected ? selected.item : null);
+    setInputStyle({ caretColor: 'transparent' });
+    if (selected) {
+      onItemSelect(selected.item);
+    }
+  };
+
+  const handleFromFocus = () => {
+    setFromPlaceholder('From');
+    setFromDisplayValue(''); // Clear display value to show placeholder
+    setInputStyle({});
+  };
+
+  const handleFromBlur = () => {
+    setFromPlaceholder('');
+    setFromDisplayValue(fromValue); // Reset display value to selected value
+    setInputStyle({ caretColor: 'transparent' });
+  };
+  const renderFromOption = (option) => (
+    <div>
+      <div>
+        {option.name} ({option.code})
+      </div>
+      <div style={{ color: "gray" }}>{option.cityCode}</div>
+    </div>
+  );
+
+  return (
+    <Select
+      showSearch
+      style={inputStyle}
+      // value={fromValue}
+      value={FromDisplayValue}
+      // placeholder={props.placeholder}
+      placeholder={FromPlaceholder || props.placeholder}
+      // style={props.style}
+      defaultActiveFirstOption={false}
+      suffixIcon={null}
+      filterOption={false}
+      onSearch={handleFromSearch}
+      onChange={handleFromChange}
+      onFocus={handleFromFocus} // Set placeholder on focus
+      onBlur={handleFromBlur}
+      notFoundContent={null}
+      options={fromData.map((d) => ({
+        value: d.value,
+        label: renderFromOption(d),
+      }))}
+    />
+  );
+};
+
+
+// select city data logic
+
+
+
+
+
+
+
+// select country data logic
+
+let ToTimeout;
+let ToCurrentValue;
+
+
+
+const fetchToCity = (value, callback) => {
+  if (ToTimeout) {
+    clearTimeout(ToTimeout);
+    ToTimeout = null;
+  }
+  ToCurrentValue = value;
+  const cityData = () => {
+    axios
+      .get(`${apiURL.baseURL}/skyTrails/grnconnect/getcountrylist`)
+      .then((response) => {
+        if (ToCurrentValue === value) {
+          const { data } = response.data;
+          const filteredData = data.filter(item =>
+            item.countryName.toLowerCase().includes(value.toLowerCase())
+          );
+          const result = filteredData.map((item) => ({
+            value: item.countryCode,
+            countryName: item.countryName,
+            countryCode3: item.countryCode3,
+            item,
+          }));
+          callback(result);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  };
+  if (value) {
+    ToTimeout = setTimeout(cityData, 200);
+  } else {
+    callback([]);
+  }
+};
+
+const ToSearchInput = (props) => {
+  const { onItemSelect } = props;
+  const [toData, setToData] = useState([]);
+  const grmhotel = JSON.parse(sessionStorage.getItem("revisithotel"));
+  const initialSelectedToData = {
+    countryCode: grmhotel?.[0]?.nationality?.countryCode,
+    countryCode3: grmhotel?.[0]?.nationality?.countryCode3,
+    countryName: grmhotel?.[0]?.nationality?.countryName,
+  };
+  const [toValue, setToValue] = useState(initialSelectedToData.countryName);
+  const [selectedItem, setSelectedItem] = useState(initialSelectedToData);
+
+  const [ToPlaceholder, setToPlaceholder] = useState('')
+  const [ToDisplayValue, setToDisplayValue] = useState(initialSelectedToData.countryName);
+  const [inputStyle, setInputStyle] = useState({});
+
+  useEffect(() => {
+    setToData([
+      {
+        value: initialSelectedToData.countryCode,
+        countryCode3: initialSelectedToData.countryCode3,
+        countryName: initialSelectedToData.countryName,
+        item: initialSelectedToData
+      }
+    ]);
+  }, []);
+
+  const handleToSearch = (newValue) => {
+    fetchToCity(newValue, setToData);
+  };
+
+  const handleToChange = (newValue) => {
+    const selected = toData.find((d) => d.value === newValue);
+    // console.log(selected, "selected kdhafoh")
+    setToValue(selected ? selected.countryName : newValue);
+    setToDisplayValue(selected ? selected.countryName : newValue);
+    setSelectedItem(selected ? selected.item : null);
+    setInputStyle({ caretColor: 'transparent' });
+    if (selected) {
+      onItemSelect(selected.item);
+    }
+  };
+
+  const handleToFocus = () => {
+    setToPlaceholder('To');
+    setToDisplayValue('');
+    setInputStyle({});
+  };
+
+  const handleTOBlur = () => {
+    setToPlaceholder('');
+    setToDisplayValue(toValue);
+    setInputStyle({ caretColor: 'transparent' });
+  };
+
+  const renderToOption = (option) => (
+    <div>
+      <div>
+        {option.countryName} ({option.value})
+      </div>
+      <div style={{ color: "gray" }}>{option.countryCode3}</div>
+    </div>
+  );
+
+  // console.log(toData, "to data")
+
+  return (
+    <Select
+      showSearch
+      value={ToDisplayValue}
+      placeholder={ToPlaceholder || props.placeholder}
+      style={inputStyle}
+      defaultActiveFirstOption={false}
+      suffixIcon={null}
+      filterOption={false}
+      onSearch={handleToSearch}
+      onChange={handleToChange}
+      onFocus={handleToFocus}
+      onBlur={handleTOBlur}
+      notFoundContent={null}
+      options={toData.map((d) => ({
+        value: d.value,
+        label: renderToOption(d),
+      }))}
+    />
+  );
+};
+
+// select country data logic
+
+
 
 function GrmHotelform2() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [maxcity1, setmaxcity1] = useState(1);
-  const [fromQuery, setFromQuery] = useState("India");
-  const [selectedFrom, setSelectedFrom] = useState({
-    countryCode: "IN",
-    countryCode3: "IND",
-    countryName: "India",
-  });
-  const [fromSearchResults, setFromSearchResults] = useState([]);
-  const [from, setFrom] = useState("");
-  const [cityIndex1, setcityIndex1] = useState(-1);
+
+
+
+  const grmhotel = JSON.parse(sessionStorage.getItem("revisithotel"));
+
+
+  const initialSelectedFromData =
+  {
+    cityCode: grmhotel?.[0]?.cityCode,
+    cityName: grmhotel?.[0]?.cityName,
+    countryCode: grmhotel?.[0]?.countryCode,
+    countryName: grmhotel?.[0]?.countryName,
+  }
+
+  const initialSelectedToData = {
+    countryCode: grmhotel?.[0]?.nationality?.countryCode,
+    countryCode3: grmhotel?.[0]?.nationality?.countryCode3,
+    countryName: grmhotel?.[0]?.nationality?.countryName,
+  };
+  const roomvalueLength = grmhotel?.[0]?.rooms?.length;
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
-  const [displayFrom, setdisplayFrom] = useState(true);
   const currentDate = new Date();
-  const inputRef = useRef(null);
-  const hotelSearchRef = useRef(null);
-  const hotelInputRef = useRef(null);
 
   // Add one day
   const futureDate = new Date(currentDate);
   futureDate.setDate(currentDate.getDate() + 1);
-
-  const grmhotel = JSON.parse(sessionStorage.getItem("revisithotel"));
-
-  const passedDatehotel = new Date(grmhotel[0].checkin);
-
-  const checkoutdate = new Date(grmhotel[0].checkout);
-
-  const formateddatecheckout = `${(checkoutdate.getMonth() + 1).toString().padStart(2, '0')}/${checkoutdate.getDate().toString().padStart(2, '0')}/${checkoutdate.getFullYear()}`;
-
-  const formattedDate = `${(passedDatehotel.getMonth() + 1).toString().padStart(2, '0')}/${passedDatehotel.getDate().toString().padStart(2, '0')}/${passedDatehotel.getFullYear()}`;
+  const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData);
+  const [selectNationality, setSelectNationality] = useState(initialSelectedToData);
 
 
-  const populterSearch = [
-    {
-      cityCode: "124054",
-      cityName: "New Delhi",
-      countryCode: "IN",
-      countryName: "India",
-    },
-    {
-      cityCode: "103863",
-      cityName: "Mumbai",
-      countryCode: "IN",
-      countryName: "India",
-    },
-    {
-      cityCode: "121850",
-      cityName: "Bengaluru",
-      countryCode: "IN",
-      countryName: "India",
-    },
-    {
-      cityCode: "123318",
-      cityName: "Goa",
-      countryCode: "IN",
-      countryName: "India",
-    },
 
-    {
-      cityCode: "122730",
-      cityName: "Jaipur",
-      countryCode: "IN",
-      countryName: "India",
-    },
-  ];
-  const [checkIn, setCheckIn] = useState(new Date(formattedDate));
-  // const [checkIn, setCheckIn] = useState(currentDate);
-  const [checkOut, setCheckOut] = useState(new Date(formateddatecheckout));
 
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutsideFrom);
-    return () => {
-
-      document.removeEventListener("mousedown", handleClickOutsideFrom);
-    };
-  }, []);
-
-  const handleClickOutside = (event) => {
-    if (
-      hotelSearchRef.current &&
-      !hotelSearchRef.current.contains(event.target)
-    ) {
-      setSub(false);
-    }
+  const handleFromSelect = (item) => {
+    setSelectedFrom(item);
   };
-
-  useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-
-  async function ensureFutureDate(date) {
-    validateDates(date, date);
-    return;
-  }
-
-
-  function validateDates(checkin, checkout) {
-    const checkinDate = new Date(checkin);
-    let checkoutDate = new Date(checkout);
-
-    if (checkinDate >= checkoutDate) {
-      checkoutDate.setDate(checkinDate.getDate() + 1);
-    }
-    setCheckOut(checkoutDate);
-    setSelectedDayTwo(checkoutDate);
-
-    return;
-  }
-
+  const handleNationalitySelect = (item) => {
+    setSelectNationality(item);
+  };
 
   const handleTravelClickOpen = () => {
     setOpenTravelModal(true);
@@ -142,95 +350,28 @@ function GrmHotelform2() {
   };
 
 
-  const [searchTerm, setSearchTerm] = useState("");
-
-
-
-  const initialSelectedCityData = {
-    cityCode: grmhotel?.[0]?.cityCode,
-    cityName: grmhotel?.[0]?.cityName,
-    countryCode: grmhotel?.[0]?.countryCode,
-    countryName: grmhotel?.[0]?.countryName,
-  };
-
-  const [searchTermLast, setSearchTermLast] = useState(initialSelectedCityData);
-
-
-  useEffect(() => {
-    const storedData = SecureStorage.getItem('revisitHotelDataGRN');
-    const parsedStoredData = JSON.parse(storedData);
-
-    if (storedData) {
-      setSearchTermLast(parsedStoredData[0])
-    }
-
-  }, []);
-
-  const [cityid, setCityid] = useState("India");
-  const [results, setResults] = useState(populterSearch);
-
-  useEffect(() => {
-
-  }, [results]);
-
-  const roomvalueLength = grmhotel?.[0]?.rooms?.length;
-
-
-  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [cityError, setCityError] = useState("");
   const [condition, setCondition] = useState(roomvalueLength);
-  const [formDataDynamic, setFormData] = useState([
-    {
-      NoOfAdults: 1,
-      NoOfChild: 0,
-      ChildAge: [],
-    },
-  ]);
+  const [formDataDynamic, setFormData] = useState([]);
+  useEffect(() => {
 
+    if (grmhotel?.[0]?.rooms) {
+      const initialFormData = grmhotel[0].rooms.map((room) => ({
+        NoOfAdults: room.adults,
+        NoOfChild: room.children_ages.length,
+        ChildAge: room.children_ages,
+      }));
+      setFormData(initialFormData);
+    }
+  }, []);
   const reducerState = useSelector((state) => state);
-
-  const initialvalue = {
-    City: "",
-    nationality: "IN",
-  };
 
   const [open, setOpen] = useState(false);
   const [loader, setLoader] = useState(false);
-  const [values, setValues] = useState(initialvalue);
-  const [sub, setSub] = useState(false);
 
 
 
-  useEffect(() => {
-    const debounceTimer = setTimeout(() => {
-      if (searchTerm) {
-        fetchCities();
-      } else {
-        setResults(populterSearch);
-      }
-    }, 300);
-
-    return () => {
-      clearTimeout(debounceTimer);
-    };
-  }, [searchTerm]);
-
-
-  const fetchCities = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get(
-        `${apiURL.baseURL}/skyTrails/grnconnect/getcityList?keyword=${searchTerm}
- `
-      );
-      setResults(response.data.data);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
-  };
 
   const handleConditionChange = (event) => {
     const newCondition = parseInt(event.target.value);
@@ -242,11 +383,7 @@ function GrmHotelform2() {
     }));
     setFormData(newFormData);
   };
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-    }
-  };
+
 
   const handleFormChange = (index, key, value) => {
     const updatedFormData = [...formDataDynamic];
@@ -256,7 +393,8 @@ function GrmHotelform2() {
     updatedFormData[index][key] = value;
 
     if (key === "NoOfChild") {
-      updatedFormData[index]["ChildAge"] = Array.from({ length: value }, () => '1');
+      updatedFormData[index]["ChildAge"] = Array.from(
+        { length: value }, () => "1");
     }
     setFormData(updatedFormData);
   };
@@ -265,55 +403,46 @@ function GrmHotelform2() {
     const updatedFormData = [...formDataDynamic];
     updatedFormData[index].ChildAge[childIndex] = value;
     setFormData(updatedFormData);
-
   };
 
 
 
-  const handleResultClick = (city) => {
 
-    setSearchTerm(city.cityName);
-    setCityid(city.countryName);
-    setResults([]);
-    setCityError("");
-    setdisplayFrom(false);
+  const dateFormat = "DD MMM";
+  let initialCheckIn = dayjs();
+  let initialCheckOut = dayjs();
 
+  if (grmhotel && grmhotel.length > 0) {
+    initialCheckIn = dayjs(grmhotel[0].checkin, dateFormat);
+    initialCheckOut = dayjs(grmhotel[0].checkout, dateFormat);
+  }
+
+  const [newDepartDate, setNewDepartDate] = useState(initialCheckIn);
+  const [newReturnDate, setNewReturnDate] = useState(initialCheckOut);
+
+
+  const handleRangeChange = (dates, dateStrings) => {
+    if (dates) {
+      setNewDepartDate(dayjs(dates[0]).format("DD MMM, YY"));
+      setNewReturnDate(dayjs(dates[1]).format("DD MMM, YY"));
+    } else {
+      console.log("Selection cleared");
+    }
   };
 
 
-  const [selectedDay, setSelectedDay] = useState(new Date());
-  const [selectedDayTwo, setSelectedDayTwo] = useState(futureDate);
 
-  const handleStartDateChange = async (date) => {
-    await setValues({ ...values, departure: date }); // Update the departure date
-    await setCheckIn(date);
-    await setSelectedDay(date);
-    ensureFutureDate(date);
+  const disablePastDates = (current) => {
+    return current && current < dayjs().startOf('day');
   };
 
-  const handleEndDateChange = (date) => {
-    setValues({ ...values, checkOutDeparture: date });
-    setSelectedDayTwo(date);
-    setCheckOut(date);
-  };
 
-  const getDayOfWeek = (date) => {
-    const daysOfWeek = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    return daysOfWeek[date.getDay()];
-  };
+
 
 
   function handleSubmit(event) {
     event.preventDefault();
-
+    setLoader(true);
     sessionStorage.setItem("SessionExpireTime", new Date());
 
     const dynamicFormData = formDataDynamic.map((data) => ({
@@ -321,39 +450,26 @@ function GrmHotelform2() {
       children_ages: data.ChildAge || [],
     }));
 
-
-    sessionStorage.setItem("hotelFormData", JSON.stringify(searchTermLast));
-    sessionStorage.setItem("clientNationality", JSON.stringify(selectedFrom));
+    sessionStorage.setItem("clientNationality", JSON.stringify(selectNationality?.countryCode));
 
     const payload = {
       "rooms": [...dynamicFormData],
       "rates": "concise",
-      "cityCode": searchTermLast.cityCode,
+      "cityCode": selectedFrom.cityCode,
       "currency": "INR",
-      "client_nationality": selectedFrom?.countryCode,
-      "checkin": dayjs(checkIn).format("YYYY-MM-DD"),
-      "checkout": dayjs(checkOut).format("YYYY-MM-DD"),
+      "client_nationality": selectNationality?.countryCode,
+      // "client_nationality": "In",
+      "checkin": dayjs(newDepartDate).format("YYYY-MM-DD"),
+      "checkout": dayjs(newReturnDate).format("YYYY-MM-DD"),
       "cutoff_time": 30000,
-      "version": "2.0"
-
+      "version": "2.0",
     };
 
-    SecureStorage.setItem(
-      "revisitHotelDataGRN", JSON.stringify([
-        {
-          cityCode: searchTermLast.cityCode,
-          cityName: searchTermLast.cityName,
-          countryCode: searchTermLast.countryCode,
-          countryName: searchTermLast.countryName,
-        },
-      ])
-    )
     const pageNumber = 1;
     sessionStorage.setItem("grnPayload", JSON.stringify(payload));
     dispatch(clearonlyHotelsGRN());
     dispatch(hotelActionGRN(payload, pageNumber));
-    navigate("/GrmHotelHome/hotelsearchGRM");
-
+    navigate("/st-hotel/hotelresult");
     if (
       reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels
     ) {
@@ -364,14 +480,12 @@ function GrmHotelform2() {
   }
 
 
-
   const [numAdults, setNumAdults] = useState(0);
   const [numChildren, setNumChildren] = useState(0);
 
   const calculateTravellerCount = () => {
     let adults = 0;
     let children = 0;
-
 
     formDataDynamic.forEach((data) => {
       adults += data.NoOfAdults;
@@ -387,553 +501,292 @@ function GrmHotelform2() {
     calculateTravellerCount();
   }, [formDataDynamic]);
 
-
-
-
-
-
-
-
-
-  // logic for country selection
-
-  const scrollDown100px = (opreator) => {
-    if (inputRef.current) {
-      inputRef.current.scroll({
-        top: opreator
-          ? inputRef.current.scrollTop + 50
-          : inputRef.current.scrollTop - 50,
-        behavior: "auto",
-      });
-    }
-  };
-
   useEffect(() => {
-    setmaxcity1(fromSearchResults.length);
-  }, [fromSearchResults]);
-
-  useEffect(() => {
-    const handleGlobalKeyDown = (event) => {
-      if (event.key === "ArrowDown" && isOpen) {
-        setcityIndex1((pre) => Math.min(pre + 1, maxcity1 - 1));
-        scrollDown100px(1);
-      }
-      if (event.key === "ArrowUp" && isOpen) {
-        setcityIndex1((pre) => Math.max(pre - 1, 0));
-        scrollDown100px(0);
-      }
-      if (event.key === "Enter" && isOpen) {
-        // Handle Enter key press to select an option
-        if (fromSearchResults.length > 0 && cityIndex1 >= 0) {
-          const selectedOption = fromSearchResults[cityIndex1];
-          handleFromClick(selectedOption);
-        }
-      }
-    };
-
-    document.addEventListener("keydown", handleGlobalKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleGlobalKeyDown);
-    };
-  }, [isOpen, cityIndex1, maxcity1, fromSearchResults]);
-
-  useEffect(() => {
-    let mounted = true;
-    const fetchSearchResults = async () => {
-      const results = await axios.get(
-        `${apiURL.baseURL}/skyTrails/grnconnect/getcountrylist`
-      );
-      if (mounted) {
-        const filteredResults = results?.data?.data.filter(country =>
-          country.countryName.toLowerCase().startsWith(from.toLowerCase())
-        );
-        setFromSearchResults(filteredResults);
-      }
-    };
-
-    if (fromQuery.length >= 2) {
-      fetchSearchResults();
+    if (reducerState?.hotelSearchResultGRN?.onlyHotels.length !== 0) {
+      setLoader(false)
     }
-    return () => {
-      mounted = false;
-    };
-  }, [fromQuery]);
+  }, [reducerState?.hotelSearchResultGRN?.onlyHotels])
 
-  const handleFromClick = (result) => {
-
-    setSelectedFrom(result);
-    setFrom(result?.countryName);
-    setIsOpen(false);
-  };
-
-
-
-  const handleClickOutsideFrom = (event) => {
-    if (inputRef.current && !inputRef?.current?.contains(event.target)) {
-      setIsOpen(false);
-    }
-  };
-
-  function toggle(e) {
-    setIsOpen(true);
-    setcityIndex1(0);
-  }
-
-  const handleFromSearch = (e) => {
-    setFromQuery(e);
-  };
-
-  const handleFromInputChange = (event) => {
-    setFrom(event.target.value);
-    setIsOpen(true);
-  };
+  console.log(reducerState, "reducer state")
 
 
   return (
     <>
-      {/* {loader ? (
-        <Hotelmainloading />
-      ) : ( */}
+
       <div className=" homeabsnew1" style={{ width: "100%" }}>
         <section className="HotelAbsDesignInner w-100">
-          <div className="container">
-            <div className="row hotelFormBg">
-              <div className="col-12 px4 ddddd">
-                <>
-                  <form onSubmit={handleSubmit}>
-                    <div className="yourHotel-container1">
-                      <div
-                        onClick={async (e) => {
-                          e.stopPropagation();
-                          setSub(true);
-                          await setdisplayFrom(true);
-                          setTimeout(() => {
-                            hotelInputRef.current.focus();
-                          }, 200);
-                        }}
-                        className="hotel-container"
-                        id="item-0H"
-                      >
-                        <span>City Name</span>
-                        <div>
-                          <label>{searchTermLast.cityName}</label>
+          <div className="container" >
+            <div className="row g-2 newReturnForm">
 
-                          {sub && (
-                            <>
-                              <div
-                                ref={hotelSearchRef}
-                                className="city-search-results"
-                                style={{
-                                  display: "flex",
-                                }}
-                              >
-                                <div className="city-inputtt-div">
-                                  <div className="city-inputtt-div-div">
-                                    <IoSearchOutline />
-                                    <input
-                                      name="City"
-                                      id="CitySearchID"
-                                      type="text"
-                                      placeholder="Search city"
-                                      value={searchTerm}
-                                      className="city-inputtt"
-                                      onKeyDown={handleKeyDown}
-                                      onChange={(e) => {
-                                        e.stopPropagation();
-                                        setSearchTerm(e.target.value);
-                                      }}
-                                      ref={hotelInputRef}
-                                      style={{
-                                        outline: "none",
-                                        border: "none",
-                                      }}
-                                      autoComplete="off"
-                                    />
-                                  </div>
-                                </div>
+              <div className="col-lg-3">
+                <div className="newReturnSingleBox">
+                  <div>
+                    <span className="nrsb">From</span>
+                  </div>
+                  <FromSearchInput
+                    placeholder="Search"
+                    style={{ width: "100%" }}
+                    onItemSelect={handleFromSelect} // Pass the callback function
+                  />
+                  <div>
+                    <span className="nrsb">{selectedFrom?.countryName}</span>
+                  </div>
+                </div>
+              </div>
 
-                                <ul className="city_Search_Container">
-                                  <Box
-                                    sx={{
-                                      display: "flex",
-                                      flexDirection: "column",
-                                      maxHeight: 280,
-                                      overflow: "hidden",
-                                      overflowY: "scroll",
-                                    }}
-                                    className="scroll_style"
-                                  >
-                                    {results.map((city, index) => (
-                                      <li
-                                        key={index}
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          handleResultClick(city);
-                                          setSearchTerm("");
-                                          setSearchTermLast(city);
-                                          setSub(false);
-                                          setResults(populterSearch);
-                                        }}
-                                      >
-                                        {city.cityName}
-                                        {", "} {city.countryName}
-                                      </li>
-                                    ))}
-                                  </Box>
-                                </ul>
-                              </div>
-                            </>
-                          )}
-                        </div>
+              <div className="col-lg-3">
+                <div className="newReturnSingleBox">
+                  <div className="d-flex justify-content-evenly">
+                    <span className="nrsb">Check In</span>
+                    <span className="nrsb">Check Out</span>
+                  </div>
+                  <RangePicker
+                    onChange={handleRangeChange}
+                    // defaultValue={[dayjs(), dayjs()]}
+                    defaultValue={[initialCheckIn, initialCheckOut]}
+                    format={dateFormat}
 
-                        {/* <span className="d-none d-md-block">{cityid}</span> */}
-                      </div>
+                    disabledDate={disablePastDates}
+                  />
+                  <div className="d-flex justify-content-evenly">
+                    <span className="nrsb">{dayjs(newDepartDate).format('dddd')}</span>
+                    <span className="nrsb">{dayjs(newReturnDate).format('dddd')}</span>
+                  </div>
 
-                      <div
-                        onClick={() => setSub(false)}
-                        className="hotel-container"
-                        id="item-1H"
-                      >
-                        <span>Check In</span>
-                        <div className="">
-                          <div className="onewayDatePicker">
-                            <DatePicker
-                              selected={checkIn}
-                              onChange={handleStartDateChange}
-                              name="checkIn"
-                              dateFormat="dd MMM, yy"
-                              placeholderText="Check-In"
-                              minDate={currentDate}
-                              autoComplete="off"
-                            />
-                          </div>
-                        </div>
-                        {/* <span className="d-none d-md-block">
-                            {getDayOfWeek(selectedDay)}
-                          </span> */}
-                      </div>
+                </div>
+              </div>
 
-                      <div
-                        onClick={() => setSub(false)}
-                        className="hotel-container"
-                        id="item-2H"
-                      >
-                        <span>Check Out</span>
-                        <div className="">
-                          <div className="onewayDatePicker">
-                            <DatePicker
-                              selected={checkOut}
-                              onChange={handleEndDateChange}
-                              name="checkOut"
-                              dateFormat="dd MMM, yy"
-                              placeholderText="Check-Out "
-                              minDate={checkIn}
-                              autoComplete="off"
-                            />
-                          </div>
-                        </div>
-                        {/* <span className="d-none d-md-block">
-                            {getDayOfWeek(selectedDayTwo)}
-                          </span> */}
-                      </div>
-
-                      <div
-                        onClick={() => setSub(false)}
-                        className="travellerContainer ms-0"
-                        id="item-3H"
-                      >
-                        <div
-                          onClick={handleTravelClickOpen}
-                          className="travellerButton"
-                        >
-                          <span>Traveller & Class</span>
-                          <p>{condition} Room</p>
-                          {/* <span className="d-none d-md-block">
-                              {numAdults} Adults {numChildren} Child
-                            </span> */}
-                        </div>
-                        <Dialog
-                          sx={{ zIndex: "99999" }}
-                          disableEscapeKeyDown
-                          open={openTravelModal}
-                          onClose={handleTravelClose}
-                        >
-                          <DialogContent>
-                            <>
-                              <div className="travellerModal">
-                                <div className="roomModal">
-                                  <div className="hotel_modal_form_input px-0">
-                                    <label className="form_label">
-                                      Room*
-                                    </label>
-                                    <select
-                                      name="room"
-                                      value={condition}
-                                      onChange={handleConditionChange}
-                                      className="hotel_input_select"
-                                    >
-                                      <option>1</option>
-                                      <option>2</option>
-                                      <option>3</option>
-                                      <option>4</option>
-                                      <option>5</option>
-                                      <option>6</option>
-                                    </select>
-                                  </div>
-                                </div>
-
-                                <div className="px-1">
-                                  {condition > 0 &&
-                                    Array.from({ length: condition }).map(
-                                      (_, index) => (
-                                        <div
-                                          key={index}
-                                          className="room-modal-container"
-                                        >
-                                          <div>
-                                            <h5>ROOM {index + 1}</h5>
-                                          </div>
-                                          <div className="row">
-                                            <div className="hotel_modal_form_input">
-                                              <label className="form_label">
-                                                No of Adults:
-                                              </label>
-                                              <select
-                                                value={
-                                                  formDataDynamic[index]
-                                                    ?.NoOfAdults || 1
-                                                }
-                                                className="hotel_input_select"
-                                                onChange={(e) =>
-                                                  handleFormChange(
-                                                    index,
-                                                    "NoOfAdults",
-                                                    parseInt(e.target.value)
-                                                  )
-                                                }
-                                              >
-                                                {[1, 2, 3, 4, 5, 6, 7, 8].map(
-                                                  (num) => (
-                                                    <option
-                                                      key={num}
-                                                      value={num}
-                                                    >
-                                                      {num}
-                                                    </option>
-                                                  )
-                                                )}
-                                              </select>
-                                            </div>
-
-                                            <div className="hotel_modal_form_input">
-                                              <label className="form_label">
-                                                No of Child:
-                                              </label>
-                                              <select
-                                                value={
-                                                  formDataDynamic[index]
-                                                    ?.NoOfChild || 0
-                                                }
-                                                className="hotel_input_select"
-                                                name="noOfChild"
-                                                onChange={(e) =>
-                                                  handleFormChange(
-                                                    index,
-                                                    "NoOfChild",
-                                                    parseInt(e.target.value)
-                                                  )
-                                                }
-                                              >
-                                                {[0, 1, 2, 3, 4].map(
-                                                  (childCount) => (
-                                                    <option
-                                                      key={childCount}
-                                                      value={childCount}
-                                                    >
-                                                      {childCount}
-                                                    </option>
-                                                  )
-                                                )}
-                                              </select>
-                                            </div>
-                                          </div>
-                                          {formDataDynamic[index]?.NoOfChild >
-                                            0 && (
-                                              <div className="hotel_modal_form_input_child_age">
-                                                <label className="mt-3">
-                                                  Child Age:
-                                                </label>
-                                                <div>
-                                                  {Array.from({
-                                                    length:
-                                                      formDataDynamic[index]
-                                                        ?.NoOfChild || 0,
-                                                  }).map((_, childIndex) => (
-                                                    <div
-                                                      key={childIndex}
-                                                      className=""
-                                                    >
-                                                      <select
-                                                        value={
-                                                          formDataDynamic[index]
-                                                            ?.ChildAge?.[
-                                                          childIndex
-                                                          ] || ""
-                                                        }
-                                                        className="hotel_input_select"
-                                                        onChange={(e) =>
-                                                          handleChildAgeChange(
-                                                            index,
-                                                            childIndex,
-                                                            e.target.value
-                                                          )
-                                                        }
-                                                      >
-                                                        {Array.from(
-                                                          { length: 11 },
-                                                          (_, i) => (
-                                                            <option
-                                                              key={i}
-                                                              value={i + 1}
-                                                            >
-                                                              {i + 1}
-                                                            </option>
-                                                          )
-                                                        )}
-                                                      </select>
-                                                    </div>
-                                                  ))}
-                                                </div>
-                                              </div>
-                                            )}
-                                        </div>
-                                      )
-                                    )}
-                                </div>
-                              </div>
-                            </>
-                          </DialogContent>
-                          <DialogActions>
-                            <Button
-                              style={{
-                                backgroundColor: "#21325d",
-                                color: "white",
-                              }}
-                              onClick={handleTravelClose}
-                            >
-                              Cancel
-                            </Button>
-                            <Button
-                              style={{
-                                backgroundColor: "#21325d",
-                                color: "white",
-                              }}
-                              onClick={handleTravelClose}
-                            >
-                              Ok
-                            </Button>
-                          </DialogActions>
-                        </Dialog>
-                      </div>
-
-                      <div className=" fromcity hotel-container" id="item-4H">
-                        <span
-                          style={{
-                            fontSize: "14px",
-                            fontWeight: "500",
-                            width: "100%",
-                            color: "#071c2c",
-                          }}
-                        >
-                          Nationality
-                        </span>
-                        <div className="dropdown">
-                          <div className="control selCount">
-                            <div
-                              className="selected-value"
-                              style={{ display: "flex" }}
-                            >
-                              <input
-                                name="from"
-                                onKeyDown={handleKeyDown}
-                                placeholder={selectedFrom.countryName}
-                                value={from}
-                                onClick={toggle}
-                                autoComplete="off"
-                                onChange={(event) => {
-                                  handleFromInputChange(event);
-                                  // setIsLoadingFrom(true);
-                                  handleFromSearch(event.target.value);
-                                }}
-                                style={{
-                                  border: "none",
-                                  fontSize: "20px",
-                                  outline: "none",
-                                  color: "#3f454a",
-                                  fontWeight: "700",
-                                }}
-                                className="custominputplaceholder"
-                              />
-                            </div>
-                            <div
-                              style={{ display: "none" }}
-                              className={`arrow ${isOpen ? "open" : ""}`}
-                            ></div>
-                          </div>
-
-                          <div
-                            ref={inputRef}
-                            className={`options ${isOpen ? "open" : ""}`}
-                            style={{
-                              overflowX: "hidden",
-                              overflowY: "auto",
-                              maxHeight: "250px",
-                              scrollbarWidth: "thin",
-                            }}
-                          >
-                            {fromSearchResults.map((result1, index) => {
-                              return (
-                                <div
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleFromClick(result1);
-                                  }}
-                                  className={`${index === cityIndex1 ? "hoverCity" : ""
-                                    }`}
-                                  key={result1.countryCode}
-                                >
-                                  <div className="onewayResultBox">
-                                    <div className="onewayResultFirst">
-                                      <div className="resultOriginName">
-                                        <p style={{ fontSize: "14px" }}>
-                                          {result1.countryName}
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div className="resultAirportCode">
-                                      <p style={{ fontSize: "10px" }}>
-                                        {" "}
-                                        {result1.countryCode}
-                                      </p>
-                                    </div>
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="GrnButton" style={{ marginTop: "0px" }}>
-                        <button type="submit" className="" style={{ height: "100%" }}>
-                          Search
-                        </button>
-                      </div>
+              <div className="col-lg-2">
+                <div>
+                  <div className="newReturnSingleBox " onClick={handleTravelClickOpen}>
+                    <div>
+                      <span className="nrsb">Guests & Rooms</span>
                     </div>
 
-                  </form>
-                </>
+                    <p className="nrsbpara">
+                      {condition} Room
+                    </p>
+                    <div className="d-none d-md-block ">
+                      <span className="nrsb">
+                        {numAdults} Adults {numChildren} Child
+                      </span>
+                    </div>
+                  </div>
+                  <Dialog
+                    sx={{ zIndex: "99999" }}
+                    disableEscapeKeyDown
+                    open={openTravelModal}
+                    onClose={handleTravelClose}
+                  >
+                    <DialogContent>
+                      <>
+                        <div className="travellerModal">
+                          <div className="roomModal">
+                            <div className="hotel_modal_form_input px-0">
+                              <label className="form_label">Room*</label>
+                              <select
+                                name="room"
+                                value={condition}
+                                onChange={handleConditionChange}
+                                className="hotel_input_select"
+                              >
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                                <option>6</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div className="px-1">
+                            {condition > 0 &&
+                              Array.from({ length: condition }).map(
+                                (_, index) => (
+                                  <div
+                                    key={index}
+                                    className="room-modal-container"
+                                  >
+                                    <div>
+                                      <h5>ROOM {index + 1}</h5>
+                                    </div>
+                                    <div className="row">
+                                      <div className="hotel_modal_form_input">
+                                        <label className="form_label">
+                                          No of Adults:
+                                        </label>
+                                        <select
+                                          value={
+                                            formDataDynamic[index]
+                                              ?.NoOfAdults || 1
+                                          }
+                                          className="hotel_input_select"
+                                          onChange={(e) =>
+                                            handleFormChange(
+                                              index,
+                                              "NoOfAdults",
+                                              parseInt(e.target.value)
+                                            )
+                                          }
+                                        >
+                                          {[1, 2, 3, 4, 5, 6, 7, 8].map(
+                                            (num) => (
+                                              <option
+                                                key={num}
+                                                value={num}
+                                              >
+                                                {num}
+                                              </option>
+                                            )
+                                          )}
+                                        </select>
+                                      </div>
+
+                                      <div className="hotel_modal_form_input">
+                                        <label className="form_label">
+                                          No of Child:
+                                        </label>
+                                        <select
+                                          value={
+                                            formDataDynamic[index]
+                                              ?.NoOfChild || 0
+                                          }
+                                          className="hotel_input_select"
+                                          name="noOfChild"
+                                          onChange={(e) =>
+                                            handleFormChange(
+                                              index,
+                                              "NoOfChild",
+                                              parseInt(e.target.value)
+                                            )
+                                          }
+                                        >
+                                          {[0, 1, 2, 3, 4].map(
+                                            (childCount) => (
+                                              <option
+                                                key={childCount}
+                                                value={childCount}
+                                              >
+                                                {childCount}
+                                              </option>
+                                            )
+                                          )}
+                                        </select>
+                                      </div>
+                                    </div>
+                                    {formDataDynamic[index]?.NoOfChild >
+                                      0 && (
+                                        <div className="hotel_modal_form_input_child_age">
+                                          <label className="mt-3">
+                                            Child Age:
+                                          </label>
+                                          <div>
+                                            {Array.from({
+                                              length:
+                                                formDataDynamic[index]
+                                                  ?.NoOfChild || 0,
+                                            }).map((_, childIndex) => (
+                                              <div
+                                                key={childIndex}
+                                                className=""
+                                              >
+                                                <select
+                                                  value={
+                                                    formDataDynamic[index]
+                                                      ?.ChildAge?.[
+                                                    childIndex
+                                                    ] || ""
+                                                  }
+                                                  className="hotel_input_select"
+                                                  onChange={(e) =>
+                                                    handleChildAgeChange(
+                                                      index,
+                                                      childIndex,
+                                                      e.target.value
+                                                    )
+                                                  }
+                                                >
+                                                  {Array.from(
+                                                    { length: 11 },
+                                                    (_, i) => (
+                                                      <option
+                                                        key={i}
+                                                        value={i + 1}
+                                                      >
+                                                        {i + 1}
+                                                      </option>
+                                                    )
+                                                  )}
+                                                </select>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        </div>
+                                      )}
+                                  </div>
+                                )
+                              )}
+                          </div>
+                        </div>
+                      </>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button
+                        style={{
+                          backgroundColor: "#21325d",
+                          color: "white",
+                        }}
+                        onClick={handleTravelClose}
+                      >
+                        Cancel
+                      </Button>
+                      <Button
+                        style={{
+                          backgroundColor: "#21325d",
+                          color: "white",
+                        }}
+                        onClick={handleTravelClose}
+                      >
+                        Ok
+                      </Button>
+                    </DialogActions>
+                  </Dialog>
+                </div>
               </div>
+
+              <div className="col-lg-2">
+                <div className="newReturnSingleBox">
+                  <div>
+                    <span className="nrsb">Nationality</span>
+                  </div>
+                  <ToSearchInput
+                    placeholder="Search"
+                    style={{ width: "100%" }}
+                    onItemSelect={handleNationalitySelect} // Pass the callback function
+                  />
+                  <div>
+                    <span className="nrsb">{selectNationality?.countryCode3}</span>
+                  </div>
+                </div>
+
+              </div>
+
+              <div className=" col-lg-2">
+                <Button
+                  className="multiFormButton"
+                  onClick={handleSubmit}
+                  loading={loader}
+                >
+                  Search
+                </Button>
+              </div>
+              {/* <div
+                style={{ position: "relative", top: "80px", marginTop: "-45px" }}
+                className="onewaySearch-btn" id="item-5Return">
+                <Button className="returnButton" style={{ padding: "8px 36px", height: "unset" }} onClick={handleSubmit} loading={loader}>Search</Button>
+              </div> */}
+
             </div>
           </div>
         </section>

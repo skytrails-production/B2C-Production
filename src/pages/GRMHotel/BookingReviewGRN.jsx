@@ -117,7 +117,7 @@ const BookingReviewGRN = ({
             "confirmed"
         ) {
             setLoaderPayment(false);
-            navigate("/GrmHotelHome/hotelsearchGRM/hotelbookroom/guestDetails/review/ticket");
+            navigate("/st-hotel/hotelresult/selectroom/guestDetails/review/ticket");
             return;
         }
     }, [reducerState?.hotelSearchResultGRN?.bookRoom?.status]);
@@ -238,7 +238,7 @@ const BookingReviewGRN = ({
         // setSub(true);
         setLoaderPayment1(true);
         if (!checkSearchTime()) {
-            navigate("/GrmHotelHome");
+            navigate("/st-hotel");
             return;
         } else {
             const token = SecureStorage?.getItem("jwtToken");
@@ -284,7 +284,6 @@ const BookingReviewGRN = ({
         }
     };
 
-    console.log(reducerState, "reducer state")
 
 
     const proceedPayment = (accessKey, env, key) => {
