@@ -383,10 +383,14 @@ const GrmHotelForm = () => {
 
   const dateFormat = "DD MMM";
   // const today = new Date(dayjs().format("YYYY-MM-DD"));
-  const [newDepartDate, setNewDepartDate] = useState(new Date());
-  const [newReturnDate, setNewReturnDate] = useState(new Date());
+  const initialDepartDate = new Date();
+  const initialReturnDate = dayjs(initialDepartDate).add(1, 'day').toDate();
 
-  console.log(newDepartDate)
+  // Set states
+  const [newDepartDate, setNewDepartDate] = useState(initialDepartDate);
+  const [newReturnDate, setNewReturnDate] = useState(initialReturnDate);
+
+  console.log(newReturnDate)
 
   const handleRangeChange = (dates, dateStrings) => {
     if (dates) {
@@ -531,7 +535,7 @@ const GrmHotelForm = () => {
               </div>
               <RangePicker
                 onChange={handleRangeChange}
-                defaultValue={[dayjs(), dayjs()]}
+                defaultValue={[dayjs(newDepartDate), dayjs(newReturnDate)]}
                 format={dateFormat}
                 disabledDate={disablePastDates}
               />
@@ -539,7 +543,6 @@ const GrmHotelForm = () => {
                 <span className="nrsb">{dayjs(newDepartDate).format('dddd')}</span>
                 <span className="nrsb">{dayjs(newReturnDate).format('dddd')}</span>
               </div>
-
             </div>
           </div>
 

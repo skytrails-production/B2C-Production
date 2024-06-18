@@ -408,17 +408,15 @@ function GrmHotelform2() {
 
 
 
+
+
   const dateFormat = "DD MMM";
-  let initialCheckIn = dayjs();
-  let initialCheckOut = dayjs();
+  const initialDepartDate = grmhotel?.[0]?.checkin;
+  const initialReturnDate = grmhotel?.[0]?.checkout;
 
-  if (grmhotel && grmhotel.length > 0) {
-    initialCheckIn = dayjs(grmhotel[0].checkin, dateFormat);
-    initialCheckOut = dayjs(grmhotel[0].checkout, dateFormat);
-  }
-
-  const [newDepartDate, setNewDepartDate] = useState(initialCheckIn);
-  const [newReturnDate, setNewReturnDate] = useState(initialCheckOut);
+  // Set states
+  const [newDepartDate, setNewDepartDate] = useState(initialDepartDate);
+  const [newReturnDate, setNewReturnDate] = useState(initialReturnDate);
 
 
   const handleRangeChange = (dates, dateStrings) => {
@@ -542,17 +540,14 @@ function GrmHotelform2() {
                   </div>
                   <RangePicker
                     onChange={handleRangeChange}
-                    // defaultValue={[dayjs(), dayjs()]}
-                    defaultValue={[initialCheckIn, initialCheckOut]}
+                    defaultValue={[dayjs(newDepartDate), dayjs(newReturnDate)]}
                     format={dateFormat}
-
                     disabledDate={disablePastDates}
                   />
                   <div className="d-flex justify-content-evenly">
                     <span className="nrsb">{dayjs(newDepartDate).format('dddd')}</span>
                     <span className="nrsb">{dayjs(newReturnDate).format('dddd')}</span>
                   </div>
-
                 </div>
               </div>
 

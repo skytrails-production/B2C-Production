@@ -19,19 +19,23 @@ export default function PriceSummaryGRN() {
                 <div className="head">
                     <span>Price Summary</span>
                 </div>
-                <div className="priceChart">
-                    <div>
-                        <span className="text-bold">Check in Time Payment</span>
-                    </div>
-                    <div>
-                        <span></span>
-                        <p>
+                {
+                    commnetRate &&
+                    <div className="priceChart">
+                        <div>
+                            <span className="text-bold">Check in Time Payment</span>
+                        </div>
+                        <div>
+                            <span></span>
+                            <p>
 
-                            {commnetRate}
-                        </p>
-                    </div>
+                                {commnetRate}
+                            </p>
+                        </div>
 
-                </div>
+                    </div>
+                }
+
                 <div className="priceChart">
                     <div>
                         <span className="text-bold">Rate</span>

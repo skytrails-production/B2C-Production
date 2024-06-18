@@ -227,7 +227,7 @@ const BookingReviewGRN = ({
         };
     }, [isDisableScroll]);
 
-
+    console.log(passenger, "passenger")
 
     const [paymentLoading, setPaymentLoading] = useState(false);
 
@@ -615,7 +615,10 @@ const BookingReviewGRN = ({
                                                     <div className="propertyRulesBox">
                                                         <div className="prOne">
                                                             <p>Check-in Time Began: {hotelinfoGRN?.rate?.rate_comments?.checkin_begin_time}</p>
-                                                            <p>Check-in Time Ends: {hotelinfoGRN?.rate?.rate_comments?.checkin_end_time}</p>
+                                                            {hotelinfoGRN?.rate?.rate_comments?.checkin_end_time &&
+
+                                                                <p>Check-in Time Ends: {hotelinfoGRN?.rate?.rate_comments?.checkin_end_time}</p>
+                                                            }
                                                         </div>
                                                         <div className="prOne">
                                                             <p>Check-in Minimum Age : {hotelinfoGRN?.rate?.rate_comments?.checkin_min_age} </p>
@@ -666,8 +669,15 @@ const BookingReviewGRN = ({
                                                         {
                                                             hotelinfoGRN?.rate?.rate_comments?.mandatory_fees !== "" && (
                                                                 <div className="prOne">
-                                                                    <p>Mandatory Fees: {hotelinfoGRN?.rate?.rate_comments?.mandatory_fees}</p>
-                                                                    <p>Mandatory Tax: {hotelinfoGRN?.rate?.rate_comments?.mandatoryTax}</p>
+                                                                    {hotelinfoGRN?.rate?.rate_comments?.mandatory_fees &&
+                                                                        <p>Mandatory Fees: {hotelinfoGRN?.rate?.rate_comments?.mandatory_fees}</p>
+
+                                                                    }
+
+                                                                    {hotelinfoGRN?.rate?.rate_comments?.mandatoryTax &&
+
+                                                                        <p>Mandatory Tax: {hotelinfoGRN?.rate?.rate_comments?.mandatoryTax}</p>
+                                                                    }
                                                                 </div>
                                                             )
                                                         }

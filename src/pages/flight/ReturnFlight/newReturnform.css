@@ -114,13 +114,13 @@
 
 
 
-.returnButton:where(.css-j9bb5n).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
+:where(.css-j9bb5n).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
     color: #fff !important;
     border-color: #E73C34 !important;
     background: #E73C34 !important;
 }
 
-.returnButton:where(.css-dev-only-do-not-override-j9bb5n).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
+:where(.css-dev-only-do-not-override-j9bb5n).ant-btn-default:not(:disabled):not(.ant-btn-disabled):hover {
     color: #fff !important;
     border-color: #E73C34 !important;
     background: #E73C34 !important;
