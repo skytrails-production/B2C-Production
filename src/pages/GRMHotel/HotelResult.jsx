@@ -189,6 +189,8 @@ export default function HotelResult() {
     const handleShowMore = () => {
         setDisplayCount(displayCount === initialDisplayCount ? allUniqueFacilities?.length : initialDisplayCount);
     };
+
+    console.log(result, "result")
     const sortedAndFilteredResults = result
         ?.filter((item) => {
             const hotelName = item?.name?.toLowerCase();
@@ -201,7 +203,7 @@ export default function HotelResult() {
                         return starRating === parseInt(value);
 
                     case "facility":
-                        return item.facilities.split(';').map(f => f.trim()).includes(value);
+                        return item?.facilities?.split(';')?.map(f => f.trim()).includes(value);
                     default:
                         return false;
                 }

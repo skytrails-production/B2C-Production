@@ -7,6 +7,11 @@ import dayjs from 'dayjs';
 import Select from 'react-select';
 import { apiURL } from '../Constants/constant';
 import { useNavigate } from 'react-router-dom';
+import login01 from "../images/login-01.jpg";
+import Login from "../components/Login";
+import Modal from "@mui/material/Modal";
+import CloseIcon from "@mui/icons-material/Close";
+import { DatePicker } from "antd";
 
 const PaylaterDetails = () => {
 
@@ -19,7 +24,8 @@ const PaylaterDetails = () => {
     const [searchResultsFrom, setSearchResultsFrom] = useState([]);
     const [searchResultsTo, setSearchResultsTo] = useState([]);
     const publishedFare = sessionStorage.getItem("amountPayLater");
-
+    const authenticUser = reducerState?.logIn?.loginData?.status;
+    console.log(reducerState, "reducer state")
     const initialSelectedFromData = {
         AirportCode: "DEL",
         CityCode: "DEL",
@@ -95,9 +101,54 @@ const PaylaterDetails = () => {
     }
 
 
+
+
+    // date picker 
+    const dateFormat = "DD MMM, YY";
+    const today = dayjs().format(dateFormat);
+    const [newDepartDate, setNewDepartDate] = useState(today);
+
+    console.log(newDepartDate, "new departure date")
+
+    const handleRangeChange = (date) => {
+        if (date) {
+            setNewDepartDate(dayjs(date).format(dateFormat));
+        } else {
+            console.log("Selection cleared");
+        }
+    };
+
+
+    const disablePastDates = (current) => {
+        return current && current < dayjs().startOf('day');
+    };
+    // date picker 
+
+
+    const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+    const handleModalClose = () => {
+        setIsLoginModalOpen(false);
+    };
+
+    useEffect(() => {
+        if (authenticUser == 200) {
+            handleModalClose();
+        }
+    }, [authenticUser]);
+
+
+
     const onFormSubmit = async (e) => {
         e.preventDefault();
         setLoader(true)
+
+        if (authenticUser !== 200) {
+            setIsLoginModalOpen(true);
+            setLoader(false)
+            return
+        }
+
         const validationResult = validateForm(formData);
         if ((Object.keys(validationResult).length > 0)) {
             setErrors(validationResult);
@@ -111,10 +162,11 @@ const PaylaterDetails = () => {
             firstName: formData?.fname,
             email: formData?.email,
             monthlyIncome: Number(formData?.income),
-            travelDate: dayjs(formData?.date).format("DD-MMM-YYYY"),
+            travelDate: dayjs(newDepartDate).format("DD-MMM-YYYY"),
             origin: fromSelectedOption?.CityCode || fromSelectedOption?.value,
             destination: toSelectedOption?.CityCode || toSelectedOption?.value,
-            travelCost: Number(formData?.cost)
+            travelCost: Number(formData?.cost),
+            partnerTransactionId: reducerState?.logIn?.loginData?.data?.result?._id,
         }
 
         try {
@@ -227,8 +279,17 @@ const PaylaterDetails = () => {
                         <input style={{ borderColor: errors.income ? 'red' : '' }} type="text" id="income" name="income" class="form-control" onChange={onInputChangeHandler} />
                     </div>
                     <div class="col-md-4">
-                        <label for="inputPassword4" class="form-label">Travel Date</label>
-                        <input type="date" dateFormat="dd MMM, yy" id="date" name="date" class="form-control" onChange={onInputChangeHandler} />
+                        <div className='datePickMihuru'>
+                            <label for="inputPassword4" class="form-label">Travel Date</label>
+                            {/* <input type="date" dateFormat="dd MMM, yy" id="date" name="date" class="form-control" onChange={onInputChangeHandler} /> */}
+                            <DatePicker
+
+                                onChange={handleRangeChange}
+                                defaultValue={[dayjs()]}
+                                format={dateFormat}
+                                disabledDate={disablePastDates}
+                            />
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <label for="inputPassword4" class="form-label">Origin</label>
@@ -299,6 +360,66 @@ const PaylaterDetails = () => {
                     }
                 </form>
             </div>
+
+            <Modal
+                open={isLoginModalOpen}
+                onClose={handleModalClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                sx={{ zIndex: "999999" }}
+            >
+                <div class="login-page">
+                    <div class="container ">
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-lg-5 ">
+                                <div class="bg-white shadow roundedCustom">
+                                    <div class="">
+                                        <div class="col-md-12 ps-0  d-md-block">
+                                            <div class="form-right leftLogin h-100 text-white text-center ">
+                                                <CloseIcon
+                                                    className="closeIncon"
+                                                    onClick={handleModalClose}
+                                                />
+                                                <div className="loginImg logg">
+                                                    <img src={login01} alt="login01" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 pe-0">
+                                            <div class="form-left h-100 d-flex justify-content-center flex-column py-4 px-3">
+                                                <div class="row g-4">
+                                                    <div
+                                                        class="col-12"
+                                                        style={{
+                                                            display: "flex",
+                                                            justifyContent: "center",
+                                                        }}
+                                                    >
+                                                        <label className="mb-3">
+                                                            Please Login to Continue
+                                                            <span class="text-danger">*</span>
+                                                        </label>
+                                                    </div>
+                                                    <div
+                                                        class="col-12"
+                                                        style={{
+                                                            display: "flex",
+                                                            justifyContent: "center",
+                                                        }}
+                                                    >
+                                                        <Login />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
+
         </div>
     )
 }

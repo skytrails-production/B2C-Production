@@ -103,6 +103,7 @@ import RandomPayment from "./RandomPayment";
 import RandomPaymentSuccess from "./RandomPaymentSuccess";
 import SkytailsTrendingPackages from "./components/SkytrailsTrendingPackage/SkytailsTrendingPackages";
 import AllBlogs from "./pages/home/AllBlogs";
+import MihuruPaymentSuccess from "./Mihuru/MihuruPaymentSuccess";
 
 
 
@@ -456,6 +457,10 @@ function App() {
         <Route
           path="/payLaterDetails/verifyOtp/userCredential/tnplGeneratedplan"
           element={<TnplGeneratedPlan />}
+        ></Route>
+        <Route
+          path="/mihurupaymentsuccess"
+          element={<MihuruPaymentSuccess />}
         ></Route>
 
 
