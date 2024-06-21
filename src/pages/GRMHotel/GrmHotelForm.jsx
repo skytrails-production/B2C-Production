@@ -338,6 +338,8 @@ const GrmHotelForm = () => {
 
   const reducerState = useSelector((state) => state);
 
+
+
   const [open, setOpen] = useState(false);
   const [loader, setLoader] = useState(false);
 
@@ -380,33 +382,40 @@ const GrmHotelForm = () => {
 
 
 
+  // date selection logic here 
+
+
 
   const dateFormat = "DD MMM";
-  // const today = new Date(dayjs().format("YYYY-MM-DD"));
+
   const initialDepartDate = new Date();
   const initialReturnDate = dayjs(initialDepartDate).add(1, 'day').toDate();
 
-  // Set states
   const [newDepartDate, setNewDepartDate] = useState(initialDepartDate);
   const [newReturnDate, setNewReturnDate] = useState(initialReturnDate);
 
-  console.log(newReturnDate)
-
   const handleRangeChange = (dates, dateStrings) => {
     if (dates) {
-      setNewDepartDate(dayjs(dates[0]).format("DD MMM, YY"));
-      setNewReturnDate(dayjs(dates[1]).format("DD MMM, YY"));
+      const departDate = dates[0];
+      let returnDate = dates[1];
+
+      if (!returnDate) {
+        returnDate = dayjs(departDate).add(1, 'day');
+      }
+
+      setNewDepartDate(dayjs(departDate).format("DD MMM, YY"));
+      setNewReturnDate(dayjs(returnDate).format("DD MMM, YY"));
     } else {
       console.log("Selection cleared");
     }
   };
-
 
   const disablePastDates = (current) => {
     return current && current < dayjs().startOf('day');
   };
 
 
+  // date selection logic here 
 
 
 

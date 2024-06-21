@@ -792,7 +792,7 @@ p: 4, */
 .PackageImg img {
   position: absolute;
   z-index: 0;
-  max-width: 100vw;
+  max-width: 100vw !important;
   height: 100%;
 }
 

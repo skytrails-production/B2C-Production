@@ -7,34 +7,24 @@ import StarIcon from "@mui/icons-material/Star";
 import { useDispatch, useSelector, useReducer } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PassengersAction } from "../../Redux/Passengers/passenger";
-// import { apiURL } from "../../Constants/constant";
 import { useEffect } from "react";
 import HotelLoading from "../Hotel/hotelLoading/HotelLoading";
 import hotelNotFound from "../../images/hotelNotFound.jpg";
 import chevrondown from "../../images/chevrondown.svg";
-// import Login from "../../components/Login";
 import login01 from "../../images/login-01.jpg";
 import Login from "../../components/Login";
 import Modal from "@mui/material/Modal";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
 import CloseIcon from "@mui/icons-material/Close";
-// import {
-//     validateEmail,
-//     validateName,
-//     validatePhoneNumber,
-//     validatePAN,
-//     validatePassportExpiry,
-//     isValidPassportNumber,
-// } from "../../utility/validationFunctions";
 import dayjs, { Dayjs } from "dayjs";
-// import { MdMms } from "react-icons/md";
 import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import axios from "axios";
 import { apiURL } from "../../Constants/constant";
 import Hotelmainloading from "../Hotel/hotelLoading/Hotelmainloading";
-
+import { swalModal } from "../../utility/swal";
+import { Divider, Form, Radio, Skeleton, Space, Switch } from 'antd';
 const styleLoader = {
     position: "absolute",
     top: "50%",
@@ -79,12 +69,11 @@ const HotelGuestDetailsGRN = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [loader, setLoader] = useState(false);
+    const [loader, setLoader] = useState(true);
     const reducerState = useSelector((state) => state);
     const authenticUser = reducerState?.logIn?.loginData?.status;
     let bookingStatus = reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Status || false;
     const [bookingSuccess, setBookingSuccess] = useState(bookingStatus);
-
 
 
 
@@ -114,6 +103,7 @@ const HotelGuestDetailsGRN = () => {
     // new values
 
 
+    console.log(hotelinfoGRN, "hotel info in guest page")
 
     // image slider logic
 
@@ -138,13 +128,14 @@ const HotelGuestDetailsGRN = () => {
     // image slider logic
 
 
-    useEffect(() => {
-        if (reducerState?.hotelSearchResultGRN?.hotelRoom?.length == 0) {
 
+    useEffect(() => {
+        if (reducerState?.hotelSearchResultGRN?.hotelRoom?.errors?.length > 0) {
+
+            swalModal('hotel', "room not found", false);
             navigate("/st-hotel/hotelresult/selectroom")
         }
-
-    }, [reducerState?.hotelSearchResultGRN?.hotelRoom])
+    }, [reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.errors])
 
 
     // passenger details adding
@@ -181,7 +172,7 @@ const HotelGuestDetailsGRN = () => {
 
 
 
-
+    console.log(reducerState, "reducer in guest")
 
     const [errors, setErrors] = useState([]);
 
@@ -218,11 +209,9 @@ const HotelGuestDetailsGRN = () => {
                         adultErrors.Email = "Enter Valid Email";
                     }
 
-                    let phone = adult.Phoneno.replace(/^0+/, ''); // Remove leading zeros
-                    if (phone.length > 10) {
-                        phone = phone.slice(-10); // Take the last 10 digits
-                    }
-                    if (!/^\d{10}$/.test(phone)) {
+
+                    if (adult.Phoneno.length > 10 || adult.Phoneno.length == 0) {
+
                         adultErrors.Phoneno = "Enter valid 10 digit phone number";
                     }
                 }
@@ -321,7 +310,6 @@ const HotelGuestDetailsGRN = () => {
         } else {
 
             const validationResult = validateForm(passengerData);
-            console.log(validationResult, "validationResult");
             const hasErrors = validationResult.some(room => Object.keys(room).some(key => room[key].length > 0));
 
             if (hasErrors) {
@@ -363,506 +351,504 @@ const HotelGuestDetailsGRN = () => {
 
     return (
         <>
-            {loader ? (
-                <Hotelmainloading />
-            ) : (
 
-                <div className="container">
-                    <div className="row">
-                        <div className="col-lg-12 p-0 reviewTMT">
-                            <div className="hotelDetails">
+
+            <div className="container">
+                <div className="row">
+                    <div className="col-lg-12 p-0 reviewTMT">
+                        <div className="hotelDetails">
+                            <div>
                                 <div>
-                                    <div>
-                                        <p className="hotelName">
-                                            {hotelinfoGRN?.name}
-                                        </p>
-                                    </div>
-                                    <div>
-                                        <Box>{star(hotelinfoGRN?.category)}</Box>
-                                    </div>
-                                    <div>
-                                        <p className="text-start addReview">
-                                            {" "}
-                                            <b>Address:</b> {hotelinfoGRN?.address}
-                                        </p>
-                                    </div>
-                                    <div className="mapp">
-                                        <a href={`https://www.google.com/maps?q=${hotelinfoGRN?.geolocation?.latitude},${hotelinfoGRN?.geolocation?.longitude}`} target="_blank">
-                                            <svg id="fi_2642502" enable-background="new 0 0 512 512" height="25" viewBox="0 0 512 512" width="30" xmlns="http://www.w3.org/2000/svg"><g><path d="m307.79 223.476-53.135 78.467-78.573 78.18c-29.222-37.139-61.132-73.116-80.587-116.631l42.352-64.879 64.957-62.668c-21.71 26.831-20.089 66.293 4.864 91.246 26.696 26.696 69.968 26.696 96.663 0 1.203-1.203 2.365-2.446 3.459-3.715z" fill="#ecb72b"></path><path d="m309.02 222.003c21.9-26.844 20.346-66.442-4.688-91.462-26.696-26.696-69.968-26.696-96.663 0-1.121 1.121-2.189 2.27-3.215 3.445l44.811-72.847 60.795-52.809c45.407 14.374 82.964 46.379 104.648 87.977l-44.352 71.516z" fill="#5085f7"></path><path d="m202.802 135.949-107.312 127.549c-10.643-23.783-17.562-49.817-18.276-79.529-.054-1.689-.081-3.391-.081-5.093 0-43.718 15.685-83.789 41.746-114.861z" fill="#da2f2a"></path><path d="m202.802 135.949-83.926-71.939c32.816-39.125 82.06-64.01 137.126-64.01 18.845 0 37.009 2.916 54.065 8.32z" fill="#4274eb"></path><path d="m434.867 178.865c0-29.779-7.278-57.859-20.151-82.558l-238.64 283.826c27.113 34.488 51.887 69.985 62.183 113.454.33 1.392.685 3.019 1.063 4.848 3.733 18.086 29.63 18.086 33.363 0 .378-1.829.733-3.456 1.063-4.848 27.448-115.892 157.807-175.118 161.043-309.618.046-1.696.076-3.397.076-5.104z" fill="#60a850"></path></g></svg>  see on map
-                                        </a>
-                                    </div>
+                                    <p className="hotelName">
+                                        {hotelinfoGRN?.name}
+                                    </p>
                                 </div>
                                 <div>
-                                    <div className="hotelImageReview">
-                                        <img
-                                            src={hotelinfoGRN?.images?.url}
-                                            onError={(e) => {
-                                                e.target.onerror = null;
-                                                e.target.src = hotelNotFound;
-                                            }}
-                                            alt="package-img"
-                                        />
-                                    </div>
+                                    <Box>{star(hotelinfoGRN?.category)}</Box>
+                                </div>
+                                <div>
+                                    <p className="text-start addReview">
+                                        {" "}
+                                        <b>Address:</b> {hotelinfoGRN?.address}
+                                    </p>
+                                </div>
+                                <div className="mapp">
+                                    <a href={`https://www.google.com/maps?q=${hotelinfoGRN?.geolocation?.latitude},${hotelinfoGRN?.geolocation?.longitude}`} target="_blank">
+                                        <svg id="fi_2642502" enable-background="new 0 0 512 512" height="25" viewBox="0 0 512 512" width="30" xmlns="http://www.w3.org/2000/svg"><g><path d="m307.79 223.476-53.135 78.467-78.573 78.18c-29.222-37.139-61.132-73.116-80.587-116.631l42.352-64.879 64.957-62.668c-21.71 26.831-20.089 66.293 4.864 91.246 26.696 26.696 69.968 26.696 96.663 0 1.203-1.203 2.365-2.446 3.459-3.715z" fill="#ecb72b"></path><path d="m309.02 222.003c21.9-26.844 20.346-66.442-4.688-91.462-26.696-26.696-69.968-26.696-96.663 0-1.121 1.121-2.189 2.27-3.215 3.445l44.811-72.847 60.795-52.809c45.407 14.374 82.964 46.379 104.648 87.977l-44.352 71.516z" fill="#5085f7"></path><path d="m202.802 135.949-107.312 127.549c-10.643-23.783-17.562-49.817-18.276-79.529-.054-1.689-.081-3.391-.081-5.093 0-43.718 15.685-83.789 41.746-114.861z" fill="#da2f2a"></path><path d="m202.802 135.949-83.926-71.939c32.816-39.125 82.06-64.01 137.126-64.01 18.845 0 37.009 2.916 54.065 8.32z" fill="#4274eb"></path><path d="m434.867 178.865c0-29.779-7.278-57.859-20.151-82.558l-238.64 283.826c27.113 34.488 51.887 69.985 62.183 113.454.33 1.392.685 3.019 1.063 4.848 3.733 18.086 29.63 18.086 33.363 0 .378-1.829.733-3.456 1.063-4.848 27.448-115.892 157.807-175.118 161.043-309.618.046-1.696.076-3.397.076-5.104z" fill="#60a850"></path></g></svg>  see on map
+                                    </a>
+                                </div>
+                            </div>
+                            <div>
+                                <div className="hotelImageReview">
+                                    <img
+                                        src={hotelinfoGRN?.images?.url}
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.src = hotelNotFound;
+                                        }}
+                                        alt="package-img"
+                                    />
                                 </div>
                             </div>
                         </div>
-
-                        {
-                            reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length !== 0 &&
-                            <div className="col-lg-12 mb-0 mt-3  packageImgBox">
-                                <div className="PackageImg hotelGall">
-                                    {
-                                        hotelGallery?.length > 0 &&
-                                        <>
-                                            <AnimatePresence initial={false} custom={direction}>
-
-
-                                                <motion.img
-                                                    key={page}
-                                                    // src={images[imageIndex]}
-                                                    src={hotelGallery[imageIndex]?.url}
-                                                    custom={direction}
-                                                    variants={variants2}
-                                                    initial="enter"
-                                                    animate="center"
-                                                    exit="exit"
-                                                    transition={{
-                                                        x: { type: "spring", stiffness: 300, damping: 30 },
-                                                        opacity: { duration: 0.2 }
-                                                    }}
-                                                    drag="x"
-                                                    dragConstraints={{ left: 0, right: 0 }}
-                                                    dragElastic={1}
-                                                    onDragEnd={(e, { offset, velocity }) => {
-                                                        const swipe = swipePower(offset.x, velocity.x);
-
-                                                        if (swipe < -swipeConfidenceThreshold) {
-                                                            paginate(1);
-                                                        } else if (swipe > swipeConfidenceThreshold) {
-                                                            paginate(-1);
-                                                        }
-                                                    }}
-                                                />
-
-
-                                            </AnimatePresence>
-                                            <div className="next" onClick={() => paginate(1)}>
-                                                <svg enable-background="new 0 0 256 256" height="12" viewBox="0 0 256 256" width="12" xmlns="http://www.w3.org/2000/svg" id="fi_9903638"><g id="_x30_7_Arrow_Right"><g><path d="m228.992 146.827-180.398 103.224c-17.497 9.998-38.04-7.264-31.166-26.206l34.642-95.842-34.642-95.843c-6.874-18.982 13.669-36.205 31.166-26.207l180.398 103.224c14.606 8.319 14.568 29.331 0 37.65z"></path></g></g></svg>
-                                            </div>
-                                            <div className="prev" onClick={() => paginate(-1)}>
-                                                <svg enable-background="new 0 0 256 256" height="12" viewBox="0 0 256 256" width="12" xmlns="http://www.w3.org/2000/svg" id="fi_9903638"><g id="_x30_7_Arrow_Right"><g><path d="m228.992 146.827-180.398 103.224c-17.497 9.998-38.04-7.264-31.166-26.206l34.642-95.842-34.642-95.843c-6.874-18.982 13.669-36.205 31.166-26.207l180.398 103.224c14.606 8.319 14.568 29.331 0 37.65z"></path></g></g></svg>
-                                            </div>
-                                        </>
-
-
-
-                                    }
-
-
-                                </div>
-                            </div>
-                        }
-                        {/* room details area  */}
-
-                        <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
-                            <div className="bookflightPassenger">
-                                {/* <div className="roomDetails"> */}
-                                <div className="row">
-                                    <div className="col-lg-9 mb-md-3">
-                                        <p className="titles text-bold text-xxl">{hotelinfoGRN?.rate?.rooms?.[0]?.description}</p>
-                                        <span className="text-bold">{hotelinfoGRN?.rate?.boarding_details?.[0]}</span>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </motion.div>
-
-                        <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
-                            <div className="roomDetailsReviewDesc">
-                                <div className="row">
-                                    <motion.div variants={variants} className="col-lg-4 col-4">
-                                        <div className="checkInReview">
-                                            <span>Check-In</span>
-                                            <p>{dayjs(hotelMainReducer?.checkin).format("DD MMM, YY")}</p>
-                                            <h2>{dayjs(hotelMainReducer?.checkin).format("dddd")}</h2>
-                                        </div>
-                                    </motion.div>
-                                    <motion.div variants={variants} className="col-lg-4 col-4">
-                                        <div className="checkInReview">
-                                            <span>Check-Out</span>
-                                            <p>{dayjs(hotelMainReducer?.checkout).format("DD MMM, YY")}</p>
-                                            <h2>{dayjs(hotelMainReducer?.checkout).format("dddd")}</h2>
-                                        </div>
-                                    </motion.div>
-                                    <motion.div variants={variants} className="col-lg-4 col-4">
-                                        <div className="checkInReview">
-                                            <span>{hotelMainReducer?.no_of_rooms} Room(s) </span>
-                                            <p>
-                                                {hotelMainReducer?.no_of_adults} Adult(s){" "}
-                                                {hotelMainReducer?.no_of_child?.length > 0
-                                                    ? `${hotelMainReducer?.no_of_child} Child(s)`
-                                                    : ""}
-                                            </p>
-                                        </div>
-                                    </motion.div>
-                                </div>
-                            </div>
-                        </motion.div>
                     </div>
 
-                    {/* guest details sectin  */}
-
-
-
-                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
-                        <div className="bookflightPassenger">
-                            <form>
-                                <div className="bookFlightPassInner">
-                                    <div className="bookAdultIndex">
-                                        <p>Amenities</p>
-                                    </div>
-                                    <div className="row g-3 ">
-                                        <div className="col-lg-12 my-4">
-                                            <div className="hotelReviewAmetnities">
-                                                <div>
-                                                    {hotelinfoGRN?.facilities.split(';').map((item, index) => (
-                                                        <p key={index}>
-                                                            <img src={chevrondown} alt="Chevron Down" />
-                                                            {item.trim()}
-                                                        </p>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </motion.div>
-
-
-
-
-                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
-                        <div className="bookflightPassenger">
-                            <form>
-                                <div className="bookFlightPassInner">
-                                    <div className="bookAdultIndex">
-                                        <p>Hotel Location</p>
-                                    </div>
-                                    <div>
-                                        <iframe
-                                            width="100%"
-                                            height="400px"
-                                            src={mapUrl}
-                                            className="contact-page-google-map__one"
-                                            allowFullScreen
-                                        />
-                                    </div>
-
-                                </div>
-                            </form>
-                        </div>
-                    </motion.div>
-                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
-                        <div className="bookflightPassenger">
-                            <form>
-                                <div className="bookFlightPassInner">
-                                    <div className="bookAdultIndex">
-                                        <p>Cancellation and Charges</p>
-                                    </div>
-                                    {
-                                        hotelinfoGRN?.rate?.non_refundable === true ?
-                                            (
-                                                <div className="row g-3 ">
-                                                    <div className="hotelNameAccord">
-                                                        <p>Non Refundable</p>
-                                                    </div>
-
-                                                </div>
-                                            )
-                                            :
-
-                                            (
-                                                <div className="row g-3 ">
-                                                    <div className="hotelNameAccord">
-                                                        <p>{hotelinfoGRN?.rate?.rooms?.[0]?.description}</p>
-
-                                                    </div>
-                                                    <div className="otherDetailsData">
-                                                        <div className="row">
-                                                            <div className="col-lg-4">
-                                                                <div className="cancelAccord">
-                                                                    <span>Cancelled by date</span>
-                                                                    <p>{dayjs(hotelinfoGRN?.rate?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")}</p>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            )
-                                    }
-
-                                </div>
-                            </form>
-                        </div>
-                    </motion.div>
-
-                    <form onSubmit={handleClickSavePassenger}>
-                        <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
-                            <div className="bookflightPassenger">
-                                <div className="headingBookFlight">
-                                    <h3>Guest Details</h3>
-                                </div>
-
-
+                    {
+                        reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length !== 0 &&
+                        <div className="col-lg-12 mb-0 mt-3  packageImgBox">
+                            <div className="PackageImg hotelGall">
                                 {
-                                    hotelinfoGRN?.rate?.rooms?.map((item, roomIndex) => {
-                                        return (
-                                            <div key={roomIndex}>
-                                                <label className="roomIndexGuest">Room {roomIndex + 1}</label>
-                                                {item?.no_of_adults > 0 &&
-                                                    Array.from({ length: item?.no_of_adults }, (_, adultIndex) => (
-                                                        <div className="bookFlightPassInner" key={adultIndex}>
-                                                            <div className="bookAdultIndex">
-                                                                <p>
-                                                                    Adult {adultIndex + 1}
-                                                                    {roomIndex === 0 && (
-                                                                        <span>{adultIndex === 0 ? "(Lead Guest)" : ""}</span>
-                                                                    )}
-                                                                </p>
-                                                            </div>
-                                                            <div className="row g-3 mb-3">
-                                                                <div className="col-lg-3 col-md-3">
-                                                                    <label htmlFor="floatingInput">Title</label>
-                                                                    <select
-                                                                        className="form-select"
-                                                                        name="Title"
-                                                                        onChange={(e) =>
-                                                                            handlePassengerDataChange(e, roomIndex, adultIndex, 'Title')
-                                                                        }
-                                                                    >
-                                                                        <option value="Mr.">Mr</option>
-                                                                        <option value="Ms.">Miss</option>
-                                                                        <option value="Mrs.">Mrs</option>
-                                                                        <option value="Mstr.">Mstr</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div className="col-lg-3 col-md-3">
-                                                                    <label htmlFor="floatingInput">First Name</label>
-                                                                    <input
-                                                                        name="FirstName"
-                                                                        type="text"
-                                                                        className="form-control"
-                                                                        style={{
-                                                                            borderColor:
-                                                                                errors[roomIndex]?.adults?.[adultIndex]?.FirstName ? 'red' : ''
-                                                                        }}
-                                                                        id="FirstName"
-                                                                        onChange={(e) =>
-                                                                            handlePassengerDataChange(e, roomIndex, adultIndex, 'FirstName')
-                                                                        }
-                                                                    />
-                                                                    {errors[roomIndex]?.adults?.[adultIndex]?.FirstName && (
-                                                                        <div className="error-text">
-                                                                            {errors[roomIndex].adults[adultIndex].FirstName}
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                                <div className="col-lg-3 col-md-3">
-                                                                    <label htmlFor="floatingInput">Last Name</label>
-                                                                    <input
-                                                                        name="LastName"
-                                                                        className="form-control"
-                                                                        style={{
-                                                                            borderColor:
-                                                                                errors[roomIndex]?.adults?.[adultIndex]?.LastName ? 'red' : ''
-                                                                        }}
-                                                                        onChange={(e) =>
-                                                                            handlePassengerDataChange(e, roomIndex, adultIndex, 'LastName')
-                                                                        }
+                                    hotelGallery?.length > 0 &&
+                                    <>
+                                        <AnimatePresence initial={false} custom={direction}>
 
-                                                                    />
-                                                                    {errors[roomIndex]?.adults?.[adultIndex]?.LastName && (
-                                                                        <div className="error-text">
-                                                                            {errors[roomIndex].adults[adultIndex].LastName}
-                                                                        </div>
-                                                                    )}
-                                                                </div>
 
-                                                                {roomIndex === 0 && adultIndex === 0 && (
-                                                                    <>
-                                                                        <div className="col-lg-3 col-md-3">
-                                                                            <label htmlFor="floatingInput">Pan Number</label>
-                                                                            <input
-                                                                                name="PAN"
-                                                                                type="text"
-                                                                                placeholder="Write in Capital"
-                                                                                className="form-control"
-                                                                                style={{
-                                                                                    borderColor:
-                                                                                        errors[roomIndex]?.adults?.[adultIndex]?.PAN ? 'red' : ''
-                                                                                }}
-                                                                                onChange={(e) =>
-                                                                                    handlePassengerDataChange(e, roomIndex, adultIndex, 'PAN')
-                                                                                }
+                                            <motion.img
+                                                key={page}
+                                                // src={images[imageIndex]}
+                                                src={hotelGallery[imageIndex]?.url}
+                                                custom={direction}
+                                                variants={variants2}
+                                                initial="enter"
+                                                animate="center"
+                                                exit="exit"
+                                                transition={{
+                                                    x: { type: "spring", stiffness: 300, damping: 30 },
+                                                    opacity: { duration: 0.2 }
+                                                }}
+                                                drag="x"
+                                                dragConstraints={{ left: 0, right: 0 }}
+                                                dragElastic={1}
+                                                onDragEnd={(e, { offset, velocity }) => {
+                                                    const swipe = swipePower(offset.x, velocity.x);
 
-                                                                            />
-                                                                            {errors[roomIndex]?.adults?.[adultIndex]?.PAN && (
-                                                                                <div className="error-text">
-                                                                                    {errors[roomIndex].adults[adultIndex].PAN}
-                                                                                </div>
-                                                                            )}
-                                                                        </div>
+                                                    if (swipe < -swipeConfidenceThreshold) {
+                                                        paginate(1);
+                                                    } else if (swipe > swipeConfidenceThreshold) {
+                                                        paginate(-1);
+                                                    }
+                                                }}
+                                            />
 
-                                                                        <div className="col-lg-5 col-md-5">
-                                                                            <label htmlFor="floatingInput">Enter Email</label>
-                                                                            <input
-                                                                                name="Email"
-                                                                                id="Email1"
-                                                                                className="form-control"
-                                                                                style={{
-                                                                                    borderColor:
-                                                                                        errors[roomIndex]?.adults?.[adultIndex]?.Email ? 'red' : ''
-                                                                                }}
-                                                                                ref={emailRef}
-                                                                                onChange={(e) =>
-                                                                                    handlePassengerDataChange(e, roomIndex, adultIndex, 'Email')
-                                                                                }
 
-                                                                            />
-                                                                            {errors[roomIndex]?.adults?.[adultIndex]?.Email && (
-                                                                                <div className="error-text">
-                                                                                    {errors[roomIndex].adults[adultIndex].Email}
-                                                                                </div>
-                                                                            )}
-                                                                        </div>
-                                                                        <div className="col-lg-5 col-md-5">
-                                                                            <label htmlFor="floatingInput">Enter Phone</label>
-                                                                            <input
-                                                                                name="Phoneno"
-                                                                                id="phoneNumber1"
-                                                                                className="form-control"
-                                                                                style={{
-                                                                                    borderColor:
-                                                                                        errors[roomIndex]?.adults?.[adultIndex]?.Phoneno ? 'red' : ''
-                                                                                }}
-                                                                                onChange={(e) =>
-                                                                                    handlePassengerDataChange(e, roomIndex, adultIndex, 'Phoneno')
-                                                                                }
+                                        </AnimatePresence>
+                                        <div className="next" onClick={() => paginate(1)}>
+                                            <svg enable-background="new 0 0 256 256" height="12" viewBox="0 0 256 256" width="12" xmlns="http://www.w3.org/2000/svg" id="fi_9903638"><g id="_x30_7_Arrow_Right"><g><path d="m228.992 146.827-180.398 103.224c-17.497 9.998-38.04-7.264-31.166-26.206l34.642-95.842-34.642-95.843c-6.874-18.982 13.669-36.205 31.166-26.207l180.398 103.224c14.606 8.319 14.568 29.331 0 37.65z"></path></g></g></svg>
+                                        </div>
+                                        <div className="prev" onClick={() => paginate(-1)}>
+                                            <svg enable-background="new 0 0 256 256" height="12" viewBox="0 0 256 256" width="12" xmlns="http://www.w3.org/2000/svg" id="fi_9903638"><g id="_x30_7_Arrow_Right"><g><path d="m228.992 146.827-180.398 103.224c-17.497 9.998-38.04-7.264-31.166-26.206l34.642-95.842-34.642-95.843c-6.874-18.982 13.669-36.205 31.166-26.207l180.398 103.224c14.606 8.319 14.568 29.331 0 37.65z"></path></g></g></svg>
+                                        </div>
+                                    </>
 
-                                                                            />
-                                                                            {errors[roomIndex]?.adults?.[adultIndex]?.Phoneno && (
-                                                                                <div className="error-text">
-                                                                                    {errors[roomIndex].adults[adultIndex].Phoneno}
-                                                                                </div>
-                                                                            )}
-                                                                        </div>
-                                                                    </>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                                {item?.no_of_children > 0 &&
-                                                    Array.from({ length: item?.no_of_children }, (_, childIndex) => (
-                                                        <div className="bookFlightPassInner" key={childIndex}>
-                                                            <div className="bookAdultIndex">
-                                                                <p>Child {childIndex + 1}</p>
-                                                            </div>
-                                                            <div className="row g-3 mb-3">
-                                                                <div className="col-lg-3 col-md-3">
-                                                                    <label htmlFor="floatingInput">Title</label>
-                                                                    <select
-                                                                        className="form-select"
-                                                                        name="Title"
-                                                                        onChange={(e) =>
-                                                                            handlePassengerDataChange(e, roomIndex, childIndex, 'Title', true)
-                                                                        }
-                                                                    >
-                                                                        <option value="Mr.">Mr</option>
-                                                                        <option value="Ms.">Miss</option>
-                                                                        <option value="Mrs.">Mrs</option>
-                                                                        <option value="Mstr.">Mstr</option>
-                                                                    </select>
-                                                                </div>
-                                                                <div className="col-lg-3 col-md-3">
-                                                                    <label htmlFor="floatingInput">First Name</label>
-                                                                    <input
-                                                                        name="FirstName"
-                                                                        className="form-control"
-                                                                        style={{
-                                                                            borderColor:
-                                                                                errors[roomIndex]?.children?.[childIndex]?.FirstName ? 'red' : ''
-                                                                        }}
-                                                                        onChange={(e) =>
-                                                                            handlePassengerDataChange(e, roomIndex, childIndex, 'FirstName', true)
-                                                                        }
 
-                                                                    />
-                                                                    {errors[roomIndex]?.children?.[childIndex]?.FirstName && (
-                                                                        <div className="error-text">
-                                                                            {errors[roomIndex].children[childIndex].FirstName}
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                                <div className="col-lg-3 col-md-3">
-                                                                    <label htmlFor="floatingInput">Last Name</label>
-                                                                    <input
-                                                                        name="LastName"
-                                                                        className="form-control"
-                                                                        style={{
-                                                                            borderColor:
-                                                                                errors[roomIndex]?.children?.[childIndex]?.LastName ? 'red' : ''
-                                                                        }}
-                                                                        onChange={(e) =>
-                                                                            handlePassengerDataChange(e, roomIndex, childIndex, 'LastName', true)
-                                                                        }
 
-                                                                    />
-                                                                    {errors[roomIndex]?.children?.[childIndex]?.LastName && (
-                                                                        <div className="error-text">
-                                                                            {errors[roomIndex].children[childIndex].LastName}
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                            </div>
-                                        );
-                                    })
                                 }
 
 
-
-                            </div>
-                        </motion.div>
-
-
-                        <div className="col-lg-12">
-                            <div className="reviewDescriptionButton">
-
-                                <button
-                                    type="submit"
-                                // onClick={}
-
-                                >
-                                    Proceed to Book
-                                </button>
-
                             </div>
                         </div>
-                    </form>
-                    <Modal open={bookingSuccess}>
-                        <Box sx={styleLoader}>
-                            <CircularProgress size={70} thickness={4} />
-                        </Box>
-                    </Modal>
+                    }
+                    {/* room details area  */}
 
+                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                        <div className="bookflightPassenger">
+                            {/* <div className="roomDetails"> */}
+                            <div className="row">
+                                <div className="col-lg-9 mb-md-3">
+                                    <p className="titles text-bold text-xxl">Room Type : {" "}{hotelinfoGRN?.rate?.rooms?.[0]?.description}</p>
+                                    <span className="text-bold">{hotelinfoGRN?.rate?.boarding_details?.[0]}</span>
+                                </div>
+                                <div className="insideOffer d-flex align-items-center p-0" style={{ gap: "10px" }}>
+
+                                    {
+                                        hotelinfoGRN?.rate?.other_inclusions?.filter(item => item == "Free WiFi") &&
+                                        <div className="inneraccorHotel">
+
+                                            <div className="ratePlan" >
+                                                <p className="panDesign">Free Wifi</p>
+                                            </div>
+
+                                        </div>
+                                    }
+                                    {
+                                        hotelinfoGRN?.rate?.pan_required &&
+                                        <div className="inneraccorHotel">
+
+                                            <div className="ratePlan" >
+                                                <p className="panDesign">Pan Required</p>
+                                            </div>
+
+                                        </div>
+                                    }
+
+                                    {
+                                        hotelinfoGRN?.rate?.non_refundable &&
+                                        <div className="inneraccorHotel">
+
+                                            <div className="ratePlan" >
+                                                <p className="panDesign2">Non Refundable</p>
+                                            </div>
+
+                                        </div>
+                                    }
+                                    {
+                                        hotelinfoGRN?.rate?.cancellation_policy &&
+                                        <div className="inneraccorHotel">
+
+                                            <div className="ratePlan" >
+                                                <p className="panDesign3">Refundable (Cancel Before {dayjs(hotelinfoGRN?.rate?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")})</p>
+                                            </div>
+
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </motion.div>
+
+                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                        <div className="roomDetailsReviewDesc">
+                            <div className="row">
+                                <motion.div variants={variants} className="col-lg-4 col-4">
+                                    <div className="checkInReview">
+                                        <span>Check-In</span>
+                                        <p>{dayjs(hotelMainReducer?.checkin).format("DD MMM, YY")}</p>
+                                        <h2>{dayjs(hotelMainReducer?.checkin).format("dddd")}</h2>
+                                    </div>
+                                </motion.div>
+                                <motion.div variants={variants} className="col-lg-4 col-4">
+                                    <div className="checkInReview">
+                                        <span>Check-Out</span>
+                                        <p>{dayjs(hotelMainReducer?.checkout).format("DD MMM, YY")}</p>
+                                        <h2>{dayjs(hotelMainReducer?.checkout).format("dddd")}</h2>
+                                    </div>
+                                </motion.div>
+                                <motion.div variants={variants} className="col-lg-4 col-4">
+                                    <div className="checkInReview">
+                                        <span>{hotelMainReducer?.no_of_rooms} Room(s) </span>
+                                        <p>
+                                            {hotelMainReducer?.no_of_adults} Adult(s){" "}
+                                            {hotelMainReducer?.no_of_child?.length > 0
+                                                ? `${hotelMainReducer?.no_of_child} Child(s)`
+                                                : ""}
+                                        </p>
+                                    </div>
+                                </motion.div>
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
 
-            )}
+                {/* guest details sectin  */}
+
+
+
+                <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                    <div className="bookflightPassenger">
+                        <form>
+                            <div className="bookFlightPassInner">
+                                <div className="bookAdultIndex">
+                                    <p>Amenities</p>
+                                </div>
+                                <div className="row g-3 ">
+                                    <div className="col-lg-12 my-4">
+                                        <div className="hotelReviewAmetnities">
+                                            <div>
+                                                {hotelinfoGRN?.facilities.split(';').map((item, index) => (
+                                                    <p key={index}>
+                                                        <img src={chevrondown} alt="Chevron Down" />
+                                                        {item.trim()}
+                                                    </p>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </motion.div>
+
+
+
+
+                <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                    <div className="bookflightPassenger">
+                        <form>
+                            <div className="bookFlightPassInner">
+                                <div className="bookAdultIndex">
+                                    <p>Hotel Location</p>
+                                </div>
+                                <div>
+                                    <iframe
+                                        width="100%"
+                                        height="400px"
+                                        src={mapUrl}
+                                        className="contact-page-google-map__one"
+                                        allowFullScreen
+                                    />
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </motion.div>
+
+                <form onSubmit={handleClickSavePassenger}>
+                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                        <div className="bookflightPassenger">
+                            <div className="headingBookFlight">
+                                <h3>Guest Details</h3>
+                            </div>
+
+
+                            {
+                                hotelinfoGRN?.rate?.rooms?.map((item, roomIndex) => {
+                                    return (
+                                        <div key={roomIndex}>
+                                            <label className="roomIndexGuest">Room {roomIndex + 1}</label>
+                                            {item?.no_of_adults > 0 &&
+                                                Array.from({ length: item?.no_of_adults }, (_, adultIndex) => (
+                                                    <div className="bookFlightPassInner" key={adultIndex}>
+                                                        <div className="bookAdultIndex">
+                                                            <p>
+                                                                Adult {adultIndex + 1}
+                                                                {roomIndex === 0 && (
+                                                                    <span>{adultIndex === 0 ? "(Lead Guest)" : ""}</span>
+                                                                )}
+                                                            </p>
+                                                        </div>
+                                                        <div className="row g-3 mb-3">
+                                                            <div className="col-lg-3 col-md-3">
+                                                                <label htmlFor="floatingInput">Title</label>
+                                                                <select
+                                                                    className="form-select"
+                                                                    name="Title"
+                                                                    onChange={(e) =>
+                                                                        handlePassengerDataChange(e, roomIndex, adultIndex, 'Title')
+                                                                    }
+                                                                >
+                                                                    <option value="Mr.">Mr</option>
+                                                                    <option value="Ms.">Miss</option>
+                                                                    <option value="Mrs.">Mrs</option>
+                                                                    <option value="Mstr.">Mstr</option>
+                                                                </select>
+                                                            </div>
+                                                            <div className="col-lg-3 col-md-3">
+                                                                <label htmlFor="floatingInput">First Name</label>
+                                                                <input
+                                                                    name="FirstName"
+                                                                    type="text"
+                                                                    className="form-control"
+                                                                    style={{
+                                                                        borderColor:
+                                                                            errors[roomIndex]?.adults?.[adultIndex]?.FirstName ? 'red' : ''
+                                                                    }}
+                                                                    id="FirstName"
+                                                                    onChange={(e) =>
+                                                                        handlePassengerDataChange(e, roomIndex, adultIndex, 'FirstName')
+                                                                    }
+                                                                />
+                                                                {errors[roomIndex]?.adults?.[adultIndex]?.FirstName && (
+                                                                    <div className="error-text">
+                                                                        {errors[roomIndex].adults[adultIndex].FirstName}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                            <div className="col-lg-3 col-md-3">
+                                                                <label htmlFor="floatingInput">Last Name</label>
+                                                                <input
+                                                                    name="LastName"
+                                                                    className="form-control"
+                                                                    style={{
+                                                                        borderColor:
+                                                                            errors[roomIndex]?.adults?.[adultIndex]?.LastName ? 'red' : ''
+                                                                    }}
+                                                                    onChange={(e) =>
+                                                                        handlePassengerDataChange(e, roomIndex, adultIndex, 'LastName')
+                                                                    }
+
+                                                                />
+                                                                {errors[roomIndex]?.adults?.[adultIndex]?.LastName && (
+                                                                    <div className="error-text">
+                                                                        {errors[roomIndex].adults[adultIndex].LastName}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+
+                                                            {roomIndex === 0 && adultIndex === 0 && (
+                                                                <>
+                                                                    <div className="col-lg-3 col-md-3">
+                                                                        <label htmlFor="floatingInput">Pan Number</label>
+                                                                        <input
+                                                                            name="PAN"
+                                                                            type="text"
+                                                                            placeholder="Write in Capital"
+                                                                            className="form-control"
+                                                                            style={{
+                                                                                borderColor:
+                                                                                    errors[roomIndex]?.adults?.[adultIndex]?.PAN ? 'red' : ''
+                                                                            }}
+                                                                            onChange={(e) =>
+                                                                                handlePassengerDataChange(e, roomIndex, adultIndex, 'PAN')
+                                                                            }
+
+                                                                        />
+                                                                        {errors[roomIndex]?.adults?.[adultIndex]?.PAN && (
+                                                                            <div className="error-text">
+                                                                                {errors[roomIndex].adults[adultIndex].PAN}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+
+                                                                    <div className="col-lg-5 col-md-5">
+                                                                        <label htmlFor="floatingInput">Enter Email</label>
+                                                                        <input
+                                                                            name="Email"
+                                                                            id="Email1"
+                                                                            className="form-control"
+                                                                            style={{
+                                                                                borderColor:
+                                                                                    errors[roomIndex]?.adults?.[adultIndex]?.Email ? 'red' : ''
+                                                                            }}
+                                                                            ref={emailRef}
+                                                                            onChange={(e) =>
+                                                                                handlePassengerDataChange(e, roomIndex, adultIndex, 'Email')
+                                                                            }
+
+                                                                        />
+                                                                        {errors[roomIndex]?.adults?.[adultIndex]?.Email && (
+                                                                            <div className="error-text">
+                                                                                {errors[roomIndex].adults[adultIndex].Email}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                    <div className="col-lg-5 col-md-5">
+                                                                        <label htmlFor="floatingInput">Enter Phone</label>
+                                                                        <input
+                                                                            name="Phoneno"
+                                                                            id="phoneNumber1"
+                                                                            className="form-control"
+                                                                            style={{
+                                                                                borderColor:
+                                                                                    errors[roomIndex]?.adults?.[adultIndex]?.Phoneno ? 'red' : ''
+                                                                            }}
+                                                                            onChange={(e) =>
+                                                                                handlePassengerDataChange(e, roomIndex, adultIndex, 'Phoneno')
+                                                                            }
+
+                                                                        />
+                                                                        {errors[roomIndex]?.adults?.[adultIndex]?.Phoneno && (
+                                                                            <div className="error-text">
+                                                                                {errors[roomIndex].adults[adultIndex].Phoneno}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                </>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            {item?.no_of_children > 0 &&
+                                                Array.from({ length: item?.no_of_children }, (_, childIndex) => (
+                                                    <div className="bookFlightPassInner" key={childIndex}>
+                                                        <div className="bookAdultIndex">
+                                                            <p>Child {childIndex + 1}</p>
+                                                        </div>
+                                                        <div className="row g-3 mb-3">
+                                                            <div className="col-lg-3 col-md-3">
+                                                                <label htmlFor="floatingInput">Title</label>
+                                                                <select
+                                                                    className="form-select"
+                                                                    name="Title"
+                                                                    onChange={(e) =>
+                                                                        handlePassengerDataChange(e, roomIndex, childIndex, 'Title', true)
+                                                                    }
+                                                                >
+                                                                    <option value="Mr.">Mr</option>
+                                                                    <option value="Ms.">Miss</option>
+                                                                    <option value="Mrs.">Mrs</option>
+                                                                    <option value="Mstr.">Mstr</option>
+                                                                </select>
+                                                            </div>
+                                                            <div className="col-lg-3 col-md-3">
+                                                                <label htmlFor="floatingInput">First Name</label>
+                                                                <input
+                                                                    name="FirstName"
+                                                                    className="form-control"
+                                                                    style={{
+                                                                        borderColor:
+                                                                            errors[roomIndex]?.children?.[childIndex]?.FirstName ? 'red' : ''
+                                                                    }}
+                                                                    onChange={(e) =>
+                                                                        handlePassengerDataChange(e, roomIndex, childIndex, 'FirstName', true)
+                                                                    }
+
+                                                                />
+                                                                {errors[roomIndex]?.children?.[childIndex]?.FirstName && (
+                                                                    <div className="error-text">
+                                                                        {errors[roomIndex].children[childIndex].FirstName}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                            <div className="col-lg-3 col-md-3">
+                                                                <label htmlFor="floatingInput">Last Name</label>
+                                                                <input
+                                                                    name="LastName"
+                                                                    className="form-control"
+                                                                    style={{
+                                                                        borderColor:
+                                                                            errors[roomIndex]?.children?.[childIndex]?.LastName ? 'red' : ''
+                                                                    }}
+                                                                    onChange={(e) =>
+                                                                        handlePassengerDataChange(e, roomIndex, childIndex, 'LastName', true)
+                                                                    }
+
+                                                                />
+                                                                {errors[roomIndex]?.children?.[childIndex]?.LastName && (
+                                                                    <div className="error-text">
+                                                                        {errors[roomIndex].children[childIndex].LastName}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                        </div>
+                                    );
+                                })
+                            }
+
+
+
+                        </div>
+                    </motion.div>
+
+
+                    <div className="col-lg-12">
+                        <div className="reviewDescriptionButton">
+
+                            <button
+                                type="submit"
+                            // onClick={}
+
+                            >
+                                Proceed to Book
+                            </button>
+
+                        </div>
+                    </div>
+                </form>
+                <Modal open={bookingSuccess}>
+                    <Box sx={styleLoader}>
+                        <CircularProgress size={70} thickness={4} />
+                    </Box>
+                </Modal>
+
+            </div>
+
+
 
             <Modal
                 open={isLoginModalOpen}

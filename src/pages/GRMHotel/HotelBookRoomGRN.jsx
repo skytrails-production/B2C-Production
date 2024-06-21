@@ -10,9 +10,10 @@ import chevrondown from "../../images/chevrondown.svg";
 import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
 import dayjs from "dayjs";
-import ImageGallery from "react-image-gallery";
 import "react-image-gallery/styles/css/image-gallery.css";
 import Hotelmainloading from "../Hotel/hotelLoading/Hotelmainloading";
+// import { Skeleton } from "@mui/material";
+import { Divider, Form, Radio, Skeleton, Space, Switch } from 'antd';
 import { HotelRoomSelectReqGRN, clearHotelRoomSelect } from "../../Redux/HotelGRN/hotel";
 import { swalModal } from "../../utility/swal";
 
@@ -61,7 +62,7 @@ const HotelBookRoomGRN = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [loader, setLoader] = useState(false);
+    const [loader, setLoader] = useState(true);
     const reducerState = useSelector((state) => state);
 
 
@@ -89,24 +90,25 @@ const HotelBookRoomGRN = () => {
     const hotelGallery = reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images?.regular;
 
     useEffect(() => {
+        if (reducerState?.hotelSearchResultGRN?.hotelDetails?.status === 200 && reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data) {
+            setLoader(false)
+        }
+    }, [reducerState?.hotelSearchResultGRN?.hotelDetails?.status || reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images])
+
+
+
+
+    useEffect(() => {
         dispatch(clearHotelRoomSelect())
     }, [])
 
-    useEffect(() => {
-        if (reducerState?.hotelSearchResultGRN?.hotelDetails.length == 0 && reducerState?.hotelSearchResultGRN?.hotelGallery.length == 0) {
-            navigate("/st-hotel/hotelresult")
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (reducerState?.hotelSearchResultGRN?.hotelDetails.length == 0 && reducerState?.hotelSearchResultGRN?.hotelGallery.length == 0) {
+    //         navigate("/st-hotel/hotelresult")
+    //     }
 
-    // let galleryItems;
+    // }, [])
 
-    // if (reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length !== 0 || reducerState?.hotelSearchResultGRN?.hotelGallery.length !== 0) {
-    //     galleryItems = hotelGallery?.map(image => ({
-    //         original: image?.url,
-    //     }));
-    // }
-
-    // image slider logic
 
 
     const [[page, direction], setPage] = useState([0, 0]);
@@ -151,27 +153,34 @@ const HotelBookRoomGRN = () => {
     }, [selectedRoomIndex])
 
 
-    // useEffect(() => {
-    //     if (ResultIndex === null || HotelCode === null) {
-    //         swalModal('hotel', "room not found", false);
-    //         navigate("/GrmHotelHome/hotelsearchGRM")
-    //     }
-    // }, [])
-
     useEffect(() => {
-        if (reducerState?.hotelSearchResultGRN?.hotelRoom?.length > 0 || reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel) {
-            setLoader(false)
-            navigate("/st-hotel/hotelresult/selectroom/guestDetails")
-        }
+        if (reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.errors?.length > 0) {
 
-    }, [reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel])
+            swalModal('hotel', "room not found", false);
+            navigate("/st-hotel/hotelresult")
+        }
+    }, [reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.errors])
+
+    // console.log(reducerState, "reducer stateefdjshfjsgjdsafjhfafjkdshfj")
+
+    // useEffect(() => {
+    //     if (reducerState?.hotelSearchResultGRN?.hotelRoom?.length > 0 || reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel) {
+    //         setLoader(false)
+    //         navigate("/st-hotel/hotelresult/selectroom/guestDetails")
+    //     }
+
+    // }, [reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel])
 
     const searchId = reducerState?.hotelSearchResultGRN?.ticketData
         ?.data?.data?.search_id;
 
 
+    // console.log(selectedRoom, "selected room")
+    // console.log(reducerState, "reducer state in hotel book room")
+
+
     const handleClickSaveRoom = async () => {
-        setLoader(true);
+        // setLoader(true);
         const payload = {
 
             "data": {
@@ -181,14 +190,215 @@ const HotelBookRoomGRN = () => {
             "searchID": searchId,
         }
         dispatch(HotelRoomSelectReqGRN(payload))
+        navigate("/st-hotel/hotelresult/selectroom/guestDetails")
     };
 
-    // console.log(reducerState, "reducer state")
 
     return (
         <>
             {loader ? (
-                <Hotelmainloading />
+                // <Hotelmainloading />
+                <>
+                    <div style={{ width: '100vw' }}>
+                        <div style={{ width: '100%' }}>
+                            <Skeleton.Input active={true} style={{ width: "100vw", height: 240 }} />
+                        </div>
+                    </div>
+
+                    <div className="my-4 ">
+                        <div className="container">
+                            <div className="row gy-4">
+                                <div className="col-lg-9 order-lg-1 order-md-2 order-sm-2 order-2">
+                                    <div className="container">
+                                        <div
+                                            className="row"
+                                        >
+                                            <div className="col-lg-12 p-0 reviewTMT">
+                                                <div className="hotelDetails">
+                                                    <div>
+                                                        <div>
+                                                            <p className="hotelName">
+                                                                <Skeleton.Input active={true} style={{ width: "350px", height: 30 }} />
+                                                            </p>
+                                                        </div>
+                                                        <div>
+                                                            <Box>
+
+                                                                <Space>
+                                                                    <Skeleton.Avatar active={true} shape="circle" />
+                                                                    <Skeleton.Avatar active={true} shape="circle" />
+                                                                    <Skeleton.Avatar active={true} shape="circle" />
+                                                                </Space>
+                                                            </Box>
+                                                        </div>
+                                                        <div>
+                                                            <p className="text-start addReview">
+                                                                <Skeleton.Input active={true} style={{ width: "300px", height: 10 }} />
+                                                                <Skeleton.Input active={true} style={{ width: "300px", height: 10 }} />
+                                                                <Skeleton.Input active={true} style={{ width: "300px", height: 10 }} />
+                                                            </p>
+                                                        </div>
+                                                        <div className="mapp">
+                                                            <Space>
+                                                                <Skeleton.Button active={true} style={{ width: "20px", height: 30 }} />
+                                                                <Skeleton.Input active={true} style={{ width: "70px", height: 15 }} />
+
+                                                            </Space>
+                                                        </div>
+                                                    </div>
+                                                    <div className="hotelImageReview">
+                                                        <Skeleton.Image active={true} style={{ width: 250, height: 170 }} />
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div className="col-lg-12 mb-3 mt-3  packageImgBox">
+                                                {/* <div className="PackageImg hotelGall"> */}
+
+                                                <Skeleton.Image className="PackageImg skeWidth " active={true} style={{ height: 400 }} />
+
+                                                {/* </div> */}
+                                            </div>
+
+
+
+
+
+                                            <motion.div variants={variants} className="col-lg-12 p-0">
+                                                <div className="roomDetailsReviewDesc">
+                                                    <div className="row">
+                                                        <motion.div variants={variants} className="col-lg-4 col-4">
+                                                            <div className="checkInReview">
+                                                                <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                <Skeleton.Button active={true} style={{ height: 10 }} />
+
+                                                            </div>
+                                                        </motion.div>
+                                                        <motion.div variants={variants} className="col-lg-4 col-4">
+                                                            <div className="checkInReview">
+                                                                <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                            </div>
+                                                        </motion.div>
+                                                        <motion.div variants={variants} className="col-lg-4 col-4">
+                                                            <div className="checkInReview">
+                                                                <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                            </div>
+                                                        </motion.div>
+                                                    </div>
+                                                </div>
+                                            </motion.div>
+                                        </div>
+
+                                        {/* guest details sectin  */}
+
+                                        <motion.div
+                                            variants={variants}
+                                            initial="initial"
+                                            whileInView="animate"
+                                            className="row"
+                                        >
+
+
+
+                                            <div className="mt-3 p-0">
+
+                                                <div className="roomCompo">
+                                                    <div className="offer_area">
+                                                        <div>
+                                                            <div className="insideOffer">
+                                                                <Skeleton.Avatar active={true} shape="circle" />
+
+                                                                <div className="inneraccorHotel">
+
+                                                                    <div className="ratePlan" >
+                                                                        <Skeleton.Button active={true} style={{ height: 20 }} />
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="insideOffer">
+
+                                                                <div className="inneraccorHotel">
+
+                                                                    <div className="ratePlan" >
+                                                                        <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div className="inneraccorHotel">
+
+                                                                    <div className="ratePlan" >
+                                                                        <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                    </div>
+
+                                                                </div>
+
+
+
+                                                            </div>
+
+
+                                                        </div>
+                                                        <div className="priceCheck">
+                                                            <Skeleton.Button active={true} style={{ height: 20 }} />
+                                                            <div>
+                                                                <Skeleton.Button active={true} style={{ height: 20 }} />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                                                <div className="bookflightPassenger">
+                                                    <form>
+                                                        <div className="bookFlightPassInner">
+                                                            <div className="bookAdultIndex">
+                                                                <Skeleton.Button active={true} style={{ height: 15 }} />
+                                                            </div>
+                                                            <div className="row g-3 ">
+                                                                <div className="col-lg-12 my-4">
+                                                                    <div className="hotelReviewAmetnities">
+                                                                        <div>
+                                                                            <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                            <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                            <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                            <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </motion.div>
+
+
+                                            <div className="col-lg-12">
+                                                <div className="reviewDescriptionButton">
+
+                                                    <Skeleton.Button active={true} style={{ height: 30, width: 120 }} />
+
+                                                </div>
+                                            </div>
+
+
+                                        </motion.div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
             ) : (
                 <>
                     <div className='mainimgHotelSearch'>

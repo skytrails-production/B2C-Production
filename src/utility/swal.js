@@ -6,7 +6,7 @@ import PACKAGE from "../../src/images/no-result/no-content.png"
 import PY from "../images/img/Cancelled event-pana (1).svg"
 // import { Flight } from "@mui/icons-material"
 export const swalModal = (type, message, payment) => {
-  const img = { flight: FLIGHT, py: PY, bus: BUS, hotel : HOTEL, package : PACKAGE }
+  const img = { flight: FLIGHT, py: PY, bus: BUS, hotel: HOTEL, package: PACKAGE }
   const dynamicImage = img[type];
   // console.warn(type, dynamicImage,  "type.....")
   swal.fire({
@@ -16,7 +16,7 @@ export const swalModal = (type, message, payment) => {
     imageHeight: 200,
     width: 350,
     height: 400,
-    confirmButtonText: 'Back',
+    confirmButtonText: 'Ok',
     confirmButtonColor: "#d90429",
     cancelButtonColor: "#d90429",
 

@@ -340,17 +340,8 @@ const BookingReviewGRN = ({
                     <div className="row gy-4">
                         <div className="col-lg-9 order-lg-1 order-md-2 order-sm-2 order-2">
                             <div className="container">
-                                <motion.div
-                                    variants={variants}
-                                    initial="initial"
-                                    whileInView="animate"
-                                    viewport={{ once: true, amount: 0.8 }}
-                                    className="row"
-                                >
-
-
-
-                                    <motion.div variants={variants} className="col-lg-12 p-0 reviewTMT">
+                                <div className="row" >
+                                    <div className="col-lg-12 p-0 reviewTMT">
                                         <div className="hotelDetails">
                                             <div>
                                                 <div>
@@ -386,47 +377,86 @@ const BookingReviewGRN = ({
                                                 </div>
                                             </div>
                                         </div>
-                                    </motion.div>
+                                    </div>
 
 
                                     {/* room details area  */}
 
-                                    <motion.div variants={variants} className="col-lg-12 p-0">
-                                        <div className="roomDetails">
+                                    <div className="col-lg-12 p-0 my-3">
+                                        <div className="bookflightPassenger">
+                                            {/* <div className="roomDetails"> */}
                                             <div className="row">
                                                 <div className="col-lg-9 mb-md-3">
-                                                    <p className="titles ">{hotelinfoGRN?.rate?.rooms?.[0]?.description}</p>
+                                                    <p className="titles text-bold text-xxl">Room Type : {" "}{hotelinfoGRN?.rate?.rooms?.[0]?.description}</p>
+                                                    <span className="text-bold">{hotelinfoGRN?.rate?.boarding_details?.[0]}</span>
                                                 </div>
-                                                {/* <div className="col-lg-3 adultss ">
-                                        <p>
-                                            {hotelMainReducer?.no_of_adults} Adult(s){" "}
-                                            {hotelMainReducer?.no_of_children.length > 0
-                                                ? `${hotelMainReducer?.no_of_children} Child(s)`
-                                                : ""}
-                                        </p>
-                                    </div> */}
-                                            </div>
-                                        </div>
-                                    </motion.div>
+                                                <div className="insideOffer d-flex align-items-center p-0" style={{ gap: "10px" }}>
 
-                                    <motion.div variants={variants} className="col-lg-12 p-0">
+                                                    {
+                                                        hotelinfoGRN?.rate?.other_inclusions?.filter(item => item == "Free WiFi") &&
+                                                        <div className="inneraccorHotel">
+
+                                                            <div className="ratePlan" >
+                                                                <p className="panDesign">Free Wifi</p>
+                                                            </div>
+
+                                                        </div>
+                                                    }
+                                                    {
+                                                        hotelinfoGRN?.rate?.pan_required &&
+                                                        <div className="inneraccorHotel">
+
+                                                            <div className="ratePlan" >
+                                                                <p className="panDesign">Pan Required</p>
+                                                            </div>
+
+                                                        </div>
+                                                    }
+
+                                                    {
+                                                        hotelinfoGRN?.rate?.non_refundable &&
+                                                        <div className="inneraccorHotel">
+
+                                                            <div className="ratePlan" >
+                                                                <p className="panDesign2">Non Refundable</p>
+                                                            </div>
+
+                                                        </div>
+                                                    }
+                                                    {
+                                                        hotelinfoGRN?.rate?.cancellation_policy &&
+                                                        <div className="inneraccorHotel">
+
+                                                            <div className="ratePlan" >
+                                                                <p className="panDesign3">Refundable (Cancel Before {dayjs(hotelinfoGRN?.rate?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")})</p>
+                                                            </div>
+
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div className="col-lg-12 p-0">
                                         <div className="roomDetailsReviewDesc">
                                             <div className="row">
-                                                <motion.div variants={variants} className="col-lg-4 col-4">
+                                                <div className="col-lg-4 col-4">
                                                     <div className="checkInReview">
                                                         <span>Check-In</span>
                                                         <p>{dayjs(hotelMainReducer?.checkin).format("DD MMM, YY")}</p>
                                                         <h2>{dayjs(hotelMainReducer?.checkin).format("dddd")}</h2>
                                                     </div>
-                                                </motion.div>
-                                                <motion.div variants={variants} className="col-lg-4 col-4">
+                                                </div>
+                                                <div className="col-lg-4 col-4">
                                                     <div className="checkInReview">
                                                         <span>Check-Out</span>
                                                         <p>{dayjs(hotelMainReducer?.checkout).format("DD MMM, YY")}</p>
                                                         <h2>{dayjs(hotelMainReducer?.checkout).format("dddd")}</h2>
                                                     </div>
-                                                </motion.div>
-                                                <motion.div variants={variants} className="col-lg-4 col-4">
+                                                </div>
+                                                <div className="col-lg-4 col-4">
                                                     <div className="checkInReview">
                                                         <span>{hotelMainReducer?.no_of_rooms} Room(s) </span>
                                                         <p>
@@ -436,75 +466,65 @@ const BookingReviewGRN = ({
                                                                 : ""}
                                                         </p>
                                                     </div>
-                                                </motion.div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </motion.div>
-                                </motion.div>
-
-                                {/* guest details section  */}
-
-                                <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
-                                    <div className="bookflightPassenger">
-                                        <form>
-                                            <div className="bookFlightPassInner">
-                                                <div className="bookAdultIndex">
-                                                    <p>Your Booking Details will be sent to</p>
-                                                </div>
-                                                <div className="row g-3 mb-3">
-                                                    <div className="col-lg-5 col-md-5">
-                                                        <div className="bookDetail">
-                                                            <div>
-                                                                <p>Phone No :</p>
-
-                                                            </div>
-                                                            <div>
-                                                                <span>
-                                                                    {passenger?.[0]?.adults?.[0]?.Phoneno}
-                                                                </span>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                    <div className="col-lg-5 col-md-5">
-                                                        <div className="bookDetail">
-                                                            <div>
-                                                                <p>Email :</p>
-
-                                                            </div>
-                                                            <div>
-                                                                <span>
-                                                                    {passenger?.[0]?.adults?.[0]?.Email}
-                                                                </span>
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </form>
                                     </div>
-                                </motion.div>
 
-                                <motion.div
-                                    variants={variants}
-                                    initial="initial"
-                                    whileInView="animate"
-                                    className="row"
-                                >
+                                    {/* guest details section  */}
 
+                                    <div className="col-lg-12 p-0 mt-3">
+                                        <div className="bookflightPassenger">
+                                            <form>
+                                                <div className="bookFlightPassInner">
+                                                    <div className="bookAdultIndex">
+                                                        <p>Your Booking Details will be sent to</p>
+                                                    </div>
+                                                    <div className="row g-3 mb-3">
+                                                        <div className="col-lg-5 col-md-5">
+                                                            <div className="bookDetail">
+                                                                <div>
+                                                                    <p>Phone No :</p>
 
+                                                                </div>
+                                                                <div>
+                                                                    <span>
+                                                                        {passenger?.[0]?.adults?.[0]?.Phoneno}
+                                                                    </span>
 
+                                                                </div>
+                                                            </div>
 
-                                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                                                        </div>
+                                                        <div className="col-lg-5 col-md-5">
+                                                            <div className="bookDetail">
+                                                                <div>
+                                                                    <p>Email :</p>
+
+                                                                </div>
+                                                                <div>
+                                                                    <span>
+                                                                        {passenger?.[0]?.adults?.[0]?.Email}
+                                                                    </span>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="row" >
+                                    <div className="col-lg-12 p-0 mt-3">
                                         <div className="bookflightPassenger">
                                             <div className="headingBookFlight">
                                                 <h3>Guest Details</h3>
                                             </div>
-
                                             {
                                                 passenger?.map((item, index) => {
                                                     return (
@@ -577,9 +597,9 @@ const BookingReviewGRN = ({
                                             }
 
                                         </div>
-                                    </motion.div>
+                                    </div>
 
-                                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                                    <div className="col-lg-12 p-0 mt-3">
                                         <div className="bookflightPassenger">
                                             <form>
                                                 <div className="bookFlightPassInner">
@@ -603,9 +623,9 @@ const BookingReviewGRN = ({
                                                 </div>
                                             </form>
                                         </div>
-                                    </motion.div>
+                                    </div>
 
-                                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                                    <div className="col-lg-12 p-0 mt-3">
                                         <div className="bookflightPassenger">
                                             <form>
                                                 <div className="bookFlightPassInner">
@@ -685,9 +705,9 @@ const BookingReviewGRN = ({
                                                 </div>
                                             </form>
                                         </div>
-                                    </motion.div>
+                                    </div>
 
-                                    <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
+                                    <div className="col-lg-12 p-0 mt-3">
                                         <div className="bookflightPassenger">
                                             <form>
                                                 <div className="bookFlightPassInner">
@@ -729,7 +749,7 @@ const BookingReviewGRN = ({
                                                 </div>
                                             </form>
                                         </div>
-                                    </motion.div>
+                                    </div>
 
 
                                     <div className="guestDetailsHistoryDesc mt-3">
@@ -761,27 +781,7 @@ const BookingReviewGRN = ({
 
                                         </div>
                                     </Modal>
-
-                                    {/* <div className="col-lg-12">
-                                        <div className="reviewDescriptionButton">
-
-                                            <button
-                                                type="submit"
-                                                onClick={handleClickBooking}
-
-                                            >
-                                                Pay Now
-                                            </button>
-
-                                        </div>
-                                    </div> */}
-
-                                    {/* <Modal open={bookingSuccess}>
-                                        <Box sx={styleLoader}>
-                                            <CircularProgress size={70} thickness={4} />
-                                        </Box>
-                                    </Modal> */}
-                                </motion.div>
+                                </div>
                             </div>
                         </div>
                         <div className="col-lg-3 order-lg-2 order-md-1 order-sm-1 order-1">

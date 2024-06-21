@@ -753,6 +753,14 @@ body {
 
 }
 
+.skeWidth {
+  width: 100% !important;
+}
+
+.skeHeight {
+  height: 100% !important;
+}
+
 .datePickMihuru input {
   display: block !important;
   width: 100% !important;
