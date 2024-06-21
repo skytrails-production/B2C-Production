@@ -363,7 +363,7 @@
 
 .hotelReviewAmetnities>div {
     display: grid;
-    grid-template-columns: auto auto;
+    /* grid-template-columns: auto auto; */
     justify-content: space-between;
     row-gap: 10px;
 }
@@ -374,4 +374,8 @@
 
 .hotelReviewAmetnities svg {
     color: #d90429;
+}
+
+.antImgGallSmall img {
+    /* max-height: 140px !important; */
 }

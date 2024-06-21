@@ -422,13 +422,13 @@ function api() {
 
   const hotelsingleDataGRN = (payload) => {
     // console.log("key")
-    const { data } = payload;
+    // const { data } = payload;
     const searchId = payload.searchID;
     return axios({
       method: "POST",
       url: `/skyTrails/grnconnect/rateRefetchHotel?searchId=${searchId}`,
       baseURL: `${apiURL.baseURL}`,
-      data: data,
+      data: payload.data,
       headers: {
         "Content-Type": "application/json",
       },

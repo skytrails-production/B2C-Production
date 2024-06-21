@@ -505,7 +505,7 @@ function GrmHotelform2() {
     }
   }, [reducerState?.hotelSearchResultGRN?.onlyHotels])
 
-  console.log(reducerState, "reducer state")
+
 
 
   return (

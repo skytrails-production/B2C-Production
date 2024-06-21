@@ -4,12 +4,14 @@ import HotelGuestDetailsGRN from "./HotelGuestDetailsGRN";
 import PriceSummaryGRN from "./PriceSummaryGRN";
 import { Skeleton, Space } from 'antd';
 import { motion } from "framer-motion";
-
+import { swalModal } from "../../utility/swal";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const BookingDetailsGRN = () => {
     const reducerState = useSelector((state) => state);
     const [loader, setLoader] = useState(true);
-
+    const navigate = useNavigate()
+    console.log(reducerState, "reducer state in booking dtails")
 
 
     useEffect(() => {
@@ -18,6 +20,16 @@ const BookingDetailsGRN = () => {
         }
 
     }, [reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel])
+
+
+
+    useEffect(() => {
+        if (reducerState?.hotelSearchResultGRN?.hotelRoom?.errors?.length > 0) {
+
+            swalModal('hotel', "Session Expired", false);
+            navigate("/st-hotel")
+        }
+    }, [reducerState?.hotelSearchResultGRN?.hotelRoom?.errors])
 
     return (
 
@@ -78,19 +90,19 @@ const BookingDetailsGRN = () => {
                                             </div>
 
 
-                                            <div className="col-lg-12 mb-3 mt-3  packageImgBox">
-                                                {/* <div className="PackageImg hotelGall"> */}
+                                            {/* <div className="col-lg-12 mb-3 mt-3  packageImgBox">
+                                                
 
                                                 <Skeleton.Image className="PackageImg skeWidth " active={true} style={{ height: 400 }} />
 
-                                                {/* </div> */}
-                                            </div>
+                                               
+                                            </div> */}
 
 
 
 
 
-                                            <div className="col-lg-12 p-0">
+                                            <div className="col-lg-12 mt-3 p-0">
                                                 <div className="roomDetailsReviewDesc">
                                                     <div className="row">
                                                         <div className="col-lg-4 col-4">

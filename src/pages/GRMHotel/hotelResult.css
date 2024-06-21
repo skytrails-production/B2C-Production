@@ -124,6 +124,15 @@
 }
 
 
-.hotelGall img {
-    height: 479px !important;
+.hotelGall img {}
+
+
+.antImgGall .ant-image-img {
+    border-radius: 8px !important;
+    height: 390px !important;
+}
+
+.antImgGallSmall .ant-image-img {
+    border-radius: 8px !important;
+    height: 187px !important;
 }

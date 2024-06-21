@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Box } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,23 +11,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { wrap } from "popmotion";
 import dayjs from "dayjs";
 import "react-image-gallery/styles/css/image-gallery.css";
-import Hotelmainloading from "../Hotel/hotelLoading/Hotelmainloading";
-// import { Skeleton } from "@mui/material";
-import { Divider, Form, Radio, Skeleton, Space, Switch } from 'antd';
+import { Skeleton, Space } from 'antd';
 import { HotelRoomSelectReqGRN, clearHotelRoomSelect } from "../../Redux/HotelGRN/hotel";
 import { swalModal } from "../../utility/swal";
-
-const styleLoader = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "transparent",
-    display: "flex",
-    justifyContent: "center",
-};
-
+import { Image } from 'antd';
 
 const variants2 = {
     enter: (direction) => {
@@ -56,7 +43,6 @@ const swipePower = (offset, velocity) => {
 };
 
 
-
 const HotelBookRoomGRN = () => {
 
 
@@ -64,8 +50,6 @@ const HotelBookRoomGRN = () => {
     const navigate = useNavigate();
     const [loader, setLoader] = useState(true);
     const reducerState = useSelector((state) => state);
-
-
 
     const variants = {
         initial: {
@@ -102,13 +86,8 @@ const HotelBookRoomGRN = () => {
         dispatch(clearHotelRoomSelect())
     }, [])
 
-    // useEffect(() => {
-    //     if (reducerState?.hotelSearchResultGRN?.hotelDetails.length == 0 && reducerState?.hotelSearchResultGRN?.hotelGallery.length == 0) {
-    //         navigate("/st-hotel/hotelresult")
-    //     }
 
-    // }, [])
-
+    // image slider logic 
 
 
     const [[page, direction], setPage] = useState([0, 0]);
@@ -142,13 +121,14 @@ const HotelBookRoomGRN = () => {
 
     const [selectedRoomIndex, setSelectedRoomIndex] = useState(0);
     const [selectedRoom, setSelectedRoom] = useState(hotelinfoGRN?.rates?.[selectedRoomIndex])
-
+    useEffect(() => {
+        setSelectedRoom(hotelinfoGRN?.rates?.[selectedRoomIndex])
+    }, [hotelinfoGRN?.rates])
 
     const handleRoomSelection = (index) => {
         setSelectedRoomIndex(index);
     };
     useEffect(() => {
-
         setSelectedRoom(hotelinfoGRN?.rates?.[selectedRoomIndex])
     }, [selectedRoomIndex])
 
@@ -161,26 +141,14 @@ const HotelBookRoomGRN = () => {
         }
     }, [reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.errors])
 
-    // console.log(reducerState, "reducer stateefdjshfjsgjdsafjhfafjkdshfj")
-
-    // useEffect(() => {
-    //     if (reducerState?.hotelSearchResultGRN?.hotelRoom?.length > 0 || reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel) {
-    //         setLoader(false)
-    //         navigate("/st-hotel/hotelresult/selectroom/guestDetails")
-    //     }
-
-    // }, [reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel])
 
     const searchId = reducerState?.hotelSearchResultGRN?.ticketData
         ?.data?.data?.search_id;
 
 
-    // console.log(selectedRoom, "selected room")
-    // console.log(reducerState, "reducer state in hotel book room")
-
 
     const handleClickSaveRoom = async () => {
-        // setLoader(true);
+
         const payload = {
 
             "data": {
@@ -189,9 +157,13 @@ const HotelBookRoomGRN = () => {
             },
             "searchID": searchId,
         }
+
         dispatch(HotelRoomSelectReqGRN(payload))
         navigate("/st-hotel/hotelresult/selectroom/guestDetails")
     };
+
+
+    console.log(hotelGallery, "hotel gallery ")
 
 
     return (
@@ -199,21 +171,42 @@ const HotelBookRoomGRN = () => {
             {loader ? (
                 // <Hotelmainloading />
                 <>
-                    <div style={{ width: '100vw' }}>
-                        <div style={{ width: '100%' }}>
-                            <Skeleton.Input active={true} style={{ width: "100vw", height: 240 }} />
-                        </div>
-                    </div>
-
                     <div className="my-4 ">
                         <div className="container">
+                            <div className="row">
+
+                                {/* gallery  */}
+                                <div className="col-lg-12 mb-4">
+                                    <div className="row g-3">
+                                        <div className="col-lg-6">
+                                            <div className="antImgGall" style={{ position: 'relative' }}>
+                                                {/* <Image width={'100%'} src={hotelGallery?.[0]?.url} /> */}
+                                                <Skeleton.Image className="skeWidth" active={true} style={{ height: 390 }} />
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-6">
+                                            <div className="row g-3">
+                                                {hotelGallery?.slice(1, 5).map((item, index) => (
+                                                    <div className="col-lg-6">
+                                                        <div className=" antImgGallSmall" >
+                                                            <Skeleton.Image className="skeWidth" style={{ height: 187 }} active={true} />
+
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                             <div className="row gy-4">
-                                <div className="col-lg-9 order-lg-1 order-md-2 order-sm-2 order-2">
+                                <div className="col-lg-8 ">
                                     <div className="container">
-                                        <div
-                                            className="row"
-                                        >
-                                            <div className="col-lg-12 p-0 reviewTMT">
+                                        <div className="row">
+
+                                            {/* hotel details  */}
+                                            <div className="col-lg-12 p-0">
                                                 <div className="hotelDetails">
                                                     <div>
                                                         <div>
@@ -253,19 +246,8 @@ const HotelBookRoomGRN = () => {
                                             </div>
 
 
-                                            <div className="col-lg-12 mb-3 mt-3  packageImgBox">
-                                                {/* <div className="PackageImg hotelGall"> */}
-
-                                                <Skeleton.Image className="PackageImg skeWidth " active={true} style={{ height: 400 }} />
-
-                                                {/* </div> */}
-                                            </div>
-
-
-
-
-
-                                            <motion.div variants={variants} className="col-lg-12 p-0">
+                                            {/* check in check out  */}
+                                            <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
                                                 <div className="roomDetailsReviewDesc">
                                                     <div className="row">
                                                         <motion.div variants={variants} className="col-lg-4 col-4">
@@ -294,7 +276,7 @@ const HotelBookRoomGRN = () => {
                                             </motion.div>
                                         </div>
 
-                                        {/* guest details sectin  */}
+                                        {/* room select details sectin  */}
 
                                         <motion.div
                                             variants={variants}
@@ -302,9 +284,6 @@ const HotelBookRoomGRN = () => {
                                             whileInView="animate"
                                             className="row"
                                         >
-
-
-
                                             <div className="mt-3 p-0">
 
                                                 <div className="roomCompo">
@@ -358,29 +337,68 @@ const HotelBookRoomGRN = () => {
 
                                             </div>
 
-                                            <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
-                                                <div className="bookflightPassenger">
-                                                    <form>
-                                                        <div className="bookFlightPassInner">
-                                                            <div className="bookAdultIndex">
-                                                                <Skeleton.Button active={true} style={{ height: 15 }} />
-                                                            </div>
-                                                            <div className="row g-3 ">
-                                                                <div className="col-lg-12 my-4">
-                                                                    <div className="hotelReviewAmetnities">
-                                                                        <div>
-                                                                            <Skeleton.Button active={true} style={{ height: 10 }} />
-                                                                            <Skeleton.Button active={true} style={{ height: 10 }} />
-                                                                            <Skeleton.Button active={true} style={{ height: 10 }} />
-                                                                            <Skeleton.Button active={true} style={{ height: 10 }} />
-                                                                        </div>
+
+                                        </motion.div>
+                                        <motion.div
+                                            variants={variants}
+                                            initial="initial"
+                                            whileInView="animate"
+                                            className="row"
+                                        >
+                                            <div className="mt-3 p-0">
+
+                                                <div className="roomCompo">
+                                                    <div className="offer_area">
+                                                        <div>
+                                                            <div className="insideOffer">
+                                                                <Skeleton.Avatar active={true} shape="circle" />
+
+                                                                <div className="inneraccorHotel">
+
+                                                                    <div className="ratePlan" >
+                                                                        <Skeleton.Button active={true} style={{ height: 20 }} />
                                                                     </div>
+
                                                                 </div>
                                                             </div>
+
+                                                            <div className="insideOffer">
+
+                                                                <div className="inneraccorHotel">
+
+                                                                    <div className="ratePlan" >
+                                                                        <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                    </div>
+
+                                                                </div>
+
+                                                                <div className="inneraccorHotel">
+
+                                                                    <div className="ratePlan" >
+                                                                        <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                    </div>
+
+                                                                </div>
+
+
+
+                                                            </div>
+
+
                                                         </div>
-                                                    </form>
+                                                        <div className="priceCheck">
+                                                            <Skeleton.Button active={true} style={{ height: 20 }} />
+                                                            <div>
+                                                                <Skeleton.Button active={true} style={{ height: 20 }} />
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </motion.div>
+
+
+                                            </div>
+
+
 
 
                                             <div className="col-lg-12">
@@ -393,26 +411,85 @@ const HotelBookRoomGRN = () => {
 
 
                                         </motion.div>
+
                                     </div>
                                 </div>
+
+                                {/* Amenities  */}
+
+                                <div className="col-lg-4 ">
+                                    <motion.div className="col-lg-12 p-0 ">
+                                        <div className="bookflightPassenger">
+                                            <form>
+                                                <div className="bookFlightPassInner">
+                                                    <div className="bookAdultIndex">
+                                                        <Skeleton.Button active={true} style={{ height: 15 }} />
+                                                    </div>
+                                                    <div className="row g-3 ">
+                                                        <div className="col-lg-12 my-4">
+                                                            <div className="hotelReviewAmetnities">
+                                                                <div>
+                                                                    <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                    <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                    <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                    <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                    <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                    <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                    <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                    <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                    <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                    <Skeleton.Button active={true} style={{ height: 10 }} />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </motion.div>
+                                </div>
+
+
                             </div>
                         </div>
                     </div>
                 </>
             ) : (
                 <>
-                    <div className='mainimgHotelSearch'>
-                    </div>
+
 
                     <div className="my-4 ">
                         <div className="container">
+                            <div className="row">
+                                <div className="col-lg-12 mb-4">
+                                    <div className="row g-3">
+                                        <div className="col-lg-6">
+                                            <div className="antImgGall" style={{ position: 'relative' }}>
+                                                <Image width={'100%'} src={hotelGallery?.[0]?.url} />
+
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-6">
+                                            <div className="row g-3">
+                                                {hotelGallery?.slice(1, 5).map((item, index) => (
+                                                    <div className="col-lg-6">
+                                                        <div className=" antImgGallSmall" >
+                                                            <Image width={'100%'} src={item?.url} />
+
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                             <div className="row gy-4">
-                                <div className="col-lg-9 order-lg-1 order-md-2 order-sm-2 order-2">
+                                <div className="col-lg-8 ">
                                     <div className="container">
-                                        <div
-                                            className="row"
-                                        >
-                                            <div className="col-lg-12 p-0 reviewTMT">
+                                        <div className="row">
+                                            <div className="col-lg-12 p-0">
                                                 <div className="hotelDetails">
                                                     <div>
                                                         <div>
@@ -450,7 +527,7 @@ const HotelBookRoomGRN = () => {
                                                 </div>
                                             </div>
 
-                                            {
+                                            {/* {
                                                 reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.errors?.length !== 0 &&
                                                 <div className="col-lg-12 mb-0 mt-3  packageImgBox">
                                                     <div className="PackageImg hotelGall">
@@ -504,7 +581,7 @@ const HotelBookRoomGRN = () => {
 
                                                     </div>
                                                 </div>
-                                            }
+                                            } */}
 
 
                                             <motion.div variants={variants} className="col-lg-12 p-0">
@@ -634,31 +711,7 @@ const HotelBookRoomGRN = () => {
 
                                             </div>
 
-                                            <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
-                                                <div className="bookflightPassenger">
-                                                    <form>
-                                                        <div className="bookFlightPassInner">
-                                                            <div className="bookAdultIndex">
-                                                                <p>Amenities</p>
-                                                            </div>
-                                                            <div className="row g-3 ">
-                                                                <div className="col-lg-12 my-4">
-                                                                    <div className="hotelReviewAmetnities">
-                                                                        <div>
-                                                                            {hotelinfoGRN?.facilities?.split(';')?.map((item, index) => (
-                                                                                <p key={index}>
-                                                                                    <img src={chevrondown} alt="Chevron Down" />
-                                                                                    {item.trim()}
-                                                                                </p>
-                                                                            ))}
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </motion.div>
+
 
                                             {/* <motion.div variants={variants} className="col-lg-12 p-0 mt-3">
                                                 <div className="bookflightPassenger">
@@ -722,6 +775,48 @@ const HotelBookRoomGRN = () => {
                                         </motion.div>
                                     </div>
                                 </div>
+
+                                {/* <div className="col-lg-4">
+                                    <div className="row g-3">
+                                        {hotelGallery?.slice(0, 10).map((item, index) => (
+                                            <div key={index} className={`col-lg-${index < 2 ? '12' : '6'}`}>
+                                                <div className="antImgGall" style={{ position: 'relative' }}>
+                                                    <Image width={index < 2 ? '100%' : '100%'} src={item?.url} />
+                                                    <div className="caption-container">
+                                                        <p className="caption-text">{item.caption}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div> */}
+
+                                <div className="col-lg-4 ">
+                                    <div className="bookflightPassenger">
+                                        <form>
+                                            <div className="bookFlightPassInner">
+                                                <div className="bookAdultIndex">
+                                                    <p>Amenities</p>
+                                                </div>
+                                                <div className="row g-3 ">
+                                                    <div className="col-lg-12 my-4">
+                                                        <div className="hotelReviewAmetnities">
+                                                            <div>
+                                                                {hotelinfoGRN?.facilities?.split(';')?.map((item, index) => (
+                                                                    <p key={index}>
+                                                                        <img src={chevrondown} alt="Chevron Down" />
+                                                                        {item.trim()}
+                                                                    </p>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>

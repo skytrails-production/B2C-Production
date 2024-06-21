@@ -547,6 +547,12 @@ export default function LoginForm() {
                                 <button
                                   type="submit"
                                   onClick={requestSignIn}
+                                  onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+
+                                      requestSignIn(); // Call your function here
+                                    }
+                                  }}
                                   className="btn btn-primaryLogin px-4 float-end mt-2"
                                   disabled={validNumEmail}
                                 >

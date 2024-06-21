@@ -125,7 +125,7 @@ export default function HotelResult() {
     const [sortOption, setSortOption] = useState("");
     const [searchInput, setSearchInput] = useState('');
 
-    console.log(sortOption, "sort optoion")
+
 
     const maxPrice = result?.reduce((max, hotel) => {
         return Math.max(max, hotel?.min_rate?.price || 0);
@@ -238,7 +238,7 @@ export default function HotelResult() {
     }
 
 
-    console.log(reducerState, "reducer state")
+
 
     let totalAdults = 0;
     let totalChildren = 0;
