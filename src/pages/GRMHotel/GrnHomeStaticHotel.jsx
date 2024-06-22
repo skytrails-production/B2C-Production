@@ -20,45 +20,71 @@ const GrnHomeStaticHotel = () => {
     // const localData = sessionStorage.getItem("advertise");
     const [loader, setLoader] = useState(false);
     // const [selectedData, setSelectedData] = useState([]);
+
+    // cityCode: "124054",
+    //     cityName: "New Delhi",
+    //         countryCode: "IN",
+    //             countryName: "India",
     const localDataArray = [
 
         {
             logo: `https://raw.githubusercontent.com/The-SkyTrails/Images/main/selectHotels/1.jpg`,
             title: "Darjeeling",
-            cityCode: "123209"
+            cityCode: "123209",
+            cityName: "Darjeeling",
+            countryCode: "IN",
+            countryName: "India",
         },
 
         {
             logo: `https://raw.githubusercontent.com/The-SkyTrails/Images/main/selectHotels/2.jpg`,
             title: "Rishikesh",
-            cityCode: "125097"
+            cityCode: "125097",
+            cityName: "Rishikesh",
+            countryCode: "IN",
+            countryName: "India",
         },
         {
             logo: `https://raw.githubusercontent.com/The-SkyTrails/Images/main/selectHotels/3.jpg`,
             title: "Kolkata",
-            cityCode: "122164"
+            cityCode: "122164",
+            cityName: "Kolkata",
+            countryCode: "IN",
+            countryName: "India",
         },
 
         {
             logo: `https://raw.githubusercontent.com/The-SkyTrails/Images/main/selectHotels/4.jpg`,
             title: "Ajmer",
-            cityCode: "124819"
+            cityCode: "124819",
+            cityName: "Ajmer",
+            countryCode: "IN",
+            countryName: "India",
         },
         {
             logo: `https://raw.githubusercontent.com/The-SkyTrails/Images/main/selectHotels/5.jpg`,
             title: "Pune",
-            cityCode: "124649"
+            cityCode: "124649",
+            cityName: "Pune",
+            countryCode: "IN",
+            countryName: "India",
         },
 
         {
             logo: `https://raw.githubusercontent.com/The-SkyTrails/Images/main/selectHotels/6.jpg`,
             title: "Nainital",
-            cityCode: "123559"
+            cityCode: "123559",
+            cityName: "Nainital",
+            countryCode: "IN",
+            countryName: "India",
         },
         {
             logo: `https://raw.githubusercontent.com/The-SkyTrails/Images/main/selectHotels/7.jpg`,
             title: "Bangalore",
-            cityCode: "121850"
+            cityCode: "121850",
+            cityName: "Bangalore",
+            countryCode: "IN",
+            countryName: "India",
         },
 
 
@@ -111,11 +137,34 @@ const GrnHomeStaticHotel = () => {
 
     const futureDate = new Date(currentDate);
     futureDate.setDate(currentDate.getDate() + 1);
-    console.log(futureDate, "")
+
+    const nationality = {
+        countryCode: "IN",
+        countryCode3: "IND",
+        countryName: "India",
+    };
+
 
     const handlePopularSearch = (param) => {
+        sessionStorage.setItem(
+            "revisithotel",
+            JSON.stringify([
+                {
+                    cityCode: param?.cityCode,
+                    cityName: param?.cityName,
+                    countryCode: param?.countryCode,
+                    countryName: param?.countryName,
+                    checkin: currentDate,
+                    checkout: futureDate,
+                    rooms: [{
+                        adults: 1,
+                        children_ages: [],
+                    }],
+                    nationality: nationality,
+                },
 
-        console.log(param, "param")
+            ])
+        );
         const payload = {
             "rooms": [{
                 adults: 1,

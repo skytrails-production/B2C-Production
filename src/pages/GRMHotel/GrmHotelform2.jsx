@@ -438,6 +438,7 @@ function GrmHotelform2() {
 
 
 
+
   function handleSubmit(event) {
     event.preventDefault();
     setLoader(true);
@@ -449,6 +450,22 @@ function GrmHotelform2() {
     }));
 
     sessionStorage.setItem("clientNationality", JSON.stringify(selectNationality?.countryCode));
+    sessionStorage.setItem(
+      "revisithotel",
+      JSON.stringify([
+        {
+          cityCode: selectedFrom.cityCode,
+          cityName: selectedFrom.cityName,
+          countryCode: selectedFrom.countryCode,
+          countryName: selectedFrom.countryName,
+          checkin: newDepartDate,
+          checkout: newReturnDate,
+          rooms: [...dynamicFormData],
+          nationality: selectNationality,
+        },
+
+      ])
+    );
 
     const payload = {
       "rooms": [...dynamicFormData],

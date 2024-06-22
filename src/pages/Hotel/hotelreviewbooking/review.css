@@ -152,7 +152,7 @@
 }
 
 .hotelName {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     color: #21325D;
     font-weight: bold;
 }
@@ -363,7 +363,7 @@
 
 .hotelReviewAmetnities>div {
     display: grid;
-    /* grid-template-columns: auto auto; */
+    grid-template-columns: auto auto;
     justify-content: space-between;
     row-gap: 10px;
 }
@@ -373,6 +373,28 @@
 }
 
 .hotelReviewAmetnities svg {
+    color: #d90429;
+}
+
+
+.hotelReviewAmetnities2 {
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.hotelReviewAmetnities2>div {
+    display: grid;
+    /* grid-template-columns: auto auto; */
+    justify-content: space-between;
+    row-gap: 10px;
+}
+
+.hotelReviewAmetnities2 p {
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.hotelReviewAmetnities2 svg {
     color: #d90429;
 }
 

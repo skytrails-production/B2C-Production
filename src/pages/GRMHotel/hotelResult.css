@@ -129,10 +129,37 @@
 
 .antImgGall .ant-image-img {
     border-radius: 8px !important;
-    height: 390px !important;
+    height: 330px !important;
 }
 
 .antImgGallSmall .ant-image-img {
     border-radius: 8px !important;
-    height: 187px !important;
+    height: 157px !important;
+}
+
+
+.bookRoomHotDetails {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.hotelBookDesignFirst {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+
+.othInc {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.othIncInner {
+    padding: 4px 0px;
 }
