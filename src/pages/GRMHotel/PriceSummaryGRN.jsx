@@ -7,7 +7,6 @@ export default function PriceSummaryGRN() {
 
     const hotelinfoGRN = reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel;
     const commnetRate = hotelinfoGRN?.rate?.rate_comments?.MandatoryTax;
-    // console.log(reducerState, "reducer state")
 
     const markUpamount =
         reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup *

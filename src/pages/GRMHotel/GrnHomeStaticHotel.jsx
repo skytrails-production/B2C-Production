@@ -189,7 +189,6 @@ const GrnHomeStaticHotel = () => {
         navigate("/st-hotel/hotelresult");
     }
 
-    console.log(reducerState)
 
 
     return (

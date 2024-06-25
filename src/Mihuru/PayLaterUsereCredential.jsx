@@ -14,7 +14,7 @@ const PayLaterUsereCredential = () => {
     const token = reducerState?.TNPL?.verifiedOTPData?.data?.sessionId
     const dispatch = useDispatch();
 
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
     const generatedPlans = reducerState?.TNPL?.planDetails?.data?.plan_details;
     const [loader, setLoader] = useState(false);
     const [formData, setFormData] = useState({

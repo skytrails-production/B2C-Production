@@ -102,7 +102,7 @@ const HotelTicketDB = () => {
         <div className="tempBox" style={{ marginTop: "150px", marginBottom: "150px" }}>
             <div className="container">
                 <h2>Thank You for Booking With Us</h2>
-                <p>Please Check your Email for Booking Details</p>
+                <p>Please Check your Booking History for Booking Details</p>
                 <button onClick={() => { navigate("/st-hotel") }}>
                     Ok
                 </button>

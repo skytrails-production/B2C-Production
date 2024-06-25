@@ -240,7 +240,6 @@ const ToSearchInput = (props) => {
 
   const handleToChange = (newValue) => {
     const selected = toData.find((d) => d.value === newValue);
-    // console.log(selected, "selected kdhafoh")
     setToValue(selected ? selected.countryName : newValue);
     setToDisplayValue(selected ? selected.countryName : newValue);
     setSelectedItem(selected ? selected.item : null);
@@ -271,7 +270,6 @@ const ToSearchInput = (props) => {
     </div>
   );
 
-  // console.log(toData, "to data")
 
   return (
     <Select

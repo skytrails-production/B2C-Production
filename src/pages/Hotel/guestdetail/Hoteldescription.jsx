@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
 import "./hoteldescription.css";
 import { hotelBookRoomAction } from "../../../Redux/Hotel/hotel";
 import StarIcon from "@mui/icons-material/Star";
@@ -120,14 +119,6 @@ const Hoteldescription = ({
   // console.log(resultIndex, hotelCode);
   const hotelInfo = reducerState?.hotelSearchResult?.hotelInfo?.HotelInfoResult;
 
-  // console.log("markUpamount", markUpamount);
-  // const checkInDate = moment(hotelDetails?.CheckInDate).format("MMMM DD, YYYY");
-  // const checkOutDate = moment(hotelDetails?.CheckOutDate).format(
-  //   "MMMM DD, YYYY"
-  // );
-  // const cancelDuedate = moment(hotelDetails?.LastCancellationDate).format(
-  //   "MMMM DD, YYYY"
-  // );
 
   const getBookingDetails =
     reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult
@@ -430,13 +421,13 @@ const Hoteldescription = ({
       ?.HotelRoomsDetails[0];
   const cancellationStartingDate =
     hotelCancellationPolicies?.CancellationPolicies[0]?.FromDate;
-  const cancellationFormattedStartingDate = moment(
+  const cancellationFormattedStartingDate = dayjs(
     cancellationStartingDate
-  ).format("MMMM DD, YYYY");
+  ).format("DD MMM, YY");
   const cancellationEndingDate =
     hotelCancellationPolicies?.CancellationPolicies[0]?.ToDate;
-  const cancellationFormattedEndingDate = moment(cancellationEndingDate).format(
-    "MMMM DD, YYYY"
+  const cancellationFormattedEndingDate = dayjs(cancellationEndingDate).format(
+    "DD MMM, YY"
   );
 
   const cancellationCharge =

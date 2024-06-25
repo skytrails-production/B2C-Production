@@ -1,14 +1,9 @@
 import * as React from "react";
-import moment from "moment";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 import {
-  Grid,
+
   Box,
-  Typography,
-  Button,
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
+
 } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import StarIcon from "@mui/icons-material/Star";
@@ -16,7 +11,7 @@ import "./review.css";
 import { useDispatch, useSelector, useReducer } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PassengersAction } from "../../../Redux/Passengers/passenger";
-import { apiURL } from "../../../Constants/constant";
+// import { apiURL } from "../../../Constants/constant";
 import { useEffect } from "react";
 import HotelLoading from "../hotelLoading/HotelLoading";
 import hotelNotFound from "../../../images/hotelNotFound.jpg";
@@ -29,12 +24,13 @@ import { motion } from "framer-motion";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   validateEmail,
-  validateName,
+  // validateName,
   validatePhoneNumber,
   validatePAN,
-  validatePassportExpiry,
+  // validatePassportExpiry,
   isValidPassportNumber,
 } from "../../../utility/validationFunctions";
+import dayjs from "dayjs";
 
 const styleLoader = {
   position: "absolute",
@@ -67,8 +63,8 @@ const Flightdetail = () => {
     reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Status || false;
   const HotelIndex = sessionStorage.getItem("HotelIndex");
   // console.log(noOfRooms, "noOfRooms");
-  const ResultIndex = sessionStorage.getItem("ResultIndex");
-  const HotelCode = sessionStorage.getItem("HotelCode");
+  // const ResultIndex = sessionStorage.getItem("ResultIndex");
+  // const HotelCode = sessionStorage.getItem("HotelCode");
   // console.log(bookingStatus);
   const [bookingSuccess, setBookingSuccess] = useState(bookingStatus);
   const [passengerData, setPassengerData] = useState([]);
@@ -235,13 +231,13 @@ const Flightdetail = () => {
       ?.HotelRoomsDetails[0];
   const cancellationStartingDate =
     hotelCancellationPolicies?.CancellationPolicies[0]?.FromDate;
-  const cancellationFormattedStartingDate = moment(
+  const cancellationFormattedStartingDate = dayjs(
     cancellationStartingDate
-  ).format("MMMM DD, YYYY");
+  ).format(" DD MMM, YY");
   const cancellationEndingDate =
     hotelCancellationPolicies?.CancellationPolicies[0]?.ToDate;
-  const cancellationFormattedEndingDate = moment(cancellationEndingDate).format(
-    "MMMM DD, YYYY"
+  const cancellationFormattedEndingDate = dayjs(cancellationEndingDate).format(
+    "DD MMM, YY"
   );
 
   const cancellationCharge =

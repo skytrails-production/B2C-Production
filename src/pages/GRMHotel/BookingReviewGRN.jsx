@@ -1,54 +1,52 @@
 import * as React from "react";
 
-import HotelGuestDetailsGRN from "./HotelGuestDetailsGRN";
+// import HotelGuestDetailsGRN from "./HotelGuestDetailsGRN";
 import PriceSummaryGRN from "./PriceSummaryGRN";
-import moment from "moment";
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef } from "react";
 import { Box } from "@mui/material";
-import CircularProgress from "@mui/material/CircularProgress";
+// import CircularProgress from "@mui/material/CircularProgress";
 import StarIcon from "@mui/icons-material/Star";
 import { useDispatch, useSelector, useReducer } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { PassengersAction } from "../../Redux/Passengers/passenger";
+// import { PassengersAction } from "../../Redux/Passengers/passenger";
 import { useEffect } from "react";
-import HotelLoading from "../Hotel/hotelLoading/HotelLoading";
+// import HotelLoading from "../Hotel/hotelLoading/HotelLoading";
 import hotelNotFound from "../../images/hotelNotFound.jpg";
 import chevrondown from "../../images/chevrondown.svg";
-import login01 from "../../images/login-01.jpg";
-import Login from "../../components/Login";
+// import login01 from "../../images/login-01.jpg";
+// import Login from "../../components/Login";
 import Modal from "@mui/material/Modal";
-import CloseIcon from "@mui/icons-material/Close";
-import dayjs, { Dayjs } from "dayjs";
+// import CloseIcon from "@mui/icons-material/Close";
+import dayjs from "dayjs";
 import { hotelBookRoomActionGRN } from "../../Redux/HotelGRN/hotel";
 import { apiURL } from "../../Constants/constant";
-import { motion } from "framer-motion";
-import useRazorpay from "react-razorpay";
-import PaymentLoader from "../flight/FlightLoader/paymentLoader";
+// import { motion } from "framer-motion";
+// import useRazorpay from "react-razorpay";
+// import PaymentLoader from "../flight/FlightLoader/paymentLoader";
 import axios from "axios";
 import { SpinnerCircular } from "spinners-react";
 import { swalModal } from "../../utility/swal";
 import {
-    convertMillisecondsToMinutesAndSeconds,
     checkSearchTime,
 } from "../../utility/utils";
 import flightPaymentLoding from "../../images/loading/loading-ban.gif";
 import SecureStorage from "react-secure-storage";
 
 
-const variants = {
-    initial: {
-        y: 50,
-        opacity: 0,
-    },
-    animate: {
-        y: 0,
-        opacity: 1,
-        transition: {
-            duration: 0.5,
-            staggerChildren: 0.1,
-        },
-    },
-};
+// const variants = {
+//     initial: {
+//         y: 50,
+//         opacity: 0,
+//     },
+//     animate: {
+//         y: 0,
+//         opacity: 1,
+//         transition: {
+//             duration: 0.5,
+//             staggerChildren: 0.1,
+//         },
+//     },
+// };
 
 
 
@@ -85,18 +83,18 @@ const BookingReviewGRN = ({
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [loader, setLoader] = useState(false);
+    // const [loader, setLoader] = useState(false);
     const reducerState = useSelector((state) => state);
-    const authenticUser = reducerState?.logIn?.loginData?.status;
+    // const authenticUser = reducerState?.logIn?.loginData?.status;
     let bookingStatus = reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Status || false;
-    const [bookingSuccess, setBookingSuccess] = useState(bookingStatus);
+    // const [bookingSuccess, setBookingSuccess] = useState(bookingStatus);
     const [loaderPayment1, setLoaderPayment1] = useState(false);
     const [loaderPayment, setLoaderPayment] = useState(false);
     const hotelinfoGRN = reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel;
     const hotelMainReducer = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data;
     const passenger = reducerState?.passengers?.passengersData;
     const [isDisableScroll, setIsDisableScroll] = useState(false);
-    const emailRef = useRef();
+    // const emailRef = useRef();
     // const commnetRate = hotelinfoGRN?.rate?.rate_comments?.MandatoryTax;
     const markUpamount =
         reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup *
@@ -227,7 +225,6 @@ const BookingReviewGRN = ({
         };
     }, [isDisableScroll]);
 
-    console.log(passenger, "passenger")
 
     const [paymentLoading, setPaymentLoading] = useState(false);
 

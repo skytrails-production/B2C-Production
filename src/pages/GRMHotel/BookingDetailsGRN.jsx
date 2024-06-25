@@ -11,7 +11,6 @@ const BookingDetailsGRN = () => {
     const reducerState = useSelector((state) => state);
     const [loader, setLoader] = useState(true);
     const navigate = useNavigate()
-    console.log(reducerState, "reducer state in booking dtails")
 
 
     useEffect(() => {

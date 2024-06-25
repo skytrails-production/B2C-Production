@@ -10,7 +10,6 @@ import HolidayDomestic from "../holidaypackages/holidayCategory/HolidayDomestic"
 import Partners from "../home/Partners";
 import GrmHotelForm from "./GrmHotelForm";
 import HolidayCategory from "../holidaypackages/holidayCategory/HolidayCategory";
-// import Topflightroute from "../flight/Topflightroute";
 import HolidaySuggestion from "../holidaypackages/holidaySuggestion/HolidaySuggestion";
 import SwipeToSlide from "../../components/Card";
 import Blog from "../home/Blog";
@@ -48,7 +47,6 @@ const GrmHotelHome = () => {
 
             <div className="mainimg">
                 <img className="bannerBack" src={flightbanner} alt="background" />
-                {/* <BigNavbar /> */}
                 <div className="homeabsnew container">
                     <GrmHotelForm />
                 </div>
@@ -144,14 +142,6 @@ const GrmHotelHome = () => {
             >
                 <WhyChooseUs variants={variants} />
             </motion.div>
-            {/* <motion.div
-        variants={variants}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true, amount: 0.8 }}
-      >
-        <FLightOffer variants={variants} />
-      </motion.div> */}
             <motion.div
                 variants={variants}
                 initial="initial"

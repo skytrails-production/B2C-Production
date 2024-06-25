@@ -13,22 +13,22 @@ import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
 import HolidayBudget from "./holidayCategory/HolidayBudget";
 import Partners from "../home/Partners";
-import EventBanner from "../home/EventBanner";
+// import EventBanner from "../home/EventBanner";
 
-const variants = {
-  initial: {
-    y: 50,
-    opacity: 0,
-  },
-  animate: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      duration: 0.5,
-      staggerChildren: 0.1,
-    },
-  },
-};
+// const variants = {
+//   initial: {
+//     y: 50,
+//     opacity: 0,
+//   },
+//   animate: {
+//     y: 0,
+//     opacity: 1,
+//     transition: {
+//       duration: 0.5,
+//       staggerChildren: 0.1,
+//     },
+//   },
+// };
 const ColorGradient = {
   open: {
     backgroundImage:
@@ -201,39 +201,20 @@ const Hotelpackages = () => {
         <Hotelpackageform />
       </motion.div>
 
-      <motion.div
-        variants={variants}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true, amount: 0.8 }}
-      >
-        <HolidayBudget variants={variants} />
-      </motion.div>
-      <motion.div
-        variants={variants}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true, amount: 0.8 }}
+      <div>
+        <HolidayBudget />
+      </div>
+      <div
         style={{ position: "relative", top: "30px" }}
       >
-        <Advertise variants={variants} />
-      </motion.div>
-      <motion.div
-        variants={variants}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true, amount: 0.8 }}
-      >
-        <HolidayCategory variants={variants} />
-      </motion.div>
-      <motion.div
-        variants={variants}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true, amount: 0.8 }}
-      >
-        <HolidaySuggestion variants={variants} />
-      </motion.div>
+        <Advertise />
+      </div>
+      <div>
+        <HolidayCategory />
+      </div>
+      <div>
+        <HolidaySuggestion />
+      </div>
 
       {/* <motion.div
         variants={variants}
@@ -245,31 +226,16 @@ const Hotelpackages = () => {
         <EventBanner focusDownload={focusDownload} variants={variants} />
       </motion.div> */}
 
-      <motion.div
-        variants={variants}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true, amount: 0.8 }}
-      >
-        <HolidayDomestic variants={variants} />
-      </motion.div>
+      <div>
+        <HolidayDomestic />
+      </div>
 
-      <motion.div
-        variants={variants}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true, amount: 0.8 }}
-      >
-        <Download downloadRef={downloadRef} variants={variants} />
-      </motion.div>
-      <motion.div
-        variants={variants}
-        initial="initial"
-        whileInView="animate"
-        viewport={{ once: true, amount: 0.8 }}
-      >
-        <Partners variants={variants} />
-      </motion.div>
+      <div>
+        <Download downloadRef={downloadRef} />
+      </div>
+      <div>
+        <Partners />
+      </div>
       <WhyChooseUs />
     </React.Fragment>
   );

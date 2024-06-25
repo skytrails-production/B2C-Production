@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
-import scroll from "../../images/scroll.png";
+// import scroll from "../../images/scroll.png";
 import axios from "axios";
 import { apiURL } from "../../Constants/constant";
-import dayjs from "dayjs";
+// import dayjs from "dayjs";
 import "./event.css";
-import click from "../../images/click.gif";
-import Modal from "@mui/material/Modal";
-import Box from "@mui/material/Box";
-import Login from "../../components/Login";
-import loginnew from "../../images/login-01.jpg";
-import CloseIcon from "@mui/icons-material/Close";
+// import click from "../../images/click.gif";
+// import Modal from "@mui/material/Modal";
+// import Box from "@mui/material/Box";
+// import Login from "../../components/Login";
+// import loginnew from "../../images/login-01.jpg";
+// import CloseIcon from "@mui/icons-material/Close";
 import apple from "../../images/download/apple.png";
 import google from "../../images/download/google.png";
 import mobil from "../../images/download/mobil.png";
@@ -24,59 +24,59 @@ const Events = () => {
   const reducerState = useSelector((state) => state);
   const authenticUser = reducerState?.logIn?.loginData?.status;
 
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 400,
-    bgcolor: "background.paper",
-    border: "2px solid #000",
-    boxShadow: 24,
-    p: 4,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    gap: "20px",
-  };
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const firstInputRef = useRef(null);
-  const handlePassAbsClick = () => {
-    firstInputRef.current.focus();
-  };
+  // const style = {
+  //   position: "absolute",
+  //   top: "50%",
+  //   left: "50%",
+  //   transform: "translate(-50%, -50%)",
+  //   width: 400,
+  //   bgcolor: "background.paper",
+  //   border: "2px solid #000",
+  //   boxShadow: 24,
+  //   p: 4,
+  //   display: "flex",
+  //   flexDirection: "column",
+  //   alignItems: "center",
+  //   gap: "20px",
+  // };
+  // const [open, setOpen] = React.useState(false);
+  // const handleOpen = () => setOpen(true);
+  // const handleClose = () => setOpen(false);
+  // const firstInputRef = useRef(null);
+  // const handlePassAbsClick = () => {
+  //   firstInputRef.current.focus();
+  // };
   const token = SecureStorage.getItem("jwtToken");
-  const [loadingEvent, setLoadingEvent] = useState(false);
+  // const [loadingEvent, setLoadingEvent] = useState(false);
   const [eventDetails, setEventDetails] = useState([]);
-  const [formData, setFormData] = useState({
-    firstName: "",
-    mobileNumber: "",
-    currentCity: "",
-    profession: "",
-    otherProfession: "",
-  });
-  const [selectedProfession, setSelectedProfession] = useState("film industry");
-  const [totalPeople, setTotalPeople] = useState("1");
+  // const [formData, setFormData] = useState({
+  //   firstName: "",
+  //   mobileNumber: "",
+  //   currentCity: "",
+  //   profession: "",
+  //   otherProfession: "",
+  // });
+  // const [selectedProfession, setSelectedProfession] = useState("film industry");
+  // const [totalPeople, setTotalPeople] = useState("1");
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  // };
 
-  const handleSelectChange = (e) => {
-    setSelectedProfession(e.target.value);
-  };
+  // const handleSelectChange = (e) => {
+  //   setSelectedProfession(e.target.value);
+  // };
 
-  const handleRadioChange = (e) => {
-    setTotalPeople(e.target.value);
-  };
+  // const handleRadioChange = (e) => {
+  //   setTotalPeople(e.target.value);
+  // };
 
   // if user is already registered
-  const [eventHistoryData, setEventHistoryData] = useState([]);
+  // const [eventHistoryData, setEventHistoryData] = useState([]);
 
   const fetchData = async () => {
     try {
@@ -88,7 +88,7 @@ const Events = () => {
       const response = await axios.get(apiUrl, { headers });
 
       if (response.data.statusCode === 200) {
-        setEventHistoryData(response.data.result);
+        // setEventHistoryData(response.data.result);
         // console.log('res', response);
       }
     } catch (error) {
@@ -102,44 +102,44 @@ const Events = () => {
 
   // console.log(eventHistoryData, "history")
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoadingEvent(true);
-    const { firstName, mobileNumber, currentCity, otherProfession } = formData;
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setLoadingEvent(true);
+  //   const { firstName, mobileNumber, currentCity, otherProfession } = formData;
 
-    const payload = {
-      name: firstName,
-      mobileNumber: mobileNumber,
-      city: currentCity,
-      eventId: "65bdf1f5d8cecc4038704007",
-      startTime: "17:00",
-      eventDate: "2024-03-02T17:00:00.000+00:00",
-      profession:
-        selectedProfession === "other" ? otherProfession : selectedProfession,
-      noOfMember: totalPeople,
-    };
+  //   const payload = {
+  //     name: firstName,
+  //     mobileNumber: mobileNumber,
+  //     city: currentCity,
+  //     eventId: "65bdf1f5d8cecc4038704007",
+  //     startTime: "17:00",
+  //     eventDate: "2024-03-02T17:00:00.000+00:00",
+  //     profession:
+  //       selectedProfession === "other" ? otherProfession : selectedProfession,
+  //     noOfMember: totalPeople,
+  //   };
 
-    try {
-      const res = await axios({
-        method: "post",
-        url: `${apiURL.baseURL}/skyTrails/api/user/event/pefaBookFreeEvents`,
-        data: payload,
-        headers: {
-          "Content-Type": "application/json",
-          token: token,
-        },
-      });
-      // console.log(res, "data")
-      if (res.data.statusCode === 200) {
-        handleOpen();
-        setLoadingEvent(false);
-      }
-    } catch (error) {
-      setLoadingEvent(false);
-      console.error("Error submitting form:", error);
-    }
-    fetchData();
-  };
+  //   try {
+  //     const res = await axios({
+  //       method: "post",
+  //       url: `${apiURL.baseURL}/skyTrails/api/user/event/pefaBookFreeEvents`,
+  //       data: payload,
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         token: token,
+  //       },
+  //     });
+  //     // console.log(res, "data")
+  //     if (res.data.statusCode === 200) {
+  //       handleOpen();
+  //       setLoadingEvent(false);
+  //     }
+  //   } catch (error) {
+  //     setLoadingEvent(false);
+  //     console.error("Error submitting form:", error);
+  //   }
+  //   fetchData();
+  // };
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -168,11 +168,11 @@ const Events = () => {
     setIsLoginModalOpen(false);
   };
 
-  const handleTravelClickOpen = () => {
-    if (authenticUser !== 200) {
-      setIsLoginModalOpen(true);
-    }
-  };
+  // const handleTravelClickOpen = () => {
+  //   if (authenticUser !== 200) {
+  //     setIsLoginModalOpen(true);
+  //   }
+  // };
 
   useEffect(() => {
     if (authenticUser === 200) {
@@ -212,57 +212,57 @@ const Events = () => {
   return (
     <>
       <div className="mainimgEvent">
-      <Link to="https://www.youtube.com/watch?v=2WnttqZmUu0" target="_blank">
-        <ReactPlayer
-          url="https://www.youtube.com/watch?v=2WnttqZmUu0"
-          width="100%"
-          muted
-          playing={true}
-        />
+        <Link to="https://www.youtube.com/watch?v=2WnttqZmUu0" target="_blank">
+          <ReactPlayer
+            url="https://www.youtube.com/watch?v=2WnttqZmUu0"
+            width="100%"
+            muted
+            playing={true}
+          />
         </Link>
       </div>
 
       {/* /////////////////////////////////////videos////////////////////////// */}
       <div className="container mt-4">
-      <div className="row">
-        {/* First Row */}
-        <div className="col-lg-4 col-md-6 mb-4">
-          {/* Content for the first column */}
-          <Link to="https://www.youtube.com/watch?v=O4PmcP9ecE4" target="_blank">
-            <ReactPlayer
-              url="https://www.youtube.com/watch?v=O4PmcP9ecE4"
-              width="100%"
-              playing={true}
-              muted
-            />
-          </Link>
-        </div>
+        <div className="row">
+          {/* First Row */}
+          <div className="col-lg-4 col-md-6 mb-4">
+            {/* Content for the first column */}
+            <Link to="https://www.youtube.com/watch?v=O4PmcP9ecE4" target="_blank">
+              <ReactPlayer
+                url="https://www.youtube.com/watch?v=O4PmcP9ecE4"
+                width="100%"
+                playing={true}
+                muted
+              />
+            </Link>
+          </div>
 
-        <div className="col-lg-4 col-md-6 mb-4">
-          {/* Content for the second column */}
-          <Link to="https://www.youtube.com/watch?v=BHdIQy00_p4" target="_blank">
-            <ReactPlayer
-              url="https://www.youtube.com/watch?v=BHdIQy00_p4"
-              width="100%"
-              playing={true}
-              muted
-            />
-          </Link>
-        </div>
+          <div className="col-lg-4 col-md-6 mb-4">
+            {/* Content for the second column */}
+            <Link to="https://www.youtube.com/watch?v=BHdIQy00_p4" target="_blank">
+              <ReactPlayer
+                url="https://www.youtube.com/watch?v=BHdIQy00_p4"
+                width="100%"
+                playing={true}
+                muted
+              />
+            </Link>
+          </div>
 
-        <div className="col-lg-4 col-md-6 mb-4">
-          {/* Content for the third column */}
-          <Link to="https://www.youtube.com/watch?v=XYwP-QndGG0" target="_blank">
-            <ReactPlayer
-              url="https://www.youtube.com/watch?v=XYwP-QndGG0"
-              playing={true}
-              muted
-              width="100%"
-            />
-          </Link>
+          <div className="col-lg-4 col-md-6 mb-4">
+            {/* Content for the third column */}
+            <Link to="https://www.youtube.com/watch?v=XYwP-QndGG0" target="_blank">
+              <ReactPlayer
+                url="https://www.youtube.com/watch?v=XYwP-QndGG0"
+                playing={true}
+                muted
+                width="100%"
+              />
+            </Link>
+          </div>
         </div>
       </div>
-    </div>
 
       <section class="download-section-mobil mb-5 mt-5">
         <div class="opacityPackdownload"></div>

@@ -23,9 +23,9 @@ const PaylaterDetails = () => {
     const [tosearchTerm, settoSearchTerm] = useState('');
     const [searchResultsFrom, setSearchResultsFrom] = useState([]);
     const [searchResultsTo, setSearchResultsTo] = useState([]);
-    const publishedFare = sessionStorage.getItem("amountPayLater");
+    // const publishedFare = sessionStorage.getItem("amountPayLater");
     const authenticUser = reducerState?.logIn?.loginData?.status;
-    console.log(reducerState, "reducer state")
+    // console.log(reducerState, "reducer state")
     const initialSelectedFromData = {
         AirportCode: "DEL",
         CityCode: "DEL",
@@ -108,7 +108,7 @@ const PaylaterDetails = () => {
     const today = dayjs().format(dateFormat);
     const [newDepartDate, setNewDepartDate] = useState(today);
 
-    console.log(newDepartDate, "new departure date")
+    // console.log(newDepartDate, "new departure date")
 
     const handleRangeChange = (date) => {
         if (date) {
@@ -240,12 +240,6 @@ const PaylaterDetails = () => {
     const handleToInputChange = (newValue) => {
         settoSearchTerm(newValue);
     };
-
-
-    // console.log(searchResults)
-
-
-    // console.log(toSelectedOption, "to selected option")
 
 
     return (
