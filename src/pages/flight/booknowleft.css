@@ -82,6 +82,13 @@ p {
     align-items: center;
 
 }
+.totCOmmFlightDiv{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+}
 
 .totCOmmFlight>div span {
     font-size: 13px;

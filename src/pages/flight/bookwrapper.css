@@ -225,7 +225,19 @@
   font-weight: 700;
   line-height: normal;
 }
-
+.spanSearchTerminal {
+  color: #777;
+  margin-left: 8px;
+  text-align:left !important;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+.searchFlightFromTo{
+  height: 100% !important;
+}
 /* cancellation design  */
 
 .bookNowCancel {

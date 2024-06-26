@@ -30,6 +30,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { PassengersAction } from "../../Redux/Passengers/passenger";
 import BookNowLeft from "./BookNowLeft";
+import BookNowLeftAmd from "./BookNowLeftAmd";
 import PaymentLoader from "./FlightLoader/paymentLoader";
 import Flighterror from "./Flighterror";
 import axios from "axios";
@@ -70,7 +71,9 @@ const variants = {
 export default function BookWrapper() {
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
   const [transactionAmount, setTransactionAmount] = useState(null);
-
+  const location = useLocation();
+  const { ResultIndex } = location.state;
+  const sesstioResultIndex = ResultIndex;
 
 
   const notOnline = useNetworkState();
@@ -115,7 +118,7 @@ export default function BookWrapper() {
   };
 
   const dispatch = useDispatch();
-  const location = useLocation();
+
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
   const adultCount = queryParams.get("adult");
@@ -249,11 +252,12 @@ export default function BookWrapper() {
   );
 
   const fareValue = reducerState?.flightFare?.flightQuoteData?.Results;
-  const ResultIndex = sessionStorage.getItem("ResultIndex");
+  // const ResultIndex = sessionStorage.getItem("ResultIndex");
 
   const isPassportRequired =
     reducerState?.flightFare?.flightQuoteData?.Results
       ?.IsPassportRequiredAtTicket;
+
 
   const fareRule = reducerState?.flightFare?.flightRuleData?.FareRules;
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
@@ -261,8 +265,8 @@ export default function BookWrapper() {
   const payload = {
     EndUserIp: reducerState?.ip?.ipData,
     TokenId: reducerState?.ip?.tokenData,
-    TraceId: reducerState?.oneWay?.oneWayData?.data?.data?.Response?.TraceId,
-    ResultIndex: ResultIndex,
+    TraceId: reducerState?.oneWay?.oneWayData?.data?.tvoTraceId,
+    ResultIndex: ResultIndex?.ResultIndex,
   };
 
 
@@ -270,7 +274,7 @@ export default function BookWrapper() {
     dispatch(ruleAction(payload));
     dispatch(quoteAction(payload));
   }, []);
-
+console.log(reducerState,"reducerState")
   useEffect(() => {
     dispatch(resetFareData());
   }, [dispatch]);
@@ -281,8 +285,8 @@ export default function BookWrapper() {
         const payload = {
           EndUserIp: reducerState?.ip?.ipData,
           TokenId: reducerState?.ip?.tokenData,
-          TraceId: reducerState?.oneWay?.oneWayData?.data?.data?.Response?.TraceId,
-          ResultIndex: ResultIndex,
+          TraceId: reducerState?.oneWay?.oneWayData?.data?.tvoTraceId,
+          ResultIndex: ResultIndex?.ResultIndex,
         };
         const res = await axios({
           method: "POST",
@@ -474,10 +478,10 @@ export default function BookWrapper() {
   useEffect(() => {
     const fetchData = async () => {
       if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {
-        setLoaderPayment(false);
+        // setLoaderPayment(false);
         // SecureStorage.setItem("baggageData", baggageData)
         addBookingDetails()
-        navigate("/bookedTicket");
+        // navigate("/bookedTicket");
       }
       else if (
         reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
@@ -770,8 +774,8 @@ export default function BookWrapper() {
     setLoaderPayment1(true);
     // setIsDisableScroll(true);
     const payload = {
-      firstname: passengerData[0].FirstName,
-      phone: passengerData[0].ContactNo,
+      firstname: passengerData[0]?.FirstName,
+      phone: passengerData[0]?.ContactNo,
       amount:
         transactionAmount && (transactionAmount + baggageFare + mellFare) ||
         (!isDummyTicketBooking
@@ -788,7 +792,7 @@ export default function BookWrapper() {
           : 99),
       // amount: 1,
 
-      email: passengerData[0].Email,
+      email: passengerData[0]?.Email,
       productinfo: "ticket",
       bookingType: "FLIGHTS",
       surl: `${apiURL.baseURL}/skyTrails/successVerifyApi?merchantTransactionId=`,
@@ -886,7 +890,7 @@ export default function BookWrapper() {
 
   const handleButtonClick = () => {
     const payloadGDS = {
-      ResultIndex: ResultIndex,
+      ResultIndex: ResultIndex?.ResultIndex,
       Passengers: passengerData.map((item, index) => {
 
         if (index < baggageData.length && index < mellData.length) {
@@ -938,7 +942,7 @@ export default function BookWrapper() {
       }),
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
-      TraceId: reducerState?.oneWay?.oneWayData?.data?.data?.Response?.TraceId,
+      TraceId: reducerState?.oneWay?.oneWayData?.data?.tvoTraceId,
     };
 
     if (fareValue?.IsLCC == false) {
@@ -993,13 +997,13 @@ export default function BookWrapper() {
 
   const getTicketForLCC = () => {
     const payloadLcc = {
-      ResultIndex: ResultIndex,
+      ResultIndex: ResultIndex?.ResultIndex,
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
 
-      TraceId:
-        reducerState?.oneWay?.oneWayData?.data?.data?.Response?.TraceId ||
-        reducerState?.return?.returnData?.data?.data?.Response?.TraceId,
+    
+      TraceId: reducerState?.oneWay?.oneWayData?.data?.tvoTraceId ||
+        reducerState?.return?.returnData?.data?.data?.tvoTraceId,
       Passengers: passengerData.map((item, index) => {
 
         if (index < baggageData.length && index < mellData.length) {
@@ -1058,7 +1062,7 @@ export default function BookWrapper() {
     const payLoadDomestic = {
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
-      TraceId: reducerState?.oneWay?.oneWayData?.data?.data?.Response?.TraceId,
+      TraceId: reducerState?.oneWay?.oneWayData?.data?.tvoTraceId,
       PNR: reducerState?.flightBook?.flightBookDataGDS?.Response?.PNR,
       BookingId:
         reducerState?.flightBook?.flightBookDataGDS?.Response?.BookingId,
@@ -1066,7 +1070,7 @@ export default function BookWrapper() {
     const payLoadInternational = {
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
-      TraceId: reducerState?.oneWay?.oneWayData?.data?.data?.Response?.TraceId,
+      TraceId: reducerState?.oneWay?.oneWayData?.data?.tvoTraceId,
       PNR: reducerState?.flightBook?.flightBookDataGDS?.Response?.PNR,
       BookingId:
         reducerState?.flightBook?.flightBookDataGDS?.Response?.BookingId,
@@ -2651,7 +2655,7 @@ export default function BookWrapper() {
                       style={{ height: "50px", objectFit: "contain" }}
                     /> :
                     <img
-                      src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${TicketDetails?.Segments[0][0]?.Airline?.AirlineCode}.png`}
+                      src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${TicketDetails?.Segments[0][0]?.Airline?.AirlineCode}.png`} style={{ height: "50px", objectFit: "contain" }}
                     />}
                   {" "}
                   <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
@@ -2744,7 +2748,7 @@ export default function BookWrapper() {
                       style={{ height: "50px", objectFit: "contain" }}
                     /> :
                     <img
-                      src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${TicketDetails?.Segments[0][0]?.Airline?.AirlineCode}.png`}
+                      src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${TicketDetails?.Segments[0][0]?.Airline?.AirlineCode}.png`} style={{ height: "50px", objectFit: "contain" }}
                     />}
                   {" "}
                   <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>

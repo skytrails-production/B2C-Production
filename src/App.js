@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
 import Home from "./pages/home/Home";
 import BookWrapper from "./pages/flight/Bookwrapper";
+import BookwrapperAmd from "./pages/flight/BookwrapperAmd";
 import Searchresult from "./pages/flight/Searchresult";
 import "./App.css";
 import LoginForm from "./components/Login";
@@ -50,6 +51,7 @@ import HotelTicketGeneration from "./pages/Hotel/HotelTicketGeneration/HotelTick
 import RefundPolicy from "./layouts/RefundPolicy";
 import AboutUs from "./layouts/AboutUs";
 import BookedTicket from "./pages/flight/BookedTicket";
+import BookedTicketAmd from "./pages/flight/BookedTicketAmd";
 import Flighterror from "./pages/flight/Flighterror";
 import ContactUs from "./layouts/ContactUs";
 import BookingHistory from "./components/bookingHistory/BookingHistory";
@@ -294,10 +296,13 @@ function App() {
         <Route path="login" element={<LoginForm />}></Route>
         <Route path="signup" element={<SignUp />}></Route>
         <Route path="flighterror" element={<Flighterror />}></Route>
-        <Route path="Searchresult/booknow" element={<BookWrapper />}>
+        <Route path="Searchresult/booknow" exact element={<BookWrapper />}>
           {" "}
+          
         </Route>
-        <Route path="/Searchresult" element={<Searchresult />} />
+        <Route path="Searchresult/booknowAmd"  element={<BookwrapperAmd />} />
+
+        <Route path="/Searchresult" exact element={<Searchresult />} />
 
         <Route path="/payment" element={<Payment />} />
         <Route path="/download" element={<Download />} />
@@ -419,6 +424,10 @@ function App() {
         <Route path="aboutus" element={<AboutUs />}></Route>
         <Route path="contactus" element={<ContactUs />}></Route>
         <Route path="/bookedTicket" element={<BookedTicket />}></Route>
+        <Route
+          path="/bookedTicketSucess/:pnr"
+          element={<BookedTicketAmd />}
+        ></Route>
         <Route
           path="/bookedTicketWithReturn"
           element={<BookedTicketWithReturn />}

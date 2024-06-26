@@ -413,8 +413,13 @@ function Oneway() {
         },
       ],
       Sources: null,
+      to: selectedTo.AirportCode,
+      from: selectedFrom.AirportCode,
+      date: formData.get("departure"),
+      // px: activeIdAdult + activeIdChild + activeIdInfant,
+      px: activeIdAdult,
     };
-
+    console.log(payload, "payloaddddedddd")
     SecureStorage.setItem(
       "revisitOnewayData",
       JSON.stringify([
@@ -465,10 +470,10 @@ function Oneway() {
       ])
     );
 
-    navigate(
-      `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
-    );
-    dispatch(oneWayAction(payload));
+    // navigate(
+    //   `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
+    // );
+    // dispatch(oneWayAction(payload));
     // }
   }
 

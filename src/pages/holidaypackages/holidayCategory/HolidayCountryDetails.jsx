@@ -829,7 +829,12 @@ const HolidayCountryDetails = () => {
                                                                 <h4>Show More<ArrowForwardIosIcon /></h4>
                                                                 <div className="emiBOx" onClick={(e) => {
                                                                     e.stopPropagation()
-                                                                    sessionStorage.setItem("amountPayLater", item?.pakage_amount?.amount);
+                                                                    const payload = {
+                                                                        "amount": item?.pakage_amount?.amount,
+                                                                        "travelType": "Package"
+                                                                    }
+                                                                    const payloadString = JSON.stringify(payload);
+                                                                    sessionStorage.setItem("payLaterProps", payloadString);
                                                                     navigate("/payLaterDetails");
                                                                 }}>
                                                                     <span>Book Now At</span>

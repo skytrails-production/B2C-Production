@@ -5,8 +5,7 @@ import { apiURL } from '../Constants/constant';
 import { useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { tnplPlanGeneratorRequest } from '../Redux/TNPL/tnpl';
-import { DatePicker } from "antd";
-
+import { DatePicker, Button } from "antd";
 
 const PayLaterUsereCredential = () => {
 
@@ -149,7 +148,7 @@ const PayLaterUsereCredential = () => {
 
                     {/* <h3>{parsedResponse?.response_msg}</h3> */}
 
-                    <form class="row g-3 " onSubmit={onFormSubmit}>
+                    <form class="row g-3 ">
 
                         <div class="col-md-4  ">
                             <label for="inputPassword4" class="form-label">Enter PAN Number</label>
@@ -198,16 +197,20 @@ const PayLaterUsereCredential = () => {
                         }
 
 
-                        {
-                            loader ? <div class="col-4 offset-lg-4 loaderButtonPayLater" >
-                                <span className='loaderPaylater'></span>
-                            </div>
-                                :
-                                <div class="col-4 offset-lg-4 loaderButtonPayLater" >
-                                    <button type="submit" class="btn">Submit</button>
-                                </div>
 
-                        }
+                        <div class="col-4 offset-lg-4 " >
+                            {/* <button type="submit" class="btn">Submit</button> */}
+                            {/* <Button type='submit' className="returnButton" style={{ padding: "8px 36px", height: "unset" }} loading={loader}>Search</Button> */}
+                            <Button
+                                className="multiFormButton"
+                                onClick={onFormSubmit}
+                                loading={loader}
+                            >
+                                Submit
+                            </Button>
+                        </div>
+
+
                     </form>
                 </div>
             </div>

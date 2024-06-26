@@ -1,5 +1,7 @@
 import { combineReducers } from "redux";
 import { oneWayReducer } from "./FlightSearch/oneWayReducer";
+import { searchFlightReducer } from "./SearchFlight/searchFlightReducer";
+import { flightListReducer } from "./FlightList/fighListtReducer";
 import { ipReducer } from "./IP/ipReducer";
 import { flightFareReducer } from "./FlightFareQuoteRule/flightFareReducer";
 import { flightBookReducer } from "./FlightBook/flightBookReducer";
@@ -40,6 +42,8 @@ const appReducer = combineReducers({
   markup: markUpDataReducer,
   passengers: passengersReducer,
   TNPL: tnplReducer,
+  searchFlight:searchFlightReducer,
+  flightList:flightListReducer
 
 });
 

@@ -7,6 +7,8 @@ import axios from "axios";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import "react-datepicker/dist/react-datepicker.css";
 import { oneWayAction, resetOneWay } from "../Redux/FlightSearch/oneWay";
+import { searchFlightList, clearFlightList } from "../Redux/FlightList/actionFlightList";
+import { searchFlight, clearSearch } from "../Redux/SearchFlight/actionSearchFlight";
 import { useNavigate } from "react-router-dom";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
@@ -25,8 +27,9 @@ import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote
 import { returnActionClear } from "../Redux/FlightSearch/Return/return";
 
 import { Select } from "antd";
-import { DatePicker, Space, Button } from "antd";
+import { DatePicker, Button } from "antd";
 import dayjs from "dayjs";
+
 // const { RangePicker } = DatePicker;
 
 
@@ -331,6 +334,9 @@ function OnewayNew() {
         dispatch(clearbookTicketGDS());
         dispatch(resetAllFareData());
         dispatch(returnActionClear());
+        dispatch(clearSearch());
+        dispatch(resetOneWay());
+        
     }, []);
 
     const handleFromSelect = (item) => {
@@ -344,12 +350,15 @@ function OnewayNew() {
     const dateFormat = "DD MMM, YY";
     const today = dayjs().format(dateFormat);
     const [newDepartDate, setNewDepartDate] = useState(today);
+    const [newDepartDateCld, setNewDepartDateCld] = useState("");
 
-    console.log(newDepartDate, "new departure date")
+    // console.log(newDepartDate, "new departure date")
 
     const handleRangeChange = (date) => {
+
         if (date) {
             setNewDepartDate(dayjs(date).format(dateFormat));
+            setNewDepartDateCld(date)
         } else {
             console.log("Selection cleared");
         }
@@ -452,7 +461,13 @@ function OnewayNew() {
                 },
             ],
             Sources: null,
+            to: selectedTo.AirportCode,
+            from: selectedFrom.AirportCode,
+            date: newDepartDate,
+            // px: activeIdAdult + activeIdChild + activeIdInfant,
+            px: activeIdAdult,
         };
+ 
 
         // SecureStorage.setItem(
         //     "revisitOnewayData",
@@ -493,6 +508,7 @@ function OnewayNew() {
                     FlightCabinClass: activeIdClass,
                     PreferredDepartureTime: newDepartDate,
                     PreferredArrivalTime: newDepartDate,
+                    PreferredArrivalTimeCld: newDepartDateCld,
                     selectedFrom,
                     selectedTo,
                     totalCount,
@@ -503,11 +519,27 @@ function OnewayNew() {
                 },
             ])
         );
+        const parsedDate = new Date(newDepartDate);
 
+        // Convert to ISO 8601 format with UTC
+        const formattedDate = parsedDate.toISOString();
+        // console.log(formattedDate,"formattedDate")
+        dispatch(oneWayAction(payload));
+        const flightList =async () => {
+            const res= await axios.get(`${apiURL.baseURL}/skyTrails/airline`);
+            dispatch(searchFlightList(res?.data?.data))
+            return
+          };
+          flightList()
+        const searchpy = {
+            from: { ...selectedFrom },
+            to: { ...selectedTo },
+            departureDate: formattedDate,
+        };
+        dispatch(searchFlight(searchpy));
         navigate(
             `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
         );
-        dispatch(oneWayAction(payload));
         // }
     }
 

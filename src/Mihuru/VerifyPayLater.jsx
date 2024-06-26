@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { apiURL } from '../Constants/constant';
 import { useNavigate } from 'react-router-dom';
 import { submitOtpRequests } from '../Redux/TNPL/tnpl';
+import { Button } from "antd";
+
 
 const VerifyPayLater = () => {
 
@@ -113,16 +115,18 @@ const VerifyPayLater = () => {
                         </div>
 
 
-                        {
-                            loader ? <div class="col-4 offset-lg-4 loaderButtonPayLater" >
-                                <span className='loaderPaylater'></span>
-                            </div>
-                                :
-                                <div class="col-4 offset-lg-4 loaderButtonPayLater" >
-                                    <button className='w-100' type="submit" class="btn">Submit</button>
-                                </div>
 
-                        }
+                        <div class="col-4 offset-lg-4 loaderButtonPayLater" >
+                            <Button
+                                className="multiFormButton"
+                                onClick={onFormSubmit}
+                                loading={loader}
+                            >
+                                Submit
+                            </Button>
+                        </div>
+
+
                     </form>
                 </div>
             </div>

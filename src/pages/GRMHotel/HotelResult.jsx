@@ -269,7 +269,10 @@ export default function HotelResult() {
                         <div className="HotelResultSearchBarBox">
                             <div className="hotelResSurBox">
                                 <h3>Best Hotels for you in {grmhotel?.[0]?.cityName}</h3>
-                                <p>Showing {result?.length} Results in {grmhotel?.[0]?.cityName}</p>
+                                {
+                                    result?.length > 0 &&
+                                    <p>Showing {result?.length} Results in {grmhotel?.[0]?.cityName}</p>
+                                }
                             </div>
                             <div className="searchBarHotelFOrm">
                                 <input
@@ -543,7 +546,7 @@ export default function HotelResult() {
                                                 ?.map((result, index) => {
                                                     // const resultIndex = result?.ResultIndex;
 
-                                                    console.log(result, "result");
+                                                    // console.log(result, "result");
                                                     const hotelCode = result?.hotel_code;
                                                     return (
                                                         <div className="col-lg-12" >
@@ -691,6 +694,28 @@ export default function HotelResult() {
                                                                         <span>Offer Price</span>
                                                                         <p>₹{result?.min_rate?.price}</p>
                                                                         <h4>Show More<ArrowForwardIosIcon /></h4>
+                                                                        <div className="emiBOx" onClick={(e) => {
+                                                                            e.stopPropagation()
+                                                                            const payload = {
+                                                                                "amount": result?.min_rate?.price,
+                                                                                "travelType": "Hotel"
+                                                                            }
+                                                                            const payloadString = JSON.stringify(payload);
+                                                                            sessionStorage.setItem("payLaterProps", payloadString);
+                                                                            navigate("/payLaterDetails");
+                                                                        }}>
+                                                                            <span>Book Now At</span>
+                                                                            <p style={{ fontSize: "12px" }}>
+                                                                                {
+                                                                                    (result?.min_rate?.price).toFixed(0) <= 5000
+                                                                                        ? (result?.min_rate?.price / 3).toFixed(0)
+                                                                                        : (result?.min_rate?.price <= 50000
+                                                                                            ? (result?.min_rate?.price / 6).toFixed(0)
+                                                                                            : (result?.min_rate?.price / 12).toFixed(0))
+                                                                                }/Month →
+                                                                            </p>
+
+                                                                        </div>
                                                                     </div>
                                                                 </div>
                                                             </div>

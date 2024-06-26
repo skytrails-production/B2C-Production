@@ -11,6 +11,9 @@ function api() {
   const markUp = () => {
     return axios.get(`${apiURL.baseURL}/skyTrails/api/admin/getMarkup`);
   };
+  const flightList = () => {
+    return axios.get(`${apiURL.baseURL}/skyTrails/airline`);
+  };
 
   const userB2BToken = (payload) => {
     return axios({
@@ -64,7 +67,9 @@ function api() {
   const oneWaySearch = (payload) => {
     return axios({
       method: "POST",
-      url: "/skyTrails/flight/search/oneway",
+      url: "/skytrails/api/combined/combineTVOAMADEUSPriceSort",
+      
+
       baseURL: `${apiURL.baseURL}`,
       data: payload,
       headers: {
@@ -72,6 +77,21 @@ function api() {
       },
     });
   };
+  const flightBookingDB = (payload) => {
+    const token = SecureStorage?.getItem("jwtToken");
+  return axios({
+    method: "POST",
+    url: "/skyTrails/api/amadeus/user/flightBooking",
+
+    // url: "/skyTrails/flight/search/oneway",
+    baseURL:`${apiURL.baseURL}`,
+    data: payload,
+    headers: {
+      "Content-Type": "application/json",
+      token: token,
+    },
+  });
+};
 
   const flightQuoteSearch = (payload) => {
     return axios({
@@ -567,6 +587,8 @@ function api() {
     tnplUserData,
     tnplOTPVerified,
     tnplPlanGenerator,
+    flightBookingDB,
+    flightList
   };
 }
 

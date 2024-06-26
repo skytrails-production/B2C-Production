@@ -29,7 +29,7 @@ export function validateEmail(email) {
 // }
 export function validateName(name) {
   // Trim leading and trailing whitespaces
-  const trimmedName = name.trim();
+  const trimmedName = name?.trim();
 
   // Check if the name is not empty after trimming
   if (!trimmedName) {

@@ -12,6 +12,7 @@ import Login from "../components/Login";
 import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { DatePicker } from "antd";
+import { Button } from "antd";
 
 const PaylaterDetails = () => {
 
@@ -24,6 +25,7 @@ const PaylaterDetails = () => {
     const [searchResultsFrom, setSearchResultsFrom] = useState([]);
     const [searchResultsTo, setSearchResultsTo] = useState([]);
     // const publishedFare = sessionStorage.getItem("amountPayLater");
+    const storedPayload = JSON.parse(sessionStorage.getItem("payLaterProps"));
     const authenticUser = reducerState?.logIn?.loginData?.status;
     // console.log(reducerState, "reducer state")
     const initialSelectedFromData = {
@@ -167,6 +169,7 @@ const PaylaterDetails = () => {
             destination: toSelectedOption?.CityCode || toSelectedOption?.value,
             travelCost: Number(formData?.cost),
             partnerTransactionId: reducerState?.logIn?.loginData?.data?.result?._id,
+            travelType: storedPayload?.travelType,
         }
 
         try {
@@ -342,16 +345,18 @@ const PaylaterDetails = () => {
                     </div>
 
 
-                    {
-                        loader ? <div class="col-4 offset-lg-4 loaderButtonPayLater" >
-                            <span className='loaderPaylater'></span>
-                        </div>
-                            :
-                            <div class="col-4 offset-lg-4 loaderButtonPayLater" >
-                                <button className='w-100' type="submit" class="btn">Submit</button>
-                            </div>
 
-                    }
+                    <div class="col-4 offset-lg-4 loaderButtonPayLater" >
+                        <Button
+                            className="multiFormButton"
+                            onClick={onFormSubmit}
+                            loading={loader}
+                        >
+                            Submit
+                        </Button>
+                    </div>
+
+
                 </form>
             </div>
 
