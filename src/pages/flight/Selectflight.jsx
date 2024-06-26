@@ -2978,9 +2978,12 @@ function NewItems({
   const [totalTravalTime, setTotaltravalTime] = useState("");
 
   const [sesstioResultIndex, setSesstioResultIndex] = useState([]);
-  console.log(sesstioResultIndex, "sesstioResultIndex")
+  // console.log(sesstioResultIndex, "sesstioResultIndex")
   const reducerState = useSelector((state) => state);
   const [airlines, setAirlines] = useState(reducerState?.flightList?.flightDetails);
+  useEffect(()=>{
+    setAirlines(reducerState?.flightList?.flightDetails)
+  },[reducerState?.flightList?.flightDetails])
 
   const [viewDetailItem, setViewDetailItem] = useState([])
   useState(() => {
@@ -2998,7 +3001,7 @@ function NewItems({
   const infantCount = queryParams.get("infant");
   // console.log("newItemsssssssssss", results.result);
   const navigate = useNavigate();
-  console.log(results?.results, results?.result?.[0]?.Segments?.[0]?.[results?.result?.[0].Segments?.[0]?.length - 1], "resultttttttttttttttttttttttttt")
+  // console.log(results?.results, results?.result?.[0]?.Segments?.[0]?.[results?.result?.[0].Segments?.[0]?.length - 1], "resultttttttttttttttttttttttttt")
   const departurePlace =
     results?.result?.[0]?.Segments?.[0]?.[0]?.Origin?.Airport?.CityName;
   const arrivalPlace = results?.result?.[0] ?
@@ -3033,11 +3036,11 @@ function NewItems({
 
       // const departuretime = item?.segments?.[0][1]?.departureTime
       // console.log("item?.Segments",item?.Segments[0][0]);
-      const airlines =
-        item?.ValidatingAirline ||
-        item?.Segments?.[0]?.[0]?.Airline?.AirlineName ||
-        item?.flightDetails?.flightInformation?.companyId?.marketingCarrier ||
-        item?.flightDetails?.[0]?.flightInformation?.companyId?.marketingCarrier;
+      // const airlines =
+      //   item?.ValidatingAirline ||
+      //   item?.Segments?.[0]?.[0]?.Airline?.AirlineName ||
+      //   item?.flightDetails?.flightInformation?.companyId?.marketingCarrier ||
+      //   item?.flightDetails?.[0]?.flightInformation?.companyId?.marketingCarrier;
 
       // const departureTime = moment(
       //   item?.Segments?.[0][0]?.Origin?.DepTime,
@@ -3131,8 +3134,8 @@ function NewItems({
   const maxFormattedTime = convertMinutesToHoursAndMinutes(maxtime);
   const minFormattedTime = convertMinutesToHoursAndMinutes(mintime);
 
-  console.log("Minimum Time:", minFormattedTime);
-  console.log("Maximum Time:", maxFormattedTime);
+  // console.log("Minimum Time:", minFormattedTime);
+  // console.log("Maximum Time:", maxFormattedTime);
 
   // console.log("currentmin//////////////////",mintime,maxtime);
 
@@ -3141,7 +3144,7 @@ function NewItems({
 
 
 
-  console.log("timeduration", timeduration);
+  // console.log("timeduration", timeduration);
   const [layoverRangeValue, setLayoverRangeValue] = useState(maxFormattedTime + 10 || 24 );
   const handleLayoverRangeChange = (event) => {
     setLayoverRangeValue(event.target.value);
@@ -3305,9 +3308,14 @@ function NewItems({
   // /////////////////////////////////////////////
 
   function findAirlineByCode(code) {
-    const data = airlines?.find(airline => airline?.airlineCode === code)
-    console.log("aireline", data, code)
-    return data?.airlineName;
+    if(airlines){
+
+      const data = airlines?.find(airline => airline?.airlineCode === code)
+      // console.log("aireline", data, code)
+      return data?.airlineName;
+    }
+    return
+    
   }
   function dateConversion(startTimeParam, endTimeParam) {
     const startTime = moment(startTimeParam, "HHmm");

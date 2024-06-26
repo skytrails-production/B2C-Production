@@ -140,7 +140,7 @@ const BookNowLeftAmd = (props) => {
 
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
-  console.log("markUpamount", markUpamount);
+  // console.log("markUpamount", markUpamount);
 
   const integerValue = discountValue;
   const coupondiscount = integerValue;

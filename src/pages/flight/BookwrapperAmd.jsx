@@ -100,7 +100,7 @@ export default function BookWrapper() {
   );
   // '1800' '0555'
   const arrTimeISOt = arrivalMomentt.toISOString();
-  console.log(arrTimeISOt, "arrTimeISOttttttttttttttttttttttttttttttt")
+  // console.log(arrTimeISOt, "arrTimeISOttttttttttttttttttttttttttttttt")
 
   let depTimeString = String(jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct?.product?.depTime);
   let depDateString = String(jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct?.product?.depDate);
@@ -1545,7 +1545,7 @@ export default function BookWrapper() {
   // }, [Razorpay]);
   const [airlines, setAirlines] = useState(reducerState?.flightList?.flightDetails);
   const grandTotal= parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0)
-  console.log( parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) ,"bhjsdgsdbfuydgbfuyfegbfuyfedyufbfedyfb")
+  // console.log( parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) ,"bhjsdgsdbfuydgbfuyfegbfuyfedyufbfedyfb")
   const handlePayment = async () => {
     const token = SecureStorage?.getItem("jwtToken");
     setLoaderPayment1(true);
