@@ -1,5 +1,5 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import Home from "./pages/home/Home";
 import BookWrapper from "./pages/flight/Bookwrapper";
 import BookwrapperAmd from "./pages/flight/BookwrapperAmd";
@@ -17,7 +17,7 @@ import Payment from "./pages/flight/Payment";
 // import Booking from "./pages/Return/Booking";
 // import CompleteBooking from "./pages/Return/CompleteBooking";
 // Forex
-import Forex from "./pages/forex/Forex";
+// import Forex from "./pages/forex/Forex";
 // Bus
 import Bus from "./pages/bus/Bus";
 import BusReviewBooking from "./pages/bus/busreviewbooking/BusReviewBooking";
@@ -56,7 +56,7 @@ import Flighterror from "./pages/flight/Flighterror";
 import ContactUs from "./layouts/ContactUs";
 import BookingHistory from "./components/bookingHistory/BookingHistory";
 import HolidayCategoryDetails from "./pages/holidaypackages/holidayCategory/HolidayCategoryDetails";
-import { debounce } from "lodash";
+// import { debounce } from "lodash";
 import { useLocation } from "react-router-dom";
 import InsideNavbar from "./UI/BigNavbar/InsideNavbar";
 
@@ -65,7 +65,7 @@ import BusETicket from "../src/components/BusETicket";
 import DummyPnrHome from "./components/DummyPnrHome";
 import HolidayCountryDetails from "./pages/holidaypackages/holidayCategory/HolidayCountryDetails";
 import Events from "./pages/Event/Events";
-import ReturnMain from "./pages/flight/ReturnFlight/ReturnMain";
+// import ReturnMain from "./pages/flight/ReturnFlight/ReturnMain";
 import ReturnResult from "./pages/flight/ReturnFlight/ReturnResult";
 import ReturnResultInternational from "./pages/flight/ReturnFlight/ReturnResultInternational";
 import ReturnPassenger from "./pages/flight/ReturnFlight/ReturnPassenger";
@@ -94,7 +94,7 @@ import HotelTicketDB from "./pages/GRMHotel/HotelTicketDB";
 import HotelBookRoomGRN from "./pages/GRMHotel/HotelBookRoomGRN";
 import { ipAction, tokenAction } from "./Redux/IP/actionIp";
 import BlogDetailsSingle from "./pages/home/BlogDetailsSingle";
-import PayLater from "./PayLater";
+// import PayLater from "./PayLater";
 import PaylaterDetails from "./Mihuru/PaylaterDetails";
 import VerifyPayLater from "./Mihuru/VerifyPayLater";
 
@@ -106,6 +106,9 @@ import RandomPaymentSuccess from "./RandomPaymentSuccess";
 import SkytailsTrendingPackages from "./components/SkytrailsTrendingPackage/SkytailsTrendingPackages";
 import AllBlogs from "./pages/home/AllBlogs";
 import MihuruPaymentSuccess from "./Mihuru/MihuruPaymentSuccess";
+import HotelResultMain from "./pages/GRMHotel/HotelResultMain";
+
+import "../src/pages/flight/selectflight.css"
 
 
 
@@ -312,7 +315,8 @@ function App() {
         {/* new grm hotel routes  */}
 
         <Route path="/st-hotel" element={<GrmHotelHome />}></Route>
-        <Route path="/st-hotel/hotelresult" element={<HotelResult />} />
+        {/* <Route path="/st-hotel/hotelresult" element={<HotelResult />} /> */}
+        <Route path="/st-hotel/hotelresult" element={<HotelResultMain />} />
         <Route
 
           path="/st-hotel/hotelresult/selectroom"

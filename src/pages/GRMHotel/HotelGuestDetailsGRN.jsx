@@ -654,7 +654,7 @@ const HotelGuestDetailsGRN = () => {
                                                                     )}
                                                                 </div>
 
-                                                                {roomIndex === 0 && adultIndex === 0 && hotelinfoGRN?.rate?.pan_required && (
+                                                                {roomIndex === 0 && adultIndex === 0 && (
                                                                     <>
                                                                         <div className="col-lg-3 col-md-3">
                                                                             <label htmlFor="floatingInput">Pan Number</label>
