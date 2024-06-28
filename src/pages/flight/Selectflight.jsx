@@ -2980,10 +2980,12 @@ function NewItems({
   const [sesstioResultIndex, setSesstioResultIndex] = useState([]);
   // console.log(sesstioResultIndex, "sesstioResultIndex")
   const reducerState = useSelector((state) => state);
-  const [airlines, setAirlines] = useState(reducerState?.flightList?.flightDetails);
-  useEffect(()=>{
+  const [airlines, setAirlines] = useState([]);
+  const [airports, setAirports] = useState([]);
+  useEffect(() => {
     setAirlines(reducerState?.flightList?.flightDetails)
-  },[reducerState?.flightList?.flightDetails])
+    setAirports(reducerState?.flightList?.aireportList)
+  }, [reducerState?.flightList?.flightDetails, reducerState?.flightList?.aireportList])
 
   const [viewDetailItem, setViewDetailItem] = useState([])
   useState(() => {
@@ -3145,14 +3147,14 @@ function NewItems({
 
 
   // console.log("timeduration", timeduration);
-  const [layoverRangeValue, setLayoverRangeValue] = useState(maxFormattedTime + 10 || 24 );
+  const [layoverRangeValue, setLayoverRangeValue] = useState(maxFormattedTime + 10 || 24);
   const handleLayoverRangeChange = (event) => {
     setLayoverRangeValue(event.target.value);
   };
 
   useEffect(() => {
     setTimeduration(maxtime);
-    setLayoverRangeValue(maxFormattedTime+1)
+    setLayoverRangeValue(maxFormattedTime + 1)
   }, [maxtime]);
   const handledurationValueChange = (event) => {
     const newValue = parseInt(event.target.value);
@@ -3306,16 +3308,37 @@ function NewItems({
   // console.log("filteredDatanew", selectedCategory, filteredDatanew?.length, selectedCategory, "selectedCategory");
 
   // /////////////////////////////////////////////
+  console.log(reducerState, "reducer  state")
 
   function findAirlineByCode(code) {
-    if(airlines){
+    // console.log(airlines)
+    if (airlines.length !== 0) {
 
       const data = airlines?.find(airline => airline?.airlineCode === code)
-      // console.log("aireline", data, code)
-      return data?.airlineName;
+      if (data?.airlineName) {
+
+        return data?.airlineName;
+      }
+      return
     }
     return
-    
+
+  }
+  function findAirportByCode(code) {
+    // console.log(airlines)
+    if (airports.length !== 0) {
+      const data = airports?.find(airport => airport?.AirportCode === code)
+
+
+      if (data?.AirportCode) {
+        return data?.name;
+
+
+      }
+      return
+    }
+    return
+
   }
   function dateConversion(startTimeParam, endTimeParam) {
     const startTime = moment(startTimeParam, "HHmm");
@@ -4660,9 +4683,10 @@ function NewItems({
                                   }
                                   <span className="spanSearchTerminal">
                                     {
-                                      // item?.Origin?.Airport
-                                      //   ?.AirportName
-                                      
+                                     findAirportByCode(sesstioResultIndex?.flightDetails
+                                      ?.flightInformation?.location[0]
+                                      ?.locationId)
+
                                     }
                                     {", "}
                                     Terminal-
@@ -4691,6 +4715,9 @@ function NewItems({
                                     {
                                       // item?.Destination?.Airport
                                       //   ?.AirportName
+                                      findAirportByCode(sesstioResultIndex?.flightDetails
+                                        ?.flightInformation?.location[1]
+                                        ?.locationId)
                                     }
                                     {", "}
                                     Terminal-
@@ -4896,8 +4923,10 @@ function NewItems({
                                           }
                                           <span className="spanSearchTerminal">
                                             {
-                                              // item?.Origin?.Airport
-                                              //   ?.AirportName
+                                              findAirportByCode(sesstioResultIndex?.flightDetails[
+                                                index
+                                              ]?.flightInformation?.location[0]
+                                                ?.locationId)
                                             }
                                             {", "}
                                             Terminal-
@@ -4926,8 +4955,10 @@ function NewItems({
                                           }{" "}
                                           <span className="spanSearchTerminal">
                                             {
-                                              // item?.Destination?.Airport
-                                              //   ?.AirportName
+                                              findAirportByCode(sesstioResultIndex?.flightDetails[
+                                                index
+                                              ]?.flightInformation?.location[1]
+                                                ?.locationId)
                                             }
                                             {", "}
                                             Terminal-

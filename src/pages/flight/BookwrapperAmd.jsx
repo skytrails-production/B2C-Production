@@ -331,7 +331,8 @@ export default function BookWrapper() {
           <travellerInformation>
               <traveller>
                   <surname>${passengerData[i]?.lastName}</surname>
-                  <quantity>${i + 1}</quantity>
+                 
+                  <quantity>${passengerData[i]?.PaxType === 1 ? adultCount : childCount}</quantity>
               </traveller>
               <passenger>
                   <firstName>${passengerData[i]?.firstName}</firstName>
@@ -363,7 +364,7 @@ export default function BookWrapper() {
           passengerData[Number(adultCount) + Number(childCount) + i]
             ?.lastName
           }</surname>
-                  <quantity>${i + 1}</quantity>
+                  <quantity>${infantCount}</quantity>
               </traveller>
               <passenger>
                   <firstName>${passengerData[Number(adultCount) + Number(childCount) + i]
@@ -409,7 +410,7 @@ export default function BookWrapper() {
                     <subjectQualifier>3</subjectQualifier>
                     <type>P02</type>
                 </freetextDetail>
-                <longFreetext>${passengerData[0]?.Email}</longFreetext>
+                <longFreetext>${passengerData[0]?.email}</longFreetext>
             </freetextData>
             <referenceForDataElement>
                 <reference>
@@ -626,30 +627,6 @@ export default function BookWrapper() {
       }</longFreetext>
             </freetextData>
         </dataElementsIndiv>
-        <dataElementsIndiv>
-                    <elementManagementData>
-                        <segmentName>SSR</segmentName>
-                    </elementManagementData>
-                    <serviceRequest>
-                        <ssr>
-                            <type>DOCS</type>
-                            <status>HK</status>
-                            <quantity>1</quantity>
-                             <companyId>${sesstioResultIndex?.flightDetails?.flightInformation
-        ?.companyId?.marketingCarrier ||
-      sesstioResultIndex?.flightDetails[0]?.flightInformation
-        ?.companyId?.marketingCarrier
-      }</companyId>
-                            <freetext>----13Jul81-M--vivek-kumar</freetext>
-                        </ssr>
-                    </serviceRequest>
-                    <referenceForDataElement>
-                        <reference>
-                            <qualifier>PR</qualifier>
-                            <number>1</number>
-                        </reference>
-                    </referenceForDataElement>
-                </dataElementsIndiv>
        
     </dataElementsMaster>
 </PNR_AddMultiElements>`;
@@ -1291,7 +1268,7 @@ export default function BookWrapper() {
       const payload = {
 
         // refund_amount: 1,
-        refund_amount:parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0) ,
+        refund_amount: parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0),
 
         txnId: refundTxnId,
       };
@@ -1544,7 +1521,8 @@ export default function BookWrapper() {
   //   }
   // }, [Razorpay]);
   const [airlines, setAirlines] = useState(reducerState?.flightList?.flightDetails);
-  const grandTotal= parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0)
+  const [airports, setAireport] = useState(reducerState?.flightList?.aireportList);
+  const grandTotal = parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0)
   // console.log( parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) ,"bhjsdgsdbfuydgbfuyfegbfuyfedyufbfedyfb")
   const handlePayment = async () => {
     const token = SecureStorage?.getItem("jwtToken");
@@ -1555,7 +1533,7 @@ export default function BookWrapper() {
       phone: passengerData?.[0]?.ContactNo,
       amount:
         // transactionAmount ||
-      grandTotal ,
+        grandTotal,
       // amount: 1,
 
       email: passengerData[0]?.email,
@@ -1658,6 +1636,11 @@ export default function BookWrapper() {
     const data = airlines?.find(airline => airline?.airlineCode === code)
 
     return data?.airlineName;
+  }
+  function findAirportByCode(code) {
+    const data = airports?.find(airport => airport?.AirportCode === code)
+
+    return data;
   }
   function convertDateFormatAmd(originalDate) {
     // Convert to Date object
@@ -1840,7 +1823,7 @@ export default function BookWrapper() {
       // pnr: "hjhh",
       bookingStatus: jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber ? "BOOKED" : "FAILED",
       totalAmount:
-      parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0),
+        parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0),
       origin: reducerState?.searchFlight?.flightDetails?.from?.name,
       destination: reducerState?.searchFlight?.flightDetails?.to?.name,
       airlineDetails: (jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.elementManagementItinerary) ? nonStop : jsonSavePnrData?.originDestinationDetails?.itineraryInfo.map((stopss, index) => {
@@ -1858,8 +1841,8 @@ export default function BookWrapper() {
             AirportCode: stopss?.travelProduct?.boardpointDetail?.cityCode,
             // AirportName: reducerState?.searchReducer?.search?.[0]?.code,
             // CityName: reducerState?.searchReducer?.search?.[0]?.name,
-            AirportName: stopss?.travelProduct?.boardpointDetail?.cityCode,
-            CityName: stopss?.travelProduct?.boardpointDetail?.cityCode,
+            AirportName:findAirportByCode( stopss?.travelProduct?.boardpointDetail?.cityCode)?.code,
+            CityName:findAirportByCode( stopss?.travelProduct?.boardpointDetail?.cityCode)?.name,
             Terminal: stopss?.flightDetail?.arrivalStationInfo?.terminal,
             DepTime: depTimeISO,
           },
@@ -1867,8 +1850,8 @@ export default function BookWrapper() {
             AirportCode: stopss?.travelProduct?.offpointDetail?.cityCode,
             // AirportName: reducerState?.searchReducer?.search?.[1]?.code,
             // CityName: reducerState?.searchReducer?.search?.[1]?.name,
-            AirportName: stopss?.travelProduct?.offpointDetail?.cityCode,
-            CityName: stopss?.travelProduct?.offpointDetail?.cityCode,
+            AirportName:findAirportByCode( stopss?.travelProduct?.offpointDetail?.cityCode)?.code,
+            CityName:findAirportByCode( stopss?.travelProduct?.offpointDetail?.cityCode)?.name,
             Terminal: stopss?.flightDetail?.departureInformation?.departTerminal,
             ArrTime: arrTimeISO,
           },
@@ -2370,8 +2353,9 @@ export default function BookWrapper() {
                                       }
                                       <span>
                                         {
-                                          // item?.Origin?.Airport
-                                          //   ?.AirportName
+                                          findAirportByCode(sesstioResultIndex?.flightDetails
+                                            ?.flightInformation?.location[0]
+                                            ?.locationId)?.name
                                         }
                                         {", "}
                                         Terminal-
@@ -2398,8 +2382,9 @@ export default function BookWrapper() {
                                       }{" "}
                                       <span>
                                         {
-                                          // item?.Destination?.Airport
-                                          //   ?.AirportName
+                                          findAirportByCode(sesstioResultIndex?.flightDetails
+                                            ?.flightInformation?.location[1]
+                                            ?.locationId)?.name
                                         }
                                         {", "}
                                         Terminal-
@@ -2555,13 +2540,15 @@ export default function BookWrapper() {
                                             {
                                               sesstioResultIndex?.flightDetails[
                                                 index
-                                              ]?.flightInformation?.location[0]
+                                              ]?.flightInformation?.location[1]
                                                 ?.locationId
                                             }
                                             <span>
                                               {
-                                                // item?.Origin?.Airport
-                                                //   ?.AirportName
+                                                findAirportByCode(sesstioResultIndex?.flightDetails[
+                                                  index
+                                                ]?.flightInformation?.location[1]
+                                                  ?.locationId)?.name
                                               }
                                               {", "}
                                               Terminal-
@@ -2592,6 +2579,10 @@ export default function BookWrapper() {
                                               {
                                                 // item?.Destination?.Airport
                                                 //   ?.AirportName
+                                                findAirportByCode(sesstioResultIndex?.flightDetails[
+                                                  index
+                                                ]?.flightInformation?.location[1]
+                                                  ?.locationId)?.name
                                               }
                                               {", "}
                                               Terminal-
@@ -3597,7 +3588,7 @@ export default function BookWrapper() {
                           className="bookWrapperButton"
                           type="submit"
                           onClick={() => handleTravelClickOpen()}
-                        // onClick={() => xmlpassengerData()}
+                          // onClick={() => xmlpassengerData()}
                         // onClick={() => handleTravelClickOpen()}
                         // onClick={() => skip()}
                         >

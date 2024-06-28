@@ -7,7 +7,7 @@ import axios from "axios";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import "react-datepicker/dist/react-datepicker.css";
 import { oneWayAction, resetOneWay } from "../Redux/FlightSearch/oneWay";
-import { searchFlightList, clearFlightList } from "../Redux/FlightList/actionFlightList";
+import { searchFlightList, clearFlightList, searchaAirportList, clearAirportList,searchaAirportListReq,searchFlightListReq } from "../Redux/FlightList/actionFlightList";
 import { searchFlight, clearSearch } from "../Redux/SearchFlight/actionSearchFlight";
 import { useNavigate } from "react-router-dom";
 import "react-date-range/dist/styles.css";
@@ -52,7 +52,6 @@ const initialSelectedFromData = {
     __v: 0,
     _id: "63d7db1a64266cbf450e07c1",
 };
-
 const fetchFromCity = (value, callback) => {
     if (FromTimeout) {
         clearTimeout(FromTimeout);
@@ -336,7 +335,7 @@ function OnewayNew() {
         dispatch(returnActionClear());
         dispatch(clearSearch());
         dispatch(resetOneWay());
-        
+
     }, []);
 
     const handleFromSelect = (item) => {
@@ -467,7 +466,7 @@ function OnewayNew() {
             // px: activeIdAdult + activeIdChild + activeIdInfant,
             px: activeIdAdult,
         };
- 
+
 
         // SecureStorage.setItem(
         //     "revisitOnewayData",
@@ -525,12 +524,10 @@ function OnewayNew() {
         const formattedDate = parsedDate.toISOString();
         // console.log(formattedDate,"formattedDate")
         dispatch(oneWayAction(payload));
-        const flightList =async () => {
-            const res= await axios.get(`${apiURL.baseURL}/skyTrails/airline`);
-            dispatch(searchFlightList(res?.data?.data))
-            return
-          };
-          flightList()
+        
+        dispatch(searchFlightListReq())
+        dispatch(searchaAirportListReq())
+        
         const searchpy = {
             from: { ...selectedFrom },
             to: { ...selectedTo },
@@ -542,7 +539,6 @@ function OnewayNew() {
         );
         // }
     }
-
 
 
 

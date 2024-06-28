@@ -19,6 +19,7 @@ import { watchMarkup } from "./Saga/markUpSaga";
 
 import { passengersWatcher } from "./Saga/passengersDetailSaga";
 import { hotelSearchWatcherGRN } from "./Saga/hotelSagaGRN";
+import { flightListWatcher} from "./Saga/flightlListSaga";
 import { tnplWatcher } from "./Saga/tnplSaga";
 
 
@@ -45,6 +46,7 @@ export function* rootSaga() {
     searchResultWatcher(),
     searchOneResultWatcher(),
     tnplWatcher(),
+    flightListWatcher(),
 
   ]);
 }

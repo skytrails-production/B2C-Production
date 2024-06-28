@@ -14,6 +14,9 @@ function api() {
   const flightList = () => {
     return axios.get(`${apiURL.baseURL}/skyTrails/airline`);
   };
+  const airportList = () => {
+    return axios.get(`${apiURL.baseURL}/skyTrails/searchCity`);
+  };
 
   const userB2BToken = (payload) => {
     return axios({
@@ -588,7 +591,7 @@ function api() {
     tnplOTPVerified,
     tnplPlanGenerator,
     flightBookingDB,
-    flightList
+    flightList,airportList
   };
 }
 
