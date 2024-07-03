@@ -28,6 +28,7 @@ import "./selectflight.css";
 import fromTo from "../../images/fromTo.png";
 import { FaArrowRight } from "react-icons/fa";
 import { useAnimation } from 'framer-motion';
+import FlightProgressBar from './FlightProgressBar';
 // import { useInView } from 'react-intersection-observer';
 const variants = {
   initial: {
@@ -1877,7 +1878,7 @@ function Items({
                               </p>
                               <button
                                 onClick={() => {
-                                  
+
                                   handleIndexId(results[0][item]?.ResultIndex);
                                 }}
                               >
@@ -2968,6 +2969,7 @@ function NewItems({
   selectedCategory,
   handleRadioChange,
 }) {
+  ;
   const [loader, setLoader] = useState(true);
 
   const [openModal, setOpenModal] = useState(false);
@@ -3599,6 +3601,33 @@ function NewItems({
     // Clean up the event listener on component unmount
     return () => window.removeEventListener('resize', handleResize);
   }, [window.innerWidth]);
+  useEffect(() => {
+    console.log(reducerState)
+  }, [])
+  const [resultsAvailable, setResultsAvailable] = useState(false);
+
+  // Simulate a search result coming in after 5 seconds
+  // useEffect(() => {
+  //   // const timer = setTimeout(() => {
+  //   //   setResultsAvailable(true);
+  //   // }, 5000);
+  //   // return () => clearTimeout(timer);
+  //   if(filteredDatanew){
+  //       setResultsAvailable(true);
+  //   }
+  // }, [load])
+  useEffect(() => {
+    let flightLoader
+    if (!loader) {
+       flightLoader= setTimeout(() => {
+        setResultsAvailable(false)
+      }, 300);
+    }
+    else{
+      setResultsAvailable(true)
+    }
+    return () => clearInterval(flightLoader);
+}, [loader])
 
 
 
@@ -3606,6 +3635,7 @@ function NewItems({
   return (
     <>
       <div className="d-flex flex-column flex-lg-row " style={{ margin: "40px", gap: "14px" }}>
+       {/* {loader && <FlightProgressBar  duration={10000} resultsAvailable={!loader} />} */}
         <div className="col col-lg-3">
           {!loader && filteredDatanew ? (
             <div className="container filterpart-1">
@@ -4192,8 +4222,8 @@ function NewItems({
                 let layoverHours = 0;
                 let layoverMinutes = 0;
                 let layoverDuration = 0;
-                
-                
+
+
                 if (nextFlight) {
                   // console.log(item?.Segments?.[0]?.[0]?.Origin?.DepTime, item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination
                   //   ?.ArrTime)

@@ -555,7 +555,7 @@ const MulticityForm = () => {
           <div className="col-lg-3">
             <div className="newReturnSingleBox">
               <div>
-                <span className="nrsb">To</span>
+                <span className="nrsb">From</span>
               </div>
               <ToSearchInput
                 placeholder="Search"

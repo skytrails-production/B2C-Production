@@ -26,7 +26,7 @@ const ScrollToTop = () => {
     return (
         <div>
             {isVisible && (
-                <div onClick={scrollToTop} className="scrollToTop" style={{ width: '45px', height: '45px', position: 'fixed', bottom: '20px', right: '80px', zIndex: '990' }}>
+                <div onClick={scrollToTop} className="scrollToTop d-none d-lg-block" style={{ width: '45px', height: '45px', position: 'fixed', bottom: '20px', right: '80px', zIndex: '990' }}>
                     <FaLongArrowAltUp />
                 </div>
             )}

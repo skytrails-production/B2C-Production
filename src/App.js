@@ -109,6 +109,7 @@ import MihuruPaymentSuccess from "./Mihuru/MihuruPaymentSuccess";
 import HotelResultMain from "./pages/GRMHotel/HotelResultMain";
 
 import "../src/pages/flight/selectflight.css"
+import SmallDevice from "./components/SmallDevicePopUp"
 
 
 
@@ -252,6 +253,7 @@ function App() {
         </div>
       )} */}
       <InsideNavbar />
+      <SmallDevice/>
 
       <Routes>
         <Route index element={<Home />}></Route>

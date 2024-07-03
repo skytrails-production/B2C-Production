@@ -2,8 +2,14 @@
 import Popularfilter from "./Popularfilter";
 import Oneway2 from '../../components/Oneway2';
 import { Helmet } from "react-helmet-async";
+import {  useState,useEffect} from "react";
+import FlightProgressBar from "./FlightProgressBar"
+import { useDispatch, useSelector } from "react-redux";
+import loader from "../../images/flights/flightloadingTry.gif"
 
 const Searchresult = () => {
+    const reducerState = useSelector((state) => state);
+   
 
     return (
         <>
@@ -21,6 +27,11 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
             <div className="UniComp_BG">
                 <div className=' mainimgFlightSearch custom-height-sm custom-height-lg'>
                     <Oneway2 />
+                    
+                        <div>
+
+                        {/* <img src={loader}></img> */}
+                        </div>
                 </div>
                 {/* <Searchsection className='main_box' /> */}
 
