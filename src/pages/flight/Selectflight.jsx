@@ -144,7 +144,7 @@ function Items({
     // navigate(
     //   `booknow?adult=${adultCount}&child=${childCount}&infant=${infantCount} `
     // );
-    console.log("hiiii", ResultIndex);
+    // console.log("hiiii", ResultIndex);
     window.open(
       `booknow?adult=${adultCount}&child=${childCount}&infant=${infantCount} `,
       "_blank"
@@ -235,7 +235,7 @@ function Items({
       const priceInRange =
         results[0][item]?.Fare?.PublishedFare <= priceRangeValue;
       // Apply AND logic for all selected categories
-      console.log("priceInRange", priceInRange);
+      // console.log("priceInRange", priceInRange);
       return categoryFilters.every((filter) => filter) && priceInRange;
     });
 
@@ -331,7 +331,7 @@ function Items({
             </span>
           </div>
           <motion.div
-            className="d-block d-sm-none col-lg-3 col-md-3 scrollDesignMobileFlight"
+            className=" col-lg-3 col-md-3 scrollDesignMobileFlight"
             animate={openFilter ? "open" : "closed"}
             variants={variants2}
           >
@@ -1869,7 +1869,7 @@ function Items({
                             </div>
 
                             <div className="singleFlightBoxSeven">
-                              <p>
+                              <p className="text-center">
                                 ₹{" "}
                                 {(results[0][
                                   item
@@ -1877,10 +1877,7 @@ function Items({
                               </p>
                               <button
                                 onClick={() => {
-                                  console.log(
-                                    results[0][item]?.ResultIndex,
-                                    "results[0][item]?.ResultIndex"
-                                  );
+                                  
                                   handleIndexId(results[0][item]?.ResultIndex);
                                 }}
                               >
@@ -3062,7 +3059,7 @@ function NewItems({
 
   const maxPrice = results?.result?.reduce((max, item) => {
     const priceFromPublishedFare =
-      item?.Fare?.PublishedFare || item?.TotalPublishFare || 0;
+      item?.Fare?.PublishedFare || item?.monetaryDetail?.[0]?.amount || 0;
     const currentMax = Math.max(max, priceFromPublishedFare);
 
     return currentMax;
@@ -3070,7 +3067,7 @@ function NewItems({
 
   const minPrice = results?.result?.reduce((min, item) => {
     const priceFromPublishedFare =
-      item?.Fare?.PublishedFare || item?.TotalPublishFare || 0;
+      item?.Fare?.PublishedFare || item?.monetaryDetail?.[0]?.amount || 0;
     // console.log(      item?.Fare?.PublishedFare ,item?.TotalPublishFare,"minPriceeeeeeeeeeeeeeeee")
     const currentMin = Math.min(min, priceFromPublishedFare);
 
@@ -3099,30 +3096,65 @@ function NewItems({
 
 
 
-  const minPriceeeeeeee = results?.result?.reduce((min, item) => {
-    const durationmin = item?.propFlightGrDetail?.flightProposal[1]?.ref;
-    const currentmin = Math.min(min, durationmin);
+  function getDifferenceInHoursTVO(startTime, endTime) {
+    const start = new Date(startTime);
+    const end = new Date(endTime);
 
-    // console.log(    durationmin,"durationminnnnnnnnnnnnnnnnn")
-    const currentMin = Math.min(min, Number(currentmin));
+    const differenceInMilliseconds = end - start;
+    const differenceInHours = differenceInMilliseconds / (1000 * 60 * 60);
 
-    return currentMin;
-  }, Infinity);
+    return differenceInHours;
+  }
+  function convertToHoursAMD(time) {
+    // Convert time to string and pad with leading zeros if necessary
+    const timeString = time.toString().padStart(4, '0');
+
+    // Extract hours and minutes
+    const hours = parseInt(timeString.substring(0, 2), 10);
+    const minutes = parseInt(timeString.substring(2), 10);
+
+    // Calculate total hours
+    const totalHours = hours + minutes / 60;
+    return totalHours;
+  }
+
+  // const time = '0115'; // Time represented as a string
+  // console.log(convertToHours(time));
+
+
+
+
+
   const maxtime = results?.result?.reduce((max, item) => {
-    const durationmax = item?.propFlightGrDetail?.flightProposal[1]?.ref;
-    const currentmax = Math.max(max, durationmax);
+    // const durationmax = convertToHoursAMD(item?.propFlightGrDetail?.flightProposal[1]?.ref);
+    const tvoDepTime = item?.Segments?.[0]?.[0]?.Origin?.DepTime
+    const tvoArrTime = item?.Segments?.[0]?.length === 1 ? item?.Segments?.[0]?.[0]?.Destination?.ArrTime : item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination?.ArrTime
+
+    // console.log()
+
+
+    const durationItemFormattedTime = tvoDepTime ? getDifferenceInHoursTVO(tvoDepTime, tvoArrTime) : convertToHoursAMD(item?.propFlightGrDetail?.flightProposal[1]?.ref)
+    // ||
+    //  convertMinutesToHoursAndMinutes(durationItem);
+    // console.log(durationItemFormattedTime,"tvoDepTimetvoDepTime")
+    // const durationmax =tvoDepTime?getDifferenceInHoursTVO(tvoDepTime,tvoArrTime):convertToHoursAMD( item?.propFlightGrDetail?.flightProposal[1]?.ref);
+    const currentmax = Math.max(max, durationItemFormattedTime);
+    // console.log(tvoDepTime,tvoArrTime,durationmax,durationItemFormattedTime,currentmax,"current maxxxxxxxxxxx")
     // console.log(    durationmax,"kkkkkkkk")
 
-    return currentmax;
+    return Math.ceil(currentmax);
   }, 0)
 
 
+
   const mintime = results?.result?.reduce((min, item) => {
-    const durationmin = item?.propFlightGrDetail?.flightProposal[1]?.ref;
+    const tvoDepTime = item?.Segments?.[0]?.[0]?.Origin?.DepTime
+    const tvoArrTime = item?.Segments?.[0]?.length === 1 ? item?.Segments?.[0]?.[0]?.Destination?.ArrTime : item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination?.ArrTime
+    const durationmin = tvoDepTime ? getDifferenceInHoursTVO(tvoDepTime, tvoArrTime) : convertToHoursAMD(item?.propFlightGrDetail?.flightProposal[1]?.ref);
     const currentmin = Math.min(min, durationmin);
     // console.log(    durationmin,"llllllllllllllllllllll")
 
-    return currentmin;
+    return Math.ceil(currentmin);
   }, Infinity);
 
 
@@ -3147,14 +3179,14 @@ function NewItems({
 
 
   // console.log("timeduration", timeduration);
-  const [layoverRangeValue, setLayoverRangeValue] = useState(maxFormattedTime + 10 || 24);
+  const [layoverRangeValue, setLayoverRangeValue] = useState(maxtime || 24);
   const handleLayoverRangeChange = (event) => {
     setLayoverRangeValue(event.target.value);
   };
-
+  // console.log(reducerState)
   useEffect(() => {
     setTimeduration(maxtime);
-    setLayoverRangeValue(maxFormattedTime + 1)
+    setLayoverRangeValue(maxtime + 1)
   }, [maxtime]);
   const handledurationValueChange = (event) => {
     const newValue = parseInt(event.target.value);
@@ -3190,6 +3222,15 @@ function NewItems({
     }
     return
   }
+  function convertTimeToHoursAndMinutesFlight(time) {
+    if (time) {
+
+      const hours = parseInt(time.slice(0, 2));
+      const minutes = parseInt(time.slice(2, 4));
+      return `${hours}h ${minutes}m`;
+    }
+    return
+  }
   function convertTimeToHoursAndMinutesAMDFilter(time) {
     if (time) {
 
@@ -3199,11 +3240,22 @@ function NewItems({
     }
     return
   }
+  // console.log(reducerState, "reduv")
+
   const filteredDatanew =
     results?.result &&
     results?.result.filter((item) => {
       const durationItem = item?.propFlightGrDetail?.flightProposal[1]?.ref
-      const durationItemFormattedTime = convertMinutesToHoursAndMinutes(durationItem);
+
+      const tvoDepTime = item?.Segments?.[0]?.[0]?.Origin?.DepTime
+      const tvoArrTime = item?.Segments?.[0]?.length === 1 ? item?.Segments?.[0]?.[0]?.Destination?.ArrTime : item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination?.ArrTime
+      const durationItemFormattedTime = tvoDepTime ? getDifferenceInHoursTVO(tvoDepTime, tvoArrTime) : convertToHoursAMD(item?.propFlightGrDetail?.flightProposal[1]?.ref)
+
+      // console.log()
+
+      // console.log(tvoDepTime,tvoArrTime,"tvoDepTimetvoDepTime")
+
+      // const durationItemFormattedTime = convertMinutesToHoursAndMinutes(durationItem);
       // let segmentLength = 0;
       // if (item?.Segments?.[0]?.length == 2 || item?.flightDetails) {
       //   segmentLength = 2;
@@ -3255,7 +3307,7 @@ function NewItems({
         item?.flightDetails?.flightInformation?.companyId?.marketingCarrier ||
         item?.flightDetails?.[0]?.flightInformation?.companyId?.marketingCarrier;
 
-      const totalamount = item?.Fare?.PublishedFare || item?.TotalPublishFare;
+      const totalamount = item?.Fare?.PublishedFare || item?.monetaryDetail?.[0]?.amount;
 
       const categoryFilters = selectedCategory.map((category) => {
         const [groupName, value] = category.split(":");
@@ -3299,7 +3351,8 @@ function NewItems({
             return false;
         }
       });
-      const priceInRange = totalamount && priceRangeValue ? totalamount <= priceRangeValue : true;
+      // console.log(totalamount,"totalAmount")
+      const priceInRange = totalamount && priceRangeValue ? Number(totalamount) <= priceRangeValue : true;
       const layoverTime = durationItemFormattedTime && layoverRangeValue ? durationItemFormattedTime <= layoverRangeValue : true;
 
       return categoryFilters.every((filter) => filter) && priceInRange && layoverTime;
@@ -3308,7 +3361,7 @@ function NewItems({
   // console.log("filteredDatanew", selectedCategory, filteredDatanew?.length, selectedCategory, "selectedCategory");
 
   // /////////////////////////////////////////////
-  console.log(reducerState, "reducer  state")
+  // console.log(reducerState, "reducer  state")
 
   function findAirlineByCode(code) {
     // console.log(airlines)
@@ -3531,17 +3584,34 @@ function NewItems({
       return null
     }
   }
+  // console.log(sesstioResultIndex, sesstioResultIndex?.Segments?.[0]?.[sesstioResultIndex?.Segments?.[0]?.length - 1]?.Destination?.ArrTime, "sesstioResultIndex")
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 600);
+  const [isFilterOpen, setIsFilterOpen] = useState(989 < window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => setIsFilterOpen(989 < window.innerWidth);
+    // console.log(window.innerWidth , window.innerWidth< 600)
+
+    // Add the resize event listener
+    window.addEventListener('resize', handleResize);
+    // console.log(window.innerWidth ,"window.innerWidth ")
+
+    // Clean up the event listener on component unmount
+    return () => window.removeEventListener('resize', handleResize);
+  }, [window.innerWidth]);
+
+
 
 
   return (
     <>
-      <div className="d-flex" style={{ margin: "40px", gap: "14px" }}>
-        <div className="col-3">
+      <div className="d-flex flex-column flex-lg-row " style={{ margin: "40px", gap: "14px" }}>
+        <div className="col col-lg-3">
           {!loader && filteredDatanew ? (
             <div className="container filterpart-1">
               <div className="filter-new-data">
                 <div className="filter-name">
-                  <div>
+                  <div onClick={() => setIsFilterOpen(pre => !pre)}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -3557,6 +3627,7 @@ function NewItems({
                   </div>
                   <div>Filter</div>
                 </div>
+
                 <div>
                   <label className="sidebar-label-container ps-0">
                     <input
@@ -3645,330 +3716,310 @@ function NewItems({
 
                     
                   </div> */}
+              {isFilterOpen && <>
 
-              <div
-                className="stop-filter-new"
-                style={{ width: "100%", gap: "17px" }}
-              >
-                <label
-                  htmlFor="stop-dropdown"
-                  className="select-filter-heading"
-                >
-                  Select Stop:
-                </label>
-                {/* <select
-                id="stop-dropdown"
-                // onChange={handleRadioChange}
-                className="stop-filter-select"
-              >
-                <option
-                  value="1"
-                  name="stop"
-                  onChange={handleRadioChange}
-                  selected={selectedCategory.includes("stop:1")}
-                >
-                
-                  Non Stop
-                </option>
-                <option
-                  value="2"
-                  name="stop"
-                  onChange={handleRadioChange}
-                  selected={selectedCategory.includes("stop:2")}
-                >
-                  One Stop
-                </option>
-              </select> */}
-                <div className="checkbox-options-new">
-                  <input
-                    type="checkbox"
-                    onChange={handleRadioChange}
-                    value="1"
-                    name="stop"
-                    checked={selectedCategory.includes("stop:1")}
-                  />
-                  nonstop
-                </div>
-                <div className="checkbox-options-new">
-                  <input
-                    type="checkbox"
-                    onChange={handleRadioChange}
-                    value="2"
-                    name="stop"
-                    checked={selectedCategory.includes("stop:2")}
-                  />
-                  onestop
-                </div>
-              </div>
-
-              <div className="w-100">
                 <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
+                  className="stop-filter-new"
+                  style={{ width: "100%", gap: "17px" }}
                 >
-                  <h2 className="select-filter-heading">By Price</h2>
-                  <span className="slider-value-new" id="tooltip">
-                    {" "}
-                    ₹{priceRangeValue}
-                  </span>
+                  <label
+                    htmlFor="stop-dropdown"
+                    className="select-filter-heading"
+                  >
+                    Select Stop:
+                  </label>
+
+                  <div className="checkbox-options-new">
+                    <input
+                      type="checkbox"
+                      onChange={handleRadioChange}
+                      value="1"
+                      name="stop"
+                      checked={selectedCategory.includes("stop:1")}
+                    />
+                    nonstop
+                  </div>
+                  <div className="checkbox-options-new">
+                    <input
+                      type="checkbox"
+                      onChange={handleRadioChange}
+                      value="2"
+                      name="stop"
+                      checked={selectedCategory.includes("stop:2")}
+                    />
+                    onestop
+                  </div>
                 </div>
 
-                <div className="position-relative">
-                  <input
-                    type="range"
-                    id="rangePriceRange"
-                    min={minPrice + 1}
-                    max={maxPrice + 1}
-                    step="5000"
-                    value={priceRangeValue}
+                <div className="w-100">
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <h2 className="select-filter-heading">By Price</h2>
+                    <span className="slider-value-new" id="tooltip">
+                      {" "}
+                      ₹{priceRangeValue}
+                    </span>
+                  </div>
 
-                    onChange={handlePriceRangeChange}
-                  />
-                  {/* {valueShow && ( */}
-                  {/* <span style={{ position: "absolute" }} id="tooltip">
+                  <div className="position-relative">
+                    <input
+                      type="range"
+                      id="rangePriceRange"
+                      min={minPrice + 1}
+                      max={maxPrice + 1}
+                      step="5000"
+                      value={priceRangeValue}
+
+                      onChange={handlePriceRangeChange}
+                    />
+                    {/* {valueShow && ( */}
+                    {/* <span style={{ position: "absolute" }} id="tooltip">
                 {" "}
                 ₹{priceRangeValue}
               </span> */}
-                  {/* )} */}
-                  <div
-                    className=""
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <span className="slider-value-new">
-                      ₹{""}
-                      {minPrice}
-                    </span>
-                    <span className="slider-value-new">
-                      ₹{""}
-                      {maxPrice}
-                    </span>
+                    {/* )} */}
+                    <div
+                      className=""
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span className="slider-value-new">
+                        ₹{""}
+                        {minPrice}
+                      </span>
+                      <span className="slider-value-new">
+                        ₹{""}
+                        {maxPrice}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="w-100">
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <h2 className="select-filter-heading">Layover</h2>
-                  <span className="slider-value-new" id="tooltip">
-                    {" "}
-                    {layoverRangeValue}{"h"}
-                  </span>
-                </div>
+                <div className="w-100">
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
+                    <h2 className="select-filter-heading">Layover</h2>
+                    <span className="slider-value-new" id="tooltip">
+                      {" "}
+                      {layoverRangeValue}{"h"}
+                    </span>
+                  </div>
 
-                <div className="position-relative">
-                  <input
-                    type="range"
-                    id="layover"
-                    min={minFormattedTime}
-                    max={maxFormattedTime}
-                    step="1"
-                    value={layoverRangeValue}
-                    onChange={handleLayoverRangeChange}
-                  />
-                  {/* {valueShow && ( */}
-                  {/* <span style={{ position: "absolute" }} id="tooltip">
+                  <div className="position-relative">
+                    <input
+                      type="range"
+                      id="layover"
+                      min={mintime}
+                      max={maxtime}
+                      step="1"
+                      value={layoverRangeValue}
+                      onChange={handleLayoverRangeChange}
+                    />
+                    {/* {valueShow && ( */}
+                    {/* <span style={{ position: "absolute" }} id="tooltip">
                 {" "}
                 ₹{priceRangeValue}
               </span> */}
-                  {/* )} */}
-                  <div
-                    className=""
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <span className="slider-value-new">
-                      {""}
-                      {minFormattedTime}{"h"}
-                    </span>
-                    <span className="slider-value-new">
-                      {""}
-                      {maxFormattedTime}{"h"}
-                    </span>
+                    {/* )} */}
+                    <div
+                      className=""
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <span className="slider-value-new">
+                        {""}
+                        {mintime}{"h"}
+                      </span>
+                      <span className="slider-value-new">
+                        {""}
+                        {maxtime}{"h"}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div>
-                <h2 className="select-filter-heading">
-                  Outbound Flight Times{" "}
-                  {results?.result?.Segments?.[0][0]?.Origin?.Airport
-                    ?.CityName || departurePlace}
-                </h2>
+                <div>
+                  <h2 className="select-filter-heading">
+                    Outbound Flight Times{" "}
+                    {results?.result?.Segments?.[0][0]?.Origin?.Airport
+                      ?.CityName || departurePlace}
+                  </h2>
 
-                <div className="filter-checkbox-timimg">
-                  <label className="checkbox-options-new ps-0">
-                    <input
-                      type="checkbox"
-                      onChange={handleRadioChange}
-                      value="before6AM"
-                      name="timeDepart"
-                      checked={selectedCategory.includes(
-                        "timeDepart:before6AM"
-                      )}
-                    />
-                    Before 6 AM
-                  </label>
+                  <div className="filter-checkbox-timimg col  flex-sm-row flex-lg-column">
+                    <label className="checkbox-options-new ps-0">
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="before6AM"
+                        name="timeDepart"
+                        checked={selectedCategory.includes(
+                          "timeDepart:before6AM"
+                        )}
+                      />
+                      Before 6 AM
+                    </label>
 
-                  <label className="checkbox-options-new ps-0">
-                    <input
-                      type="checkbox"
-                      onChange={handleRadioChange}
-                      value="6AMto12PM"
-                      name="timeDepart"
-                      checked={selectedCategory.includes(
-                        "timeDepart:6AMto12PM"
-                      )}
-                    />
-                    6 AM - 12 PM
-                  </label>
+                    <label className="checkbox-options-new ps-0">
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="6AMto12PM"
+                        name="timeDepart"
+                        checked={selectedCategory.includes(
+                          "timeDepart:6AMto12PM"
+                        )}
+                      />
+                      6 AM - 12 PM
+                    </label>
 
-                  <label className="checkbox-options-new ps-0">
-                    <input
-                      type="checkbox"
-                      onChange={handleRadioChange}
-                      value="12PMto6PM"
-                      name="timeDepart"
-                      checked={selectedCategory.includes(
-                        "timeDepart:12PMto6PM"
-                      )}
-                    />
-                    12 PM - 6 PM
-                  </label>
+                    <label className="checkbox-options-new ps-0">
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="12PMto6PM"
+                        name="timeDepart"
+                        checked={selectedCategory.includes(
+                          "timeDepart:12PMto6PM"
+                        )}
+                      />
+                      12 PM - 6 PM
+                    </label>
 
-                  <label className="checkbox-options-new ps-0">
-                    <input
-                      type="checkbox"
-                      onChange={handleRadioChange}
-                      value="after6PM"
-                      name="timeDepart"
-                      checked={selectedCategory.includes("timeDepart:after6PM")}
-                    />
-                    After 6 PM
-                  </label>
+                    <label className="checkbox-options-new ps-0">
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="after6PM"
+                        name="timeDepart"
+                        checked={selectedCategory.includes("timeDepart:after6PM")}
+                      />
+                      After 6 PM
+                    </label>
+                  </div>
                 </div>
-              </div>
 
-              <div>
-                <h2 className="select-filter-heading">
-                  Arrival at{" "}
-                  {results?.result?.Segments?.[0][
-                    results?.result?.Segments[0]?.length - 1
-                  ]?.Destination?.Airport?.CityName || arrivalPlace}
-                </h2>
-
+                <div>
+                  <h2 className="select-filter-heading">
+                    Arrival at{" "}
+                    {results?.result?.Segments?.[0][
+                      results?.result?.Segments[0]?.length - 1
+                    ]?.Destination?.Airport?.CityName || arrivalPlace}
+                  </h2>
 
 
-                <div className="filter-checkbox-timimg">
-                  <label className="checkbox-options-new ps-0">
-                    <input
-                      type="checkbox"
-                      onChange={handleRadioChange}
-                      value="ARRbefore6AM"
-                      name="timeArrival"
-                      checked={selectedCategory.includes(
-                        "timeArrival:ARRbefore6AM"
-                      )}
-                    />
-                    <div>
-                      <span>Before 6 AM</span>
-                    </div>
-                  </label>
 
-                  <label className="checkbox-options-new ps-0">
-                    <input
-                      type="checkbox"
-                      onChange={handleRadioChange}
-                      value="ARR6AMto12PM"
-                      name="timeArrival"
-                      checked={selectedCategory.includes(
-                        "timeArrival:ARR6AMto12PM"
-                      )}
-                    />
-                    <div>
-                      <span>6 AM - 12 PM</span>
-                    </div>
-                  </label>
-
-                  <label className="checkbox-options-new ps-0">
-                    <input
-                      type="checkbox"
-                      onChange={handleRadioChange}
-                      value="ARR12PMto6PM"
-                      name="timeArrival"
-                      checked={selectedCategory.includes(
-                        "timeArrival:ARR12PMto6PM"
-                      )}
-                    />
-                    <div>
-                      <span>12 PM - 6 PM</span>
-                    </div>
-                  </label>
-
-                  <label className="checkbox-options-new ps-0">
-                    <input
-                      type="checkbox"
-                      onChange={handleRadioChange}
-                      value="ARRafter6PM"
-                      name="timeArrival"
-                      checked={selectedCategory.includes(
-                        "timeArrival:ARRafter6PM"
-                      )}
-                    />
-                    <div>
-                      <span>After 6 PM</span>
-                    </div>
-                  </label>
-                </div>
-              </div>
-
-              <div>
-                <h2 className="select-filter-heading">Airlines</h2>
-                <div className="filter-checkbox-timimg">
-                  {[
-                    ...new Set(
-                      results?.result?.map(
-                        (item) =>
-                          `${item?.ValidatingAirline ||
-                          item?.flightDetails?.flightInformation?.companyId
-                            ?.marketingCarrier ||
-                          item?.flightDetails?.[0]?.flightInformation?.companyId
-                            ?.marketingCarrier
-                          }`
-                      )
-                    ),
-                  ].map((airline, index) => (
-                    <label key={index} className="checkbox-options-new  ps-0">
-                      <div className="svgBOx" style={{ gap: "12px" }}>
-                        <input
-                          type="checkbox"
-                          onChange={handleRadioChange}
-                          value={airline.split(",")[0]}
-                          name="flightname"
-                          checked={selectedCategory.includes(
-                            `flightname:${airline.split(",")[0]}`
-                          )}
-                        />
-                        <div>
-                          <span className="checkedSVG imgBoxFilter pe-2">
-                            <img
-                              src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${airline.split(
-                                ","
-                              )}.png`}
-                              alt="flight"
-                            />{" "}
-                          </span>
-                          {/* <span>{airline.split(",")[0]}</span> */}
-                        </div>
+                  <div className="filter-checkbox-timimg col  flex-sm-row flex-lg-column ">
+                    <label className="checkbox-options-new ps-0">
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="ARRbefore6AM"
+                        name="timeArrival"
+                        checked={selectedCategory.includes(
+                          "timeArrival:ARRbefore6AM"
+                        )}
+                      />
+                      <div>
+                        <span>Before 6 AM</span>
                       </div>
                     </label>
-                  ))}
+
+                    <label className="checkbox-options-new ps-0">
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="ARR6AMto12PM"
+                        name="timeArrival"
+                        checked={selectedCategory.includes(
+                          "timeArrival:ARR6AMto12PM"
+                        )}
+                      />
+                      <div>
+                        <span>6 AM - 12 PM</span>
+                      </div>
+                    </label>
+
+                    <label className="checkbox-options-new ps-0">
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="ARR12PMto6PM"
+                        name="timeArrival"
+                        checked={selectedCategory.includes(
+                          "timeArrival:ARR12PMto6PM"
+                        )}
+                      />
+                      <div>
+                        <span>12 PM - 6 PM</span>
+                      </div>
+                    </label>
+
+                    <label className="checkbox-options-new ps-0">
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="ARRafter6PM"
+                        name="timeArrival"
+                        checked={selectedCategory.includes(
+                          "timeArrival:ARRafter6PM"
+                        )}
+                      />
+                      <div>
+                        <span>After 6 PM</span>
+                      </div>
+                    </label>
+                  </div>
                 </div>
-              </div>
+
+                <div>
+                  <h2 className="select-filter-heading">Airlines</h2>
+                  <div className="filter-checkbox-timimg">
+                    {[
+                      ...new Set(
+                        results?.result?.map(
+                          (item) =>
+                            `${item?.ValidatingAirline ||
+                            item?.flightDetails?.flightInformation?.companyId
+                              ?.marketingCarrier ||
+                            item?.flightDetails?.[0]?.flightInformation?.companyId
+                              ?.marketingCarrier
+                            }`
+                        )
+                      ),
+                    ].map((airline, index) => (
+                      <label key={index} className="checkbox-options-new  ps-0 " >
+                        <div className="svgBOx" style={{ gap: "12px" }}>
+                          <input
+                            type="checkbox"
+                            onChange={handleRadioChange}
+                            value={airline.split(",")[0]}
+                            name="flightname"
+                            checked={selectedCategory.includes(
+                              `flightname:${airline.split(",")[0]}`
+                            )}
+                          />
+                          <div>
+                            <span className="checkedSVG imgBoxFilter pe-2">
+                              <img
+                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${airline.split(
+                                  ","
+                                )}.png`}
+                                alt="flight"
+                              />{" "}
+                            </span>
+                            <span>{findAirlineByCode(airline)}</span>
+                          </div>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              </>}
             </div>
           ) : (
             <div className="container filterpart-1">
@@ -4128,7 +4179,7 @@ function NewItems({
           )}
         </div>
 
-        <div className="col-9">
+        <div className="col  col-lg-9 ">
           {/* {filteredDatanew &&
             filteredDatanew.map((item) => { */}
           {/* <div>{filterdatalength}</div> */}
@@ -4136,9 +4187,38 @@ function NewItems({
 
             filterdatalength > 0 ?
               filteredDatanew.map((item, index) => {
+
+                const nextFlight = item?.Segments?.[0]
+                let layoverHours = 0;
+                let layoverMinutes = 0;
+                let layoverDuration = 0;
+                
+                
+                if (nextFlight) {
+                  // console.log(item?.Segments?.[0]?.[0]?.Origin?.DepTime, item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination
+                  //   ?.ArrTime)
+                  const arrivalTime = dayjs(
+                    item?.Segments?.[0]?.[0]?.Origin?.DepTime,
+
+
+                  );
+                  const departureTime = dayjs(
+                    item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination
+                      ?.ArrTime
+                  );
+                  layoverDuration = departureTime.diff(
+                    arrivalTime,
+                    "minutes"
+                  ); // Calculate difference in minutes
+                  layoverHours = Math.floor(
+                    layoverDuration / 60
+                  ); // Extract hours
+                  layoverMinutes = layoverDuration % 60;
+                }
+
                 return (
                   <div
-                    className="newdata-searchlist "
+                    className="newdata-searchlist flex-column flex-md-row"
                     style={{
                       justifyContent: "space-between",
                       alignItems: "center",
@@ -4167,8 +4247,8 @@ function NewItems({
                         }}
                       >
                         <p className="flight-name-new">
-                          {item.AirlineCode +
-                            item?.Segments?.[0][0]?.Airline.FlightNumber ||
+                          {item?.Segments?.[0]?.[0]?.Airline?.AirlineName ||
+
                             // item?.flightDetails?.flightInformation?.companyId
                             //   ?.marketingCarrier +
                             // item?.flightDetails?.flightInformation
@@ -4185,7 +4265,7 @@ function NewItems({
                                 ?.marketingCarrier)
                           }
                         </p>
-                        <p className="flight-number-new">
+                        <p className="flight-number-new text-center text-sm-start">
                           {item.AirlineCode +
                             item?.Segments?.[0][0]?.Airline.FlightNumber ||
                             item?.flightDetails?.flightInformation?.companyId
@@ -4201,10 +4281,11 @@ function NewItems({
                     </div>
 
                     <div
+                      className="flex-column flex-sm-row "
                       style={{
                         display: "flex",
                         justifyContent: "center",
-                        gap: "45px",
+                        gap: "15px"
                       }}
                     >
                       <div>
@@ -4213,7 +4294,7 @@ function NewItems({
                             departurePlace}
                         </p>
 
-                        <p className="flight-date-new">
+                        <p className="flight-date-new text-center">
                           {dayjs(
                             item?.Segments?.[0][0]?.Origin?.DepTime ||
                             moment(
@@ -4225,7 +4306,7 @@ function NewItems({
                             ).format("YYYY-MM-DD")
                           ).format("DD MMM, YY")}
                         </p>
-                        <p className="flight-date-new">
+                        <p className="flight-date-new text-center">
                           {/* {moment(
                           item?.Segments?.[0][0]?.Origin?.DepTime ||
                             item?.flightDetails?.flightInformation
@@ -4234,7 +4315,7 @@ function NewItems({
                               ?.productDateTime.timeOfDeparture,
                           "HHmm"
                         ).format("hh:mm A")}  */}
-                          <p className="flight-date-new">
+                          <p className="flight-date-new text-center">
                             {item?.Segments
                               ? moment(
                                 item?.Segments?.[0][0]?.Origin?.DepTime
@@ -4250,9 +4331,12 @@ function NewItems({
                           </p>
                         </p>
                       </div>
-                      <div>
+                      <div >
                         <div className="flight-time-new">
-                          {item?.Segments && item?.Segments[0].length > 1 ? (
+                          {/* { "item?.flightDetails?.[0]?.flightInformation?.productDateTime?.dateOfArrival"} */}
+                          {item?.Segments && item?.Segments[0] && `${layoverHours}h ${layoverMinutes}m`}
+
+                          {/* {item?.Segments && item?.Segments[0].length > 1 ? (
                             <h4>
                               {`${Math.floor(
                                 item?.Segments[0][0]?.Duration / 60
@@ -4271,9 +4355,9 @@ function NewItems({
                                 )}hr ${item?.Segments?.[0][0]?.Duration % 60}min`}
                               </h4>
                             )
-                          )}
+                          )} */}
 
-                          {item?.propFlightGrDetail &&
+                          {/* {item?.propFlightGrDetail &&
                             item?.flightDetails.length > 1
                             ? dateConversion(
                               item?.flightDetails[0]?.flightInformation
@@ -4294,7 +4378,10 @@ function NewItems({
                                 ?.productDateTime.timeOfDeparture,
                               item?.flightDetails?.flightInformation
                                 ?.productDateTime.timeOfArrival
-                            )}
+                            )} */}
+                          {item?.propFlightGrDetail && convertTimeToHoursAndMinutesFlight(item?.propFlightGrDetail?.flightProposal?.[1]?.ref)
+
+                          }
                         </div>
 
                         <div className="flex-center">
@@ -4315,18 +4402,19 @@ function NewItems({
                             />
                           </svg>
                         </div>
+                        <div className="text-center fs-6 fw-medium">{item?.Segments?.[0]?.length == 1 || item?.flightDetails?.flightInformation ? "non-stop" : `${item?.Segments?.[0]?.length - 1 || item?.flightDetails?.length - 1} stop's`}</div>
                       </div>
 
                       <div>
                         {" "}
                         <p
                           style={{ textAlign: "center" }}
-                          className="flight-date-new"
+                          className="flight-date-new text-center"
                         >
                           {item?.Segments?.[0][item?.Segments[0]?.length - 1]
                             ?.Destination?.Airport?.CityName || arrivalPlace}
                         </p>
-                        <p className="flight-date-new">
+                        <p className="flight-date-new text-center">
                           {dayjs(
                             item?.Segments?.[0][item?.Segments[0]?.length - 1]
                               ?.Destination?.ArrTime ||
@@ -4341,7 +4429,7 @@ function NewItems({
                             ).format("YYYY-MM-DD")
                           ).format("DD MMM, YY")}
                         </p>
-                        <p className="flight-date-new">
+                        <p className="flight-date-new text-center">
                           {item?.Segments
                             ? moment(
                               item?.Segments?.[0][item?.Segments[0]?.length - 1]
@@ -4371,7 +4459,7 @@ function NewItems({
                     </div>
 
                     <div>
-                      <p className="flight-date-new">
+                      <p className="flight-date-new text-center">
                         ₹
                         {Number(
 
@@ -4652,9 +4740,9 @@ function NewItems({
                               }
                             </p>
                           </div>
-                          <div className="bookbottomBox">
+                          <div className="bookbottomBox flex-column flex-md-row">
                             <div>
-                              <div className="bookBottomOne">
+                              <div className="bookBottomOne d-none d-sm-flex">
                                 <p>
                                   {convertTime(
                                     sesstioResultIndex?.flightDetails
@@ -4670,10 +4758,10 @@ function NewItems({
                                   )}
                                 </p>
                               </div>
-                              <div className="bookBottomTwo bookBottomTwo2">
-                                <img className="searchFlightFromTo" src={fromTo} alt="icon" />
+                              <div className="bookBottomTwo bookBottomTwo2 d-none d-sm-flex">
+                                <img className="searchFlightFromTo d-none d-sm-block" src={fromTo} alt="icon" />
                               </div>
-                              <div className="bookBottomThree">
+                              <div className="bookBottomThree gy-4 gy-sm-0">
                                 <p>
                                   {/* {item?.Origin?.Airport?.CityName}{" "} */}
                                   {
@@ -4683,9 +4771,9 @@ function NewItems({
                                   }
                                   <span className="spanSearchTerminal">
                                     {
-                                     findAirportByCode(sesstioResultIndex?.flightDetails
-                                      ?.flightInformation?.location[0]
-                                      ?.locationId)
+                                      findAirportByCode(sesstioResultIndex?.flightDetails
+                                        ?.flightInformation?.location[0]
+                                        ?.locationId)
 
                                     }
                                     {", "}
@@ -4735,7 +4823,7 @@ function NewItems({
                                 </p>
                               </div>
                             </div>
-                            <div className="bookBottomFour">
+                            <div className="bookBottomFour justify-content-between col-sm-12 col-md-auto">
                               <div>
                                 <p>Baggage</p>
                                 <span>ADULT</span>
@@ -4889,9 +4977,9 @@ function NewItems({
                                       }
                                     </p>
                                   </div>
-                                  <div className="bookbottomBox">
+                                  <div className="bookbottomBox flex-column flex-md-row">
                                     <div>
-                                      <div className="bookBottomOne">
+                                      <div className="bookBottomOne d-none d-sm-flex">
                                         <p>
                                           {convertTime(
                                             sesstioResultIndex?.flightDetails[
@@ -4909,10 +4997,10 @@ function NewItems({
                                           )}
                                         </p>
                                       </div>
-                                      <div className="bookBottomTwo bookBottomTwo2">
-                                        <img className="searchFlightFromTo" src={fromTo} alt="icon" />
+                                      <div className="bookBottomTwo bookBottomTwo2 d-none d-sm-flex">
+                                        <img className="searchFlightFromTo d-none d-sm-block" src={fromTo} alt="icon" />
                                       </div>
-                                      <div className="bookBottomThree">
+                                      <div className="bookBottomThree gy-4 gy-sm-0">
                                         <p>
                                           {/* {item?.Origin?.Airport?.CityName}{" "} */}
                                           {
@@ -4977,7 +5065,7 @@ function NewItems({
                                         </p>
                                       </div>
                                     </div>
-                                    <div className="bookBottomFour">
+                                    <div className="bookBottomFour justify-content-between col-sm-12 col-md-auto">
                                       <div>
                                         <p>Baggage</p>
                                         <span>ADULT</span>
@@ -5207,9 +5295,9 @@ function NewItems({
                                       {item?.Airline?.FlightNumber}
                                     </p>
                                   </div>
-                                  <div className="bookbottomBox">
+                                  <div className="bookbottomBox flex-column flex-md-row">
                                     <div>
-                                      <div className="bookBottomOne">
+                                      <div className="bookBottomOne d-none d-sm-flex">
                                         <p>
                                           {dayjs(item?.Origin?.DepTime).format(
                                             "h:mm A"
@@ -5221,10 +5309,10 @@ function NewItems({
                                           ).format("h:mm A")}
                                         </p>
                                       </div>
-                                      <div className="bookBottomTwo  bookBottomTwo2">
-                                        <img className="searchFlightFromTo" src={fromTo} alt="icon" />
+                                      <div className="bookBottomTwo  bookBottomTwo2 d-none d-sm-flex">
+                                        <img className="searchFlightFromTo d-none d-sm-block" src={fromTo} alt="icon" />
                                       </div>
-                                      <div className="bookBottomThree">
+                                      <div className="bookBottomThree gy-4 gy-sm-0">
                                         <p className="bookBottomThreeP">
                                           {item?.Origin?.Airport?.CityName}{" "}
                                           <span className="spanSearchTerminal">
@@ -5253,7 +5341,7 @@ function NewItems({
                                         </p>
                                       </div>
                                     </div>
-                                    <div className="bookBottomFour">
+                                    <div className="bookBottomFour justify-content-between col-sm-12 col-md-auto">
                                       <div>
                                         <p>Baggage</p>
                                         <span>ADULT</span>
@@ -5299,7 +5387,7 @@ function NewItems({
 
                 <div className="modalSelectFilghtFooter">
                   <div>
-                    <div style={{ fontSize: "24px", fontWeight: "700" }}>₹{sesstioResultIndex?.monetaryDetail?.[0]?.amount || sesstioResultIndex?.Fare?.BaseFare}</div>
+                    <div style={{ fontSize: "24px", fontWeight: "700" }}>₹{sesstioResultIndex?.monetaryDetail?.[0]?.amount || sesstioResultIndex?.TotalPublishFare}</div>
                     <div style={{ fontSize: "12px", fontWeight: "400" }}>FOR 1 ADULT</div>
 
                   </div>

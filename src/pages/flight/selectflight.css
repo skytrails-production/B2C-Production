@@ -96,11 +96,15 @@
 
 .flight-name-new {
   color: #071c2c;
-  text-align: center;
-  font-size: 18px;
+  /* text-align: center; */
+  font-size: 14px;
   font-style: normal;
   font-weight: 600;
   line-height: 160%; /* 28.8px */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* width: 100px; */
+  
 }
 .refund_text{
   font-size: 12px;
@@ -648,6 +652,40 @@ hr {
     background-position: 468px 0;
   }
 }
+.custom-height-sm {
+  height: 420px;
+  padding: 15px; /* Full height for small devices */
+}
+
+@media (min-width: 992px) {
+  /* Large devices (lg and up) */
+  .custom-height-lg {
+      height: 220px ; /* Fixed height for large devices */
+  }
+}
+@media (min-width: 768px) {
+  /* Large devices (lg and up) */
+  .flight-name-new {
+      width: 150px ; /* Fixed height for large devices */
+  }
+}
+@media (max-width: 600px) {
+  /* Large devices (lg and up) */
+  .mainimgFlightSearch {
+      height: 420px !important; /* Fixed height for large devices */
+  }
+  .bookBottomThree{
+    gap:10px
+  }
+  .bookbottomBox {
+    gap:10px
+  }
+  .bookBottomFour {
+    padding: 0 !important;
+    width: 100%;
+  }
+}
+
 
 
 

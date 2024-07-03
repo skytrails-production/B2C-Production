@@ -131,14 +131,16 @@ const FromSearchInput = (props) => {
     setFromDisplayValue(fromValue); // Reset display value to selected value
     setInputStyle({ caretColor: 'transparent' });
   };
-  const renderFromOption = (option) => (
+  const renderFromOption = (option) => {
+    // console.log(option,"optionnnnnnnnnn")
+    return(
     <div>
-      <div>
-        {option.name} ({option.cityCode})
+      <div >{option.code}</div>
+      <div style={{ color: "gray" }}>
+        {option.name} ({option?.item?.AirportCode})
       </div>
-      <div style={{ color: "gray" }}>{option.code}</div>
-    </div>
-  );
+    </div>)
+  };
 
   return (
     <Select
@@ -265,10 +267,10 @@ let initialSelectedToData = {
 
   const renderToOption = (option) => (
     <div>
-      <div>
-        {option.name} ({option.cityCode})
+      <div >{option.code}</div>
+      <div style={{ color: "gray" }}>
+        {option.name} ({option?.item?.AirportCode})
       </div>
-      <div style={{ color: "gray" }}>{option.code}</div>
     </div>
   );
 
@@ -573,7 +575,7 @@ function OnewayNew() {
     <>
       {/* <div className=" homeabsnew1" style={{ width: "100%" }}>
         <section className="HotelAbsDesignInner w-100"> */}
-      <div className="d-none d-sm-block container mt-2" >
+      <div className=" container mt-2" >
         <div className="row g-2 newReturnForm">
           <div className="col-lg-3">
             <div className="newReturnSingleBox">

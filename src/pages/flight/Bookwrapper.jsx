@@ -271,6 +271,7 @@ export default function BookWrapper() {
 
 
   useEffect(() => {
+    
     dispatch(ruleAction(payload));
     dispatch(quoteAction(payload));
   }, []);

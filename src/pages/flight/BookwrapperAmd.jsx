@@ -210,6 +210,7 @@ export default function BookWrapper() {
     convertXmlToJson();
   }, [xmlData]);
   useEffect(() => {
+    // console.log(jsonData,"jsondataaaaaaa")
     if (jsonData?.itineraryDetails?.segmentInformation?.actionDetails) {
       if (
         jsonData?.itineraryDetails?.segmentInformation?.actionDetails
@@ -222,14 +223,23 @@ export default function BookWrapper() {
           "No Class Available",
           false
         );
-        navigate("/Searchresult?adult=1&child=0&infant=0");
+    
+        navigate(`/Searchresult?adult=${adultCount}&child=${childCount}&infant=${infantCount}`);
       } else {
         setStatusOk(true);
       }
     } else {
       jsonData?.itineraryDetails?.segmentInformation?.map((i) => {
         if (i?.actionDetails?.statusCode !== "OK") {
+          // console.log(i,"statusCodestatusCode")
           setStatusOk(false);
+          swalModal(
+            "flight",
+            // reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
+            "No Class Available",
+            false
+          );
+          navigate(`/Searchresult?adult=${adultCount}&child=${childCount}&infant=${infantCount}`);
         }
       });
     }
@@ -1951,9 +1961,9 @@ export default function BookWrapper() {
 
     const response = await userApi.flightBookingDB(payload);
     if (response?.data?.statusCode === 200 && jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber) {
-      navigate(`/bookedTicketSucess/${jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber}`, {
-        state: { PNR: jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber },
-      });
+      // navigate(`/bookedTicketSucess/${jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber}`, {
+      //   state: { PNR: jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber },
+      // });
     }
   };
   // console.log(jsonSavePnrData, "jsonSavePNR")

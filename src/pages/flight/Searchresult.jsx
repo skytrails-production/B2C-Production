@@ -19,7 +19,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
             </Helmet>
 
             <div className="UniComp_BG">
-                <div className='mainimgFlightSearch'>
+                <div className=' mainimgFlightSearch custom-height-sm custom-height-lg'>
                     <Oneway2 />
                 </div>
                 {/* <Searchsection className='main_box' /> */}
