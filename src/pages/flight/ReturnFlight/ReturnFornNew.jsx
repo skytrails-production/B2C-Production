@@ -539,7 +539,7 @@ const ReturnFormNew = () => {
                     <div className="col-lg-3">
                         <div className="newReturnSingleBox">
                             <div>
-                                <span className="nrsb">From</span>
+                                <span className="nrsb">To</span>
                             </div>
                             <ToSearchInput
                                 placeholder="Search"

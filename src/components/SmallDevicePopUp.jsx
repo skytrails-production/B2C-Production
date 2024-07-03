@@ -30,7 +30,7 @@ const SmallDevicePopUp = () => {
                     <div className="text-center text-bold">Get app exclusive Offers</div>
                     <div onClick={()=>setShow(false)} style={{cursor:"pointer"}}>X</div>
                 </div>
-                <div className='smallContainerBody'>Download app and Grab Up to 30% Off on 1st Booking on Flights,Hotels,Holiday or more.</div>
+                <div className='smallContainerBody'>Download app and Grab Up to 20% Off on 1st Booking on Flights,Hotels,Holiday or more.</div>
                 <div className='"smallContainerBtn'>
                 <Button type="primary" onClick={handleInstall} >Install Now</Button>
                 </div>
