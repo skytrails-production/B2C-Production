@@ -13,6 +13,23 @@ const SmallDevicePopUp = () => {
      useEffect(() => {
         setShow(true)
      }, [pathname]);
+     function redirectToStore() {
+        // User Agent of the device
+        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+  
+        // Detect Android
+        if (/android/i.test(userAgent)) {
+          window.location.href = "https://play.google.com/store/apps/details?id=com.skytrails";
+        }
+        // Detect iOS
+        else if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+          window.location.href = "https://apps.apple.com/in/app/the-skytrails/id6475768819";
+        }
+        // Other devices
+        else {
+          console.log("This feature is only available on Android and iOS devices.");
+        }
+      }
 
 
      const handleInstall = ()=>{
@@ -32,7 +49,7 @@ const SmallDevicePopUp = () => {
                 </div>
                 <div className='smallContainerBody'>Download app and Grab Up to 20% Off on 1st Booking on Flights,Hotels,Holiday or more.</div>
                 <div className='"smallContainerBtn'>
-                <Button type="primary" onClick={handleInstall} >Install Now</Button>
+                <Button type="primary" onClick={redirectToStore} >Install Now</Button>
                 </div>
             </div>
         </div>}
