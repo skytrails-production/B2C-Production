@@ -12,6 +12,7 @@ const FlightProgressBar = ({ duration, resultsAvailable }) => {
         setProgress(100);
         return;
       }
+      
   
       const interval = 50;
       const increment = (interval / duration) * 100;
@@ -41,7 +42,7 @@ const FlightProgressBar = ({ duration, resultsAvailable }) => {
 
     return (
         <>
-            {progress < 100 &&
+            {
                 <div className="progress-container">
                     <div className="progress-bar" style={{ width: `${progress}%` }}>
                         <img style={{ height: "30px" }} src=

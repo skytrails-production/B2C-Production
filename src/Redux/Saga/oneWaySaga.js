@@ -1,6 +1,6 @@
 import {  takeLatest, call, put } from "redux-saga/effects";
 import userApi from "../API/api";
-import { fetchOneWay } from "../FlightSearch/oneWay";
+import { fetchOneWay ,fetchOneWayFailed} from "../FlightSearch/oneWay";
 import { ONE_WAY_REQUEST } from "../FlightSearch/oneWayActionType";
 
 function* oneWayRequest(action) {
@@ -8,7 +8,9 @@ function* oneWayRequest(action) {
     const data = yield call(userApi.oneWaySearch, action.payload);
     yield put(fetchOneWay(data));
   } catch (error) {
+    yield put(fetchOneWayFailed())
     console.log(error);
+
   }
 }
 

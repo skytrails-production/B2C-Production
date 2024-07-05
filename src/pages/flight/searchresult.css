@@ -144,10 +144,11 @@
   width: 100%;
   display: flex;
   justify-content: center;
+  margin: 15px;
 }
 
 .noResultContainer {
-  width: 500px;
+  max-width: 500px;
   background-color: #fff;
   display: flex;
   justify-content: center;

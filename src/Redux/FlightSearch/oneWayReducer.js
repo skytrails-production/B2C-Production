@@ -18,6 +18,13 @@ export const oneWayReducer = (state = initState, action) => {
         ...state,
         isLoading: true,
         isError: false,
+        oneWayData: []
+      };
+    case types.ONE_WAY_FAIL:
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
       };
 
     case types.ONE_WAY_SUCCESS:
