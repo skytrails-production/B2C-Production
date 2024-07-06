@@ -343,6 +343,7 @@ function OnewayNew() {
   const [loader, setLoader] = useState(false);
   const [openTravelModal, setOpenTravelModal] = useState(false);
   const [activeIdClass, setActiveIdClass] = useState(2);
+  const [flightclassName, setflightClassName] = useState("Y");
   const [activeIdChild, setActiveIdChild] = useState(0);
   const [activeIdInfant, setActiveIdInfant] = useState(0);
   const [activeIdAdult, setActiveIdAdult] = useState(1);
@@ -422,16 +423,17 @@ function OnewayNew() {
   }, []);
 
   const ClassItems = [
-    { id: 1, label: "All" },
-    { id: 2, label: "Economy" },
-    { id: 3, label: "Premium Economy" },
-    { id: 4, label: "Business" },
-    { id: 5, label: "Premium Business" },
-    { id: 6, label: "First" },
+    // { id: 1,value:"Y", label: "All" },
+    { id: 2,value:"Y", label: "Economy" },
+    { id: 3, value:"W", label:"Premium Economy"},
+    { id: 4,value:"C", label: "Business" },
+    // { id: 5, label: "Premium Business" },
+    { id: 6,value:"F", label: "First" },
   ];
 
   const handleTravelClickOpen = () => {
     setActiveIdClass(activeIdClass);
+    setflightClassName(flightclassName);
     setActiveIdChild(0);
     setActiveIdInfant(0);
     setActiveIdAdult(1);
@@ -483,6 +485,7 @@ function OnewayNew() {
       to: selectedTo.AirportCode,
       from: selectedFrom.AirportCode,
       date: newDepartDate,
+      cabinClass: flightclassName,
       // px: activeIdAdult + activeIdChild + activeIdInfant,
       px: activeIdAdult,
     };
@@ -643,12 +646,12 @@ function OnewayNew() {
                 </p>
                 <div className="d-none d-md-block ">
                   <span className="nrsb">
-                    {(activeIdClass === 1 && "All") ||
-                      (activeIdClass === 2 && "Economy") ||
-                      (activeIdClass === 3 && "Premium Economy") ||
-                      (activeIdClass === 4 && "Business") ||
-                      (activeIdClass === 5 && "Premium Business") ||
-                      (activeIdClass === 6 && "First Class")}
+                    {
+                      (activeIdClass === 2 && flightclassName === "Y" && "Economy") ||
+                      (activeIdClass === 3 && flightclassName === "W" && "Premium Economy") ||
+                      (activeIdClass === 4 && flightclassName === "C" && "Business") || 
+                      (activeIdClass === 6 && flightclassName === "F" && "First Class")
+                      }
                   </span>
                 </div>
               </div>
@@ -716,7 +719,8 @@ function OnewayNew() {
                                     ? "#fff"
                                     : "#d90429",
                               }}
-                              onClick={() => setActiveIdClass(ele.id)}
+                              onClick={() => {setActiveIdClass(ele.id);
+                                setflightClassName(ele.value)}}
                             >
                               {ele.label}
                             </li>

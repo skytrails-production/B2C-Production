@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import React, { useState, useCallback, useEffect } from "react";
+import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
 import Home from "./pages/home/Home";
 import BookWrapper from "./pages/flight/Bookwrapper";
-import BookwrapperAmd from "./pages/flight/BookwrapperAmd";
 import Searchresult from "./pages/flight/Searchresult";
 import "./App.css";
 import LoginForm from "./components/Login";
@@ -17,7 +16,7 @@ import Payment from "./pages/flight/Payment";
 // import Booking from "./pages/Return/Booking";
 // import CompleteBooking from "./pages/Return/CompleteBooking";
 // Forex
-// import Forex from "./pages/forex/Forex";
+import Forex from "./pages/forex/Forex";
 // Bus
 import Bus from "./pages/bus/Bus";
 import BusReviewBooking from "./pages/bus/busreviewbooking/BusReviewBooking";
@@ -51,12 +50,11 @@ import HotelTicketGeneration from "./pages/Hotel/HotelTicketGeneration/HotelTick
 import RefundPolicy from "./layouts/RefundPolicy";
 import AboutUs from "./layouts/AboutUs";
 import BookedTicket from "./pages/flight/BookedTicket";
-import BookedTicketAmd from "./pages/flight/BookedTicketAmd";
 import Flighterror from "./pages/flight/Flighterror";
 import ContactUs from "./layouts/ContactUs";
 import BookingHistory from "./components/bookingHistory/BookingHistory";
 import HolidayCategoryDetails from "./pages/holidaypackages/holidayCategory/HolidayCategoryDetails";
-// import { debounce } from "lodash";
+import { debounce } from "lodash";
 import { useLocation } from "react-router-dom";
 import InsideNavbar from "./UI/BigNavbar/InsideNavbar";
 
@@ -65,7 +63,7 @@ import BusETicket from "../src/components/BusETicket";
 import DummyPnrHome from "./components/DummyPnrHome";
 import HolidayCountryDetails from "./pages/holidaypackages/holidayCategory/HolidayCountryDetails";
 import Events from "./pages/Event/Events";
-// import ReturnMain from "./pages/flight/ReturnFlight/ReturnMain";
+import ReturnMain from "./pages/flight/ReturnFlight/ReturnMain";
 import ReturnResult from "./pages/flight/ReturnFlight/ReturnResult";
 import ReturnResultInternational from "./pages/flight/ReturnFlight/ReturnResultInternational";
 import ReturnPassenger from "./pages/flight/ReturnFlight/ReturnPassenger";
@@ -94,7 +92,7 @@ import HotelTicketDB from "./pages/GRMHotel/HotelTicketDB";
 import HotelBookRoomGRN from "./pages/GRMHotel/HotelBookRoomGRN";
 import { ipAction, tokenAction } from "./Redux/IP/actionIp";
 import BlogDetailsSingle from "./pages/home/BlogDetailsSingle";
-// import PayLater from "./PayLater";
+import PayLater from "./PayLater";
 import PaylaterDetails from "./Mihuru/PaylaterDetails";
 import VerifyPayLater from "./Mihuru/VerifyPayLater";
 
@@ -106,10 +104,16 @@ import RandomPaymentSuccess from "./RandomPaymentSuccess";
 import SkytailsTrendingPackages from "./components/SkytrailsTrendingPackage/SkytailsTrendingPackages";
 import AllBlogs from "./pages/home/AllBlogs";
 import MihuruPaymentSuccess from "./Mihuru/MihuruPaymentSuccess";
+
+import Logininventory from "./pages/Inventory/Logininventory";
+import Registerinventory from "./pages/Inventory/Registerinventory";
+import InventoryHotelForm from "./pages/Inventory/InventoryHotelForm";
+
 import HotelResultMain from "./pages/GRMHotel/HotelResultMain";
 
 import "../src/pages/flight/selectflight.css"
 import SmallDevice from "./components/SmallDevicePopUp"
+
 
 
 
@@ -120,7 +124,6 @@ function App() {
   const navigate = useNavigate();
 
   const notOnline = useNetworkState();
-
 
   useEffect(() => {
     dispatch(ipAction());
@@ -207,7 +210,7 @@ function App() {
   // }
 
   const { pathname } = useLocation();
-
+  const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
@@ -240,6 +243,10 @@ function App() {
 
   return (
     <div className="background_gradient">
+      {location.pathname !== "/inventoryLogin" &&
+        location.pathname !== "/inventoryRegister" &&
+        location.pathname !== "/inventoryhotelform" && <InsideNavbar />}
+
       {/* /Searchresult */}
 
       {/* {showPopup && (
@@ -252,8 +259,11 @@ function App() {
           </div>
         </div>
       )} */}
-      <InsideNavbar />
+
+      {/* <InsideNavbar /> */}
+
       <SmallDevice/>
+
 
       <Routes>
         <Route index element={<Home />}></Route>
@@ -301,13 +311,10 @@ function App() {
         <Route path="login" element={<LoginForm />}></Route>
         <Route path="signup" element={<SignUp />}></Route>
         <Route path="flighterror" element={<Flighterror />}></Route>
-        <Route path="Searchresult/booknow" exact element={<BookWrapper />}>
+        <Route path="Searchresult/booknow" element={<BookWrapper />}>
           {" "}
-          
         </Route>
-        <Route path="Searchresult/booknowAmd"  element={<BookwrapperAmd />} />
-
-        <Route path="/Searchresult" exact element={<Searchresult />} />
+        <Route path="/Searchresult" element={<Searchresult />} />
 
         <Route path="/payment" element={<Payment />} />
         <Route path="/download" element={<Download />} />
@@ -317,20 +324,16 @@ function App() {
         {/* new grm hotel routes  */}
 
         <Route path="/st-hotel" element={<GrmHotelHome />}></Route>
-        {/* <Route path="/st-hotel/hotelresult" element={<HotelResult />} /> */}
-        <Route path="/st-hotel/hotelresult" element={<HotelResultMain />} />
+        <Route path="/st-hotel/hotelresult" element={<HotelResult />} />
         <Route
-
           path="/st-hotel/hotelresult/selectroom"
           element={<HotelBookRoomGRN />}
         />
         <Route
-
           path="/st-hotel/hotelresult/selectroom/guestDetails"
           element={<BookingDetailsGRN />}
         />
         <Route
-
           path="/st-hotel/hotelresult/selectroom/guestDetails/review"
           element={<BookingReviewGRN />}
         />
@@ -431,10 +434,6 @@ function App() {
         <Route path="contactus" element={<ContactUs />}></Route>
         <Route path="/bookedTicket" element={<BookedTicket />}></Route>
         <Route
-          path="/bookedTicketSucess/:pnr"
-          element={<BookedTicketAmd />}
-        ></Route>
-        <Route
           path="/bookedTicketWithReturn"
           element={<BookedTicketWithReturn />}
         ></Route>
@@ -446,21 +445,14 @@ function App() {
         <Route path="/oneWayDummyHome" element={<DummyPnrHome />}></Route>
         <Route path="/pefaevent" element={<Events />}></Route>
 
-
         {/* blog route  */}
         <Route
           path="/blogDetails/:keyword"
           element={<BlogDetailsSingle />}
         ></Route>
-        <Route
-          path="/skytrailsblogs"
-          element={<AllBlogs />}
-        ></Route>
+        <Route path="/skytrailsblogs" element={<AllBlogs />}></Route>
 
-        <Route
-          path="/payLaterDetails"
-          element={<PaylaterDetails />}
-        ></Route>
+        <Route path="/payLaterDetails" element={<PaylaterDetails />}></Route>
         <Route
           path="/payLaterDetails/verifyOtp"
           element={<VerifyPayLater />}
@@ -478,12 +470,8 @@ function App() {
           element={<MihuruPaymentSuccess />}
         ></Route>
 
-
         {/* random payment  */}
-        <Route
-          path="/packagepayment"
-          element={<RandomPayment />}
-        ></Route>
+        <Route path="/packagepayment" element={<RandomPayment />}></Route>
         <Route
           path="/packagepayment/packagepaymentsuccess"
           element={<RandomPaymentSuccess />}
@@ -494,11 +482,37 @@ function App() {
         ></Route>
       </Routes>
 
-      <Whatsapp />
-      <ScrollToTop />
-      {/* <PayLater /> */}
+      {/* inventory */}
+      <Routes>
+        <Route path="/inventoryLogin" element={<Logininventory />}></Route>
+        <Route
+          path="/inventoryRegister"
+          element={<Registerinventory />}
+        ></Route>
+        <Route
+          path="/inventoryhotelform"
+          element={<InventoryHotelForm />}
+        ></Route>
+      </Routes>
 
-      <Footer />
+      {/* complete inventory */}
+
+      {/* <Whatsapp /> */}
+
+      {location.pathname !== "/inventoryLogin" &&
+        location.pathname !== "/inventoryRegister" &&
+        location.pathname !== "/inventoryhotelform" && <Whatsapp />}
+
+      {location.pathname !== "/inventoryLogin" &&
+        location.pathname !== "/inventoryRegister" &&
+        location.pathname !== "/inventoryhotelform" && <ScrollToTop />}
+
+      {/* <PayLater /> */}
+      {/* <Footer /> */}
+
+      {location.pathname !== "/inventoryLogin" &&
+        location.pathname !== "/inventoryRegister" &&
+        location.pathname !== "/inventoryhotelform" && <Footer />}
     </div>
   );
 }

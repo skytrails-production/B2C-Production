@@ -1,0 +1,59 @@
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: rgb(225, 237, 249);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-heading {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.form-item {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.add-facility-button {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.upload-container {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.submit-button {
+  width: 100%;
+}
+
+.custom-notification {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+
+.success-message {
+  text-align: center;
+}
+
+.inventoryForm {
+  margin-top: 10px;
+}
+
+/* .inventoryForm {
+  background-image: url("./bg.png");
+} */
