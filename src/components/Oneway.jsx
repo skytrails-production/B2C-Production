@@ -94,7 +94,7 @@ function Oneway() {
   const sendTravelClass = (data2) => {
     setData(data2);
   };
-
+// console.log(reducerState);
   const handleTravelerCountChange = (category, value) => {
     if (category === "adult") {
       const newAdultCount = Math.min(Math.max(1, activeIdAdult + value), 9);

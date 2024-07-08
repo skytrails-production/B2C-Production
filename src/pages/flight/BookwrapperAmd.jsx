@@ -94,43 +94,51 @@ export default function BookWrapper() {
   const [loaderPayment1, setLoaderPayment1] = useState(false);
   const [isDisableScroll, setIsDisableScroll] = useState(false);
   const [refundTxnId, setRefundTxnId] = useState(null);
-  const arrivalMomentt = moment(
-    `${"010724"} ${"0555"}`,
-    "DDMMYYYY HHmm"
-  );
+  const arrivalMomentt = moment(`${"010724"} ${"0555"}`, "DDMMYYYY HHmm");
   // '1800' '0555'
   const arrTimeISOt = arrivalMomentt.toISOString();
   // console.log(arrTimeISOt, "arrTimeISOttttttttttttttttttttttttttttttt")
 
-  let depTimeString = String(jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct?.product?.depTime);
-  let depDateString = String(jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct?.product?.depDate);
-  let arrTimeString1 = String(jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct?.product?.arrTime);
-  let arrDateString = String(jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct?.product?.arrDate);
+  let depTimeString = String(
+    jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct
+      ?.product?.depTime
+  );
+  let depDateString = String(
+    jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct
+      ?.product?.depDate
+  );
+  let arrTimeString1 = String(
+    jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct
+      ?.product?.arrTime
+  );
+  let arrDateString = String(
+    jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct
+      ?.product?.arrDate
+  );
   if (arrTimeString1 && arrTimeString1.length === 2) {
-    arrTimeString1 = '00' + arrTimeString1;
+    arrTimeString1 = "00" + arrTimeString1;
   }
   if (arrTimeString1 && arrTimeString1.length === 3) {
-    arrTimeString1 = '0' + arrTimeString1;
+    arrTimeString1 = "0" + arrTimeString1;
   }
   if (depTimeString && depTimeString.length === 2) {
-    depTimeString = '00' + depTimeString;
+    depTimeString = "00" + depTimeString;
   }
   if (depTimeString && depTimeString.length === 3) {
-    depTimeString = '0' + depTimeString;
+    depTimeString = "0" + depTimeString;
   }
   if (depDateString && depDateString.length === 5) {
-    depDateString = '0' + depDateString;
+    depDateString = "0" + depDateString;
   }
   if (depDateString && depDateString.length === 4) {
-    depDateString = '00' + depDateString;
+    depDateString = "00" + depDateString;
   }
   if (arrDateString && arrDateString.length === 5) {
-    arrDateString = '0' + arrDateString;
+    arrDateString = "0" + arrDateString;
   }
   if (arrDateString && arrDateString.length === 4) {
-    arrDateString = '00' + arrDateString;
+    arrDateString = "00" + arrDateString;
   }
-
 
   function convertExcelDateTimeToISO(excelDate, excelTime) {
     // Convert Excel date to JavaScript Date object
@@ -149,9 +157,6 @@ export default function BookWrapper() {
     return isoDate;
   }
 
-
-
-
   // Parse and format the arrival time and date
 
   // if (arrTimeString1 && arrTimeString1.length === 2) {
@@ -160,15 +165,20 @@ export default function BookWrapper() {
   // }
   // if (arrTimeString1 && arrTimeString1.length === 3) {
 
-
   //   arrTimeString1 = '0' + arrTimeString1;
 
   // }
   // if (depTimeString && depTimeString.length === 2) {
   //   depTimeString = '00' + depTimeString;
   // }
-  const arrivalMoment = moment(`${arrDateString} ${arrTimeString1}`, "DDMMYYYY HHmm");
-  const departureMoment = moment(`${depDateString} ${depTimeString}`, "DDMMYYYY HHmm");
+  const arrivalMoment = moment(
+    `${arrDateString} ${arrTimeString1}`,
+    "DDMMYYYY HHmm"
+  );
+  const departureMoment = moment(
+    `${depDateString} ${depTimeString}`,
+    "DDMMYYYY HHmm"
+  );
   const depTimeISO1 = departureMoment.toISOString();
   // const depTimeISO1=depDateString !=="undefined"? convertExcelDateTimeToISO(depDateString, depTimeString):null
   // const arrTimeISO1=arrDateString !=="undefined" ? convertExcelDateTimeToISO(arrDateString, arrTimeString1):null
@@ -177,10 +187,7 @@ export default function BookWrapper() {
   // Output: "2024-09-26T10:15:00.000Z"
   const navigate = useNavigate();
 
-
-
   // return <div>hiiii</div>;
-
 
   const convertXmlToJson = () => {
     const parser = new XMLParser();
@@ -189,11 +196,10 @@ export default function BookWrapper() {
     if (xmlData !== "") {
       convertData =
         result["soapenv:Envelope"]["soapenv:Body"][
-        "Air_SellFromRecommendationReply"
+          "Air_SellFromRecommendationReply"
         ];
       setJsonData(convertData);
     }
-
   };
   const convertXmlToJsonSavePnr = async (res) => {
     const parser = new XMLParser();
@@ -202,9 +208,7 @@ export default function BookWrapper() {
     if (res !== "") {
       convertData = result["soapenv:Envelope"]["soapenv:Body"]["PNR_Reply"];
       setJsonSaveData(convertData);
-
     }
-
   };
   useEffect(() => {
     convertXmlToJson();
@@ -223,8 +227,10 @@ export default function BookWrapper() {
           "No Class Available",
           false
         );
-    
-        navigate(`/Searchresult?adult=${adultCount}&child=${childCount}&infant=${infantCount}`);
+
+        navigate(
+          `/Searchresult?adult=${adultCount}&child=${childCount}&infant=${infantCount}`
+        );
       } else {
         setStatusOk(true);
       }
@@ -239,7 +245,9 @@ export default function BookWrapper() {
             "No Class Available",
             false
           );
-          navigate(`/Searchresult?adult=${adultCount}&child=${childCount}&infant=${infantCount}`);
+          navigate(
+            `/Searchresult?adult=${adultCount}&child=${childCount}&infant=${infantCount}`
+          );
         }
       });
     }
@@ -263,7 +271,8 @@ export default function BookWrapper() {
     try {
       const token = SecureStorage.getItem("jwtToken");
       const response = await axios.get(
-        `${apiURL.baseURL
+        `${
+          apiURL.baseURL
         }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
           "couponCode"
         )}`,
@@ -274,7 +283,7 @@ export default function BookWrapper() {
           },
         }
       );
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleTravelClose = (event, reason) => {
@@ -282,8 +291,6 @@ export default function BookWrapper() {
       setOpenTravelModal(false);
     }
   };
-
-
 
   // const [isTVO, setIsTvo] = useState(
   //   prp
@@ -327,8 +334,6 @@ export default function BookWrapper() {
 
   const xmlpassengerData = async () => {
     for (let i = 0; i < Number(adultCount) + Number(childCount); i++) {
-
-
       xmlContinue += `<travellerInfo>
       <elementManagementPassenger>
           <reference>
@@ -342,70 +347,77 @@ export default function BookWrapper() {
               <traveller>
                   <surname>${passengerData[i]?.lastName}</surname>
                  
-                  <quantity>${passengerData[i]?.PaxType === 1 ? adultCount : childCount}</quantity>
+                  <quantity>${
+                    passengerData[i]?.PaxType === 1 ? adultCount : childCount
+                  }</quantity>
               </traveller>
               <passenger>
                   <firstName>${passengerData[i]?.firstName}</firstName>
-                  <type>${passengerData[i]?.PaxType === 1 ? "ADT" : "CHD"
-        // : passengerData[i]?.PaxType === 2
-        // ? "CHD"
-        // :
-        }</type>
+                  <type>${
+                    passengerData[i]?.PaxType === 1 ? "ADT" : "CHD"
+                    // : passengerData[i]?.PaxType === 2
+                    // ? "CHD"
+                    // :
+                  }</type>
               </passenger>
               </travellerInformation>
-              ${passengerData[i]?.PaxType !== 1
-          ? `<dateOfBirth>
+              ${
+                passengerData[i]?.PaxType !== 1
+                  ? `<dateOfBirth>
                       <dateAndTimeDetails>
                           <qualifier>706</qualifier>
                           <date>${convertDateFormatAmd(
-            passengerData[i]?.DateOfBirth
-          )}</date>
+                            passengerData[i]?.DateOfBirth
+                          )}</date>
                       </dateAndTimeDetails>
                     </dateOfBirth>`
-          : ""
-        }
+                  : ""
+              }
       </passengerData>
-      ${i < infantCount
+      ${
+        i < infantCount
           ? ` <passengerData>
           <travellerInformation>
               <traveller>
                   <surname>${
-          //   ,
-          passengerData[Number(adultCount) + Number(childCount) + i]
-            ?.lastName
-          }</surname>
+                    //   ,
+                    passengerData[Number(adultCount) + Number(childCount) + i]
+                      ?.lastName
+                  }</surname>
                   <quantity>${infantCount}</quantity>
               </traveller>
               <passenger>
-                  <firstName>${passengerData[Number(adultCount) + Number(childCount) + i]
-            ?.firstName
-          }</firstName>
-                  <type>${"INF"
-          // passengerData[i]?.PaxType === 1 ? "ADT" : "CHD"
-          // : passengerData[i]?.PaxType === 2
-          // ? "CHD"
-          // :
-          }</type>
+                  <firstName>${
+                    passengerData[Number(adultCount) + Number(childCount) + i]
+                      ?.firstName
+                  }</firstName>
+                  <type>${
+                    "INF"
+                    // passengerData[i]?.PaxType === 1 ? "ADT" : "CHD"
+                    // : passengerData[i]?.PaxType === 2
+                    // ? "CHD"
+                    // :
+                  }</type>
               </passenger>
               </travellerInformation>
               ${
-          // passengerData[i]?.PaxType !== 1
-          // ?
-          `<dateOfBirth>
+                // passengerData[i]?.PaxType !== 1
+                // ?
+                `<dateOfBirth>
                       <dateAndTimeDetails>
                           <qualifier>706</qualifier>
                           <date>${convertDateFormatAmd(
-            passengerData[
-              Number(adultCount) + Number(childCount) + i
-            ]?.DateOfBirth
-          )}</date>
+                            passengerData[
+                              Number(adultCount) + Number(childCount) + i
+                            ]?.DateOfBirth
+                          )}</date>
                       </dateAndTimeDetails>
                     </dateOfBirth>`
-          // : ""
-          }
+                // : ""
+              }
       </passengerData>`
           : ""
-        }
+      }
   </travellerInfo>`;
       dataElementsMaster += `<dataElementsIndiv>
             <elementManagementData>
@@ -627,14 +639,16 @@ export default function BookWrapper() {
                 <freetextDetail>
                     <subjectQualifier>3</subjectQualifier>
                     <type>P27</type>
-                    <companyId>${sesstioResultIndex?.flightDetails?.flightInformation
-        ?.companyId?.marketingCarrier ||
-      sesstioResultIndex?.flightDetails[0]?.flightInformation
-        ?.companyId?.marketingCarrier
-      }</companyId>
+                    <companyId>${
+                      sesstioResultIndex?.flightDetails?.flightInformation
+                        ?.companyId?.marketingCarrier ||
+                      sesstioResultIndex?.flightDetails[0]?.flightInformation
+                        ?.companyId?.marketingCarrier
+                    }</companyId>
                 </freetextDetail>
-                <longFreetext>PAX CTCM ${passengerData[0]?.ContactNo
-      }</longFreetext>
+                <longFreetext>PAX CTCM ${
+                  passengerData[0]?.ContactNo
+                }</longFreetext>
             </freetextData>
         </dataElementsIndiv>
        
@@ -668,7 +682,11 @@ export default function BookWrapper() {
   // const ResultIndex = JSON?.parse(sessionStorage.getItem("ResultIndex"));
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
-  const isPassportRequired = reducerState?.searchFlight?.flightDetails?.from?.CountryCode !== "IN " || reducerState?.searchFlight?.flightDetails?.to?.CountryCode !== "IN " ? true : false;
+  const isPassportRequired =
+    reducerState?.searchFlight?.flightDetails?.from?.CountryCode !== "IN " ||
+    reducerState?.searchFlight?.flightDetails?.to?.CountryCode !== "IN "
+      ? true
+      : false;
 
   const fareRule = reducerState?.flightFare?.flightRuleData?.FareRules;
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
@@ -690,98 +708,101 @@ export default function BookWrapper() {
         isOther = true;
         if (i < adultCount) {
           index = 0;
-
         } else if (adultCount < i && i < childCount) {
           index = 1;
-
         } else if (adultCount < i && childCount < i && i < infantCount) {
           index = 2;
-
         }
       }
       isOther = false;
 
-
       text += ` <segmentInformation>
                         <travelProductInformation>
                             <flightDate>
-                                <departureDate>${isOther
-          ? sesstioResultIndex[0]?.flightDetails[i]
-            ?.flightInformation?.productDateTime
-            ?.dateOfDeparture
-          : sesstioResultIndex?.flightDetails[i]
-            ?.flightInformation?.productDateTime
-            ?.dateOfDeparture
-        }</departureDate>
+                                <departureDate>${
+                                  isOther
+                                    ? sesstioResultIndex[0]?.flightDetails[i]
+                                        ?.flightInformation?.productDateTime
+                                        ?.dateOfDeparture
+                                    : sesstioResultIndex?.flightDetails[i]
+                                        ?.flightInformation?.productDateTime
+                                        ?.dateOfDeparture
+                                }</departureDate>
                             </flightDate>
                             <boardPointDetails>
-                                <trueLocationId>${isOther
-          ? sesstioResultIndex[0]?.flightDetails[i]
-            ?.flightInformation?.location[0]
-            ?.locationId
-          : sesstioResultIndex?.flightDetails[i]
-            ?.flightInformation?.location[0]
-            ?.locationId
-        }</trueLocationId>
+                                <trueLocationId>${
+                                  isOther
+                                    ? sesstioResultIndex[0]?.flightDetails[i]
+                                        ?.flightInformation?.location[0]
+                                        ?.locationId
+                                    : sesstioResultIndex?.flightDetails[i]
+                                        ?.flightInformation?.location[0]
+                                        ?.locationId
+                                }</trueLocationId>
                             </boardPointDetails>
                             <offpointDetails>
-                                <trueLocationId>${isOther
-          ? sesstioResultIndex[0]?.flightDetails[i]
-            ?.flightInformation?.location[1]
-            ?.locationId
-          : sesstioResultIndex?.flightDetails[i]
-            ?.flightInformation?.location[1]
-            ?.locationId
-        }</trueLocationId>
+                                <trueLocationId>${
+                                  isOther
+                                    ? sesstioResultIndex[0]?.flightDetails[i]
+                                        ?.flightInformation?.location[1]
+                                        ?.locationId
+                                    : sesstioResultIndex?.flightDetails[i]
+                                        ?.flightInformation?.location[1]
+                                        ?.locationId
+                                }</trueLocationId>
                             </offpointDetails>
                             <companyDetails>
-                                <marketingCompany>${isOther
-          ? sesstioResultIndex[0]?.flightDetails[i]
-            ?.flightInformation?.companyId
-            ?.marketingCarrier
-          : sesstioResultIndex?.flightDetails[i]
-            ?.flightInformation?.companyId
-            ?.marketingCarrier
-        }</marketingCompany>
+                                <marketingCompany>${
+                                  isOther
+                                    ? sesstioResultIndex[0]?.flightDetails[i]
+                                        ?.flightInformation?.companyId
+                                        ?.marketingCarrier
+                                    : sesstioResultIndex?.flightDetails[i]
+                                        ?.flightInformation?.companyId
+                                        ?.marketingCarrier
+                                }</marketingCompany>
                             </companyDetails>
                             <flightIdentification>
-                                <flightNumber>${isOther
-          ? sesstioResultIndex[0]?.flightDetails[i]
-            ?.flightInformation?.flightOrtrainNumber
-          : sesstioResultIndex?.flightDetails[i]
-            ?.flightInformation?.flightOrtrainNumber
-        }</flightNumber>
-                                <bookingClass>${sesstioResultIndex[0]?.fareDetails
-          ?.groupOfFares?.productInformation
-          ?.cabinProduct?.rbd ||
-        sesstioResultIndex?.fareDetails?.groupOfFares
-          ?.productInformation?.cabinProduct?.rbd ||
-        sesstioResultIndex[0]?.fareDetails
-          ?.groupOfFares?.productInformation
-          ?.cabinProduct?.rbd ||
-        sesstioResultIndex?.fareDetails?.groupOfFares[
-          i
-        ]?.productInformation?.cabinProduct?.rbd ||
-        sesstioResultIndex?.fareDetails?.groupOfFares
-          ?.productInformation?.cabinProduct?.rbd ||
-        sesstioResultIndex?.fareDetails
-          ?.groupOfFares[0]?.productInformation
-          ?.cabinProduct?.rbd ||
-        sesstioResultIndex?.fareDetails
-          ?.groupOfFares[0]?.productInformation
-          ?.cabinProduct?.rbd ||
-        sesstioResultIndex[0]?.fareDetails
-          ?.groupOfFares[0]?.productInformation
-          ?.cabinProduct?.rbd ||
-        sesstioResultIndex?.fareDetails
-          ?.groupOfFares[0]?.productInformation
-          ?.cabinProduct[0]?.rbd
-        }</bookingClass>
+                                <flightNumber>${
+                                  isOther
+                                    ? sesstioResultIndex[0]?.flightDetails[i]
+                                        ?.flightInformation?.flightOrtrainNumber
+                                    : sesstioResultIndex?.flightDetails[i]
+                                        ?.flightInformation?.flightOrtrainNumber
+                                }</flightNumber>
+                                <bookingClass>${
+                                  sesstioResultIndex[0]?.fareDetails
+                                    ?.groupOfFares?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails?.groupOfFares
+                                    ?.productInformation?.cabinProduct?.rbd ||
+                                  sesstioResultIndex[0]?.fareDetails
+                                    ?.groupOfFares?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails?.groupOfFares[
+                                    i
+                                  ]?.productInformation?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails?.groupOfFares
+                                    ?.productInformation?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex[0]?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct[0]?.rbd
+                                }</bookingClass>
                             </flightIdentification>
                         </travelProductInformation>
                         <relatedproductInformation>
-                            <quantity>${Number(adultCount) + Number(childCount)
-        }</quantity>
+                            <quantity>${
+                              Number(adultCount) + Number(childCount)
+                            }</quantity>
                             <statusCode>NN</statusCode>
                         </relatedproductInformation>
                     </segmentInformation>
@@ -791,88 +812,93 @@ export default function BookWrapper() {
     return text;
   }
 
-
   const segmentImformation = sesstioResultIndex?.flightDetails
     ?.flightInformation
     ? `
        <segmentInformation>
                         <travelProductInformation>
                             <flightDate>
-                                <departureDate>${sesstioResultIndex[0]?.flightDetails
-      ?.flightInformation?.productDateTime
-      ?.dateOfDeparture ||
-    sesstioResultIndex?.flightDetails[0]
-      ?.flightInformation?.productDateTime
-      ?.dateOfDeparture ||
-    sesstioResultIndex[0]?.flightDetails
-      ?.flightDetails?.flightInformation
-      ?.productDateTime?.dateOfDeparture ||
-    sesstioResultIndex?.flightDetails
-      ?.flightDetails?.flightInformation
-      ?.productDateTime?.dateOfDeparture ||
-    sesstioResultIndex?.flightDetails
-      ?.flightInformation?.productDateTime
-      ?.dateOfDeparture
-    }</departureDate>
+                                <departureDate>${
+                                  sesstioResultIndex[0]?.flightDetails
+                                    ?.flightInformation?.productDateTime
+                                    ?.dateOfDeparture ||
+                                  sesstioResultIndex?.flightDetails[0]
+                                    ?.flightInformation?.productDateTime
+                                    ?.dateOfDeparture ||
+                                  sesstioResultIndex[0]?.flightDetails
+                                    ?.flightDetails?.flightInformation
+                                    ?.productDateTime?.dateOfDeparture ||
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightDetails?.flightInformation
+                                    ?.productDateTime?.dateOfDeparture ||
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightInformation?.productDateTime
+                                    ?.dateOfDeparture
+                                }</departureDate>
                             </flightDate>
                             <boardPointDetails>
-                                <trueLocationId>${sesstioResultIndex?.flightDetails
-      ?.flightInformation?.location[0]?.locationId
-    }</trueLocationId>
+                                <trueLocationId>${
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightInformation?.location[0]?.locationId
+                                }</trueLocationId>
                             </boardPointDetails>
                             <offpointDetails>
-                                <trueLocationId>${sesstioResultIndex?.flightDetails
-      ?.flightInformation?.location[1]?.locationId
-    }</trueLocationId>
+                                <trueLocationId>${
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightInformation?.location[1]?.locationId
+                                }</trueLocationId>
                             </offpointDetails>
                             <companyDetails>
-                                <marketingCompany>${sesstioResultIndex?.flightDetails
-      ?.flightInformation?.companyId
-      ?.marketingCarrier
-    }</marketingCompany>
+                                <marketingCompany>${
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightInformation?.companyId
+                                    ?.marketingCarrier
+                                }</marketingCompany>
                             </companyDetails>
                             <flightIdentification>
-                                <flightNumber>${sesstioResultIndex?.flightDetails
-      ?.flightInformation?.flightOrtrainNumber
-    }</flightNumber>
+                                <flightNumber>${
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightInformation?.flightOrtrainNumber
+                                }</flightNumber>
                                 <bookingClass>${
-    // sesstioResultIndex?.fareDetails?.groupOfFares
-    //   ?.productInformation
-    //   ? sesstioResultIndex?.fareDetails
-    //       ?.groupOfFares?.productInformation
-    //       ?.cabinProduct?.rbd
-    //   : sesstioResultIndex[0]?.fareDetails
-    //       ?.groupOfFares[0]?.productInformation
-    //       ?.cabinProduct?.rbd
+                                  // sesstioResultIndex?.fareDetails?.groupOfFares
+                                  //   ?.productInformation
+                                  //   ? sesstioResultIndex?.fareDetails
+                                  //       ?.groupOfFares?.productInformation
+                                  //       ?.cabinProduct?.rbd
+                                  //   : sesstioResultIndex[0]?.fareDetails
+                                  //       ?.groupOfFares[0]?.productInformation
+                                  //       ?.cabinProduct?.rbd
 
-    sesstioResultIndex[0]?.fareDetails
-      ?.groupOfFares?.productInformation
-      ?.cabinProduct?.rbd ||
-    sesstioResultIndex?.fareDetails?.groupOfFares
-      ?.productInformation?.cabinProduct?.rbd ||
-    sesstioResultIndex[0]?.fareDetails
-      ?.groupOfFares?.productInformation
-      ?.cabinProduct?.rbd ||
-    sesstioResultIndex?.fareDetails
-      ?.groupOfFares[0]?.productInformation
-      ?.cabinProduct?.rbd ||
-    sesstioResultIndex?.fareDetails?.groupOfFares
-      ?.productInformation?.cabinProduct?.rbd ||
-    sesstioResultIndex?.fareDetails
-      ?.groupOfFares[0]?.productInformation
-      ?.cabinProduct?.rbd ||
-    sesstioResultIndex[0]?.fareDetails
-      ?.groupOfFares[0]?.productInformation
-      ?.cabinProduct?.rbd ||
-    sesstioResultIndex?.fareDetails
-      ?.groupOfFares[0]?.productInformation
-      ?.cabinProduct[0]?.rbd
-    }</bookingClass>
+                                  sesstioResultIndex[0]?.fareDetails
+                                    ?.groupOfFares?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails?.groupOfFares
+                                    ?.productInformation?.cabinProduct?.rbd ||
+                                  sesstioResultIndex[0]?.fareDetails
+                                    ?.groupOfFares?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails?.groupOfFares
+                                    ?.productInformation?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex[0]?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct[0]?.rbd
+                                }</bookingClass>
                             </flightIdentification>
                         </travelProductInformation>
                         <relatedproductInformation>
-                            <quantity>${Number(adultCount) + Number(childCount)
-    }</quantity>
+                            <quantity>${
+                              Number(adultCount) + Number(childCount)
+                            }</quantity>
                             <statusCode>NN</statusCode>
                         </relatedproductInformation>
                     </segmentInformation>
@@ -923,7 +949,6 @@ export default function BookWrapper() {
         `/Searchresult?adult=${adultCount}&child=${childCount}&infant=${infantCount}`
       );
     }
-
   }, [airesellRes]);
 
   useEffect(() => {
@@ -945,7 +970,6 @@ export default function BookWrapper() {
   }, [isDisableScroll]);
 
   const passengerTemplate = {
-
     title: "Mr",
     firstName: "",
     lastName: "",
@@ -981,7 +1005,6 @@ export default function BookWrapper() {
     GSTCompanyEmail: "",
   };
   const childPassenger = {
-
     title: "Mr",
     firstName: "",
     lastName: "",
@@ -1006,7 +1029,6 @@ export default function BookWrapper() {
     FFNumber: "",
   };
   const infantPassenger = {
-
     title: "Mr",
     firstName: "",
     lastName: "",
@@ -1069,7 +1091,6 @@ export default function BookWrapper() {
     }
   }, [loaderPayment]);
   useEffect(() => {
-
     const fetchData = async () => {
       const res = await axios({
         method: "POST",
@@ -1083,19 +1104,21 @@ export default function BookWrapper() {
                 </messageActionDetails>
                 <itineraryDetails>
                     <originDestinationDetails>
-                        <origin>${sesstioResultIndex?.flightDetails?.flightInformation
-            ? sesstioResultIndex?.flightDetails
-              ?.flightInformation?.location[0]?.locationId
-            : sesstioResultIndex?.flightDetails[0]
-              ?.flightInformation?.location[0]?.locationId
-          }</origin>
-                        <destination>${sesstioResultIndex?.flightDetails?.flightInformation
-            ? sesstioResultIndex?.flightDetails
-              ?.flightInformation?.location[1]?.locationId
-            : sesstioResultIndex?.flightDetails[
-              sesstioResultIndex?.flightDetails?.length - 1
-            ]?.flightInformation?.location[1]?.locationId
-          }</destination>
+                        <origin>${
+                          sesstioResultIndex?.flightDetails?.flightInformation
+                            ? sesstioResultIndex?.flightDetails
+                                ?.flightInformation?.location[0]?.locationId
+                            : sesstioResultIndex?.flightDetails[0]
+                                ?.flightInformation?.location[0]?.locationId
+                        }</origin>
+                        <destination>${
+                          sesstioResultIndex?.flightDetails?.flightInformation
+                            ? sesstioResultIndex?.flightDetails
+                                ?.flightInformation?.location[1]?.locationId
+                            : sesstioResultIndex?.flightDetails[
+                                sesstioResultIndex?.flightDetails?.length - 1
+                              ]?.flightInformation?.location[1]?.locationId
+                        }</destination>
                     </originDestinationDetails>
                     <message>
                         <messageFunctionDetails>
@@ -1114,8 +1137,6 @@ export default function BookWrapper() {
       });
       setAirsellRes(res?.data);
       setXmlData(res?.data?.data?.data);
-
-
     };
     fetchData();
   }, []);
@@ -1143,12 +1164,10 @@ export default function BookWrapper() {
     });
 
     if (res?.data?.status === 200) {
-
       fetchDataAmadesticketcreatetstfrompricing(res?.data?.data?.headers);
     }
   };
   const fetchDataAmadesticketcreatetstfrompricing = async (ress) => {
-
     const res = await axios({
       method: "POST",
       url: `${apiURL.baseURL}/skyTrails/amadeus/ticketcreatetstfrompricing`,
@@ -1173,7 +1192,6 @@ export default function BookWrapper() {
     }
   };
   const fetchDataSavepnr = async (ress) => {
-
     const res = await axios({
       method: "POST",
       url: `${apiURL.baseURL}/skyTrails/amadeus/savepnr`,
@@ -1198,13 +1216,11 @@ export default function BookWrapper() {
 
       // navigate(`/bookedTicketSucess/${res?.data?.data?.headers?.Pnr}`);
     } else {
-      refundAmount()
-
+      refundAmount();
     }
   };
 
   const fetchDataAmadesContinue = async (amadiesPayload) => {
-
     const res = await axios({
       method: "POST",
       url: `${apiURL.baseURL}/skyTrails/amadeus/pnraddmultielements`,
@@ -1269,16 +1285,15 @@ export default function BookWrapper() {
   //   }
   // }, [reducerState?.flightBook?.flightBookData?.Response]);
 
-
   const refundAmount = async () => {
-
-
     try {
       const token = SecureStorage.getItem("jwtToken");
       const payload = {
-
         // refund_amount: 1,
-        refund_amount: parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0),
+        refund_amount:
+          parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) +
+          markUpamount *
+            parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0),
 
         txnId: refundTxnId,
       };
@@ -1292,12 +1307,10 @@ export default function BookWrapper() {
           token: token,
         },
       });
-
     } catch (error) {
       console.warn(error);
-    }
-    finally {
-      saveDb()
+    } finally {
+      saveDb();
     }
 
     swalModal(
@@ -1307,10 +1320,7 @@ export default function BookWrapper() {
       false
     );
     navigate("/");
-
   };
-
-
 
   // useEffect(() => {
   //   const fetchData = async () => {
@@ -1458,7 +1468,6 @@ export default function BookWrapper() {
   ];
   const [passengerData, setPassengerData] = useState(allPassenger.flat());
 
-
   const handleServiceChange = (e, i) => {
     const { name, value } = e.target;
     const list = [...passengerData];
@@ -1478,8 +1487,6 @@ export default function BookWrapper() {
     }
     list[i][name] = value;
     setPassengerData(list);
-
-
   };
 
   // const totalMinutes = TicketDetails?.Segments[0][0]?.Duration;
@@ -1530,9 +1537,16 @@ export default function BookWrapper() {
   //     console.error("Error creating order:", error);
   //   }
   // }, [Razorpay]);
-  const [airlines, setAirlines] = useState(reducerState?.flightList?.flightDetails);
-  const [airports, setAireport] = useState(reducerState?.flightList?.aireportList);
-  const grandTotal = parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0)
+  const [airlines, setAirlines] = useState(
+    reducerState?.flightList?.flightDetails
+  );
+  const [airports, setAireport] = useState(
+    reducerState?.flightList?.aireportList
+  );
+  const grandTotal =
+    parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) +
+    markUpamount *
+      parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0);
   // console.log( parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) ,"bhjsdgsdbfuydgbfuyfegbfuyfedyufbfedyfb")
   const handlePayment = async () => {
     const token = SecureStorage?.getItem("jwtToken");
@@ -1570,11 +1584,8 @@ export default function BookWrapper() {
         const data = await response.json();
 
         proceedPayment(data.result.access, "prod", data.result.key);
-
       } else {
-
         const errorData = await response.json();
-
 
         setIsDisableScroll(false);
       }
@@ -1592,7 +1603,6 @@ export default function BookWrapper() {
     const options = {
       access_key: `${accessKey}`,
       onResponse: async (response) => {
-
         if (response.status === "success") {
           try {
             // Make API call if payment status is 'success'
@@ -1643,12 +1653,12 @@ export default function BookWrapper() {
     easebuzzCheckout.initiatePayment(options);
   };
   function findAirlineByCode(code) {
-    const data = airlines?.find(airline => airline?.airlineCode === code)
+    const data = airlines?.find((airline) => airline?.airlineCode === code);
 
     return data?.airlineName;
   }
   function findAirportByCode(code) {
-    const data = airports?.find(airport => airport?.AirportCode === code)
+    const data = airports?.find((airport) => airport?.AirportCode === code);
 
     return data;
   }
@@ -1671,138 +1681,176 @@ export default function BookWrapper() {
     return convertedDate;
   }
 
-
-
   const saveDb = async (res) => {
     let nonStop = [
       {
         Airline: {
           AirlineCode:
-            jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct
-              ?.companyDetail?.identification,
+            jsonSavePnrData?.originDestinationDetails?.itineraryInfo
+              ?.travelProduct?.companyDetail?.identification,
           AirlineName: findAirlineByCode(
-            jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct
-              ?.companyDetail?.identification),
+            jsonSavePnrData?.originDestinationDetails?.itineraryInfo
+              ?.travelProduct?.companyDetail?.identification
+          ),
           FlightNumber:
-            jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct
-              ?.productDetails?.identification,
+            jsonSavePnrData?.originDestinationDetails?.itineraryInfo
+              ?.travelProduct?.productDetails?.identification,
           FareClass:
-            jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct?.productDetails?.classOfService,
+            jsonSavePnrData?.originDestinationDetails?.itineraryInfo
+              ?.travelProduct?.productDetails?.classOfService,
         },
         Origin: {
           AirportCode:
-            jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct
-              ?.boardpointDetail?.cityCode,
+            jsonSavePnrData?.originDestinationDetails?.itineraryInfo
+              ?.travelProduct?.boardpointDetail?.cityCode,
           AirportName: reducerState?.searchReducer?.search?.[0]?.code,
           CityName: reducerState?.searchReducer?.search?.[0]?.name,
           Terminal:
-            jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.flightDetail
-              ?.arrivalStationInfo?.terminal,
+            jsonSavePnrData?.originDestinationDetails?.itineraryInfo
+              ?.flightDetail?.arrivalStationInfo?.terminal,
           DepTime: depTimeISO1,
         },
         Destination: {
           AirportCode:
-            jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct
-              ?.offpointDetail?.cityCode,
+            jsonSavePnrData?.originDestinationDetails?.itineraryInfo
+              ?.travelProduct?.offpointDetail?.cityCode,
           AirportName: reducerState?.searchReducer?.search?.[1]?.code,
           CityName: reducerState?.searchReducer?.search?.[1]?.name,
           Terminal:
-            jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.flightDetail
-              ?.departureInformation?.departTerminal,
+            jsonSavePnrData?.originDestinationDetails?.itineraryInfo
+              ?.flightDetail?.departureInformation?.departTerminal,
           ArrTime: arrTimeISO1,
         },
         Baggage:
-          (sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo?.baggageDetails?.quantityCode || sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.quantityCode)
-            === "W" ? `${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance || sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance} ${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo?.baggageDetails?.unitQualifier || sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.unitQualifier === "K" ? "KG" : `${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo?.baggageDetails?.unitQualifier || sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo?.baggageDetails?.unitQualifier}`}` : `(${(sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance || sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance)} × 23KG)`,
+          (sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+            ?.baggageDetails?.quantityCode ||
+            sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
+              ?.quantityCode) === "W"
+            ? `${
+                sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                  ?.baggageDetails?.freeAllowance ||
+                sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
+                  ?.freeAllowance
+              } ${
+                sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                  ?.baggageDetails?.unitQualifier ||
+                sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
+                  ?.unitQualifier === "K"
+                  ? "KG"
+                  : `${
+                      sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                        ?.baggageDetails?.unitQualifier ||
+                      sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                        ?.baggageDetails?.unitQualifier
+                    }`
+              }`
+            : `(${
+                sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
+                  ?.freeAllowance ||
+                sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                  ?.baggageDetails?.freeAllowance
+              } × 23KG)`,
       },
-    ]
-    const times = (jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.elementManagementItinerary) ? nonStop : jsonSavePnrData?.originDestinationDetails?.itineraryInfo.map((itinerary, index) => {
-      let depTime = String(itinerary?.travelProduct?.product?.depTime);
-      let depDate = String(itinerary?.travelProduct?.product?.depDate);
-      let arrTime = String(itinerary?.travelProduct?.product?.arrTime);
-      let arrDate = String(itinerary?.travelProduct?.product?.arrDate);
-      // console.log(itinerary,"itineraryitineraryitinerary")
+    ];
+    const times = jsonSavePnrData?.originDestinationDetails?.itineraryInfo
+      ?.elementManagementItinerary
+      ? nonStop
+      : jsonSavePnrData?.originDestinationDetails?.itineraryInfo.map(
+          (itinerary, index) => {
+            let depTime = String(itinerary?.travelProduct?.product?.depTime);
+            let depDate = String(itinerary?.travelProduct?.product?.depDate);
+            let arrTime = String(itinerary?.travelProduct?.product?.arrTime);
+            let arrDate = String(itinerary?.travelProduct?.product?.arrDate);
+            // console.log(itinerary,"itineraryitineraryitinerary")
 
+            // Ensure depTime and arrTime are properly formatted
+            if (depTime && depTime.length === 2) {
+              depTime = "00" + depTime;
+            }
+            if (arrTime && arrTime.length === 2) {
+              arrTime = "00" + arrTime;
+            }
+            if (depTime && depTime.length === 3) {
+              depTime = "0" + depTime;
+            }
+            if (arrTime && arrTime.length === 3) {
+              arrTime = "0" + arrTime;
+            }
+            if (depDate && depDate.length === 5) {
+              depDate = "0" + depDate;
+            }
+            if (depDate && depDate.length === 4) {
+              depDate = "00" + depDate;
+            }
+            if (arrDate && arrDate.length === 4) {
+              arrDate = "00" + arrDate;
+            }
+            if (arrDate && arrDate.length === 5) {
+              arrDate = "0" + arrDate;
+            }
 
-      // Ensure depTime and arrTime are properly formatted
-      if (depTime && depTime.length === 2) {
-        depTime = '00' + depTime;
-      }
-      if (arrTime && arrTime.length === 2) {
-        arrTime = '00' + arrTime;
-      }
-      if (depTime && depTime.length === 3) {
-        depTime = '0' + depTime;
-      }
-      if (arrTime && arrTime.length === 3) {
-        arrTime = '0' + arrTime;
-      }
-      if (depDate && depDate.length === 5) {
-        depDate = '0' + depDate;
-      }
-      if (depDate && depDate.length === 4) {
-        depDate = '00' + depDate;
-      }
-      if (arrDate && arrDate.length === 4) {
-        arrDate = '00' + arrDate;
-      }
-      if (arrDate && arrDate.length === 5) {
-        arrDate = '0' + arrDate;
-      }
+            // console.log(itinerary,"itineraryitineraryitinerary",depTime,arrTime)
 
-      // console.log(itinerary,"itineraryitineraryitinerary",depTime,arrTime)
+            // Parse depDate and depTime into ISO format for departure
+            const depDateTimeString = `${depDate}${depTime}`;
+            const departureMoment = moment(depDateTimeString, "YYMMDDHHmm");
+            const depTimeISO = departureMoment.isValid()
+              ? departureMoment.toISOString()
+              : null;
 
-      // Parse depDate and depTime into ISO format for departure
-      const depDateTimeString = `${depDate}${depTime}`;
-      const departureMoment = moment(depDateTimeString, "YYMMDDHHmm");
-      const depTimeISO = departureMoment.isValid() ? departureMoment.toISOString() : null;
+            // Parse arrDate and arrTime into ISO format for arrival
+            const arrDateTimeString = `${arrDate}${arrTime}`;
+            const arrivalMoment = moment(arrDateTimeString, "YYMMDDHHmm");
+            const arrTimeISO = arrivalMoment.isValid()
+              ? arrivalMoment.toISOString()
+              : null;
 
-      // Parse arrDate and arrTime into ISO format for arrival
-      const arrDateTimeString = `${arrDate}${arrTime}`;
-      const arrivalMoment = moment(arrDateTimeString, "YYMMDDHHmm");
-      const arrTimeISO = arrivalMoment.isValid() ? arrivalMoment.toISOString() : null;
+            // console.log(depDateTimeString,departureMoment,depTimeISO,arrDateTimeString,arrivalMoment,arrTimeISO,arrDate,depDate,"deppppppppppp")
 
-      // console.log(depDateTimeString,departureMoment,depTimeISO,arrDateTimeString,arrivalMoment,arrTimeISO,arrDate,depDate,"deppppppppppp")
+            return {
+              depTime: depTimeISO,
+              depDate,
+              arrTime: arrTimeISO,
+              arrDate,
+            };
+          }
+        );
 
-      return {
-        depTime: depTimeISO,
-        depDate,
-        arrTime: arrTimeISO,
-        arrDate
-      };
-    });
-
-    let depTimeString =
-      String(jsonData?.itineraryDetails?.segmentInformation?.flightDetails?.flightDate?.departureTime);
+    let depTimeString = String(
+      jsonData?.itineraryDetails?.segmentInformation?.flightDetails?.flightDate
+        ?.departureTime
+    );
     let depDateString = String(
-      jsonData?.itineraryDetails?.segmentInformation?.flightDetails?.flightDate?.departureDate);
-    let arrTimeString =
-      String(jsonData?.itineraryDetails?.segmentInformation?.flightDetails?.flightDate
-        ?.arrivalTime)
-      ;
-    let arrDateString =
-      String(jsonData?.itineraryDetails?.segmentInformation?.flightDetails?.flightDate
-        ?.arrivalDate);
+      jsonData?.itineraryDetails?.segmentInformation?.flightDetails?.flightDate
+        ?.departureDate
+    );
+    let arrTimeString = String(
+      jsonData?.itineraryDetails?.segmentInformation?.flightDetails?.flightDate
+        ?.arrivalTime
+    );
+    let arrDateString = String(
+      jsonData?.itineraryDetails?.segmentInformation?.flightDetails?.flightDate
+        ?.arrivalDate
+    );
     if (depTimeString && depTimeString.length === 2) {
-      depTimeString = '00' + depTimeString;
+      depTimeString = "00" + depTimeString;
     }
     if (arrTimeString && arrTimeString.length === 2) {
-      arrTimeString = '00' + arrTimeString;
+      arrTimeString = "00" + arrTimeString;
     }
     if (depTimeString && depTimeString.length === 3) {
-      depTimeString = '0' + depTimeString;
+      depTimeString = "0" + depTimeString;
     }
     if (arrTimeString && arrTimeString.length === 3) {
-      arrTimeString = '0' + arrTimeString;
+      arrTimeString = "0" + arrTimeString;
     }
     if (depDateString && depDateString.length === 5) {
-      depDateString = '0' + depDateString;
+      depDateString = "0" + depDateString;
     }
     if (arrDateString && arrDateString.length === 4) {
-      arrDateString = '00' + arrDateString;
+      arrDateString = "00" + arrDateString;
     }
     // console.log(depTimeString,arrTimeString,depDateString,arrDateString,"")
-
 
     // Parse and format the departure time and date
     const departureMoment = moment(
@@ -1810,7 +1858,6 @@ export default function BookWrapper() {
       "DDMMYYYY HHmm"
     );
     const depTimeISO = departureMoment.toISOString();
-
 
     // Output: "2024-09-26T10:15:00.000Z"
 
@@ -1828,52 +1875,101 @@ export default function BookWrapper() {
       oneWay: true,
       bookingId: "SKY" + Date.now(),
       // pnr: res?.data?.data?.headers?.Pnr,
-      pnr: jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber,
+      pnr: jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation
+        ?.controlNumber,
       paymentStatus: "success",
       // pnr: "hjhh",
-      bookingStatus: jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber ? "BOOKED" : "FAILED",
+      bookingStatus: jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation
+        ?.controlNumber
+        ? "BOOKED"
+        : "FAILED",
       totalAmount:
-        parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0),
+        parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) +
+        markUpamount *
+          parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0),
       origin: reducerState?.searchFlight?.flightDetails?.from?.name,
       destination: reducerState?.searchFlight?.flightDetails?.to?.name,
-      airlineDetails: (jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.elementManagementItinerary) ? nonStop : jsonSavePnrData?.originDestinationDetails?.itineraryInfo.map((stopss, index) => {
-        const depTimeISO = times[index]?.depTime;
-        const arrTimeISO = times[index]?.arrTime;
+      airlineDetails: jsonSavePnrData?.originDestinationDetails?.itineraryInfo
+        ?.elementManagementItinerary
+        ? nonStop
+        : jsonSavePnrData?.originDestinationDetails?.itineraryInfo.map(
+            (stopss, index) => {
+              const depTimeISO = times[index]?.depTime;
+              const arrTimeISO = times[index]?.arrTime;
 
-        return {
-          Airline: {
-            AirlineCode: stopss?.travelProduct?.companyDetail?.identification,
-            AirlineName: stopss?.travelProduct?.companyDetail?.identification,
-            FlightNumber: stopss?.travelProduct?.productDetails?.identification,
-            FareClass: stopss?.travelProduct?.productDetails?.classOfService,
-          },
-          Origin: {
-            AirportCode: stopss?.travelProduct?.boardpointDetail?.cityCode,
-            // AirportName: reducerState?.searchReducer?.search?.[0]?.code,
-            // CityName: reducerState?.searchReducer?.search?.[0]?.name,
-            AirportName:findAirportByCode( stopss?.travelProduct?.boardpointDetail?.cityCode)?.code,
-            CityName:findAirportByCode( stopss?.travelProduct?.boardpointDetail?.cityCode)?.name,
-            Terminal: stopss?.flightDetail?.arrivalStationInfo?.terminal,
-            DepTime: depTimeISO,
-          },
-          Destination: {
-            AirportCode: stopss?.travelProduct?.offpointDetail?.cityCode,
-            // AirportName: reducerState?.searchReducer?.search?.[1]?.code,
-            // CityName: reducerState?.searchReducer?.search?.[1]?.name,
-            AirportName:findAirportByCode( stopss?.travelProduct?.offpointDetail?.cityCode)?.code,
-            CityName:findAirportByCode( stopss?.travelProduct?.offpointDetail?.cityCode)?.name,
-            Terminal: stopss?.flightDetail?.departureInformation?.departTerminal,
-            ArrTime: arrTimeISO,
-          },
-          Baggage: (
-            sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo?.baggageDetails?.quantityCode ||
-            sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.quantityCode
-          ) === "W"
-            ? `${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance || sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance} ${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo?.baggageDetails?.unitQualifier || sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.unitQualifier === "K" ? "KG" : `${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo?.baggageDetails?.unitQualifier || sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo?.baggageDetails?.unitQualifier}`
-            }`
-            : `(${sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance || sesstioResultIndex?.sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance} × 23KG)`,
-        };
-      }),
+              return {
+                Airline: {
+                  AirlineCode:
+                    stopss?.travelProduct?.companyDetail?.identification,
+                  AirlineName:
+                    stopss?.travelProduct?.companyDetail?.identification,
+                  FlightNumber:
+                    stopss?.travelProduct?.productDetails?.identification,
+                  FareClass:
+                    stopss?.travelProduct?.productDetails?.classOfService,
+                },
+                Origin: {
+                  AirportCode:
+                    stopss?.travelProduct?.boardpointDetail?.cityCode,
+                  // AirportName: reducerState?.searchReducer?.search?.[0]?.code,
+                  // CityName: reducerState?.searchReducer?.search?.[0]?.name,
+                  AirportName: findAirportByCode(
+                    stopss?.travelProduct?.boardpointDetail?.cityCode
+                  )?.code,
+                  CityName: findAirportByCode(
+                    stopss?.travelProduct?.boardpointDetail?.cityCode
+                  )?.name,
+                  Terminal: stopss?.flightDetail?.arrivalStationInfo?.terminal,
+                  DepTime: depTimeISO,
+                },
+                Destination: {
+                  AirportCode: stopss?.travelProduct?.offpointDetail?.cityCode,
+                  // AirportName: reducerState?.searchReducer?.search?.[1]?.code,
+                  // CityName: reducerState?.searchReducer?.search?.[1]?.name,
+                  AirportName: findAirportByCode(
+                    stopss?.travelProduct?.offpointDetail?.cityCode
+                  )?.code,
+                  CityName: findAirportByCode(
+                    stopss?.travelProduct?.offpointDetail?.cityCode
+                  )?.name,
+                  Terminal:
+                    stopss?.flightDetail?.departureInformation?.departTerminal,
+                  ArrTime: arrTimeISO,
+                },
+                Baggage:
+                  (sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                    ?.baggageDetails?.quantityCode ||
+                    sesstioResultIndex?.baggage?.freeBagAllownceInfo
+                      ?.baggageDetails?.quantityCode) === "W"
+                    ? `${
+                        sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                          ?.baggageDetails?.freeAllowance ||
+                        sesstioResultIndex?.baggage?.freeBagAllownceInfo
+                          ?.baggageDetails?.freeAllowance
+                      } ${
+                        sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                          ?.baggageDetails?.unitQualifier ||
+                        sesstioResultIndex?.baggage?.freeBagAllownceInfo
+                          ?.baggageDetails?.unitQualifier === "K"
+                          ? "KG"
+                          : `${
+                              sesstioResultIndex?.flight?.baggage
+                                ?.freeBagAllownceInfo?.baggageDetails
+                                ?.unitQualifier ||
+                              sesstioResultIndex?.flight?.baggage
+                                ?.freeBagAllownceInfo?.baggageDetails
+                                ?.unitQualifier
+                            }`
+                      }`
+                    : `(${
+                        sesstioResultIndex?.baggage?.freeBagAllownceInfo
+                          ?.baggageDetails?.freeAllowance ||
+                        sesstioResultIndex?.sesstioResultIndex?.baggage
+                          ?.freeBagAllownceInfo?.baggageDetails?.freeAllowance
+                      } × 23KG)`,
+              };
+            }
+          ),
       // airlineDetails: [
       //   {
       //     Airline: {
@@ -1951,8 +2047,7 @@ export default function BookWrapper() {
           amount:
             (transactionAmount || parseInt(ResultIndex?.TotalPublishFare)) /
             reducerState?.passengers?.passengersData?.length,
-          gender: item?.title == "Miss" ? "Female" : "Male"
-
+          gender: item?.title == "Miss" ? "Female" : "Male",
         })
       ),
       dateOfJourney: "dateOfJourney",
@@ -1960,7 +2055,10 @@ export default function BookWrapper() {
     // console.log(payload, "saveDbbbbbbbbbbbbbbbbbbb")
 
     const response = await userApi.flightBookingDB(payload);
-    if (response?.data?.statusCode === 200 && jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber) {
+    if (
+      response?.data?.statusCode === 200 &&
+      jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber
+    ) {
       // navigate(`/bookedTicketSucess/${jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber}`, {
       //   state: { PNR: jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber },
       // });
@@ -2113,7 +2211,7 @@ export default function BookWrapper() {
   useEffect(() => {
     // console.log(jsonSavePnrData, "jsonSavePnrData")
     if (jsonSavePnrData) {
-      saveDb()
+      saveDb();
     }
   }, [jsonSavePnrData]);
 
@@ -2201,7 +2299,6 @@ export default function BookWrapper() {
   };
   const searchFlight = reducerState?.searchFlight?.flightDetail;
 
-
   // const Props = {
   //   transactionAmount: transactionAmount,
   //   handleClick: handleClickButton,
@@ -2220,7 +2317,7 @@ export default function BookWrapper() {
         </div> */}
 
         {!reducerState?.flightFare?.flightQuoteData?.Results === true &&
-          ResultIndex?.ResultIndex ? (
+        ResultIndex?.ResultIndex ? (
           <FlightLoader />
         ) : (
           <div className="">
@@ -2258,49 +2355,51 @@ export default function BookWrapper() {
                                   sesstioResultIndex?.flightDetails
                                     ?.flightInformation
                                     ? sesstioResultIndex?.flightDetails
-                                      ?.flightInformation?.location[0]
-                                      ?.locationId
+                                        ?.flightInformation?.location[0]
+                                        ?.locationId
                                     : sesstioResultIndex?.flightDetails[0]
-                                      .flightInformation?.location[0]
-                                      ?.locationId
+                                        .flightInformation?.location[0]
+                                        ?.locationId
                                 }
                                 <FiArrowRight style={{ margin: "5px" }} />{" "}
                                 {sesstioResultIndex?.flightDetails
                                   ?.flightInformation
                                   ? sesstioResultIndex?.flightDetails
-                                    ?.flightInformation?.location[1]
-                                    ?.locationId
+                                      ?.flightInformation?.location[1]
+                                      ?.locationId
                                   : sesstioResultIndex?.flightDetails[
-                                    sesstioResultIndex?.flightDetails.length -
-                                    1
-                                  ].flightInformation?.location[1]
-                                    ?.locationId}
+                                      sesstioResultIndex?.flightDetails.length -
+                                        1
+                                    ].flightInformation?.location[1]
+                                      ?.locationId}
                               </p>
                               <div className="aboveSpan">
                                 <span className="aboveSOne">
                                   {sesstioResultIndex?.flightDetails
                                     ?.flightInformation
                                     ? convertTime(
-                                      sesstioResultIndex?.flightDetails
-                                        ?.flightInformation?.productDateTime
-                                        ?.timeOfDeparture
-                                    )
+                                        sesstioResultIndex?.flightDetails
+                                          ?.flightInformation?.productDateTime
+                                          ?.timeOfDeparture
+                                      )
                                     : convertTime(
-                                      sesstioResultIndex?.flightDetails[0]
-                                        ?.flightInformation?.productDateTime
-                                        ?.timeOfDeparture
-                                    )}
+                                        sesstioResultIndex?.flightDetails[0]
+                                          ?.flightInformation?.productDateTime
+                                          ?.timeOfDeparture
+                                      )}
                                 </span>
                                 {/* <span>Non Stop {duration}</span> */}
                                 <span>
                                   {" "}
                                   {sesstioResultIndex?.flightDetails.length < 1
-                                    ? `${sesstioResultIndex?.flightDetails
-                                      .length - 1
-                                    } stop via ${sesstioResultIndex?.flightDetails
-                                      ?.flightInformation[0]?.location[1]
-                                      ?.locationId
-                                    }`
+                                    ? `${
+                                        sesstioResultIndex?.flightDetails
+                                          .length - 1
+                                      } stop via ${
+                                        sesstioResultIndex?.flightDetails
+                                          ?.flightInformation[0]?.location[1]
+                                          ?.locationId
+                                      }`
                                     : "Non Stop"}
                                 </span>
                               </div>
@@ -2317,9 +2416,11 @@ export default function BookWrapper() {
                                   />{" "}
                                 </div>
                                 <span>
-                                  {
-                                    findAirlineByCode(sesstioResultIndex?.flightDetails?.flightInformation?.companyId
-                                      ?.marketingCarrier)}
+                                  {findAirlineByCode(
+                                    sesstioResultIndex?.flightDetails
+                                      ?.flightInformation?.companyId
+                                      ?.marketingCarrier
+                                  )}
                                 </span>
                                 <p>
                                   {
@@ -2346,7 +2447,8 @@ export default function BookWrapper() {
                                     <p>
                                       {convertTime(
                                         sesstioResultIndex?.flightDetails
-                                          ?.flightInformation?.productDateTime?.timeOfArrival
+                                          ?.flightInformation?.productDateTime
+                                          ?.timeOfArrival
                                       )}
                                     </p>
                                   </div>
@@ -2363,9 +2465,11 @@ export default function BookWrapper() {
                                       }
                                       <span>
                                         {
-                                          findAirportByCode(sesstioResultIndex?.flightDetails
-                                            ?.flightInformation?.location[0]
-                                            ?.locationId)?.name
+                                          findAirportByCode(
+                                            sesstioResultIndex?.flightDetails
+                                              ?.flightInformation?.location[0]
+                                              ?.locationId
+                                          )?.name
                                         }
                                         {", "}
                                         Terminal-
@@ -2392,9 +2496,11 @@ export default function BookWrapper() {
                                       }{" "}
                                       <span>
                                         {
-                                          findAirportByCode(sesstioResultIndex?.flightDetails
-                                            ?.flightInformation?.location[1]
-                                            ?.locationId)?.name
+                                          findAirportByCode(
+                                            sesstioResultIndex?.flightDetails
+                                              ?.flightInformation?.location[1]
+                                              ?.locationId
+                                          )?.name
                                         }
                                         {", "}
                                         Terminal-
@@ -2423,15 +2529,38 @@ export default function BookWrapper() {
                                       {sesstioResultIndex?.baggage
                                         ?.freeBagAllownceInfo?.baggageDetails
                                         ?.quantityCode === "N"
-                                        ? (sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance * 23)
-                                        : (Number(sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance) === 0 ? "No baggage" : sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance)}
+                                        ? sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance * 23
+                                        : Number(
+                                            sesstioResultIndex?.baggage
+                                              ?.freeBagAllownceInfo
+                                              ?.baggageDetails?.freeAllowance
+                                          ) === 0
+                                        ? "No baggage"
+                                        : sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance}
                                       {sesstioResultIndex?.baggage
                                         ?.freeBagAllownceInfo?.baggageDetails
                                         ?.quantityCode === "N"
                                         ? sesstioResultIndex?.baggage
-                                          ?.freeBagAllownceInfo?.baggageDetails?.unitQualifier === "K" ? "KG" : "LB"
-                                        : Number(sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance) !== 0 ||
-                                          sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance !== "0" ? "KG" : ""}
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.unitQualifier ===
+                                          "K"
+                                          ? "KG"
+                                          : "LB"
+                                        : Number(
+                                            sesstioResultIndex?.baggage
+                                              ?.freeBagAllownceInfo
+                                              ?.baggageDetails?.freeAllowance
+                                          ) !== 0 ||
+                                          sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance !==
+                                            "0"
+                                        ? "KG"
+                                        : ""}
 
                                       {/* {item?.Baggage?.split(" ")[0]} */}
                                     </span>
@@ -2497,13 +2626,12 @@ export default function BookWrapper() {
                                         />{" "}
                                       </div>
                                       <span>
-                                        {
-                                          findAirlineByCode(
-                                            sesstioResultIndex?.flightDetails[
-                                              index
-                                            ]?.flightInformation?.companyId
-                                              ?.marketingCarrier)
-                                        }
+                                        {findAirlineByCode(
+                                          sesstioResultIndex?.flightDetails[
+                                            index
+                                          ]?.flightInformation?.companyId
+                                            ?.marketingCarrier
+                                        )}
                                       </span>
                                       <p>
                                         {
@@ -2555,10 +2683,12 @@ export default function BookWrapper() {
                                             }
                                             <span>
                                               {
-                                                findAirportByCode(sesstioResultIndex?.flightDetails[
-                                                  index
-                                                ]?.flightInformation?.location[1]
-                                                  ?.locationId)?.name
+                                                findAirportByCode(
+                                                  sesstioResultIndex
+                                                    ?.flightDetails[index]
+                                                    ?.flightInformation
+                                                    ?.location[1]?.locationId
+                                                )?.name
                                               }
                                               {", "}
                                               Terminal-
@@ -2589,10 +2719,12 @@ export default function BookWrapper() {
                                               {
                                                 // item?.Destination?.Airport
                                                 //   ?.AirportName
-                                                findAirportByCode(sesstioResultIndex?.flightDetails[
-                                                  index
-                                                ]?.flightInformation?.location[1]
-                                                  ?.locationId)?.name
+                                                findAirportByCode(
+                                                  sesstioResultIndex
+                                                    ?.flightDetails[index]
+                                                    ?.flightInformation
+                                                    ?.location[1]?.locationId
+                                                )?.name
                                               }
                                               {", "}
                                               Terminal-
@@ -2620,18 +2752,39 @@ export default function BookWrapper() {
                                           <p>Check-in</p>
                                           <span>
                                             {sesstioResultIndex?.baggage
-                                              ?.freeBagAllownceInfo?.baggageDetails
-                                              ?.quantityCode === "N"
-                                              ? (sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance * 23)
-                                              : (sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance)}
+                                              ?.freeBagAllownceInfo
+                                              ?.baggageDetails?.quantityCode ===
+                                            "N"
+                                              ? sesstioResultIndex?.baggage
+                                                  ?.freeBagAllownceInfo
+                                                  ?.baggageDetails
+                                                  ?.freeAllowance * 23
+                                              : sesstioResultIndex?.baggage
+                                                  ?.freeBagAllownceInfo
+                                                  ?.baggageDetails
+                                                  ?.freeAllowance}
                                             {
                                               // sesstioResultIndex?.baggage
                                               // ?.freeBagAllownceInfo?.baggageDetails
                                               // ?.quantityCode === "N"
-                                              // ? 
+                                              // ?
                                               sesstioResultIndex?.baggage
-                                                ?.freeBagAllownceInfo?.baggageDetails?.unitQualifier === "L" ? "LB" : Number(sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance) !== 0 ||
-                                                  sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance !== "0" ? "KG" : ""
+                                                ?.freeBagAllownceInfo
+                                                ?.baggageDetails
+                                                ?.unitQualifier === "L"
+                                                ? "LB"
+                                                : Number(
+                                                    sesstioResultIndex?.baggage
+                                                      ?.freeBagAllownceInfo
+                                                      ?.baggageDetails
+                                                      ?.freeAllowance
+                                                  ) !== 0 ||
+                                                  sesstioResultIndex?.baggage
+                                                    ?.freeBagAllownceInfo
+                                                    ?.baggageDetails
+                                                    ?.freeAllowance !== "0"
+                                                ? "KG"
+                                                : ""
                                               // :"KG"
                                             }
                                             {/* {item?.Baggage?.split(" ")[0]} */}
@@ -3257,8 +3410,8 @@ export default function BookWrapper() {
                                       handleServiceChange(
                                         e,
                                         index +
-                                        Number(adultCount) +
-                                        Number(childCount)
+                                          Number(adultCount) +
+                                          Number(childCount)
                                       )
                                     }
                                   ></input>
@@ -3266,8 +3419,8 @@ export default function BookWrapper() {
                                     !validateName(
                                       passengerData[
                                         index +
-                                        Number(adultCount) +
-                                        Number(childCount)
+                                          Number(adultCount) +
+                                          Number(childCount)
                                       ]?.firstName
                                     ) && (
                                       <span className="error10">
@@ -3311,8 +3464,8 @@ export default function BookWrapper() {
                                       handleServiceChange(
                                         e,
                                         index +
-                                        Number(adultCount) +
-                                        Number(childCount)
+                                          Number(adultCount) +
+                                          Number(childCount)
                                       )
                                     }
                                   ></input>
@@ -3320,8 +3473,8 @@ export default function BookWrapper() {
                                     !validateName(
                                       passengerData[
                                         index +
-                                        Number(adultCount) +
-                                        Number(childCount)
+                                          Number(adultCount) +
+                                          Number(childCount)
                                       ]?.lastName
                                     ) && (
                                       <span className="error10">
@@ -3344,8 +3497,8 @@ export default function BookWrapper() {
                                       handleServiceChange(
                                         e,
                                         index +
-                                        Number(adultCount) +
-                                        Number(childCount)
+                                          Number(adultCount) +
+                                          Number(childCount)
                                       )
                                     }
                                   >
@@ -3388,8 +3541,8 @@ export default function BookWrapper() {
                                       handleServiceChange(
                                         e,
                                         index +
-                                        Number(adultCount) +
-                                        Number(childCount)
+                                          Number(adultCount) +
+                                          Number(childCount)
                                       )
                                     }
                                     min={minDateInfer}
@@ -3399,8 +3552,8 @@ export default function BookWrapper() {
                                     !validateDate(
                                       passengerData[
                                         index +
-                                        Number(adultCount) +
-                                        Number(childCount)
+                                          Number(adultCount) +
+                                          Number(childCount)
                                       ]?.DateOfBirth
                                     ) && <span className="error10">DOB </span>}
                                 </div>
@@ -3448,8 +3601,8 @@ export default function BookWrapper() {
                                           handleServiceChange(
                                             e,
                                             index +
-                                            Number(adultCount) +
-                                            Number(childCount)
+                                              Number(adultCount) +
+                                              Number(childCount)
                                           )
                                         }
                                       ></input>
@@ -3492,8 +3645,8 @@ export default function BookWrapper() {
                                           handleServiceChange(
                                             e,
                                             index +
-                                            Number(adultCount) +
-                                            Number(childCount)
+                                              Number(adultCount) +
+                                              Number(childCount)
                                           );
                                           // console.log(
                                           //   e.target.value,
@@ -3599,8 +3752,8 @@ export default function BookWrapper() {
                           type="submit"
                           onClick={() => handleTravelClickOpen()}
                           // onClick={() => xmlpassengerData()}
-                        // onClick={() => handleTravelClickOpen()}
-                        // onClick={() => skip()}
+                          // onClick={() => handleTravelClickOpen()}
+                          // onClick={() => skip()}
                         >
                           Continue
                         </button>
@@ -3609,7 +3762,7 @@ export default function BookWrapper() {
                           className="bookWrapperButton validationFalse"
                           // type="submit"
                           onClick={() => setSub(true)}
-                        // onClick={() => handleTravelClickOpen()}
+                          // onClick={() => handleTravelClickOpen()}
                         >
                           Continue
                         </button>

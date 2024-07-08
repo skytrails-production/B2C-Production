@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
 import Home from "./pages/home/Home";
 import BookWrapper from "./pages/flight/Bookwrapper";
+import BookWrapperAmd from "./pages/flight/BookwrapperAmd";
 import Searchresult from "./pages/flight/Searchresult";
 import "./App.css";
 import LoginForm from "./components/Login";
@@ -111,11 +112,8 @@ import InventoryHotelForm from "./pages/Inventory/InventoryHotelForm";
 
 import HotelResultMain from "./pages/GRMHotel/HotelResultMain";
 
-import "../src/pages/flight/selectflight.css"
-import SmallDevice from "./components/SmallDevicePopUp"
-
-
-
+import "../src/pages/flight/selectflight.css";
+import SmallDevice from "./components/SmallDevicePopUp";
 
 function App() {
   // const location = useLocation();
@@ -136,30 +134,30 @@ function App() {
     dispatch(tokenAction(payload));
   }, [reducerState?.ip?.ipData]);
   // console.log(state, "network state..............")
-  useEffect(() => {
-    const disableInspect = (e) => {
-      if (
-        e.shiftKey && e.ctrlKey && e.keyCode === 123 || // F12
-        e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74) || // Ctrl + Shift + I/J
-        e.ctrlKey && e.keyCode === 85 // Ctrl + U
-      ) {
-        e.preventDefault();
-        return false;
-      }
-    };
+  // useEffect(() => {
+  //   const disableInspect = (e) => {
+  //     if (
+  //       e.shiftKey && e.ctrlKey && e.keyCode === 123 || // F12
+  //       e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74) || // Ctrl + Shift + I/J
+  //       e.ctrlKey && e.keyCode === 85 // Ctrl + U
+  //     ) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //   };
 
-    const disableRightClick = (e) => {
-      e.preventDefault();
-    };
+  //   const disableRightClick = (e) => {
+  //     e.preventDefault();
+  //   };
 
-    document.addEventListener('keydown', disableInspect);
-    document.addEventListener('contextmenu', disableRightClick);
+  //   document.addEventListener('keydown', disableInspect);
+  //   document.addEventListener('contextmenu', disableRightClick);
 
-    return () => {
-      document.removeEventListener('keydown', disableInspect);
-      document.removeEventListener('contextmenu', disableRightClick);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener('keydown', disableInspect);
+  //     document.removeEventListener('contextmenu', disableRightClick);
+  //   };
+  // }, []);
 
   useEffect(() => {
     dispatch(getMarkUpAction());
@@ -262,8 +260,7 @@ function App() {
 
       {/* <InsideNavbar /> */}
 
-      <SmallDevice/>
-
+      <SmallDevice />
 
       <Routes>
         <Route index element={<Home />}></Route>
@@ -312,6 +309,9 @@ function App() {
         <Route path="signup" element={<SignUp />}></Route>
         <Route path="flighterror" element={<Flighterror />}></Route>
         <Route path="Searchresult/booknow" element={<BookWrapper />}>
+          {" "}
+        </Route>
+        <Route path="Searchresult/booknowAmd" element={<BookWrapperAmd />}>
           {" "}
         </Route>
         <Route path="/Searchresult" element={<Searchresult />} />
