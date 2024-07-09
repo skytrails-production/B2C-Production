@@ -135,29 +135,17 @@ export const hotelReducer = (state = initState, action) => {
     case types.CLEAR_HOTEL_REDUCER:
       return {
         ticketData: [],
-
         hotelInfo: [],
-
         hotelRoom: [],
-
         blockRoom: [],
-
         bookRoom: [],
-
         hotelDetails: [],
-
         isLoading: false,
-
         isLoadingHotelInfo: false,
-
         isLoadingHotelRoom: false,
-
         isLoadingBlockRoom: false,
-
         isLoadingBookRoom: false,
-
         isError: false,
-
         showSuccessMessage: false,
       }
 

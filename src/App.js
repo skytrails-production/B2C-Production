@@ -115,6 +115,10 @@ import HotelResultMain from "./pages/GRMHotel/HotelResultMain";
 import "../src/pages/flight/selectflight.css";
 import SmallDevice from "./components/SmallDevicePopUp";
 
+import ItenaryDashboard from "./pages/Itenary/ItenaryDashboard";
+import ItenaryResult from "./pages/Itenary/ItenaryResult";
+
+
 function App() {
   // const location = useLocation();
   const reducerState = useSelector((state) => state);
@@ -324,7 +328,7 @@ function App() {
         {/* new grm hotel routes  */}
 
         <Route path="/st-hotel" element={<GrmHotelHome />}></Route>
-        <Route path="/st-hotel/hotelresult" element={<HotelResult />} />
+        <Route path="/st-hotel/hotelresult" element={<HotelResultMain />} />
         <Route
           path="/st-hotel/hotelresult/selectroom"
           element={<HotelBookRoomGRN />}
@@ -493,6 +497,20 @@ function App() {
           path="/inventoryhotelform"
           element={<InventoryHotelForm />}
         ></Route>
+
+
+        <Route
+          path="/itenarydashboard"
+          element={<ItenaryDashboard />}
+        ></Route>
+        <Route
+          path="/itenaryresult"
+          element={<ItenaryResult />}
+        ></Route>
+        {/* <Route
+          path="/practice"
+          element={<ItenaryPractice/>}
+        ></Route> */}
       </Routes>
 
       {/* complete inventory */}

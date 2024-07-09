@@ -71,7 +71,7 @@ function api() {
     return axios({
       method: "POST",
       url: "/skytrails/api/combined/combineTVOAMADEUSPriceSort",
-      
+
 
       baseURL: `${apiURL.baseURL}`,
       data: payload,
@@ -82,19 +82,19 @@ function api() {
   };
   const flightBookingDB = (payload) => {
     const token = SecureStorage?.getItem("jwtToken");
-  return axios({
-    method: "POST",
-    url: "/skyTrails/api/amadeus/user/flightBooking",
+    return axios({
+      method: "POST",
+      url: "/skyTrails/api/amadeus/user/flightBooking",
 
-    // url: "/skyTrails/flight/search/oneway",
-    baseURL:`${apiURL.baseURL}`,
-    data: payload,
-    headers: {
-      "Content-Type": "application/json",
-      token: token,
-    },
-  });
-};
+      // url: "/skyTrails/flight/search/oneway",
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+        token: token,
+      },
+    });
+  };
 
   const flightQuoteSearch = (payload) => {
     return axios({
@@ -549,6 +549,77 @@ function api() {
   };
 
 
+
+
+
+  // itenerary api's 
+
+  const iteneraryPayloadData = (payload) => {
+    // console.log("Passenger payload", payload);
+    return payload;
+  };
+
+
+
+  const hotelSearchforItenerary = (payload) => {
+    return axios({
+      method: "POST",
+      url: "skyTrails/hotel/search/dedup",
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
+  const itenerarySearch = (payload) => {
+
+    const { origin, destination, noOfDays } = payload
+    console.log(payload, "api itenary ka payload")
+    return axios({
+      method: "GET",
+      url: `/skyTrails/api/itinerary/dayWise/getAllCItyWiseItinerary?origin=${origin}&&destination=${destination}&&noOfDays=${noOfDays}`,
+      baseURL: `${apiURL.baseURL}`,
+      // data: payload,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
+
+
+  const savehotelRoominItenerary = (payload) => {
+    return payload;
+  };
+
+
+  const flightFromData = (payload) => {
+    return payload;
+  };
+
+  const flightToData = (payload) => {
+    return payload;
+  };
+
+
+  const handleFlightDomestic = (payload) => {
+    return payload;
+  };
+
+  const handleFlightInternational = (payload) => {
+    return payload;
+  };
+
+
+  const handleItenaryActivitySelection = (payload) => {
+    return payload;
+  };
+
+  // itenerary api's 
+
+
   return {
     userIP,
     markUp,
@@ -591,7 +662,17 @@ function api() {
     tnplOTPVerified,
     tnplPlanGenerator,
     flightBookingDB,
-    flightList,airportList
+    flightList, airportList,
+
+    iteneraryPayloadData,
+    itenerarySearch,
+    flightFromData,
+    flightToData,
+    handleFlightDomestic,
+    handleFlightInternational,
+    savehotelRoominItenerary,
+    handleItenaryActivitySelection,
+    hotelSearchforItenerary
   };
 }
 

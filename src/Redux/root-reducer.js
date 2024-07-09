@@ -23,6 +23,7 @@ import { packageBookIDReducer } from "./HolidayBookingRequest/bookingHolidayRedu
 import { packageBookingIDReducer } from "./BookingPackageData/bookingHolidayReducer";
 import { markUpDataReducer } from "./markup/markupReducer";
 import { tnplReducer } from "./TNPL/tnplReducer"
+import { itenaryReducer } from "./Itenary/itenaryReducer"
 
 const appReducer = combineReducers({
   logIn: logInReducer,
@@ -42,8 +43,9 @@ const appReducer = combineReducers({
   markup: markUpDataReducer,
   passengers: passengersReducer,
   TNPL: tnplReducer,
-  searchFlight:searchFlightReducer,
-  flightList:flightListReducer
+  Itenerary: itenaryReducer,
+  searchFlight: searchFlightReducer,
+  flightList: flightListReducer
 
 });
 

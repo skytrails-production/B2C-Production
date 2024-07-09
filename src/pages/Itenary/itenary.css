@@ -1,0 +1,171 @@
+.itenarySelect .ant-select {
+    width: 100% !important;
+    height: 44px !important;
+}
+
+.itenarySelect .ant-picker {
+    height: 44px !important;
+    width: 100% !important;
+}
+
+
+.itenarySelectRoom {
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    border-radius: 3px;
+}
+
+.itenarySelectRoom {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.itenarySelectRoom .travellerButton {
+    padding-left: 10px;
+    font-weight: 500;
+}
+
+
+
+
+/* itenerary result page design  */
+
+.dayWiseItenaryMainBox h5 {
+    font-weight: 600;
+    font-family: "Montserrat", "Helvetica Neue", ;
+    color: #1c1c21;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+.dayWiseItenaryMainBox h6 {
+    font-weight: 600;
+    font-family: "Montserrat", "Helvetica Neue", ;
+    color: #1c1c21;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+.dayWiseItenaryMainBox p {
+    font-weight: 400;
+    font-family: "Montserrat", "Helvetica Neue", ;
+    color: #1c1c21;
+    /* line-height: 1.2; */
+    font-size: 14px;
+    /* margin-bottom: 10px; */
+}
+
+.headingItenary h5 {
+    font-weight: 600;
+    font-family: "Montserrat", "Helvetica Neue", ;
+    color: #1c1c21;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+.headingItenary h6 {
+    font-weight: 600;
+    font-family: "Montserrat", "Helvetica Neue", ;
+    color: #1c1c21;
+    line-height: 1.2;
+    margin-bottom: 10px;
+}
+
+
+
+.price-summary-container {
+    background-color: white;
+    padding: 20px;
+    position: sticky;
+    top: 0;
+    border-radius: 5px;
+}
+
+
+.dayWiseItenaryInnerBox {
+    background-color: white;
+    /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
+    padding: 25px;
+    border-radius: 5px;
+}
+
+.iteFliMod:where(.css-dev-only-do-not-override-j9bb5n).ant-modal .ant-modal-content {
+    background-color: #f1f1f1 !important;
+}
+
+.iteFliMod:where(.css-j9bb5n).ant-modal .ant-modal-content {
+    background-color: #f1f1f1 !important;
+}
+
+
+
+
+
+
+
+
+
+
+.paragraph-Itenary {
+    position: relative;
+}
+
+.paragraphinsideItenary {
+    display: -webkit-box;
+    /* -webkit-line-clamp: 4; */
+    /* Number of lines to show */
+    -webkit-box-orient: vertical;
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+    /* max-height: 6em; */
+    /* Adjust the value based on line height */
+    line-height: 1.5em;
+    /* Adjust the value based on line height */
+}
+
+.show-more .paragraph {
+    -webkit-line-clamp: initial;
+    max-height: none;
+}
+
+.read-moreItenary {
+    display: block;
+    margin-top: 10px;
+    color: blue;
+    cursor: pointer;
+}
+
+
+
+
+.activityBox {
+    border: 1px solid #e8e8e8;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.activityBox h4 {
+    margin: 0;
+}
+
+.activityBox p {
+    margin: 0;
+    color: #777;
+}
+
+.selectedActivity {
+    border: 1px solid #e8e8e8;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+
+
+/* itenerary result page design  */

@@ -260,7 +260,7 @@ body {
 }
 
 .flightFilterBox {
-  top: 96px;
+  /* top: 96px; */
   overflow: hidden;
   overflow-y: scroll;
   position: -webkit-sticky;

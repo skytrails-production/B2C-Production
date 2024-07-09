@@ -87,6 +87,10 @@ export default function HotelResult({
         return false;
     });
 
+
+
+    console.log(filteredHotels, "filtered hotels")
+
     // Sort filtered hotels based on price only if sortBy is selected
     if (sortBy === "lowToHigh") {
         filteredHotels.sort((a, b) => a.min_rate.price - b.min_rate.price);
