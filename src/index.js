@@ -25,6 +25,76 @@ root.render(
               })(window, document, "clarity", "script", "layvxza6fm");
             `}
           </script>
+
+          <script type="application/ld+json">
+  {JSON.stringify({
+    "@context": "https://schema.org/",
+    "@type": "WebSite",
+    "name": "Theskytrails",
+    "url": "https://theskytrails.com",
+    "description": "Your one-stop destination for all travel needs, including flight booking, hotel booking, holiday packages, and bus booking.",
+    "author": {
+      "@type": "Organization",
+      "name": "Theskytrails"
+    },
+    "datePublished": "2024-07-10",
+    "mainEntity": [
+      {
+        "@type": "Service",
+        "name": "Flight Booking",
+        "description": "Book flights to various destinations with ease.",
+        "url": "https://theskytrails.com",
+        "image": "https://github.com/The-SkyTrails/Images/blob/main/flightseo.jpg?raw=true",
+        "serviceType": "Flight Booking",
+        "provider": {
+          "@type": "Organization",
+          "name": "Theskytrails"
+        }
+      },
+      {
+        "@type": "Service",
+        "name": "Hotel Booking",
+        "description": "Find and book hotels at the best prices.",
+        "url": "https://theskytrails.com/st-hotel",
+        "image": "https://raw.githubusercontent.com/The-SkyTrails/Images/main/Hotelseo.jpg",
+        "serviceType": "Hotel Booking",
+        "provider": {
+          "@type": "Organization",
+          "name": "Theskytrails"
+        }
+      },
+      {
+        "@type": "Service",
+        "name": "Holiday Packages",
+        "description": "Explore and book comprehensive holiday packages.",
+        "url": "https://theskytrails.com/holidaypackages",
+        "image": "https://raw.githubusercontent.com/The-SkyTrails/Images/main/HolidayPackagesseo.jpg",
+        "serviceType": "Holiday Packages",
+        "provider": {
+          "@type": "Organization",
+          "name": "Theskytrails"
+        }
+      },
+      {
+        "@type": "Service",
+        "name": "Bus Booking",
+        "description": "Book bus tickets to travel across the country.",
+        "url": "https://theskytrails.com/bus",
+        "image": "https://raw.githubusercontent.com/The-SkyTrails/Images/main/Busseo.jpg",
+        "serviceType": "Bus Booking",
+        "provider": {
+          "@type": "Organization",
+          "name": "Theskytrails"
+        }
+      }
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "345"
+    }
+  })}
+  </script>
         </Helmet>
         <BrowserRouter>
           <App />
