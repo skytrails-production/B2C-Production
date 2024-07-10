@@ -6,6 +6,7 @@ import { apiURL } from "../Constants/constant";
 import axios from "axios";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import "react-datepicker/dist/react-datepicker.css";
+// import { ipAction, tokenAction } from "../Redux/IP/actionIp";
 import { oneWayAction, resetOneWay } from "../Redux/FlightSearch/oneWay";
 import {
   searchFlightList,
@@ -39,6 +40,7 @@ import { returnActionClear } from "../Redux/FlightSearch/Return/return";
 import { Select } from "antd";
 import { DatePicker, Button } from "antd";
 import dayjs from "dayjs";
+// import { tokenAction } from "../Redux/IP/actionIp";
 
 // const { RangePicker } = DatePicker;
 
@@ -398,6 +400,19 @@ function OnewayNew() {
     dispatch(clearbookTicketGDS());
     dispatch(resetAllFareData());
   }, []);
+
+  // useEffect(() => {
+  //   dispatch(ipAction());
+  // }, []);
+
+  // useEffect(() => {
+  //   const payload = {
+  //     EndUserIp: reducerState?.ip?.ipData,
+  //   };
+
+
+  //   dispatch(tokenAction(payload));
+  // }, [reducerState?.ip?.ipData]);
 
   const ClassItems = [
     // { id: 1, label: "All" },

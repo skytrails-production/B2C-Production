@@ -38,6 +38,7 @@ import {
 } from "../utility/validationFunctions";
 import { ModeOutlined } from "@mui/icons-material";
 import Alert from "@mui/material/Alert";
+import { ipAction, tokenAction } from "../Redux/IP/actionIp";
 // import { FaWallet } from "react-icons/fa";
 // import { setTimeout } from "timers/promises";
 const MySwal = withReactContent(Swal);
@@ -64,7 +65,6 @@ export default function LoginForm() {
   // Example usage
   let twelveYearsAgoDate = getTwelveYearsAgoDate();
 
-
   const [numvalidation, setNumvalidation] = useState(false);
   const [open, setOpen] = useState(false);
   const [openSignUpModal, setOpenSignUpModal] = useState(false);
@@ -76,10 +76,10 @@ export default function LoginForm() {
   const [otp, setOtp] = useState("");
   const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
-  const [referral, setReferral] = useState("")
+  const [referral, setReferral] = useState("");
   const [loader, setLoader] = useState(false);
-  const [alreadyExist, setAlreadyExist] = useState(false)
-  const [referralError, setReferralError] = useState(false)
+  const [alreadyExist, setAlreadyExist] = useState(false);
+  const [referralError, setReferralError] = useState(false);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
@@ -96,10 +96,10 @@ export default function LoginForm() {
   const handleOtpModalOpen = () => setOpenOtpModal(true);
   const handleOtpModalClose = () => setOpenOtpModal(false);
   const handleSignUpModalOpen = () => {
-    setAlreadyExist(false)
+    setAlreadyExist(false);
     setReferralError(false);
     setOpenSignUpModal(true);
-  }
+  };
   const handleSignUpModalClose = () => {
     setOpenSignUpModal(false);
     setEmail("");
@@ -148,7 +148,6 @@ export default function LoginForm() {
     );
   };
 
-
   const isValidOTP = (otp) => {
     return /^[0-9]\d{5}$/.test(otp);
   };
@@ -167,9 +166,6 @@ export default function LoginForm() {
     requestOTPCheck();
   }, [otp]);
 
-
-
-
   // request sign in validation
 
   const [validNumEmail, setValidNumEmail] = useState(true);
@@ -183,13 +179,9 @@ export default function LoginForm() {
     setValidNumEmail(!isValidInput);
   };
 
-  // request sign in validation 
-
-
-
+  // request sign in validation
 
   const requestSignIn = async () => {
-
     setDisableButton(true);
     let payload = {
       email: mobileNumber,
@@ -244,7 +236,7 @@ export default function LoginForm() {
 
   const verifyOTP = async (e) => {
     // const [loader, setLoader] = useState(false);
-    setLoader(true)
+    setLoader(true);
     e.preventDefault();
     let payload = {
       otp: otp,
@@ -256,9 +248,9 @@ export default function LoginForm() {
   // console.log(referral, "referral")
 
   const signUpUser = async () => {
-    setAlreadyExist(false)
-    setReferralError(false)
-    setLoader(true)
+    setAlreadyExist(false);
+    setReferralError(false);
+    setLoader(true);
 
     let payloadotp = {
       otp: otp,
@@ -269,26 +261,31 @@ export default function LoginForm() {
     };
 
     dispatch(loginAction(payloadotp));
-
   };
 
-
-
-
   useEffect(() => {
-    setLoader(false)
-    if (reducerState?.logIn?.loginData?.data?.message === "This mobile number already exists" || reducerState?.logIn?.loginData?.data?.message === "This email already exist") {
+    setLoader(false);
+    if (
+      reducerState?.logIn?.loginData?.data?.message ===
+        "This mobile number already exists" ||
+      reducerState?.logIn?.loginData?.data?.message ===
+        "This email already exist"
+    ) {
       setAlreadyExist(true);
     }
-    if (reducerState?.logIn?.loginData?.data?.message === "Incorect referal code,please provide valid code..!") {
+    if (
+      reducerState?.logIn?.loginData?.data?.message ===
+      "Incorect referal code,please provide valid code..!"
+    ) {
       setReferralError(true);
     }
-  }, [reducerState?.logIn?.loginData, reducerState?.logIn?.loginData?.data?.message])
-
+  }, [
+    reducerState?.logIn?.loginData,
+    reducerState?.logIn?.loginData?.data?.message,
+  ]);
 
   useEffect(() => {
     if (status === 200) {
-
       handleOtpModalClose();
       handleSignUpModalClose();
       setDisableButton(false);
@@ -299,9 +296,8 @@ export default function LoginForm() {
 
   // handle the resend otp part
 
-
   const handleResendOtp = async () => {
-    setLoader(false)
+    setLoader(false);
     let Payload = {
       email: mobileNumber,
     };
@@ -353,8 +349,6 @@ export default function LoginForm() {
 
   // handle the resend otp part
 
-
-
   const handleLogout = () => {
     MySwal.fire({
       html: `
@@ -377,6 +371,12 @@ export default function LoginForm() {
       if (result.isConfirmed) {
         dispatch(logoutAction());
         SecureStorage.removeItem("jwtToken");
+        dispatch(ipAction());
+        const payload = {
+          EndUserIp: reducerState?.ip?.ipData,
+        };
+
+        dispatch(tokenAction(payload));
         setIsMenu(false);
         navigate("/");
       }
@@ -403,7 +403,6 @@ export default function LoginForm() {
     }
   }
 
-
   return (
     <div>
       {/* <div><Toaster /></div> */}
@@ -427,7 +426,7 @@ export default function LoginForm() {
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.6 }}
               className="position-absolute dropdownLogin bg-gray-50 shadow rounded-lg d-flex flex-column align-items-end"
-            // style={{ left: 0 }}
+              // style={{ left: 0 }}
             >
               <p
                 className="px-4 py-2 d-flex align-items-center cursor-pointer gap-3 cursor-pointer hover-bg-slate-100 transition-all duration-100 ease-in-out"
@@ -531,14 +530,12 @@ export default function LoginForm() {
                                   class="form-control"
                                   placeholder="Mobile Number or Email"
                                 />
-
                               </div>
                             </div>
                             <div
                               onClick={() => setNumvalidation(true)}
                               class="col-12"
                             >
-
                               {disableButton ? (
                                 <button className="btn btn-primaryLogin px-4 float-end mt-2">
                                   <Typewriter />
@@ -548,8 +545,7 @@ export default function LoginForm() {
                                   type="submit"
                                   onClick={requestSignIn}
                                   onKeyDown={(e) => {
-                                    if (e.key === 'Enter') {
-
+                                    if (e.key === "Enter") {
                                       requestSignIn(); // Call your function here
                                     }
                                   }}
@@ -616,8 +612,9 @@ export default function LoginForm() {
                               :
                               <div class="input-group ">
                                 <div
-                                  class={`input-group-text ${!error && "invalidOptLogin"
-                                    } `}
+                                  class={`input-group-text ${
+                                    !error && "invalidOptLogin"
+                                  } `}
                                 >
                                   <i>
                                     <PasswordIcon />
@@ -637,8 +634,9 @@ export default function LoginForm() {
                                   // }
                                   // }
                                   name="phone"
-                                  class={`form-control  ${!error && "invalidOptLogin"
-                                    }`}
+                                  class={`form-control  ${
+                                    !error && "invalidOptLogin"
+                                  }`}
                                   placeholder="Enter OTP"
                                   autoComplete="off"
                                 />
@@ -666,7 +664,7 @@ export default function LoginForm() {
                                   // type="submit"
                                   // onClick={(e) => { setSub(true); verifyOTP(e) }}
                                   class="btn btn-primaryLogin px-4 float-end mt-2"
-                                // disabled={otpError}
+                                  // disabled={otpError}
                                 >
                                   <Typewriter />
                                 </button>
@@ -756,69 +754,60 @@ export default function LoginForm() {
                               </div>
                             </div>
 
-
-
                             {
                               // reqSignInData?.result?.email !== "" && !reqSignInData?.result?.phone ?
-                              !reqSignInData.email ?
-
-                                (
-                                  <div class="col-12">
-                                    <label>
-                                      Enter Your Email
-                                      <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="input-group">
-                                      <div class="input-group-text">
-                                        <i>
-                                          <AccountCircleIcon />
-                                        </i>
-                                      </div>
-                                      <input
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        name="email"
-                                        class="form-control"
-                                        placeholder="Enter Email"
-                                      />
-                                      {alreadyExist && (
-                                        <div className="input-group-absolute">
-                                          This Email is already registered
-                                        </div>
-                                      )}
+                              !reqSignInData.email ? (
+                                <div class="col-12">
+                                  <label>
+                                    Enter Your Email
+                                    <span class="text-danger">*</span>
+                                  </label>
+                                  <div class="input-group">
+                                    <div class="input-group-text">
+                                      <i>
+                                        <AccountCircleIcon />
+                                      </i>
                                     </div>
-                                  </div>
-                                ) :
-
-                                (
-                                  <div class="col-12">
-                                    <label>
-                                      Enter Phone No
-                                      <span class="text-danger">*</span>
-                                    </label>
-                                    <div class="input-group">
-                                      <div class="input-group-text">
-                                        +91
+                                    <input
+                                      type="email"
+                                      value={email}
+                                      onChange={(e) => setEmail(e.target.value)}
+                                      name="email"
+                                      class="form-control"
+                                      placeholder="Enter Email"
+                                    />
+                                    {alreadyExist && (
+                                      <div className="input-group-absolute">
+                                        This Email is already registered
                                       </div>
-                                      <input
-                                        type="tel"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        name="phone"
-                                        class="form-control"
-                                        placeholder="Mobile Number"
-                                      />
-                                      {alreadyExist && (
-                                        <div className="input-group-absolute">
-                                          This Number is already registered
-                                        </div>
-                                      )}
-                                    </div>
+                                    )}
                                   </div>
-                                )
+                                </div>
+                              ) : (
+                                <div class="col-12">
+                                  <label>
+                                    Enter Phone No
+                                    <span class="text-danger">*</span>
+                                  </label>
+                                  <div class="input-group">
+                                    <div class="input-group-text">+91</div>
+                                    <input
+                                      type="tel"
+                                      value={email}
+                                      onChange={(e) => setEmail(e.target.value)}
+                                      name="phone"
+                                      class="form-control"
+                                      placeholder="Mobile Number"
+                                    />
+                                    {alreadyExist && (
+                                      <div className="input-group-absolute">
+                                        This Number is already registered
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              )
                             }
-
 
                             <div class="col-12">
                               <label>
@@ -865,8 +854,8 @@ export default function LoginForm() {
                                   class="form-control"
                                   placeholder="Enter OTP"
                                   max={twelveYearsAgoDate}
-                                //  readOnly
-                                //  max="1979-12-31"
+                                  //  readOnly
+                                  //  max="1979-12-31"
                                 />
                                 {subSignUpp && finalDate === "" && (
                                   <div className="input-group-absolute">
@@ -935,7 +924,7 @@ export default function LoginForm() {
                                     // type="submit"
                                     // onClick={(e) => { setSub(true); verifyOTP(e) }}
                                     class="btn btn-primaryLogin px-4 float-end mt-2"
-                                  // disabled={otpError}
+                                    // disabled={otpError}
                                   >
                                     <Typewriter />
                                   </button>
@@ -954,7 +943,6 @@ export default function LoginForm() {
                                   </button>
                                 </div>
                               )}
-
                             </div>
                           </div>
                         </div>

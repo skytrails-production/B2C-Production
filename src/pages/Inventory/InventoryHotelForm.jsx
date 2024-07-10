@@ -16,13 +16,16 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import "./Inventory.css";
 import { apiURL } from "../../Constants/constant";
-
+import { useEffect } from "react";
 const { Title } = Typography;
 const { Option } = Select;
 
 const InventoryHotelForm = () => {
   const [hotelFacilities, setHotelFacilities] = useState([]);
-
+  const [totalRoomCount, setTotalRoomCount] = useState(0);
+  const [totalAvailableRoomsCount, setTotalAvailableRoomsCount] = useState(0);
+  console.log(totalAvailableRoomsCount, "available");
+  console.log(setTotalAvailableRoomsCount, "absjdhbsdf");
   const [currentAmenities, setCurrentAmenities] = useState("");
   const [hotelAmenities, setHotelAmenities] = useState([]);
   const [currentPolicy, setCurrentPolicy] = useState(""); // State for current policy input
@@ -32,6 +35,7 @@ const InventoryHotelForm = () => {
     {
       room_type: "",
       description: "",
+      totalRooms: 0,
       noOfAdult: 0,
       noOfChildren: 0,
       room_Price: 0,
@@ -41,12 +45,16 @@ const InventoryHotelForm = () => {
       },
     },
   ]);
- 
+
   const [hotelImages, setHotelImages] = useState([]);
   const [roomsImages, setroomsImages] = useState([]);
   // let roomArr=[];
   const [formData, setFormData] = useState({
     mealType: [],
+    location: {
+      type: "Point",
+      coordinates: [0, 0], // Initial values
+    },
     hotelName: "",
     hotelCity: "",
     hotelCountry: "",
@@ -112,7 +120,24 @@ const InventoryHotelForm = () => {
     setroomsImages(fileList);
   };
 
+  const handleCoordinatesChange = (index, value) => {
+    // Ensure location and coordinates are defined
+    const newCoordinates = [...(formData.location?.coordinates ?? [0, 0])];
+    newCoordinates[index] = parseFloat(value); // Ensure the value is parsed as a float
+
+    setFormData((prevData) => ({
+      ...prevData,
+      location: {
+        ...prevData.location,
+        coordinates: newCoordinates,
+      },
+    }));
+  };
+
+  //rooms
+
   const handleSubmit = async () => {
+    console.log("Form data:", rooms, totalRoomCount);
     const formdata = new FormData();
 
     formdata.append("hotelName", formData.hotelName);
@@ -127,15 +152,19 @@ const InventoryHotelForm = () => {
     formdata.append("locality", formData.locality);
     formdata.append("hotelAddress", formData.hotelAddress);
     formdata.append("totalPrice", formData.totalPrice);
-    formdata.append("totalRooms", formData.totalRooms);
-    formdata.append("availableRooms", formData.availableRooms);
-   
+    formdata.append("totalRooms", totalRoomCount);
+    formdata.append("availableRooms", totalAvailableRoomsCount);
+
     formdata.append("amenities", JSON.stringify(hotelAmenities));
-    formdata.append("hotelFacilities", JSON.stringify(hotelFacilities));
-    formdata.append("hotelPolicies", JSON.stringify(hotelPolicies));
+    formdata.append("facilities", JSON.stringify(hotelFacilities));
+
+    formdata.append("hotelPolicy", JSON.stringify(hotelPolicies));
+    console.log(hotelPolicies, "----------");
     formdata.append("hotelCode", formData.hotelCode);
     formdata.append("roomArr", JSON.stringify(rooms));
     formdata.append("mealType", JSON.stringify(formData.mealType));
+    formdata.append("location", JSON.stringify(formData.location));
+    console.log(JSON.stringify(formData.location), "location-----");
     hotelImages.forEach((file) => {
       formdata.append("hotelImages", file.originFileObj);
     });
@@ -181,7 +210,7 @@ const InventoryHotelForm = () => {
           locality: "",
           hotelAmenities: [],
           hotelAddress: "",
-          
+          totalRooms: "",
           totalPrice: "",
           hotelCode: "",
           mealType: [], // Reset mealType
@@ -212,31 +241,17 @@ const InventoryHotelForm = () => {
   };
 
   const handleFacilityAdd = () => {
-    if (currentFacility) {
-      setHotelFacilities([...hotelFacilities, currentFacility]);
+    if (currentFacility.trim() !== "") {
+      setHotelFacilities([...hotelFacilities, currentFacility.trim()]);
       setCurrentFacility("");
-    }
-  };
-  const handleBookingPolicyAdd = () => {
-    if (
-      formData.currentBookingPolicy &&
-      formData.bookingPolicy.indexOf(formData.currentBookingPolicy) === -1
-    ) {
-      setFormData({
-        ...formData,
-        bookingPolicy: [
-          ...formData.bookingPolicy,
-          formData.currentBookingPolicy,
-        ],
-        currentBookingPolicy: "",
-      });
     }
   };
 
   // Handle adding policy
   const handlePolicyAdd = () => {
-    if (currentPolicy) {
-      setHotelPolicies([...hotelPolicies, currentPolicy]);
+    if (currentPolicy.trim() !== "") {
+      setHotelPolicies([...hotelPolicies, currentPolicy.trim()]);
+      console.log(setHotelPolicies, "pppppppppppp");
       setCurrentPolicy("");
     }
   };
@@ -252,58 +267,63 @@ const InventoryHotelForm = () => {
     setHotelAmenities(hotelAmenities.filter((_, i) => i !== index));
   };
 
+  // Function to calculate total rooms across all entries
+
+  const handleRoomChange = (value, roomIndex, key) => {
+    const updatedRooms = [...rooms];
+    updatedRooms[roomIndex][key] = value;
+
+    // If key is "totalRooms", update the totalRoomCount state
+    if (key === "totalRooms" || key === "availableRooms") {
+      const totalRooms = calculateTotalRooms(updatedRooms);
+      setTotalRoomCount(totalRooms);
+      const totalAvailableRooms = calculateTotalAvailableRooms(updatedRooms);
+      setTotalAvailableRoomsCount(totalAvailableRooms);
+    }
+    setRooms(updatedRooms);
+  };
+  const calculateTotalAvailableRooms = (rooms) => {
+    let totalAvailableRooms = 0;
+
+    rooms.forEach((room) => {
+      totalAvailableRooms += Number(room.availableRooms) || 0;
+    });
+
+    return totalAvailableRooms;
+  };
+  const calculateTotalRooms = (rooms) => {
+    let totalRooms = 0;
+    rooms.forEach((room) => {
+      totalRooms += Number(room.totalRooms) || 0;
+    });
+    setTotalRoomCount(totalRooms);
+    return totalRooms;
+  };
+
   const addRoom = () => {
     setRooms([
       ...rooms,
       {
-        // roomType: "",
-        // maximumAccomodation: 1,
+        room_type: "",
+        description: "",
+        totalRooms: 0,
+        noOfAdult: 0,
+        noOfChildren: 0,
+        room_Price: 0,
+        availableRooms: 0,
+        priceDetails: {
+          net: [],
+        },
       },
     ]);
   };
-
-  const removeRoom = (index) => {
+  const removeRoom = (roomIndex) => {
     const updatedRooms = [...rooms];
-    updatedRooms.splice(index, 1);
+    updatedRooms.splice(roomIndex, 1);
     setRooms(updatedRooms);
+    const totalRooms = calculateTotalRooms(updatedRooms);
+    setTotalRoomCount(totalRooms);
   };
-
-  const handleRoomChange = (value, roomIndex, field) => {
-    const newRooms = [...rooms];
-    newRooms[roomIndex][field] = value;
-    setRooms(newRooms);
-  };
-
-  // const handleRoomFacilityAdd = (index) => {
-  //   const updatedRooms = [...rooms];
-  //   if (updatedRooms[index].currentFacility) {
-  //     updatedRooms[index].facilities = [
-  //       ...updatedRooms[index].facilities,
-  //       updatedRooms[index].currentFacility,
-  //     ];
-  //     updatedRooms[index].currentFacility = "";
-  //   }
-  //   setRooms(updatedRooms);
-  // };
-
-  // const handleRoomInclusionAdd = (index) => {
-  //   const updatedRooms = [...rooms];
-  //   if (updatedRooms[index].currentInclusion) {
-  //     updatedRooms[index].inclusions = [
-  //       ...updatedRooms[index].inclusions,
-  //       updatedRooms[index].currentInclusion,
-  //     ];
-  //     updatedRooms[index].currentInclusion = "";
-  //   }
-  //   setRooms(updatedRooms);
-  // };
-
-  // const handleRoomImageChange = (fileList, index) => {
-  //   const updatedRooms = [...rooms];
-  //   updatedRooms[index].roomsImage = fileList.map((file) => file.originFileObj);
-  //   setRooms(updatedRooms);
-  // };
-
   return (
     <div className="inventoryForm">
       <div className="form-container">
@@ -495,35 +515,25 @@ const InventoryHotelForm = () => {
               </Form.Item>
             </Col>
           </Row>
+
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label="Total Room"
+                label="Total Room Count"
                 name="totalRooms"
-                rules={[{ required: true, message: "Please enter total room" }]}
                 className="form-item"
               >
-                <Input
-                  name="totalRooms"
-                  value={formData.totalRooms}
-                  onChange={handleChange}
-                />
+                {/* //<Input value={totalRoomCount} readOnly /> */}
+                <p>totalRoomCount:{totalRoomCount}</p>
               </Form.Item>
             </Col>
             <Col span={12}>
               <Form.Item
                 label="AvailableRooms"
                 name="availableRooms"
-                rules={[
-                  { required: true, message: "Please enter  AvailableRooms" },
-                ]}
                 className="form-item"
               >
-                <Input
-                  name="availableRooms"
-                  value={formData.availableRooms}
-                  onChange={handleChange}
-                />
+                <p>TotalAvailableRoom:{totalAvailableRoomsCount}</p>
               </Form.Item>
             </Col>
           </Row>
@@ -781,6 +791,30 @@ const InventoryHotelForm = () => {
                     </Form.Item>
                   </Col>
                 </Row>
+                <Form.Item>
+                  <Col span={12}>
+                    <Form.Item
+                      label="Total Room"
+                      name={`totalRooms-${roomIndex}`}
+                      rules={[
+                        { required: true, message: "Please enter total room" },
+                      ]}
+                      className="form-item"
+                    >
+                      <Input
+                        type="number"
+                        value={room.totalRooms}
+                        onChange={(e) =>
+                          handleRoomChange(
+                            e.target.value,
+                            roomIndex,
+                            "totalRooms"
+                          )
+                        }
+                      />
+                    </Form.Item>
+                  </Col>
+                </Form.Item>
                 <Row gutter={16}>
                   <Col span={12}>
                     <Form.Item
@@ -1035,7 +1069,50 @@ const InventoryHotelForm = () => {
               </div>
             </Upload>
           </Form.Item>
-          <Form.Item></Form.Item>
+
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="Latitude"
+                name="latitude"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter the latitude",
+                  },
+                ]}
+                className="form-item"
+              >
+                <Input
+                  type="number"
+                  value={formData.location?.coordinates?.[0] ?? ""} // Use specific coordinate value
+                  onChange={(e) => handleCoordinatesChange(0, e.target.value)}
+                  placeholder="Enter latitude"
+                />
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
+              <Form.Item
+                label="Longitude"
+                name="longitude"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter the longitude",
+                  },
+                ]}
+                className="form-item"
+              >
+                <Input
+                  type="number"
+                  value={formData.location?.coordinates?.[1] ?? ""} // Use specific coordinate value
+                  onChange={(e) => handleCoordinatesChange(1, e.target.value)}
+                  placeholder="Enter longitude"
+                />
+              </Form.Item>
+            </Col>
+          </Row>
 
           <Form.Item>
             <Button type="primary" htmlType="submit" className="submit-button">

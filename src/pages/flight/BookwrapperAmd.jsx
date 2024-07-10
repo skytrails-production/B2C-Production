@@ -44,6 +44,7 @@ import {
   isValidPassportNumber,
 } from "../../utility/validationFunctions";
 import flightPaymentLoding from "../../images/loading/loading-ban.gif";
+import { Checkbox } from 'antd';
 
 const variants = {
   initial: {
@@ -1549,6 +1550,7 @@ export default function BookWrapper() {
       parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0);
   // console.log( parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) ,"bhjsdgsdbfuydgbfuyfegbfuyfedyufbfedyfb")
   const handlePayment = async () => {
+    // console.log(passengerData)
     const token = SecureStorage?.getItem("jwtToken");
     setLoaderPayment1(true);
     setIsDisableScroll(true);
@@ -2304,6 +2306,63 @@ export default function BookWrapper() {
   //   handleClick: handleClickButton,
   // };
 
+  // console.log(reducerState   ,"reducerState");
+  const[firstnamevalue, setfirstnamevalue]= useState('');
+  const[lastnamevalue, setlastnamevalue] = useState('');
+  const[numbervalue, setnumbervalue] = useState('');
+
+//   const passengerdetail = (e) => {
+//     const isChecked = e.target.checked;
+//     if (isChecked) {
+//     const fullName = reducerState?.logIn?.loginData?.data?.result?.username ;
+//     const lastName = fullName ? fullName.split(' ').slice(1).join(' ') : '';
+//     const firstName = fullName ? fullName.split(' ')[0] : '';
+//     const phonenumber = reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number
+
+// // console.log(firstName,lastName,phonenumber);
+// setnumbervalue(phonenumber);
+// setfirstnamevalue(firstName);
+// setlastnamevalue(lastName);
+// // handleServiceChange()
+//     }else{
+//       setfirstnamevalue(' ');
+//       setlastnamevalue(' ');
+//       setnumbervalue('');
+//     }
+   
+//   };
+
+const passengerdetail = (e) => {
+  const isChecked = e.target.checked;
+  // console.log(passengerData,"gasjdgajdgasjd");
+  if (isChecked) {
+  const fullName = reducerState?.logIn?.loginData?.data?.result?.username ;
+  const lastName = fullName ? fullName.split(' ').slice(1).join(' ') : '';
+  const firstName = fullName ? fullName.split(' ')[0] : '';
+  const phonenumber = reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number
+
+// console.log(firstName,lastName,phonenumber);
+setnumbervalue(phonenumber);
+setfirstnamevalue(firstName);
+setlastnamevalue(lastName);
+handleServiceChange({ target: { name: 'firstName', value: firstName } }, 0);
+handleServiceChange({ target: { name: 'lastName', value: lastName } }, 0);
+handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
+// handleServiceChange()
+  }else{
+    setfirstnamevalue(' ');
+    setlastnamevalue(' ');
+    setnumbervalue('');
+    handleServiceChange({ target: { name: 'firstName', value: '' } }, 0);
+  handleServiceChange({ target: { name: 'lastName', value: '' } }, 0);
+  handleServiceChange({ target: { name: 'ContactNo', value: '' } }, 0);
+  }
+ 
+};
+
+
+
+
   if (errorMessage) {
     <Flighterror props={errorMessage.errorMessage} />;
   }
@@ -2970,15 +3029,30 @@ export default function BookWrapper() {
                                   >
                                     First Name
                                   </label>
-                                  <input
+                                  {/* <input
                                     type="text"
                                     name="firstName"
                                     id="floatingInput"
+                                    value={index === 0 ? firstnamevalue: ' '}
                                     onChange={(e) =>
                                       handleServiceChange(e, index)
                                     }
                                     class="form-control"
-                                  ></input>
+                                  ></input> */}
+                                  <input
+        type="text"
+        name="firstName"
+        value={index === 0 ? firstnamevalue : passengerData[index]?.firstName || ''}
+        id="floatingInput"
+        className="form-control"
+        onChange={(e) => {
+          if (index === 0) {
+            setfirstnamevalue(e.target.value);
+          }
+          handleServiceChange(e, index);
+        }}
+        // placeholder="First Name"
+      />
                                   {sub &&
                                     !validateName(
                                       passengerData[index]?.firstName
@@ -2995,14 +3069,28 @@ export default function BookWrapper() {
                                   >
                                     Last Name
                                   </label>
-                                  <input
+                                  {/* <input
                                     type="text"
                                     name="lastName"
                                     id="floatingInput"
+                                    value={index === 0 ?  lastnamevalue: " "}
                                     class="form-control"
                                     onChange={(e) =>
                                       handleServiceChange(e, index)
                                     }
+                                  ></input> */}
+                                   <input
+                                    type="text"
+                                    name="lastName"
+                                    id="floatingInput"
+                                    value={index === 0 ? lastnamevalue : passengerData[index]?.lastName || ''}
+                                    class="form-control"
+                                    onChange={(e) => {
+          if (index === 0) {
+            setlastnamevalue(e.target.value);
+          }
+          handleServiceChange(e, index);
+        }}
                                   ></input>
                                   {sub &&
                                     !validateName(
@@ -3663,6 +3751,7 @@ export default function BookWrapper() {
                             </div>
                           ))}
 
+                         {authenticUser == 200 ? <Checkbox onChange={passengerdetail}>Booking flight for yourself</Checkbox> : " " } 
                         {/* infant details here  */}
                       </div>
                     </motion.div>
@@ -3708,9 +3797,13 @@ export default function BookWrapper() {
                                 <input
                                   type="phone"
                                   name="ContactNo"
+                                  value={numbervalue}
                                   id="floatingInput"
                                   class="form-control"
                                   onChange={(e) => {
+                                    // if (index === 0) {
+                                      setnumbervalue(e.target.value);
+          // }
                                     handleServiceChange(e, 0);
                                   }}
                                 ></input>

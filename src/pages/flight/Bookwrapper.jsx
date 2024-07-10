@@ -10,6 +10,7 @@ import DialogContent from "@mui/material/DialogContent";
 import Login from "../../components/Login";
 import { motion } from "framer-motion";
 import userApi from "../../Redux/API/api";
+import { Checkbox } from 'antd';
 import { IoAdd } from "react-icons/io5";
 import { GrFormSubtract } from "react-icons/gr";
 import { PiSuitcaseRollingThin } from "react-icons/pi";
@@ -275,7 +276,7 @@ export default function BookWrapper() {
     dispatch(ruleAction(payload));
     dispatch(quoteAction(payload));
   }, []);
-console.log(reducerState,"reducerState")
+// console.log(reducerState,"reducerState")
   useEffect(() => {
     dispatch(resetFareData());
   }, [dispatch]);
@@ -687,7 +688,9 @@ console.log(reducerState,"reducerState")
     passengerInfantLists,
   ];
   const [passengerData, setPassengerData] = useState(allPassenger.flat());
+
   const handleServiceChange = (e, i) => {
+
     const { name, value } = e.target;
     const list = [...passengerData];
     if (i < adultCount) {
@@ -770,8 +773,10 @@ console.log(reducerState,"reducerState")
     }
   }
   const handlePayment = async () => {
-    console.log(transactionAmount, baggageFare, "transactionAmount + baggageFare ")
+    // console.log(transactionAmount, baggageFare, "transactionAmount + baggageFare ")
+    // console.log(passengerData, "passengerData");
     const token = SecureStorage?.getItem("jwtToken");
+    // console.log(passengerData);
     setLoaderPayment1(true);
     // setIsDisableScroll(true);
     const payload = {
@@ -1395,6 +1400,38 @@ console.log(reducerState,"reducerState")
     <Flighterror props={errorMessage.errorMessage} />;
   }
 
+  const[firstnamevalue, setfirstnamevalue]= useState('');
+  const[lastnamevalue, setlastnamevalue] = useState('');
+  const[numbervalue, setnumbervalue] = useState('');
+
+  const passengerdetail = (e) => {
+    const isChecked = e.target.checked;
+    // console.log(passengerData,"gasjdgajdgasjd");
+    if (isChecked) {
+    const fullName = reducerState?.logIn?.loginData?.data?.result?.username ;
+    const lastName = fullName ? fullName.split(' ').slice(1).join(' ') : '';
+    const firstName = fullName ? fullName.split(' ')[0] : '';
+    const phonenumber = reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number
+
+setnumbervalue(phonenumber);
+setfirstnamevalue(firstName);
+setlastnamevalue(lastName);
+handleServiceChange({ target: { name: 'FirstName', value: firstName } }, 0);
+handleServiceChange({ target: { name: 'LastName', value: lastName } }, 0);
+handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
+// handleServiceChange()
+    }else{
+      setfirstnamevalue(' ');
+      setlastnamevalue(' ');
+      setnumbervalue('');
+      handleServiceChange({ target: { name: 'FirstName', value: '' } }, 0);
+    handleServiceChange({ target: { name: 'LastName', value: '' } }, 0);
+    handleServiceChange({ target: { name: 'ContactNo', value: '' } }, 0);
+    }
+   
+  };
+
+
   // console.log(TicketDetails, "ticket details");
   if (loaderPayment == false) {
     return (
@@ -1722,15 +1759,20 @@ console.log(reducerState,"reducerState")
                                   >
                                     First Name
                                   </label>
-                                  <input
-                                    type="text"
-                                    name="FirstName"
-                                    id="floatingInput"
-                                    onChange={(e) =>
-                                      handleServiceChange(e, index)
-                                    }
-                                    class="form-control"
-                                  ></input>
+                                   <input
+        type="text"
+        name="FirstName"
+        value={index === 0 ? firstnamevalue : passengerData[index]?.FirstName || ''}
+        id="floatingInput"
+        className="form-control"
+        onChange={(e) => {
+          if (index === 0) {
+            setfirstnamevalue(e.target.value);
+          }
+          handleServiceChange(e, index);
+        }}
+        placeholder="First Name"
+      />
                                   {sub &&
                                     !validateName(
                                       passengerData[index].FirstName
@@ -1748,14 +1790,19 @@ console.log(reducerState,"reducerState")
                                     Last Name
                                   </label>
                                   <input
-                                    type="text"
-                                    name="LastName"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(e, index)
-                                    }
-                                  ></input>
+        type="text"
+        name="LastName"
+        value={index === 0 ? lastnamevalue : passengerData[index]?.LastName || ''}
+        id="floatingInput"
+        className="form-control"
+        onChange={(e) => {
+          if (index === 0) {
+            setlastnamevalue(e.target.value);
+          }
+          handleServiceChange(e, index);
+        }}
+        placeholder="Last Name"
+      />
                                   {sub &&
                                     !validateName(
                                       passengerData[index].LastName
@@ -2114,7 +2161,7 @@ console.log(reducerState,"reducerState")
                           ))}
 
                         {/* child details here  */}
-
+                        {authenticUser == 200 ? <Checkbox onChange={passengerdetail}>Booking flight for yourself</Checkbox> : " " } 
                         {/* infant details here  */}
 
                         {infantCount > 0 &&
@@ -2460,11 +2507,13 @@ console.log(reducerState,"reducerState")
                                 <input
                                   type="phone"
                                   name="ContactNo"
+                                  value={numbervalue}
                                   id="floatingInput"
                                   class="form-control"
                                   onChange={(e) => {
-                                    handleServiceChange(e, 0);
-                                  }}
+    setnumbervalue(e.target.value); 
+    handleServiceChange(e, 0); 
+  }}
                                 ></input>
                                 {sub &&
                                   !validatePhoneNumber(

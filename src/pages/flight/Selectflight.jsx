@@ -3508,7 +3508,7 @@ function NewItems({
 
   }, [sesstioResultIndex])
   useEffect(() => {
-    console.log(reducerState?.oneWay, "reducerState?.oneWay?.isLoadingmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
+    // console.log(reducerState?.oneWay, "reducerState?.oneWay?.isLoadingmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
     if (reducerState?.oneWay?.isLoading) {
       setLoader(true)
     }
@@ -3601,9 +3601,9 @@ function NewItems({
     // Clean up the event listener on component unmount
     return () => window.removeEventListener('resize', handleResize);
   }, [window.innerWidth]);
-  useEffect(() => {
-    console.log(reducerState)
-  }, [])
+  // useEffect(() => {
+  //   console.log(reducerState)
+  // }, []);
   const [resultsAvailable, setResultsAvailable] = useState(false);
 
   // Simulate a search result coming in after 5 seconds
@@ -3620,7 +3620,7 @@ function NewItems({
     if (!loader) {
       const timer = setTimeout(() => {
         setResultsAvailable(true);
-        console.log("resuable")
+        // console.log("resuable");
       }, 300); // 3 milliseconds
 
       // Cleanup the timer

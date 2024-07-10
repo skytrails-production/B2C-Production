@@ -2,6 +2,7 @@ import { takeLatest, call, put } from "redux-saga/effects";
 import userApi from "../API/api";
 import { GET_MARKUP_DATA } from "../markup/markupActionType";
 import { markupData } from '../markup/markupAction';
+import {LOGOUT_REQUEST} from "../Auth/logIn/actionType";
 
 
 function* getMarkup() {
@@ -13,6 +14,16 @@ function* getMarkup() {
     }
 }
 
+function* handleLogout() {
+    try {
+        yield call(getMarkup); 
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+
 export function* watchMarkup() {
     yield takeLatest(GET_MARKUP_DATA, getMarkup);
+    yield takeLatest(LOGOUT_REQUEST, handleLogout);
 }
