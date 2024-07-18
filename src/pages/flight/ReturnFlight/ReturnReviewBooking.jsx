@@ -186,6 +186,13 @@ const ReturnReviewBooking = () => {
   //     navigate("/");
   //   }
   // }, [reducerState?.flightBook?.flightBookData?.Response]);
+  
+  const [finalAmount, setFinalAmount] = useState(0);
+
+  const handleFinalAmountChange = (amount) => {
+    setFinalAmount(amount);
+  };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -202,8 +209,9 @@ const ReturnReviewBooking = () => {
         try {
           const token = SecureStorage.getItem("jwtToken");
           const payload = {
-            "refund_amount": transactionAmount ||
-              (Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
+            "refund_amount": Number(finalAmount).toFixed(2),
+            // ||
+            //   (Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
             // "refund_amount": 2,
             "txnId": refundTxnId,
 
@@ -261,8 +269,9 @@ const ReturnReviewBooking = () => {
         try {
           const token = SecureStorage.getItem("jwtToken");
           const payload = {
-            "refund_amount": transactionAmount ||
-              (Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
+            "refund_amount": Number(finalAmount).toFixed(2),
+            //  ||
+            //   (Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
             // "refund_amount": 2,
             "txnId": refundTxnId,
 
@@ -420,7 +429,7 @@ const ReturnReviewBooking = () => {
         reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorMessage === ""
       ) {
         setLoaderPayment(false);
-        navigate("/bookedTicketWithReturn");
+        navigate("/bookedTicketWithReturn", { state: { finalamount: finalAmount } });
       } else if (
         reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorCode !== 0 &&
         reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorCode !== undefined
@@ -429,8 +438,9 @@ const ReturnReviewBooking = () => {
         try {
           const token = SecureStorage.getItem("jwtToken");
           const payload = {
-            "refund_amount": transactionAmount - (Number(fareValue?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare))) ||
-              (Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
+            "refund_amount":Number(finalAmount).toFixed(2),
+            // "refund_amount": finalAmount - (Number(fareValue?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare))) ||
+            //   (Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
             // "refund_amount": 1,
             "txnId": refundTxnId,
           }
@@ -486,9 +496,10 @@ const ReturnReviewBooking = () => {
         try {
           const token = SecureStorage.getItem("jwtToken");
           const payload = {
-            "refund_amount": transactionAmount - (Number(fareValue?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare))) ||
-              (Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
+            // "refund_amount": finalAmount - (Number(fareValue?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare))) ||
+            //   (Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
             // "refund_amount": 1,
+            "refund_amount":Number(finalAmount).toFixed(2),
             "txnId": refundTxnId,
           }
 
@@ -631,7 +642,8 @@ const ReturnReviewBooking = () => {
         return {
           ...item,
           Email: apiURL.flightEmail,
-          ContactNo: apiURL.phoneNo,
+          // ContactNo: apiURL.phoneNo,
+          ContactNo:Passengers[0].ContactNo,
           PassportExpiry: "",
         };
       }),
@@ -649,7 +661,9 @@ const ReturnReviewBooking = () => {
         return {
           ...item,
           Email: apiURL.flightEmail,
-          ContactNo: apiURL.phoneNo,
+          // ContactNo: apiURL.phoneNo,
+          ContactNo: PassengersReturn[0].ContactNo,
+          PassportExpiry: "",
         };
       }),
     };
@@ -678,15 +692,17 @@ const ReturnReviewBooking = () => {
       phone: Passengers[0].ContactNo,
       // amount: 2,
       amount:
-        transactionAmount ||
+      Number(finalAmount).toFixed(2) ||
         (!isDummyTicketBooking
-          ? Number(
-            fareValue?.Fare?.PublishedFare +
-            fareValueReturn?.Fare?.PublishedFare +
-            markUpamount *
-            (fareValue?.Fare?.PublishedFare +
-              fareValueReturn?.Fare?.PublishedFare)
-          ).toFixed(0)
+          ? 
+          // Number(
+          //   fareValue?.Fare?.PublishedFare +
+          //   fareValueReturn?.Fare?.PublishedFare +
+          //   markUpamount *
+          //   (fareValue?.Fare?.PublishedFare +
+          //     fareValueReturn?.Fare?.PublishedFare)
+          // ).toFixed(0)
+          Number( finalAmount).toFixed(2)
           : 99),
 
 
@@ -797,7 +813,8 @@ const ReturnReviewBooking = () => {
           ...item,
           PassportExpiry: "",
           Email: apiURL.flightEmail,
-          ContactNo: apiURL.phoneNo,
+          // ContactNo: apiURL.phoneNo,
+            ContactNo:Passengers[0]?.ContactNo,
         };
       }),
       EndUserIp: reducerState?.ip?.ipData,
@@ -820,7 +837,8 @@ const ReturnReviewBooking = () => {
           ...item,
           PassportExpiry: "",
           Email: apiURL.flightEmail,
-          ContactNo: apiURL.phoneNo,
+          // ContactNo: apiURL.phoneNo,
+          ContactNo: Passengers[0]?.ContactNo,
         };
       }),
       EndUserIp: reducerState?.ip?.ipData,
@@ -1276,6 +1294,7 @@ const ReturnReviewBooking = () => {
           <div className="col-lg-3 col-md-3">
             <ReturnSummaryWithCoupon
               toggle={toggle}
+              onFinalAmountChange={handleFinalAmountChange}
               toggleState={toggleState}
               transactionAmount={setTransactionAmountState}
               Amount={transactionAmount}

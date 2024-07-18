@@ -96,6 +96,27 @@ export default function BookWrapper() {
   const [isDisableScroll, setIsDisableScroll] = useState(false);
   const [refundTxnId, setRefundTxnId] = useState(null);
   const arrivalMomentt = moment(`${"010724"} ${"0555"}`, "DDMMYYYY HHmm");
+
+
+  const [finalAmount, setFinalAmount] = useState(0);
+
+const handleFinalAmountChange = (amount) => {
+  setFinalAmount(amount);
+};
+
+const [couponvalue, setCouponValue] = useState("");
+const handlecouponChange = (code) => {
+  setCouponValue(code);
+};
+
+// console.log("couponvalue",couponvalue);
+
+
+
+// console.log("ResultIndex",ResultIndex);
+
+
+// console.log("amount",finalAmount);
   // '1800' '0555'
   const arrTimeISOt = arrivalMomentt.toISOString();
   // console.log(arrTimeISOt, "arrTimeISOttttttttttttttttttttttttttttttt")
@@ -190,6 +211,8 @@ export default function BookWrapper() {
 
   // return <div>hiiii</div>;
 
+ 
+
   const convertXmlToJson = () => {
     const parser = new XMLParser();
     const result = parser.parse(xmlData);
@@ -267,6 +290,7 @@ export default function BookWrapper() {
       setOpenTravelModal(true);
     }
   };
+  
 
   const couponconfirmation = async () => {
     try {
@@ -274,9 +298,7 @@ export default function BookWrapper() {
       const response = await axios.get(
         `${
           apiURL.baseURL
-        }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
-          "couponCode"
-        )}`,
+        }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
 
         {
           headers: {
@@ -284,8 +306,14 @@ export default function BookWrapper() {
           },
         }
       );
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+
+    }
   };
+
+
+
 
   const handleTravelClose = (event, reason) => {
     if (reason !== "backdropClick") {
@@ -671,6 +699,8 @@ export default function BookWrapper() {
   const setTransactionAmountState = (e) => {
     setTransactionAmount(e);
   };
+
+
 
   const TicketDetails = reducerState?.flightFare?.flightQuoteData?.Results;
   const cancellationPolicy =
@@ -1214,7 +1244,7 @@ export default function BookWrapper() {
 
       convertXmlToJsonSavePnr(res?.data?.data?.data);
       // saveDb(res);
-
+      // couponconfirmation();
       // navigate(`/bookedTicketSucess/${res?.data?.data?.headers?.Pnr}`);
     } else {
       refundAmount();
@@ -1292,9 +1322,10 @@ export default function BookWrapper() {
       const payload = {
         // refund_amount: 1,
         refund_amount:
-          parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) +
-          markUpamount *
-            parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0),
+          // parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) +
+          // markUpamount *
+          //   parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0),
+          Number(finalAmount),
 
         txnId: refundTxnId,
       };
@@ -1312,6 +1343,7 @@ export default function BookWrapper() {
       console.warn(error);
     } finally {
       saveDb();
+      
     }
 
     swalModal(
@@ -1557,9 +1589,10 @@ export default function BookWrapper() {
     const payload = {
       firstname: passengerData?.[0]?.firstName,
       phone: passengerData?.[0]?.ContactNo,
-      amount:
+      amount: Number(finalAmount),
         // transactionAmount ||
-        grandTotal,
+        // grandTotal,
+       
       // amount: 1,
 
       email: passengerData[0]?.email,
@@ -1620,9 +1653,9 @@ export default function BookWrapper() {
             console.error("Error verifying payment:", error);
             // Handle error
           }
-          if (sessionStorage.getItem("couponCode")) {
-            couponconfirmation();
-          }
+          // if (sessionStorage.getItem("couponCode")) {
+            // couponconfirmation();
+          // }
           // sessionStorage.removeItem("flightcoupon");
           // sessionStorage.removeItem("couponCode");
           setIsDisableScroll(false);
@@ -1886,9 +1919,10 @@ export default function BookWrapper() {
         ? "BOOKED"
         : "FAILED",
       totalAmount:
-        parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) +
-        markUpamount *
-          parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0),
+        // parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) +
+        // markUpamount *
+        //   parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0),
+        Number(finalAmount),
       origin: reducerState?.searchFlight?.flightDetails?.from?.name,
       destination: reducerState?.searchFlight?.flightDetails?.to?.name,
       airlineDetails: jsonSavePnrData?.originDestinationDetails?.itineraryInfo
@@ -2047,7 +2081,9 @@ export default function BookWrapper() {
         (item) => ({
           ...item,
           amount:
-            (transactionAmount || parseInt(ResultIndex?.TotalPublishFare)) /
+            // (transactionAmount || parseInt(ResultIndex?.TotalPublishFare)) /
+            // reducerState?.passengers?.passengersData?.length,
+            (Number(finalAmount) || parseInt(ResultIndex?.TotalPublishFare)) /
             reducerState?.passengers?.passengersData?.length,
           gender: item?.title == "Miss" ? "Female" : "Male",
         })
@@ -2061,9 +2097,10 @@ export default function BookWrapper() {
       response?.data?.statusCode === 200 &&
       jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber
     ) {
-      // navigate(`/bookedTicketSucess/${jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber}`, {
-      //   state: { PNR: jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber },
-      // });
+      couponconfirmation();
+      navigate(`/bookedTicketSucess/${jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber}`, {
+        state: { PNR: jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber },
+      });
     }
   };
   // console.log(jsonSavePnrData, "jsonSavePNR")
@@ -2134,6 +2171,9 @@ export default function BookWrapper() {
 
     return outputDate;
   }
+
+
+
 
   // const getTicketForLCC = () => {
   //   const payloadLcc = {
@@ -2359,6 +2399,8 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
   }
  
 };
+
+
 
 
 
@@ -3833,6 +3875,8 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                       <BookNowLeft
                         toggle={toggle}
                         toggleState={toggleState}
+                        oncouponselect={handlecouponChange}
+                         onFinalAmountChange={handleFinalAmountChange}
                         transactionAmount={setTransactionAmountState}
                         Amount={transactionAmount}
                       />
@@ -3889,7 +3933,7 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                   </motion.div>
                 </motion.div>
                 <div className="d-none d-sm-block col-lg-3 col-md-3">
-                  {<BookNowLeftAmd />}
+                  {<BookNowLeftAmd onFinalAmountChange={handleFinalAmountChange}  oncouponselect={handlecouponChange}/>}
                 </div>
               </div>
             </div>

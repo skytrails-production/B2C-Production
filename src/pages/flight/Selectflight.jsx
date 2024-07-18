@@ -11,7 +11,7 @@ import "./selectflight.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "@mui/material/Modal";
 // import Paper from "@mui/material/Paper";
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
 import { ImCancelCircle } from "react-icons/im";
 // import Swal from "sweetalert2";
 import { clearbookTicketGDS } from "../../Redux/FlightBook/actionFlightBook";
@@ -27,8 +27,8 @@ import { Segment } from "@mui/icons-material";
 import "./selectflight.css";
 import fromTo from "../../images/fromTo.png";
 import { FaArrowRight } from "react-icons/fa";
-import { useAnimation } from 'framer-motion';
-import FlightProgressBar from './FlightProgressBar';
+import { useAnimation } from "framer-motion";
+import FlightProgressBar from "./FlightProgressBar";
 // import { useInView } from 'react-intersection-observer';
 const variants = {
   initial: {
@@ -66,6 +66,7 @@ function Items({
   // const [value, setValue] = useState(true);
   const [valueShow, setValueShow] = useState(false);
   const reducerState = useSelector((state) => state);
+  // console.log(reducerState,"reducerState");
   // const [flightDetailsValue, setFlightDetailsValue] = React.useState("1");
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
@@ -1561,8 +1562,8 @@ function Items({
                         }
                       </span>
                       <p>
-                        { }
-                        { }
+                        {}
+                        {}
                       </p>
                     </div>
                     <div className="singleFlightBoxTwo">
@@ -1623,14 +1624,15 @@ function Items({
             </div>
           ) : (
             <div className="col-lg-9 col-md-9">
-              {0 < filteredData.length ?
+              {0 < filteredData.length ? (
                 filteredData.map((item) => {
                   // Date
 
                   const duration = `${Math.floor(
                     results?.[0][item]?.Segments?.[0][0]?.Duration / 60
-                  )}hr ${results?.[0][item]?.Segments?.[0][0]?.Duration % 60
-                    }min`;
+                  )}hr ${
+                    results?.[0][item]?.Segments?.[0][0]?.Duration % 60
+                  }min`;
 
                   // console.warn(reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error?.ErrorCode, "filtred data")
 
@@ -1684,9 +1686,9 @@ function Items({
                           >
                             {" "}
                             {results[0][item]?.AirlineRemark &&
-                              results[0][item]?.AirlineRemark.includes(
-                                "Free Meal will be included"
-                              ) ? (
+                            results[0][item]?.AirlineRemark.includes(
+                              "Free Meal will be included"
+                            ) ? (
                               <p className="mandaField">Free Meal included</p>
                             ) : (
                               " "
@@ -1778,26 +1780,29 @@ function Items({
                                 <h4>
                                   {`${Math.floor(
                                     results[0][item]?.Segments[0][0]?.Duration /
+                                      60
+                                  )}hr ${
+                                    results[0][item]?.Segments[0][0]?.Duration %
                                     60
-                                  )}hr ${results[0][item]?.Segments[0][0]?.Duration %
-                                  60
-                                    }min`}{" "}
+                                  }min`}{" "}
                                   -{" "}
                                   {`${Math.floor(
                                     results[0][item]?.Segments[0][1]?.Duration /
+                                      60
+                                  )}hr ${
+                                    results[0][item]?.Segments[0][0]?.Duration %
                                     60
-                                  )}hr ${results[0][item]?.Segments[0][0]?.Duration %
-                                  60
-                                    }min`}
+                                  }min`}
                                 </h4>
                               ) : (
                                 <h4>
                                   {`${Math.floor(
                                     results[0][item]?.Segments[0][0]?.Duration /
+                                      60
+                                  )}hr ${
+                                    results[0][item]?.Segments[0][0]?.Duration %
                                     60
-                                  )}hr ${results[0][item]?.Segments[0][0]?.Duration %
-                                  60
-                                    }min`}
+                                  }min`}
                                 </h4>
                               )}
 
@@ -1829,10 +1834,12 @@ function Items({
                               )}
                               <p>
                                 {results[0][item]?.Segments[0].length > 1
-                                  ? `${results[0][item]?.Segments[0].length - 1
-                                  } stop via ${results[0][item]?.Segments[0][0]
-                                    ?.Destination?.Airport?.CityName
-                                  }`
+                                  ? `${
+                                      results[0][item]?.Segments[0].length - 1
+                                    } stop via ${
+                                      results[0][item]?.Segments[0][0]
+                                        ?.Destination?.Airport?.CityName
+                                    }`
                                   : "Non Stop"}
                               </p>
 
@@ -1872,13 +1879,12 @@ function Items({
                             <div className="singleFlightBoxSeven">
                               <p className="text-center">
                                 ₹{" "}
-                                {(results[0][
-                                  item
-                                ]?.Fare?.PublishedFare).toFixed(0)}
+                                {Number(
+                                  results[0][item]?.Fare?.PublishedFare
+                                ).toFixed(0)}
                               </p>
                               <button
                                 onClick={() => {
-
                                   handleIndexId(results[0][item]?.ResultIndex);
                                 }}
                               >
@@ -1887,7 +1893,7 @@ function Items({
                             </div>
                           </motion.div>
                           {results[0][item]?.AirlineRemark !== null &&
-                            results[0][item]?.AirlineRemark !== "--." ? (
+                          results[0][item]?.AirlineRemark !== "--." ? (
                             <p className="text-center w-100 mandaField">
                               {results[0][item]?.AirlineRemark}
                             </p>
@@ -1898,13 +1904,13 @@ function Items({
                       </motion.div>
                     </>
                   );
-                }) :
-
+                })
+              ) : (
                 <div className="filteredNotFound">
                   <img src={flightNoResult} alt="filter" />
                   <h1>Result not found</h1>
                 </div>
-              }
+              )}
               {reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error
                 ?.ErrorCode !== 0 &&
                 reducerState?.oneWay?.oneWayData?.data?.data?.Response?.Error
@@ -2943,7 +2949,7 @@ function Items({
                         <div
                           className="noResultBtnDiv"
                           onClick={() => navigate("/")}
-                        // style={{}}
+                          // style={{}}
                         >
                           Modify Search & Try Again
                         </div>
@@ -2969,9 +2975,8 @@ function NewItems({
   selectedCategory,
   handleRadioChange,
 }) {
-  ;
   const [loader, setLoader] = useState(true);
-
+  // console.log(results, "itemjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
   const [openModal, setOpenModal] = useState(false);
   const [openModal1, setOpenModal1] = useState(true);
   const [totalTravalTime, setTotaltravalTime] = useState("");
@@ -2982,11 +2987,14 @@ function NewItems({
   const [airlines, setAirlines] = useState([]);
   const [airports, setAirports] = useState([]);
   useEffect(() => {
-    setAirlines(reducerState?.flightList?.flightDetails)
-    setAirports(reducerState?.flightList?.aireportList)
-  }, [reducerState?.flightList?.flightDetails, reducerState?.flightList?.aireportList])
+    setAirlines(reducerState?.flightList?.flightDetails);
+    setAirports(reducerState?.flightList?.aireportList);
+  }, [
+    reducerState?.flightList?.flightDetails,
+    reducerState?.flightList?.aireportList,
+  ]);
 
-  const [viewDetailItem, setViewDetailItem] = useState([])
+  const [viewDetailItem, setViewDetailItem] = useState([]);
   useState(() => {
     if (results?.result) {
       setLoader(false);
@@ -3005,9 +3013,11 @@ function NewItems({
   // console.log(results?.results, results?.result?.[0]?.Segments?.[0]?.[results?.result?.[0].Segments?.[0]?.length - 1], "resultttttttttttttttttttttttttt")
   const departurePlace =
     results?.result?.[0]?.Segments?.[0]?.[0]?.Origin?.Airport?.CityName;
-  const arrivalPlace = results?.result?.[0] ?
-    results?.result?.[0].Segments?.[0]?.[results?.result?.[0]?.Segments?.[0]?.length - 1]
-      ?.Destination?.Airport?.CityName : null;
+  const arrivalPlace = results?.result?.[0]
+    ? results?.result?.[0].Segments?.[0]?.[
+        results?.result?.[0]?.Segments?.[0]?.length - 1
+      ]?.Destination?.Airport?.CityName
+    : null;
 
   // ///////////////////////filteredata///////////////////////////////
 
@@ -3078,7 +3088,6 @@ function NewItems({
 
   const [priceRangeValue, setPriceRangeValue] = useState(maxPrice + 5001);
 
-
   const handlePriceRangeChange = (event) => {
     setPriceRangeValue(event.target.value);
   };
@@ -3087,16 +3096,8 @@ function NewItems({
   const formatMinutesToTime = (totalMinutes) => {
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
-    return `${hours}hr ${minutes < 10 ? '0' : ''}${minutes}min`;
+    return `${hours}hr ${minutes < 10 ? "0" : ""}${minutes}min`;
   };
-
-
-
-
-
-
-
-
 
   function getDifferenceInHoursTVO(startTime, endTime) {
     const start = new Date(startTime);
@@ -3109,11 +3110,11 @@ function NewItems({
   }
   function convertToHoursAMD(time) {
     // Convert time to string and pad with leading zeros if necessary
-    const timeString = time.toString().padStart(4, '0');
+    const timeString = time?.toString().padStart(4, "0");
 
     // Extract hours and minutes
-    const hours = parseInt(timeString.substring(0, 2), 10);
-    const minutes = parseInt(timeString.substring(2), 10);
+    const hours = parseInt(timeString?.substring(0, 2), 10);
+    const minutes = parseInt(timeString?.substring(2), 10);
 
     // Calculate total hours
     const totalHours = hours + minutes / 60;
@@ -3123,19 +3124,20 @@ function NewItems({
   // const time = '0115'; // Time represented as a string
   // console.log(convertToHours(time));
 
-
-
-
-
   const maxtime = results?.result?.reduce((max, item) => {
     // const durationmax = convertToHoursAMD(item?.propFlightGrDetail?.flightProposal[1]?.ref);
-    const tvoDepTime = item?.Segments?.[0]?.[0]?.Origin?.DepTime
-    const tvoArrTime = item?.Segments?.[0]?.length === 1 ? item?.Segments?.[0]?.[0]?.Destination?.ArrTime : item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination?.ArrTime
+    const tvoDepTime = item?.Segments?.[0]?.[0]?.Origin?.DepTime;
+    const tvoArrTime =
+      item?.Segments?.[0]?.length === 1
+        ? item?.Segments?.[0]?.[0]?.Destination?.ArrTime
+        : item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination
+            ?.ArrTime;
 
     // console.log()
 
-
-    const durationItemFormattedTime = tvoDepTime ? getDifferenceInHoursTVO(tvoDepTime, tvoArrTime) : convertToHoursAMD(item?.propFlightGrDetail?.flightProposal[1]?.ref)
+    const durationItemFormattedTime = tvoDepTime
+      ? getDifferenceInHoursTVO(tvoDepTime, tvoArrTime)
+      : convertToHoursAMD(item?.propFlightGrDetail?.flightProposal[1]?.ref);
     // ||
     //  convertMinutesToHoursAndMinutes(durationItem);
     // console.log(durationItemFormattedTime,"tvoDepTimetvoDepTime")
@@ -3145,20 +3147,23 @@ function NewItems({
     // console.log(    durationmax,"kkkkkkkk")
 
     return Math.ceil(currentmax);
-  }, 0)
-
-
+  }, 0);
 
   const mintime = results?.result?.reduce((min, item) => {
-    const tvoDepTime = item?.Segments?.[0]?.[0]?.Origin?.DepTime
-    const tvoArrTime = item?.Segments?.[0]?.length === 1 ? item?.Segments?.[0]?.[0]?.Destination?.ArrTime : item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination?.ArrTime
-    const durationmin = tvoDepTime ? getDifferenceInHoursTVO(tvoDepTime, tvoArrTime) : convertToHoursAMD(item?.propFlightGrDetail?.flightProposal[1]?.ref);
+    const tvoDepTime = item?.Segments?.[0]?.[0]?.Origin?.DepTime;
+    const tvoArrTime =
+      item?.Segments?.[0]?.length === 1
+        ? item?.Segments?.[0]?.[0]?.Destination?.ArrTime
+        : item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination
+            ?.ArrTime;
+    const durationmin = tvoDepTime
+      ? getDifferenceInHoursTVO(tvoDepTime, tvoArrTime)
+      : convertToHoursAMD(item?.propFlightGrDetail?.flightProposal[1]?.ref);
     const currentmin = Math.min(min, durationmin);
     // console.log(    durationmin,"llllllllllllllllllllll")
 
     return Math.ceil(currentmin);
   }, Infinity);
-
 
   const convertMinutesToHoursAndMinutes = (totalMinutes) => {
     const hours = Math.floor(totalMinutes / 60);
@@ -3175,10 +3180,7 @@ function NewItems({
 
   // console.log("currentmin//////////////////",mintime,maxtime);
 
-
-  const [timeduration, setTimeduration] = useState('0hr 00min');
-
-
+  const [timeduration, setTimeduration] = useState("0hr 00min");
 
   // console.log("timeduration", timeduration);
   const [layoverRangeValue, setLayoverRangeValue] = useState(maxtime || 24);
@@ -3188,14 +3190,13 @@ function NewItems({
   // console.log(reducerState)
   useEffect(() => {
     setTimeduration(maxtime);
-    setLayoverRangeValue(maxtime + 1)
+    setLayoverRangeValue(maxtime + 1);
   }, [maxtime]);
   const handledurationValueChange = (event) => {
     const newValue = parseInt(event.target.value);
     setTimeduration(newValue);
     // You can perform additional actions based on the new value of the slider
   };
-
 
   const controls = useAnimation();
   // const { ref, inView } = useInView({
@@ -3217,41 +3218,45 @@ function NewItems({
   }, [maxPrice]);
   function convertTimeToHoursAndMinutes(time) {
     if (time) {
-
       const hours = parseInt(time.slice(0, 2));
       const minutes = parseInt(time.slice(2, 4));
       return `${hours} hours and ${minutes} minutes`;
     }
-    return
+    return;
   }
   function convertTimeToHoursAndMinutesFlight(time) {
     if (time) {
-
       const hours = parseInt(time.slice(0, 2));
       const minutes = parseInt(time.slice(2, 4));
       return `${hours}h ${minutes}m`;
     }
-    return
+    return;
   }
   function convertTimeToHoursAndMinutesAMDFilter(time) {
     if (time) {
-
       const hours = parseInt(time.slice(0, 2));
       const minutes = parseInt(time.slice(2, 4));
       return `${hours} hours and ${minutes} minutes`;
     }
-    return
+    return;
   }
   // console.log(reducerState, "reduv")
+  // console.log("sesstioResultIndex", sesstioResultIndex);
 
   const filteredDatanew =
     results?.result &&
     results?.result.filter((item) => {
-      const durationItem = item?.propFlightGrDetail?.flightProposal[1]?.ref
+      const durationItem = item?.propFlightGrDetail?.flightProposal[1]?.ref;
 
-      const tvoDepTime = item?.Segments?.[0]?.[0]?.Origin?.DepTime
-      const tvoArrTime = item?.Segments?.[0]?.length === 1 ? item?.Segments?.[0]?.[0]?.Destination?.ArrTime : item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination?.ArrTime
-      const durationItemFormattedTime = tvoDepTime ? getDifferenceInHoursTVO(tvoDepTime, tvoArrTime) : convertToHoursAMD(item?.propFlightGrDetail?.flightProposal[1]?.ref)
+      const tvoDepTime = item?.Segments?.[0]?.[0]?.Origin?.DepTime;
+      const tvoArrTime =
+        item?.Segments?.[0]?.length === 1
+          ? item?.Segments?.[0]?.[0]?.Destination?.ArrTime
+          : item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination
+              ?.ArrTime;
+      const durationItemFormattedTime = tvoDepTime
+        ? getDifferenceInHoursTVO(tvoDepTime, tvoArrTime)
+        : convertToHoursAMD(item?.propFlightGrDetail?.flightProposal[1]?.ref);
 
       // console.log()
 
@@ -3285,31 +3290,33 @@ function NewItems({
       const departureTime = item?.Segments
         ? moment(item?.Segments?.[0]?.[0]?.Origin?.DepTime).format("HH")
         : moment(
-          item?.Segments?.[0]?.[0]?.Origin?.DepTime ||
-          item?.flightDetails?.flightInformation?.productDateTime
-            .timeOfDeparture ||
-          item?.flightDetails?.[0]?.flightInformation?.productDateTime
-            .timeOfDeparture,
-          "HHmm"
-        ).format("HH");
+            item?.Segments?.[0]?.[0]?.Origin?.DepTime ||
+              item?.flightDetails?.flightInformation?.productDateTime
+                .timeOfDeparture ||
+              item?.flightDetails?.[0]?.flightInformation?.productDateTime
+                .timeOfDeparture,
+            "HHmm"
+          ).format("HH");
       const arrivaltime = item?.Segments
         ? moment(
-          item?.Segments?.[0][item?.Segments?.[0]?.length - 1]?.Destination
-            ?.ArrTime
-        ).format("HH")
+            item?.Segments?.[0][item?.Segments?.[0]?.length - 1]?.Destination
+              ?.ArrTime
+          ).format("HH")
         : moment(
-          item?.flightDetails?.flightInformation?.productDateTime
-            .timeOfArrival ||
-          item?.flightDetails?.[item?.flightDetails?.length - 1]
-            ?.flightInformation?.productDateTime?.timeOfArrival,
-          "HHmm"
-        ).format("HH");
+            item?.flightDetails?.flightInformation?.productDateTime
+              .timeOfArrival ||
+              item?.flightDetails?.[item?.flightDetails?.length - 1]
+                ?.flightInformation?.productDateTime?.timeOfArrival,
+            "HHmm"
+          ).format("HH");
       const airlineName =
         item?.ValidatingAirline ||
         item?.flightDetails?.flightInformation?.companyId?.marketingCarrier ||
-        item?.flightDetails?.[0]?.flightInformation?.companyId?.marketingCarrier;
+        item?.flightDetails?.[0]?.flightInformation?.companyId
+          ?.marketingCarrier;
 
-      const totalamount = item?.Fare?.PublishedFare || item?.monetaryDetail?.[0]?.amount;
+      const totalamount =
+        item?.Fare?.PublishedFare || item?.monetaryDetail?.[0]?.amount;
 
       const categoryFilters = selectedCategory.map((category) => {
         const [groupName, value] = category.split(":");
@@ -3354,10 +3361,18 @@ function NewItems({
         }
       });
       // console.log(totalamount,"totalAmount")
-      const priceInRange = totalamount && priceRangeValue ? Number(totalamount) <= priceRangeValue : true;
-      const layoverTime = durationItemFormattedTime && layoverRangeValue ? durationItemFormattedTime <= layoverRangeValue : true;
+      const priceInRange =
+        totalamount && priceRangeValue
+          ? Number(totalamount) <= priceRangeValue
+          : true;
+      const layoverTime =
+        durationItemFormattedTime && layoverRangeValue
+          ? durationItemFormattedTime <= layoverRangeValue
+          : true;
 
-      return categoryFilters.every((filter) => filter) && priceInRange && layoverTime;
+      return (
+        categoryFilters.every((filter) => filter) && priceInRange && layoverTime
+      );
     });
 
   // console.log("filteredDatanew", selectedCategory, filteredDatanew?.length, selectedCategory, "selectedCategory");
@@ -3368,32 +3383,25 @@ function NewItems({
   function findAirlineByCode(code) {
     // console.log(airlines)
     if (airlines.length !== 0) {
-
-      const data = airlines?.find(airline => airline?.airlineCode === code)
+      const data = airlines?.find((airline) => airline?.airlineCode === code);
       if (data?.airlineName) {
-
         return data?.airlineName;
       }
-      return
+      return;
     }
-    return
-
+    return;
   }
   function findAirportByCode(code) {
     // console.log(airlines)
     if (airports.length !== 0) {
-      const data = airports?.find(airport => airport?.AirportCode === code)
-
+      const data = airports?.find((airport) => airport?.AirportCode === code);
 
       if (data?.AirportCode) {
         return data?.name;
-
-
       }
-      return
+      return;
     }
-    return
-
+    return;
   }
   function dateConversion(startTimeParam, endTimeParam) {
     const startTime = moment(startTimeParam, "HHmm");
@@ -3471,65 +3479,109 @@ function NewItems({
     return formattedTime;
   }
 
-
-  function calculateTravelTime(dateOfArrival, timeOfArrival, dateOfDeparture, timeOfDeparture) {
+  function calculateTravelTime(
+    dateOfArrival,
+    timeOfArrival,
+    dateOfDeparture,
+    timeOfDeparture
+  ) {
     if (dateOfArrival && timeOfArrival && dateOfDeparture && timeOfDeparture) {
       // console.log(dateOfArrival, timeOfArrival, dateOfDeparture, timeOfDeparture, "dateOfArrival, timeOfArrival, dateOfDeparture, timeOfDeparture")
 
-
       // Parse the arrival and departure datetime strings
 
-      const arrivalDateTime = dayjs(`${dateOfArrival.slice(0, 2)}-${dateOfArrival.slice(2, 4)}-${dateOfArrival.slice(4, 6)}T${timeOfArrival.slice(0, 2)}:${timeOfArrival.slice(2, 4)}`);
-      const departureDateTime = dayjs(`${dateOfDeparture.slice(0, 2)}-${dateOfDeparture.slice(2, 4)}-${dateOfDeparture.slice(4, 6)}T${timeOfDeparture.slice(0, 2)}:${timeOfDeparture.slice(2, 4)}`);
+      const arrivalDateTime = dayjs(
+        `${dateOfArrival.slice(0, 2)}-${dateOfArrival.slice(
+          2,
+          4
+        )}-${dateOfArrival.slice(4, 6)}T${timeOfArrival.slice(
+          0,
+          2
+        )}:${timeOfArrival.slice(2, 4)}`
+      );
+      const departureDateTime = dayjs(
+        `${dateOfDeparture.slice(0, 2)}-${dateOfDeparture.slice(
+          2,
+          4
+        )}-${dateOfDeparture.slice(4, 6)}T${timeOfDeparture.slice(
+          0,
+          2
+        )}:${timeOfDeparture.slice(2, 4)}`
+      );
 
       // Calculate the difference in milliseconds
       const duration = arrivalDateTime.diff(departureDateTime);
 
       // Convert the duration to hours and minutes
       const durationHours = Math.floor(duration / (1000 * 60 * 60));
-      const durationMinutes = Math.floor((duration % (1000 * 60 * 60)) / (1000 * 60));
-      setTotaltravalTime(`${durationHours} hours and ${durationMinutes} minutes`)
+      const durationMinutes = Math.floor(
+        (duration % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      setTotaltravalTime(
+        `${durationHours} hours and ${durationMinutes} minutes`
+      );
       // console.log(`${durationHours} hours and ${durationMinutes} minutes`, "`${durationHours} hours and ${durationMinutes} minutes`")
 
       return `${durationHours} hours and ${durationMinutes} minutes`;
     }
-    return
+    return;
   }
   useEffect(() => {
     if (sesstioResultIndex?.flightDetails) {
-
-      const dateOfArrival = sesstioResultIndex?.flightDetails?.flightInformation?.productDateTime?.dateOfArrival || sesstioResultIndex?.flightDetails?.[sesstioResultIndex?.flightDetails?.length - 1]?.flightInformation?.productDateTime?.dateOfArrival
-      const timeOfArrival = sesstioResultIndex?.flightDetails?.flightInformation?.productDateTime?.timeOfArrival || sesstioResultIndex?.flightDetails?.[sesstioResultIndex?.flightDetails?.length - 1]?.flightInformation?.productDateTime?.timeOfArrival
-      const dateOfDeparture = sesstioResultIndex?.flightDetails?.flightInformation?.productDateTime?.dateOfDeparture || sesstioResultIndex?.flightDetails?.[0]?.flightInformation?.productDateTime?.dateOfDeparture
-      const timeOfDeparture = sesstioResultIndex?.flightDetails?.flightInformation?.productDateTime?.timeOfDeparture || sesstioResultIndex?.flightDetails?.[0]?.flightInformation?.productDateTime?.timeOfDeparture
+      const dateOfArrival =
+        sesstioResultIndex?.flightDetails?.flightInformation?.productDateTime
+          ?.dateOfArrival ||
+        sesstioResultIndex?.flightDetails?.[
+          sesstioResultIndex?.flightDetails?.length - 1
+        ]?.flightInformation?.productDateTime?.dateOfArrival;
+      const timeOfArrival =
+        sesstioResultIndex?.flightDetails?.flightInformation?.productDateTime
+          ?.timeOfArrival ||
+        sesstioResultIndex?.flightDetails?.[
+          sesstioResultIndex?.flightDetails?.length - 1
+        ]?.flightInformation?.productDateTime?.timeOfArrival;
+      const dateOfDeparture =
+        sesstioResultIndex?.flightDetails?.flightInformation?.productDateTime
+          ?.dateOfDeparture ||
+        sesstioResultIndex?.flightDetails?.[0]?.flightInformation
+          ?.productDateTime?.dateOfDeparture;
+      const timeOfDeparture =
+        sesstioResultIndex?.flightDetails?.flightInformation?.productDateTime
+          ?.timeOfDeparture ||
+        sesstioResultIndex?.flightDetails?.[0]?.flightInformation
+          ?.productDateTime?.timeOfDeparture;
       // console.log(dateOfArrival, timeOfArrival, dateOfDeparture, timeOfDeparture,"dateOfArrival, timeOfArrival, dateOfDeparture, timeOfDeparture")
-      calculateTravelTime(dateOfArrival, timeOfArrival, dateOfDeparture, timeOfDeparture)
+      calculateTravelTime(
+        dateOfArrival,
+        timeOfArrival,
+        dateOfDeparture,
+        timeOfDeparture
+      );
     }
-
-  }, [sesstioResultIndex])
+  }, [sesstioResultIndex]);
   useEffect(() => {
     // console.log(reducerState?.oneWay, "reducerState?.oneWay?.isLoadingmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm")
     if (reducerState?.oneWay?.isLoading) {
-      setLoader(true)
+      setLoader(true);
+    } else {
+      setLoader(false);
     }
-    else {
-      setLoader(false)
-    }
-  }, [reducerState?.oneWay])
+  }, [reducerState?.oneWay]);
 
   function handleaViewDetail(item) {
-    setSesstioResultIndex(item)
-    setOpenModal(true)
-    setOpenModal1(true)
-
-
+    setSesstioResultIndex(item);
+    setOpenModal(true);
+    setOpenModal1(true);
   }
   function convertMinutes() {
     // Calculate hours and remaining minutes
 
-    const totalDuration = sesstioResultIndex?.Segments?.[0]?.reduce((accumulator, segment) => {
-      return Number(accumulator) + Number(segment.Duration);
-    }, 0);
+    const totalDuration = sesstioResultIndex?.Segments?.[0]?.reduce(
+      (accumulator, segment) => {
+        return Number(accumulator) + Number(segment.Duration);
+      },
+      0
+    );
     let hours = Math.floor(totalDuration / 60);
     let remainingMinutes = totalDuration % 60;
     // console.log(`${hours} hour(s) and ${remainingMinutes} minute(s)`)
@@ -3539,9 +3591,12 @@ function NewItems({
   function convertMinutesTVOFilter() {
     // Calculate hours and remaining minutes
 
-    const totalDuration = sesstioResultIndex?.Segments?.[0]?.reduce((accumulator, segment) => {
-      return Number(accumulator) + Number(segment.Duration);
-    }, 0);
+    const totalDuration = sesstioResultIndex?.Segments?.[0]?.reduce(
+      (accumulator, segment) => {
+        return Number(accumulator) + Number(segment.Duration);
+      },
+      0
+    );
     let hours = Math.floor(totalDuration / 60);
     let remainingMinutes = totalDuration % 60;
     // console.log(`${hours} hour(s) and ${remainingMinutes} minute(s)`)
@@ -3549,29 +3604,23 @@ function NewItems({
     return hours;
   }
 
-
-  const [filterdatalength, setFilterDatalength] = useState(1)
+  const [filterdatalength, setFilterDatalength] = useState(1);
   useEffect(() => {
     // console.log(filteredDatanew !== undefined, "check")
     if (filteredDatanew !== undefined) {
-      setFilterDatalength(filteredDatanew.length)
+      setFilterDatalength(filteredDatanew.length);
 
       // console.log(filteredDatanew.length, "filteredDatanew")
     }
-  }, [filteredDatanew?.length])
+  }, [filteredDatanew?.length]);
   // console.log(filteredDatanew, "filteredDatanew")
   function refundText(description) {
-
-
     let renderDescription = null;
 
     if (Array.isArray(description)) {
-
       renderDescription = null;
     } else if (typeof description === "string") {
-
       const words = description.split(" ");
-
 
       const formattedDescription = words
         .map((word, index) => (index === 0 ? word : word.toLowerCase()))
@@ -3579,11 +3628,10 @@ function NewItems({
       renderDescription = (
         <p style={{ color: "green" }}>{formattedDescription}</p>
       );
-      return formattedDescription
+      return formattedDescription;
     } else {
-
       renderDescription = null;
-      return null
+      return null;
     }
   }
   // console.log(sesstioResultIndex, sesstioResultIndex?.Segments?.[0]?.[sesstioResultIndex?.Segments?.[0]?.length - 1]?.Destination?.ArrTime, "sesstioResultIndex")
@@ -3595,11 +3643,11 @@ function NewItems({
     // console.log(window.innerWidth , window.innerWidth< 600)
 
     // Add the resize event listener
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     // console.log(window.innerWidth ,"window.innerWidth ")
 
     // Clean up the event listener on component unmount
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [window.innerWidth]);
   // useEffect(() => {
   //   console.log(reducerState)
@@ -3625,1111 +3673,1112 @@ function NewItems({
 
       // Cleanup the timer
       return () => clearTimeout(timer);
+    } else {
+      setResultsAvailable(false);
     }
-    else { setResultsAvailable(false) }
   }, [loader]);
   function NoResult() {
-    return (<div className="noResultOuterDiv">
-      <div className="noResultContainer">
-        <div className="noResultContainerInner">
-          <div className="noResultImgDiv">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="213.828"
-              height="100.382"
-              viewBox="0 0 213.828 100.382"
-            >
-              <g
-                id="Group_165"
-                data-name="Group 165"
-                transform="translate(-576 -305.81)"
+    return (
+      <div className="noResultOuterDiv">
+        <div className="noResultContainer">
+          <div className="noResultContainerInner">
+            <div className="noResultImgDiv">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="213.828"
+                height="100.382"
+                viewBox="0 0 213.828 100.382"
               >
                 <g
-                  id="Group_162"
-                  data-name="Group 162"
-                  transform="translate(-28.485 -14.975)"
+                  id="Group_165"
+                  data-name="Group 165"
+                  transform="translate(-576 -305.81)"
                 >
                   <g
-                    id="Group_161"
-                    data-name="Group 161"
-                    transform="translate(604.485 320.784)"
+                    id="Group_162"
+                    data-name="Group 162"
+                    transform="translate(-28.485 -14.975)"
                   >
                     <g
-                      id="Group_65"
-                      data-name="Group 65"
-                      transform="translate(22.82 89.285)"
+                      id="Group_161"
+                      data-name="Group 161"
+                      transform="translate(604.485 320.784)"
                     >
                       <g
-                        id="Group_62"
-                        data-name="Group 62"
-                        transform="translate(0 0)"
-                      >
-                        <path
-                          id="Path_65"
-                          data-name="Path 65"
-                          d="M75.583,769.364l-1.751,4.816,1.751,1.751,1.751-1.751Z"
-                          transform="translate(-73.029 -768.561)"
-                          fill="#dde8eb"
-                        />
-                        <path
-                          id="Path_66"
-                          data-name="Path 66"
-                          d="M74.386,775.537a.8.8,0,0,1-.568-.235l-1.751-1.751a.8.8,0,0,1-.187-.842l1.751-4.815a.8.8,0,0,1,1.509,0l1.751,4.815a.8.8,0,0,1-.187.842L74.954,775.3A.8.8,0,0,1,74.386,775.537Zm-.822-2.76.822.822.822-.822-.822-2.259Z"
-                          transform="translate(-71.832 -767.364)"
-                          fill="#a9c3d9"
-                        />
-                      </g>
-                      <g
-                        id="Group_64"
-                        data-name="Group 64"
-                        transform="translate(1.751 6.567)"
-                      >
-                        <g id="Group_63" data-name="Group 63">
-                          <path
-                            id="Path_67"
-                            data-name="Path 67"
-                            d="M77,787.951a.8.8,0,0,1-.8-.8v-2.627a.8.8,0,0,1,1.606,0v2.627A.8.8,0,0,1,77,787.951Z"
-                            transform="translate(-76.193 -783.718)"
-                            fill="#a9c3d9"
-                          />
-                        </g>
-                      </g>
-                    </g>
-                    <g
-                      id="Group_69"
-                      data-name="Group 69"
-                      transform="translate(30.126 85.035)"
-                    >
-                      <g
-                        id="Group_66"
-                        data-name="Group 66"
-                        transform="translate(0)"
-                      >
-                        <path
-                          id="Path_68"
-                          data-name="Path 68"
-                          d="M94.589,758.779l-2.561,7.042,2.561,2.561,2.561-2.561Z"
-                          transform="translate(-91.226 -757.976)"
-                          fill="#dde8eb"
-                        />
-                        <path
-                          id="Path_69"
-                          data-name="Path 69"
-                          d="M93.392,767.988h0a.8.8,0,0,1-.568-.235l-2.561-2.561a.8.8,0,0,1-.187-.842l2.561-7.042a.8.8,0,0,1,1.509,0l2.561,7.042a.8.8,0,0,1-.187.842l-2.561,2.561A.8.8,0,0,1,93.392,767.988Zm-1.631-3.57,1.631,1.631,1.631-1.631-1.631-4.485Z"
-                          transform="translate(-90.029 -756.779)"
-                          fill="#a9c3d9"
-                        />
-                      </g>
-                      <g
-                        id="Group_68"
-                        data-name="Group 68"
-                        transform="translate(2.561 9.602)"
-                      >
-                        <g id="Group_67" data-name="Group 67">
-                          <path
-                            id="Path_70"
-                            data-name="Path 70"
-                            d="M97.209,786.141a.8.8,0,0,1-.8-.8V781.5a.8.8,0,0,1,1.606,0v3.841A.8.8,0,0,1,97.209,786.141Z"
-                            transform="translate(-96.406 -780.694)"
-                            fill="#a9c3d9"
-                          />
-                        </g>
-                      </g>
-                    </g>
-                    <g
-                      id="Group_91"
-                      data-name="Group 91"
-                      transform="translate(30.917 11.644)"
-                    >
-                      <g
-                        id="Group_71"
-                        data-name="Group 71"
-                        transform="translate(20.879 0)"
-                      >
-                        <g id="Group_70" data-name="Group 70">
-                          <path
-                            id="Path_71"
-                            data-name="Path 71"
-                            d="M144.8,592.069a.8.8,0,0,1-.8-.8V574.8a.8.8,0,0,1,1.606,0v16.463A.8.8,0,0,1,144.8,592.069Z"
-                            transform="translate(-144 -574)"
-                            fill="#a9c3d9"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_73"
-                        data-name="Group 73"
-                        transform="translate(17.266 46.577)"
-                      >
-                        <g id="Group_72" data-name="Group 72">
-                          <path
-                            id="Path_72"
-                            data-name="Path 72"
-                            d="M135.8,699.235a.8.8,0,0,1-.1-1.6l59.426-7.63a.8.8,0,0,1,.2,1.593l-59.426,7.629A.76.76,0,0,1,135.8,699.235Z"
-                            transform="translate(-135 -690)"
-                            fill="#a9c3d9"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_74"
-                        data-name="Group 74"
-                        transform="translate(17.266 47.736)"
-                      >
-                        <path
-                          id="Path_73"
-                          data-name="Path 73"
-                          d="M187.592,694.888l-16.061,39.394H137V701.358Z"
-                          transform="translate(-136.197 -694.085)"
-                          fill="#dde8eb"
-                        />
-                        <path
-                          id="Path_74"
-                          data-name="Path 74"
-                          d="M170.334,733.888H135.8a.8.8,0,0,1-.8-.8V700.16a.8.8,0,0,1,.7-.8l50.592-6.469a.8.8,0,0,1,.846,1.1l-16.061,39.394A.8.8,0,0,1,170.334,733.888Zm-33.728-1.606h33.189l15.337-37.62-48.526,6.2Z"
-                          transform="translate(-135 -692.887)"
-                          fill="#a9c3d9"
-                        />
-                      </g>
-                      <g
-                        id="Group_76"
-                        data-name="Group 76"
-                        transform="translate(17.266 80.305)"
-                      >
-                        <g id="Group_75" data-name="Group 75">
-                          <path
-                            id="Path_75"
-                            data-name="Path 75"
-                            d="M173.145,775.606H135.8a.8.8,0,1,1,0-1.606h37.342a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-135 -774)"
-                            fill="#a9c3d9"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_78"
-                        data-name="Group 78"
-                        transform="translate(26.902 50.89)"
-                      >
-                        <g id="Group_77" data-name="Group 77">
-                          <path
-                            id="Path_76"
-                            data-name="Path 76"
-                            d="M159.8,738.589a.8.8,0,0,1-.732-1.133l16.3-36.241a.8.8,0,1,1,1.465.658l-16.3,36.241A.8.8,0,0,1,159.8,738.589Z"
-                            transform="translate(-158.999 -700.741)"
-                            fill="#a9c3d9"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_80"
-                        data-name="Group 80"
-                        transform="translate(34.933 50.89)"
-                      >
-                        <g id="Group_79" data-name="Group 79">
-                          <path
-                            id="Path_77"
-                            data-name="Path 77"
-                            d="M179.8,738.589a.8.8,0,0,1-.732-1.133l16.3-36.241a.8.8,0,1,1,1.465.658l-16.3,36.241A.8.8,0,0,1,179.8,738.589Z"
-                            transform="translate(-178.999 -700.741)"
-                            fill="#a9c3d9"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_81"
-                        data-name="Group 81"
-                        transform="translate(6.826 38.948)"
-                      >
-                        <rect
-                          id="Rectangle_31"
-                          data-name="Rectangle 31"
-                          width="11.402"
-                          height="48.458"
-                          transform="translate(0.376 1.023)"
-                          fill="#dde8eb"
-                        />
-                        <path
-                          id="Path_78"
-                          data-name="Path 78"
-                          d="M120.243,720.789H109.8a.8.8,0,0,1-.8-.8V671.8a.8.8,0,0,1,.8-.8h10.44a.8.8,0,0,1,.8.8v48.183A.8.8,0,0,1,120.243,720.789Zm-9.637-1.606h8.834V672.606h-8.834Z"
-                          transform="translate(-109 -671)"
-                          fill="#a9c3d9"
-                        />
-                      </g>
-                      <g
-                        id="Group_83"
-                        data-name="Group 83"
-                        transform="translate(11.478 78.452)"
+                        id="Group_65"
+                        data-name="Group 65"
+                        transform="translate(22.82 89.285)"
                       >
                         <g
-                          id="Group_82"
-                          data-name="Group 82"
+                          id="Group_62"
+                          data-name="Group 62"
                           transform="translate(0 0)"
                         >
-                          <rect
-                            id="Rectangle_32"
-                            data-name="Rectangle 32"
-                            width="2.85"
-                            height="9.977"
+                          <path
+                            id="Path_65"
+                            data-name="Path 65"
+                            d="M75.583,769.364l-1.751,4.816,1.751,1.751,1.751-1.751Z"
+                            transform="translate(-73.029 -768.561)"
+                            fill="#dde8eb"
+                          />
+                          <path
+                            id="Path_66"
+                            data-name="Path 66"
+                            d="M74.386,775.537a.8.8,0,0,1-.568-.235l-1.751-1.751a.8.8,0,0,1-.187-.842l1.751-4.815a.8.8,0,0,1,1.509,0l1.751,4.815a.8.8,0,0,1-.187.842L74.954,775.3A.8.8,0,0,1,74.386,775.537Zm-.822-2.76.822.822.822-.822-.822-2.259Z"
+                            transform="translate(-71.832 -767.364)"
                             fill="#a9c3d9"
                           />
                         </g>
+                        <g
+                          id="Group_64"
+                          data-name="Group 64"
+                          transform="translate(1.751 6.567)"
+                        >
+                          <g id="Group_63" data-name="Group 63">
+                            <path
+                              id="Path_67"
+                              data-name="Path 67"
+                              d="M77,787.951a.8.8,0,0,1-.8-.8v-2.627a.8.8,0,0,1,1.606,0v2.627A.8.8,0,0,1,77,787.951Z"
+                              transform="translate(-76.193 -783.718)"
+                              fill="#a9c3d9"
+                            />
+                          </g>
+                        </g>
                       </g>
                       <g
-                        id="Group_84"
-                        data-name="Group 84"
-                        transform="translate(0 30.114)"
-                      >
-                        <path
-                          id="Path_79"
-                          data-name="Path 79"
-                          d="M116.485,659.834H95.606L94,651h24.092Z"
-                          transform="translate(-93.197 -650.197)"
-                          fill="#dde8eb"
-                        />
-                        <path
-                          id="Path_80"
-                          data-name="Path 80"
-                          d="M115.288,659.44H94.409a.8.8,0,0,1-.79-.66l-1.606-8.834A.8.8,0,0,1,92.8,649h24.092a.8.8,0,0,1,.79.946l-1.606,8.834A.8.8,0,0,1,115.288,659.44Zm-20.209-1.606h19.539l1.314-7.227H93.765Z"
-                          transform="translate(-92 -649)"
-                          fill="#a9c3d9"
-                        />
-                      </g>
-                      <g
-                        id="Group_85"
-                        data-name="Group 85"
-                        transform="translate(0 16.463)"
-                      >
-                        <path
-                          id="Path_81"
-                          data-name="Path 81"
-                          d="M116.485,625.833H95.606L94,617h24.092Z"
-                          transform="translate(-93.197 -616.197)"
-                          fill="#dde8eb"
-                        />
-                        <path
-                          id="Path_82"
-                          data-name="Path 82"
-                          d="M115.288,625.44H94.409a.8.8,0,0,1-.79-.66l-1.606-8.834A.8.8,0,0,1,92.8,615h24.092a.8.8,0,0,1,.79.946l-1.606,8.834A.8.8,0,0,1,115.288,625.44Zm-20.209-1.606h19.539l1.314-7.227H93.765Z"
-                          transform="translate(-92 -615)"
-                          fill="#a9c3d9"
-                        />
-                      </g>
-                      <g
-                        id="Group_86"
-                        data-name="Group 86"
-                        transform="translate(6.826 25.296)"
-                      >
-                        <rect
-                          id="Rectangle_33"
-                          data-name="Rectangle 33"
-                          width="11.402"
-                          height="5.701"
-                          transform="translate(0.376 0.423)"
-                          fill="#dde8eb"
-                        />
-                        <path
-                          id="Path_83"
-                          data-name="Path 83"
-                          d="M120.243,643.424H109.8a.8.8,0,0,1-.8-.8V637.8a.8.8,0,0,1,.8-.8h10.44a.8.8,0,0,1,.8.8v4.818A.8.8,0,0,1,120.243,643.424Zm-9.637-1.606h8.834v-3.212h-8.834Z"
-                          transform="translate(-109 -637)"
-                          fill="#a9c3d9"
-                        />
-                      </g>
-                      <g
-                        id="Group_88"
-                        data-name="Group 88"
-                        transform="translate(1.501 32.845)"
+                        id="Group_69"
+                        data-name="Group 69"
+                        transform="translate(30.126 85.035)"
                       >
                         <g
-                          id="Group_87"
-                          data-name="Group 87"
-                          transform="translate(0 0)"
+                          id="Group_66"
+                          data-name="Group 66"
+                          transform="translate(0)"
                         >
-                          <rect
-                            id="Rectangle_34"
-                            data-name="Rectangle 34"
-                            width="22.804"
-                            height="1.425"
+                          <path
+                            id="Path_68"
+                            data-name="Path 68"
+                            d="M94.589,758.779l-2.561,7.042,2.561,2.561,2.561-2.561Z"
+                            transform="translate(-91.226 -757.976)"
+                            fill="#dde8eb"
+                          />
+                          <path
+                            id="Path_69"
+                            data-name="Path 69"
+                            d="M93.392,767.988h0a.8.8,0,0,1-.568-.235l-2.561-2.561a.8.8,0,0,1-.187-.842l2.561-7.042a.8.8,0,0,1,1.509,0l2.561,7.042a.8.8,0,0,1-.187.842l-2.561,2.561A.8.8,0,0,1,93.392,767.988Zm-1.631-3.57,1.631,1.631,1.631-1.631-1.631-4.485Z"
+                            transform="translate(-90.029 -756.779)"
                             fill="#a9c3d9"
                           />
                         </g>
+                        <g
+                          id="Group_68"
+                          data-name="Group 68"
+                          transform="translate(2.561 9.602)"
+                        >
+                          <g id="Group_67" data-name="Group 67">
+                            <path
+                              id="Path_70"
+                              data-name="Path 70"
+                              d="M97.209,786.141a.8.8,0,0,1-.8-.8V781.5a.8.8,0,0,1,1.606,0v3.841A.8.8,0,0,1,97.209,786.141Z"
+                              transform="translate(-96.406 -780.694)"
+                              fill="#a9c3d9"
+                            />
+                          </g>
+                        </g>
                       </g>
                       <g
-                        id="Group_90"
-                        data-name="Group 90"
-                        transform="translate(1.501 20.018)"
+                        id="Group_91"
+                        data-name="Group 91"
+                        transform="translate(30.917 11.644)"
                       >
                         <g
-                          id="Group_89"
-                          data-name="Group 89"
-                          transform="translate(0 0)"
+                          id="Group_71"
+                          data-name="Group 71"
+                          transform="translate(20.879 0)"
                         >
-                          <rect
-                            id="Rectangle_35"
-                            data-name="Rectangle 35"
-                            width="22.804"
-                            height="1.425"
+                          <g id="Group_70" data-name="Group 70">
+                            <path
+                              id="Path_71"
+                              data-name="Path 71"
+                              d="M144.8,592.069a.8.8,0,0,1-.8-.8V574.8a.8.8,0,0,1,1.606,0v16.463A.8.8,0,0,1,144.8,592.069Z"
+                              transform="translate(-144 -574)"
+                              fill="#a9c3d9"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_73"
+                          data-name="Group 73"
+                          transform="translate(17.266 46.577)"
+                        >
+                          <g id="Group_72" data-name="Group 72">
+                            <path
+                              id="Path_72"
+                              data-name="Path 72"
+                              d="M135.8,699.235a.8.8,0,0,1-.1-1.6l59.426-7.63a.8.8,0,0,1,.2,1.593l-59.426,7.629A.76.76,0,0,1,135.8,699.235Z"
+                              transform="translate(-135 -690)"
+                              fill="#a9c3d9"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_74"
+                          data-name="Group 74"
+                          transform="translate(17.266 47.736)"
+                        >
+                          <path
+                            id="Path_73"
+                            data-name="Path 73"
+                            d="M187.592,694.888l-16.061,39.394H137V701.358Z"
+                            transform="translate(-136.197 -694.085)"
+                            fill="#dde8eb"
+                          />
+                          <path
+                            id="Path_74"
+                            data-name="Path 74"
+                            d="M170.334,733.888H135.8a.8.8,0,0,1-.8-.8V700.16a.8.8,0,0,1,.7-.8l50.592-6.469a.8.8,0,0,1,.846,1.1l-16.061,39.394A.8.8,0,0,1,170.334,733.888Zm-33.728-1.606h33.189l15.337-37.62-48.526,6.2Z"
+                            transform="translate(-135 -692.887)"
                             fill="#a9c3d9"
                           />
                         </g>
-                      </g>
-                    </g>
-                    <g
-                      id="Group_93"
-                      data-name="Group 93"
-                      transform="translate(21.281 98.775)"
-                    >
-                      <g id="Group_92" data-name="Group 92">
-                        <path
-                          id="Path_84"
-                          data-name="Path 84"
-                          d="M239.452,792.606H68.8a.8.8,0,1,1,0-1.606H239.452a.8.8,0,1,1,0,1.606Z"
-                          transform="translate(-68 -791)"
-                          fill="#3c464c"
-                        />
-                      </g>
-                    </g>
-                    <g
-                      id="Group_95"
-                      data-name="Group 95"
-                      transform="translate(12.447 98.775)"
-                    >
-                      <g
-                        id="Group_94"
-                        data-name="Group 94"
-                        transform="translate(0)"
-                      >
-                        <path
-                          id="Path_85"
-                          data-name="Path 85"
-                          d="M51.621,792.606H46.8a.8.8,0,1,1,0-1.606h4.818a.8.8,0,1,1,0,1.606Z"
-                          transform="translate(-46 -791)"
-                          fill="#3c464c"
-                        />
-                      </g>
-                    </g>
-                    <g
-                      id="Group_139"
-                      data-name="Group 139"
-                      transform="translate(59.024 65.85)"
-                    >
-                      <g
-                        id="Group_96"
-                        data-name="Group 96"
-                        transform="translate(0.803 0)"
-                      >
-                        <path
-                          id="Path_86"
-                          data-name="Path 86"
-                          d="M186.076,725.053,173.227,711H166l6.826,14.455Z"
-                          transform="translate(-165.197 -710.197)"
-                          fill="#19a5ff"
-                        />
-                        <path
-                          id="Path_87"
-                          data-name="Path 87"
-                          d="M171.629,725.061a.8.8,0,0,1-.726-.46l-6.826-14.455A.8.8,0,0,1,164.8,709h7.227a.8.8,0,0,1,.593.261l12.849,14.053a.8.8,0,0,1-.568,1.345l-13.25.4Zm-5.559-14.455,6.06,12.833,10.975-.333-11.429-12.5Z"
-                          transform="translate(-164 -709)"
-                          fill="#3c464c"
-                        />
-                      </g>
-                      <g
-                        id="Group_97"
-                        data-name="Group 97"
-                        transform="translate(4.015 14.053)"
-                      >
-                        <path
-                          id="Path_88"
-                          data-name="Path 88"
-                          d="M264.745,758.849H193.273c-3.533,0-13.25-2.811-19.273-6.424h0A6.443,6.443,0,0,1,180.424,746h84.32c3.533,0,8.432,6.424,8.432,6.424C273.177,755.958,268.278,758.849,264.745,758.849Z"
-                          transform="translate(-173.197 -745.197)"
-                          fill="#ededed"
-                        />
-                        <path
-                          id="Path_89"
-                          data-name="Path 89"
-                          d="M263.548,758.455H192.076c-3.539,0-13.364-2.746-19.686-6.539a.8.8,0,0,1-.39-.689A7.236,7.236,0,0,1,179.227,744h84.32c3.821,0,8.544,6.051,9.071,6.74a.806.806,0,0,1,.164.487C272.783,755.42,267.267,758.455,263.548,758.455Zm-89.924-7.676c6.018,3.48,15.244,6.07,18.453,6.07h71.472c3.231,0,7.372-2.565,7.618-5.361-1.447-1.833-5.157-5.882-7.618-5.882h-84.32A5.629,5.629,0,0,0,173.624,750.779Z"
-                          transform="translate(-172 -744)"
-                          fill="#3c464c"
-                        />
-                      </g>
-                      <g
-                        id="Group_98"
-                        data-name="Group 98"
-                        transform="translate(0 15.66)"
-                      >
-                        <path
-                          id="Path_90"
-                          data-name="Path 90"
-                          d="M179.659,752.654,170.023,750H164l4.818,3.056Z"
-                          transform="translate(-163.197 -749.197)"
-                          fill="#19a5ff"
-                        />
-                        <path
-                          id="Path_91"
-                          data-name="Path 91"
-                          d="M167.621,752.662a.8.8,0,0,1-.43-.124l-4.818-3.056A.8.8,0,0,1,162.8,748h6.023a.8.8,0,0,1,.213.029l9.637,2.654a.8.8,0,0,1-.184,1.576l-10.841.4Zm-2.053-3.056,2.272,1.441,5.384-.2-4.508-1.242Z"
-                          transform="translate(-162 -748)"
-                          fill="#3c464c"
-                        />
-                      </g>
-                      <g
-                        id="Group_100"
-                        data-name="Group 100"
-                        transform="translate(8.031 4.381)"
-                      >
-                        <g id="Group_99" data-name="Group 99">
-                          <path
-                            id="Path_92"
-                            data-name="Path 92"
-                            d="M186.809,721.517H182.8a.8.8,0,1,1,0-1.606h4.006a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-182 -719.911)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_102"
-                        data-name="Group 102"
-                        transform="translate(10.841 8.395)"
-                      >
-                        <g id="Group_101" data-name="Group 101">
-                          <path
-                            id="Path_93"
-                            data-name="Path 93"
-                            d="M194.668,731.514H189.8a.8.8,0,1,1,0-1.606h4.865a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-189 -729.908)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_104"
-                        data-name="Group 104"
-                        transform="translate(90.343 16.463)"
-                      >
-                        <g id="Group_103" data-name="Group 103">
-                          <path
-                            id="Path_94"
-                            data-name="Path 94"
-                            d="M396.637,751.606H387.8a.8.8,0,0,1,0-1.606h8.834a.8.8,0,0,1,0,1.606Z"
-                            transform="translate(-387 -750)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_106"
-                        data-name="Group 106"
-                        transform="translate(23.69 17.667)"
-                      >
-                        <g id="Group_105" data-name="Group 105">
-                          <path
-                            id="Path_95"
-                            data-name="Path 95"
-                            d="M223.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-221 -753)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_108"
-                        data-name="Group 108"
-                        transform="translate(30.115 17.667)"
-                      >
-                        <g id="Group_107" data-name="Group 107">
-                          <path
-                            id="Path_96"
-                            data-name="Path 96"
-                            d="M239.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-237 -753)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_110"
-                        data-name="Group 110"
-                        transform="translate(36.539 17.667)"
-                      >
-                        <g id="Group_109" data-name="Group 109">
-                          <path
-                            id="Path_97"
-                            data-name="Path 97"
-                            d="M255.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-253 -753)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_112"
-                        data-name="Group 112"
-                        transform="translate(42.963 17.667)"
-                      >
-                        <g id="Group_111" data-name="Group 111">
-                          <path
-                            id="Path_98"
-                            data-name="Path 98"
-                            d="M271.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-269 -753)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_114"
-                        data-name="Group 114"
-                        transform="translate(49.388 17.667)"
-                      >
-                        <g id="Group_113" data-name="Group 113">
-                          <path
-                            id="Path_99"
-                            data-name="Path 99"
-                            d="M287.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-285 -753)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_116"
-                        data-name="Group 116"
-                        transform="translate(55.812 17.667)"
-                      >
-                        <g id="Group_115" data-name="Group 115">
-                          <path
-                            id="Path_100"
-                            data-name="Path 100"
-                            d="M303.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-301 -753)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_118"
-                        data-name="Group 118"
-                        transform="translate(62.237 17.667)"
-                      >
-                        <g id="Group_117" data-name="Group 117">
-                          <path
-                            id="Path_101"
-                            data-name="Path 101"
-                            d="M319.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-317 -753)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_120"
-                        data-name="Group 120"
-                        transform="translate(68.661 17.667)"
-                      >
-                        <g id="Group_119" data-name="Group 119">
-                          <path
-                            id="Path_102"
-                            data-name="Path 102"
-                            d="M335.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-333 -753)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_122"
-                        data-name="Group 122"
-                        transform="translate(75.086 17.667)"
-                      >
-                        <g id="Group_121" data-name="Group 121">
-                          <path
-                            id="Path_103"
-                            data-name="Path 103"
-                            d="M351.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-349 -753)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_124"
-                        data-name="Group 124"
-                        transform="translate(81.51 17.667)"
-                      >
-                        <g id="Group_123" data-name="Group 123">
-                          <path
-                            id="Path_104"
-                            data-name="Path 104"
-                            d="M367.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-365 -753)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_126"
-                        data-name="Group 126"
-                        transform="translate(28.508 20.076)"
-                      >
-                        <g id="Group_125" data-name="Group 125">
-                          <path
-                            id="Path_105"
-                            data-name="Path 105"
-                            d="M247.054,763.818a.793.793,0,0,1-.19-.023l-13.25-3.212A.8.8,0,0,1,233.8,759h10.44a.857.857,0,0,1,.1.006l26.9,3.212a.8.8,0,0,1-.19,1.595l-26.855-3.207h-3.671l6.718,1.629a.8.8,0,0,1-.189,1.583Z"
-                            transform="translate(-233 -759)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_129"
-                        data-name="Group 129"
-                        transform="translate(38.948 22.887)"
-                      >
                         <g
-                          id="Group_127"
-                          data-name="Group 127"
-                          transform="translate(0 1.205)"
+                          id="Group_76"
+                          data-name="Group 76"
+                          transform="translate(17.266 80.305)"
+                        >
+                          <g id="Group_75" data-name="Group 75">
+                            <path
+                              id="Path_75"
+                              data-name="Path 75"
+                              d="M173.145,775.606H135.8a.8.8,0,1,1,0-1.606h37.342a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-135 -774)"
+                              fill="#a9c3d9"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_78"
+                          data-name="Group 78"
+                          transform="translate(26.902 50.89)"
+                        >
+                          <g id="Group_77" data-name="Group 77">
+                            <path
+                              id="Path_76"
+                              data-name="Path 76"
+                              d="M159.8,738.589a.8.8,0,0,1-.732-1.133l16.3-36.241a.8.8,0,1,1,1.465.658l-16.3,36.241A.8.8,0,0,1,159.8,738.589Z"
+                              transform="translate(-158.999 -700.741)"
+                              fill="#a9c3d9"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_80"
+                          data-name="Group 80"
+                          transform="translate(34.933 50.89)"
+                        >
+                          <g id="Group_79" data-name="Group 79">
+                            <path
+                              id="Path_77"
+                              data-name="Path 77"
+                              d="M179.8,738.589a.8.8,0,0,1-.732-1.133l16.3-36.241a.8.8,0,1,1,1.465.658l-16.3,36.241A.8.8,0,0,1,179.8,738.589Z"
+                              transform="translate(-178.999 -700.741)"
+                              fill="#a9c3d9"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_81"
+                          data-name="Group 81"
+                          transform="translate(6.826 38.948)"
                         >
                           <rect
-                            id="Rectangle_36"
-                            data-name="Rectangle 36"
-                            width="5.701"
+                            id="Rectangle_31"
+                            data-name="Rectangle 31"
+                            width="11.402"
+                            height="48.458"
+                            transform="translate(0.376 1.023)"
+                            fill="#dde8eb"
+                          />
+                          <path
+                            id="Path_78"
+                            data-name="Path 78"
+                            d="M120.243,720.789H109.8a.8.8,0,0,1-.8-.8V671.8a.8.8,0,0,1,.8-.8h10.44a.8.8,0,0,1,.8.8v48.183A.8.8,0,0,1,120.243,720.789Zm-9.637-1.606h8.834V672.606h-8.834Z"
+                            transform="translate(-109 -671)"
+                            fill="#a9c3d9"
+                          />
+                        </g>
+                        <g
+                          id="Group_83"
+                          data-name="Group 83"
+                          transform="translate(11.478 78.452)"
+                        >
+                          <g
+                            id="Group_82"
+                            data-name="Group 82"
+                            transform="translate(0 0)"
+                          >
+                            <rect
+                              id="Rectangle_32"
+                              data-name="Rectangle 32"
+                              width="2.85"
+                              height="9.977"
+                              fill="#a9c3d9"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_84"
+                          data-name="Group 84"
+                          transform="translate(0 30.114)"
+                        >
+                          <path
+                            id="Path_79"
+                            data-name="Path 79"
+                            d="M116.485,659.834H95.606L94,651h24.092Z"
+                            transform="translate(-93.197 -650.197)"
+                            fill="#dde8eb"
+                          />
+                          <path
+                            id="Path_80"
+                            data-name="Path 80"
+                            d="M115.288,659.44H94.409a.8.8,0,0,1-.79-.66l-1.606-8.834A.8.8,0,0,1,92.8,649h24.092a.8.8,0,0,1,.79.946l-1.606,8.834A.8.8,0,0,1,115.288,659.44Zm-20.209-1.606h19.539l1.314-7.227H93.765Z"
+                            transform="translate(-92 -649)"
+                            fill="#a9c3d9"
+                          />
+                        </g>
+                        <g
+                          id="Group_85"
+                          data-name="Group 85"
+                          transform="translate(0 16.463)"
+                        >
+                          <path
+                            id="Path_81"
+                            data-name="Path 81"
+                            d="M116.485,625.833H95.606L94,617h24.092Z"
+                            transform="translate(-93.197 -616.197)"
+                            fill="#dde8eb"
+                          />
+                          <path
+                            id="Path_82"
+                            data-name="Path 82"
+                            d="M115.288,625.44H94.409a.8.8,0,0,1-.79-.66l-1.606-8.834A.8.8,0,0,1,92.8,615h24.092a.8.8,0,0,1,.79.946l-1.606,8.834A.8.8,0,0,1,115.288,625.44Zm-20.209-1.606h19.539l1.314-7.227H93.765Z"
+                            transform="translate(-92 -615)"
+                            fill="#a9c3d9"
+                          />
+                        </g>
+                        <g
+                          id="Group_86"
+                          data-name="Group 86"
+                          transform="translate(6.826 25.296)"
+                        >
+                          <rect
+                            id="Rectangle_33"
+                            data-name="Rectangle 33"
+                            width="11.402"
                             height="5.701"
-                            transform="translate(1.432 0.155)"
-                            fill="#b8b8b8"
+                            transform="translate(0.376 0.423)"
+                            fill="#dde8eb"
                           />
                           <path
-                            id="Path_106"
-                            data-name="Path 106"
-                            d="M266.227,776.227H259.8a.8.8,0,0,1-.8-.8V769.8a.8.8,0,0,1,.8-.8h6.424a.8.8,0,0,1,.8.8v5.621A.8.8,0,0,1,266.227,776.227Zm-5.621-1.606h4.818v-4.015h-4.818Z"
-                            transform="translate(-259 -769)"
+                            id="Path_83"
+                            data-name="Path 83"
+                            d="M120.243,643.424H109.8a.8.8,0,0,1-.8-.8V637.8a.8.8,0,0,1,.8-.8h10.44a.8.8,0,0,1,.8.8v4.818A.8.8,0,0,1,120.243,643.424Zm-9.637-1.606h8.834v-3.212h-8.834Z"
+                            transform="translate(-109 -637)"
+                            fill="#a9c3d9"
+                          />
+                        </g>
+                        <g
+                          id="Group_88"
+                          data-name="Group 88"
+                          transform="translate(1.501 32.845)"
+                        >
+                          <g
+                            id="Group_87"
+                            data-name="Group 87"
+                            transform="translate(0 0)"
+                          >
+                            <rect
+                              id="Rectangle_34"
+                              data-name="Rectangle 34"
+                              width="22.804"
+                              height="1.425"
+                              fill="#a9c3d9"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_90"
+                          data-name="Group 90"
+                          transform="translate(1.501 20.018)"
+                        >
+                          <g
+                            id="Group_89"
+                            data-name="Group 89"
+                            transform="translate(0 0)"
+                          >
+                            <rect
+                              id="Rectangle_35"
+                              data-name="Rectangle 35"
+                              width="22.804"
+                              height="1.425"
+                              fill="#a9c3d9"
+                            />
+                          </g>
+                        </g>
+                      </g>
+                      <g
+                        id="Group_93"
+                        data-name="Group 93"
+                        transform="translate(21.281 98.775)"
+                      >
+                        <g id="Group_92" data-name="Group 92">
+                          <path
+                            id="Path_84"
+                            data-name="Path 84"
+                            d="M239.452,792.606H68.8a.8.8,0,1,1,0-1.606H239.452a.8.8,0,1,1,0,1.606Z"
+                            transform="translate(-68 -791)"
+                            fill="#3c464c"
+                          />
+                        </g>
+                      </g>
+                      <g
+                        id="Group_95"
+                        data-name="Group 95"
+                        transform="translate(12.447 98.775)"
+                      >
+                        <g
+                          id="Group_94"
+                          data-name="Group 94"
+                          transform="translate(0)"
+                        >
+                          <path
+                            id="Path_85"
+                            data-name="Path 85"
+                            d="M51.621,792.606H46.8a.8.8,0,1,1,0-1.606h4.818a.8.8,0,1,1,0,1.606Z"
+                            transform="translate(-46 -791)"
+                            fill="#3c464c"
+                          />
+                        </g>
+                      </g>
+                      <g
+                        id="Group_139"
+                        data-name="Group 139"
+                        transform="translate(59.024 65.85)"
+                      >
+                        <g
+                          id="Group_96"
+                          data-name="Group 96"
+                          transform="translate(0.803 0)"
+                        >
+                          <path
+                            id="Path_86"
+                            data-name="Path 86"
+                            d="M186.076,725.053,173.227,711H166l6.826,14.455Z"
+                            transform="translate(-165.197 -710.197)"
+                            fill="#19a5ff"
+                          />
+                          <path
+                            id="Path_87"
+                            data-name="Path 87"
+                            d="M171.629,725.061a.8.8,0,0,1-.726-.46l-6.826-14.455A.8.8,0,0,1,164.8,709h7.227a.8.8,0,0,1,.593.261l12.849,14.053a.8.8,0,0,1-.568,1.345l-13.25.4Zm-5.559-14.455,6.06,12.833,10.975-.333-11.429-12.5Z"
+                            transform="translate(-164 -709)"
                             fill="#3c464c"
                           />
                         </g>
                         <g
-                          id="Group_128"
-                          data-name="Group 128"
-                          transform="translate(3.212)"
+                          id="Group_97"
+                          data-name="Group 97"
+                          transform="translate(4.015 14.053)"
                         >
                           <path
-                            id="Path_107"
-                            data-name="Path 107"
-                            d="M282.652,776.03h-9.637A4.027,4.027,0,0,1,269,772.015h0A4.027,4.027,0,0,1,273.015,768h9.637C284.86,768,284.86,776.03,282.652,776.03Z"
-                            transform="translate(-268.197 -767.197)"
+                            id="Path_88"
+                            data-name="Path 88"
+                            d="M264.745,758.849H193.273c-3.533,0-13.25-2.811-19.273-6.424h0A6.443,6.443,0,0,1,180.424,746h84.32c3.533,0,8.432,6.424,8.432,6.424C273.177,755.958,268.278,758.849,264.745,758.849Z"
+                            transform="translate(-173.197 -745.197)"
+                            fill="#ededed"
+                          />
+                          <path
+                            id="Path_89"
+                            data-name="Path 89"
+                            d="M263.548,758.455H192.076c-3.539,0-13.364-2.746-19.686-6.539a.8.8,0,0,1-.39-.689A7.236,7.236,0,0,1,179.227,744h84.32c3.821,0,8.544,6.051,9.071,6.74a.806.806,0,0,1,.164.487C272.783,755.42,267.267,758.455,263.548,758.455Zm-89.924-7.676c6.018,3.48,15.244,6.07,18.453,6.07h71.472c3.231,0,7.372-2.565,7.618-5.361-1.447-1.833-5.157-5.882-7.618-5.882h-84.32A5.629,5.629,0,0,0,173.624,750.779Z"
+                            transform="translate(-172 -744)"
+                            fill="#3c464c"
+                          />
+                        </g>
+                        <g
+                          id="Group_98"
+                          data-name="Group 98"
+                          transform="translate(0 15.66)"
+                        >
+                          <path
+                            id="Path_90"
+                            data-name="Path 90"
+                            d="M179.659,752.654,170.023,750H164l4.818,3.056Z"
+                            transform="translate(-163.197 -749.197)"
+                            fill="#19a5ff"
+                          />
+                          <path
+                            id="Path_91"
+                            data-name="Path 91"
+                            d="M167.621,752.662a.8.8,0,0,1-.43-.124l-4.818-3.056A.8.8,0,0,1,162.8,748h6.023a.8.8,0,0,1,.213.029l9.637,2.654a.8.8,0,0,1-.184,1.576l-10.841.4Zm-2.053-3.056,2.272,1.441,5.384-.2-4.508-1.242Z"
+                            transform="translate(-162 -748)"
+                            fill="#3c464c"
+                          />
+                        </g>
+                        <g
+                          id="Group_100"
+                          data-name="Group 100"
+                          transform="translate(8.031 4.381)"
+                        >
+                          <g id="Group_99" data-name="Group 99">
+                            <path
+                              id="Path_92"
+                              data-name="Path 92"
+                              d="M186.809,721.517H182.8a.8.8,0,1,1,0-1.606h4.006a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-182 -719.911)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_102"
+                          data-name="Group 102"
+                          transform="translate(10.841 8.395)"
+                        >
+                          <g id="Group_101" data-name="Group 101">
+                            <path
+                              id="Path_93"
+                              data-name="Path 93"
+                              d="M194.668,731.514H189.8a.8.8,0,1,1,0-1.606h4.865a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-189 -729.908)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_104"
+                          data-name="Group 104"
+                          transform="translate(90.343 16.463)"
+                        >
+                          <g id="Group_103" data-name="Group 103">
+                            <path
+                              id="Path_94"
+                              data-name="Path 94"
+                              d="M396.637,751.606H387.8a.8.8,0,0,1,0-1.606h8.834a.8.8,0,0,1,0,1.606Z"
+                              transform="translate(-387 -750)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_106"
+                          data-name="Group 106"
+                          transform="translate(23.69 17.667)"
+                        >
+                          <g id="Group_105" data-name="Group 105">
+                            <path
+                              id="Path_95"
+                              data-name="Path 95"
+                              d="M223.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-221 -753)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_108"
+                          data-name="Group 108"
+                          transform="translate(30.115 17.667)"
+                        >
+                          <g id="Group_107" data-name="Group 107">
+                            <path
+                              id="Path_96"
+                              data-name="Path 96"
+                              d="M239.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-237 -753)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_110"
+                          data-name="Group 110"
+                          transform="translate(36.539 17.667)"
+                        >
+                          <g id="Group_109" data-name="Group 109">
+                            <path
+                              id="Path_97"
+                              data-name="Path 97"
+                              d="M255.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-253 -753)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_112"
+                          data-name="Group 112"
+                          transform="translate(42.963 17.667)"
+                        >
+                          <g id="Group_111" data-name="Group 111">
+                            <path
+                              id="Path_98"
+                              data-name="Path 98"
+                              d="M271.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-269 -753)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_114"
+                          data-name="Group 114"
+                          transform="translate(49.388 17.667)"
+                        >
+                          <g id="Group_113" data-name="Group 113">
+                            <path
+                              id="Path_99"
+                              data-name="Path 99"
+                              d="M287.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-285 -753)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_116"
+                          data-name="Group 116"
+                          transform="translate(55.812 17.667)"
+                        >
+                          <g id="Group_115" data-name="Group 115">
+                            <path
+                              id="Path_100"
+                              data-name="Path 100"
+                              d="M303.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-301 -753)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_118"
+                          data-name="Group 118"
+                          transform="translate(62.237 17.667)"
+                        >
+                          <g id="Group_117" data-name="Group 117">
+                            <path
+                              id="Path_101"
+                              data-name="Path 101"
+                              d="M319.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-317 -753)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_120"
+                          data-name="Group 120"
+                          transform="translate(68.661 17.667)"
+                        >
+                          <g id="Group_119" data-name="Group 119">
+                            <path
+                              id="Path_102"
+                              data-name="Path 102"
+                              d="M335.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-333 -753)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_122"
+                          data-name="Group 122"
+                          transform="translate(75.086 17.667)"
+                        >
+                          <g id="Group_121" data-name="Group 121">
+                            <path
+                              id="Path_103"
+                              data-name="Path 103"
+                              d="M351.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-349 -753)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_124"
+                          data-name="Group 124"
+                          transform="translate(81.51 17.667)"
+                        >
+                          <g id="Group_123" data-name="Group 123">
+                            <path
+                              id="Path_104"
+                              data-name="Path 104"
+                              d="M367.008,754.606h-1.2a.8.8,0,1,1,0-1.606h1.2a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-365 -753)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_126"
+                          data-name="Group 126"
+                          transform="translate(28.508 20.076)"
+                        >
+                          <g id="Group_125" data-name="Group 125">
+                            <path
+                              id="Path_105"
+                              data-name="Path 105"
+                              d="M247.054,763.818a.793.793,0,0,1-.19-.023l-13.25-3.212A.8.8,0,0,1,233.8,759h10.44a.857.857,0,0,1,.1.006l26.9,3.212a.8.8,0,0,1-.19,1.595l-26.855-3.207h-3.671l6.718,1.629a.8.8,0,0,1-.189,1.583Z"
+                              transform="translate(-233 -759)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_129"
+                          data-name="Group 129"
+                          transform="translate(38.948 22.887)"
+                        >
+                          <g
+                            id="Group_127"
+                            data-name="Group 127"
+                            transform="translate(0 1.205)"
+                          >
+                            <rect
+                              id="Rectangle_36"
+                              data-name="Rectangle 36"
+                              width="5.701"
+                              height="5.701"
+                              transform="translate(1.432 0.155)"
+                              fill="#b8b8b8"
+                            />
+                            <path
+                              id="Path_106"
+                              data-name="Path 106"
+                              d="M266.227,776.227H259.8a.8.8,0,0,1-.8-.8V769.8a.8.8,0,0,1,.8-.8h6.424a.8.8,0,0,1,.8.8v5.621A.8.8,0,0,1,266.227,776.227Zm-5.621-1.606h4.818v-4.015h-4.818Z"
+                              transform="translate(-259 -769)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                          <g
+                            id="Group_128"
+                            data-name="Group 128"
+                            transform="translate(3.212)"
+                          >
+                            <path
+                              id="Path_107"
+                              data-name="Path 107"
+                              d="M282.652,776.03h-9.637A4.027,4.027,0,0,1,269,772.015h0A4.027,4.027,0,0,1,273.015,768h9.637C284.86,768,284.86,776.03,282.652,776.03Z"
+                              transform="translate(-268.197 -767.197)"
+                              fill="#b8b8b8"
+                            />
+                            <path
+                              id="Path_108"
+                              data-name="Path 108"
+                              d="M281.455,775.636h-9.637a4.818,4.818,0,1,1,0-9.636h9.637c1.815,0,2.459,2.6,2.459,4.818S283.27,775.636,281.455,775.636Zm-9.637-8.03a3.212,3.212,0,1,0,0,6.424h9.637c.072,0,.287-.178.488-.728a7.64,7.64,0,0,0,.365-2.484c0-2.086-.605-3.212-.853-3.212Z"
+                              transform="translate(-267 -766)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_131"
+                          data-name="Group 131"
+                          transform="translate(90.343 26.902)"
+                        >
+                          <g id="Group_130" data-name="Group 130">
+                            <path
+                              id="Path_109"
+                              data-name="Path 109"
+                              d="M387.8,779.614a.8.8,0,0,1-.8-.8V776.8a.8.8,0,0,1,1.606,0v2.008A.8.8,0,0,1,387.8,779.614Z"
+                              transform="translate(-387 -776)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_133"
+                          data-name="Group 133"
+                          transform="translate(32.925 26.902)"
+                        >
+                          <g id="Group_132" data-name="Group 132">
+                            <path
+                              id="Path_110"
+                              data-name="Path 110"
+                              d="M244.8,779.614a.8.8,0,0,1-.8-.8V776.8a.8.8,0,0,1,1.606,0v2.008A.8.8,0,0,1,244.8,779.614Z"
+                              transform="translate(-244 -776)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_134"
+                          data-name="Group 134"
+                          transform="translate(88.336 28.91)"
+                        >
+                          <circle
+                            id="Ellipse_11"
+                            data-name="Ellipse 11"
+                            cx="2.138"
+                            cy="2.138"
+                            r="2.138"
+                            transform="translate(0.502 1.037)"
                             fill="#b8b8b8"
                           />
                           <path
-                            id="Path_108"
-                            data-name="Path 108"
-                            d="M281.455,775.636h-9.637a4.818,4.818,0,1,1,0-9.636h9.637c1.815,0,2.459,2.6,2.459,4.818S283.27,775.636,281.455,775.636Zm-9.637-8.03a3.212,3.212,0,1,0,0,6.424h9.637c.072,0,.287-.178.488-.728a7.64,7.64,0,0,0,.365-2.484c0-2.086-.605-3.212-.853-3.212Z"
-                            transform="translate(-267 -766)"
+                            id="Path_111"
+                            data-name="Path 111"
+                            d="M384.811,786.621a2.811,2.811,0,1,1,2.811-2.811A2.814,2.814,0,0,1,384.811,786.621Zm0-4.015a1.2,1.2,0,1,0,1.2,1.2A1.206,1.206,0,0,0,384.811,782.606Z"
+                            transform="translate(-382 -781)"
+                            fill="#3c464c"
+                          />
+                        </g>
+                        <g
+                          id="Group_135"
+                          data-name="Group 135"
+                          transform="translate(30.918 28.91)"
+                        >
+                          <circle
+                            id="Ellipse_12"
+                            data-name="Ellipse 12"
+                            cx="2.138"
+                            cy="2.138"
+                            r="2.138"
+                            transform="translate(0.911 1.037)"
+                            fill="#b8b8b8"
+                          />
+                          <path
+                            id="Path_112"
+                            data-name="Path 112"
+                            d="M241.811,786.621a2.811,2.811,0,1,1,2.811-2.811A2.814,2.814,0,0,1,241.811,786.621Zm0-4.015a1.2,1.2,0,1,0,1.2,1.2A1.206,1.206,0,0,0,241.811,782.606Z"
+                            transform="translate(-239 -781)"
+                            fill="#3c464c"
+                          />
+                        </g>
+                        <g
+                          id="Group_137"
+                          data-name="Group 137"
+                          transform="translate(26.501 26.902)"
+                        >
+                          <g id="Group_136" data-name="Group 136">
+                            <path
+                              id="Path_113"
+                              data-name="Path 113"
+                              d="M228.8,779.614a.8.8,0,0,1-.8-.8V776.8a.8.8,0,0,1,1.606,0v2.008A.8.8,0,0,1,228.8,779.614Z"
+                              transform="translate(-228 -776)"
+                              fill="#3c464c"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_138"
+                          data-name="Group 138"
+                          transform="translate(24.493 28.91)"
+                        >
+                          <circle
+                            id="Ellipse_13"
+                            data-name="Ellipse 13"
+                            cx="2.138"
+                            cy="2.138"
+                            r="2.138"
+                            transform="translate(0.209 1.037)"
+                            fill="#b8b8b8"
+                          />
+                          <path
+                            id="Path_114"
+                            data-name="Path 114"
+                            d="M225.811,786.621a2.811,2.811,0,1,1,2.811-2.811A2.814,2.814,0,0,1,225.811,786.621Zm0-4.015a1.2,1.2,0,1,0,1.2,1.2A1.206,1.206,0,0,0,225.811,782.606Z"
+                            transform="translate(-223 -781)"
                             fill="#3c464c"
                           />
                         </g>
                       </g>
                       <g
-                        id="Group_131"
-                        data-name="Group 131"
-                        transform="translate(90.343 26.902)"
+                        id="Group_141"
+                        data-name="Group 141"
+                        transform="translate(87.934 32.122)"
                       >
-                        <g id="Group_130" data-name="Group 130">
+                        <g
+                          id="Group_140"
+                          data-name="Group 140"
+                          transform="translate(0 0)"
+                        >
                           <path
-                            id="Path_109"
-                            data-name="Path 109"
-                            d="M387.8,779.614a.8.8,0,0,1-.8-.8V776.8a.8.8,0,0,1,1.606,0v2.008A.8.8,0,0,1,387.8,779.614Z"
-                            transform="translate(-387 -776)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_133"
-                        data-name="Group 133"
-                        transform="translate(32.925 26.902)"
-                      >
-                        <g id="Group_132" data-name="Group 132">
-                          <path
-                            id="Path_110"
-                            data-name="Path 110"
-                            d="M244.8,779.614a.8.8,0,0,1-.8-.8V776.8a.8.8,0,0,1,1.606,0v2.008A.8.8,0,0,1,244.8,779.614Z"
-                            transform="translate(-244 -776)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_134"
-                        data-name="Group 134"
-                        transform="translate(88.336 28.91)"
-                      >
-                        <circle
-                          id="Ellipse_11"
-                          data-name="Ellipse 11"
-                          cx="2.138"
-                          cy="2.138"
-                          r="2.138"
-                          transform="translate(0.502 1.037)"
-                          fill="#b8b8b8"
-                        />
-                        <path
-                          id="Path_111"
-                          data-name="Path 111"
-                          d="M384.811,786.621a2.811,2.811,0,1,1,2.811-2.811A2.814,2.814,0,0,1,384.811,786.621Zm0-4.015a1.2,1.2,0,1,0,1.2,1.2A1.206,1.206,0,0,0,384.811,782.606Z"
-                          transform="translate(-382 -781)"
-                          fill="#3c464c"
-                        />
-                      </g>
-                      <g
-                        id="Group_135"
-                        data-name="Group 135"
-                        transform="translate(30.918 28.91)"
-                      >
-                        <circle
-                          id="Ellipse_12"
-                          data-name="Ellipse 12"
-                          cx="2.138"
-                          cy="2.138"
-                          r="2.138"
-                          transform="translate(0.911 1.037)"
-                          fill="#b8b8b8"
-                        />
-                        <path
-                          id="Path_112"
-                          data-name="Path 112"
-                          d="M241.811,786.621a2.811,2.811,0,1,1,2.811-2.811A2.814,2.814,0,0,1,241.811,786.621Zm0-4.015a1.2,1.2,0,1,0,1.2,1.2A1.206,1.206,0,0,0,241.811,782.606Z"
-                          transform="translate(-239 -781)"
-                          fill="#3c464c"
-                        />
-                      </g>
-                      <g
-                        id="Group_137"
-                        data-name="Group 137"
-                        transform="translate(26.501 26.902)"
-                      >
-                        <g id="Group_136" data-name="Group 136">
-                          <path
-                            id="Path_113"
-                            data-name="Path 113"
-                            d="M228.8,779.614a.8.8,0,0,1-.8-.8V776.8a.8.8,0,0,1,1.606,0v2.008A.8.8,0,0,1,228.8,779.614Z"
-                            transform="translate(-228 -776)"
-                            fill="#3c464c"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_138"
-                        data-name="Group 138"
-                        transform="translate(24.493 28.91)"
-                      >
-                        <circle
-                          id="Ellipse_13"
-                          data-name="Ellipse 13"
-                          cx="2.138"
-                          cy="2.138"
-                          r="2.138"
-                          transform="translate(0.209 1.037)"
-                          fill="#b8b8b8"
-                        />
-                        <path
-                          id="Path_114"
-                          data-name="Path 114"
-                          d="M225.811,786.621a2.811,2.811,0,1,1,2.811-2.811A2.814,2.814,0,0,1,225.811,786.621Zm0-4.015a1.2,1.2,0,1,0,1.2,1.2A1.206,1.206,0,0,0,225.811,782.606Z"
-                          transform="translate(-223 -781)"
-                          fill="#3c464c"
-                        />
-                      </g>
-                    </g>
-                    <g
-                      id="Group_141"
-                      data-name="Group 141"
-                      transform="translate(87.934 32.122)"
-                    >
-                      <g
-                        id="Group_140"
-                        data-name="Group 140"
-                        transform="translate(0 0)"
-                      >
-                        <path
-                          id="Path_115"
-                          data-name="Path 115"
-                          d="M303.632,641.061a.8.8,0,0,1-.769-.574,4.837,4.837,0,0,0-4.269-3.423.8.8,0,0,1-.709-.56,7.828,7.828,0,0,0-13.043-3.148.8.8,0,0,1-1.347-.356,8.633,8.633,0,0,0-16.74.259.8.8,0,0,1-.881.613A4.33,4.33,0,0,0,262.332,635a.806.806,0,0,1-.759.183,3.954,3.954,0,0,0-3.451.637.8.8,0,0,1-1.221-.343,5.218,5.218,0,0,0-10.053,1.966,5.132,5.132,0,0,0,.607,2.434.8.8,0,0,1-.709,1.18H234.8a.8.8,0,1,1,0-1.606h10.744a6.824,6.824,0,0,1,12.431-5.422,5.539,5.539,0,0,1,3.6-.494,5.929,5.929,0,0,1,3.794-1.311,10.24,10.24,0,0,1,19.274-.84,9.436,9.436,0,0,1,14.6,4.136,6.455,6.455,0,0,1,5.157,4.5.8.8,0,0,1-.54,1A.786.786,0,0,1,303.632,641.061Z"
-                          transform="translate(-234 -625)"
-                          fill="#c5e2f7"
-                        />
-                      </g>
-                    </g>
-                    <g
-                      id="Group_146"
-                      data-name="Group 146"
-                      transform="translate(135.314)"
-                    >
-                      <g
-                        id="Group_143"
-                        data-name="Group 143"
-                        transform="translate(16.061 0)"
-                      >
-                        <g id="Group_142" data-name="Group 142">
-                          <path
-                            id="Path_116"
-                            data-name="Path 116"
-                            d="M453.649,559.455a.8.8,0,0,1-.8-.726,5.4,5.4,0,0,0-5.4-4.895,5.5,5.5,0,0,0-1.192.134.8.8,0,0,1-.95-.571,9.238,9.238,0,0,0-17.537-.851.8.8,0,0,1-1.285.312,5.6,5.6,0,0,0-8.243.835.8.8,0,0,1-1,.24,4.759,4.759,0,0,0-2.127-.5,4.824,4.824,0,0,0-4.818,4.818c0,.1.008.2.016.3l0,.041a.8.8,0,0,1-.8.86H392.8a.8.8,0,1,1,0-1.606h15.9a6.432,6.432,0,0,1,6.412-6.023,6.326,6.326,0,0,1,2.245.409A7.2,7.2,0,0,1,426.694,551a10.844,10.844,0,0,1,19.943,1.274,6.885,6.885,0,0,1,.809-.048,7,7,0,0,1,7,6.348.8.8,0,0,1-.723.876C453.7,559.454,453.674,559.455,453.649,559.455Z"
-                            transform="translate(-392 -545)"
+                            id="Path_115"
+                            data-name="Path 115"
+                            d="M303.632,641.061a.8.8,0,0,1-.769-.574,4.837,4.837,0,0,0-4.269-3.423.8.8,0,0,1-.709-.56,7.828,7.828,0,0,0-13.043-3.148.8.8,0,0,1-1.347-.356,8.633,8.633,0,0,0-16.74.259.8.8,0,0,1-.881.613A4.33,4.33,0,0,0,262.332,635a.806.806,0,0,1-.759.183,3.954,3.954,0,0,0-3.451.637.8.8,0,0,1-1.221-.343,5.218,5.218,0,0,0-10.053,1.966,5.132,5.132,0,0,0,.607,2.434.8.8,0,0,1-.709,1.18H234.8a.8.8,0,1,1,0-1.606h10.744a6.824,6.824,0,0,1,12.431-5.422,5.539,5.539,0,0,1,3.6-.494,5.929,5.929,0,0,1,3.794-1.311,10.24,10.24,0,0,1,19.274-.84,9.436,9.436,0,0,1,14.6,4.136,6.455,6.455,0,0,1,5.157,4.5.8.8,0,0,1-.54,1A.786.786,0,0,1,303.632,641.061Z"
+                            transform="translate(-234 -625)"
                             fill="#c5e2f7"
                           />
                         </g>
                       </g>
                       <g
-                        id="Group_145"
-                        data-name="Group 145"
-                        transform="translate(0 12.849)"
+                        id="Group_146"
+                        data-name="Group 146"
+                        transform="translate(135.314)"
                       >
-                        <g id="Group_144" data-name="Group 144">
+                        <g
+                          id="Group_143"
+                          data-name="Group 143"
+                          transform="translate(16.061 0)"
+                        >
+                          <g id="Group_142" data-name="Group 142">
+                            <path
+                              id="Path_116"
+                              data-name="Path 116"
+                              d="M453.649,559.455a.8.8,0,0,1-.8-.726,5.4,5.4,0,0,0-5.4-4.895,5.5,5.5,0,0,0-1.192.134.8.8,0,0,1-.95-.571,9.238,9.238,0,0,0-17.537-.851.8.8,0,0,1-1.285.312,5.6,5.6,0,0,0-8.243.835.8.8,0,0,1-1,.24,4.759,4.759,0,0,0-2.127-.5,4.824,4.824,0,0,0-4.818,4.818c0,.1.008.2.016.3l0,.041a.8.8,0,0,1-.8.86H392.8a.8.8,0,1,1,0-1.606h15.9a6.432,6.432,0,0,1,6.412-6.023,6.326,6.326,0,0,1,2.245.409A7.2,7.2,0,0,1,426.694,551a10.844,10.844,0,0,1,19.943,1.274,6.885,6.885,0,0,1,.809-.048,7,7,0,0,1,7,6.348.8.8,0,0,1-.723.876C453.7,559.454,453.674,559.455,453.649,559.455Z"
+                              transform="translate(-392 -545)"
+                              fill="#c5e2f7"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_145"
+                          data-name="Group 145"
+                          transform="translate(0 12.849)"
+                        >
+                          <g id="Group_144" data-name="Group 144">
+                            <path
+                              id="Path_117"
+                              data-name="Path 117"
+                              d="M362.44,578.606H352.8a.8.8,0,1,1,0-1.606h9.637a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-352 -577)"
+                              fill="#c5e2f7"
+                            />
+                          </g>
+                        </g>
+                      </g>
+                      <g
+                        id="Group_151"
+                        data-name="Group 151"
+                        transform="translate(0 8.834)"
+                      >
+                        <g
+                          id="Group_148"
+                          data-name="Group 148"
+                          transform="translate(0 0)"
+                        >
+                          <g id="Group_147" data-name="Group 147">
+                            <path
+                              id="Path_118"
+                              data-name="Path 118"
+                              d="M24.235,576.637H15.8a.8.8,0,0,1,0-1.606h7.71a4.024,4.024,0,0,1,3.588-3.2,5.622,5.622,0,0,1,11.13-.015h4.474a.8.8,0,1,1,0,1.606h-5.22a.8.8,0,0,1-.8-.8,4.015,4.015,0,0,0-8.031-.018c0,.016,0,.034,0,.046a.8.8,0,0,1-.9.8,2.39,2.39,0,0,0-2.712,2.387A.8.8,0,0,1,24.235,576.637Z"
+                              transform="translate(-15 -567)"
+                              fill="#c5e2f7"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_150"
+                          data-name="Group 150"
+                          transform="translate(30.114 4.818)"
+                        >
+                          <g id="Group_149" data-name="Group 149">
+                            <path
+                              id="Path_119"
+                              data-name="Path 119"
+                              d="M95.22,580.606H90.8a.8.8,0,1,1,0-1.606H95.22a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-90 -579)"
+                              fill="#c5e2f7"
+                            />
+                          </g>
+                        </g>
+                      </g>
+                      <g
+                        id="Group_156"
+                        data-name="Group 156"
+                        transform="translate(147.36 62.036)"
+                      >
+                        <g
+                          id="Group_153"
+                          data-name="Group 153"
+                          transform="translate(0 0)"
+                        >
+                          <g id="Group_152" data-name="Group 152">
+                            <path
+                              id="Path_120"
+                              data-name="Path 120"
+                              d="M420.145,708.936H404.485a.8.8,0,0,1-.8-.8,3.417,3.417,0,0,0-3.413-3.413c-.076,0-.151.006-.225.012a.838.838,0,0,1-.869-.628,3.813,3.813,0,0,0-7.539.817.8.8,0,0,1-.8.8H382.8a.8.8,0,1,1,0-1.606h7.286a5.42,5.42,0,0,1,10.473-.995,5.028,5.028,0,0,1,4.662,4.207h14.921a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-382 -699.5)"
+                              fill="#c5e2f7"
+                            />
+                          </g>
+                        </g>
+                        <g
+                          id="Group_155"
+                          data-name="Group 155"
+                          transform="translate(40.554 7.83)"
+                        >
+                          <g id="Group_154" data-name="Group 154">
+                            <path
+                              id="Path_121"
+                              data-name="Path 121"
+                              d="M488.22,720.606H483.8a.8.8,0,1,1,0-1.606h4.417a.8.8,0,1,1,0,1.606Z"
+                              transform="translate(-483 -719)"
+                              fill="#c5e2f7"
+                            />
+                          </g>
+                        </g>
+                      </g>
+                      <g
+                        id="Group_158"
+                        data-name="Group 158"
+                        transform="translate(96.175 5.004)"
+                      >
+                        <g
+                          id="Group_157"
+                          data-name="Group 157"
+                          transform="translate(0 0)"
+                        >
                           <path
-                            id="Path_117"
-                            data-name="Path 117"
-                            d="M362.44,578.606H352.8a.8.8,0,1,1,0-1.606h9.637a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-352 -577)"
+                            id="Path_122"
+                            data-name="Path 122"
+                            d="M256.992,560.86a.8.8,0,0,1-.5-.177l-1.665-1.335a.8.8,0,0,1,1.005-1.253l1.38,1.107,9.723-1.728a.8.8,0,0,1,.281,1.581l-10.081,1.792A.834.834,0,0,1,256.992,560.86Z"
+                            transform="translate(-254.524 -557.462)"
                             fill="#c5e2f7"
                           />
                         </g>
                       </g>
-                    </g>
-                    <g
-                      id="Group_151"
-                      data-name="Group 151"
-                      transform="translate(0 8.834)"
-                    >
                       <g
-                        id="Group_148"
-                        data-name="Group 148"
-                        transform="translate(0 0)"
+                        id="Group_160"
+                        data-name="Group 160"
+                        transform="translate(101.481 5.73)"
                       >
-                        <g id="Group_147" data-name="Group 147">
+                        <g
+                          id="Group_159"
+                          data-name="Group 159"
+                          transform="translate(0 0)"
+                        >
                           <path
-                            id="Path_118"
-                            data-name="Path 118"
-                            d="M24.235,576.637H15.8a.8.8,0,0,1,0-1.606h7.71a4.024,4.024,0,0,1,3.588-3.2,5.622,5.622,0,0,1,11.13-.015h4.474a.8.8,0,1,1,0,1.606h-5.22a.8.8,0,0,1-.8-.8,4.015,4.015,0,0,0-8.031-.018c0,.016,0,.034,0,.046a.8.8,0,0,1-.9.8,2.39,2.39,0,0,0-2.712,2.387A.8.8,0,0,1,24.235,576.637Z"
-                            transform="translate(-15 -567)"
+                            id="Path_123"
+                            data-name="Path 123"
+                            d="M268.542,562.926a.8.8,0,0,1-.528-1.409l2.355-2.05a.8.8,0,1,1,1.055,1.211l-2.354,2.05A.8.8,0,0,1,268.542,562.926Z"
+                            transform="translate(-267.738 -559.27)"
                             fill="#c5e2f7"
                           />
                         </g>
-                      </g>
-                      <g
-                        id="Group_150"
-                        data-name="Group 150"
-                        transform="translate(30.114 4.818)"
-                      >
-                        <g id="Group_149" data-name="Group 149">
-                          <path
-                            id="Path_119"
-                            data-name="Path 119"
-                            d="M95.22,580.606H90.8a.8.8,0,1,1,0-1.606H95.22a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-90 -579)"
-                            fill="#c5e2f7"
-                          />
-                        </g>
-                      </g>
-                    </g>
-                    <g
-                      id="Group_156"
-                      data-name="Group 156"
-                      transform="translate(147.36 62.036)"
-                    >
-                      <g
-                        id="Group_153"
-                        data-name="Group 153"
-                        transform="translate(0 0)"
-                      >
-                        <g id="Group_152" data-name="Group 152">
-                          <path
-                            id="Path_120"
-                            data-name="Path 120"
-                            d="M420.145,708.936H404.485a.8.8,0,0,1-.8-.8,3.417,3.417,0,0,0-3.413-3.413c-.076,0-.151.006-.225.012a.838.838,0,0,1-.869-.628,3.813,3.813,0,0,0-7.539.817.8.8,0,0,1-.8.8H382.8a.8.8,0,1,1,0-1.606h7.286a5.42,5.42,0,0,1,10.473-.995,5.028,5.028,0,0,1,4.662,4.207h14.921a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-382 -699.5)"
-                            fill="#c5e2f7"
-                          />
-                        </g>
-                      </g>
-                      <g
-                        id="Group_155"
-                        data-name="Group 155"
-                        transform="translate(40.554 7.83)"
-                      >
-                        <g id="Group_154" data-name="Group 154">
-                          <path
-                            id="Path_121"
-                            data-name="Path 121"
-                            d="M488.22,720.606H483.8a.8.8,0,1,1,0-1.606h4.417a.8.8,0,1,1,0,1.606Z"
-                            transform="translate(-483 -719)"
-                            fill="#c5e2f7"
-                          />
-                        </g>
-                      </g>
-                    </g>
-                    <g
-                      id="Group_158"
-                      data-name="Group 158"
-                      transform="translate(96.175 5.004)"
-                    >
-                      <g
-                        id="Group_157"
-                        data-name="Group 157"
-                        transform="translate(0 0)"
-                      >
-                        <path
-                          id="Path_122"
-                          data-name="Path 122"
-                          d="M256.992,560.86a.8.8,0,0,1-.5-.177l-1.665-1.335a.8.8,0,0,1,1.005-1.253l1.38,1.107,9.723-1.728a.8.8,0,0,1,.281,1.581l-10.081,1.792A.834.834,0,0,1,256.992,560.86Z"
-                          transform="translate(-254.524 -557.462)"
-                          fill="#c5e2f7"
-                        />
-                      </g>
-                    </g>
-                    <g
-                      id="Group_160"
-                      data-name="Group 160"
-                      transform="translate(101.481 5.73)"
-                    >
-                      <g
-                        id="Group_159"
-                        data-name="Group 159"
-                        transform="translate(0 0)"
-                      >
-                        <path
-                          id="Path_123"
-                          data-name="Path 123"
-                          d="M268.542,562.926a.8.8,0,0,1-.528-1.409l2.355-2.05a.8.8,0,1,1,1.055,1.211l-2.354,2.05A.8.8,0,0,1,268.542,562.926Z"
-                          transform="translate(-267.738 -559.27)"
-                          fill="#c5e2f7"
-                        />
                       </g>
                     </g>
                   </g>
-                </g>
-                <g
-                  id="Group_164"
-                  data-name="Group 164"
-                  transform="translate(1.763 1.763)"
-                >
-                  <circle
-                    id="Ellipse_14"
-                    data-name="Ellipse 14"
-                    cx="8.5"
-                    cy="8.5"
-                    r="8.5"
-                    transform="translate(691.237 359.237)"
-                    fill="#dde8eb"
-                  />
                   <g
-                    id="Group_163"
-                    data-name="Group 163"
-                    transform="translate(695.813 363.813)"
+                    id="Group_164"
+                    data-name="Group 164"
+                    transform="translate(1.763 1.763)"
                   >
-                    <rect
-                      id="Rectangle_39"
-                      data-name="Rectangle 39"
-                      width="1.531"
-                      height="9.568"
-                      rx="0.766"
-                      transform="translate(7.848 6.766) rotate(135)"
-                      fill="#19a5ff"
+                    <circle
+                      id="Ellipse_14"
+                      data-name="Ellipse 14"
+                      cx="8.5"
+                      cy="8.5"
+                      r="8.5"
+                      transform="translate(691.237 359.237)"
+                      fill="#dde8eb"
                     />
-                    <rect
-                      id="Rectangle_40"
-                      data-name="Rectangle 40"
-                      width="1.531"
-                      height="9.568"
-                      rx="0.766"
-                      transform="translate(6.766 0) rotate(45)"
-                      fill="#19a5ff"
-                    />
+                    <g
+                      id="Group_163"
+                      data-name="Group 163"
+                      transform="translate(695.813 363.813)"
+                    >
+                      <rect
+                        id="Rectangle_39"
+                        data-name="Rectangle 39"
+                        width="1.531"
+                        height="9.568"
+                        rx="0.766"
+                        transform="translate(7.848 6.766) rotate(135)"
+                        fill="#19a5ff"
+                      />
+                      <rect
+                        id="Rectangle_40"
+                        data-name="Rectangle 40"
+                        width="1.531"
+                        height="9.568"
+                        rx="0.766"
+                        transform="translate(6.766 0) rotate(45)"
+                        fill="#19a5ff"
+                      />
+                    </g>
                   </g>
                 </g>
-              </g>
-            </svg>
-          </div>
-          <div className="noResultContentDiv">
-            <h6>Oops! No flights found</h6>
-            <p>
-              There were no flights found for this date & route
-              combination
-            </p>
-          </div>
-          <div
-            className="noResultBtnDiv"
-          // onClick={() => navigate("/")}
-          // style={{}}
-          >
-            Modify Search & Try Again
+              </svg>
+            </div>
+            <div className="noResultContentDiv">
+              <h6>Oops! No flights found</h6>
+              <p>
+                There were no flights found for this date & route combination
+              </p>
+            </div>
+            <div
+              className="noResultBtnDiv"
+              // onClick={() => navigate("/")}
+              // style={{}}
+            >
+              Modify Search & Try Again
+            </div>
           </div>
         </div>
       </div>
-    </div>)
+    );
   }
-
-
-
 
   return (
     <>
-
       {/* {(!resultsAvailable) &&<FlightProgressBar duration={10000} resultsAvailable={!loader} />} */}
       {reducerState?.oneWay?.isError && <NoResult />}
-      {!reducerState?.oneWay?.isError && <div className="d-flex flex-column flex-lg-row " style={{ margin: "40px", gap: "14px" }}>
-        <div className="col col-lg-3">
-          {!loader && filteredDatanew ? (
-            <div className="container filterpart-1">
-              <div className="filter-new-data">
-                <div className="filter-name">
-                  <div onClick={() => setIsFilterOpen(pre => !pre)}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                    >
-                      <path
-                        d="M9.33147 8V13.2533C9.35813 13.4533 9.29147 13.6667 9.13813 13.8067C9.07646 13.8685 9.0032 13.9175 8.92255 13.951C8.8419 13.9844 8.75545 14.0016 8.66813 14.0016C8.58082 14.0016 8.49437 13.9844 8.41372 13.951C8.33307 13.9175 8.25981 13.8685 8.19813 13.8067L6.85813 12.4667C6.78542 12.3956 6.73014 12.3087 6.6966 12.2127C6.66306 12.1167 6.65218 12.0142 6.6648 11.9133V8H6.6448L2.8048 3.08C2.69654 2.94102 2.64769 2.76484 2.66893 2.58995C2.69016 2.41507 2.77976 2.2557 2.91813 2.14667C3.0448 2.05333 3.1848 2 3.33147 2H12.6648C12.8115 2 12.9515 2.05333 13.0781 2.14667C13.2165 2.2557 13.3061 2.41507 13.3273 2.58995C13.3486 2.76484 13.2997 2.94102 13.1915 3.08L9.35147 8H9.33147Z"
-                        fill="black"
-                      />
-                    </svg>
+      {!reducerState?.oneWay?.isError && (
+        <div
+          className="d-flex flex-column flex-lg-row "
+          style={{ margin: "40px", gap: "14px" }}
+        >
+          <div className="col col-lg-3">
+            {!loader && filteredDatanew ? (
+              <div className="container filterpart-1">
+                <div className="filter-new-data">
+                  <div className="filter-name">
+                    <div onClick={() => setIsFilterOpen((pre) => !pre)}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                      >
+                        <path
+                          d="M9.33147 8V13.2533C9.35813 13.4533 9.29147 13.6667 9.13813 13.8067C9.07646 13.8685 9.0032 13.9175 8.92255 13.951C8.8419 13.9844 8.75545 14.0016 8.66813 14.0016C8.58082 14.0016 8.49437 13.9844 8.41372 13.951C8.33307 13.9175 8.25981 13.8685 8.19813 13.8067L6.85813 12.4667C6.78542 12.3956 6.73014 12.3087 6.6966 12.2127C6.66306 12.1167 6.65218 12.0142 6.6648 11.9133V8H6.6448L2.8048 3.08C2.69654 2.94102 2.64769 2.76484 2.66893 2.58995C2.69016 2.41507 2.77976 2.2557 2.91813 2.14667C3.0448 2.05333 3.1848 2 3.33147 2H12.6648C12.8115 2 12.9515 2.05333 13.0781 2.14667C13.2165 2.2557 13.3061 2.41507 13.3273 2.58995C13.3486 2.76484 13.2997 2.94102 13.1915 3.08L9.35147 8H9.33147Z"
+                          fill="black"
+                        />
+                      </svg>
+                    </div>
+                    <div>Filter</div>
                   </div>
-                  <div>Filter</div>
+
+                  <div>
+                    <label className="sidebar-label-container ps-0">
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        value="All"
+                        name="test"
+                        checked={selectedCategory.includes("test:All")}
+                        onClick={() => {
+                          setPriceRangeValue(maxPrice);
+                          setLayoverRangeValue(maxFormattedTime);
+                        }}
+                      />
+                      {/* <span className="checkmark"></span> */}
+                      <span
+                        style={{
+                          color: selectedCategory.length > 0 ? "red" : "gray",
+                        }}
+                      >
+                        Clear Filter
+                      </span>
+                    </label>
+                  </div>
                 </div>
 
-                <div>
-                  <label className="sidebar-label-container ps-0">
-                    <input
-                      type="checkbox"
-                      onChange={handleRadioChange}
-                      value="All"
-                      name="test"
-                      checked={selectedCategory.includes("test:All")}
-
-                      onClick={() => {
-                        setPriceRangeValue(maxPrice);
-                        setLayoverRangeValue(maxFormattedTime)
-                      }}
-                    />
-                    {/* <span className="checkmark"></span> */}
-                    <span
-                      style={{
-                        color: selectedCategory.length > 0 ? "red" : "gray",
-                      }}
-                    >
-                      Clear Filter
-                    </span>
-                  </label>
-                </div>
-              </div>
-
-              {/* <div style={{display:"flex", flexDirection:"row",justifyContent: "space-evenly"}}>
+                {/* <div style={{display:"flex", flexDirection:"row",justifyContent: "space-evenly"}}>
                     <label className="sidebar-label-container  ps-0">
                   
 
@@ -4791,7 +4840,368 @@ function NewItems({
 
                     
                   </div> */}
-              {isFilterOpen && <>
+                {isFilterOpen && (
+                  <>
+                    <div
+                      className="stop-filter-new"
+                      style={{ width: "100%", gap: "17px" }}
+                    >
+                      <label
+                        htmlFor="stop-dropdown"
+                        className="select-filter-heading"
+                      >
+                        Select Stop:
+                      </label>
+
+                      <div className="checkbox-options-new">
+                        <input
+                          type="checkbox"
+                          onChange={handleRadioChange}
+                          value="1"
+                          name="stop"
+                          checked={selectedCategory.includes("stop:1")}
+                        />
+                        nonstop
+                      </div>
+                      <div className="checkbox-options-new">
+                        <input
+                          type="checkbox"
+                          onChange={handleRadioChange}
+                          value="2"
+                          name="stop"
+                          checked={selectedCategory.includes("stop:2")}
+                        />
+                        onestop
+                      </div>
+                    </div>
+
+                    <div className="w-100">
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <h2 className="select-filter-heading">By Price</h2>
+                        <span className="slider-value-new" id="tooltip">
+                          {" "}
+                          ₹{priceRangeValue}
+                        </span>
+                      </div>
+
+                      <div className="position-relative">
+                        <input
+                          type="range"
+                          id="rangePriceRange"
+                          min={minPrice + 1}
+                          max={maxPrice + 1}
+                          step="5000"
+                          value={priceRangeValue}
+                          onChange={handlePriceRangeChange}
+                        />
+                        {/* {valueShow && ( */}
+                        {/* <span style={{ position: "absolute" }} id="tooltip">
+                {" "}
+                ₹{priceRangeValue}
+              </span> */}
+                        {/* )} */}
+                        <div
+                          className=""
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <span className="slider-value-new">
+                            ₹{""}
+                            {minPrice}
+                          </span>
+                          <span className="slider-value-new">
+                            ₹{""}
+                            {maxPrice}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="w-100">
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <h2 className="select-filter-heading">Layover</h2>
+                        <span className="slider-value-new" id="tooltip">
+                          {" "}
+                          {layoverRangeValue}
+                          {"h"}
+                        </span>
+                      </div>
+
+                      <div className="position-relative">
+                        <input
+                          type="range"
+                          id="layover"
+                          min={mintime}
+                          max={maxtime}
+                          step="1"
+                          value={layoverRangeValue}
+                          onChange={handleLayoverRangeChange}
+                        />
+                        {/* {valueShow && ( */}
+                        {/* <span style={{ position: "absolute" }} id="tooltip">
+                {" "}
+                ₹{priceRangeValue}
+              </span> */}
+                        {/* )} */}
+                        <div
+                          className=""
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                          }}
+                        >
+                          <span className="slider-value-new">
+                            {""}
+                            {mintime}
+                            {"h"}
+                          </span>
+                          <span className="slider-value-new">
+                            {""}
+                            {maxtime}
+                            {"h"}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h2 className="select-filter-heading">
+                        Outbound Flight Times{" "}
+                        {results?.result?.Segments?.[0][0]?.Origin?.Airport
+                          ?.CityName || departurePlace}
+                      </h2>
+
+                      <div className="filter-checkbox-timimg col  flex-sm-row flex-lg-column">
+                        <label className="checkbox-options-new ps-0">
+                          <input
+                            type="checkbox"
+                            onChange={handleRadioChange}
+                            value="before6AM"
+                            name="timeDepart"
+                            checked={selectedCategory.includes(
+                              "timeDepart:before6AM"
+                            )}
+                          />
+                          Before 6 AM
+                        </label>
+
+                        <label className="checkbox-options-new ps-0">
+                          <input
+                            type="checkbox"
+                            onChange={handleRadioChange}
+                            value="6AMto12PM"
+                            name="timeDepart"
+                            checked={selectedCategory.includes(
+                              "timeDepart:6AMto12PM"
+                            )}
+                          />
+                          6 AM - 12 PM
+                        </label>
+
+                        <label className="checkbox-options-new ps-0">
+                          <input
+                            type="checkbox"
+                            onChange={handleRadioChange}
+                            value="12PMto6PM"
+                            name="timeDepart"
+                            checked={selectedCategory.includes(
+                              "timeDepart:12PMto6PM"
+                            )}
+                          />
+                          12 PM - 6 PM
+                        </label>
+
+                        <label className="checkbox-options-new ps-0">
+                          <input
+                            type="checkbox"
+                            onChange={handleRadioChange}
+                            value="after6PM"
+                            name="timeDepart"
+                            checked={selectedCategory.includes(
+                              "timeDepart:after6PM"
+                            )}
+                          />
+                          After 6 PM
+                        </label>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h2 className="select-filter-heading">
+                        Arrival at{" "}
+                        {results?.result?.Segments?.[0][
+                          results?.result?.Segments[0]?.length - 1
+                        ]?.Destination?.Airport?.CityName || arrivalPlace}
+                      </h2>
+
+                      <div className="filter-checkbox-timimg col  flex-sm-row flex-lg-column ">
+                        <label className="checkbox-options-new ps-0">
+                          <input
+                            type="checkbox"
+                            onChange={handleRadioChange}
+                            value="ARRbefore6AM"
+                            name="timeArrival"
+                            checked={selectedCategory.includes(
+                              "timeArrival:ARRbefore6AM"
+                            )}
+                          />
+                          <div>
+                            <span>Before 6 AM</span>
+                          </div>
+                        </label>
+
+                        <label className="checkbox-options-new ps-0">
+                          <input
+                            type="checkbox"
+                            onChange={handleRadioChange}
+                            value="ARR6AMto12PM"
+                            name="timeArrival"
+                            checked={selectedCategory.includes(
+                              "timeArrival:ARR6AMto12PM"
+                            )}
+                          />
+                          <div>
+                            <span>6 AM - 12 PM</span>
+                          </div>
+                        </label>
+
+                        <label className="checkbox-options-new ps-0">
+                          <input
+                            type="checkbox"
+                            onChange={handleRadioChange}
+                            value="ARR12PMto6PM"
+                            name="timeArrival"
+                            checked={selectedCategory.includes(
+                              "timeArrival:ARR12PMto6PM"
+                            )}
+                          />
+                          <div>
+                            <span>12 PM - 6 PM</span>
+                          </div>
+                        </label>
+
+                        <label className="checkbox-options-new ps-0">
+                          <input
+                            type="checkbox"
+                            onChange={handleRadioChange}
+                            value="ARRafter6PM"
+                            name="timeArrival"
+                            checked={selectedCategory.includes(
+                              "timeArrival:ARRafter6PM"
+                            )}
+                          />
+                          <div>
+                            <span>After 6 PM</span>
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div>
+                      <h2 className="select-filter-heading">Airlines</h2>
+                      <div className="filter-checkbox-timimg">
+                        {[
+                          ...new Set(
+                            results?.result?.map(
+                              (item) =>
+                                `${
+                                  item?.ValidatingAirline ||
+                                  item?.flightDetails?.flightInformation
+                                    ?.companyId?.marketingCarrier ||
+                                  item?.flightDetails?.[0]?.flightInformation
+                                    ?.companyId?.marketingCarrier
+                                }`
+                            )
+                          ),
+                        ].map((airline, index) => (
+                          <label
+                            key={index}
+                            className="checkbox-options-new  ps-0 "
+                          >
+                            <div className="svgBOx" style={{ gap: "12px" }}>
+                              <input
+                                type="checkbox"
+                                onChange={handleRadioChange}
+                                value={airline.split(",")[0]}
+                                name="flightname"
+                                checked={selectedCategory.includes(
+                                  `flightname:${airline.split(",")[0]}`
+                                )}
+                              />
+                              <div>
+                                <span className="checkedSVG imgBoxFilter pe-2">
+                                  <img
+                                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${airline.split(
+                                      ","
+                                    )}.png`}
+                                    alt="flight"
+                                  />{" "}
+                                </span>
+                                <span>{findAirlineByCode(airline)}</span>
+                              </div>
+                            </div>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            ) : (
+              <div className="container filterpart-1">
+                <div className="filter-new-data">
+                  <div className="filter-name">
+                    <div>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                      >
+                        <path
+                          d="M9.33147 8V13.2533C9.35813 13.4533 9.29147 13.6667 9.13813 13.8067C9.07646 13.8685 9.0032 13.9175 8.92255 13.951C8.8419 13.9844 8.75545 14.0016 8.66813 14.0016C8.58082 14.0016 8.49437 13.9844 8.41372 13.951C8.33307 13.9175 8.25981 13.8685 8.19813 13.8067L6.85813 12.4667C6.78542 12.3956 6.73014 12.3087 6.6966 12.2127C6.66306 12.1167 6.65218 12.0142 6.6648 11.9133V8H6.6448L2.8048 3.08C2.69654 2.94102 2.64769 2.76484 2.66893 2.58995C2.69016 2.41507 2.77976 2.2557 2.91813 2.14667C3.0448 2.05333 3.1848 2 3.33147 2H12.6648C12.8115 2 12.9515 2.05333 13.0781 2.14667C13.2165 2.2557 13.3061 2.41507 13.3273 2.58995C13.3486 2.76484 13.2997 2.94102 13.1915 3.08L9.35147 8H9.33147Z"
+                          fill="black"
+                        />
+                      </svg>
+                    </div>
+                    <div>Filter</div>
+                  </div>
+                  <div>
+                    <label className="sidebar-label-container ps-0">
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
+                        onClick={() => {
+                          setPriceRangeValue(maxPrice);
+                          setLayoverRangeValue(maxFormattedTime);
+                        }}
+                        value="All"
+                        name="test"
+                        // checked={selectedCategory.includes("test:All")}
+                      />
+                      {/* <span className="checkmark"></span> */}
+                      <span
+                      // style={{
+                      //   color: selectedCategory.length > 0 ? "red" : "gray",
+                      // }}
+                      >
+                        Clear Filter
+                      </span>
+                    </label>
+                  </div>
+                </div>
 
                 <div
                   className="stop-filter-new"
@@ -4799,30 +5209,34 @@ function NewItems({
                 >
                   <label
                     htmlFor="stop-dropdown"
-                    className="select-filter-heading"
+                    className="select-filter-heading line"
+                    style={{
+                      backgroundColor: "#D1D5DB",
+                      width: "100%",
+                      height: "20px",
+                    }}
                   >
-                    Select Stop:
+                    {/* Select Stop: */}
                   </label>
 
                   <div className="checkbox-options-new">
-                    <input
-                      type="checkbox"
-                      onChange={handleRadioChange}
-                      value="1"
-                      name="stop"
-                      checked={selectedCategory.includes("stop:1")}
+                    <div
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        backgroundColor: "#D1D5DB",
+                      }}
+                      className="line"
                     />
-                    nonstop
-                  </div>
-                  <div className="checkbox-options-new">
-                    <input
-                      type="checkbox"
-                      onChange={handleRadioChange}
-                      value="2"
-                      name="stop"
-                      checked={selectedCategory.includes("stop:2")}
-                    />
-                    onestop
+                    <div
+                      style={{
+                        width: "50px",
+                        height: "20px",
+                        backgroundColor: "#D1D5DB",
+                        width: "75%",
+                      }}
+                      className="line"
+                    ></div>
                   </div>
                 </div>
 
@@ -4833,27 +5247,21 @@ function NewItems({
                     <h2 className="select-filter-heading">By Price</h2>
                     <span className="slider-value-new" id="tooltip">
                       {" "}
-                      ₹{priceRangeValue}
+                      {/* ₹{priceRangeValue} */}
                     </span>
                   </div>
 
                   <div className="position-relative">
-                    <input
-                      type="range"
-                      id="rangePriceRange"
-                      min={minPrice + 1}
-                      max={maxPrice + 1}
-                      step="5000"
-                      value={priceRangeValue}
-
-                      onChange={handlePriceRangeChange}
+                    <div
+                      style={{
+                        width: "50px",
+                        height: "20px",
+                        backgroundColor: "#D1D5DB",
+                        width: "75%",
+                      }}
+                      className="line"
                     />
-                    {/* {valueShow && ( */}
-                    {/* <span style={{ position: "absolute" }} id="tooltip">
-                {" "}
-                ₹{priceRangeValue}
-              </span> */}
-                    {/* )} */}
+
                     <div
                       className=""
                       style={{
@@ -4862,527 +5270,176 @@ function NewItems({
                       }}
                     >
                       <span className="slider-value-new">
-                        ₹{""}
-                        {minPrice}
+                        {/* ₹{""} */}
+                        {/* {minPrice} */}
                       </span>
                       <span className="slider-value-new">
-                        ₹{""}
-                        {maxPrice}
+                        {/* ₹{""} */}
+                        {/* {maxPrice} */}
                       </span>
                     </div>
                   </div>
                 </div>
-                <div className="w-100">
-                  <div
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <h2 className="select-filter-heading">Layover</h2>
-                    <span className="slider-value-new" id="tooltip">
-                      {" "}
-                      {layoverRangeValue}{"h"}
-                    </span>
-                  </div>
+                {["Departure", "Arrival", "Airlines"]?.map((item) => {
+                  return (
+                    <div style={{ width: "75%" }}>
+                      <h2 className="select-filter-heading">Departure</h2>
+                      <div className="filter-checkbox-timimg">
+                        {[1, 2, 3, 4].map((item) => {
+                          return (
+                            <div className="checkbox-options-new">
+                              <div
+                                style={{
+                                  width: "20px",
+                                  height: "20px",
+                                  backgroundColor: "#D1D5DB",
+                                }}
+                                className="line"
+                              />
+                              <div
+                                style={{
+                                  width: "50px",
+                                  height: "20px",
+                                  backgroundColor: "#D1D5DB",
+                                  width: "75%",
+                                }}
+                                className="line"
+                              ></div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
 
-                  <div className="position-relative">
-                    <input
-                      type="range"
-                      id="layover"
-                      min={mintime}
-                      max={maxtime}
-                      step="1"
-                      value={layoverRangeValue}
-                      onChange={handleLayoverRangeChange}
-                    />
-                    {/* {valueShow && ( */}
-                    {/* <span style={{ position: "absolute" }} id="tooltip">
-                {" "}
-                ₹{priceRangeValue}
-              </span> */}
-                    {/* )} */}
+          <div className="col  col-lg-9 ">
+            {/* {filteredDatanew &&
+            filteredDatanew.map((item) => { */}
+            {/* <div>{filterdatalength}</div> */}
+            {!loader && filteredDatanew ? (
+              filterdatalength > 0 ? (
+                filteredDatanew.map((item, index) => {
+                  {/* console.log(item, "vitem"); */}
+                  const nextFlight = item?.Segments?.[0];
+                  let layoverHours = 0;
+                  let layoverMinutes = 0;
+                  let layoverDuration = 0;
+
+                  if (nextFlight) {
+                    // console.log(item?.Segments?.[0]?.[0]?.Origin?.DepTime, item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination
+                    //   ?.ArrTime)
+                    const arrivalTime = dayjs(
+                      item?.Segments?.[0]?.[0]?.Origin?.DepTime
+                    );
+                    const departureTime = dayjs(
+                      item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]
+                        ?.Destination?.ArrTime
+                    );
+                    layoverDuration = departureTime.diff(
+                      arrivalTime,
+                      "minutes"
+                    ); // Calculate difference in minutes
+                    layoverHours = Math.floor(layoverDuration / 60); // Extract hours
+                    layoverMinutes = layoverDuration % 60;
+                  }
+
+                  return (
                     <div
-                      className=""
+                      className="newdata-searchlist flex-column flex-md-row"
                       style={{
-                        display: "flex",
                         justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: "5px",
                       }}
                     >
-                      <span className="slider-value-new">
-                        {""}
-                        {mintime}{"h"}
-                      </span>
-                      <span className="slider-value-new">
-                        {""}
-                        {maxtime}{"h"}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div>
-                  <h2 className="select-filter-heading">
-                    Outbound Flight Times{" "}
-                    {results?.result?.Segments?.[0][0]?.Origin?.Airport
-                      ?.CityName || departurePlace}
-                  </h2>
-
-                  <div className="filter-checkbox-timimg col  flex-sm-row flex-lg-column">
-                    <label className="checkbox-options-new ps-0">
-                      <input
-                        type="checkbox"
-                        onChange={handleRadioChange}
-                        value="before6AM"
-                        name="timeDepart"
-                        checked={selectedCategory.includes(
-                          "timeDepart:before6AM"
-                        )}
-                      />
-                      Before 6 AM
-                    </label>
-
-                    <label className="checkbox-options-new ps-0">
-                      <input
-                        type="checkbox"
-                        onChange={handleRadioChange}
-                        value="6AMto12PM"
-                        name="timeDepart"
-                        checked={selectedCategory.includes(
-                          "timeDepart:6AMto12PM"
-                        )}
-                      />
-                      6 AM - 12 PM
-                    </label>
-
-                    <label className="checkbox-options-new ps-0">
-                      <input
-                        type="checkbox"
-                        onChange={handleRadioChange}
-                        value="12PMto6PM"
-                        name="timeDepart"
-                        checked={selectedCategory.includes(
-                          "timeDepart:12PMto6PM"
-                        )}
-                      />
-                      12 PM - 6 PM
-                    </label>
-
-                    <label className="checkbox-options-new ps-0">
-                      <input
-                        type="checkbox"
-                        onChange={handleRadioChange}
-                        value="after6PM"
-                        name="timeDepart"
-                        checked={selectedCategory.includes("timeDepart:after6PM")}
-                      />
-                      After 6 PM
-                    </label>
-                  </div>
-                </div>
-
-                <div>
-                  <h2 className="select-filter-heading">
-                    Arrival at{" "}
-                    {results?.result?.Segments?.[0][
-                      results?.result?.Segments[0]?.length - 1
-                    ]?.Destination?.Airport?.CityName || arrivalPlace}
-                  </h2>
-
-
-
-                  <div className="filter-checkbox-timimg col  flex-sm-row flex-lg-column ">
-                    <label className="checkbox-options-new ps-0">
-                      <input
-                        type="checkbox"
-                        onChange={handleRadioChange}
-                        value="ARRbefore6AM"
-                        name="timeArrival"
-                        checked={selectedCategory.includes(
-                          "timeArrival:ARRbefore6AM"
-                        )}
-                      />
-                      <div>
-                        <span>Before 6 AM</span>
-                      </div>
-                    </label>
-
-                    <label className="checkbox-options-new ps-0">
-                      <input
-                        type="checkbox"
-                        onChange={handleRadioChange}
-                        value="ARR6AMto12PM"
-                        name="timeArrival"
-                        checked={selectedCategory.includes(
-                          "timeArrival:ARR6AMto12PM"
-                        )}
-                      />
-                      <div>
-                        <span>6 AM - 12 PM</span>
-                      </div>
-                    </label>
-
-                    <label className="checkbox-options-new ps-0">
-                      <input
-                        type="checkbox"
-                        onChange={handleRadioChange}
-                        value="ARR12PMto6PM"
-                        name="timeArrival"
-                        checked={selectedCategory.includes(
-                          "timeArrival:ARR12PMto6PM"
-                        )}
-                      />
-                      <div>
-                        <span>12 PM - 6 PM</span>
-                      </div>
-                    </label>
-
-                    <label className="checkbox-options-new ps-0">
-                      <input
-                        type="checkbox"
-                        onChange={handleRadioChange}
-                        value="ARRafter6PM"
-                        name="timeArrival"
-                        checked={selectedCategory.includes(
-                          "timeArrival:ARRafter6PM"
-                        )}
-                      />
-                      <div>
-                        <span>After 6 PM</span>
-                      </div>
-                    </label>
-                  </div>
-                </div>
-
-                <div>
-                  <h2 className="select-filter-heading">Airlines</h2>
-                  <div className="filter-checkbox-timimg">
-                    {[
-                      ...new Set(
-                        results?.result?.map(
-                          (item) =>
-                            `${item?.ValidatingAirline ||
+                      <div style={{ display: "flex", gap: "12px" }}>
+                        {" "}
+                        <img
+                          src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${
+                            item?.ValidatingAirline ||
                             item?.flightDetails?.flightInformation?.companyId
                               ?.marketingCarrier ||
-                            item?.flightDetails?.[0]?.flightInformation?.companyId
+                            item?.flightDetails[0]?.flightInformation?.companyId
                               ?.marketingCarrier
-                            }`
-                        )
-                      ),
-                    ].map((airline, index) => (
-                      <label key={index} className="checkbox-options-new  ps-0 " >
-                        <div className="svgBOx" style={{ gap: "12px" }}>
-                          <input
-                            type="checkbox"
-                            onChange={handleRadioChange}
-                            value={airline.split(",")[0]}
-                            name="flightname"
-                            checked={selectedCategory.includes(
-                              `flightname:${airline.split(",")[0]}`
-                            )}
-                          />
-                          <div>
-                            <span className="checkedSVG imgBoxFilter pe-2">
-                              <img
-                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${airline.split(
-                                  ","
-                                )}.png`}
-                                alt="flight"
-                              />{" "}
-                            </span>
-                            <span>{findAirlineByCode(airline)}</span>
-                          </div>
-                        </div>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </>}
-            </div>
-          ) : (
-            <div className="container filterpart-1">
-              <div className="filter-new-data">
-                <div className="filter-name">
-                  <div>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                    >
-                      <path
-                        d="M9.33147 8V13.2533C9.35813 13.4533 9.29147 13.6667 9.13813 13.8067C9.07646 13.8685 9.0032 13.9175 8.92255 13.951C8.8419 13.9844 8.75545 14.0016 8.66813 14.0016C8.58082 14.0016 8.49437 13.9844 8.41372 13.951C8.33307 13.9175 8.25981 13.8685 8.19813 13.8067L6.85813 12.4667C6.78542 12.3956 6.73014 12.3087 6.6966 12.2127C6.66306 12.1167 6.65218 12.0142 6.6648 11.9133V8H6.6448L2.8048 3.08C2.69654 2.94102 2.64769 2.76484 2.66893 2.58995C2.69016 2.41507 2.77976 2.2557 2.91813 2.14667C3.0448 2.05333 3.1848 2 3.33147 2H12.6648C12.8115 2 12.9515 2.05333 13.0781 2.14667C13.2165 2.2557 13.3061 2.41507 13.3273 2.58995C13.3486 2.76484 13.2997 2.94102 13.1915 3.08L9.35147 8H9.33147Z"
-                        fill="black"
-                      />
-                    </svg>
-                  </div>
-                  <div>Filter</div>
-                </div>
-                <div>
-                  <label className="sidebar-label-container ps-0">
-                    <input
-                      type="checkbox"
-                      onChange={handleRadioChange}
-                      onClick={() => {
-                        setPriceRangeValue(maxPrice);
-                        setLayoverRangeValue(maxFormattedTime)
-                      }}
-                      value="All"
-                      name="test"
-                    // checked={selectedCategory.includes("test:All")}
-                    />
-                    {/* <span className="checkmark"></span> */}
-                    <span
-                    // style={{
-                    //   color: selectedCategory.length > 0 ? "red" : "gray",
-                    // }}
-                    >
-                      Clear Filter
-                    </span>
-                  </label>
-                </div>
-              </div>
-
-              <div
-                className="stop-filter-new"
-                style={{ width: "100%", gap: "17px" }}
-              >
-                <label
-                  htmlFor="stop-dropdown"
-                  className="select-filter-heading line"
-                  style={{
-                    backgroundColor: "#D1D5DB",
-                    width: "100%",
-                    height: "20px",
-                  }}
-                >
-                  {/* Select Stop: */}
-                </label>
-
-                <div className="checkbox-options-new">
-                  <div
-                    style={{
-                      width: "20px",
-                      height: "20px",
-                      backgroundColor: "#D1D5DB",
-                    }}
-                    className="line"
-                  />
-                  <div
-                    style={{
-                      width: "50px",
-                      height: "20px",
-                      backgroundColor: "#D1D5DB",
-                      width: "75%",
-                    }}
-                    className="line"
-                  ></div>
-                </div>
-              </div>
-
-              <div className="w-100">
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <h2 className="select-filter-heading">By Price</h2>
-                  <span className="slider-value-new" id="tooltip">
-                    {" "}
-                    {/* ₹{priceRangeValue} */}
-                  </span>
-                </div>
-
-                <div className="position-relative">
-                  <div
-                    style={{
-                      width: "50px",
-                      height: "20px",
-                      backgroundColor: "#D1D5DB",
-                      width: "75%",
-                    }}
-                    className="line"
-                  />
-
-                  <div
-                    className=""
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <span className="slider-value-new">
-                      {/* ₹{""} */}
-                      {/* {minPrice} */}
-                    </span>
-                    <span className="slider-value-new">
-                      {/* ₹{""} */}
-                      {/* {maxPrice} */}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              {["Departure", "Arrival", "Airlines"]?.map((item) => {
-                return (
-                  <div style={{ width: "75%" }}>
-                    <h2 className="select-filter-heading">Departure</h2>
-                    <div className="filter-checkbox-timimg">
-                      {[1, 2, 3, 4].map((item) => {
-                        return (
-                          <div className="checkbox-options-new">
-                            <div
-                              style={{
-                                width: "20px",
-                                height: "20px",
-                                backgroundColor: "#D1D5DB",
-                              }}
-                              className="line"
-                            />
-                            <div
-                              style={{
-                                width: "50px",
-                                height: "20px",
-                                backgroundColor: "#D1D5DB",
-                                width: "75%",
-                              }}
-                              className="line"
-                            ></div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          )}
-        </div>
-
-        <div className="col  col-lg-9 ">
-          {/* {filteredDatanew &&
-            filteredDatanew.map((item) => { */}
-          {/* <div>{filterdatalength}</div> */}
-          {!loader && filteredDatanew ? (
-
-            filterdatalength > 0 ?
-              filteredDatanew.map((item, index) => {
-
-                const nextFlight = item?.Segments?.[0]
-                let layoverHours = 0;
-                let layoverMinutes = 0;
-                let layoverDuration = 0;
-
-
-                if (nextFlight) {
-                  // console.log(item?.Segments?.[0]?.[0]?.Origin?.DepTime, item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination
-                  //   ?.ArrTime)
-                  const arrivalTime = dayjs(
-                    item?.Segments?.[0]?.[0]?.Origin?.DepTime,
-
-
-                  );
-                  const departureTime = dayjs(
-                    item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination
-                      ?.ArrTime
-                  );
-                  layoverDuration = departureTime.diff(
-                    arrivalTime,
-                    "minutes"
-                  ); // Calculate difference in minutes
-                  layoverHours = Math.floor(
-                    layoverDuration / 60
-                  ); // Extract hours
-                  layoverMinutes = layoverDuration % 60;
-                }
-
-                return (
-                  <div
-                    className="newdata-searchlist flex-column flex-md-row"
-                    style={{
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    <div style={{ display: "flex", gap: "12px" }}>
-                      {" "}
-                      <img
-                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.ValidatingAirline ||
-                          item?.flightDetails?.flightInformation?.companyId
-                            ?.marketingCarrier ||
-                          item?.flightDetails[0]?.flightInformation?.companyId
-                            ?.marketingCarrier
                           }.png`}
-                        alt="flight"
-                        style={{ borderRadius: "8px" }}
-                        width={50}
-                        height={50}
-                      />{" "}
+                          alt="flight"
+                          style={{ borderRadius: "8px" }}
+                          width={50}
+                          height={50}
+                        />{" "}
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                            gap: "12px",
+                          }}
+                        >
+                          <p className="flight-name-new">
+                            {item?.Segments?.[0]?.[0]?.Airline?.AirlineName ||
+                              // item?.flightDetails?.flightInformation?.companyId
+                              //   ?.marketingCarrier +
+                              // item?.flightDetails?.flightInformation
+                              //   ?.flightOrtrainNumber ||
+                              // item?.flightDetails[0]?.flightInformation?.companyId
+                              //   ?.marketingCarrier +
+                              // item?.flightDetails[0]?.flightInformation
+                              //   ?.flightOrtrainNumber
+                              // }
+                              // {
+                              findAirlineByCode(
+                                item?.flightDetails?.flightInformation
+                                  ?.companyId?.marketingCarrier ||
+                                  item?.flightDetails[0]?.flightInformation
+                                    ?.companyId?.marketingCarrier
+                              )}
+                          </p>
+                          <p className="flight-number-new text-center text-sm-start">
+                            {item.AirlineCode +
+                              item?.Segments?.[0][0]?.Airline.FlightNumber ||
+                              item?.flightDetails?.flightInformation?.companyId
+                                ?.marketingCarrier +
+                                item?.flightDetails?.flightInformation
+                                  ?.flightOrtrainNumber ||
+                              item?.flightDetails[0]?.flightInformation
+                                ?.companyId?.marketingCarrier +
+                                item?.flightDetails[0]?.flightInformation
+                                  ?.flightOrtrainNumber}
+                          </p>
+                        </div>
+                      </div>
+
                       <div
+                        className="flex-column flex-sm-row "
                         style={{
                           display: "flex",
-                          flexDirection: "column",
-                          gap: "12px",
+                          justifyContent: "center",
+                          gap: "15px",
                         }}
                       >
-                        <p className="flight-name-new">
-                          {item?.Segments?.[0]?.[0]?.Airline?.AirlineName ||
+                        <div>
+                          <p style={{ textAlign: "center" }}>
+                            {item?.Segments?.[0][0]?.Origin?.Airport
+                              ?.CityName || departurePlace}
+                          </p>
 
-                            // item?.flightDetails?.flightInformation?.companyId
-                            //   ?.marketingCarrier +
-                            // item?.flightDetails?.flightInformation
-                            //   ?.flightOrtrainNumber ||
-                            // item?.flightDetails[0]?.flightInformation?.companyId
-                            //   ?.marketingCarrier +
-                            // item?.flightDetails[0]?.flightInformation
-                            //   ?.flightOrtrainNumber
-                            // }
-                            // {
-                            findAirlineByCode(
-                              item?.flightDetails?.flightInformation?.companyId
-                                ?.marketingCarrier || item?.flightDetails[0]?.flightInformation?.companyId
-                                ?.marketingCarrier)
-                          }
-                        </p>
-                        <p className="flight-number-new text-center text-sm-start">
-                          {item.AirlineCode +
-                            item?.Segments?.[0][0]?.Airline.FlightNumber ||
-                            item?.flightDetails?.flightInformation?.companyId
-                              ?.marketingCarrier +
-                            item?.flightDetails?.flightInformation
-                              ?.flightOrtrainNumber ||
-                            item?.flightDetails[0]?.flightInformation?.companyId
-                              ?.marketingCarrier +
-                            item?.flightDetails[0]?.flightInformation
-                              ?.flightOrtrainNumber}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div
-                      className="flex-column flex-sm-row "
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        gap: "15px"
-                      }}
-                    >
-                      <div>
-                        <p style={{ textAlign: "center" }}>
-                          {item?.Segments?.[0][0]?.Origin?.Airport?.CityName ||
-                            departurePlace}
-                        </p>
-
-                        <p className="flight-date-new text-center">
-                          {dayjs(
-                            item?.Segments?.[0][0]?.Origin?.DepTime ||
-                            moment(
-                              item?.flightDetails?.flightInformation
-                                ?.productDateTime.dateOfDeparture ||
-                              item?.flightDetails[0]?.flightInformation
-                                ?.productDateTime.dateOfDeparture,
-                              "DDMMYYYY"
-                            ).format("YYYY-MM-DD")
-                          ).format("DD MMM, YY")}
-                        </p>
-                        <p className="flight-date-new text-center">
-                          {/* {moment(
+                          <p className="flight-date-new text-center">
+                            {dayjs(
+                              item?.Segments?.[0][0]?.Origin?.DepTime ||
+                                moment(
+                                  item?.flightDetails?.flightInformation
+                                    ?.productDateTime.dateOfDeparture ||
+                                    item?.flightDetails[0]?.flightInformation
+                                      ?.productDateTime.dateOfDeparture,
+                                  "DDMMYYYY"
+                                ).format("YYYY-MM-DD")
+                            ).format("DD MMM, YY")}
+                          </p>
+                          <p className="flight-date-new text-center">
+                            {/* {moment(
                           item?.Segments?.[0][0]?.Origin?.DepTime ||
                             item?.flightDetails?.flightInformation
                               ?.productDateTime.timeOfDeparture ||
@@ -5390,28 +5447,30 @@ function NewItems({
                               ?.productDateTime.timeOfDeparture,
                           "HHmm"
                         ).format("hh:mm A")}  */}
-                          <p className="flight-date-new text-center">
-                            {item?.Segments
-                              ? moment(
-                                item?.Segments?.[0][0]?.Origin?.DepTime
-                              ).format("hh:mm A")
-                              : moment(
-                                item?.Segments?.[0][0]?.Origin?.DepTime ||
-                                item?.flightDetails?.flightInformation
-                                  ?.productDateTime.timeOfDeparture ||
-                                item?.flightDetails[0]?.flightInformation
-                                  ?.productDateTime.timeOfDeparture,
-                                "HHmm"
-                              ).format("hh:mm A")}
+                            <p className="flight-date-new text-center">
+                              {item?.Segments
+                                ? moment(
+                                    item?.Segments?.[0][0]?.Origin?.DepTime
+                                  ).format("hh:mm A")
+                                : moment(
+                                    item?.Segments?.[0][0]?.Origin?.DepTime ||
+                                      item?.flightDetails?.flightInformation
+                                        ?.productDateTime.timeOfDeparture ||
+                                      item?.flightDetails[0]?.flightInformation
+                                        ?.productDateTime.timeOfDeparture,
+                                    "HHmm"
+                                  ).format("hh:mm A")}
+                            </p>
                           </p>
-                        </p>
-                      </div>
-                      <div >
-                        <div className="flight-time-new">
-                          {/* { "item?.flightDetails?.[0]?.flightInformation?.productDateTime?.dateOfArrival"} */}
-                          {item?.Segments && item?.Segments[0] && `${layoverHours}h ${layoverMinutes}m`}
+                        </div>
+                        <div>
+                          <div className="flight-time-new">
+                            {/* { "item?.flightDetails?.[0]?.flightInformation?.productDateTime?.dateOfArrival"} */}
+                            {item?.Segments &&
+                              item?.Segments[0] &&
+                              `${layoverHours}h ${layoverMinutes}m`}
 
-                          {/* {item?.Segments && item?.Segments[0].length > 1 ? (
+                            {/* {item?.Segments && item?.Segments[0].length > 1 ? (
                             <h4>
                               {`${Math.floor(
                                 item?.Segments[0][0]?.Duration / 60
@@ -5432,7 +5491,7 @@ function NewItems({
                             )
                           )} */}
 
-                          {/* {item?.propFlightGrDetail &&
+                            {/* {item?.propFlightGrDetail &&
                             item?.flightDetails.length > 1
                             ? dateConversion(
                               item?.flightDetails[0]?.flightInformation
@@ -5454,72 +5513,83 @@ function NewItems({
                               item?.flightDetails?.flightInformation
                                 ?.productDateTime.timeOfArrival
                             )} */}
-                          {item?.propFlightGrDetail && convertTimeToHoursAndMinutesFlight(item?.propFlightGrDetail?.flightProposal?.[1]?.ref)
+                            {item?.propFlightGrDetail &&
+                              convertTimeToHoursAndMinutesFlight(
+                                item?.propFlightGrDetail?.flightProposal?.[1]
+                                  ?.ref
+                              )}
+                          </div>
 
-                          }
+                          <div className="flex-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="107"
+                              height="20"
+                              viewBox="0 0 107 20"
+                              fill="none"
+                            >
+                              <path
+                                d="M1.0498 9.71515C0.773662 9.71515 0.549805 9.93901 0.549805 10.2151C0.549805 10.4913 0.773662 10.7151 1.0498 10.7151V9.71515ZM106.403 10.5687C106.599 10.3734 106.599 10.0569 106.403 9.8616L103.221 6.67962C103.026 6.48435 102.71 6.48435 102.514 6.67962C102.319 6.87488 102.319 7.19146 102.514 7.38672L105.343 10.2151L102.514 13.0436C102.319 13.2388 102.319 13.5554 102.514 13.7507C102.71 13.9459 103.026 13.9459 103.221 13.7507L106.403 10.5687ZM1.0498 10.7151H106.05V9.71515H1.0498V10.7151Z"
+                                fill="#A0B5C6"
+                              />
+                              <path
+                                d="M62.81 10C62.81 9.28828 62.2243 8.71742 61.5126 8.73225L57.6352 8.8138L54.5214 2.63074L52.579 2.63074L54.0692 8.88053L50.0658 8.96949L49.0204 7.50898L47.256 7.50898L48.457 10L47.256 12.491L49.0204 12.491L50.0658 11.0305L54.0618 11.1121L52.5716 17.3619L54.514 17.3619L57.6352 11.1862L61.52 11.2603C62.2243 11.2826 62.81 10.7117 62.81 10Z"
+                                fill="#D9DDFF"
+                              />
+                            </svg>
+                          </div>
+                          <div className="text-center fs-6 fw-medium">
+                            {item?.Segments?.[0]?.length == 1 ||
+                            item?.flightDetails?.flightInformation
+                              ? "non-stop"
+                              : `${
+                                  item?.Segments?.[0]?.length - 1 ||
+                                  item?.flightDetails?.length - 1
+                                } stop's`}
+                          </div>
                         </div>
 
-                        <div className="flex-center">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="107"
-                            height="20"
-                            viewBox="0 0 107 20"
-                            fill="none"
+                        <div>
+                          {" "}
+                          <p
+                            style={{ textAlign: "center" }}
+                            className="flight-date-new text-center"
                           >
-                            <path
-                              d="M1.0498 9.71515C0.773662 9.71515 0.549805 9.93901 0.549805 10.2151C0.549805 10.4913 0.773662 10.7151 1.0498 10.7151V9.71515ZM106.403 10.5687C106.599 10.3734 106.599 10.0569 106.403 9.8616L103.221 6.67962C103.026 6.48435 102.71 6.48435 102.514 6.67962C102.319 6.87488 102.319 7.19146 102.514 7.38672L105.343 10.2151L102.514 13.0436C102.319 13.2388 102.319 13.5554 102.514 13.7507C102.71 13.9459 103.026 13.9459 103.221 13.7507L106.403 10.5687ZM1.0498 10.7151H106.05V9.71515H1.0498V10.7151Z"
-                              fill="#A0B5C6"
-                            />
-                            <path
-                              d="M62.81 10C62.81 9.28828 62.2243 8.71742 61.5126 8.73225L57.6352 8.8138L54.5214 2.63074L52.579 2.63074L54.0692 8.88053L50.0658 8.96949L49.0204 7.50898L47.256 7.50898L48.457 10L47.256 12.491L49.0204 12.491L50.0658 11.0305L54.0618 11.1121L52.5716 17.3619L54.514 17.3619L57.6352 11.1862L61.52 11.2603C62.2243 11.2826 62.81 10.7117 62.81 10Z"
-                              fill="#D9DDFF"
-                            />
-                          </svg>
-                        </div>
-                        <div className="text-center fs-6 fw-medium">{item?.Segments?.[0]?.length == 1 || item?.flightDetails?.flightInformation ? "non-stop" : `${item?.Segments?.[0]?.length - 1 || item?.flightDetails?.length - 1} stop's`}</div>
-                      </div>
-
-                      <div>
-                        {" "}
-                        <p
-                          style={{ textAlign: "center" }}
-                          className="flight-date-new text-center"
-                        >
-                          {item?.Segments?.[0][item?.Segments[0]?.length - 1]
-                            ?.Destination?.Airport?.CityName || arrivalPlace}
-                        </p>
-                        <p className="flight-date-new text-center">
-                          {dayjs(
-                            item?.Segments?.[0][item?.Segments[0]?.length - 1]
-                              ?.Destination?.ArrTime ||
-                            moment(
-                              item?.flightDetails?.flightInformation
-                                ?.productDateTime.dateOfDeparture ||
-                              item?.flightDetails[
-                                item?.flightDetails.length - 1
-                              ]?.flightInformation?.productDateTime
-                                .dateOfArrival,
-                              "DDMMYYYY"
-                            ).format("YYYY-MM-DD")
-                          ).format("DD MMM, YY")}
-                        </p>
-                        <p className="flight-date-new text-center">
-                          {item?.Segments
-                            ? moment(
+                            {item?.Segments?.[0][item?.Segments[0]?.length - 1]
+                              ?.Destination?.Airport?.CityName || arrivalPlace}
+                          </p>
+                          <p className="flight-date-new text-center">
+                            {dayjs(
                               item?.Segments?.[0][item?.Segments[0]?.length - 1]
-                                ?.Destination?.ArrTime
-                            ).format("hh:mm A")
-                            : moment(
-                              item?.flightDetails?.flightInformation
-                                ?.productDateTime.timeOfArrival ||
-                              item?.flightDetails[
-                                item?.flightDetails.length - 1
-                              ]?.flightInformation?.productDateTime
-                                .timeOfArrival,
-                              "HHmm"
-                            ).format("hh:mm A")}
-                          {/* {moment(
+                                ?.Destination?.ArrTime ||
+                                moment(
+                                  item?.flightDetails?.flightInformation
+                                    ?.productDateTime.dateOfDeparture ||
+                                    item?.flightDetails[
+                                      item?.flightDetails.length - 1
+                                    ]?.flightInformation?.productDateTime
+                                      .dateOfArrival,
+                                  "DDMMYYYY"
+                                ).format("YYYY-MM-DD")
+                            ).format("DD MMM, YY")}
+                          </p>
+                          <p className="flight-date-new text-center">
+                            {item?.Segments
+                              ? moment(
+                                  item?.Segments?.[0][
+                                    item?.Segments[0]?.length - 1
+                                  ]?.Destination?.ArrTime
+                                ).format("hh:mm A")
+                              : moment(
+                                  item?.flightDetails?.flightInformation
+                                    ?.productDateTime.timeOfArrival ||
+                                    item?.flightDetails[
+                                      item?.flightDetails.length - 1
+                                    ]?.flightInformation?.productDateTime
+                                      .timeOfArrival,
+                                  "HHmm"
+                                ).format("hh:mm A")}
+                            {/* {moment(
                           item?.Segments?.[0][item?.Segments[0]?.length - 1]
                             ?.Destination?.ArrTime ||
                             item?.flightDetails?.flightInformation
@@ -5529,414 +5599,471 @@ function NewItems({
                               .timeOfArrival,
                           "HHmm"
                         ).format("hh:mm A")} */}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div>
+                        <p className="flight-date-new text-center">
+                          ₹
+                          {/* {Number(
+                            item?.Fare?.BaseFare ||
+                              
+                              item?.paxFareDetail?.totalFareAmount
+                          ).toFixed(0)} */}
+                          {Number(
+                            item?.Fare?.BaseFare ||
+                              Number(item?.monetaryDetail?.[0]?.amount) -
+                                Number(item?.monetaryDetail?.[1]?.amount)
+                          ).toFixed(0)}
                         </p>
+                        <button
+                          onClick={() => {
+                            // console.log(item,item?.monetaryDetail?.[0]?.amount, "handleIndexId");
+                            // handleIndexId(results[0][item]?.ResultIndex);
+                            // handleIndexId(item);
+                            handleaViewDetail(item);
+                          }}
+                          className="flight-view-button-new"
+                        >
+                          View Details →
+                        </button>
                       </div>
                     </div>
-
-                    <div>
-                      <p className="flight-date-new text-center">
-                        ₹
-                        {Number(
-
-                          item?.Fare?.PublishedFare || item?.monetaryDetail?.[0]?.amount
-                        ).toFixed()
-                        }
-                      </p>
-                      <button
+                  );
+                })
+              ) : (
+                <div className="filteredNotFound">
+                  <img src={flightNoResult} alt="filter" />
+                  <h1>Too many filters applied!</h1>
+                  <div>
+                    <label className="sidebar-label-container ps-0">
+                      <input
+                        type="checkbox"
+                        onChange={handleRadioChange}
                         onClick={() => {
-                          // console.log(item,item?.monetaryDetail?.[0]?.amount, "handleIndexId");
-                          // handleIndexId(results[0][item]?.ResultIndex);
-                          // handleIndexId(item);
-                          handleaViewDetail(item);
+                          setPriceRangeValue(maxPrice);
+                          setLayoverRangeValue(maxFormattedTime);
                         }}
-                        className="flight-view-button-new"
+                        value="All"
+                        name="test"
+                        // checked={selectedCategory.includes("test:All")}
+                      />
+                      {/* <span className="checkmark"></span> */}
+                      <span
+                        style={{
+                          color: "#e73c34",
+                        }}
                       >
-                        View Details →
-                      </button>
-                    </div>
+                        Clear Filter
+                      </span>
+                    </label>
                   </div>
-                );
-              })
-              : <div className="filteredNotFound">
-                <img src={flightNoResult} alt="filter" />
-                <h1>Too many filters applied!</h1>
-                <div>
-                  <label className="sidebar-label-container ps-0">
-                    <input
-                      type="checkbox"
-                      onChange={handleRadioChange}
-                      onClick={() => {
-                        setPriceRangeValue(maxPrice);
-                        setLayoverRangeValue(maxFormattedTime)
-                      }}
-
-                      value="All"
-                      name="test"
-                    // checked={selectedCategory.includes("test:All")}
-                    />
-                    {/* <span className="checkmark"></span> */}
-                    <span
-                      style={{
-                        color: "#e73c34",
-                      }}
-                    >
-                      Clear Filter
-                    </span>
-                  </label>
                 </div>
-              </div>
-
-          ) : (
-            <div className="col-lg-9 col-md-9 w-100">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => (
-                <motion.div
-                  variants={variants}
-                  initial="initial"
-                  whileInView="animate"
-                >
+              )
+            ) : (
+              <div className="col-lg-9 col-md-9 w-100">
+                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((item) => (
                   <motion.div
                     variants={variants}
-                    className="singleFlightBox mb-3 line"
-                    style={{
-                      height: "130px",
-                      padding: "15px",
-                      display: "flex",
-                      justifyContent: "space-between",
-                      // backgroundColor: "#d3d3d345",
-                      backgroundColor: "#F6F7FF",
-                    }}
+                    initial="initial"
+                    whileInView="animate"
                   >
-                    <div
-                      className="singleFlightBoxOne"
+                    <motion.div
+                      variants={variants}
+                      className="singleFlightBox mb-3 line"
                       style={{
+                        height: "130px",
+                        padding: "15px",
                         display: "flex",
                         justifyContent: "space-between",
-                        // width: "100%",
-                        flexDirection: "column",
+                        // backgroundColor: "#d3d3d345",
+                        backgroundColor: "#F6F7FF",
                       }}
                     >
-                      <div>
-                        <Skeleton>
-                          <div style={{ height: "80px", width: "80px" }}></div>
-                        </Skeleton>
+                      <div
+                        className="singleFlightBoxOne"
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          // width: "100%",
+                          flexDirection: "column",
+                        }}
+                      >
+                        <div>
+                          <Skeleton>
+                            <div
+                              style={{ height: "80px", width: "80px" }}
+                            ></div>
+                          </Skeleton>
+                        </div>
+                        <span>
+                          {
+                            <Skeleton>
+                              <p style={{ height: "10px", width: "70px" }}></p>
+                            </Skeleton>
+                          }
+                        </span>
+                        <p>
+                          {}
+                          {}
+                        </p>
                       </div>
-                      <span>
-                        {
+                      <div
+                        className="singleFlightBoxTwo"
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "space-around",
+                        }}
+                      >
+                        <span>
+                          {
+                            <Skeleton>
+                              {" "}
+                              <p style={{ height: "10px", width: "70px" }}></p>
+                            </Skeleton>
+                          }
+                        </span>
+                        <p>
                           <Skeleton>
-                            <p style={{ height: "10px", width: "70px" }}></p>
+                            <p style={{ height: "8px", width: "70px" }}></p>
                           </Skeleton>
-                        }
-                      </span>
-                      <p>
-                        { }
-                        { }
-                      </p>
-                    </div>
-                    <div
-                      className="singleFlightBoxTwo"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "space-around",
-                      }}
-                    >
-                      <span>
-                        {
-                          <Skeleton>
-                            {" "}
-                            <p style={{ height: "10px", width: "70px" }}></p>
-                          </Skeleton>
-                        }
-                      </span>
-                      <p>
+                        </p>
                         <Skeleton>
                           <p style={{ height: "8px", width: "70px" }}></p>
                         </Skeleton>
-                      </p>
-                      <Skeleton>
-                        <p style={{ height: "8px", width: "70px" }}></p>
-                      </Skeleton>
-                    </div>
-
-                    <div
-                      className="singleFlightBoxThree"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "space-around",
-                      }}
-                    >
-                      <Skeleton>
-                        <p style={{ height: "8px", width: "70px" }}></p>
-                      </Skeleton>
-
-                      <Skeleton>
-                        {" "}
-                        <p style={{ height: "8px", width: "70px" }}></p>
-                      </Skeleton>
-
-                      <span></span>
-                    </div>
-
-                    <div
-                      className="singleFlightBoxFour"
-                      style={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "space-around",
-                      }}
-                    >
-                      <span>
-                        {
-                          <Skeleton>
-                            {" "}
-                            <p style={{ height: "8px", width: "70px" }}></p>
-                          </Skeleton>
-                        }
-                      </span>
-                      <Skeleton>
-                        {" "}
-                        <p
-                          style={{
-                            height: "50px",
-                            width: "70px",
-                            borderRadius: "25%",
-                          }}
-                        ></p>
-                      </Skeleton>
-                    </div>
-                  </motion.div>
-                </motion.div>
-              ))}
-            </div>
-          )}
-          {/* })} */}
-        </div>
-        <AnimatePresence>
-          <Modal open={openModal} onClose={openModal}>
-
-            <motion.div
-              variants={variants}
-              initial="initial"
-              exit={{ opacity: 0, x: -50, transition: { duration: 0.5 } }}
-              whileInView="animate"
-              className="modalContainer"
-
-
-
-            >
-              <div className="modalContainerInner" >
-                <div className="modalSearchResHeader" >
-                  <div className="modalSearchResHeaderDiv">
-                    <div>
-                      <AnimatePresence>
-                        {/* {
-                          openModal1 && */}
-                        <motion.h1 exit={{ x: -50, transition: { duration: 3 } }}> Flight Detail</motion.h1>
-                        {/* } */}
-                      </AnimatePresence>
-                      <div className="modalheaderDiverder"></div>
-                    </div>
-                  </div>
-                  <div className="searchResHeaderCross" onClick={() => setOpenModal(false)}>
-
-                    <ImCancelCircle />
-                  </div>
-                </div>
-                {
-                  sesstioResultIndex?.monetaryDetail &&
-
-                  <div className="searchResModalBody" >
-                    <div className="searchResModalBodyInfo">
-                      <div className="searchResModalBodyRow searchResModalBodyRowFont1">
-
-
-                        <div>
-                          {reducerState?.searchFlight?.flightDetails?.from?.name}
-                        </div>
-                        {/* <FaArrowRight /> */}
-                        <FiArrowRight style={{ margin: "5px" }} />{" "}
-                        <div>
-                          {reducerState?.searchFlight?.flightDetails?.to?.name}
-                        </div>
                       </div>
-                      <div className="searchResModalBodyRow searchResModalBodyRowFont2">
-                        <div >{dayjs(reducerState?.searchFlight?.flightDetails?.departureDate).format('ddd, D MMM')}</div>
-                        <div>{sesstioResultIndex?.flightDetails?.flightInformation ? "• Non Stop" : `• ${sesstioResultIndex?.flightDetails?.length - 1} stops`}</div>
-                        <div>
-                          •
-                          {convertTimeToHoursAndMinutes(sesstioResultIndex?.propFlightGrDetail?.flightProposal?.[1]?.ref)
 
+                      <div
+                        className="singleFlightBoxThree"
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "space-around",
+                        }}
+                      >
+                        <Skeleton>
+                          <p style={{ height: "8px", width: "70px" }}></p>
+                        </Skeleton>
+
+                        <Skeleton>
+                          {" "}
+                          <p style={{ height: "8px", width: "70px" }}></p>
+                        </Skeleton>
+
+                        <span></span>
+                      </div>
+
+                      <div
+                        className="singleFlightBoxFour"
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "space-around",
+                        }}
+                      >
+                        <span>
+                          {
+                            <Skeleton>
+                              {" "}
+                              <p style={{ height: "8px", width: "70px" }}></p>
+                            </Skeleton>
                           }
-
-                        </div>
-
-
+                        </span>
+                        <Skeleton>
+                          {" "}
+                          <p
+                            style={{
+                              height: "50px",
+                              width: "70px",
+                              borderRadius: "25%",
+                            }}
+                          ></p>
+                        </Skeleton>
                       </div>
-                      <div style={{ color: "#e73c34", fontSize: "12px", fontWeight: "600" }}>
-
-                        {refundText(sesstioResultIndex?.fare?.[0]?.pricingMessage?.description || sesstioResultIndex?.fare?.[0]?.pricingMessage?.description)}
+                    </motion.div>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+            {/* })} */}
+          </div>
+          <AnimatePresence>
+            <Modal open={openModal} onClose={openModal}>
+              <motion.div
+                variants={variants}
+                initial="initial"
+                exit={{ opacity: 0, x: -50, transition: { duration: 0.5 } }}
+                whileInView="animate"
+                className="modalContainer"
+              >
+                <div className="modalContainerInner">
+                  <div className="modalSearchResHeader">
+                    <div className="modalSearchResHeaderDiv">
+                      <div>
+                        <AnimatePresence>
+                          {/* {
+                          openModal1 && */}
+                          <motion.h1
+                            exit={{ x: -50, transition: { duration: 3 } }}
+                          >
+                            {" "}
+                            Flight Detail
+                          </motion.h1>
+                          {/* } */}
+                        </AnimatePresence>
+                        <div className="modalheaderDiverder"></div>
                       </div>
-
                     </div>
-                    <div className="searchResModalBodyMap">
-
-
-                      {sesstioResultIndex?.flightDetails
-                        ?.flightInformation ? (
-                        <div className="searchResModalBodyMapItemCon" >
-                          <div className="bookcenteredBox">
-                            <div>
-                              <img
-                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${sesstioResultIndex?.flightDetails?.flightInformation?.companyId?.marketingCarrier}.png`}
-                              />{" "}
-                            </div>
-                            <span>
-                              {
-                                findAirlineByCode(sesstioResultIndex?.flightDetails?.flightInformation?.companyId
-                                  ?.marketingCarrier)}
-                              {/* {
+                    <div
+                      className="searchResHeaderCross"
+                      onClick={() => setOpenModal(false)}
+                    >
+                      <ImCancelCircle />
+                    </div>
+                  </div>
+                  {sesstioResultIndex?.monetaryDetail && (
+                    <div className="searchResModalBody">
+                      <div className="searchResModalBodyInfo">
+                        <div className="searchResModalBodyRow searchResModalBodyRowFont1">
+                          <div>
+                            {
+                              reducerState?.searchFlight?.flightDetails?.from
+                                ?.name
+                            }
+                          </div>
+                          {/* <FaArrowRight /> */}
+                          <FiArrowRight style={{ margin: "5px" }} />{" "}
+                          <div>
+                            {
+                              reducerState?.searchFlight?.flightDetails?.to
+                                ?.name
+                            }
+                          </div>
+                        </div>
+                        <div className="searchResModalBodyRow searchResModalBodyRowFont2">
+                          <div>
+                            {dayjs(
+                              reducerState?.searchFlight?.flightDetails
+                                ?.departureDate
+                            ).format("ddd, D MMM")}
+                          </div>
+                          <div>
+                            {sesstioResultIndex?.flightDetails
+                              ?.flightInformation
+                              ? "• Non Stop"
+                              : `• ${
+                                  sesstioResultIndex?.flightDetails?.length - 1
+                                } stops`}
+                          </div>
+                          <div>
+                            •
+                            {convertTimeToHoursAndMinutes(
+                              sesstioResultIndex?.propFlightGrDetail
+                                ?.flightProposal?.[1]?.ref
+                            )}
+                          </div>
+                        </div>
+                        <div
+                          style={{
+                            color: "#e73c34",
+                            fontSize: "12px",
+                            fontWeight: "600",
+                          }}
+                        >
+                          {refundText(
+                            sesstioResultIndex?.fare?.[0]?.pricingMessage
+                              ?.description ||
+                              sesstioResultIndex?.fare?.[0]?.pricingMessage
+                                ?.description
+                          )}
+                        </div>
+                      </div>
+                      <div className="searchResModalBodyMap">
+                        {sesstioResultIndex?.flightDetails
+                          ?.flightInformation ? (
+                          <div className="searchResModalBodyMapItemCon">
+                            <div className="bookcenteredBox">
+                              <div>
+                                <img
+                                  src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${sesstioResultIndex?.flightDetails?.flightInformation?.companyId?.marketingCarrier}.png`}
+                                />{" "}
+                              </div>
+                              <span>
+                                {findAirlineByCode(
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightInformation?.companyId
+                                    ?.marketingCarrier
+                                )}
+                                {/* {
                                 sesstioResultIndex?.flightDetails?.flightInformation?.companyId
                                   ?.marketingCarrier} */}
-
-                            </span>
-                            <p>
-                              {
-                                sesstioResultIndex?.flightDetails
-                                  ?.flightInformation?.companyId
-                                  ?.marketingCarrier
-                              }
-                              {
-                                sesstioResultIndex?.flightDetails
-                                  ?.flightInformation?.flightOrtrainNumber
-                              }
-                            </p>
-                          </div>
-                          <div className="bookbottomBox flex-column flex-md-row">
-                            <div>
-                              <div className="bookBottomOne d-none d-sm-flex">
-                                <p>
-                                  {convertTime(
-                                    sesstioResultIndex?.flightDetails
-                                      ?.flightInformation?.productDateTime
-                                      ?.timeOfDeparture
-                                  )}
-                                </p>
-                                <p>
-                                  {convertTime(
-                                    sesstioResultIndex?.flightDetails
-                                      ?.flightInformation?.productDateTime
-                                      ?.timeOfArrival
-                                  )}
-                                </p>
-                              </div>
-                              <div className="bookBottomTwo bookBottomTwo2 d-none d-sm-flex">
-                                <img className="searchFlightFromTo d-none d-sm-block" src={fromTo} alt="icon" />
-                              </div>
-                              <div className="bookBottomThree gy-4 gy-sm-0">
-                                <p>
-                                  {/* {item?.Origin?.Airport?.CityName}{" "} */}
-                                  {
-                                    sesstioResultIndex?.flightDetails
-                                      ?.flightInformation?.location[0]
-                                      ?.locationId
-                                  }
-                                  <span className="spanSearchTerminal">
-                                    {
-                                      findAirportByCode(sesstioResultIndex?.flightDetails
-                                        ?.flightInformation?.location[0]
-                                        ?.locationId)
-
-                                    }
-                                    {", "}
-                                    Terminal-
-                                    {/* {item?.Origin?.Airport?.Terminal
-                                                ? item?.Origin?.Airport
-                                                    ?.Terminal
-                                                : "X"} */}
+                              </span>
+                              <p>
+                                {
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightInformation?.companyId
+                                    ?.marketingCarrier
+                                }
+                                {
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightInformation?.flightOrtrainNumber
+                                }
+                              </p>
+                            </div>
+                            <div className="bookbottomBox flex-column flex-md-row">
+                              <div>
+                                <div className="bookBottomOne d-none d-sm-flex">
+                                  <p>
+                                    {convertTime(
+                                      sesstioResultIndex?.flightDetails
+                                        ?.flightInformation?.productDateTime
+                                        ?.timeOfDeparture
+                                    )}
+                                  </p>
+                                  <p>
+                                    {convertTime(
+                                      sesstioResultIndex?.flightDetails
+                                        ?.flightInformation?.productDateTime
+                                        ?.timeOfArrival
+                                    )}
+                                  </p>
+                                </div>
+                                <div className="bookBottomTwo bookBottomTwo2 d-none d-sm-flex">
+                                  <img
+                                    className="searchFlightFromTo d-none d-sm-block"
+                                    src={fromTo}
+                                    alt="icon"
+                                  />
+                                </div>
+                                <div className="bookBottomThree gy-4 gy-sm-0">
+                                  <p>
+                                    {/* {item?.Origin?.Airport?.CityName}{" "} */}
                                     {
                                       sesstioResultIndex?.flightDetails
                                         ?.flightInformation?.location[0]
-                                        ?.terminal
+                                        ?.locationId
                                     }
-                                  </span>
-                                </p>
-                                <p>
-                                  {
-                                    // item?.Destination?.Airport
-                                    //   ?.CityName
-                                  }
-                                  {
-                                    sesstioResultIndex?.flightDetails
-                                      ?.flightInformation?.location[1]
-                                      ?.locationId
-                                  }{" "}
-                                  <span className="spanSearchTerminal">
+                                    <span className="spanSearchTerminal">
+                                      {findAirportByCode(
+                                        sesstioResultIndex?.flightDetails
+                                          ?.flightInformation?.location[0]
+                                          ?.locationId
+                                      )}
+                                      {", "}
+                                      Terminal-
+                                      {/* {item?.Origin?.Airport?.Terminal
+                                                ? item?.Origin?.Airport
+                                                    ?.Terminal
+                                                : "X"} */}
+                                      {
+                                        sesstioResultIndex?.flightDetails
+                                          ?.flightInformation?.location[0]
+                                          ?.terminal
+                                      }
+                                    </span>
+                                  </p>
+                                  <p>
                                     {
                                       // item?.Destination?.Airport
-                                      //   ?.AirportName
-                                      findAirportByCode(sesstioResultIndex?.flightDetails
-                                        ?.flightInformation?.location[1]
-                                        ?.locationId)
+                                      //   ?.CityName
                                     }
-                                    {", "}
-                                    Terminal-
-                                    {/* {item?.Destination?.Airport
+                                    {
+                                      sesstioResultIndex?.flightDetails
+                                        ?.flightInformation?.location[1]
+                                        ?.locationId
+                                    }{" "}
+                                    <span className="spanSearchTerminal">
+                                      {
+                                        // item?.Destination?.Airport
+                                        //   ?.AirportName
+                                        findAirportByCode(
+                                          sesstioResultIndex?.flightDetails
+                                            ?.flightInformation?.location[1]
+                                            ?.locationId
+                                        )
+                                      }
+                                      {", "}
+                                      Terminal-
+                                      {/* {item?.Destination?.Airport
                                                 ?.Terminal
                                                 ? item?.Destination?.Airport
                                                     ?.Terminal
                                                 : "Y"} */}
-                                    {
-                                      sesstioResultIndex?.flightDetails
-                                        ?.flightInformation?.location[1]
-                                        ?.terminal
-                                    }
+                                      {
+                                        sesstioResultIndex?.flightDetails
+                                          ?.flightInformation?.location[1]
+                                          ?.terminal
+                                      }
+                                    </span>
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="bookBottomFour justify-content-between col-sm-12 col-md-auto">
+                                <div>
+                                  <p>Baggage</p>
+                                  <span>ADULT</span>
+                                </div>
+                                <div>
+                                  <p>Check-in</p>
+                                  <span>
+                                    {sesstioResultIndex?.baggage
+                                      ?.freeBagAllownceInfo?.baggageDetails
+                                      ?.quantityCode === "N"
+                                      ? sesstioResultIndex?.baggage
+                                          ?.freeBagAllownceInfo?.baggageDetails
+                                          ?.freeAllowance * 23
+                                      : Number(
+                                          sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance
+                                        ) === 0 ||
+                                        sesstioResultIndex?.baggage
+                                          ?.freeBagAllownceInfo?.baggageDetails
+                                          ?.freeAllowance === "0"
+                                      ? "No baggage"
+                                      : sesstioResultIndex?.baggage
+                                          ?.freeBagAllownceInfo?.baggageDetails
+                                          ?.freeAllowance}
+                                    {sesstioResultIndex?.baggage
+                                      ?.freeBagAllownceInfo?.baggageDetails
+                                      ?.quantityCode === "N"
+                                      ? sesstioResultIndex?.baggage
+                                          ?.freeBagAllownceInfo?.baggageDetails
+                                          ?.unitQualifier === "K"
+                                        ? "KG"
+                                        : "LB"
+                                      : Number(
+                                          sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance
+                                        ) !== 0 ||
+                                        sesstioResultIndex?.baggage
+                                          ?.freeBagAllownceInfo?.baggageDetails
+                                          ?.freeAllowance !== "0"
+                                      ? "KG"
+                                      : ""}
+                                    {/* {item?.Baggage?.split(" ")[0]} */}
                                   </span>
-                                </p>
-                              </div>
-                            </div>
-                            <div className="bookBottomFour justify-content-between col-sm-12 col-md-auto">
-                              <div>
-                                <p>Baggage</p>
-                                <span>ADULT</span>
-                              </div>
-                              <div>
-                                <p>Check-in</p>
-                                <span>
-                                  {sesstioResultIndex?.baggage
-                                    ?.freeBagAllownceInfo?.baggageDetails
-                                    ?.quantityCode === "N"
-                                    ? (sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance * 23)
-                                    : (Number(sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance) === 0 ||
-                                      sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance === "0"
-                                      ? "No baggage" : sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance)}
-                                  {sesstioResultIndex?.baggage
-                                    ?.freeBagAllownceInfo?.baggageDetails
-                                    ?.quantityCode === "N"
-                                    ? sesstioResultIndex?.baggage
-                                      ?.freeBagAllownceInfo?.baggageDetails?.unitQualifier === "K" ? "KG" : "LB"
-                                    : Number(sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance) !== 0 ||
-                                      sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance !== "0" ? "KG" : ""}
-                                  {/* {item?.Baggage?.split(" ")[0]} */}
-                                </span>
-                              </div>
-                              <div>
-                                <p>Cabin</p>
-                                <span>
-                                  {/* {sesstioResultIndex?.baggage
+                                </div>
+                                <div>
+                                  <p>Cabin</p>
+                                  <span>
+                                    {/* {sesstioResultIndex?.baggage
                                         ?.freeBagAllownceInfo?.baggageDetails
                                         ?.quantityCode !== "N"
                                         ? "7KG"
                                         : "Included"} */}
-                                  7 KG
-                                </span>
+                                    7 KG
+                                  </span>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          {/* <div>
+                            {/* <div>
                                       {layoverDuration !== 0 && (
                                         <p className="text-bold">
                                           Layover Time:{" "}
@@ -5947,208 +6074,258 @@ function NewItems({
                                         </p>
                                       )}
                                     </div> */}
-                          {/* klkkk */}
-                        </div>
-                      ) : (
-                        sesstioResultIndex?.flightDetails?.map(
-                          (item, index) => {
-                            let layover;
-                            if (index < sesstioResultIndex?.flightDetails?.length - 1) {
-                              const prevDateOfArrival = sesstioResultIndex?.flightDetails?.[index]?.flightInformation?.productDateTime?.dateOfArrival
-                              const nextDateOfDeparture = sesstioResultIndex?.flightDetails?.[index + 1]?.flightInformation?.productDateTime?.dateOfDeparture
-                              const prevTimeOfArrival = sesstioResultIndex?.flightDetails?.[index]?.flightInformation?.productDateTime?.timeOfArrival
-                              const nextTimeOfDeparture = sesstioResultIndex?.flightDetails?.[index + 1]?.flightInformation?.productDateTime?.timeOfDeparture
+                            {/* klkkk */}
+                          </div>
+                        ) : (
+                          sesstioResultIndex?.flightDetails?.map(
+                            (item, index) => {
+                              let layover;
+                              if (
+                                index <
+                                sesstioResultIndex?.flightDetails?.length - 1
+                              ) {
+                                const prevDateOfArrival =
+                                  sesstioResultIndex?.flightDetails?.[index]
+                                    ?.flightInformation?.productDateTime
+                                    ?.dateOfArrival;
+                                const nextDateOfDeparture =
+                                  sesstioResultIndex?.flightDetails?.[index + 1]
+                                    ?.flightInformation?.productDateTime
+                                    ?.dateOfDeparture;
+                                const prevTimeOfArrival =
+                                  sesstioResultIndex?.flightDetails?.[index]
+                                    ?.flightInformation?.productDateTime
+                                    ?.timeOfArrival;
+                                const nextTimeOfDeparture =
+                                  sesstioResultIndex?.flightDetails?.[index + 1]
+                                    ?.flightInformation?.productDateTime
+                                    ?.timeOfDeparture;
 
-                              // console.log(sesstioResultIndex, prevDateOfArrival, prevTimeOfArrival, nextDateOfDeparture, nextTimeOfDeparture, "prevDateOfArrival, prevTimeOfArrival, nextDateOfDeparture, nextTimeOfDeparture")
-                              function calculateLayoverTime(prevDateOfArrival, prevTimeOfArrival, nextDateOfDeparture, nextTimeOfDeparture) {
+                                // console.log(sesstioResultIndex, prevDateOfArrival, prevTimeOfArrival, nextDateOfDeparture, nextTimeOfDeparture, "prevDateOfArrival, prevTimeOfArrival, nextDateOfDeparture, nextTimeOfDeparture")
+                                function calculateLayoverTime(
+                                  prevDateOfArrival,
+                                  prevTimeOfArrival,
+                                  nextDateOfDeparture,
+                                  nextTimeOfDeparture
+                                ) {
+                                  // Parse the previous arrival datetime
+                                  const prevArrivalDateTime = new Date(
+                                    `20${prevDateOfArrival.slice(
+                                      4,
+                                      6
+                                    )}-${prevDateOfArrival.slice(
+                                      2,
+                                      4
+                                    )}-${prevDateOfArrival.slice(
+                                      0,
+                                      2
+                                    )}T${prevTimeOfArrival.slice(
+                                      0,
+                                      2
+                                    )}:${prevTimeOfArrival.slice(2, 4)}:00`
+                                  );
 
-                                // Parse the previous arrival datetime
-                                const prevArrivalDateTime = new Date(
-                                  `20${prevDateOfArrival.slice(4, 6)}-${prevDateOfArrival.slice(2, 4)}-${prevDateOfArrival.slice(0, 2)}T${prevTimeOfArrival.slice(0, 2)}:${prevTimeOfArrival.slice(2, 4)}:00`
+                                  // Parse the next departure datetime
+                                  const nextDepartureDateTime = new Date(
+                                    `20${nextDateOfDeparture.slice(
+                                      4,
+                                      6
+                                    )}-${nextDateOfDeparture.slice(
+                                      2,
+                                      4
+                                    )}-${nextDateOfDeparture.slice(
+                                      0,
+                                      2
+                                    )}T${nextTimeOfDeparture.slice(
+                                      0,
+                                      2
+                                    )}:${nextTimeOfDeparture.slice(2, 4)}:00`
+                                  );
+
+                                  // Calculate the difference in milliseconds
+                                  const layoverDuration =
+                                    nextDepartureDateTime - prevArrivalDateTime;
+
+                                  // Convert the duration to total minutes
+                                  const totalMinutes = Math.floor(
+                                    layoverDuration / (1000 * 60)
+                                  );
+
+                                  // Calculate the hours and minutes from total minutes
+                                  const layoverHours = Math.floor(
+                                    totalMinutes / 60
+                                  );
+                                  const layoverMinutes = totalMinutes % 60;
+
+                                  return `${layoverHours} hours and ${layoverMinutes} minutes`;
+                                }
+                                layover = calculateLayoverTime(
+                                  prevDateOfArrival,
+                                  prevTimeOfArrival,
+                                  nextDateOfDeparture,
+                                  nextTimeOfDeparture
                                 );
-
-                                // Parse the next departure datetime
-                                const nextDepartureDateTime = new Date(
-                                  `20${nextDateOfDeparture.slice(4, 6)}-${nextDateOfDeparture.slice(2, 4)}-${nextDateOfDeparture.slice(0, 2)}T${nextTimeOfDeparture.slice(0, 2)}:${nextTimeOfDeparture.slice(2, 4)}:00`
-                                );
-
-                                // Calculate the difference in milliseconds
-                                const layoverDuration = nextDepartureDateTime - prevArrivalDateTime;
-
-                                // Convert the duration to total minutes
-                                const totalMinutes = Math.floor(layoverDuration / (1000 * 60));
-
-                                // Calculate the hours and minutes from total minutes
-                                const layoverHours = Math.floor(totalMinutes / 60);
-                                const layoverMinutes = totalMinutes % 60;
-
-                                return `${layoverHours} hours and ${layoverMinutes} minutes`;
                               }
-                              layover = calculateLayoverTime(prevDateOfArrival, prevTimeOfArrival, nextDateOfDeparture, nextTimeOfDeparture)
 
+                              // console.log("flights[i].flightInformation.productDateTime",flights[i])
 
-                            }
+                              // const nextFlight =
+                              //   TicketDetails?.Segments[0][index + 1];
+                              // let layoverHours = 0;
+                              // let layoverMinutes = 0;
+                              // let layoverDuration = 0;
 
-
-                            // console.log("flights[i].flightInformation.productDateTime",flights[i])
-
-
-
-
-                            // const nextFlight =
-                            //   TicketDetails?.Segments[0][index + 1];
-                            // let layoverHours = 0;
-                            // let layoverMinutes = 0;
-                            // let layoverDuration = 0;
-
-                            // if (nextFlight) {
-                            //   const arrivalTime = dayjs(
-                            //     item?.Destination?.ArrTime
-                            //   );
-                            //   const departureTime = dayjs(
-                            //     nextFlight?.Origin?.DepTime
-                            //   );
-                            //   layoverDuration = departureTime.diff(
-                            //     arrivalTime,
-                            //     "minutes"
-                            //   ); // Calculate difference in minutes
-                            //   layoverHours = Math.floor(
-                            //     layoverDuration / 60
-                            //   ); // Extract hours
-                            //   layoverMinutes = layoverDuration % 60;
-                            // }
-                            return (
-                              // <>hii</>
-                              <div className="searchResModalBodyMapItem">
-                                <div className="searchResModalBodyMapItemCon" >
-                                  <div className="bookcenteredBox">
-                                    <div>
-                                      <img
-                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${sesstioResultIndex?.flightDetails[index]?.flightInformation?.companyId?.marketingCarrier}.png`}
-                                      />{" "}
-                                    </div>
-                                    <span>
-                                      {
-                                        findAirlineByCode(
+                              // if (nextFlight) {
+                              //   const arrivalTime = dayjs(
+                              //     item?.Destination?.ArrTime
+                              //   );
+                              //   const departureTime = dayjs(
+                              //     nextFlight?.Origin?.DepTime
+                              //   );
+                              //   layoverDuration = departureTime.diff(
+                              //     arrivalTime,
+                              //     "minutes"
+                              //   ); // Calculate difference in minutes
+                              //   layoverHours = Math.floor(
+                              //     layoverDuration / 60
+                              //   ); // Extract hours
+                              //   layoverMinutes = layoverDuration % 60;
+                              // }
+                              return (
+                                // <>hii</>
+                                <div className="searchResModalBodyMapItem">
+                                  <div className="searchResModalBodyMapItemCon">
+                                    <div className="bookcenteredBox">
+                                      <div>
+                                        <img
+                                          src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${sesstioResultIndex?.flightDetails[index]?.flightInformation?.companyId?.marketingCarrier}.png`}
+                                        />{" "}
+                                      </div>
+                                      <span>
+                                        {findAirlineByCode(
                                           sesstioResultIndex?.flightDetails[
                                             index
                                           ]?.flightInformation?.companyId
-                                            ?.marketingCarrier)
-                                      }
-
-                                    </span>
-                                    <p>
-                                      {
-                                        sesstioResultIndex?.flightDetails[
-                                          index
-                                        ]?.flightInformation?.companyId
-                                          ?.marketingCarrier
-                                      }
-                                      {
-                                        sesstioResultIndex?.flightDetails[
-                                          index
-                                        ]?.flightInformation
-                                          ?.flightOrtrainNumber
-                                      }
-                                    </p>
-                                  </div>
-                                  <div className="bookbottomBox flex-column flex-md-row">
-                                    <div>
-                                      <div className="bookBottomOne d-none d-sm-flex">
-                                        <p>
-                                          {convertTime(
-                                            sesstioResultIndex?.flightDetails[
-                                              index
-                                            ]?.flightInformation
-                                              ?.productDateTime?.timeOfDeparture
-                                          )}
-                                        </p>
-                                        <p>
-                                          {convertTime(
-                                            sesstioResultIndex?.flightDetails[
-                                              index
-                                            ]?.flightInformation
-                                              ?.productDateTime?.timeOfArrival
-                                          )}
-                                        </p>
-                                      </div>
-                                      <div className="bookBottomTwo bookBottomTwo2 d-none d-sm-flex">
-                                        <img className="searchFlightFromTo d-none d-sm-block" src={fromTo} alt="icon" />
-                                      </div>
-                                      <div className="bookBottomThree gy-4 gy-sm-0">
-                                        <p>
-                                          {/* {item?.Origin?.Airport?.CityName}{" "} */}
-                                          {
-                                            sesstioResultIndex?.flightDetails[
-                                              index
-                                            ]?.flightInformation?.location[0]
-                                              ?.locationId
-                                          }
-                                          <span className="spanSearchTerminal">
+                                            ?.marketingCarrier
+                                        )}
+                                      </span>
+                                      <p>
+                                        {
+                                          sesstioResultIndex?.flightDetails[
+                                            index
+                                          ]?.flightInformation?.companyId
+                                            ?.marketingCarrier
+                                        }
+                                        {
+                                          sesstioResultIndex?.flightDetails[
+                                            index
+                                          ]?.flightInformation
+                                            ?.flightOrtrainNumber
+                                        }
+                                      </p>
+                                    </div>
+                                    <div className="bookbottomBox flex-column flex-md-row">
+                                      <div>
+                                        <div className="bookBottomOne d-none d-sm-flex">
+                                          <p>
+                                            {convertTime(
+                                              sesstioResultIndex?.flightDetails[
+                                                index
+                                              ]?.flightInformation
+                                                ?.productDateTime
+                                                ?.timeOfDeparture
+                                            )}
+                                          </p>
+                                          <p>
+                                            {convertTime(
+                                              sesstioResultIndex?.flightDetails[
+                                                index
+                                              ]?.flightInformation
+                                                ?.productDateTime?.timeOfArrival
+                                            )}
+                                          </p>
+                                        </div>
+                                        <div className="bookBottomTwo bookBottomTwo2 d-none d-sm-flex">
+                                          <img
+                                            className="searchFlightFromTo d-none d-sm-block"
+                                            src={fromTo}
+                                            alt="icon"
+                                          />
+                                        </div>
+                                        <div className="bookBottomThree gy-4 gy-sm-0">
+                                          <p>
+                                            {/* {item?.Origin?.Airport?.CityName}{" "} */}
                                             {
-                                              findAirportByCode(sesstioResultIndex?.flightDetails[
+                                              sesstioResultIndex?.flightDetails[
                                                 index
                                               ]?.flightInformation?.location[0]
-                                                ?.locationId)
+                                                ?.locationId
                                             }
-                                            {", "}
-                                            Terminal-
-                                            {/* {item?.Origin?.Airport?.Terminal
+                                            <span className="spanSearchTerminal">
+                                              {findAirportByCode(
+                                                sesstioResultIndex
+                                                  ?.flightDetails[index]
+                                                  ?.flightInformation
+                                                  ?.location[0]?.locationId
+                                              )}
+                                              {", "}
+                                              Terminal-
+                                              {/* {item?.Origin?.Airport?.Terminal
                                                 ? item?.Origin?.Airport
                                                     ?.Terminal
                                                 : "X"} */}
+                                              {
+                                                sesstioResultIndex
+                                                  ?.flightDetails[index]
+                                                  ?.flightInformation
+                                                  ?.location[0]?.terminal
+                                              }
+                                            </span>
+                                          </p>
+                                          <p>
                                             {
-                                              sesstioResultIndex
-                                                ?.flightDetails[index]
-                                                ?.flightInformation
-                                                ?.location[0]?.terminal
+                                              // item?.Destination?.Airport
+                                              //   ?.CityName
                                             }
-                                          </span>
-                                        </p>
-                                        <p>
-                                          {
-                                            // item?.Destination?.Airport
-                                            //   ?.CityName
-                                          }
-                                          {
-                                            sesstioResultIndex?.flightDetails[
-                                              index
-                                            ]?.flightInformation?.location[1]
-                                              ?.locationId
-                                          }{" "}
-                                          <span className="spanSearchTerminal">
                                             {
-                                              findAirportByCode(sesstioResultIndex?.flightDetails[
+                                              sesstioResultIndex?.flightDetails[
                                                 index
                                               ]?.flightInformation?.location[1]
-                                                ?.locationId)
-                                            }
-                                            {", "}
-                                            Terminal-
-                                            {/* {item?.Destination?.Airport
+                                                ?.locationId
+                                            }{" "}
+                                            <span className="spanSearchTerminal">
+                                              {findAirportByCode(
+                                                sesstioResultIndex
+                                                  ?.flightDetails[index]
+                                                  ?.flightInformation
+                                                  ?.location[1]?.locationId
+                                              )}
+                                              {", "}
+                                              Terminal-
+                                              {/* {item?.Destination?.Airport
                                                 ?.Terminal
                                                 ? item?.Destination?.Airport
                                                     ?.Terminal
                                                 : "Y"} */}
-                                            {
-                                              sesstioResultIndex
-                                                ?.flightDetails[index]
-                                                ?.flightInformation
-                                                ?.location[0]?.terminal
-                                            }
-                                          </span>
-                                        </p>
+                                              {
+                                                sesstioResultIndex
+                                                  ?.flightDetails[index]
+                                                  ?.flightInformation
+                                                  ?.location[0]?.terminal
+                                              }
+                                            </span>
+                                          </p>
+                                        </div>
                                       </div>
-                                    </div>
-                                    <div className="bookBottomFour justify-content-between col-sm-12 col-md-auto">
-                                      <div>
-                                        <p>Baggage</p>
-                                        <span>ADULT</span>
-                                      </div>
-                                      <div>
-                                        <p>Check-in</p>
-                                        <span>
-                                          {/* {sesstioResultIndex?.baggage
+                                      <div className="bookBottomFour justify-content-between col-sm-12 col-md-auto">
+                                        <div>
+                                          <p>Baggage</p>
+                                          <span>ADULT</span>
+                                        </div>
+                                        <div>
+                                          <p>Check-in</p>
+                                          <span>
+                                            {/* {sesstioResultIndex?.baggage
                                             ?.freeBagAllownceInfo?.baggageDetails
                                             ?.quantityCode === "N"
                                             ? (sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance * 23)
@@ -6159,82 +6336,114 @@ function NewItems({
                                               ?.freeBagAllownceInfo?.baggageDetails?.unitQualifier === "L" ? "LB" : "KG"
                                             
                                           } */}
-                                          {sesstioResultIndex?.baggage
-                                            ?.freeBagAllownceInfo?.baggageDetails
-                                            ?.quantityCode === "N"
-                                            ? (sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance * 23)
-                                            : (Number(sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance) === 0 ||
-                                              sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance === "0"
-                                              ? "No baggage" : sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance)}
-                                          {sesstioResultIndex?.baggage
-                                            ?.freeBagAllownceInfo?.baggageDetails
-                                            ?.quantityCode === "N"
-                                            ? sesstioResultIndex?.baggage
-                                              ?.freeBagAllownceInfo?.baggageDetails?.unitQualifier === "K" ? "KG" : "LB"
-                                            : Number(sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance) !== 0 ||
-                                              sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance !== "0" ? "KG" : ""}
-                                          {/* {item?.Baggage?.split(" ")[0]} */}
-                                        </span>
-                                      </div>
-                                      <div>
-                                        <p>Cabin</p>
-                                        <span>
-                                          {
-                                            // sesstioResultIndex?.baggage
-                                            //   ?.freeBagAllownceInfo?.baggageDetails
-                                            //   ?.quantityCode !== "N"
-                                            //   ? "7KG"
-                                            //   : "Included"
-                                            // item?.CabinBaggage?.split(
-                                            //   " "
-                                            // )[0]
-                                          }
-                                          7 KG
-                                        </span>
+                                            {sesstioResultIndex?.baggage
+                                              ?.freeBagAllownceInfo
+                                              ?.baggageDetails?.quantityCode ===
+                                            "N"
+                                              ? sesstioResultIndex?.baggage
+                                                  ?.freeBagAllownceInfo
+                                                  ?.baggageDetails
+                                                  ?.freeAllowance * 23
+                                              : Number(
+                                                  sesstioResultIndex?.baggage
+                                                    ?.freeBagAllownceInfo
+                                                    ?.baggageDetails
+                                                    ?.freeAllowance
+                                                ) === 0 ||
+                                                sesstioResultIndex?.baggage
+                                                  ?.freeBagAllownceInfo
+                                                  ?.baggageDetails
+                                                  ?.freeAllowance === "0"
+                                              ? "No baggage"
+                                              : sesstioResultIndex?.baggage
+                                                  ?.freeBagAllownceInfo
+                                                  ?.baggageDetails
+                                                  ?.freeAllowance}
+                                            {sesstioResultIndex?.baggage
+                                              ?.freeBagAllownceInfo
+                                              ?.baggageDetails?.quantityCode ===
+                                            "N"
+                                              ? sesstioResultIndex?.baggage
+                                                  ?.freeBagAllownceInfo
+                                                  ?.baggageDetails
+                                                  ?.unitQualifier === "K"
+                                                ? "KG"
+                                                : "LB"
+                                              : Number(
+                                                  sesstioResultIndex?.baggage
+                                                    ?.freeBagAllownceInfo
+                                                    ?.baggageDetails
+                                                    ?.freeAllowance
+                                                ) !== 0 ||
+                                                sesstioResultIndex?.baggage
+                                                  ?.freeBagAllownceInfo
+                                                  ?.baggageDetails
+                                                  ?.freeAllowance !== "0"
+                                              ? "KG"
+                                              : ""}
+                                            {/* {item?.Baggage?.split(" ")[0]} */}
+                                          </span>
+                                        </div>
+                                        <div>
+                                          <p>Cabin</p>
+                                          <span>
+                                            {
+                                              // sesstioResultIndex?.baggage
+                                              //   ?.freeBagAllownceInfo?.baggageDetails
+                                              //   ?.quantityCode !== "N"
+                                              //   ? "7KG"
+                                              //   : "Included"
+                                              // item?.CabinBaggage?.split(
+                                              //   " "
+                                              // )[0]
+                                            }
+                                            7 KG
+                                          </span>
+                                        </div>
                                       </div>
                                     </div>
-                                  </div>
-                                  <div>
+                                    <div></div>
                                   </div>
 
+                                  {index <
+                                    sesstioResultIndex?.flightDetails?.length -
+                                      1 && (
+                                    <div className="flightLayoverOuter">
+                                      <div className="flightLayover">
+                                        <p className="text-bold">
+                                          Layover Time: {layover}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  )}
                                 </div>
-
-                                {index < sesstioResultIndex?.flightDetails?.length - 1 && (
-                                  <div className="flightLayoverOuter">
-                                    <div className="flightLayover">
-                                      <p className="text-bold">
-                                        Layover Time: {layover}
-                                      </p>
-                                    </div>
-                                  </div>
-                                )}
-
-                              </div>
-                            );
-                          }
-                        )
-                      )}
-                    </div>
-                  </div>
-                }
-                {
-                  sesstioResultIndex?.AirlineCode &&
-
-                  <div className="searchResModalBody" >
-                    <div className="searchResModalBodyInfo">
-                      <div className="searchResModalBodyRow searchResModalBodyRowFont1">
-
-
-                        <div>
-                          {reducerState?.searchFlight?.flightDetails?.from?.name}
-                        </div>
-                        {/* <FaArrowRight /> */}
-                        <FiArrowRight style={{ margin: "5px" }} />{" "}
-                        <div>
-                          {reducerState?.searchFlight?.flightDetails?.to?.name}
-                        </div>
+                              );
+                            }
+                          )
+                        )}
                       </div>
-                      {/* <div className="searchResModalBodyRow searchResModalBodyRowFont2">
+                    </div>
+                  )}
+                  {sesstioResultIndex?.AirlineCode && (
+                    <div className="searchResModalBody">
+                      <div className="searchResModalBodyInfo">
+                        <div className="searchResModalBodyRow searchResModalBodyRowFont1">
+                          <div>
+                            {
+                              reducerState?.searchFlight?.flightDetails?.from
+                                ?.name
+                            }
+                          </div>
+                          {/* <FaArrowRight /> */}
+                          <FiArrowRight style={{ margin: "5px" }} />{" "}
+                          <div>
+                            {
+                              reducerState?.searchFlight?.flightDetails?.to
+                                ?.name
+                            }
+                          </div>
+                        </div>
+                        {/* <div className="searchResModalBodyRow searchResModalBodyRowFont2">
                         <div >{dayjs(reducerState?.searchFlight?.flightDetails?.departureDate).format('ddd, D MMM')}</div>
                         <div>{sesstioResultIndex?.flightDetails?.flightInformation ? "• Non Stop" : `• ${sesstioResultIndex?.flightDetails?.length - 1} stops`}</div>
                         <div>
@@ -6246,11 +6455,9 @@ function NewItems({
 
 
                       </div> */}
-                      <div className="bookaboveBox">
-                        <div>
-
-
-                          {/* <p>
+                        <div className="bookaboveBox">
+                          <div>
+                            {/* <p>
                                 {
                                   sesstioResultIndex?.Segments[0][0]?.Origin?.Airport
                                     ?.CityName
@@ -6262,234 +6469,292 @@ function NewItems({
                                   ]?.Destination?.Airport?.CityName
                                 }
                               </p> */}
-                          <div className="aboveSpan">
-                            <span className="aboveSOne">
-                              {dayjs(reducerState?.searchFlight?.flightDetails?.departureDate).format('ddd, D MMM')}
-                            </span>
-                            {/* <span>Non Stop {duration}</span> */}
-                            <span>
-                              {" "}
-                              {sesstioResultIndex?.Segments[0].length > 1
-                                ? `${sesstioResultIndex?.Segments[0].length - 1
-                                } stop via ${sesstioResultIndex?.Segments[0][0]
-                                  ?.Destination?.Airport?.CityName
-                                }`
-                                : "Non Stop"}
-                              {convertMinutes()}
-                            </span>
-
+                            <div className="aboveSpan">
+                              <span className="aboveSOne">
+                                {dayjs(
+                                  reducerState?.searchFlight?.flightDetails
+                                    ?.departureDate
+                                ).format("ddd, D MMM")}
+                              </span>
+                              {/* <span>Non Stop {duration}</span> */}
+                              <span>
+                                {" "}
+                                {sesstioResultIndex?.Segments[0].length > 1
+                                  ? `${
+                                      sesstioResultIndex?.Segments[0].length - 1
+                                    } stop via ${
+                                      sesstioResultIndex?.Segments[0][0]
+                                        ?.Destination?.Airport?.CityName
+                                    }`
+                                  : "Non Stop"}
+                                {convertMinutes()}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
+                      <div className="searchResModalBodyMap">
+                        {sesstioResultIndex?.Segments[0]?.map((item, index) => {
+                          let layover;
+                          if (
+                            index <
+                            sesstioResultIndex?.flightDetails?.length - 1
+                          ) {
+                            const prevDateOfArrival =
+                              sesstioResultIndex?.flightDetails?.[index]
+                                ?.flightInformation?.productDateTime
+                                ?.dateOfArrival;
+                            const nextDateOfDeparture =
+                              sesstioResultIndex?.flightDetails?.[index + 1]
+                                ?.flightInformation?.productDateTime
+                                ?.dateOfDeparture;
+                            const prevTimeOfArrival =
+                              sesstioResultIndex?.flightDetails?.[index]
+                                ?.flightInformation?.productDateTime
+                                ?.timeOfArrival;
+                            const nextTimeOfDeparture =
+                              sesstioResultIndex?.flightDetails?.[index + 1]
+                                ?.flightInformation?.productDateTime
+                                ?.timeOfDeparture;
 
-                    </div>
-                    <div className="searchResModalBodyMap">
-
-
-                      {
-                        sesstioResultIndex?.Segments[0]?.map(
-                          (item, index) => {
-                            let layover;
-                            if (index < sesstioResultIndex?.flightDetails?.length - 1) {
-                              const prevDateOfArrival = sesstioResultIndex?.flightDetails?.[index]?.flightInformation?.productDateTime?.dateOfArrival
-                              const nextDateOfDeparture = sesstioResultIndex?.flightDetails?.[index + 1]?.flightInformation?.productDateTime?.dateOfDeparture
-                              const prevTimeOfArrival = sesstioResultIndex?.flightDetails?.[index]?.flightInformation?.productDateTime?.timeOfArrival
-                              const nextTimeOfDeparture = sesstioResultIndex?.flightDetails?.[index + 1]?.flightInformation?.productDateTime?.timeOfDeparture
-
-                              // console.log(sesstioResultIndex, prevDateOfArrival, prevTimeOfArrival, nextDateOfDeparture, nextTimeOfDeparture, "prevDateOfArrival, prevTimeOfArrival, nextDateOfDeparture, nextTimeOfDeparture")
-                              function calculateLayoverTime(prevDateOfArrival, prevTimeOfArrival, nextDateOfDeparture, nextTimeOfDeparture) {
-
-                                // Parse the previous arrival datetime
-                                const prevArrivalDateTime = new Date(
-                                  `20${prevDateOfArrival.slice(4, 6)}-${prevDateOfArrival.slice(2, 4)}-${prevDateOfArrival.slice(0, 2)}T${prevTimeOfArrival.slice(0, 2)}:${prevTimeOfArrival.slice(2, 4)}:00`
-                                );
-
-                                // Parse the next departure datetime
-                                const nextDepartureDateTime = new Date(
-                                  `20${nextDateOfDeparture.slice(4, 6)}-${nextDateOfDeparture.slice(2, 4)}-${nextDateOfDeparture.slice(0, 2)}T${nextTimeOfDeparture.slice(0, 2)}:${nextTimeOfDeparture.slice(2, 4)}:00`
-                                );
-
-                                // Calculate the difference in milliseconds
-                                const layoverDuration = nextDepartureDateTime - prevArrivalDateTime;
-
-                                // Convert the duration to total minutes
-                                const totalMinutes = Math.floor(layoverDuration / (1000 * 60));
-
-                                // Calculate the hours and minutes from total minutes
-                                const layoverHours = Math.floor(totalMinutes / 60);
-                                const layoverMinutes = totalMinutes % 60;
-
-                                return `${layoverHours} hours and ${layoverMinutes} minutes`;
-                              }
-                              layover = calculateLayoverTime(prevDateOfArrival, prevTimeOfArrival, nextDateOfDeparture, nextTimeOfDeparture)
-
-
-                            }
-
-
-                            // console.log("flights[i].flightInformation.productDateTime",flights[i])
-
-
-
-
-                            const nextFlight =
-                              sesstioResultIndex?.Segments[0][index + 1];
-                            let layoverHours = 0;
-                            let layoverMinutes = 0;
-                            let layoverDuration = 0;
-
-                            if (nextFlight) {
-                              const arrivalTime = dayjs(
-                                item?.Destination?.ArrTime
+                            // console.log(sesstioResultIndex, prevDateOfArrival, prevTimeOfArrival, nextDateOfDeparture, nextTimeOfDeparture, "prevDateOfArrival, prevTimeOfArrival, nextDateOfDeparture, nextTimeOfDeparture")
+                            function calculateLayoverTime(
+                              prevDateOfArrival,
+                              prevTimeOfArrival,
+                              nextDateOfDeparture,
+                              nextTimeOfDeparture
+                            ) {
+                              // Parse the previous arrival datetime
+                              const prevArrivalDateTime = new Date(
+                                `20${prevDateOfArrival.slice(
+                                  4,
+                                  6
+                                )}-${prevDateOfArrival.slice(
+                                  2,
+                                  4
+                                )}-${prevDateOfArrival.slice(
+                                  0,
+                                  2
+                                )}T${prevTimeOfArrival.slice(
+                                  0,
+                                  2
+                                )}:${prevTimeOfArrival.slice(2, 4)}:00`
                               );
-                              const departureTime = dayjs(
-                                nextFlight?.Origin?.DepTime
+
+                              // Parse the next departure datetime
+                              const nextDepartureDateTime = new Date(
+                                `20${nextDateOfDeparture.slice(
+                                  4,
+                                  6
+                                )}-${nextDateOfDeparture.slice(
+                                  2,
+                                  4
+                                )}-${nextDateOfDeparture.slice(
+                                  0,
+                                  2
+                                )}T${nextTimeOfDeparture.slice(
+                                  0,
+                                  2
+                                )}:${nextTimeOfDeparture.slice(2, 4)}:00`
                               );
-                              layoverDuration = departureTime.diff(
-                                arrivalTime,
-                                "minutes"
-                              ); // Calculate difference in minutes
-                              layoverHours = Math.floor(
-                                layoverDuration / 60
-                              ); // Extract hours
-                              layoverMinutes = layoverDuration % 60;
+
+                              // Calculate the difference in milliseconds
+                              const layoverDuration =
+                                nextDepartureDateTime - prevArrivalDateTime;
+
+                              // Convert the duration to total minutes
+                              const totalMinutes = Math.floor(
+                                layoverDuration / (1000 * 60)
+                              );
+
+                              // Calculate the hours and minutes from total minutes
+                              const layoverHours = Math.floor(
+                                totalMinutes / 60
+                              );
+                              const layoverMinutes = totalMinutes % 60;
+
+                              return `${layoverHours} hours and ${layoverMinutes} minutes`;
                             }
-                            return (
-                              // <>hii</>
-                              <div className="searchResModalBodyMapItem">
-                                <div className="searchResModalBodyMapItemCon" >
-                                  <div className="bookcenteredBox">
-                                    <div>
-                                      <img
-                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline?.AirlineCode}.png`}
-                                      />{" "}
-                                    </div>
-                                    <span>{item?.Airline?.AirlineName}</span>
-                                    <p>
-                                      {item?.Airline?.AirlineCode}
-                                      {item?.Airline?.FlightNumber}
-                                    </p>
-                                  </div>
-                                  <div className="bookbottomBox flex-column flex-md-row">
-                                    <div>
-                                      <div className="bookBottomOne d-none d-sm-flex">
-                                        <p>
-                                          {dayjs(item?.Origin?.DepTime).format(
-                                            "h:mm A"
-                                          )}
-                                        </p>
-                                        <p>
-                                          {dayjs(
-                                            item?.Destination?.ArrTime
-                                          ).format("h:mm A")}
-                                        </p>
-                                      </div>
-                                      <div className="bookBottomTwo  bookBottomTwo2 d-none d-sm-flex">
-                                        <img className="searchFlightFromTo d-none d-sm-block" src={fromTo} alt="icon" />
-                                      </div>
-                                      <div className="bookBottomThree gy-4 gy-sm-0">
-                                        <p className="bookBottomThreeP">
-                                          {item?.Origin?.Airport?.CityName}{" "}
-                                          <span className="spanSearchTerminal">
-                                            {item?.Origin?.Airport?.AirportName}
-                                            {", "}
-                                            Terminal-
-                                            {item?.Origin?.Airport?.Terminal
-                                              ? item?.Origin?.Airport?.Terminal
-                                              : "X"}
-                                          </span>
-                                        </p>
-                                        <p className="bookBottomThreeP">
-                                          {item?.Destination?.Airport?.CityName}{" "}
-                                          <span className="spanSearchTerminal">
-                                            {
-                                              item?.Destination?.Airport
-                                                ?.AirportName
-                                            }
-                                            {", "}
-                                            Terminal-
-                                            {item?.Destination?.Airport?.Terminal
-                                              ? item?.Destination?.Airport
-                                                ?.Terminal
-                                              : "Y"}
-                                          </span>
-                                        </p>
-                                      </div>
-                                    </div>
-                                    <div className="bookBottomFour justify-content-between col-sm-12 col-md-auto">
-                                      <div>
-                                        <p>Baggage</p>
-                                        <span>ADULT</span>
-                                      </div>
-                                      <div>
-                                        <p>Check-in</p>
-                                        <span>
-                                          {item?.Baggage?.split(" ")[0]}
-                                        </span>
-                                      </div>
-                                      <div>
-                                        <p>Cabin</p>
-                                        <span>
-                                          {item?.CabinBaggage?.split(" ")[0]}
-                                        </span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div>
-                                  </div>
-
-                                </div>
-
-                                {(layoverDuration !== 0) && (
-                                  <div className="flightLayoverOuter">
-                                    <div className="flightLayover">
-                                      {/* <p className="text-bold">
-                                        Layover Time: {layover}
-                                      </p> */}
-                                      <p className="text-bold">Layover Time: {layoverHours !== 0 && `${layoverHours} hours`} {layoverMinutes !== 0 && `${layoverMinutes} minutes`}</p>
-                                    </div>
-                                  </div>
-                                )}
-
-                              </div>
+                            layover = calculateLayoverTime(
+                              prevDateOfArrival,
+                              prevTimeOfArrival,
+                              nextDateOfDeparture,
+                              nextTimeOfDeparture
                             );
                           }
-                        )
-                      }
+
+                          // console.log("flights[i].flightInformation.productDateTime",flights[i])
+
+                          const nextFlight =
+                            sesstioResultIndex?.Segments[0][index + 1];
+                          let layoverHours = 0;
+                          let layoverMinutes = 0;
+                          let layoverDuration = 0;
+
+                          if (nextFlight) {
+                            const arrivalTime = dayjs(
+                              item?.Destination?.ArrTime
+                            );
+                            const departureTime = dayjs(
+                              nextFlight?.Origin?.DepTime
+                            );
+                            layoverDuration = departureTime.diff(
+                              arrivalTime,
+                              "minutes"
+                            ); // Calculate difference in minutes
+                            layoverHours = Math.floor(layoverDuration / 60); // Extract hours
+                            layoverMinutes = layoverDuration % 60;
+                          }
+                          return (
+                            // <>hii</>
+                            <div className="searchResModalBodyMapItem">
+                              <div className="searchResModalBodyMapItemCon">
+                                <div className="bookcenteredBox">
+                                  <div>
+                                    <img
+                                      src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline?.AirlineCode}.png`}
+                                    />{" "}
+                                  </div>
+                                  <span>{item?.Airline?.AirlineName}</span>
+                                  <p>
+                                    {item?.Airline?.AirlineCode}
+                                    {item?.Airline?.FlightNumber}
+                                  </p>
+                                </div>
+                                <div className="bookbottomBox flex-column flex-md-row">
+                                  <div>
+                                    <div className="bookBottomOne d-none d-sm-flex">
+                                      <p>
+                                        {dayjs(item?.Origin?.DepTime).format(
+                                          "h:mm A"
+                                        )}
+                                      </p>
+                                      <p>
+                                        {dayjs(
+                                          item?.Destination?.ArrTime
+                                        ).format("h:mm A")}
+                                      </p>
+                                    </div>
+                                    <div className="bookBottomTwo  bookBottomTwo2 d-none d-sm-flex">
+                                      <img
+                                        className="searchFlightFromTo d-none d-sm-block"
+                                        src={fromTo}
+                                        alt="icon"
+                                      />
+                                    </div>
+                                    <div className="bookBottomThree gy-4 gy-sm-0">
+                                      <p className="bookBottomThreeP">
+                                        {item?.Origin?.Airport?.CityName}{" "}
+                                        <span className="spanSearchTerminal">
+                                          {item?.Origin?.Airport?.AirportName}
+                                          {", "}
+                                          Terminal-
+                                          {item?.Origin?.Airport?.Terminal
+                                            ? item?.Origin?.Airport?.Terminal
+                                            : "X"}
+                                        </span>
+                                      </p>
+                                      <p className="bookBottomThreeP">
+                                        {item?.Destination?.Airport?.CityName}{" "}
+                                        <span className="spanSearchTerminal">
+                                          {
+                                            item?.Destination?.Airport
+                                              ?.AirportName
+                                          }
+                                          {", "}
+                                          Terminal-
+                                          {item?.Destination?.Airport?.Terminal
+                                            ? item?.Destination?.Airport
+                                                ?.Terminal
+                                            : "Y"}
+                                        </span>
+                                      </p>
+                                    </div>
+                                  </div>
+                                  <div className="bookBottomFour justify-content-between col-sm-12 col-md-auto">
+                                    <div>
+                                      <p>Baggage</p>
+                                      <span>ADULT</span>
+                                    </div>
+                                    <div>
+                                      <p>Check-in</p>
+                                      <span>
+                                        {item?.Baggage?.split(" ")[0]}
+                                      </span>
+                                    </div>
+                                    <div>
+                                      <p>Cabin</p>
+                                      <span>
+                                        {item?.CabinBaggage?.split(" ")[0]}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div></div>
+                              </div>
+
+                              {layoverDuration !== 0 && (
+                                <div className="flightLayoverOuter">
+                                  <div className="flightLayover">
+                                    {/* <p className="text-bold">
+                                        Layover Time: {layover}
+                                      </p> */}
+                                    <p className="text-bold">
+                                      Layover Time:{" "}
+                                      {layoverHours !== 0 &&
+                                        `${layoverHours} hours`}{" "}
+                                      {layoverMinutes !== 0 &&
+                                        `${layoverMinutes} minutes`}
+                                    </p>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="modalSelectFilghtFooter">
+                    <div>
+                      <div style={{ fontSize: "24px", fontWeight: "700" }}>
+                        ₹
+                       {(Number(sesstioResultIndex?.monetaryDetail?.[0]?.amount) -
+                        Number(sesstioResultIndex?.monetaryDetail?.[1]?.amount)) || sesstioResultIndex?.Fare?.BaseFare}
+                      </div>
+                      <div style={{ fontSize: "12px", fontWeight: "400" }}>
+                        FOR 1 ADULT
+                      </div>
+                    </div>
+                    <div
+                      className="modalSearchflightBtn"
+                      style={{
+                        background: "#e73c34",
+                        color: "#fff",
+                        boxShadow: "0 1px 7px 0 rgba(0, 0, 0, .22)",
+                        width: "100px",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: "20px",
+                        height: "35px",
+                        cursor: "pointer",
+                        fontSize: "18px",
+                      }}
+                      onClick={() => {
+                        handleIndexId(sesstioResultIndex);
+                      }}
+                    >
+                      Book
                     </div>
                   </div>
-                }
-
-                <div className="modalSelectFilghtFooter">
-                  <div>
-                    <div style={{ fontSize: "24px", fontWeight: "700" }}>₹{sesstioResultIndex?.monetaryDetail?.[0]?.amount || sesstioResultIndex?.TotalPublishFare}</div>
-                    <div style={{ fontSize: "12px", fontWeight: "400" }}>FOR 1 ADULT</div>
-
-                  </div>
-                  <div className="modalSearchflightBtn" style={{
-                    background: "#e73c34",
-                    color: "#fff",
-                    boxShadow: "0 1px 7px 0 rgba(0, 0, 0, .22)",
-                    width: "100px",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    borderRadius: "20px",
-                    height: "35px",
-                    cursor: "pointer",
-                    fontSize: "18px"
-                  }}
-                    onClick={() => {
-                      handleIndexId(sesstioResultIndex);
-                    }}
-                  >Book</div>
                 </div>
-              </div>
-            </motion.div>
-          </Modal>
-        </AnimatePresence>
-
-      </div>}
+              </motion.div>
+            </Modal>
+          </AnimatePresence>
+        </div>
+      )}
     </>
   );
 }
@@ -6541,18 +6806,18 @@ export default function BasicGrid() {
     const uniqueData = !results
       ? []
       : results[0]?.filter((item, index, array) => {
-        const isUnique = !array
-          .slice(0, index)
-          .some(
-            (prevItem) =>
-              prevItem.AirlineCode === item.AirlineCode &&
-              prevItem.Segments?.[0]?.[prevItem.Segments[0].length - 1]
-                ?.Origin?.DepTime ===
-              item.Segments?.[0]?.[prevItem.Segments[0].length - 1]?.Origin
-                ?.DepTime
-          );
-        return isUnique;
-      });
+          const isUnique = !array
+            .slice(0, index)
+            .some(
+              (prevItem) =>
+                prevItem.AirlineCode === item.AirlineCode &&
+                prevItem.Segments?.[0]?.[prevItem.Segments[0].length - 1]
+                  ?.Origin?.DepTime ===
+                  item.Segments?.[0]?.[prevItem.Segments[0].length - 1]?.Origin
+                    ?.DepTime
+            );
+          return isUnique;
+        });
     const itemss = [...Array(uniqueData?.length).keys()];
     setNewResult([[...uniqueData]]);
     setCurrentItems(itemss);
@@ -6578,14 +6843,14 @@ export default function BasicGrid() {
       );
       updatedCategory = isValueSelected
         ? updatedCategory.filter(
-          (category) => category !== `${radioGroupName}:${selectedValue}`
-        )
+            (category) => category !== `${radioGroupName}:${selectedValue}`
+          )
         : [
-          ...updatedCategory.filter(
-            (category) => !category.startsWith(`${radioGroupName}:`)
-          ),
-          `${radioGroupName}:${selectedValue}`,
-        ];
+            ...updatedCategory.filter(
+              (category) => !category.startsWith(`${radioGroupName}:`)
+            ),
+            `${radioGroupName}:${selectedValue}`,
+          ];
 
       return updatedCategory;
     });

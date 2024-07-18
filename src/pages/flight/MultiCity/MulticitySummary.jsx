@@ -128,7 +128,7 @@ const MulticitySummary = (props) => {
     const markUpamount =
         reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
 
-    const taxvalue = Number(markUpamount * (fareValue?.Fare?.PublishedFare)).toFixed(0);
+    const taxvalue = Number(markUpamount * (fareValue?.Fare?.PublishedFare)).toFixed(2);
 
 
 

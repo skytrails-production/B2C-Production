@@ -8,6 +8,7 @@ import "./App.css";
 import LoginForm from "./components/Login";
 import DummyTicketBookingForm from "./components/DummyTicketBookingForm";
 import SignUp from "./components/Signup";
+import BookedTicketAmd from "./pages/flight/BookedTicketAmd";
 import Hotel from "./pages/Hotel/HotelHome";
 import HolidayPackageSearchResult from "./pages/holidaypackages/holidaypackagesearchresult/HolidayPackageSearchResult";
 // import HolidaypackageInfo from "./pages/holidaypackages/holidaypackageInfo/HolidaypackageInfo";
@@ -117,6 +118,7 @@ import SmallDevice from "./components/SmallDevicePopUp";
 
 import ItenaryDashboard from "./pages/Itenary/ItenaryDashboard";
 import ItenaryResult from "./pages/Itenary/ItenaryResult";
+import ItenaryPdfDownloader from "./pages/Itenary/ItenaryPdfDownloader";
 
 
 function App() {
@@ -138,30 +140,30 @@ function App() {
     dispatch(tokenAction(payload));
   }, [reducerState?.ip?.ipData]);
   // console.log(state, "network state..............")
-  useEffect(() => {
-    const disableInspect = (e) => {
-      if (
-        e.shiftKey && e.ctrlKey && e.keyCode === 123 || // F12
-        e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74) || // Ctrl + Shift + I/J
-        e.ctrlKey && e.keyCode === 85 // Ctrl + U
-      ) {
-        e.preventDefault();
-        return false;
-      }
-    };
+  // useEffect(() => {
+  //   const disableInspect = (e) => {
+  //     if (
+  //       e.shiftKey && e.ctrlKey && e.keyCode === 123 || // F12
+  //       e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74) || // Ctrl + Shift + I/J
+  //       e.ctrlKey && e.keyCode === 85 // Ctrl + U
+  //     ) {
+  //       e.preventDefault();
+  //       return false;
+  //     }
+  //   };
 
-    const disableRightClick = (e) => {
-      e.preventDefault();
-    };
+  //   const disableRightClick = (e) => {
+  //     e.preventDefault();
+  //   };
 
-    document.addEventListener('keydown', disableInspect);
-    document.addEventListener('contextmenu', disableRightClick);
+  //   document.addEventListener('keydown', disableInspect);
+  //   document.addEventListener('contextmenu', disableRightClick);
 
-    return () => {
-      document.removeEventListener('keydown', disableInspect);
-      document.removeEventListener('contextmenu', disableRightClick);
-    };
-  }, []);
+  //   return () => {
+  //     document.removeEventListener('keydown', disableInspect);
+  //     document.removeEventListener('contextmenu', disableRightClick);
+  //   };
+  // }, []);
 
   useEffect(() => {
     dispatch(getMarkUpAction());
@@ -333,6 +335,7 @@ function App() {
           path="/st-hotel/hotelresult/selectroom"
           element={<HotelBookRoomGRN />}
         />
+        <Route path="/bookedTicketSucess/:id" element={<BookedTicketAmd/>} />
         <Route
           path="/st-hotel/hotelresult/selectroom/guestDetails"
           element={<BookingDetailsGRN />}
@@ -506,6 +509,11 @@ function App() {
         <Route
           path="/itenaryresult"
           element={<ItenaryResult />}
+        ></Route>
+        <Route
+          // path="/itenaryDownload"
+          path="/itenaryresult/itenaryDownload/:id"
+          element={<ItenaryPdfDownloader />}
         ></Route>
         {/* <Route
           path="/practice"

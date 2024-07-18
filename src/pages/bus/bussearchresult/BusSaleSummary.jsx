@@ -8,16 +8,18 @@ import SecureStorage from "react-secure-storage";
 import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
+import CouponContainer from "../../../components/Coupon/Couponcontainer";
 
-const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
+const BusSaleSummary = (props) => {
   const [showInput, setShowInput] = useState(false);
-  const [couponApplied, setCouponApplied] = useState(false);
-  const inputRef = useRef(null);
-  const [couponCode, setCouponCode] = useState("");
-  const [showApplyButton, setShowApplyButton] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [couponStatus, setCouponStatus] = useState(false);
-  const [error, setError] = useState(null);
+  const { onFinalAmountChange,oncouponselect } = props;
+  // const [couponApplied, setCouponApplied] = useState(false);
+  // const inputRef = useRef(null);
+  // const [couponCode, setCouponCode] = useState("");
+  // const [showApplyButton, setShowApplyButton] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  // const [couponStatus, setCouponStatus] = useState(false);
+  // const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
   const location = useLocation();
   const pathname = location.pathname;
@@ -54,108 +56,107 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
   
 
   const discount = Number(published - offeredPrice).toFixed(1);
-  const couponDiscount = discount;
+  // const couponDiscount = discount;
 
   const discount1 = Number(discount).toFixed(1);
-  const coupondiscount1 = Number(couponDiscount).toFixed(1);
+  // const coupondiscount1 = Number(couponDiscount).toFixed(1);
 
-  const othertax =  Number(markUpamount * published).toFixed(1)
+  const othertax =  Number(markUpamount * published).toFixed(1);
 
-  const totalaftercoupon = Number(grandTotal - coupondiscount1).toFixed(2);
+  // const totalaftercoupon = Number(grandTotal - coupondiscount1).toFixed(2);
   // const couponamount = sessionStorage.getItem("totalaftercoupon");
 
-  const handleApplyCoupon3 = async () => {
-    try {
-      setLoading(true);
+  // const handleApplyCoupon3 = async () => {
+  //   try {
+  //     setLoading(true);
 
-      const token = SecureStorage.getItem("jwtToken");
-      const couponCode = inputRef.current.value;
+  //     const token = SecureStorage.getItem("jwtToken");
+  //     // const couponCode = inputRef.current.value;
 
-      const response = await axios.put(
-        ` ${apiURL.baseURL}/skyTrails/api/coupons/applyCoupon`,
-        { couponCode: couponCode },
-        {
-          headers: {
-            token: token,
-          },
-        }
-      );
+  //     const response = await axios.put(
+  //       ` ${apiURL.baseURL}/skyTrails/api/coupons/applyCoupon`,
+  //       { couponCode: couponCode },
+  //       {
+  //         headers: {
+  //           token: token,
+  //         },
+  //       }
+  //     );
 
-      if (response?.data?.statusCode === 200) {
-        setCouponStatus(true);
-        // setSuccessMessage("Coupon applied successfully");
-        await transactionAmount(totalaftercoupon);
-        // sessionStorage.setItem("totalaftercoupon", totalaftercoupon);
-        sessionStorage.setItem("couponCode", couponCode);
+  //     if (response?.data?.statusCode === 200) {
+  //       setCouponStatus(true);
+  //       // setSuccessMessage("Coupon applied successfully");
+  //       await transactionAmount(totalaftercoupon);
+  //       // sessionStorage.setItem("totalaftercoupon", totalaftercoupon);
+  //       sessionStorage.setItem("couponCode", couponCode);
 
-        // console.warn("status true");
-      }
-    } catch (error) {
-      setLoading(false);
+  //       // console.warn("status true");
+  //     }
+  //   } catch (error) {
+  //     setLoading(false);
 
-      if (error.response && error.response.data.statusCode === 409) {
-        setCouponStatus(false);
-        setError("Coupon already applied");
-        setTimeout(() => {
-          setError(null);
-        }, 4000);
+  //     if (error.response && error.response.data.statusCode === 409) {
+  //       setCouponStatus(false);
+  //       setError("Coupon already applied");
+  //       setTimeout(() => {
+  //         setError(null);
+  //       }, 4000);
 
-      }
-      if (error.response && error.response.data.statusCode === 404) {
-        setError(error.response.data.responseMessage);
+  //     }
+  //     if (error.response && error.response.data.statusCode === 404) {
+  //       setError(error.response.data.responseMessage);
 
-      } else {
-        setError(
-          error.response?.data?.message ||
-          "Error applying coupon. Please try again."
-        );
-        setCouponStatus(false);
-      }
-    } finally {
-      setLoading(false);
-      toggleState(true);
+  //     } else {
+  //       setError(
+  //         error.response?.data?.message ||
+  //         "Error applying coupon. Please try again."
+  //       );
+  //       setCouponStatus(false);
+  //     }
+  //   } finally {
+  //     setLoading(false);
+  //     toggleState(true);
 
-      // console.log("finally");
-    }
-  };
-  useEffect(() => {
-    if (!toggle) {
-      setCouponCode("");
-      setShowApplyButton(false);
-    }
-  }, [toggle]);
+  //     // console.log("finally");
+  //   }
+  // };
+  // useEffect(() => {
+  //   if (!toggle) {
+  //     setCouponCode("");
+  //     setShowApplyButton(false);
+  //   }
+  // }, [toggle]);
 
-  const handleInputChange = (event) => {
-    const inputValue = event.target.value;
-    setCouponCode(inputValue);
-    setShowApplyButton(!!inputValue);
-    setError(null);
-    toggleState(true);
-    transactionAmount(null);
-    setCouponStatus(false);
-    sessionStorage.removeItem("couponCode");
-    // setSuccessMessage(null);
-    // if (couponamount) {
-    //   transactionAmount(null);
-    //   sessionStorage.removeItem("couponCode");
-    // }
+  // const handleInputChange = (event) => {
+  //   const inputValue = event.target.value;
+  //   setCouponCode(inputValue);
+  //   setShowApplyButton(!!inputValue);
+  //   setError(null);
+  //   toggleState(true);
+  //   transactionAmount(null);
+  //   setCouponStatus(false);
+  //   sessionStorage.removeItem("couponCode");
+  //   // setSuccessMessage(null);
+  //   // if (couponamount) {
+  //   //   transactionAmount(null);
+  //   //   sessionStorage.removeItem("couponCode");
+  //   // }
 
-    if (!inputValue) {
-      setCouponStatus(false);
-      transactionAmount(null);
+  //   if (!inputValue) {
+  //     setCouponStatus(false);
+  //     transactionAmount(null);
+  //     sessionStorage.removeItem("couponCode");
+  //   }
+  // };
 
-      sessionStorage.removeItem("couponCode");
-    }
-  };
+  // const handleCoupon = () => {
+  //   inputRef.current.focus();
+  // };
 
-  const handleCoupon = () => {
-    inputRef.current.focus();
-  };
-
-  const handleApplyCoupon = () => {
-    setShowInput(true);
-    setCouponApplied(true);
-  };
+  // const handleApplyCoupon = () => {
+  //   setShowInput(true);
+  //   setCouponApplied(true);
+  // };
 
   useEffect(() => {
     setOfferedPrice(offeredPrice);
@@ -167,10 +168,152 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
     sessionStorage.removeItem("couponCode");
 
   }, []);
+  
+  // ///////////////////////////coupon functions /////////////////////////////////////////////////////////////
+
+  const [showApplyButton, setShowApplyButton] = useState(false);
+  const [couponApplied, setCouponApplied] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+  const [couponStatus, setCouponStatus] = useState(false);
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  // const [selectedCoupon, setSelectedCoupon] = useState("");
+  const [selectedCoupon, setSelectedCoupon] = useState(null);
+
+  const discountValueObj = selectedCoupon?.discountPercentage?.filter(
+    (item, index) => {
+      return item?.name == "BUS" || item?.name == "FORALL";
+    }
+  );
+
+  // const totalPriceCalculator = () => {
+  //   let finalAmount = 0;
+  //   let discountAmount = 0;
+  //   if (selectedCoupon !== null) {
+  //     if (discountValueObj?.[0].type == "PERCENTAGE") {
+  //       finalAmount =
+  //         finalAmount +
+  //         Number(FlightPrice) +
+  //         Number(FlightPrice * reduxMarkup.flightMarkup) -
+  //         Number(FlightPrice) * (discountValueObj?.[0].value * 0.01);
+
+  //       discountAmount =
+  //         discountAmount +
+  //         Number(FlightPrice) * (discountValueObj?.[0].value * 0.01);
+  //     } else if (discountValueObj?.[0].type == "AMOUNT") {
+  //       finalAmount =
+  //         finalAmount +
+  //         Number(FlightPrice) +
+  //         Number(FlightPrice * reduxMarkup.flightMarkup) -
+  //         discountValueObj?.[0].value;
+  //       discountAmount = discountAmount + discountValueObj?.[0].value;
+  //     }
+  //   } else {
+  //     finalAmount =
+  //       finalAmount +
+  //       Number(FlightPrice) +
+  //       Number(FlightPrice * reduxMarkup.flightMarkup);
+  //   }
+  //   return { amountGenerator: { finalAmount, discountAmount } };
+  // };
+
+  // console.log("discountValueObj", discountValueObj);
+
+  const handleCouponChange = (code) => {
+    setCouponCode(code);
+    setCouponApplied(!!code);
+  };
+
+  const handleCouponStatusChange = (status) => {
+    setCouponStatus(status);
+  };
+
+  const handleCouponDiscountChange = (discount) => {
+    setCouponDiscount(discount);
+  };
+
+  const handleLoadingChange = (isLoading) => {
+    setLoading(isLoading);
+  };
+
+  const handleErrorChange = (errorMessage) => {
+    setError(errorMessage);
+  };
+
+  const flight = "BUS";
+
+  const totalPriceCalculator = () => {
+    let finalAmount = 0;
+    let discountAmount = 0;
+    const publishedFare = published;
+    if (selectedCoupon !== null) {
+      let discountamount = 0;
+      if (publishedFare <= discountValueObj?.[0].value?.min[0]) {
+        discountamount = discountValueObj?.[0].value?.min[1];
+      } else if (publishedFare >= discountValueObj?.[0].value?.max[0]) {
+        discountamount = discountValueObj?.[0].value?.max[1];
+      }
+
+      if (discountValueObj?.[0].type == "PERCENTAGE") {
+        finalAmount = publishedFare + markUpamount * publishedFare - publishedFare * (discountamount * 0.01);
+        discountAmount = Number(publishedFare )* Number(discountamount * 0.01);
+
+       
+      } 
+      else if (discountValueObj?.[0].type == "AMOUNT") {
+        finalAmount = Number(publishedFare) + Number(markUpamount)*Number( publishedFare) - discountamount;
+        discountAmount =Number(discountamount);
+      }
+
+      // if (discountValueObj?.[0].type == "PERCENTAGE") {
+      //   finalAmount =
+      //     finalAmount +
+      //     published +
+      //     markUpamount * published -
+      //     published *
+      //       (discountValueObj?.[0].value * 0.01);
+
+      //   discountAmount =
+      //     discountAmount +
+      //     published *
+      //       (discountValueObj?.[0].value * 0.01);
+      // } else if (discountValueObj?.[0].type == "AMOUNT") {
+      //   finalAmount =
+      //     finalAmount +       
+      //     published +
+      //     markUpamount * published -
+      //     discountValueObj?.[0].value;
+      //   discountAmount = discountAmount + discountValueObj?.[0].value;
+      // }
+
+    } else {
+      finalAmount =
+      Number(finalAmount) +
+      Number( published) +
+      Number( markUpamount) * Number(published);
+    }
+    
+    return { finalAmount, discountAmount };
+  };
+  const { finalAmount, discountAmount } = totalPriceCalculator();
+// console.log("finalAmount",finalAmount,discountAmount);
+
+
+// sessionStorage.setItem('finalAmount',finalAmount);
+useEffect(() => {
+  if (typeof onFinalAmountChange === 'function') {
+    onFinalAmountChange(finalAmount);
+    oncouponselect(couponCode);
+  } else {
+    console.error(error);
+  }
+}, [finalAmount,couponCode]);
 
 
   return (
-    <>
+    <>.
+    
       <div className="priceSummaryHotel">
         <div className="head">
           <span>Price Summary</span>
@@ -193,18 +336,38 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
               {othertax}
             </p>
           </div>
+          {/* <div>
+            <span>Base Fare</span>
+            <p>
+              {"₹"}
+              {published}
+            </p>
+          </div> */}
+          {discountAmount > 0 && (
+                <div style={{display:"flex",justifyContent:"space-evenly"}}>
+                  <span>Discount Amount:</span>
+                  <p>
+                    {"₹"}
+                    {Number(discountAmount).toFixed(2)}
+                  </p>
+                </div>
+              )}
+         
         </div>
+       
         <div className="TotGst">
           <div>
             <span>Grand Total:</span>
             <p>
               {"₹"}
-             {Number(grandTotal).toFixed(2)}
+             {/* {Number(grandTotal).toFixed(2)} */}
+             {Number(finalAmount).toFixed(2)}
             </p>
           </div>
+
         </div>
 
-        {pathname === "/BusReviewBooking" && (
+        {/* {pathname === "/BusReviewBooking" && (
           <div className="applycoupenbuttontext" style={{ overflow: "hidden" }}>
             {!couponApplied ? (
               <button
@@ -285,7 +448,7 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
                             </p>
                           </div>
                         </div>
-                        {/* <button className="applycoupen-button1">Submit</button> */}
+                        
                       </div>
                     ) : (
                       <div className="error-message1">
@@ -297,7 +460,24 @@ const BusSaleSummary = ({ toggle, toggleState, transactionAmount, Amount }) => {
               </motion.div>
             )}
           </div>
-        )}
+        )} */}
+
+        {/* <CouponContainer
+              value={flight}
+              couponCode={couponCode}
+              couponApplied={couponApplied}
+              couponStatus={couponStatus}
+              couponDiscount={couponDiscount}
+              loading={loading}
+              selectedCoupon={selectedCoupon}
+              error={error}
+              onCouponChange={handleCouponChange}
+              onCouponStatusChange={handleCouponStatusChange}
+              onCouponDiscountChange={handleCouponDiscountChange}
+              onLoadingChange={handleLoadingChange}
+              onErrorChange={handleErrorChange}
+              setSelectedCoupon={setSelectedCoupon}
+            /> */}
       </div>
     </>
   );

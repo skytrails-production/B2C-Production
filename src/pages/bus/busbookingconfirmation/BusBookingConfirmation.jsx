@@ -4,10 +4,12 @@ import axios from "axios";
 import { apiURL } from "../../../Constants/constant";
 import userApi from "../../../Redux/API/api";
 import { Mode } from "@mui/icons-material";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import SecureStorage from "react-secure-storage";
 const BusBookingConfirmation = () => {
   const reducerState = useSelector((state) => state);
+  const location = useLocation();
+  const { finalamount, couponvalue } = location.state || {};
 
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.busMarkup;
@@ -21,9 +23,7 @@ const BusBookingConfirmation = () => {
       const response = await axios.get(
         `${
           apiURL.baseURL
-        }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
-          "couponCode"
-        )}`,
+        }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
 
         {
           headers: {
@@ -43,11 +43,12 @@ const BusBookingConfirmation = () => {
       const getDetails =
         reducerState?.getBusResult?.busDetails?.data?.data
           ?.GetBookingDetailResult?.Itinerary;
+      // console.log(getDetails, "getDetails");
       const totalAmount =
         reducerState?.getBusResult?.busDetails?.data?.data
           ?.GetBookingDetailResult?.Itinerary?.Price?.PublishedPriceRoundedOff;
       //  console.log(totalAmount, "totalAmount");
-      const grandtotal = totalAmount + markUpamount * totalAmount;
+      // const grandtotal = totalAmount + markUpamount * totalAmount;
       const buscouponamount =
         reducerState?.getBusResult?.busDetails?.data?.data
           ?.GetBookingDetailResult?.Itinerary?.Price?.OfferedPriceRoundedOff +
@@ -67,7 +68,8 @@ const BusBookingConfirmation = () => {
         pnr: getDetails?.TicketNo,
         busId: getDetails?.BusId,
         noOfSeats: getDetails?.NoOfSeats,
-        amount: buscouponamountcode ? buscouponamount : grandtotal,
+        // amount: buscouponamountcode ? buscouponamount : grandtotal,
+        amount:Number(finalamount).toFixed(2),
         passenger: getDetails?.Passenger.map((item, index) => {
           return {
             title: item?.Title,
@@ -91,10 +93,11 @@ const BusBookingConfirmation = () => {
       };
       // console.log(payloadSavedata, "payload Saved Data");
       userApi.busBookingDataSave(payloadSavedata);
-    };
-    if (sessionStorage.getItem("couponCode")) {
       couponconfirmation();
-    }
+    };
+    // if (sessionStorage.getItem("couponCode")) {
+      // couponconfirmation();
+    // }
     busBookSave();
   }, []);
 

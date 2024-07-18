@@ -21,7 +21,7 @@ import { swalModal } from "../../../utility/swal"
 const variants = {
     initial: {
         y: 50,
-        opacity: 0,
+        // opacity: 0,
     },
     animate: {
         y: 0,

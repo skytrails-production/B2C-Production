@@ -89,6 +89,12 @@ const ReturnReviewInternational = () => {
     const markUpamount =
         reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
 
+        const [finalAmount, setFinalAmount] = useState(0);
+
+        const handleFinalAmountChange = (amount) => {
+          setFinalAmount(amount);
+        };
+
 
     const handleModalClose = () => {
         setIsLoginModalOpen(false)
@@ -201,9 +207,10 @@ const ReturnReviewInternational = () => {
                     const token = SecureStorage.getItem("jwtToken");
                     const payload = {
 
-                        "refund_amount": transactionAmount ||
+                        "refund_amount": Number(finalAmount).toFixed(0) ||
                             (!isDummyTicketBooking
-                                ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                                // ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                                ? Number(finalAmount).toFixed(0)
                                 : 99),
                         "txnId": refundTxnId,
                     }
@@ -257,10 +264,16 @@ const ReturnReviewInternational = () => {
                     const token = SecureStorage.getItem("jwtToken");
                     const payload = {
 
-                        "refund_amount": transactionAmount ||
-                            (!isDummyTicketBooking
-                                ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
-                                : 99),
+                        // "refund_amount": transactionAmount ||
+                        //     (!isDummyTicketBooking
+                        //         ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                        //         : 99),
+                                "refund_amount": Number(finalAmount).toFixed(2) ||
+                                (!isDummyTicketBooking
+                                    ?
+                                    //  (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                                    Number(finalAmount)
+                                    : 99),
                         "txnId": refundTxnId,
                     }
 
@@ -326,7 +339,7 @@ const ReturnReviewInternational = () => {
             isDummyTicketBooking
         ) {
             setLoaderPayment(false);
-            navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl");
+            navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl",{state:{finalamount:finalAmount}});
         }
         else if (
             reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
@@ -386,7 +399,8 @@ const ReturnReviewInternational = () => {
                 return {
                     ...item,
                     Email: apiURL.flightEmail,
-                    ContactNo: apiURL.phoneNo,
+                    // ContactNo: apiURL.phoneNo,
+                    ContactNo:Passengers[0].ContactNo,
                     PassportExpiry: isPassportRequired ? convertDateFormat(item.PassportExpiry) : "",
                 };
             }),
@@ -455,9 +469,13 @@ const ReturnReviewInternational = () => {
             phone: Passengers[0].ContactNo,
             amount:
 
-                transactionAmount ||
+                // transactionAmount ||
+                // (!isDummyTicketBooking
+                //     ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                //     : 99),
+                Number(finalAmount).toFixed(2) ||
                 (!isDummyTicketBooking
-                    ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                    ? Number(finalAmount).toFixed(2)
                     : 99),
             // amount: 1,
 
@@ -556,7 +574,8 @@ const ReturnReviewInternational = () => {
                     ...item,
                     PassportExpiry: isPassportRequired ? convertDateFormat(item.PassportExpiry) : "",
                     Email: apiURL.flightEmail,
-                    ContactNo: apiURL.phoneNo,
+                    // ContactNo: apiURL.phoneNo,
+                    ContactNo: Passengers[0].ContactNo,
                 };
             }),
             EndUserIp: reducerState?.ip?.ipData,
@@ -1037,6 +1056,7 @@ const ReturnReviewInternational = () => {
                     <div className="col-lg-3 col-md-3">
                         <RetSummIntlWithCoupon
                             toggle={toggle}
+                            onFinalAmountChange={handleFinalAmountChange}
                             toggleState={toggleState}
                             transactionAmount={setTransactionAmountState}
                             Amount={transactionAmount}

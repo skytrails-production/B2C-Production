@@ -1,4 +1,4 @@
-import { takeLatest, call, put } from "redux-saga/effects";
+import { takeLatest, call, put, takeEvery } from "redux-saga/effects";
 import userApi from "../API/api";
 import {
     fetchBookRoomHotelGRN,
@@ -64,7 +64,7 @@ function* hotelBookRoomRequest(action) {
 
 
 export function* hotelSearchWatcherGRN() {
-    yield takeLatest(HOTEL_REQUESTGRN, hotelRequest);
+    yield takeEvery(HOTEL_REQUESTGRN, hotelRequest);
     yield takeLatest(HOTEL_SINGLE_DETAIL_REQUEST, hotelSingleDetails);
     yield takeLatest(HOTEL_GALLERY_REQUEST, hotelGallery);
     yield takeLatest(HOTEL_ROOMSELECT_REQUEST, hotelSelectRoom);

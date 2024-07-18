@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import logo from "../../../images/red-logo.png";
 import { useDispatch, useSelector } from "react-redux";
 import userApi from "../../../Redux/API/api";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { debounce } from "lodash";
 
 const BookedTicketInternationalDB = () => {
@@ -23,7 +23,8 @@ const BookedTicketInternationalDB = () => {
 
     const couponvalue = sessionStorage.getItem("couponCode");
 
-
+    const location = useLocation();
+    const { finalamount } = location.state || {};
 
     const addBookingDetailsGoing = () => {
         if (bookingDataLcc) {
@@ -36,10 +37,12 @@ const BookedTicketInternationalDB = () => {
                 origin: bookingDataLcc?.FlightItinerary?.Origin,
                 destination: bookingDataLcc?.FlightItinerary?.Destination,
                 paymentStatus: "success",
-                totalAmount: couponvalue
-                    ? (Number(bookingDataLcc?.FlightItinerary?.Fare?.OfferedFare) + (Number(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare) * Number(markUpamount))).toFixed(0)
-                    : (Number(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare) +
-                        (Number(markUpamount) * Number(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare))).toFixed(0)
+                totalAmount: 
+                // couponvalue
+                //     ? (Number(bookingDataLcc?.FlightItinerary?.Fare?.OfferedFare) + (Number(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare) * Number(markUpamount))).toFixed(0)
+                //     : (Number(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare) +
+                //         (Number(markUpamount) * Number(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare))).toFixed(0)
+               Number( finalamount)
                 ,
                 airlineDetails: bookingDataLcc?.FlightItinerary?.Segments.map(
                     (item, index) => {
@@ -105,14 +108,16 @@ const BookedTicketInternationalDB = () => {
                 origin: bookingDataNonLcc?.FlightItinerary?.Origin,
                 destination: bookingDataNonLcc?.FlightItinerary?.Destination,
                 paymentStatus: "success",
-                totalAmount: couponvalue
+                totalAmount:
+                //  couponvalue
                     // ? bookingDataNonLcc?.FlightItinerary?.Fare?.OfferedFare
                     // : parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) +
                     // markUpamount,
 
-                    ? (Number(bookingDataNonLcc?.FlightItinerary?.Fare?.OfferedFare) + (Number(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) * Number(markUpamount))).toFixed(0)
-                    : (Number(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) +
-                        (Number(markUpamount) * Number(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare))).toFixed(0)
+                    // ? (Number(bookingDataNonLcc?.FlightItinerary?.Fare?.OfferedFare) + (Number(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) * Number(markUpamount))).toFixed(0)
+                    // : (Number(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) +
+                    //     (Number(markUpamount) * Number(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare))).toFixed(0)
+                    Number(finalamount)
                 ,
 
                 airlineDetails: bookingDataNonLcc?.FlightItinerary?.Segments.map(

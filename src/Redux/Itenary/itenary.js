@@ -56,6 +56,24 @@ export const hotelActionItenerary = (data) => {
 };
 
 
+
+export const fetchHotelSelectedRoomSuccess = (data) => {
+    return {
+        type: types.SELECTED_HOTELROOM_SUCCESS,
+        payload: data,
+    };
+};
+
+export const fetchHotelSelectedRoomRequest = (data) => {
+    if (data) {
+        return {
+            type: types.SELECTED_HOTELROOM_REQUEST,
+            payload: data,
+        };
+    }
+};
+
+
 // hotel search redux 
 
 
@@ -112,6 +130,32 @@ export const setFlightToSuccess = (data) => {
 
 
 
+// handle flight oneway
+
+
+export const itenaryOnewayRequest = (data) => {
+    if (data) {
+        return {
+            type: types.FLIGHT_ONEWAY_REQUEST,
+            payload: data,
+        };
+    }
+};
+
+export const itenaryOnewaySuccess = (data) => {
+    return {
+        type: types.FLIGHT_ONEWAY_SUCCESS,
+        payload: data,
+    };
+}
+
+
+
+// handle flight oneway 
+
+
+
+
 // handle domestic return 
 
 export const setSelectedFlightRequest = (data) => {
@@ -122,6 +166,7 @@ export const setSelectedFlightRequest = (data) => {
         };
     }
 };
+
 
 export const setSelectedFlightSuccess = (data) => {
     return {
@@ -190,10 +235,16 @@ export const handleActivitySuccess = (data) => {
 
 
 
-export const clearFlightSelectedIteneraryReducer = (data) => {
+export const clearFlightSelectedIteneraryReducer = () => {
     return {
         type: types.CLEAR_FLIGHT_REDUCER,
-        payload: data,
+    };
+}
+
+
+export const clearOneWayItenary = () => {
+    return {
+        type: types.CLEAR_ITENARYONEWAY_REDUCER,
     };
 }
 

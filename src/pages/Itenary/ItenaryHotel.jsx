@@ -1,74 +1,126 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import hotelNotFound from "../../images/hotelNotFound.jpg";
 import starsvg from "../../images/star.svg";
 import { PlusOutlined, SyncOutlined } from '@ant-design/icons';
 import { Modal, Button } from 'antd';
 
+import freeWifi from "../GRMHotel/SVGs/freeWifi.svg"
+import freeBreakfast from "../GRMHotel/SVGs/freeBreakfast.svg"
+import freeParking from "../GRMHotel/SVGs/freeParking.svg"
+import drinkingWater from "../GRMHotel/SVGs/DrinkingWater.svg"
+import expressCheckin from "../GRMHotel/SVGs/expressCheckin.svg"
+import welcomeDrink from "../GRMHotel/SVGs/welcomeDrink.svg"
+import freeGym from "../GRMHotel/SVGs/freeGym.svg"
+
+
 import dayjs from "dayjs";
-import { hotelRoomAction, hotelSearchInfoAction } from "../../Redux/Hotel/hotel";
 import HotelLists from "./HotelLists";
-import { setHotelRoomSelectionRequest } from "../../Redux/Itenary/itenary";
+import { fetchHotelSelectedRoomRequest, setHotelRoomSelectionRequest } from "../../Redux/Itenary/itenary";
+import { apiURL } from "../../Constants/constant";
+import axios from "axios";
 
 const ItenaryHotel = () => {
     const dispatch = useDispatch();
     const reducerState = useSelector((state) => state);
-    const result = reducerState?.Itenerary?.hotelResultArray;
-    const hotelRoom = reducerState?.hotelSearchResult?.hotelRoom?.GetHotelRoomResult;
+    const hotelRoomnew = reducerState?.Itenerary?.selectedHotelRoom;
+    const result = reducerState?.Itenerary?.hotelResultArray || [];
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isModalVisible2, setIsModalVisible2] = useState(false);
-    const [disabledOption, setDisabledOption] = useState(
-        reducerState?.hotelSearchResult?.hotelRoom?.GetHotelRoomResult
-            ?.RoomCombinations?.RoomCombination[0]?.RoomIndex
-    );
-    const [selectedRoom, setSelectedRoom] = useState(null);
+    const markUpamount = reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup;
     const [selectedHotel, setSelectedHotel] = useState([]);
-    const [roomChangeLoading, setroomChangeLoading] = useState(false)
+    const [hotelChangeLoading, setHotelChangeLoading] = useState(false);
+    const [roomLoader, setRoomLoader] = useState({});
+    const [hotelIndex, setHotelIndex] = useState(0);
+    const [isRoomFunctionInvoked, setIsRoomFunctionInvoked] = useState(false);
+    const [roomDetails, setRoomDetails] = useState([]);
+
+    const [latestHotelDet, setLatestHotelDet] = useState(reducerState?.Itenerary?.selectedHotelRoom);
 
     useEffect(() => {
-        const results = result.map(item => item?.data?.data?.HotelSearchResult?.HotelResults[0]);
-        setSelectedHotel(results);
-    }, [result]);
-    const [isRoomFunctionInvoked, setIsRoomFunctionInvoked] = useState(false);
-    const [roomLoader, setRoomLoader] = useState(false);
-    const [hotelIndex, setHotelIndex] = useState(0);
+        setLatestHotelDet(reducerState?.Itenerary?.selectedHotelRoom)
+    }, [reducerState?.Itenerary?.selectedHotelRoom, selectedHotel])
 
-    const markUpamount =
-        reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup;
+    const parseDate = (dateString) => {
+        const [year, month, day] = dateString?.split('-');
+        return new Date(year, month - 1, day);
+    };
 
-    const GetRoomFunction = (item, index) => {
+    const getSortedResults = (results) => {
+        return [...results].sort((a, b) => {
+            const dateA = parseDate(a?.data?.data?.HotelSearchResult?.CheckInDate);
+            const dateB = parseDate(b?.data?.data?.HotelSearchResult?.CheckInDate);
+            return dateA - dateB;
+        });
+    };
 
-        // console.log(item, index, "item and index ")
+    const sortedResults = useMemo(() => getSortedResults(result), [result]);
 
-        if (selectedRoom == null) {
-            setRoomLoader(true);
-            setIsRoomFunctionInvoked(true);
-            const payload = {
-                ResultIndex: item?.ResultIndex,
-                HotelCode: item?.HotelCode,
-                EndUserIp: reducerState?.ip?.ipData,
-                TokenId: reducerState?.ip?.tokenData,
-                TraceId: reducerState?.Itenerary?.hotelResultArray?.[index]?.data?.data?.HotelSearchResult?.TraceId,
-            };
+    useEffect(() => {
+        if (sortedResults.length > 0) {
+            const results = sortedResults.map(item => ({
+                ...item?.data?.data?.HotelSearchResult?.HotelResults?.[0],
+                selectedRoom: null
+            }));
+            setSelectedHotel(results);
+            dispatch(fetchHotelSelectedRoomRequest(results))
+        }
+    }, [sortedResults]);
 
-            try {
-                dispatch(hotelSearchInfoAction(payload));
-                dispatch(hotelRoomAction(payload));
-            } catch (error) {
-                console.error('Error handling room function:', error);
+    const GetRoomFunction = async (item, index) => {
+
+        setRoomLoader((prev) => ({ ...prev, [index]: true }));
+        setIsRoomFunctionInvoked(true);
+        const payload = {
+            ResultIndex: item?.ResultIndex,
+            HotelCode: item?.HotelCode,
+            EndUserIp: reducerState?.ip?.ipData,
+            TokenId: reducerState?.ip?.tokenData,
+            TraceId: sortedResults?.[index]?.data?.data?.HotelSearchResult?.TraceId,
+        };
+
+        try {
+            const res = await axios({
+                method: "post",
+                url: `${apiURL.baseURL}/skyTrails/hotel/room`,
+                data: payload,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (res?.data?.data?.GetHotelRoomResult?.HotelRoomsDetails?.length > 0) {
+                setRoomDetails(res.data.data.GetHotelRoomResult.HotelRoomsDetails);
+                setHotelIndex(index);  // Set the current hotel index
+                showModal();
             }
-        } else {
-            showModal();
+
+        } catch (error) {
+            console.error('Error handling room function:', error);
+        } finally {
+            setRoomLoader((prev) => ({ ...prev, [index]: false }));
         }
     };
 
+    const handleRoomSelect = (room) => {
+        const updatedHotels = [...selectedHotel];
+        updatedHotels[hotelIndex].selectedRoom = room;
+        setSelectedHotel(updatedHotels);
+
+        handleOk();
+    };
+
     useEffect(() => {
-        if (isRoomFunctionInvoked && reducerState?.hotelSearchResult?.isLoadingHotelRoom === false) {
-            setRoomLoader(false);
-            showModal();
-            setIsRoomFunctionInvoked(false);
-        }
-    }, [reducerState?.hotelSearchResult?.isLoadingHotelRoom, isRoomFunctionInvoked]);
+        dispatch(fetchHotelSelectedRoomRequest(selectedHotel))
+    }, [selectedHotel])
+
+    const handleHotelClick = (hotelData, index) => {
+        const updatedHotels = [...latestHotelDet];
+        updatedHotels[hotelIndex] = hotelData;
+        setLatestHotelDet(updatedHotels);
+        setHotelChangeLoading(false);
+        handleOk2();
+    };
 
     const showModal = () => {
         setIsModalVisible(true);
@@ -94,89 +146,17 @@ const ItenaryHotel = () => {
         setIsModalVisible2(false);
     };
 
-    const handleHotelClick = (hotelData) => {
-        const updatedHotels = [...selectedHotel];
-        updatedHotels[hotelIndex] = hotelData;
-        setSelectedHotel(updatedHotels);
-        setroomChangeLoading(false)
-        handleOk2();
-    };
 
-    const roomComponent = (RoomIndex, RoomIndexArr, col, row) => {
-        const firstFilteredArray = hotelRoom?.HotelRoomsDetails?.map((item) => {
-            if (disabledOption?.includes(item?.RoomIndex)) {
-                return { ...item, disabled: false };
-            } else {
-                return { ...item, disabled: true };
-            }
-        });
-
-        const filteredComponent = firstFilteredArray?.filter((item) => {
-            return item?.RoomIndex == RoomIndex;
-        });
-
-        const currData = new Date();
-        const formattedDate = dayjs(filteredComponent[0]?.LastCancellationDate).format("DD MMM, YY");
-
-        let displayText;
-        if (currData > dayjs(filteredComponent[0]?.LastCancellationDate)) {
-            displayText = "No Cancellation";
-        } else {
-            displayText = formattedDate;
-        }
-
-        const handleSelectRoom = async () => {
-            setSelectedRoom(filteredComponent[0]);
-            dispatch(setHotelRoomSelectionRequest(filteredComponent[0]));
-            setDisabledOption(RoomIndexArr);
-            setIsModalVisible(false);
-        };
-
-        return (
-            <div className="offer_area">
-                <div className="inneraccorHotel">
-                    <div className="roomTypeName">
-                        <p className="first">{filteredComponent[0]?.RoomTypeName}</p>
-                    </div>
-
-                    <div className="ratePlan">
-                        <input
-                            className="form-check-input"
-                            type="checkbox"
-                            style={{ width: "25px", height: "25px" }}
-                            value={filteredComponent[0]?.RoomIndex}
-                            disabled={row >= 0 && col > 0 && filteredComponent[0].disabled}
-                            checked={!filteredComponent[0].disabled}
-                            onClick={handleSelectRoom}
-                        />
-                        <p className="text">{filteredComponent[0]?.RatePlanName}</p>
-                    </div>
-                    <div className="smolking">
-                        <p>Smoking Preference: {" "}{filteredComponent[0]?.SmokingPreference}</p>
-                    </div>
-                    <p className="text">
-                        Last Cancellation till: {displayText}
-                    </p>
-                </div>
-                <div className="priceCheck">
-                    <p className="price">₹{Number(markUpamount) * Number(filteredComponent[0]?.Price?.PublishedPriceRoundedOff) + Number(filteredComponent[0]?.Price?.PublishedPriceRoundedOff)}</p>
-                    <div>
-                        <h3 onClick={handleSelectRoom}>Select Room</h3>
-                    </div>
-                </div>
-            </div>
-        );
-    };
 
     return (
         <>
-            {selectedHotel?.map((item, index) => (
-                <>
+            {latestHotelDet?.map((item, index) => (
+                <div key={index}>
                     <div className="headingItenary">
                         <h6>Stays in {reducerState?.Itenerary?.itenaryPayload?.cityAndNight?.[index]?.from?.Destination} {" "} {reducerState?.Itenerary?.itenaryPayload?.cityAndNight?.[index]?.night} {" "} Nights </h6>
                     </div>
                     <div className="dayWiseItenaryMainBox mb-3">
-                        <div className="dayWiseItenaryInnerBox" key={index}>
+                        <div className="dayWiseItenaryInnerBox">
                             <div className="hotelResultBoxSearch">
                                 <div>
                                     <div className="hotelImage">
@@ -216,24 +196,152 @@ const ItenaryHotel = () => {
                                 </div>
                             </div>
 
-                            {selectedRoom && (
-                                <div className="roomCompo">
-                                    <div className="offer_area">
-                                        <div>
-                                            <div className="insideOffer">
-                                                <div className="inneraccorHotel">
-                                                    <div className="ratePlan">
-                                                        <p className="insideOfferText">{selectedRoom?.RoomTypeName}</p>
+                            <div>
+                                {item.selectedRoom && (
+                                    // <div className="selectedRoomDetails">
+                                    //     <h6>Selected Room:</h6>
+                                    //     <p>{item.selectedRoom.RoomType}</p>
+                                    //     <p>{item.selectedRoom.RoomDescription}</p>
+                                    // </div>
+
+                                    <div className="roomCompo" >
+                                        <div className="offer_area" >
+
+                                            <div>
+                                                <div className="insideOffer">
+
+                                                    <div className="inneraccorHotel">
+                                                        <div className="ratePlan" >
+                                                            <p className="insideOfferText">{item.selectedRoom?.RoomTypeName}</p>
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <div className="othInc">
+                                                    {item.selectedRoom?.IsPANMandatory && (
+                                                        <div className="othIncInner">
+                                                            <div className="d-flex justify-content-start align-items-center gap-2">
+                                                                <p className="panDesign">Pan Required</p>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                    {item.selectedRoom?.non_refundable && (
+                                                        <div className="othIncInner">
+                                                            <div className="d-flex justify-content-start align-items-center gap-2">
+                                                                <p className="panDesign2">Non Refundable</p>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                    {item.selectedRoom?.LastCancellationDate && (
+                                                        <div className="othIncInner">
+                                                            <div className="d-flex justify-content-start align-items-center gap-2">
+                                                                <p className="panDesign3">
+                                                                    Refundable (Cancel Before {dayjs(item.selectedRoom?.LastCancellationDate).format("DD MMM, YY")})
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className="othInc">
+                                                    {item.selectedRoom?.Amenity?.[0]?.split(',').map((inclusion, e) => {
+                                                        const trimmedInclusion = inclusion.trim().toLowerCase();
+
+                                                        return (
+                                                            <div className="othIncInner" key={e}>
+                                                                <div className="d-flex justify-content-start align-items-center gap-2">
+                                                                    {trimmedInclusion === "free wifi" && (
+                                                                        <>
+                                                                            <img src={freeWifi} alt="wifi" />
+                                                                            <p className="panDesign3">Free WiFi</p>
+                                                                        </>
+                                                                    )}
+                                                                    {trimmedInclusion === "free internet" && (
+                                                                        <>
+                                                                            <img src={freeWifi} alt="wifi" />
+                                                                            <p className="panDesign3">Free internet</p>
+                                                                        </>
+                                                                    )}
+                                                                    {trimmedInclusion === "free breakfast" && (
+                                                                        <>
+                                                                            <img src={freeBreakfast} alt="breakfast" />
+                                                                            <p className="panDesign3">Free Breakfast</p>
+                                                                        </>
+                                                                    )}
+                                                                    {trimmedInclusion === "free self parking" && (
+                                                                        <>
+                                                                            <img src={freeParking} alt="parking" />
+                                                                            <p className="panDesign3">Free Self Parking</p>
+                                                                        </>
+                                                                    )}
+                                                                    {trimmedInclusion === "parking" && (
+                                                                        <>
+                                                                            <img src={freeParking} alt="parking" />
+                                                                            <p className="panDesign3">Parking</p>
+                                                                        </>
+                                                                    )}
+                                                                    {trimmedInclusion === "free parking" && (
+                                                                        <>
+                                                                            <img src={freeParking} alt="parking" />
+                                                                            <p className="panDesign3">Free Parking</p>
+                                                                        </>
+                                                                    )}
+                                                                    {trimmedInclusion === "free valet parking" && (
+                                                                        <>
+                                                                            <img src={freeParking} alt="valet parking" />
+                                                                            <p className="panDesign3">Free Valet Parking</p>
+                                                                        </>
+                                                                    )}
+                                                                    {trimmedInclusion === "drinking water" && (
+                                                                        <>
+                                                                            <img src={drinkingWater} alt="drinking water" />
+                                                                            <p className="panDesign3">Drinking Water</p>
+                                                                        </>
+                                                                    )}
+                                                                    {trimmedInclusion === "express check-in" && (
+                                                                        <>
+                                                                            <img src={expressCheckin} alt="express check-in" />
+                                                                            <p className="panDesign3">Express Check-in</p>
+                                                                        </>
+                                                                    )}
+                                                                    {trimmedInclusion === "welcome drink" && (
+                                                                        <>
+                                                                            <img src={welcomeDrink} alt="welcome drink" />
+                                                                            <p className="panDesign3">Welcome Drink</p>
+                                                                        </>
+                                                                    )}
+                                                                    {trimmedInclusion === "free fitness center access" && (
+                                                                        <>
+                                                                            <img src={freeGym} alt="fitness center" />
+                                                                            <p className="panDesign3">Free Fitness Center Access</p>
+                                                                        </>
+                                                                    )}
+                                                                </div>
+
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                            <div className="priceCheck">
+                                                <span style={{ fontWeight: "600", fontSize: "15px", }}>₹  {(Number(markUpamount) * Number(item.selectedRoom?.Price?.PublishedPriceRoundedOff) + Number(item.selectedRoom?.Price?.PublishedPriceRoundedOff)).toFixed(0)}</span>
+
+
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
+
                             <div className="addActvityRoomItenary mt-4 d-flex gap-2 justify-content-end">
-                                <Button type="primary" icon={<PlusOutlined />} danger onClick={() => GetRoomFunction(item, index)} loading={roomLoader}>
-                                    {selectedRoom !== null ? "Change Room" : "Select Room"}
+                                <Button
+                                    type="primary"
+                                    icon={<PlusOutlined />}
+                                    danger
+                                    onClick={() => {
+                                        GetRoomFunction(item, index);
+                                    }}
+                                    loading={roomLoader[index]}
+                                >
+                                    Select Room
                                 </Button>
 
                                 <Button
@@ -241,42 +349,66 @@ const ItenaryHotel = () => {
                                     icon={<SyncOutlined />}
                                     warning
                                     onClick={() => {
-                                        setroomChangeLoading(true)
+                                        setHotelChangeLoading(true);
                                         setHotelIndex(index);
                                         showModal2();
                                     }}
-                                    loading={roomChangeLoading}
+                                    loading={hotelChangeLoading && hotelIndex === index}
                                 >
                                     Change Hotel
                                 </Button>
                             </div>
                         </div>
                     </div>
-                </>
+                </div>
             ))}
-            <Modal width={800} title="Select Activity" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                {hotelRoom?.RoomCombinations?.RoomCombination.map((item1, index1) => (
-                    <div className="container" key={index1}>
-                        <div className="row">
-                            <div className="col-lg-12">
-                                {item1?.RoomIndex?.map((item2, index2) => {
-                                    if (index2 == 0) {
-                                        return (
-                                            <div className="roomCompo" key={index2}>
-                                                {roomComponent(item2, item1?.RoomIndex, index2, index1)}
-                                            </div>
-                                        );
-                                    }
-                                })}
+
+            <Modal width={1500} title="Select Room" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                <div>
+                    {roomDetails.map((room, index) => (
+                        // <div key={index} onClick={() => handleRoomSelect(room)} className="roomDetail">
+                        //     <h6>{room.RoomType}</h6>
+                        //     <p>{room.RoomDescription}</p>
+                        // </div>
+                        <div key={index} className="offer_area" onClick={() => handleRoomSelect(room)}>
+                            <div className="inneraccorHotel">
+                                <div className="roomTypeName">
+                                    <p className="first">{room?.RoomTypeName}</p>
+                                </div>
+
+                                <div className="ratePlan">
+                                    {/* <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        style={{ width: "25px", height: "25px" }}
+                                        value={filteredComponent[0]?.RoomIndex}
+                                        disabled={row >= 0 && col > 0 && filteredComponent[0].disabled}
+                                        checked={!filteredComponent[0].disabled}
+                                        onClick={handleSelectRoom}
+                                    /> */}
+                                    <p className="text">{room?.RatePlanName}</p>
+                                </div>
+                                <div className="smolking">
+                                    <p>Smoking Preference: {" "}{room?.SmokingPreference}</p>
+                                </div>
+                                {/* <p className="text">
+                                    Last Cancellation till: {displayText}
+                                </p> */}
+                            </div>
+                            <div className="priceCheck">
+                                <p className="price">₹{Number(markUpamount) * Number(room?.Price?.PublishedPriceRoundedOff) + Number(room?.Price?.PublishedPriceRoundedOff)}</p>
+                                <div>
+                                    <h3>Select Room</h3>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </Modal>
 
             <Modal width={1500} title="Select Activity" open={isModalVisible2} onOk={handleOk2} onCancel={handleCancel2}>
                 <div className="">
-                    <HotelLists result={result[hotelIndex]?.data?.data?.HotelSearchResult} onHotelClick={handleHotelClick} />
+                    <HotelLists result={sortedResults[hotelIndex]?.data?.data?.HotelSearchResult} onHotelClick={handleHotelClick} />
                 </div>
             </Modal>
         </>
@@ -284,297 +416,3 @@ const ItenaryHotel = () => {
 };
 
 export default ItenaryHotel;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// {
-//     selectedRoom && (
-
-//         <div className="roomCompo" >
-//             <div className="offer_area" >
-
-//                 <div>
-//                     <div className="insideOffer">
-
-//                         <div className="inneraccorHotel">
-//                             <div className="ratePlan" >
-//                                 <p className="insideOfferText">{selectedRoom?.RoomTypeName}</p>
-//                             </div>
-//                         </div>
-//                     </div>
-//                     <div className="othInc">
-//                         {selectedRoom?.IsPANMandatory && (
-//                             <div className="othIncInner">
-//                                 <div className="d-flex justify-content-start align-items-center gap-2">
-//                                     <p className="panDesign">Pan Required</p>
-//                                 </div>
-//                             </div>
-//                         )}
-//                         {selectedRoom?.non_refundable && (
-//                             <div className="othIncInner">
-//                                 <div className="d-flex justify-content-start align-items-center gap-2">
-//                                     <p className="panDesign2">Non Refundable</p>
-//                                 </div>
-//                             </div>
-//                         )}
-//                         {selectedRoom?.LastCancellationDate && (
-//                             <div className="othIncInner">
-//                                 <div className="d-flex justify-content-start align-items-center gap-2">
-//                                     <p className="panDesign3">
-//                                         Refundable (Cancel Before {dayjs(selectedRoom?.LastCancellationDate).format("DD MMM, YY")})
-//                                     </p>
-//                                 </div>
-//                             </div>
-//                         )}
-//                     </div>
-//                     <div className="othInc">
-//                         {selectedRoom?.Amenity?.[0]?.split(',').map((inclusion, e) => {
-//                             const trimmedInclusion = inclusion.trim().toLowerCase();
-
-//                             return (
-//                                 <div className="othIncInner" key={e}>
-//                                     <div className="d-flex justify-content-start align-items-center gap-2">
-//                                         {trimmedInclusion === "free wifi" && (
-//                                             <>
-//                                                 <img src={freeWifi} alt="wifi" />
-//                                                 <p className="panDesign3">Free WiFi</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "free internet" && (
-//                                             <>
-//                                                 <img src={freeWifi} alt="wifi" />
-//                                                 <p className="panDesign3">Free internet</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "free breakfast" && (
-//                                             <>
-//                                                 <img src={freeBreakfast} alt="breakfast" />
-//                                                 <p className="panDesign3">Free Breakfast</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "free self parking" && (
-//                                             <>
-//                                                 <img src={freeParking} alt="parking" />
-//                                                 <p className="panDesign3">Free Self Parking</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "parking" && (
-//                                             <>
-//                                                 <img src={freeParking} alt="parking" />
-//                                                 <p className="panDesign3">Parking</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "free parking" && (
-//                                             <>
-//                                                 <img src={freeParking} alt="parking" />
-//                                                 <p className="panDesign3">Free Parking</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "free valet parking" && (
-//                                             <>
-//                                                 <img src={freeParking} alt="valet parking" />
-//                                                 <p className="panDesign3">Free Valet Parking</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "drinking water" && (
-//                                             <>
-//                                                 <img src={drinkingWater} alt="drinking water" />
-//                                                 <p className="panDesign3">Drinking Water</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "express check-in" && (
-//                                             <>
-//                                                 <img src={expressCheckin} alt="express check-in" />
-//                                                 <p className="panDesign3">Express Check-in</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "welcome drink" && (
-//                                             <>
-//                                                 <img src={welcomeDrink} alt="welcome drink" />
-//                                                 <p className="panDesign3">Welcome Drink</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "free fitness center access" && (
-//                                             <>
-//                                                 <img src={freeGym} alt="fitness center" />
-//                                                 <p className="panDesign3">Free Fitness Center Access</p>
-//                                             </>
-//                                         )}
-//                                     </div>
-
-//                                 </div>
-//                             );
-//                         })}
-//                     </div>
-//                 </div>
-//                 <div className="priceCheck">
-//                     <span style={{ fontWeight: "600", fontSize: "15px", }}>₹  {(Number(markUpamount) * Number(selectedRoom?.Price?.PublishedPriceRoundedOff) + Number(selectedRoom?.Price?.PublishedPriceRoundedOff)).toFixed(0)}</span>
-
-
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// {
-//     selectedRoom && (
-
-//         <div className="roomCompo" >
-//             <div className="offer_area" >
-
-//                 <div>
-//                     <div className="insideOffer">
-
-//                         <div className="inneraccorHotel">
-//                             <div className="ratePlan" >
-//                                 <p className="insideOfferText">{selectedRoom?.RoomTypeName}</p>
-//                             </div>
-//                         </div>
-//                     </div>
-//                     <div className="othInc">
-//                         {selectedRoom?.IsPANMandatory && (
-//                             <div className="othIncInner">
-//                                 <div className="d-flex justify-content-start align-items-center gap-2">
-//                                     <p className="panDesign">Pan Required</p>
-//                                 </div>
-//                             </div>
-//                         )}
-//                         {selectedRoom?.non_refundable && (
-//                             <div className="othIncInner">
-//                                 <div className="d-flex justify-content-start align-items-center gap-2">
-//                                     <p className="panDesign2">Non Refundable</p>
-//                                 </div>
-//                             </div>
-//                         )}
-//                         {selectedRoom?.LastCancellationDate && (
-//                             <div className="othIncInner">
-//                                 <div className="d-flex justify-content-start align-items-center gap-2">
-//                                     <p className="panDesign3">
-//                                         Refundable (Cancel Before {dayjs(selectedRoom?.LastCancellationDate).format("DD MMM, YY")})
-//                                     </p>
-//                                 </div>
-//                             </div>
-//                         )}
-//                     </div>
-//                     <div className="othInc">
-//                         {selectedRoom?.Amenity?.[0]?.split(',').map((inclusion, e) => {
-//                             const trimmedInclusion = inclusion.trim().toLowerCase();
-
-//                             return (
-//                                 <div className="othIncInner" key={e}>
-//                                     <div className="d-flex justify-content-start align-items-center gap-2">
-//                                         {trimmedInclusion === "free wifi" && (
-//                                             <>
-//                                                 <img src={freeWifi} alt="wifi" />
-//                                                 <p className="panDesign3">Free WiFi</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "free internet" && (
-//                                             <>
-//                                                 <img src={freeWifi} alt="wifi" />
-//                                                 <p className="panDesign3">Free internet</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "free breakfast" && (
-//                                             <>
-//                                                 <img src={freeBreakfast} alt="breakfast" />
-//                                                 <p className="panDesign3">Free Breakfast</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "free self parking" && (
-//                                             <>
-//                                                 <img src={freeParking} alt="parking" />
-//                                                 <p className="panDesign3">Free Self Parking</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "parking" && (
-//                                             <>
-//                                                 <img src={freeParking} alt="parking" />
-//                                                 <p className="panDesign3">Parking</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "free parking" && (
-//                                             <>
-//                                                 <img src={freeParking} alt="parking" />
-//                                                 <p className="panDesign3">Free Parking</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "free valet parking" && (
-//                                             <>
-//                                                 <img src={freeParking} alt="valet parking" />
-//                                                 <p className="panDesign3">Free Valet Parking</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "drinking water" && (
-//                                             <>
-//                                                 <img src={drinkingWater} alt="drinking water" />
-//                                                 <p className="panDesign3">Drinking Water</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "express check-in" && (
-//                                             <>
-//                                                 <img src={expressCheckin} alt="express check-in" />
-//                                                 <p className="panDesign3">Express Check-in</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "welcome drink" && (
-//                                             <>
-//                                                 <img src={welcomeDrink} alt="welcome drink" />
-//                                                 <p className="panDesign3">Welcome Drink</p>
-//                                             </>
-//                                         )}
-//                                         {trimmedInclusion === "free fitness center access" && (
-//                                             <>
-//                                                 <img src={freeGym} alt="fitness center" />
-//                                                 <p className="panDesign3">Free Fitness Center Access</p>
-//                                             </>
-//                                         )}
-//                                     </div>
-
-//                                 </div>
-//                             );
-//                         })}
-//                     </div>
-//                 </div>
-//                 <div className="priceCheck">
-//                     <span style={{ fontWeight: "600", fontSize: "15px", }}>₹  {(Number(markUpamount) * Number(selectedRoom?.Price?.PublishedPriceRoundedOff) + Number(selectedRoom?.Price?.PublishedPriceRoundedOff)).toFixed(0)}</span>
-
-
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }

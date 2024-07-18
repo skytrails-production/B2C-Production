@@ -3,11 +3,13 @@ import dayjs from 'dayjs';
 import React from 'react'
 import { useSelector } from 'react-redux'
 
-const ShowFlightDomestic = () => {
+const ShowFlightDomestic = ({ flight }) => {
 
     const reducerState = useSelector((state) => state);
 
-    const domesticFLight = reducerState.Itenerary?.selectedFlight?.[0]
+    const domesticFLight = flight?.[0]
+
+    // console.log(domesticFLight, "domestc flight")
 
     return (
         <div>

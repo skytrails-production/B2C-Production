@@ -20,6 +20,7 @@ import {
   validateEmail,
   validatePhoneNumber,
   validateName,
+  validateAge,
 } from "../../../utility/validationFunctions";
 
 const variants = {
@@ -77,9 +78,10 @@ const BusPassengerDetail = () => {
   const passengerTemplate = {
     LeadPassenger: true,
     PassengerId: 0,
-    Title: "Mr",
+    // Title: "Mr",
+    Title: "",
     Address: "",
-    Age: 22,
+    Age: "",
     Email: "",
     FirstName: "",
     Gender: 1,
@@ -103,6 +105,7 @@ const BusPassengerDetail = () => {
 
   const handleServiceChange = (e, index) => {
     const { name, value } = e.target;
+    // console.log(name, value, "");
     const updatedPassenger = [...passengerData];
     updatedPassenger[index] = {
       ...updatedPassenger[index],
@@ -111,6 +114,8 @@ const BusPassengerDetail = () => {
 
     setPassengerData(updatedPassenger);
   };
+
+  // console.log(reducerState, "reducerState");
   // console.log(passengerData);
   // function validateEmail(email) {
   //   const regex =
@@ -135,14 +140,16 @@ const BusPassengerDetail = () => {
   //     return true;
   //   }
   // }
+
   function handleSeatBlock() {
     const payload = {
       Passenger: passengerData?.map((item, index) => {
+        // console.log(item?.Gender, "cjjjd");
         return {
           ...item,
           Seat: parsedSeatData?.blockedSeatArray[index],
           Email: apiURL.flightEmail,
-          Phoneno: apiURL.phoneNo,
+          Title: item?.Gender == "1" ? "Mr." : "Miss.",
         };
       }),
 
@@ -163,46 +170,8 @@ const BusPassengerDetail = () => {
   const selectedBus = busFullData.BusResults.find(
     (bus) => bus.ResultIndex === resultIndex
   );
-  // const cancellationPolicy = selectedBus?.CancellationPolicies;
-  // console.log(selectedBus, "selectedBus")
+
   const [showBtn, setShowBtn] = useState(false);
-  // const departureDate = dayjs(selectedBus?.DepartureTime);
-  // const arrivalDate = dayjs(selectedBus?.ArrivalTime);
-
-  // Format the dates
-  // const departureFormattedDate = departureDate.format("DD MMM, YY");
-  // const arrivalFormattedDate = arrivalDate.format("DD MMM, YY");
-
-  // const dateString = selectedBus?.DepartureTime;
-  // const date = new Date(dateString);
-  // const options = {
-  //   year: "numeric",
-  //   month: "short",
-  //   day: "numeric",
-  //   hour: "numeric",
-  //   minute: "numeric",
-  //   hour12: true,
-  // };
-  // const formattedDate = date.toLocaleString("en-US", options);
-
-  // const [month, day, year, time, ampm] = formattedDate.split(" ");
-  // const desiredFormat = `${day}${month}-${year} ${time} ${ampm}`;
-
-  // const dateString1 = selectedBus?.ArrivalTime;
-  // const date1 = new Date(dateString1);
-  // const options1 = {
-  //   year: "numeric",
-  //   month: "short",
-  //   day: "numeric",
-  //   hour: "numeric",
-  //   minute: "numeric",
-  //   hour12: true,
-  // };
-  // const formattedDate1 = date1.toLocaleString("en-US", options1);
-  // const [month1, day1, year1, time1, ampm1] = formattedDate1.split(" ");
-  // const desiredFormat1 = `${day1}${month1}-${year1} ${time1} ${ampm1}`;
-
-  // here i am calculation the duration between departure and arrival time
 
   const departureTime = new Date(selectedBus.DepartureTime).getTime();
   const arrivalTime = new Date(selectedBus.ArrivalTime).getTime();
@@ -210,8 +179,7 @@ const BusPassengerDetail = () => {
   const hours = Math.floor(timeDifference / (1000 * 60 * 60));
   const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
   const duration = `${hours}hr ${minutes}min`;
-
-  // here i am calculation the duration between departure and arrival time
+   // here i am calculation the duration between departure and arrival time
 
   // console.warn(allPassenger, "allPassenger")
   // function validatePhoneNumber(phoneNumber) {
@@ -253,6 +221,7 @@ const BusPassengerDetail = () => {
   //   // console.warn("Please enter", ph, result)
   //   return result;
   // }
+
   function validtion() {
     // const res =await passengerData.filter(filterValidation)
     const res = passengerData.filter(
@@ -261,6 +230,7 @@ const BusPassengerDetail = () => {
         validateEmail(item.Email) &&
         validateName(item.FirstName) &&
         validateName(item.LastName) &&
+        validateAge(item.Age) &&
         item?.Address !== ""
     );
     const result = res.length === passengerData.length ? true : false;
@@ -269,11 +239,12 @@ const BusPassengerDetail = () => {
     return result;
   }
   async function result() {
-    const vali = await validtion();
+    const vali = validtion();
+    // console.log(vali, "validation result");
     if (vali) {
-      await setShowBtn(true);
+      setShowBtn(true);
     } else {
-      await setShowBtn(false);
+      setShowBtn(false);
     }
 
     // console.warn("setShowBtn(true)", showBtn)
@@ -305,12 +276,10 @@ const BusPassengerDetail = () => {
     return <></>;
   }
 
-  // console.log(selectedBus, "selected bus");
+  // console.log(passengerData[0].Age, "selected bus");
   return (
     <>
-      <div className="mainimgBusSearch">
-       
-      </div>
+      <div className="mainimgBusSearch"></div>
 
       <div className="">
         <div className="container">
@@ -514,6 +483,50 @@ const BusPassengerDetail = () => {
                               </div>
 
                               <div className="col-lg-3 col-md-3">
+                                <label
+                                  for="exampleInputEmail1"
+                                  class="form-label"
+                                >
+                                  Gender
+                                </label>
+                                <select
+                                  value={passengerData?.Gender}
+                                  className="form-select"
+                                  name="Gender"
+                                  onChange={(e) =>
+                                    handleServiceChange(
+                                      e,
+                                      index
+                                      // index + Number(adultCount)
+                                    )
+                                  }
+                                >
+                                  <option value="1">Male</option>
+                                  <option value="2">Female</option>
+                                </select>
+                              </div>
+
+                              <div className="col-lg-3 col-md-3">
+                                {/* <div class="form-floating"> */}
+                                <label for="floatingInput">Age</label>
+                                <input
+                                  name="Age"
+                                  // placeholder="Enter your name"
+                                  className="form-control"
+                                  value={passengerData?.Age}
+                                  onChange={(e) =>
+                                    handleServiceChange(e, index)
+                                  }
+                                />
+                                {sub &&
+                                  !validateAge(passengerData[index].Age) && (
+                                    <span className="error10">
+                                      Enter your Age
+                                    </span>
+                                  )}
+                              </div>
+
+                              <div className="col-lg-3 col-md-3">
                                 {/* <div class="form-floating"> */}
                                 <label for="floatingInput">Phone Number</label>
                                 <input
@@ -540,6 +553,7 @@ const BusPassengerDetail = () => {
                                   </label> */}
                                 {/* </div> */}
                               </div>
+
                               <div className="col-lg-12 col-md-12">
                                 {/* <div class="form-floating"> */}
                                 <label for="floatingInput">Enter Address</label>

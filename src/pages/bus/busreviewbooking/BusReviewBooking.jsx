@@ -23,6 +23,7 @@ import React, { useState } from "react";
 // import { Box, Grid, Typography, Link, Button } from "@mui/material";
 // import BusSaleSummary from "../busPassengerDetail/BusSaleSummary";
 import BusSaleSummary from "../bussearchresult/BusSaleSummary";
+import Busalesummarycoupon from "../bussearchresult/Busalesummarycoupon";
 
 // import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { useDispatch, useSelector } from "react-redux";
@@ -69,6 +70,8 @@ const variants = {
 
 const BusReviewBooking = () => {
   const dispatch = useDispatch();
+
+  // const { onFinalAmountChange } = props;
   const navigate = useNavigate();
   const reducerState = useSelector((state) => state);
   const [transactionAmount, setTransactionAmount] = useState(null);
@@ -86,6 +89,18 @@ const BusReviewBooking = () => {
   // const isNavigate = reducerState?.getBusResult?.isLoadingBook || true;
 
   // console.log("======================", reducerState);
+  const [finalAmount, setFinalAmount] = useState(0);
+
+  const handleFinalAmountChange = (amount) => {
+    setFinalAmount(amount);
+  };
+  const [couponvalue, setCouponValue] = useState("");
+  const handlecouponChange = (code) => {
+    setCouponValue(code);
+  };
+
+  // console.log("couponvalue",couponvalue);
+
   const busBlockData =
     reducerState?.getBusResult?.busBlock?.data?.data?.BlockResult;
   // console.log("", busBlockData);
@@ -114,7 +129,7 @@ const BusReviewBooking = () => {
   ) {
     return accumulator + currentValue?.Price?.PublishedPriceRoundedOff;
   },
-    0);
+  0);
 
   // const tdsTotal = markUpamount + seatObject.reduce((accumulator, currentValue) => {
   //     return accumulator + currentValue?.Price?.TDS;
@@ -122,11 +137,12 @@ const BusReviewBooking = () => {
 
   // console.log(seatObject);
   // console.log(reducerState);
+
   useEffect(() => {
     if (seatData === undefined) {
       navigate("/BusPassengerDetail");
     }
-    sessionStorage.removeItem("totalaftercoupon");
+    // sessionStorage.removeItem("totalaftercoupon");
     // sessionStorage.removeItem("couponCode")
   }, []);
 
@@ -205,7 +221,7 @@ const BusReviewBooking = () => {
         ?.Error?.ErrorMessage == ""
     ) {
       setLoaderPayment(false);
-      navigate("/Busbookingconfirmation");
+      navigate("/Busbookingconfirmation",{ state: { finalamount: finalAmount, couponvalue:couponvalue } });
     }
   }, [reducerState?.getBusResult?.busDetails?.data?.data]);
 
@@ -259,20 +275,17 @@ const BusReviewBooking = () => {
   const [isDisableScroll, setIsDisableScroll] = useState(false);
   useEffect(() => {
     if (isDisableScroll) {
-
       document.body.classList.add("disableTrue");
       document.body.classList.remove("disableFalse");
-    }
-    else {
+    } else {
       document.body.classList.remove("disableTrue");
       document.body.classList.add("disableFalse");
-
     }
     return () => {
       document.body.classList.add("disableFalse");
 
       document.body.classList.remove("disableTrue");
-    }
+    };
   }, [isDisableScroll]);
 
   const handleModalClose = () => {
@@ -290,7 +303,7 @@ const BusReviewBooking = () => {
   // console.log(token, "token //////////////////")
   const totalAfterCoupon = sessionStorage?.getItem("totalaftercoupon");
 
-
+ 
   const handlePayment = async () => {
     if (authenticUser !== 200) {
       setSub(false);
@@ -308,7 +321,7 @@ const BusReviewBooking = () => {
         const payload = {
           firstname: passengerSessionStorageParsed[0].FirstName,
           phone: passengerSessionStorageParsed[0].Phoneno,
-          amount: transactionAmount || published + markUpamount * published,
+          amount: Number(finalAmount),
           // amount: 1,
           email: passengerSessionStorageParsed[0].Email,
           productinfo: "ticket",
@@ -464,7 +477,6 @@ const BusReviewBooking = () => {
     }
   }, [busBook]);
 
-
   // console.log(selectedBus, "selectedBus")
   const cancellationPolicy = selectedBus?.CancellationPolicies;
 
@@ -555,12 +567,11 @@ const BusReviewBooking = () => {
   // }, [sub]);
 
   const storedPassengerData = JSON.parse(sessionStorage.getItem("busPassName"));
+  // console.log("passengerdetails", storedPassengerData);
   if (loaderPayment == false) {
     return (
       <>
-        <div className="mainimgBusSearch">
-         
-        </div>
+        <div className="mainimgBusSearch"></div>
         <div className=" py-4">
           <div className="container ">
             <div className="row">
@@ -675,6 +686,8 @@ const BusReviewBooking = () => {
                         <p>Name:</p>
                         {/* <p>Age:</p> */}
                         <p>Email:</p>
+                        <p>Gender:</p>
+                        <p>Age</p>
                       </div>
                       <div>
                         <span>
@@ -682,6 +695,12 @@ const BusReviewBooking = () => {
                         </span>
                         {/* <span>{passenger.Age} Years Old</span> */}
                         <span>{passenger.Email}</span>
+                        {passenger.Gender == "1"
+                          ? "Male"
+                          : passenger.Gender == "2"
+                          ? "Female"
+                          : ""}
+                        <span>{passenger.Age}</span>
                       </div>
                     </div>
                   ))}
@@ -744,10 +763,12 @@ const BusReviewBooking = () => {
                 transition={{ duration: 0.5 }}
                 className="col-lg-3 order-lg-2 mb-md-4 mb-sm-4  order-md-1 order-1"
               >
-                <BusSaleSummary
+                <Busalesummarycoupon
                   toggle={toggle}
+                  onFinalAmountChange={handleFinalAmountChange}
                   toggleState={toggleState}
-                  transactionAmount={setTransactionAmountState}
+                  oncouponselect={handlecouponChange}
+                  // transactionAmount={setTransactionAmountState}
                   Amount={transactionAmount}
                 />
               </motion.div>

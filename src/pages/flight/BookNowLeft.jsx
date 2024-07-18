@@ -8,6 +8,7 @@ import axios from "axios";
 import { apiURL } from "../../Constants/constant";
 
 import "./booknowleft.css";
+import Couponcontainer from "../../components/Coupon/Couponcontainer";
 
 const KeyValue = ({ data, value }) => {
   return (
@@ -28,101 +29,168 @@ const KeyValue = ({ data, value }) => {
 
 const BookNowLeft = (props) => {
   const [showInput, setShowInput] = useState(false);
+  const { onFinalAmountChange,oncouponselect } = props;
   // console.log(props.baggAmount, "props.BaseFareeeeeeeeeeeee")
 
   const isDummyStorageTrue = sessionStorage.getItem("hdhhfb7383__3u8748");
   const propFunction = props.handleClick;
 
-  const [couponApplied, setCouponApplied] = useState(false);
+  const [finalAmountNew, setFinalAmountNew] = useState(0);
+
 
   const inputRef = useRef(null);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
+
+  // const [couponApplied, setCouponApplied] = useState(false);
+  // const [couponCode, setCouponCode] = useState("");
+  // const [showApplyButton, setShowApplyButton] = useState(false);
+  // const [couponStatus, setCouponStatus] = useState(false);
+  // const [couponDiscount, setCouponDiscount] = useState(0);
+  // const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(null);
+  // const [coupons, setCoupons] = useState([]);
+
+  // const [couponCode, setCouponCode] = useState("");
+  // const [showApplyButton, setShowApplyButton] = useState(false);
+
+  // const couponamount1 = sessionStorage.getItem("couponCode");
+  // const [couponStatus, setCouponStatus] = useState(false);
+  // const handleApplyCoupon1 = async () => {
+  //   try {
+  //     setLoading(true);
+
+  //     const token = SecureStorage.getItem("jwtToken");
+  //     const couponCode = inputRef.current.value;
+
+  //     const response = await axios.put(
+  //       `${apiURL.baseURL}/skyTrails/api/coupons/applyCoupon`,
+  //       { couponCode: couponCode },
+  //       {
+  //         headers: {
+  //           token: token,
+  //         },
+  //       }
+  //     );
+
+  //     if (response?.data?.statusCode === 200) {
+  //       setCouponStatus(true);
+  //       sessionStorage.setItem("couponCode", couponCode);
+  //       await props.transactionAmount(
+  //         parseInt(fareValue?.Fare?.PublishedFare) +
+  //         markUpamount * parseInt(fareValue?.Fare?.PublishedFare) -
+  //         coupondiscount
+  //       );
+  //     }
+  //   } catch (error) {
+  //     setLoading(false);
+
+  //     if (error.response && error.response.data.statusCode === 409) {
+  //       setCouponStatus(false);
+  //       setError("Coupon already applied");
+  //       setTimeout(() => {
+  //         setError(null);
+  //       }, 4000);
+  //     } else if (error.response && error.response.data.statusCode === 404) {
+  //       setError(
+  //         error.response?.data?.responseMessage ||
+  //         "Error Applying coupon . Please try again."
+  //       );
+  //     } else {
+  //       setError(
+  //         error.response?.data?.message ||
+  //         "Error applying coupon. Please try again."
+  //       );
+  //       setCouponStatus(false);
+  //     }
+  //   } finally {
+  //     setLoading(false);
+  //     props.toggleState(true);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (!props.toggle) {
+  //     setCouponCode("");
+  //     setShowApplyButton(false);
+  //     // console.log(props.Amount, "Amount///////////////");
+  //   }
+  // }, [props.toggle]);
+
+  // ///////////////////////////coupon functions /////////////////////////////////////////////////////////////
+
+  const [showApplyButton, setShowApplyButton] = useState(false);
+  const [couponApplied, setCouponApplied] = useState(false);
+  const [couponCode, setCouponCode] = useState("");
+  const [couponStatus, setCouponStatus] = useState(false);
+  const [couponDiscount, setCouponDiscount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  // const [selectedCoupon, setSelectedCoupon] = useState("");
+  const [selectedCoupon, setSelectedCoupon] = useState(null);
 
-  const [couponCode, setCouponCode] = useState("");
-  const [showApplyButton, setShowApplyButton] = useState(false);
-
-  const couponamount1 = sessionStorage.getItem("couponCode");
-  const [couponStatus, setCouponStatus] = useState(false);
-  const handleApplyCoupon1 = async () => {
-    try {
-      setLoading(true);
-
-      const token = SecureStorage.getItem("jwtToken");
-      const couponCode = inputRef.current.value;
-
-      const response = await axios.put(
-        `${apiURL.baseURL}/skyTrails/api/coupons/applyCoupon`,
-        { couponCode: couponCode },
-        {
-          headers: {
-            token: token,
-          },
-        }
-      );
-
-      if (response?.data?.statusCode === 200) {
-        setCouponStatus(true);
-        sessionStorage.setItem("couponCode", couponCode);
-        await props.transactionAmount(
-          parseInt(fareValue?.Fare?.PublishedFare) +
-          markUpamount * parseInt(fareValue?.Fare?.PublishedFare) -
-          coupondiscount
-        );
-      }
-    } catch (error) {
-      setLoading(false);
-
-      if (error.response && error.response.data.statusCode === 409) {
-        setCouponStatus(false);
-        setError("Coupon already applied");
-        setTimeout(() => {
-          setError(null);
-        }, 4000);
-      } else if (error.response && error.response.data.statusCode === 404) {
-        setError(
-          error.response?.data?.responseMessage ||
-          "Error Applying coupon . Please try again."
-        );
-      } else {
-        setError(
-          error.response?.data?.message ||
-          "Error applying coupon. Please try again."
-        );
-        setCouponStatus(false);
-      }
-    } finally {
-      setLoading(false);
-      props.toggleState(true);
+  const discountValueObj = selectedCoupon?.discountPercentage?.filter(
+    (item, index) => {
+      return item?.name == "FLIGHTS" || item?.name == "FORALL";
     }
+  );
+
+  // const totalPriceCalculator = () => {
+  //   let finalAmount = 0;
+  //   let discountAmount = 0;
+  //   if (selectedCoupon !== null) {
+  //     if (discountValueObj?.[0].type == "PERCENTAGE") {
+  //       finalAmount =
+  //         finalAmount +
+  //         Number(FlightPrice) +
+  //         Number(FlightPrice * reduxMarkup.flightMarkup) -
+  //         Number(FlightPrice) * (discountValueObj?.[0].value * 0.01);
+
+  //       discountAmount =
+  //         discountAmount +
+  //         Number(FlightPrice) * (discountValueObj?.[0].value * 0.01);
+  //     } else if (discountValueObj?.[0].type == "AMOUNT") {
+  //       finalAmount =
+  //         finalAmount +
+  //         Number(FlightPrice) +
+  //         Number(FlightPrice * reduxMarkup.flightMarkup) -
+  //         discountValueObj?.[0].value;
+  //       discountAmount = discountAmount + discountValueObj?.[0].value;
+  //     }
+  //   } else {
+  //     finalAmount =
+  //       finalAmount +
+  //       Number(FlightPrice) +
+  //       Number(FlightPrice * reduxMarkup.flightMarkup);
+  //   }
+  //   return { amountGenerator: { finalAmount, discountAmount } };
+  // };
+
+  // console.log("discountValueObj", discountValueObj,selectedCoupon);
+
+  const handleCouponChange = (code) => {
+    setCouponCode(code);
+    setCouponApplied(!!code);
   };
 
-  useEffect(() => {
-    if (!props.toggle) {
-      setCouponCode("");
-      setShowApplyButton(false);
-      // console.log(props.Amount, "Amount///////////////");
-    }
-  }, [props.toggle]);
-
-  const handleInputChange = (event) => {
-    const inputValue = event.target.value;
-    setCouponCode(inputValue);
-    setShowApplyButton(!!inputValue);
-    setError(null);
-    props.toggleState(true);
-    setCouponStatus(false);
-    if (couponamount1) {
-      props.transactionAmount(null);
-      sessionStorage.removeItem("couponCode");
-    }
-
-    if (!inputValue) {
-      setCouponStatus(false);
-      props.transactionAmount(null);
-      sessionStorage.removeItem("couponCode");
-    }
+  const handleCouponStatusChange = (status) => {
+    setCouponStatus(status);
   };
+
+  const handleCouponDiscountChange = (discount) => {
+    setCouponDiscount(discount);
+  };
+
+  const handleLoadingChange = (isLoading) => {
+    setLoading(isLoading);
+  };
+
+  const handleErrorChange = (errorMessage) => {
+    setError(errorMessage);
+  };
+
+  // /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   const reducerState = useSelector((state) => state);
   const TicketDetails = reducerState?.flightFare?.flightQuoteData?.Results;
   const fareValue = reducerState?.flightFare?.flightQuoteData?.Results;
@@ -139,9 +207,9 @@ const BookNowLeft = (props) => {
   const coupondiscount = integerValue;
 
   const taxvalue = markUpamount * parseInt(fareValue?.Fare?.PublishedFare);
-  const taxvaluetotal =
-    parseInt(fareValue?.Fare?.PublishedFare) +
-    markUpamount * parseInt(fareValue?.Fare?.PublishedFare);
+  // const taxvaluetotal =
+  //   parseInt(fareValue?.Fare?.PublishedFare) +
+  //   markUpamount * parseInt(fareValue?.Fare?.PublishedFare);
   let total = 0;
 
   const dateString = fareValue?.Segments[0][0]?.Origin?.DepTime;
@@ -156,6 +224,7 @@ const BookNowLeft = (props) => {
     setShowInput(true);
     setCouponApplied(true);
   };
+
   useEffect(() => {
     //  props.transactionAmount(null);
     sessionStorage.removeItem("couponCode");
@@ -166,6 +235,94 @@ const BookNowLeft = (props) => {
     }
     // console.log(props.Amount, props.toggle, "amount //////////////////");
   }, [props.toggle]);
+
+  const flight = "FLIGHTS";
+  // console.log("selectedCousdkcbskdjcbskdcbjsdcbjsdcpon", selectedCoupon,discountValueObj);
+
+  const taxvaluetotal = parseInt(fareValue?.Fare?.PublishedFare);
+  // markUpamount * parseInt(fareValue?.Fare?.PublishedFare);
+
+  // console.log("taxvaluetotal",taxvaluetotal);
+
+  const grandtotalamount = (
+    Number(taxvaluetotal) +
+    Number(props.baggAmount) +
+    Number(props.mellAmount)
+  ).toFixed(2);
+
+  const totalPriceCalculator = () => {
+    let finalAmount = 0;
+    let discountAmount = 0;
+    const publishedFare = (fareValue?.Fare?.PublishedFare);
+
+
+    if (selectedCoupon !== null) {
+      let discountamount = 0;
+      if (publishedFare <= discountValueObj?.[0].value?.min[0]) {
+        discountamount = discountValueObj?.[0].value?.min[1];
+      } else if (publishedFare >= discountValueObj?.[0].value?.max[0]) {
+        discountamount = discountValueObj?.[0].value?.max[1];
+      }
+
+      // console.log(discountamount,"discountamount////////////////////");
+      // if (discountValueObj?.[0].type == "PERCENTAGE") {
+      //   finalAmount =
+      //     finalAmount +
+      //     parseInt(fareValue?.Fare?.PublishedFare) +
+      //     markUpamount * parseInt(fareValue?.Fare?.PublishedFare) -
+      //     parseInt(fareValue?.Fare?.PublishedFare) *
+      //       (discountValueObj?.[0].value * 0.01);
+
+      //   discountAmount =
+      //     discountAmount +
+      //     parseInt(fareValue?.Fare?.PublishedFare) *
+      //       (discountValueObj?.[0].value * 0.01);
+      if (discountValueObj?.[0].type == "PERCENTAGE") {
+        finalAmount = Number(publishedFare) + Number(markUpamount) * Number(publishedFare) - Number(publishedFare) * Number(discountamount * 0.01);
+        discountAmount = Number(publishedFare) * Number(discountamount * 0.01);
+
+       
+      } else if (discountValueObj?.[0].type == "AMOUNT") {
+        finalAmount = Number(publishedFare) + Number(markUpamount)* Number(publishedFare) - Number(discountamount);
+        discountAmount = Number(discountamount);
+      }
+      // } else if (discountValueObj?.[0].type == "AMOUNT") {
+      //   finalAmount =
+      //     finalAmount +
+      //     parseInt(fareValue?.Fare?.PublishedFare) +
+      //     markUpamount * parseInt(fareValue?.Fare?.PublishedFare) -
+      //     discountValueObj?.[0].value;
+      //   discountAmount = discountAmount + discountValueObj?.[0].value;
+      // }
+    } else {
+      finalAmount =
+      Number( finalAmount) +
+      Number(fareValue?.Fare?.PublishedFare) +
+      Number( markUpamount) * Number(fareValue?.Fare?.PublishedFare);
+    }
+    // return { amountGenerator: { finalAmount, discountAmount } };
+    return { finalAmount, discountAmount };
+  };
+  const { finalAmount, discountAmount } = totalPriceCalculator();
+
+  useEffect(() => {
+    if (typeof onFinalAmountChange === 'function') {
+      onFinalAmountChange(finalAmount);
+      oncouponselect(couponCode);
+    } else {
+      console.error(error);
+    }
+  }, [finalAmount,couponCode]);
+  // console.log("totalPriceCalculator", totalPriceCalculator());
+
+
+ 
+
+  // console.log(
+  //   finalAmount,
+  //   discountAmount,
+  //   "hgfghfghfghfhgfghfghfghfghfhgfhgfgh"
+  // );
 
   return (
     <>
@@ -251,22 +408,88 @@ const BookNowLeft = (props) => {
 
             <div className="TotGstFlight">
               <div>
-                <span>Other TAX: </span>
-                <p>
-                  {"₹"}
-                  {(Number(taxvalue) + Number(props.baggAmount) + Number(props.mellAmount)).toFixed(2)}
-                </p>
+                <span>Base Fare : </span>
+                <p> {"₹"}{parseInt(fareValue?.Fare?.BaseFare)}</p>
               </div>
               <div>
-                <span>Grand Total:</span>
+                <span>Surcharge : </span>
+                <p> {"₹"}{parseInt(fareValue?.Fare?.Tax) }</p>
+              </div>
+              <div>
+                <span>Other TAX : </span>
                 <p>
                   {"₹"}
-                  {(Number(taxvaluetotal) + Number(props.baggAmount) + Number(props.mellAmount)).toFixed(2)}
+                  {(
+                    Number(taxvalue) +
+                    Number(props.baggAmount) +
+                    Number(props.mellAmount)
+                  ).toFixed(2)}
+                </p>
+              </div>
+
+              {discountAmount > 0 && (
+                <div>
+                  <span>Discount Amount :</span>
+                  <p>
+                    {"₹"}
+                    {Number(discountAmount)}
+                  </p>
+                </div>
+              )}
+
+              <div>
+                <span>Grand Total :</span>
+                <p>
+                  {"₹"}
+                  {/* {(
+                    Number(taxvaluetotal) +
+                    Number(props.baggAmount) +
+                    Number(props.mellAmount)
+                  ).toFixed(2)} */}
+
+                  {/* {grandtotalamount} */}
+                  {Number(
+                    Number(finalAmount) +
+                    Number(props.baggAmount) +
+                    Number(props.mellAmount)
+                  ).toFixed(2)}
                 </p>
               </div>
             </div>
+            {/* <Couponcontainer value={flight}   /> */}
+            <Couponcontainer
+              value={flight}
+              couponCode={couponCode}
+              couponApplied={couponApplied}
+              couponStatus={couponStatus}
+              couponDiscount={couponDiscount}
+              loading={loading}
+              selectedCoupon={selectedCoupon}
+              error={error}
+              onCouponChange={handleCouponChange}
+              onCouponStatusChange={handleCouponStatusChange}
+              onCouponDiscountChange={handleCouponDiscountChange}
+              onLoadingChange={handleLoadingChange}
+              onErrorChange={handleErrorChange}
+              setSelectedCoupon={setSelectedCoupon}
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <div>
+            <p>session expired</p>
+          </div>
+        </>
+      )}
+    </>
+  );
+};
 
-            {isDummyStorageTrue === "false" ? (
+export default BookNowLeft;
+
+{
+  /* {isDummyStorageTrue === "false" ? (
               <div
                 className="applycoupenbuttontext"
                 style={{ overflow: "hidden" }}
@@ -367,18 +590,5 @@ const BookNowLeft = (props) => {
                   </motion.div>
                 )}
               </div>
-            ) : null}
-          </div>
-        </>
-      ) : (
-        <>
-          <div>
-            <p>session expired</p>
-          </div>
-        </>
-      )}
-    </>
-  );
-};
-
-export default BookNowLeft;
+            ) : null} */
+}

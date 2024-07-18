@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
-
 import { Modal, Button, Divider } from 'antd';
 import dayjs from "dayjs";
 import ItenaryHotel from "./ItenaryHotel";
@@ -61,11 +60,21 @@ const ItenaryResult = () => {
             return newActivities;
         });
 
+        // Update the state with itenararyResult
+        dispatch(handleActivityRequest({
+            activities: selectedActivities,
+            itenararyResult: reducerState?.Itenerary?.itenararyResult
+        }));
+        // console.log("dispatched")
         handleOk();
     };
 
+
     useEffect(() => {
-        dispatch(handleActivityRequest(selectedActivities))
+        dispatch(handleActivityRequest({
+            activities: selectedActivities,
+            itenararyResult: reducerState?.Itenerary?.itenararyResult
+        }));
     }, [selectedActivities]);
 
     const handleRemoveActivity = (dayIndex, activityIndex) => {
@@ -110,9 +119,41 @@ const ItenaryResult = () => {
         flightToData();
     }, []);
 
+    // Function to get the latest date among given dates
+    const getLatestDate = (dates) => {
+        return dates.reduce((latest, current) => {
+            return dayjs(latest).isAfter(dayjs(current)) ? latest : current;
+        });
+    };
 
-    console.log(reducerState, "reducerState in Itenerary Result")
-    // console.log(selectedActivities, "itenaryResultsitenaryResultsitenaryResultsitenaryResults")
+
+    console.log(reducerState, "reducerState")
+
+    // Extracting relevant dates
+    const leavingDate = dayjs(initialDate);
+    const arrivalDate1 = dayjs(reducerState?.Itenerary?.selectedFlight?.[0]?.payloadReturnInternational?.Segments?.[0]?.[reducerState?.Itenerary?.selectedFlight?.[0]?.payloadReturnInternational?.Segments?.length - 1]?.Destination?.ArrTime);
+    const arrivalDate2 = dayjs(reducerState?.Itenerary?.selectedFlight?.[0]?.[0]?.payloadGoing?.Segments?.[0]?.[reducerState?.Itenerary?.selectedFlight?.[0]?.[0]?.payloadGoing?.Segments?.length - 1]?.Destination?.ArrTime);
+    const arrivalDate3 = dayjs(reducerState?.Itenerary?.selectedFlight?.[0]?.payloadOneway?.Segments?.[0]?.[reducerState?.Itenerary?.selectedFlight?.[0]?.payloadOneway?.Segments?.length - 1]?.Destination?.ArrTime);
+
+    // Determine the initial date
+    const initialStartDate = getLatestDate([leavingDate, arrivalDate1, arrivalDate2, arrivalDate3]);
+
+    const destinationOrder = reducerState?.Itenerary?.itenaryPayload?.cityAndNight?.map(city => city?.from?.Destination?.toLowerCase());
+    const sortedItenaryResults = itenaryResults?.sort((a, b) => {
+        const aDestination = a?.data?.result?.[0].destination;
+        const bDestination = b?.data?.result?.[0].destination;
+        return destinationOrder.indexOf(aDestination) - destinationOrder.indexOf(bDestination);
+    });
+
+
+
+
+
+
+
+
+
+
 
     return (
         <>
@@ -135,15 +176,11 @@ const ItenaryResult = () => {
                                             <ItenaryHotel />
                                         </div>
 
-                                        {itenaryResults.map((itenary, itenaryIndex) => (
+                                        {sortedItenaryResults.map((itenary, itenaryIndex) => (
                                             <div key={itenaryIndex} className="col-lg-12">
-
-
-
-
                                                 {itenary?.data?.result?.[0]?.dayAt?.map((item, index) => {
-                                                    const dayIndex = itenaryResults?.slice(0, itenaryIndex)?.reduce((acc, curr) => acc + curr?.data?.result?.[0]?.dayAt?.length, 0) + index;
-                                                    const currentDate = getDateForDay(initialDate, dayIndex);
+                                                    const dayIndex = sortedItenaryResults?.slice(0, itenaryIndex)?.reduce((acc, curr) => acc + curr?.data?.result?.[0]?.dayAt?.length, 0) + index;
+                                                    const currentDate = getDateForDay(initialStartDate, dayIndex);
 
                                                     return (
                                                         <div className="dayWiseItenaryMainBox mb-3" key={index}>
@@ -203,6 +240,7 @@ const ItenaryResult = () => {
                                         ))}
                                     </div>
                                 </div>
+
                                 <div className="col-lg-4">
                                     <IteneraryPriceSummary />
                                 </div>
@@ -211,7 +249,7 @@ const ItenaryResult = () => {
                     )
             }
         </>
-    )
-}
+    );
+};
 
 export default ItenaryResult;

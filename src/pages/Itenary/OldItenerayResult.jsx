@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
-
 import { Modal, Button, Divider } from 'antd';
 import dayjs from "dayjs";
 import ItenaryHotel from "./ItenaryHotel";
@@ -21,15 +20,9 @@ const ItenaryResult = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const reducerState = useSelector((state) => state);
-    const itenaryResult = reducerState?.Itenerary?.itenararyResult?.[0]?.data?.result;
-    const activities = reducerState?.Itenerary?.itenararyResult?.[0]?.data?.result?.[0]?.activities;
+    const itenaryResults = reducerState?.Itenerary?.itenararyResult || [];
     const initialDate = reducerState?.Itenerary?.itenaryPayload?.leavingDate;
-    const [loader, setLoader] = useState(true)
-
-
-    // console.log(selectedActivities, "selectedActivities")
-
-
+    const [loader, setLoader] = useState(true);
 
     useEffect(() => {
         const hotelResults = reducerState?.Itenerary?.hotelResultArray;
@@ -37,15 +30,10 @@ const ItenaryResult = () => {
 
         if (allResultsReceived) {
             const errorExists = hotelResults.some(result => result?.data?.data?.HotelSearchResult?.Error?.ErrorCode !== 0);
-            if (!errorExists) {
-                setLoader(false);
-            } else {
-                setLoader(false);
-            }
+            setLoader(false);
         }
     }, [reducerState?.Itenerary?.hotelResultArray, reducerState?.Itenerary?.itenaryPayload?.cityAndNight?.length]);
 
-    // console.log(loader, "loader")
     const showModal = (dayIndex) => {
         setSelectedDayIndex(dayIndex);
         setIsModalVisible(true);
@@ -72,12 +60,22 @@ const ItenaryResult = () => {
             return newActivities;
         });
 
+        // Update the state with itenararyResult
+        dispatch(handleActivityRequest({
+            activities: selectedActivities,
+            itenararyResult: reducerState?.Itenerary?.itenararyResult
+        }));
+        // console.log("dispatched")
         handleOk();
     };
 
+
     useEffect(() => {
-        dispatch(handleActivityRequest(selectedActivities))
-    }, [selectedActivities])
+        dispatch(handleActivityRequest({
+            activities: selectedActivities,
+            itenararyResult: reducerState?.Itenerary?.itenararyResult
+        }));
+    }, [selectedActivities]);
 
     const handleRemoveActivity = (dayIndex, activityIndex) => {
         setSelectedActivities(prevState => {
@@ -91,61 +89,163 @@ const ItenaryResult = () => {
         return dayjs(startDate).add(dayIndex, 'days').format('ddd, D MMM, YYYY');
     };
 
-    const dayWiseDetails = itenaryResult?.[0]?.dayAt?.map((item, index) => {
-        const currentDate = getDateForDay(initialDate, index);
-        return {
-            ...item,
-            date: currentDate,
-            selectedActivities: selectedActivities[index] || []
-        };
-    });
-
-    console.log(reducerState, "reducer state in the itenerary result page")
-
     useEffect(() => {
         const flightFromData = () => {
             axios
                 .get(`${apiURL.baseURL}/skyTrails/city/searchCityData?keyword=${reducerState?.Itenerary?.itenaryPayload?.leavingFrom?.Destination}`)
                 .then((response) => {
-                    // setFlightFromData(response?.data)
-                    dispatch(setFLightFromRequest(response?.data))
+                    dispatch(setFLightFromRequest(response?.data));
                 })
                 .catch((error) => {
                     console.error("Error fetching data:", error);
                 });
         };
 
-        // if (flightFromData == null) {
-
         flightFromData();
-        // }
-
-    }, [])
-
+    }, []);
 
     useEffect(() => {
         const flightToData = () => {
-
             axios
                 .get(`${apiURL.baseURL}/skyTrails/city/searchCityData?keyword=${reducerState?.Itenerary?.itenaryPayload?.cityAndNight?.[0]?.from?.Destination}`)
                 .then((response) => {
-
-                    // setFlightToData(response?.data)
-                    dispatch(setFLightToRequest(response?.data))
+                    dispatch(setFLightToRequest(response?.data));
                 })
                 .catch((error) => {
                     console.error("Error fetching data:", error);
                 });
         };
 
-        // if (flightToData == null) {
         flightToData();
+    }, []);
 
-        // }
+    // Function to get the latest date among given dates
+    const getLatestDate = (dates) => {
+        return dates.reduce((latest, current) => {
+            return dayjs(latest).isAfter(dayjs(current)) ? latest : current;
+        });
+    };
 
-    }, [])
+    // Extracting relevant dates
+    const leavingDate = dayjs(initialDate);
+    const arrivalDate1 = dayjs(reducerState?.Itenerary?.selectedFlight?.[0]?.payloadReturnInternational?.Segments?.[0]?.[reducerState?.Itenerary?.selectedFlight?.[0]?.payloadReturnInternational?.Segments?.length - 1]?.Destination?.ArrTime);
+    const arrivalDate2 = dayjs(reducerState?.Itenerary?.selectedFlight?.[1]?.[0]?.payloadGoing?.Segments?.[0]?.[reducerState?.Itenerary?.selectedFlight?.[1]?.[0]?.payloadGoing?.Segments?.length - 1]?.Destination?.ArrTime);
+
+    // Determine the initial date
+    const initialStartDate = getLatestDate([leavingDate, arrivalDate1, arrivalDate2]);
+
+    const destinationOrder = reducerState?.Itenerary?.itenaryPayload?.cityAndNight?.map(city => city?.from?.Destination?.toLowerCase());
+    const sortedItenaryResults = itenaryResults?.sort((a, b) => {
+        const aDestination = a?.data?.result?.[0].destination;
+        const bDestination = b?.data?.result?.[0].destination;
+        return destinationOrder.indexOf(aDestination) - destinationOrder.indexOf(bDestination);
+    });
+
+    const extractFlightData = (flight) => {
+        const keysToExtract = [
+            "AirlineCode",
+            "Segments",
+            "Fare",
+            "GSTAllowed",
+            "IsBookableIfSeatNotAvailable",
+            "IsCouponAppilcable",
+            "IsGSTMandatory",
+            "IsHoldAllowedWithSSR",
+            "IsLCC",
+            "IsPanRequiredAtBook",
+            "IsPanRequiredAtTicket"
+        ];
+
+        return keysToExtract.reduce((obj, key) => {
+            if (flight[key] !== undefined) {
+                obj[key] = flight[key];
+            }
+            return obj;
+        }, {});
+    };
+
+    const createPayload = () => {
+        const flightData = [];
+        const hotelData = [];
+        const flights = reducerState?.Itenerary?.selectedFlight;
+        const hotels = reducerState?.Itenerary?.selectedHotelRoom;
+        const ItenaryData = reducerState?.Itenerary?.selectedActivities;
+        const ItenaryPayloadData = reducerState?.Itenerary?.itenaryPayload
+
+        if (flights) {
+            Object.keys(flights).forEach(key => {
+                const flight = flights[key];
+                if (Array.isArray(flight)) {
+                    flight.forEach(f => {
+                        let existingFlight = flightData.find(fd => fd.id === key);
+                        if (!existingFlight) {
+                            existingFlight = { id: key, flightDetails: {} };
+                            flightData.push(existingFlight);
+                        }
+                        if (f.payloadGoing) {
+                            existingFlight.flightDetails.payloadGoing = extractFlightData(f.payloadGoing);
+                        }
+                        if (f.payloadReturn) {
+                            existingFlight.flightDetails.payloadReturn = extractFlightData(f.payloadReturn);
+                        }
+                        if (f.payloadReturnInternational) {
+                            existingFlight.flightDetails.payloadReturnInternational = extractFlightData(f.payloadReturnInternational);
+                        }
+                    });
+                } else {
+                    let existingFlight = flightData.find(fd => fd.id === key);
+                    if (!existingFlight) {
+                        existingFlight = { id: key, flightDetails: {} };
+                        flightData.push(existingFlight);
+                    }
+                    if (flight.payloadGoing) {
+                        existingFlight.flightDetails.payloadGoing = extractFlightData(flight.payloadGoing);
+                    }
+                    if (flight.payloadReturn) {
+                        existingFlight.flightDetails.payloadReturn = extractFlightData(flight.payloadReturn);
+                    }
+                    if (flight.payloadReturnInternational) {
+                        existingFlight.flightDetails.payloadReturnInternational = extractFlightData(flight.payloadReturnInternational);
+                    }
+                }
+            });
+        }
+
+        if (hotels) {
+            hotels.forEach(hotel => {
+                const hotelInfo = {
+                    HotelAddress: hotel?.HotelAddress,
+                    Price: hotel?.Price?.PublishedPriceRoundedOff,
+                    HotelPicture: hotel?.HotelPicture,
+                    ResultIndex: hotel?.ResultIndex,
+                    HotelCode: hotel?.HotelCode,
+                    HotelName: hotel?.HotelName,
+                    StarRating: hotel?.StarRating,
+                    HotelLocation: hotel?.HotelLocation,
+                    HotelCategory: hotel?.HotelCategory,
+                    selectedRoom: hotel?.selectedRoom,
+                };
+                hotelData.push(hotelInfo);
+            });
+        }
+
+        const payload = [
+            { flightData },
+            { hotelData },
+            { ItenaryData },
+            { ItenaryPayloadData }
+        ];
+
+        console.log(payload, "database");
+    };
 
 
+    useEffect(() => {
+        createPayload();
+    }, []);
+
+
+    console.log(reducerState, "reducerState")
 
     return (
         <>
@@ -155,95 +255,93 @@ const ItenaryResult = () => {
                         <ItenaryResultSkeleton />
                     )
                     :
-
                     (
-                        <div className="container-fluid p-4" >
-                            <div className="row " >
+                        <div className="container-fluid p-4">
+                            <div className="row">
                                 <div className="col-lg-8">
                                     <div className="row">
                                         <div className="col-lg-12">
-
                                             <ItenaryFlightDashboard />
                                         </div>
 
                                         <div className="col-lg-12">
-                                            <div className="headingItenary">
-                                                <h6>Stays in {reducerState?.Itenerary?.itenaryPayload?.cityAndNight?.[0]?.from?.Destination} {" "} {reducerState?.Itenerary?.itenaryPayload?.cityAndNight?.[0]?.night} {" "} Nights </h6>
-                                            </div>
-
                                             <ItenaryHotel />
-                                            {/* day wise details */}
-                                            {dayWiseDetails?.map((item, index) => {
-                                                return (
-                                                    <div className="dayWiseItenaryMainBox mb-3" key={index}>
-                                                        <div className="headingItenary">
-                                                            <h6 className="mb-3">Day {index + 1}: {item.date}</h6>
-                                                        </div>
-                                                        <div className="dayWiseItenaryInnerBox">
-                                                            <div className="dayWiseItenaryContent">
-                                                                <h5>{item?.title}</h5>
-                                                                <div className='paragraph-Itenary'>
-                                                                    <p className="paragraphinsideItenary">
-                                                                        {item?.description}
-                                                                    </p>
-                                                                </div>
+                                        </div>
+
+                                        {sortedItenaryResults.map((itenary, itenaryIndex) => (
+                                            <div key={itenaryIndex} className="col-lg-12">
+                                                {itenary?.data?.result?.[0]?.dayAt?.map((item, index) => {
+                                                    const dayIndex = sortedItenaryResults?.slice(0, itenaryIndex)?.reduce((acc, curr) => acc + curr?.data?.result?.[0]?.dayAt?.length, 0) + index;
+                                                    const currentDate = getDateForDay(initialStartDate, dayIndex);
+
+                                                    return (
+                                                        <div className="dayWiseItenaryMainBox mb-3" key={index}>
+                                                            <div className="headingItenary">
+                                                                <h6 className="mb-3">Day {dayIndex + 1} in {itenary?.data?.result?.[0]?.destination} {currentDate}</h6>
                                                             </div>
-
-                                                            {item.selectedActivities.map((activity, activityIndex) => (
-                                                                <div key={activityIndex}>
-                                                                    <Divider />
-                                                                    <h6>{activity.title.slice(0, 60)}</h6>
-                                                                    <div className="d-flex w-100 justify-content-between gap-5 align-items-center">
-                                                                        <p>{activity.description.slice(0, 100)}</p>
-
-                                                                        <div className="d-flex flex-column justify-content-center gap-2 mb-0 align-items-center">
-                                                                            <h6 style={{ color: "green", fontWeight: "600" }}>₹ {activity?.price}</h6>
-                                                                            <Button type="dashed" icon={<MinusCircleOutlined />} onClick={() => handleRemoveActivity(index, activityIndex)}>Remove</Button>
-                                                                        </div>
+                                                            <div className="dayWiseItenaryInnerBox">
+                                                                <div className="dayWiseItenaryContent">
+                                                                    <h5>{item?.title}</h5>
+                                                                    <div className='paragraph-Itenary'>
+                                                                        <p className="paragraphinsideItenary">
+                                                                            {item?.description}
+                                                                        </p>
                                                                     </div>
                                                                 </div>
-                                                            ))}
 
-                                                            <div className="addActvityRoomItenary mt-4 d-flex justify-content-end">
-                                                                <Button type="primary" icon={<PlusOutlined />} danger onClick={() => showModal(index)}>
-                                                                    Add Activity
-                                                                </Button>
+                                                                {(selectedActivities[dayIndex] || []).map((activity, activityIndex) => (
+                                                                    <div key={activityIndex}>
+                                                                        <Divider />
+                                                                        <h6>{activity?.title.slice(0, 60)}</h6>
+                                                                        <div className="d-flex w-100 justify-content-between gap-5 align-items-center">
+                                                                            <p>{activity?.description?.slice(0, 100)}</p>
+                                                                            <div className="d-flex flex-column justify-content-center gap-2 mb-0 align-items-center">
+                                                                                <h6 style={{ color: "green", fontWeight: "600" }}>₹ {activity?.price}</h6>
+                                                                                <Button type="dashed" icon={<MinusCircleOutlined />} onClick={() => handleRemoveActivity(dayIndex, activityIndex)}>Remove</Button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+
+                                                                <div className="addActvityRoomItenary mt-4 d-flex justify-content-end">
+                                                                    <Button type="primary" icon={<PlusOutlined />} danger onClick={() => showModal(dayIndex)}>
+                                                                        Add Activity
+                                                                    </Button>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                )
-                                            })}
+                                                    )
+                                                })}
 
-                                            <Modal width={800} title="Select Activity" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
-                                                {activities?.map((activity, activityIndex) => (
-                                                    <div key={activityIndex}>
-                                                        <h6>{activity.title.slice(0, 60)}</h6>
-                                                        <div className="d-flex  w-100 justify-content-between gap-5 align-items-center">
-                                                            <p>{activity.description.slice(0, 150)}</p>
-                                                            <div className="d-flex flex-column justify-content-center gap-2 mb-0 align-items-center">
-                                                                <h6 style={{ color: "green", fontWeight: "600" }}>₹ {activity?.price}</h6>
-                                                                <Button type="dashed" icon={<PlusOutlined />} onClick={() => handleSelectActivity(activity)} warning>Add</Button>
+                                                <Modal width={800} title="Select Activity" open={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                                                    {itenary?.data?.result?.[0]?.activities?.map((activity, activityIndex) => (
+                                                        <div key={activityIndex}>
+                                                            <h6>{activity?.title.slice(0, 60)}</h6>
+                                                            <div className="d-flex w-100 justify-content-between gap-5 align-items-center">
+                                                                <p>{activity?.description.slice(0, 150)}</p>
+                                                                <div className="d-flex flex-column justify-content-center gap-2 mb-0 align-items-center">
+                                                                    <h6 style={{ color: "green", fontWeight: "600" }}>₹ {activity?.price}</h6>
+                                                                    <Button type="dashed" icon={<PlusOutlined />} onClick={() => handleSelectActivity(activity)} warning>Add</Button>
+                                                                </div>
                                                             </div>
+                                                            <Divider />
                                                         </div>
-                                                        <Divider />
-                                                    </div>
-                                                ))}
-                                            </Modal>
-                                        </div>
+                                                    ))}
+                                                </Modal>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
+
                                 <div className="col-lg-4">
                                     <IteneraryPriceSummary />
                                 </div>
                             </div>
-
                         </div>
                     )
             }
         </>
-    )
-}
+    );
+};
 
 export default ItenaryResult;
-
-

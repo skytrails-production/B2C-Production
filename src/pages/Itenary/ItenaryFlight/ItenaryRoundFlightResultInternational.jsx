@@ -27,7 +27,7 @@ const variants = {
 };
 
 
-const ItenaryRoundFlightResultInternational = ({ closeModal }) => {
+const ItenaryRoundFlightResultInternational = ({ closeModal, selectedIndex, onFlightSelect }) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -154,49 +154,21 @@ const ItenaryRoundFlightResultInternational = ({ closeModal }) => {
 
     useEffect(() => {
         if (statusQuote && statusRule) {
-            // console.log("done")
-            // navigate("/ReturnResultInternational/PassengerDetailsInternational");
-            // dispatch(setLoading("data"));
             setLoading(false);
         }
     }, [statusQuote, statusRule]);
 
-    // console.log(reducerState, "reducer state")
-
-
 
 
     const handleFLightSelectForBook = (item) => {
-
-        // setLoading(true);
-
-        // sessionStorage.setItem("selectedFlightGoingInternational", JSON.stringify(result[0][i]));
-
-        // const payload = {
-        //     EndUserIp: reducerState?.ip?.ipData,
-        //     TokenId: reducerState?.ip?.tokenData,
-        //     TraceId: reducerState?.return?.returnData?.data?.data?.Response?.TraceId,
-        //     ResultIndex: `${item?.ResultIndex}`,
-        // };
-
-        // dispatch(ruleAction(payload));
-        // dispatch(quoteAction(payload));
-
-        // const payloadGoing = ongoFlight;
-        // const payloadReturn = incomeGlight;
-
-        const newPayload = [{
-
+        const newPayload = {
             payloadReturnInternational: item,
-        }]
+        };
 
-        console.log(newPayload, "new payload new payload")
-
-        dispatch(setSelectedFlightRequest(newPayload));
+        // dispatch(setSelectedFlightRequest(newPayload, selectedIndex));
+        onFlightSelect(newPayload)
         closeModal();
-
     };
-
 
 
 
@@ -351,7 +323,7 @@ const ItenaryRoundFlightResultInternational = ({ closeModal }) => {
                 <div className='mb-5'>
                 </div>
 
-                <div className='container'>
+                <div className='container-fluid'>
 
                     <div className="row ">
                         <div className="d-none d-sm-block col-lg-3 col-md-3 scrollDesign">

@@ -1,21 +1,24 @@
 .itenarySelect .ant-select {
     width: 100% !important;
-    height: 44px !important;
+    height: 35px !important;
 }
 
 .itenarySelect .ant-picker {
-    height: 44px !important;
+    height: 35px !important;
     width: 100% !important;
 }
 
 
 .itenarySelectRoom {
-    height: 100%;
+    /* height: 100%; */
     width: 100%;
     background-color: white;
     border: 1px solid #d9d9d9;
     border-radius: 3px;
+    padding: 8px 0px !important;
 }
+
+
 
 .itenarySelectRoom {
     display: flex;
@@ -90,6 +93,22 @@
     /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
     padding: 25px;
     border-radius: 5px;
+}
+
+
+.dayWiseItenaryInnerBoxPDF {
+    background-color: #fefae0;
+    /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
+    padding: 25px;
+
+    border-radius: 12px;
+}
+
+
+.hotelImage img {
+    width: 250px;
+    height: 180px;
+    border-radius: 9px;
 }
 
 .iteFliMod:where(.css-dev-only-do-not-override-j9bb5n).ant-modal .ant-modal-content {
@@ -168,4 +187,94 @@
 }
 
 
+.labelItenerary label {
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 8px;
+}
+
+
+.itenaryHeading h3 {
+    font-size: 20px;
+    font-weight: 700;
+
+}
+
+
 /* itenerary result page design  */
+
+
+
+
+
+
+.pdfFlightReturnBox {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #fefae0 !important;
+    border-radius: 8px;
+    gap: 20px;
+    padding: 20px;
+    margin: 10px 0px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+
+
+
+.flightPdfIteneraryPara {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+
+.itenaryPdfBoxHeading {
+    background-color: #fefae0;
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.itenaryPdfBoxHeading>div>p {
+    line-height: 27px;
+    font-size: 15px !important;
+}
+
+
+
+.returnFlightResultBoxOne .returnResultFlightDetailsPDF {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    background: #fff;
+    padding: 8px;
+    border-radius: 6px;
+}
+
+
+.returnResultFlightDetailsPDF img {
+    width: 32px;
+    border-radius: 5px;
+}
+
+.returnResultFlightDetailsPDF span {
+    font-size: 13px;
+    color: #000;
+    font-family: Montserrat;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+
+.returnResultFlightDetailsPDF p {
+    color: #d90429;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    font-size: 12px;
+}

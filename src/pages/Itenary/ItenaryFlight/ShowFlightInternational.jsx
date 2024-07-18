@@ -3,17 +3,19 @@ import dayjs from 'dayjs';
 import React from 'react'
 import { useSelector } from 'react-redux';
 
-const ShowFlightInternational = () => {
+const ShowFlightInternational = ({ flight }) => {
 
 
     const reducerState = useSelector((state) => state);
     const markUpamount =
         reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
 
-    const internationalFlight = reducerState.Itenerary?.selectedFlight?.[0]
 
-    // const grandTotal = Number(internationalFlight?.payloadReturnInternational?.Fare?.PublishedFare.toFixed(0)) + Number(markUpamount)
-    const grandTotal = (Number(internationalFlight?.payloadReturnInternational?.Fare?.PublishedFare.toFixed(0)) + markUpamount * Number(internationalFlight?.payloadReturnInternational?.Fare?.PublishedFare.toFixed(0))).toFixed(0)
+
+
+
+    // const grandTotal = Number(flight?.payloadReturnInternational?.Fare?.PublishedFare.toFixed(0)) + Number(markUpamount)
+    const grandTotal = (Number(flight?.payloadReturnInternational?.Fare?.PublishedFare.toFixed(0)) + markUpamount * Number(flight?.payloadReturnInternational?.Fare?.PublishedFare.toFixed(0))).toFixed(0)
 
     return (
         <div>
@@ -22,62 +24,62 @@ const ShowFlightInternational = () => {
                     <div class="returnResultFlightDetails">
                         <div>
                             <img
-                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${internationalFlight?.payloadReturnInternational?.ValidatingAirline}.png`}
+                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${flight?.payloadReturnInternational?.ValidatingAirline}.png`}
                                 alt="flight"
                             />{" "}
                         </div>
                         <span>{
-                            internationalFlight?.payloadReturnInternational?.Segments[0][0]?.Airline?.AirlineName
+                            flight?.payloadReturnInternational?.Segments[0][0]?.Airline?.AirlineName
                         }</span>
                         <p>{
-                            internationalFlight?.payloadReturnInternational?.Segments[0][0]?.Airline?.AirlineCode
+                            flight?.payloadReturnInternational?.Segments[0][0]?.Airline?.AirlineCode
                         }
                             {
-                                internationalFlight?.payloadReturnInternational?.Segments[0][0]?.Airline?.FlightNumber
+                                flight?.payloadReturnInternational?.Segments[0][0]?.Airline?.FlightNumber
                             }</p>
                     </div>
                     <div class="returnResultOtherDetails">
                         <div class="returnResultTimingBox">
                             <span>{
-                                internationalFlight?.payloadReturnInternational?.Segments[0][0]?.Origin?.Airport?.CityName
+                                flight?.payloadReturnInternational?.Segments[0][0]?.Origin?.Airport?.CityName
                             }</span>
                             <p>{dayjs(
-                                internationalFlight?.payloadReturnInternational?.Segments[0][0]?.Origin?.DepTime
+                                flight?.payloadReturnInternational?.Segments[0][0]?.Origin?.DepTime
                             ).format("DD MMM, YY")}
                             </p>
                             <h5 class="daySize">{dayjs(
-                                internationalFlight?.payloadReturnInternational?.Segments[0][0]?.Origin?.DepTime
+                                flight?.payloadReturnInternational?.Segments[0][0]?.Origin?.DepTime
                             ).format("h:mm A")}</h5>
                         </div>
                         <div class="returnResultDurationBox">
                             {
-                                internationalFlight?.payloadReturnInternational?.Segments[0].length > 1 ?
+                                flight?.payloadReturnInternational?.Segments[0].length > 1 ?
                                     <h4>
                                         {`${Math.floor(
-                                            internationalFlight?.payloadReturnInternational?.Segments[0][0]?.Duration /
+                                            flight?.payloadReturnInternational?.Segments[0][0]?.Duration /
                                             60
-                                        )}hr ${internationalFlight?.payloadReturnInternational?.Segments[0][0]?.Duration %
+                                        )}hr ${flight?.payloadReturnInternational?.Segments[0][0]?.Duration %
                                         60
                                             }min`}{" "}
                                         -{" "}
                                         {`${Math.floor(
-                                            internationalFlight?.payloadReturnInternational?.Segments[0][1]?.Duration /
+                                            flight?.payloadReturnInternational?.Segments[0][1]?.Duration /
                                             60
-                                        )}hr ${internationalFlight?.payloadReturnInternational?.Segments[0][0]?.Duration %
+                                        )}hr ${flight?.payloadReturnInternational?.Segments[0][0]?.Duration %
                                         60
                                             }min`}
                                     </h4> : <h4>
                                         {`${Math.floor(
-                                            internationalFlight?.payloadReturnInternational?.Segments[0][0]?.Duration /
+                                            flight?.payloadReturnInternational?.Segments[0][0]?.Duration /
                                             60
-                                        )}hr ${internationalFlight?.payloadReturnInternational?.Segments[0][0]?.Duration %
+                                        )}hr ${flight?.payloadReturnInternational?.Segments[0][0]?.Duration %
                                         60
                                             }min`}
                                     </h4>}
 
 
                             {
-                                internationalFlight?.payloadReturnInternational?.Segments[0].length > 1 ?
+                                flight?.payloadReturnInternational?.Segments[0].length > 1 ?
                                     (
                                         <div className=" stopBefReturn">
                                             <Divider
@@ -108,12 +110,12 @@ const ShowFlightInternational = () => {
                                     )
                             }
                             <p>{
-                                internationalFlight?.payloadReturnInternational?.Segments[0].length > 1 ?
-                                    `${internationalFlight?.payloadReturnInternational?.Segments[0].length - 1} stop via ${internationalFlight?.payloadReturnInternational?.Segments[0][0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
+                                flight?.payloadReturnInternational?.Segments[0].length > 1 ?
+                                    `${flight?.payloadReturnInternational?.Segments[0].length - 1} stop via ${flight?.payloadReturnInternational?.Segments[0][0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
 
                             <span>
                                 {
-                                    internationalFlight?.payloadReturnInternational?.Segments[0][0]
+                                    flight?.payloadReturnInternational?.Segments[0][0]
                                         ?.NoOfSeatAvailable
                                 }{" "}
                                 Seats Left
@@ -122,18 +124,18 @@ const ShowFlightInternational = () => {
                         <div class="returnResultTimingBox">
                             <span>
                                 {
-                                    internationalFlight?.payloadReturnInternational?.Segments[0][internationalFlight?.payloadReturnInternational?.Segments[0].length - 1]?.Destination
+                                    flight?.payloadReturnInternational?.Segments[0][flight?.payloadReturnInternational?.Segments[0].length - 1]?.Destination
                                         ?.Airport?.CityName
                                 }
                             </span>
                             <p>
                                 {dayjs(
-                                    internationalFlight?.payloadReturnInternational?.Segments?.[0][internationalFlight?.payloadReturnInternational?.Segments[0].length - 1]?.Destination?.ArrTime
+                                    flight?.payloadReturnInternational?.Segments?.[0][flight?.payloadReturnInternational?.Segments[0].length - 1]?.Destination?.ArrTime
                                 ).format("DD MMM, YY")}
                             </p>
                             <h5 className="daySize">
                                 {dayjs(
-                                    internationalFlight?.payloadReturnInternational?.Segments?.[0][internationalFlight?.payloadReturnInternational?.Segments[0].length - 1]
+                                    flight?.payloadReturnInternational?.Segments?.[0][flight?.payloadReturnInternational?.Segments[0].length - 1]
                                         ?.Destination?.ArrTime
                                 ).format("h:mm A")}
                             </h5>
@@ -144,23 +146,23 @@ const ShowFlightInternational = () => {
                     <div class="returnResultFlightDetails">
                         <div>
                             <img
-                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${internationalFlight?.payloadReturnInternational?.ValidatingAirline}.png`}
+                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${flight?.payloadReturnInternational?.ValidatingAirline}.png`}
                                 alt="flight"
                             />{" "}
                         </div>
                         <span>
                             {
-                                internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][0]?.Airline
+                                flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1][0]?.Airline
                                     ?.AirlineName
                             }
                         </span>
                         <p>
                             {
-                                internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][0]?.Airline
+                                flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1][0]?.Airline
                                     ?.AirlineCode
                             }
                             {
-                                internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][0]?.Airline
+                                flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1][0]?.Airline
                                     ?.FlightNumber
                             }
                         </p>
@@ -169,52 +171,52 @@ const ShowFlightInternational = () => {
                         <div class="returnResultTimingBox">
                             <span>
                                 {
-                                    internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][0]?.Origin
+                                    flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1][0]?.Origin
                                         ?.Airport?.CityName
                                 }
                             </span>
                             <p>
                                 {dayjs(
-                                    internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][0]?.Origin
+                                    flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1][0]?.Origin
                                         ?.DepTime
                                 ).format("DD MMM, YY")}
                             </p>
                             <h5 className="daySize">
                                 {dayjs(
-                                    internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][0]?.Origin
+                                    flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1][0]?.Origin
                                         ?.DepTime
                                 ).format("h:mm A")}
                             </h5>
                         </div>
                         <div class="returnResultDurationBox">
                             {
-                                internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1].length > 1 ?
+                                flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1].length > 1 ?
                                     <h4>
                                         {`${Math.floor(
-                                            internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][0]?.Duration /
+                                            flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1][0]?.Duration /
                                             60
-                                        )}hr ${internationalFlight?.payloadReturnInternational?.Segments[0][0]?.Duration %
+                                        )}hr ${flight?.payloadReturnInternational?.Segments[0][0]?.Duration %
                                         60
                                             }min`}{" "}
                                         -{" "}
                                         {`${Math.floor(
-                                            internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][1]?.Duration /
+                                            flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1][1]?.Duration /
                                             60
-                                        )}hr ${internationalFlight?.payloadReturnInternational?.Segments[0][0]?.Duration %
+                                        )}hr ${flight?.payloadReturnInternational?.Segments[0][0]?.Duration %
                                         60
                                             }min`}
                                     </h4> : <h4>
                                         {`${Math.floor(
-                                            internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][0]?.Duration /
+                                            flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1][0]?.Duration /
                                             60
-                                        )}hr ${internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][0]?.Duration %
+                                        )}hr ${flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1][0]?.Duration %
                                         60
                                             }min`}
                                     </h4>}
 
 
                             {
-                                internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1].length > 1 ?
+                                flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1].length > 1 ?
                                     (
                                         <div className=" stopBefReturn">
                                             <Divider
@@ -245,12 +247,12 @@ const ShowFlightInternational = () => {
                                     )
                             }
                             <p>{
-                                internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1].length > 1 ?
-                                    `${internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1].length - 1} stop via ${internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
+                                flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1].length > 1 ?
+                                    `${flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1].length - 1} stop via ${flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1][0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
 
                             <span>
                                 {
-                                    internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][0]
+                                    flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1][0]
                                         ?.NoOfSeatAvailable
                                 }{" "}
                                 Seats Left
@@ -259,18 +261,18 @@ const ShowFlightInternational = () => {
                         <div class="returnResultTimingBox">
                             <span>
                                 {
-                                    internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1].length - 1]?.Destination
+                                    flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1][flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1].length - 1]?.Destination
                                         ?.Airport?.CityName
                                 }
                             </span>
                             <p>
                                 {dayjs(
-                                    internationalFlight?.payloadReturnInternational?.Segments?.[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1].length - 1]?.Destination?.ArrTime
+                                    flight?.payloadReturnInternational?.Segments?.[flight?.payloadReturnInternational?.Segments?.length - 1][flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1].length - 1]?.Destination?.ArrTime
                                 ).format("DD MMM, YY")}
                             </p>
                             <h5 className="daySize">
                                 {dayjs(
-                                    internationalFlight?.payloadReturnInternational?.Segments?.[internationalFlight?.payloadReturnInternational?.Segments?.length - 1][internationalFlight?.payloadReturnInternational?.Segments[internationalFlight?.payloadReturnInternational?.Segments?.length - 1].length - 1]
+                                    flight?.payloadReturnInternational?.Segments?.[flight?.payloadReturnInternational?.Segments?.length - 1][flight?.payloadReturnInternational?.Segments[flight?.payloadReturnInternational?.Segments?.length - 1].length - 1]
                                         ?.Destination?.ArrTime
                                 ).format("h:mm A")}
                             </h5>
@@ -279,7 +281,7 @@ const ShowFlightInternational = () => {
                 </div>
                 <div className="returnInternationalViewDetails">
                     {/* <p>₹ {item?.Fare?.PublishedFare}</p> */}
-                    <span style={{ fontWeight: "600", fontSize: "15px", }}> {`₹ ${Number(internationalFlight?.payloadReturnInternational?.Fare?.PublishedFare.toFixed(0))}`}</span>
+                    <span style={{ fontWeight: "600", fontSize: "15px", }}> {`₹ ${Number(flight?.payloadReturnInternational?.Fare?.PublishedFare.toFixed(0))}`}</span>
 
                 </div>
             </div>

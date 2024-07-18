@@ -1,6 +1,7 @@
 import { apiURL } from "../../Constants/constant";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { SearchOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,7 +9,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import "./itenary.css"
-import { Select } from "antd";
+import { Input, Select } from "antd";
 import { DatePicker, Button } from "antd";
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import dayjs from "dayjs";
@@ -460,6 +461,7 @@ const ItenaryDashboard = () => {
     const [itineraryItems, setItineraryItems] = useState([{ from: initialSelectedFromData, night: null }]);
     const [selectedLeaving, setSelectedLeaving] = useState(initialSelectedLeavingData);
     const [loader, setLoader] = useState(false)
+    const [clientName, setClientName] = useState('')
     const reducerState = useSelector((state) => state);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -660,12 +662,21 @@ const ItenaryDashboard = () => {
     // console.log(reducerState, "reducer stater in itenary dashboard")
 
 
+    // handle client name 
+
+    const handleClientName = (e) => {
+        setClientName(e.target.value);
+    }
+
+    // handle client name 
+
 
     const handleItenarySubmit = () => {
         setLoader(true);
 
         const payload = {
             cityAndNight: itineraryItems,
+            clientName: clientName,
             leavingFrom: selectedLeaving,
             nationality: selectNationality,
             leavingDate: newDepartDate,
@@ -714,364 +725,384 @@ const ItenaryDashboard = () => {
     };
 
     return (
-        <div className="container">
-            <div className="itenaryHeading d-flex justify-content-center text-center mb-3">
-                <h3>Customized Holidays</h3>
-            </div>
-            {itineraryItems.map((item, index) => (
-                <div className="row g-3 mb-2" key={index}>
-                    <div className="col-lg-5 col-md-5">
-                        <div className="itenarySelect">
-                            <FromSearchInput
-                                style={{ width: "100%" }}
-                                placeholder="Search"
-                                onItemSelect={(item) => handleFromSelect(index, item)}
+        <section className="py-5">
+
+
+            <div className="container px-5 py-3 " style={{ background: "#FFF", borderRadius: "10px", maxWidth: "750px" }}>
+                <div className="itenaryHeading d-flex justify-content-center text-center mb-3">
+                    <h3>Customized Holidays</h3>
+                </div>
+                {itineraryItems.map((item, index) => (
+                    <div className="row g-3 mb-2" key={index}>
+                        <div className="col-lg-6 col-md-6">
+                            <div className="itenarySelect">
+                                <FromSearchInput
+                                    style={{ width: "100%" }}
+                                    placeholder="Search"
+                                    onItemSelect={(item) => handleFromSelect(index, item)}
+                                />
+                            </div>
+                        </div>
+                        <div className="col-lg-5 col-md-5">
+                            <div className="itenarySelect">
+                                <Select
+                                    style={{ width: "100%" }}
+                                    placeholder="Select Night"
+                                    onChange={(value) => handleNightSelect(index, value)}
+                                    value={item.night}
+                                >
+                                    {nights.map((night, index) => (
+                                        <Select.Option key={night} value={index + 1}>
+                                            {night} Night
+                                        </Select.Option>
+                                    ))}
+                                </Select>
+                            </div>
+                        </div>
+                        <div className="col-lg-1 col-md-1">
+                            {/* <Button type="danger" >-</Button> */}
+                            <MinusCircleOutlined
+                                className="dynamic-delete-button"
+                                onClick={() => handleRemoveItem(index)}
                             />
                         </div>
                     </div>
-                    <div className="col-lg-4 col-md-4">
-                        <div className="itenarySelect">
-                            <Select
-                                style={{ width: "100%" }}
-                                placeholder="Select Night"
-                                onChange={(value) => handleNightSelect(index, value)}
-                                value={item.night}
+                ))}
+                <div className="row">
+                    <div className="col-lg-12 col-md-12">
+                        {/* <Button type="primary" >Add</Button> */}
+                        <div className="d-flex justify-content-center mt-2">
+                            <Button
+                                type="dashed"
+                                onClick={handleAddItem}
+                                style={{
+                                    width: '60%',
+                                }}
+                                icon={<PlusOutlined />}
                             >
-                                {nights.map((night, index) => (
-                                    <Select.Option key={night} value={index + 1}>
-                                        Night {night}
-                                    </Select.Option>
-                                ))}
+                                Add Another City
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row mt-4 g-2 labelItenerary">
+                    <div className="col-lg-6 col-md-6">
+                        <label htmlFor="">Client Name</label>
+                        <div className="itenarySelect">
+                            <Input placeholder="name" onChange={(e) => handleClientName(e)} />
+                        </div>
+                    </div>
+                    <div className="col-lg-6 col-md-6">
+                        <label htmlFor="">Leaving City</label>
+                        <div className="itenarySelect">
+
+
+                            <LeavingSearchInput
+                                placeholder="Search"
+                                style={{ width: "100%" }}
+                                onItemSelect={handleLeavingSelect} // Pass the callback function
+                            />
+                        </div>
+                    </div>
+                    <div className="col-lg-6 col-md-6">
+                        <label htmlFor="">Nationality</label>
+                        <div className="itenarySelect">
+
+
+                            <NationalityInput
+                                placeholder="Search"
+                                style={{ width: "100%" }}
+                                onItemSelect={handleNationalitySelect}// Pass the callback function
+                            />
+                        </div>
+                    </div>
+                    <div className="col-lg-6 col-md-6">
+                        <label htmlFor="">Leaving on</label>
+                        <div className="itenarySelect">
+                            <DatePicker
+                                onChange={handleRangeChange}
+                                defaultValue={[dayjs()]}
+                                format={dateFormat}
+                                disabledDate={disablePastDates}
+                            />
+                        </div>
+                    </div>
+                    <div className="col-lg-6 col-md-6">
+                        <label htmlFor="">Number of Travellers</label>
+                        <div className="itenarySelectRoom">
+
+                            <div
+                                onClick={handleTravelClickOpen}
+                                className="travellerButton"
+                            >
+                                <span className="">
+                                    {condition} Room,{" "}  {numAdults} Adults {numChildren} Child
+                                </span>
+                            </div>
+
+
+                            <Dialog
+                                sx={{ zIndex: "99999" }}
+                                disableEscapeKeyDown
+                                open={openTravelModal}
+                                onClose={handleTravelClose}
+                            >
+                                <DialogContent>
+                                    <>
+                                        <div className="travellerModal">
+                                            <div className="roomModal">
+                                                <div className="hotel_modal_form_input px-0">
+                                                    <label className="form_label">
+                                                        Room*
+                                                    </label>
+                                                    <select
+                                                        name="room"
+                                                        value={condition}
+                                                        onChange={handleConditionChange}
+                                                        className="hotel_input_select"
+                                                    >
+                                                        <option>1</option>
+                                                        <option>2</option>
+                                                        <option>3</option>
+                                                        <option>4</option>
+                                                        <option>5</option>
+                                                        <option>6</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div className="px-1">
+                                                {condition > 0 &&
+                                                    Array.from({ length: condition }).map(
+                                                        (_, index) => (
+                                                            <div
+                                                                key={index}
+                                                                className="room-modal-container"
+                                                            >
+                                                                <div>
+                                                                    <h5>ROOM {index + 1}</h5>
+                                                                </div>
+                                                                <div className="row">
+                                                                    <div className="hotel_modal_form_input">
+                                                                        <label className="form_label">
+                                                                            No of Adults:
+                                                                        </label>
+                                                                        <select
+                                                                            value={
+                                                                                formDataDynamic[index]
+                                                                                    ?.NoOfAdults || 1
+                                                                            }
+                                                                            className="hotel_input_select"
+                                                                            onChange={(e) =>
+                                                                                handleFormChange(
+                                                                                    index,
+                                                                                    "NoOfAdults",
+                                                                                    parseInt(e.target.value)
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            {[1, 2, 3, 4, 5, 6, 7, 8].map(
+                                                                                (num) => (
+                                                                                    <option
+                                                                                        key={num}
+                                                                                        value={num}
+                                                                                    >
+                                                                                        {num}
+                                                                                    </option>
+                                                                                )
+                                                                            )}
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div className="hotel_modal_form_input">
+                                                                        <label className="form_label">
+                                                                            No of Child:
+                                                                        </label>
+                                                                        <select
+                                                                            value={
+                                                                                formDataDynamic[index]
+                                                                                    ?.NoOfChild || 0
+                                                                            }
+                                                                            className="hotel_input_select"
+                                                                            name="noOfChild"
+                                                                            onChange={(e) =>
+                                                                                handleFormChange(
+                                                                                    index,
+                                                                                    "NoOfChild",
+                                                                                    parseInt(e.target.value)
+                                                                                )
+                                                                            }
+                                                                        >
+                                                                            {[0, 1, 2, 3, 4].map(
+                                                                                (childCount) => (
+                                                                                    <option
+                                                                                        key={childCount}
+                                                                                        value={childCount}
+                                                                                    >
+                                                                                        {childCount}
+                                                                                    </option>
+                                                                                )
+                                                                            )}
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                {formDataDynamic[index]?.NoOfChild >
+                                                                    0 && (
+                                                                        <div className="hotel_modal_form_input_child_age">
+                                                                            <label className="mt-3">
+                                                                                Child Age:
+                                                                            </label>
+                                                                            <div>
+                                                                                {Array.from({
+                                                                                    length:
+                                                                                        formDataDynamic[index]
+                                                                                            ?.NoOfChild || 0,
+                                                                                }).map((_, childIndex) => (
+                                                                                    <div
+                                                                                        key={childIndex}
+                                                                                        className=""
+                                                                                    >
+                                                                                        <select
+                                                                                            value={
+                                                                                                formDataDynamic[index]
+                                                                                                    ?.ChildAge?.[
+                                                                                                childIndex
+                                                                                                ] || ""
+                                                                                            }
+                                                                                            className="hotel_input_select"
+                                                                                            onChange={(e) =>
+                                                                                                handleChildAgeChange(
+                                                                                                    index,
+                                                                                                    childIndex,
+                                                                                                    e.target.value
+                                                                                                )
+                                                                                            }
+                                                                                        >
+                                                                                            {Array.from(
+                                                                                                { length: 12 },
+                                                                                                (_, i) => (
+                                                                                                    <option
+                                                                                                        key={i}
+                                                                                                        value={i + 1}
+                                                                                                    >
+                                                                                                        {i + 1}
+                                                                                                    </option>
+                                                                                                )
+                                                                                            )}
+                                                                                        </select>
+                                                                                    </div>
+                                                                                ))}
+                                                                            </div>
+                                                                        </div>
+                                                                    )}
+                                                            </div>
+                                                        )
+                                                    )}
+
+                                            </div>
+                                        </div>
+                                    </>
+                                </DialogContent>
+                                <DialogActions>
+                                    <Button
+                                        style={{
+                                            backgroundColor: "#21325d",
+                                            color: "white",
+                                        }}
+                                        onClick={handleTravelClose}
+                                    >
+                                        Cancel
+                                    </Button>
+                                    <Button
+                                        style={{
+                                            backgroundColor: "#21325d",
+                                            color: "white",
+                                        }}
+                                        onClick={handleTravelClose}
+                                    >
+                                        Ok
+                                    </Button>
+                                </DialogActions>
+                            </Dialog>
+
+                        </div>
+                    </div>
+                    <div className="col-lg-6 col-md-6">
+                        <label htmlFor="">Interest</label>
+                        <div className="itenarySelect">
+
+                            <Select
+                                value={selectedInterest}
+                                onChange={handleInterestChange}
+                                style={{ width: '100%' }}
+                                placeholder="Select an option"
+                            >
+                                <Select.Option value="Honeymoon">Honeymoon</Select.Option>
+                                <Select.Option value="Luxury">Luxury</Select.Option>
+                                <Select.Option value="Leisure">Leisure</Select.Option>
+                                <Select.Option value="Spa">Spa</Select.Option>
+                                <Select.Option value="History">History</Select.Option>
+                                <Select.Option value="Art&Culture">Art & Culture</Select.Option>
+                                <Select.Option value="Adventure">Adventure</Select.Option>
+                                <Select.Option value="Nightlife">Nightlife</Select.Option>
+                                <Select.Option value="Shopping">Shopping</Select.Option>
+                                <Select.Option value="Entertainment">Entertainment</Select.Option>
+                                <Select.Option value="option7">Adventure</Select.Option>
+
                             </Select>
                         </div>
                     </div>
-                    <div className="col-lg-2 col-md-2">
-                        {/* <Button type="danger" >-</Button> */}
-                        <MinusCircleOutlined
-                            className="dynamic-delete-button"
-                            onClick={() => handleRemoveItem(index)}
-                        />
-                    </div>
-                </div>
-            ))}
-            <div className="row">
-                <div className="col-lg-9 col-md-9">
-                    {/* <Button type="primary" >Add</Button> */}
-                    <div className="d-flex justify-content-center mt-2">
-                        <Button
-                            type="dashed"
-                            onClick={handleAddItem}
-                            style={{
-                                width: '60%',
-                            }}
-                            icon={<PlusOutlined />}
-                        >
-                            Add Another City
-                        </Button>
-                    </div>
-                </div>
-            </div>
 
-            <div className="row mt-4 g-4">
-                <div className="col-lg-5 col-md-5">
-                    <div className="itenarySelect">
+                    <div className="col-lg-6 col-md-6">
+                        <label htmlFor="">Who is Travelling</label>
+                        <div className="itenarySelect">
+
+                            <Select
+                                value={whoisTravelling}
+                                onChange={handleWhoisTravelling}
+                                style={{ width: '100%' }}
+                                placeholder="Select an option"
+                            >
+                                <Select.Option value="Couple">Couple</Select.Option>
+                                <Select.Option value="Family">Family</Select.Option>
+                                <Select.Option value="Friends">Friends</Select.Option>
 
 
-                        <LeavingSearchInput
-                            placeholder="Search"
-                            style={{ width: "100%" }}
-                            onItemSelect={handleLeavingSelect} // Pass the callback function
-                        />
-                    </div>
-                </div>
-                <div className="col-lg-5 col-md-5">
-                    <div className="itenarySelect">
-
-
-                        <NationalityInput
-                            placeholder="Search"
-                            style={{ width: "100%" }}
-                            onItemSelect={handleNationalitySelect}// Pass the callback function
-                        />
-                    </div>
-                </div>
-                <div className="col-lg-5 col-md-5">
-                    <div className="itenarySelect">
-                        <DatePicker
-                            onChange={handleRangeChange}
-                            defaultValue={[dayjs()]}
-                            format={dateFormat}
-                            disabledDate={disablePastDates}
-                        />
-                    </div>
-                </div>
-                <div className="col-lg-5 col-md-5">
-                    <div className="itenarySelectRoom">
-
-                        <div
-                            onClick={handleTravelClickOpen}
-                            className="travellerButton"
-                        >
-                            <span className="">
-                                {condition} Room,{" "}  {numAdults} Adults {numChildren} Child
-                            </span>
+                            </Select>
                         </div>
-
-
-                        <Dialog
-                            sx={{ zIndex: "99999" }}
-                            disableEscapeKeyDown
-                            open={openTravelModal}
-                            onClose={handleTravelClose}
-                        >
-                            <DialogContent>
-                                <>
-                                    <div className="travellerModal">
-                                        <div className="roomModal">
-                                            <div className="hotel_modal_form_input px-0">
-                                                <label className="form_label">
-                                                    Room*
-                                                </label>
-                                                <select
-                                                    name="room"
-                                                    value={condition}
-                                                    onChange={handleConditionChange}
-                                                    className="hotel_input_select"
-                                                >
-                                                    <option>1</option>
-                                                    <option>2</option>
-                                                    <option>3</option>
-                                                    <option>4</option>
-                                                    <option>5</option>
-                                                    <option>6</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div className="px-1">
-                                            {condition > 0 &&
-                                                Array.from({ length: condition }).map(
-                                                    (_, index) => (
-                                                        <div
-                                                            key={index}
-                                                            className="room-modal-container"
-                                                        >
-                                                            <div>
-                                                                <h5>ROOM {index + 1}</h5>
-                                                            </div>
-                                                            <div className="row">
-                                                                <div className="hotel_modal_form_input">
-                                                                    <label className="form_label">
-                                                                        No of Adults:
-                                                                    </label>
-                                                                    <select
-                                                                        value={
-                                                                            formDataDynamic[index]
-                                                                                ?.NoOfAdults || 1
-                                                                        }
-                                                                        className="hotel_input_select"
-                                                                        onChange={(e) =>
-                                                                            handleFormChange(
-                                                                                index,
-                                                                                "NoOfAdults",
-                                                                                parseInt(e.target.value)
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        {[1, 2, 3, 4, 5, 6, 7, 8].map(
-                                                                            (num) => (
-                                                                                <option
-                                                                                    key={num}
-                                                                                    value={num}
-                                                                                >
-                                                                                    {num}
-                                                                                </option>
-                                                                            )
-                                                                        )}
-                                                                    </select>
-                                                                </div>
-
-                                                                <div className="hotel_modal_form_input">
-                                                                    <label className="form_label">
-                                                                        No of Child:
-                                                                    </label>
-                                                                    <select
-                                                                        value={
-                                                                            formDataDynamic[index]
-                                                                                ?.NoOfChild || 0
-                                                                        }
-                                                                        className="hotel_input_select"
-                                                                        name="noOfChild"
-                                                                        onChange={(e) =>
-                                                                            handleFormChange(
-                                                                                index,
-                                                                                "NoOfChild",
-                                                                                parseInt(e.target.value)
-                                                                            )
-                                                                        }
-                                                                    >
-                                                                        {[0, 1, 2, 3, 4].map(
-                                                                            (childCount) => (
-                                                                                <option
-                                                                                    key={childCount}
-                                                                                    value={childCount}
-                                                                                >
-                                                                                    {childCount}
-                                                                                </option>
-                                                                            )
-                                                                        )}
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            {formDataDynamic[index]?.NoOfChild >
-                                                                0 && (
-                                                                    <div className="hotel_modal_form_input_child_age">
-                                                                        <label className="mt-3">
-                                                                            Child Age:
-                                                                        </label>
-                                                                        <div>
-                                                                            {Array.from({
-                                                                                length:
-                                                                                    formDataDynamic[index]
-                                                                                        ?.NoOfChild || 0,
-                                                                            }).map((_, childIndex) => (
-                                                                                <div
-                                                                                    key={childIndex}
-                                                                                    className=""
-                                                                                >
-                                                                                    <select
-                                                                                        value={
-                                                                                            formDataDynamic[index]
-                                                                                                ?.ChildAge?.[
-                                                                                            childIndex
-                                                                                            ] || ""
-                                                                                        }
-                                                                                        className="hotel_input_select"
-                                                                                        onChange={(e) =>
-                                                                                            handleChildAgeChange(
-                                                                                                index,
-                                                                                                childIndex,
-                                                                                                e.target.value
-                                                                                            )
-                                                                                        }
-                                                                                    >
-                                                                                        {Array.from(
-                                                                                            { length: 12 },
-                                                                                            (_, i) => (
-                                                                                                <option
-                                                                                                    key={i}
-                                                                                                    value={i + 1}
-                                                                                                >
-                                                                                                    {i + 1}
-                                                                                                </option>
-                                                                                            )
-                                                                                        )}
-                                                                                    </select>
-                                                                                </div>
-                                                                            ))}
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                        </div>
-                                                    )
-                                                )}
-
-                                        </div>
-                                    </div>
-                                </>
-                            </DialogContent>
-                            <DialogActions>
-                                <Button
-                                    style={{
-                                        backgroundColor: "#21325d",
-                                        color: "white",
-                                    }}
-                                    onClick={handleTravelClose}
-                                >
-                                    Cancel
-                                </Button>
-                                <Button
-                                    style={{
-                                        backgroundColor: "#21325d",
-                                        color: "white",
-                                    }}
-                                    onClick={handleTravelClose}
-                                >
-                                    Ok
-                                </Button>
-                            </DialogActions>
-                        </Dialog>
-
                     </div>
-                </div>
-                <div className="col-lg-5 col-md-5">
-                    <div className="itenarySelect">
+                    <div className="col-lg-6 col-md-6">
+                        <label htmlFor="">Star Rating</label>
+                        <div className="itenarySelect">
 
-                        <Select
-                            value={selectedInterest}
-                            onChange={handleInterestChange}
-                            style={{ width: '100%' }}
-                            placeholder="Select an option"
-                        >
-                            <Select.Option value="Honeymoon">Honeymoon</Select.Option>
-                            <Select.Option value="Luxury">Luxury</Select.Option>
-                            <Select.Option value="Leisure">Leisure</Select.Option>
-                            <Select.Option value="Spa">Spa</Select.Option>
-                            <Select.Option value="History">History</Select.Option>
-                            <Select.Option value="Art&Culture">Art & Culture</Select.Option>
-                            <Select.Option value="Adventure">Adventure</Select.Option>
-                            <Select.Option value="Nightlife">Nightlife</Select.Option>
-                            <Select.Option value="Shopping">Shopping</Select.Option>
-                            <Select.Option value="Entertainment">Entertainment</Select.Option>
-                            <Select.Option value="option7">Adventure</Select.Option>
+                            <Select
+                                value={ratingData}
+                                onChange={handleRating}
+                                style={{ width: '100%' }}
+                                placeholder="Select an option"
+                            >
+                                <Select.Option value="recommended">Recommended</Select.Option>
+                                <Select.Option value="3">3 Star</Select.Option>
+                                <Select.Option value="4">4 Star</Select.Option>
+                                <Select.Option value="5">5 Star</Select.Option>
 
-                        </Select>
+
+                            </Select>
+                        </div>
                     </div>
-                </div>
+                    <div className="col-lg-12 col-md-12">
+                        <div className="d-flex justify-content-center ">
 
-                <div className="col-lg-5 col-md-5">
-                    <div className="itenarySelect">
-
-                        <Select
-                            value={whoisTravelling}
-                            onChange={handleWhoisTravelling}
-                            style={{ width: '100%' }}
-                            placeholder="Select an option"
-                        >
-                            <Select.Option value="Couple">Couple</Select.Option>
-                            <Select.Option value="Family">Family</Select.Option>
-                            <Select.Option value="Friends">Friends</Select.Option>
-
-
-                        </Select>
+                            <Button type="primary" icon={<SearchOutlined />} danger onClick={handleItenarySubmit}>
+                                Search
+                            </Button>
+                        </div>
                     </div>
+
                 </div>
-                <div className="col-lg-5 col-md-5">
-                    <div className="itenarySelect">
-
-                        <Select
-                            value={ratingData}
-                            onChange={handleRating}
-                            style={{ width: '100%' }}
-                            placeholder="Select an option"
-                        >
-                            <Select.Option value="recommended">Recommended</Select.Option>
-                            <Select.Option value="3">3 Star</Select.Option>
-                            <Select.Option value="4">4 Star</Select.Option>
-                            <Select.Option value="5">5 Star</Select.Option>
-
-
-                        </Select>
-                    </div>
-                </div>
-                <div className="col-lg-10 col-md-10">
-                    <div className="d-flex justify-content-center ">
-                        <Button className="returnButton" style={{ padding: "8px 36px", height: "unset" }} onClick={handleItenarySubmit}>Search</Button>
-                    </div>
-                </div>
-
             </div>
-        </div>
+        </section>
     );
 }
 

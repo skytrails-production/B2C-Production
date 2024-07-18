@@ -36,6 +36,8 @@ export default function HotelResult({
     const [loader, setLoader] = useState(true)
 
 
+    console.log(reducerState, "reducer state, dfdfd")
+
     let filteredHotels = hotels?.filter((hotel) => {
 
         // Hide hotels with empty category or category less than 3
@@ -173,16 +175,17 @@ export default function HotelResult({
                 loader ?
                     <SkeletonHotelResult />
                     :
-                    <InfiniteScroll
-                        dataLength={filteredHotels?.length}
-                        next={fetchMoreData}
-                        hasMore={hasMore}
-                        loader={<div className="col-4 offset-lg-4 loaderHotelFetching" >
-                            <span className='loaderFetching'></span>
-                        </div>}
-                        endMessage={<p style={{ textAlign: 'center' }}><b>No More Result !</b></p>}
-                    >
+                    // <InfiniteScroll
+                    //     dataLength={filteredHotels?.length}
+                    //     next={fetchMoreData}
+                    //     hasMore={hasMore}
+                    //     loader={<div className="col-4 offset-lg-4 loaderHotelFetching" >
+                    //         <span className='loaderFetching'></span>
+                    //     </div>}
+                    //     endMessage={<p style={{ textAlign: 'center' }}><b>No More Result !</b></p>}
+                    // >
 
+                    <>
                         {
                             // sortedAndFilteredResults
                             filteredHotels
@@ -373,7 +376,8 @@ export default function HotelResult({
                                     </div>
                                 )
                         }
-                    </InfiniteScroll>
+                    </>
+                // </InfiniteScroll>
             }
 
         </section>

@@ -46,7 +46,12 @@ const MulticityReviewBooking = () => {
     const storedData = sessionStorage.getItem("selectedFlightmulticity");
     const ResultIndex = JSON.parse(storedData);
     // const ResultIndexReturn = sessionStorage.getItem("ReturnResultIndex");
+    const [finalAmount, setFinalAmount] = useState(0);
 
+    const handleFinalAmountChange = (amount) => {
+      setFinalAmount(amount);
+    };
+  
     const reducerState = useSelector((state) => state);
     // console.log(ResultIndex?.ResultIndex, "result index")
     const [loaderPayment, setLoaderPayment] = useState(false);
@@ -165,10 +170,15 @@ const MulticityReviewBooking = () => {
                     const token = SecureStorage.getItem("jwtToken");
                     const payload = {
 
-                        "refund_amount": transactionAmount ||
-                            (!isDummyTicketBooking
-                                ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
-                                : 99),
+                        "refund_amount":
+                        //  transactionAmount ||
+                        //     (!isDummyTicketBooking
+                        //         ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                        //         : 99),
+                        Number(finalAmount).toFixed(2) ||
+                        (!isDummyTicketBooking
+                            ? Number(finalAmount).toFixed(2)
+                            : 99),
                         // "refund_amount": 1,
                         "txnId": refundTxnId,
                     }
@@ -208,7 +218,7 @@ const MulticityReviewBooking = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage === "") {
-                navigate("/multicityresult/PassengerDetailsMulticity/multicityreviewbooking/bookedTicketMulticityDB");
+                navigate("/multicityresult/PassengerDetailsMulticity/multicityreviewbooking/bookedTicketMulticityDB",{state:{finalamount:finalAmount}});
             }
             else if (
                 reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
@@ -219,10 +229,15 @@ const MulticityReviewBooking = () => {
                     const token = SecureStorage.getItem("jwtToken");
                     const payload = {
 
-                        "refund_amount": transactionAmount ||
-                            (!isDummyTicketBooking
-                                ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
-                                : 99),
+                        "refund_amount":
+                        //  transactionAmount ||
+                        //     (!isDummyTicketBooking
+                        //         ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                        //         : 99),
+                        Number(finalAmount).toFixed(2) ||
+                        (!isDummyTicketBooking
+                            ? Number(finalAmount).toFixed(2)
+                            : 99),
                         // "refund_amount": 1,
                         "txnId": refundTxnId,
                     }
@@ -338,7 +353,8 @@ const MulticityReviewBooking = () => {
                 return {
                     ...item,
                     Email: apiURL.flightEmail,
-                    ContactNo: apiURL.phoneNo,
+                    // ContactNo: apiURL.phoneNo,
+                    ContactNo: Passengers[0].ContactNo,
                     PassportExpiry: isPassportRequired ? convertDateFormat(item.PassportExpiry) : "",
                 };
             }),
@@ -407,9 +423,13 @@ const MulticityReviewBooking = () => {
             phone: Passengers[0].ContactNo,
             amount:
 
-                transactionAmount ||
-                (!isDummyTicketBooking
-                    ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                // transactionAmount ||
+                // (!isDummyTicketBooking
+                //     ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
+                //     : 99),
+               Number( finalAmount).toFixed(2) ||
+                 (!isDummyTicketBooking
+                    ? Number(finalAmount).toFixed(2)
                     : 99),
 
 
@@ -508,7 +528,8 @@ const MulticityReviewBooking = () => {
                     ...item,
                     PassportExpiry: isPassportRequired ? convertDateFormat(item.PassportExpiry) : "",
                     Email: apiURL.flightEmail,
-                    ContactNo: apiURL.phoneNo,
+                    // ContactNo: apiURL.phoneNo,
+                    ContactNo: Passengers[0].ContactNo,
                 };
             }),
             EndUserIp: reducerState?.ip?.ipData,
@@ -822,6 +843,8 @@ const MulticityReviewBooking = () => {
                     <div className="col-lg-3 col-md-3">
                         <MulticitySummaryCoupon
                             toggle={toggle}
+                            
+                            onFinalAmountChange={handleFinalAmountChange}
                             toggleState={toggleState}
                             transactionAmount={setTransactionAmountState}
                             Amount={transactionAmount}

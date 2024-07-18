@@ -9,6 +9,8 @@ const initState = {
     selectedHotel: [],
     selectedActivities: [],
     hotelResultArray: [],
+    selectedHotelRoom: [],
+    flightOnewayData: [],
     isLoading: false,
 };
 
@@ -59,10 +61,10 @@ export const itenaryReducer = (state = initState, action) => {
             };
 
         case types.HOTEL_ITENERARY_SUCCESS:
-            console.log(payload, "payload red")
+
             let hotel_array = [...state.hotelResultArray]
             hotel_array.push(payload)
-            console.log(hotel_array, "hotelarray")
+
 
             return {
                 ...state,
@@ -82,6 +84,21 @@ export const itenaryReducer = (state = initState, action) => {
             return {
                 ...state,
                 flightfromData: payload,
+                isLoading: false,
+            };
+
+
+
+        case types.FLIGHT_ONEWAY_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+            };
+
+        case types.FLIGHT_ONEWAY_SUCCESS:
+            return {
+                ...state,
+                flightOnewayData: payload,
                 isLoading: false,
             };
 
@@ -122,9 +139,27 @@ export const itenaryReducer = (state = initState, action) => {
             };
 
         case types.SELECTED_HOTEL_ROOM_SUCCESS:
+
             return {
                 ...state,
                 selectedHotel: payload,
+                isLoading: false,
+            };
+
+        case types.SELECTED_HOTELROOM_REQUEST:
+            return {
+                ...state,
+                isLoading: true,
+            };
+
+
+
+        case types.SELECTED_HOTELROOM_SUCCESS:
+            // let selectedRoom = [...state.selectedHotelRoom]
+            // selectedRoom.push(payload)
+            return {
+                ...state,
+                selectedHotelRoom: payload,
                 isLoading: false,
             };
 
@@ -147,6 +182,11 @@ export const itenaryReducer = (state = initState, action) => {
                 ...state,
                 selectedFlight: []
             }
+        case types.CLEAR_ITENARYONEWAY_REDUCER:
+            return {
+                ...state,
+                flightOnewayData: [],
+            }
         case types.CLEAR_ITENARY_DATA:
             return {
                 ...state,
@@ -158,6 +198,8 @@ export const itenaryReducer = (state = initState, action) => {
                 selectedHotel: [],
                 selectedActivities: [],
                 hotelResultArray: [],
+                selectedHotelRoom: [],
+                flightOnewayData: [],
             }
 
         default:

@@ -333,6 +333,15 @@ function OnewayNew() {
     __v: 0,
     _id: "63d7db1a64266cbf450e07c1",
   };
+
+  const totalcount = value2?.[0]?.totalCount;
+  const adultcount = value2?.[0]?.activeIdAdult;
+  const childcout = value2?.[0]?.activeIdChild;
+  const infantcount = value2?.[0]?.activeIdInfant;
+  const flightclassvalue = value2?.[0]?.FlightCabinClass;
+  const flightclassnamevalue = value2?.[0]?.flightclassName;
+
+  // console.log("total coutn",totalcount,adultcount,childcout,infantcount,flightclassvalue);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -342,12 +351,12 @@ function OnewayNew() {
   const reducerState = useSelector((state) => state);
   const [loader, setLoader] = useState(false);
   const [openTravelModal, setOpenTravelModal] = useState(false);
-  const [activeIdClass, setActiveIdClass] = useState(2);
-  const [flightclassName, setflightClassName] = useState("Y");
-  const [activeIdChild, setActiveIdChild] = useState(0);
-  const [activeIdInfant, setActiveIdInfant] = useState(0);
-  const [activeIdAdult, setActiveIdAdult] = useState(1);
-  const [totalCount, setCountPassanger] = useState(0);
+  const [activeIdClass, setActiveIdClass] = useState(flightclassvalue);
+  const [flightclassName, setflightClassName] = useState(flightclassnamevalue);
+  const [activeIdChild, setActiveIdChild] = useState(childcout);
+  const [activeIdInfant, setActiveIdInfant] = useState(infantcount);
+  const [activeIdAdult, setActiveIdAdult] = useState(adultcount);
+  const [totalCount, setCountPassanger] = useState(totalcount);
   const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData);
   const [selectedTo, setSelectedTo] = useState(initialSelectedToData);
   // console.log(reducerState, "reducerstate")
@@ -432,11 +441,11 @@ function OnewayNew() {
   ];
 
   const handleTravelClickOpen = () => {
-    setActiveIdClass(activeIdClass);
-    setflightClassName(flightclassName);
-    setActiveIdChild(0);
-    setActiveIdInfant(0);
-    setActiveIdAdult(1);
+    setActiveIdClass(flightclassvalue);
+    setflightClassName(flightclassnamevalue);
+    setActiveIdChild(activeIdChild);
+    setActiveIdInfant(activeIdInfant);
+    setActiveIdAdult(activeIdAdult);
     setOpenTravelModal(true);
   };
 
@@ -552,9 +561,9 @@ function OnewayNew() {
       departureDate: formattedDate,
     };
     dispatch(searchFlight(searchpy));
-    // navigate(
-    //   `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
-    // );
+    navigate(
+      `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
+    );
     // }
   }
 

@@ -576,7 +576,6 @@ function api() {
   const itenerarySearch = (payload) => {
 
     const { origin, destination, noOfDays } = payload
-    console.log(payload, "api itenary ka payload")
     return axios({
       method: "GET",
       url: `/skyTrails/api/itinerary/dayWise/getAllCItyWiseItinerary?origin=${origin}&&destination=${destination}&&noOfDays=${noOfDays}`,
@@ -586,6 +585,23 @@ function api() {
         "Content-Type": "application/json",
       },
     });
+  };
+
+
+
+  // const hotelSelectedRoom = (payload) => {
+  //   return axios({
+  //     method: "POST",
+  //     url: "skyTrails/hotel/room",
+  //     baseURL: `${apiURL.baseURL}`,
+  //     data: payload,
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  // };
+  const hotelSelectedRoom = (payload) => {
+    return payload;
   };
 
 
@@ -616,6 +632,25 @@ function api() {
   const handleItenaryActivitySelection = (payload) => {
     return payload;
   };
+
+
+  // onewayflight 
+
+  const IterneraryOneWaySearch = (payload) => {
+    return axios({
+      method: "POST",
+      url: "/skyTrails/flight/search/oneway",
+
+
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
+  // onewayflight 
 
   // itenerary api's 
 
@@ -672,7 +707,9 @@ function api() {
     handleFlightInternational,
     savehotelRoominItenerary,
     handleItenaryActivitySelection,
-    hotelSearchforItenerary
+    hotelSearchforItenerary,
+    hotelSelectedRoom,
+    IterneraryOneWaySearch,
   };
 }
 

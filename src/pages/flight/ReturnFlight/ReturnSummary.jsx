@@ -135,6 +135,7 @@ const ReturnSummary = (props) => {
     const coupondiscount = integerValue + markUpamount;
 
     // console.log(reducerState, "reducer state")
+    // console.log("fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare",fareValue?.Fare?.PublishedFare + fareValueReturn?.Fare?.PublishedFare)
 
     let total = 0;
 

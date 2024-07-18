@@ -1,7 +1,7 @@
 import Download from "../home/Download";
 import React, { useRef } from "react";
 import "./hotelhome.css";
-// import HotelForm from "./HotelForm";
+import HotelForm from "./HotelForm";
 import { motion } from "framer-motion";
 import Advertise from "../home/Advertise";
 import FLightOffer from "../flight/FLightOffer";
@@ -55,8 +55,8 @@ const Hotelhome = () => {
         <img className="bannerBack" src={busimg} alt="banner" />
 
         {/* <BigNavbar /> */}
-        {/* <HotelForm /> */}
-        <GrmHotelHome />
+        <HotelForm />
+        {/* <GrmHotelHome /> */}
       </div>
 
       <motion.div variants={variants} initial="initial" whileInView="animate" viewport={{ once: true, amount: 0.8 }}>

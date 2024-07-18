@@ -2,6 +2,7 @@ import * as React from "react";
 
 // import HotelGuestDetailsGRN from "./HotelGuestDetailsGRN";
 import PriceSummaryGRN from "./PriceSummaryGRN";
+import PriceSummaryGRNcoupon from "./PriceSummaryGRNcoupon";
 import { useState, useRef } from "react";
 import { Box } from "@mui/material";
 // import CircularProgress from "@mui/material/CircularProgress";
@@ -57,25 +58,25 @@ const BookingReviewGRN = ({
 }) => {
 
 
-    const couponconfirmation3 = async () => {
-        try {
-            const token = SecureStorage.getItem("jwtToken");
-            const response = await axios.get(
-                `${apiURL.baseURL
-                }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
-                    "couponCode"
-                )}`,
+    // const couponconfirmation3 = async () => {
+    //     try {
+    //         const token = SecureStorage.getItem("jwtToken");
+    //         const response = await axios.get(
+    //             `${apiURL.baseURL
+    //             }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
+    //                 "couponCode"
+    //             )}`,
 
-                {
-                    headers: {
-                        token: token,
-                    },
-                }
-            );
-        } catch (error) {
-            // console.log(error);
-        }
-    };
+    //             {
+    //                 headers: {
+    //                     token: token,
+    //                 },
+    //             }
+    //         );
+    //     } catch (error) {
+    //         // console.log(error);
+    //     }
+    // };
 
 
     const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
@@ -114,8 +115,9 @@ const BookingReviewGRN = ({
             reducerState?.hotelSearchResultGRN?.bookRoom?.status ===
             "confirmed"
         ) {
+            
             setLoaderPayment(false);
-            navigate("/st-hotel/hotelresult/selectroom/guestDetails/review/ticket");
+            navigate("/st-hotel/hotelresult/selectroom/guestDetails/review/ticket",{ state: { finalamount: finalAmount } });
             return;
         }
     }, [reducerState?.hotelSearchResultGRN?.bookRoom?.status]);
@@ -228,7 +230,41 @@ const BookingReviewGRN = ({
 
     const [paymentLoading, setPaymentLoading] = useState(false);
 
+    const [finalAmount, setFinalAmount] = useState(0);
+    const [couponvalue, setCouponValue] = useState("");
 
+    const handleFinalAmountChange = (amount) => {
+      setFinalAmount(amount);
+    };
+
+    const handlecouponChange = (code) => {
+        setCouponValue(code);
+      };
+
+      const couponconfirmation3 = async () => {
+        try {
+          const token = SecureStorage.getItem("jwtToken");
+          const response = await axios.get(
+            `${apiURL.baseURL
+            }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
+    
+            {
+              headers: {
+                token: token,
+              },
+            }
+          );
+          // sessionStorage.removeItem("totalaftercoupon");
+          // sessionStorage.removeItem("couponCode");
+        } catch (error) {
+          // console.log(error);
+        }
+      };
+
+    //   console.log(couponvalue,couponvalue,"couponvalue");
+
+    
+      
     const handlePayment = async () => {
         setPaymentLoading(true);
         setIsDisableScroll(true);
@@ -243,7 +279,7 @@ const BookingReviewGRN = ({
                 firstname: passenger?.[0]?.adults?.[0]?.FirstName,
                 phone: passenger?.[0]?.adults?.[0]?.Phoneno,
                 // amount: 1,
-                amount: (Number(hotelinfoGRN?.rate?.price) + Number(markUpamount)).toFixed(0),
+                amount: Number(finalAmount).toFixed(2),
                 email: passenger?.[0]?.adults?.[0]?.Email,
                 productinfo: "ticket",
                 bookingType: "HOTELS",
@@ -297,6 +333,7 @@ const BookingReviewGRN = ({
                         );
                         setLoaderPayment(true);
                         // couponconfirmation3();
+                        couponconfirmation3();
                     } catch (error) {
                         console.error("Error verifying payment:", error);
                         // Handle error
@@ -782,7 +819,7 @@ const BookingReviewGRN = ({
                             </div>
                         </div>
                         <div className="col-lg-3 order-lg-2 order-md-1 order-sm-1 order-1">
-                            <PriceSummaryGRN />
+                            <PriceSummaryGRNcoupon  onFinalAmountChange={handleFinalAmountChange} oncouponselect={handlecouponChange}/>
                         </div>
                     </div>
                 </div>

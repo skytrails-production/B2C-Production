@@ -426,9 +426,9 @@ function OnewayNew() {
   const handleTravelClickOpen = () => {
     setActiveIdClass(activeIdClass);
     setflightClassName(flightclassName);
-    setActiveIdChild(0);
-    setActiveIdInfant(0);
-    setActiveIdAdult(1);
+    setActiveIdChild(activeIdChild);
+    setActiveIdInfant(activeIdInfant);
+    setActiveIdAdult(activeIdAdult);
     setOpenTravelModal(true);
   };
 
@@ -525,6 +525,7 @@ function OnewayNew() {
           activeIdAdult,
           activeIdChild,
           activeIdInfant,
+          flightclassName
         },
       ])
     );

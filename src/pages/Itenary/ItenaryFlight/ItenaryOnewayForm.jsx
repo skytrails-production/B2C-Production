@@ -1,50 +1,53 @@
-import * as React from "react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
+import { clearbookTicketGDS } from "../../../Redux/FlightBook/actionFlightBook";
+import "react-datepicker/dist/react-datepicker.css";
+import { oneWayAction, resetOneWay } from "../../../Redux/FlightSearch/oneWay";
+import {
+    searchFlight,
+    clearSearch,
+} from "../../../Redux/SearchFlight/actionSearchFlight";
 import { useNavigate } from "react-router-dom";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
+// import "./style/Oneway.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import "react-datepicker/dist/react-datepicker.css";
-import axios from "axios";
-import SecureStorage from "react-secure-storage";
-import { Select } from "antd";
-import { DatePicker, Space, Button } from "antd";
+// import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import { resetAllFareData } from "../../../Redux/FlightFareQuoteRule/actionFlightQuote"
+import { returnActionClear } from "../../../Redux/FlightSearch/Return/return";
+import { Select, Spin } from "antd";
+import { DatePicker, Button } from "antd";
 import dayjs from "dayjs";
-import { apiURL } from "../../../Constants/constant";
-import { ipAction, tokenAction } from "../../../Redux/IP/actionIp";
-import { returnAction, returnActionClear } from "../../../Redux/FlightSearch/Return/return";
+import ItenaryOnewayResult from "./ItenaryOnewayResult";
+import {
+    searchaAirportListReq,
+    searchFlightListReq,
+} from "../../../Redux/FlightList/actionFlightList";
 import TravelerCounter from "../../../components/TravelerCounter";
-import { clearbookTicketGDS } from "../../../Redux/FlightBook/actionFlightBook";
-import { resetAllFareData } from "../../../Redux/FlightFareQuoteRule/actionFlightQuote";
-import { swalModal } from "../../../utility/swal";
-import { Flex, Spin } from 'antd';
-import ItenaryRoundFlightResult from "./ItenaryRoundFlightResult";
-import ItenaryRoundFlightResultInternational from "./ItenaryRoundFlightResultInternational";
-const { RangePicker } = DatePicker;
+import { apiURL } from "../../../Constants/constant";
+import { clearOneWayItenary, itenaryOnewayRequest } from "../../../Redux/Itenary/itenary";
 
-
-// from data logic 
-
+// from data logic
 
 let FromTimeout;
 let FromCurrentValue;
 
-// const initialSelectedFromData = {
-//     AirportCode: "DEL",
-//     CityCode: "DEL",
-//     CountryCode: "IN ",
-//     code: "Indira Gandhi Airport",
-//     createdAt: "2023-01-30T14:58:34.428Z",
-//     id: "DEL",
-//     name: "Delhi",
-//     updatedAt: "2023-01-30T14:58:34.428Z",
-//     __v: 0,
-//     _id: "63d7db1a64266cbf450e07c1",
-// };
-
+const initialSelectedFromData = {
+    AirportCode: "DEL",
+    CityCode: "DEL",
+    CountryCode: "IN ",
+    code: "Indira Gandhi Airport",
+    createdAt: "2023-01-30T14:58:34.428Z",
+    id: "DEL",
+    name: "Delhi",
+    updatedAt: "2023-01-30T14:58:34.428Z",
+    __v: 0,
+    _id: "63d7db1a64266cbf450e07c1",
+};
 const fetchFromCity = (value, callback) => {
     if (FromTimeout) {
         clearTimeout(FromTimeout);
@@ -79,19 +82,15 @@ const fetchFromCity = (value, callback) => {
 };
 
 const FromSearchInput = (props) => {
-
-
-    const reducerState = useSelector((state) => state);
-
-    const initialSelectedFromData = reducerState?.Itenerary?.flightfromData?.data?.[0];
     const { onItemSelect } = props;
     const [fromData, setFromData] = useState([]);
     const [fromValue, setFromValue] = useState(initialSelectedFromData.name);
     const [selectedItem, setSelectedItem] = useState(initialSelectedFromData);
 
-
-    const [FromPlaceholder, setFromPlaceholder] = useState('')
-    const [FromDisplayValue, setFromDisplayValue] = useState(initialSelectedFromData.name);
+    const [FromPlaceholder, setFromPlaceholder] = useState("");
+    const [FromDisplayValue, setFromDisplayValue] = useState(
+        initialSelectedFromData.name
+    );
     const [inputStyle, setInputStyle] = useState({});
 
     useEffect(() => {
@@ -115,22 +114,22 @@ const FromSearchInput = (props) => {
         setFromValue(selected ? selected.name : newValue);
         setFromDisplayValue(selected ? selected.name : newValue);
         setSelectedItem(selected ? selected.item : null);
-        setInputStyle({ caretColor: 'transparent' });
+        setInputStyle({ caretColor: "transparent" });
         if (selected) {
             onItemSelect(selected.item);
         }
     };
 
     const handleFromFocus = () => {
-        setFromPlaceholder('From');
-        setFromDisplayValue(''); // Clear display value to show placeholder
+        setFromPlaceholder("From");
+        setFromDisplayValue(""); // Clear display value to show placeholder
         setInputStyle({});
     };
 
     const handleFromBlur = () => {
-        setFromPlaceholder('');
+        setFromPlaceholder("");
         setFromDisplayValue(fromValue); // Reset display value to selected value
-        setInputStyle({ caretColor: 'transparent' });
+        setInputStyle({ caretColor: "transparent" });
     };
     const renderFromOption = (option) => (
         <div>
@@ -166,29 +165,25 @@ const FromSearchInput = (props) => {
     );
 };
 
-
 // from data logic
 
-
-
-// to data logic 
-
+// to data logic
 
 let ToTimeout;
 let ToCurrentValue;
 
-// const initialSelectedToData = {
-//     AirportCode: "BOM",
-//     CityCode: "BOM",
-//     CountryCode: "IN ",
-//     code: "Chhatrapati Shivaji Maharaj International Airport",
-//     createdAt: "2023-01-30T14:58:34.428Z",
-//     id: "BOM",
-//     name: "Mumbai",
-//     updatedAt: "2023-01-30T14:58:34.428Z",
-//     __v: 0,
-//     _id: "63d7db1a64266cbf450e07c2",
-// };
+const initialSelectedToData = {
+    AirportCode: "BOM",
+    CityCode: "BOM",
+    CountryCode: "IN ",
+    code: "Chhatrapati Shivaji Maharaj International Airport",
+    createdAt: "2023-01-30T14:58:34.428Z",
+    id: "BOM",
+    name: "Mumbai",
+    updatedAt: "2023-01-30T14:58:34.428Z",
+    __v: 0,
+    _id: "63d7db1a64266cbf450e07c2",
+};
 
 const fetchToCity = (value, callback) => {
     if (ToTimeout) {
@@ -225,17 +220,14 @@ const fetchToCity = (value, callback) => {
 
 const ToSearchInput = (props) => {
     const { onItemSelect } = props;
-
-    const reducerState = useSelector((state) => state);
-
-    const initialSelectedToData = reducerState?.Itenerary?.flighttoData?.data?.[0];
-
     const [toData, setToData] = useState([]);
     const [toValue, setToValue] = useState(initialSelectedToData.name);
     const [selectedItem, setSelectedItem] = useState(initialSelectedToData);
 
-    const [ToPlaceholder, setToPlaceholder] = useState('')
-    const [ToDisplayValue, setToDisplayValue] = useState(initialSelectedToData.name);
+    const [ToPlaceholder, setToPlaceholder] = useState("");
+    const [ToDisplayValue, setToDisplayValue] = useState(
+        initialSelectedToData.name
+    );
     const [inputStyle, setInputStyle] = useState({});
 
     useEffect(() => {
@@ -259,22 +251,22 @@ const ToSearchInput = (props) => {
         setToValue(selected ? selected.name : newValue);
         setToDisplayValue(selected ? selected.name : newValue);
         setSelectedItem(selected ? selected.item : null);
-        setInputStyle({ caretColor: 'transparent' });
+        setInputStyle({ caretColor: "transparent" });
         if (selected) {
             onItemSelect(selected.item);
         }
     };
 
     const handleToFocus = () => {
-        setToPlaceholder('To');
-        setToDisplayValue(''); // Clear display value to show placeholder
+        setToPlaceholder("To");
+        setToDisplayValue(""); // Clear display value to show placeholder
         setInputStyle({});
     };
 
     const handleTOBlur = () => {
-        setToPlaceholder('');
+        setToPlaceholder("");
         setToDisplayValue(toValue); // Reset display value to selected value
-        setInputStyle({ caretColor: 'transparent' });
+        setInputStyle({ caretColor: "transparent" });
     };
 
     const renderToOption = (option) => (
@@ -312,40 +304,32 @@ const ToSearchInput = (props) => {
     );
 };
 
+// to data logic
 
-// to data logic 
-
-const ItenaryRoundFlightForm = ({ closeModal, selectedIndex, onFlightSelect }) => {
-
-
-    const reducerState = useSelector((state) => state);
+function ItenaryOnewayForm({ closeModal, selectedIndex, onFlightSelect }) {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    // const [startDate, setStartDate] = useState(new Date());
-    const initialSelectedFromData = reducerState?.Itenerary?.flightfromData?.data?.[0];
-    const initialSelectedToData = reducerState?.Itenerary?.flighttoData?.data?.[0];
+    const reducerState = useSelector((state) => state);
     const [loader, setLoader] = useState(false);
     const [openTravelModal, setOpenTravelModal] = useState(false);
     const [activeIdClass, setActiveIdClass] = useState(2);
-
-
-    let totalAdults = 0;
-    let totalChildren = 0;
-
-    reducerState?.Itenerary?.itenaryPayload?.RoomGuests?.forEach((room) => {
-        totalAdults += room?.NoOfAdults || 0;
-        totalChildren += room?.NoOfChild || 0;
-    });
-    const [activeIdChild, setActiveIdChild] = useState(totalChildren);
+    const [flightclassName, setflightClassName] = useState("Y");
+    const [activeIdChild, setActiveIdChild] = useState(0);
     const [activeIdInfant, setActiveIdInfant] = useState(0);
-    const [activeIdAdult, setActiveIdAdult] = useState(totalAdults);
-
-    const [totalCount, setCountPassanger] = useState(Number(totalAdults) + Number(totalChildren));
+    const [activeIdAdult, setActiveIdAdult] = useState(1);
+    const [totalCount, setCountPassanger] = useState(0);
     const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData);
     const [selectedTo, setSelectedTo] = useState(initialSelectedToData);
 
-    const [returnDomestic, setReturnResultDomestic] = useState(false)
-    const [returnInternational, setReturnResultInternational] = useState(false);
+    const [onewayResultCame, setOnewayResultCame] = useState(false);
+
+    useEffect(() => {
+        dispatch(clearbookTicketGDS());
+        dispatch(resetAllFareData());
+        dispatch(returnActionClear());
+        dispatch(clearSearch());
+        dispatch(resetOneWay());
+    }, []);
 
     const handleFromSelect = (item) => {
         setSelectedFrom(item);
@@ -354,98 +338,25 @@ const ItenaryRoundFlightForm = ({ closeModal, selectedIndex, onFlightSelect }) =
         setSelectedTo(item);
     };
 
-    // console.log(selectedFrom)
+    const dateFormat = "DD MMM, YY";
+    const today = dayjs().format(dateFormat);
+    const [newDepartDate, setNewDepartDate] = useState(today);
+    const [newDepartDateCld, setNewDepartDateCld] = useState("");
 
-    useEffect(() => {
-        dispatch(returnActionClear());
-        dispatch(ipAction());
-    }, []);
+    // console.log(newDepartDate, "new departure date")
 
-
-    useEffect(() => {
-        const payload = {
-            EndUserIp: reducerState?.ip?.ipData,
-        };
-        dispatch(tokenAction(payload));
-    }, [reducerState?.ip?.ipData]);
-
-    // Ant Design Date Range Picker
-
-
-
-
-    const dateFormat = "DD MMM";
-    const initialDepartDate = reducerState?.Itenerary?.itenaryPayload?.leavingDate;
-    // const initialReturnDate = ;
-    let initialReturnDate = null;
-    if (initialDepartDate) {
-        const departDate = dayjs(initialDepartDate);
-        const returnDate = departDate.add(Number(reducerState?.Itenerary?.itenaryPayload?.cityAndNight?.[0]?.night) + 1, 'day');
-        initialReturnDate = returnDate;
-    }
-    // Set states
-    const [newDepartDate, setNewDepartDate] = useState(initialDepartDate);
-    const [newReturnDate, setNewReturnDate] = useState(initialReturnDate);
-
-
-    const handleRangeChange = (dates, dateStrings) => {
-        if (dates) {
-            setNewDepartDate(dayjs(dates[0]).format("DD MMM, YY"));
-            setNewReturnDate(dayjs(dates[1]).format("DD MMM, YY"));
+    const handleRangeChange = (date) => {
+        if (date) {
+            setNewDepartDate(dayjs(date).format(dateFormat));
+            setNewDepartDateCld(date);
         } else {
             console.log("Selection cleared");
         }
     };
 
-
-
-
     const disablePastDates = (current) => {
-        return current && current < dayjs().startOf('day');
+        return current && current < dayjs().startOf("day");
     };
-
-
-
-
-    const returnResults =
-        reducerState?.return?.returnData?.data?.data?.Response?.Results;
-
-    console.log(returnResults, "return resut in itenary round flight form")
-
-    useEffect(() => {
-        if (returnResults) {
-            if (returnResults?.[1]) {
-                setReturnResultDomestic(true);
-            } else {
-                setReturnResultInternational(true)
-            }
-        }
-
-        if (returnResults) {
-            setLoader(false);
-        }
-    }, [reducerState?.return?.returnData?.data?.data?.Response?.Results]);
-
-    useEffect(() => {
-        if (
-            reducerState?.return?.returnData?.data?.data?.Response?.Error
-                ?.ErrorCode !== 0 &&
-            reducerState?.return?.returnData?.data?.data?.Response?.Error
-                ?.ErrorCode !== undefined
-        ) {
-            // navigate("/return")
-            dispatch(returnActionClear());
-            swalModal(
-                "flight",
-                reducerState?.return?.returnData?.data?.data?.Response?.Error
-                    ?.ErrorMessage,
-                false
-            );
-            setLoader(false);
-        }
-    }, [
-        reducerState?.return?.returnData?.data?.data?.Response?.Error?.ErrorCode,
-    ]);
 
     const handleTravelerCountChange = (category, value) => {
         if (category === "adult") {
@@ -475,24 +386,29 @@ const ItenaryRoundFlightForm = ({ closeModal, selectedIndex, onFlightSelect }) =
 
     // Handle travelers modal
     useEffect(() => {
+        dispatch(clearOneWayItenary());
         dispatch(clearbookTicketGDS());
         dispatch(resetAllFareData());
     }, []);
 
+
+
+
     const ClassItems = [
-        { id: 1, label: "All" },
-        { id: 2, label: "Economy" },
-        { id: 3, label: "Premium Economy" },
-        { id: 4, label: "Business" },
-        { id: 5, label: "Premium Business" },
-        { id: 6, label: "First" },
+        // { id: 1, label: "All" },
+        { id: 2, value: "Y", label: "Economy" },
+        { id: 3, value: "W", label: "Premium Economy" },
+        { id: 4, value: "C", label: "Business" },
+        // { id: 5, label: "Premium Business" },
+        { id: 6, value: "F", label: "First" },
     ];
 
     const handleTravelClickOpen = () => {
         setActiveIdClass(activeIdClass);
-        // setActiveIdChild(0);
-        // setActiveIdInfant(0);
-        // setActiveIdAdult(1);
+        setflightClassName(flightclassName);
+        setActiveIdChild(0);
+        setActiveIdInfant(0);
+        setActiveIdAdult(1);
         setOpenTravelModal(true);
     };
 
@@ -507,10 +423,13 @@ const ItenaryRoundFlightForm = ({ closeModal, selectedIndex, onFlightSelect }) =
         }
     };
 
-    function handleRoundSubmit(event) {
-        event.preventDefault();
-        setLoader(true);
+    // ////////////////////submit logic///////////////
 
+    function handleOnewaySubmit(event) {
+        event.preventDefault();
+
+        sessionStorage.setItem("SessionExpireTime", new Date());
+        setLoader(true);
         const payload = {
             EndUserIp: reducerState?.ip?.ipData,
             TokenId: reducerState?.ip?.tokenData,
@@ -519,7 +438,7 @@ const ItenaryRoundFlightForm = ({ closeModal, selectedIndex, onFlightSelect }) =
             InfantCount: activeIdInfant,
             DirectFlight: "false",
             OneStopFlight: "false",
-            JourneyType: "2",
+            JourneyType: 1,
             PreferredAirlines: null,
             Segments: [
                 {
@@ -529,30 +448,48 @@ const ItenaryRoundFlightForm = ({ closeModal, selectedIndex, onFlightSelect }) =
                     PreferredDepartureTime: newDepartDate,
                     PreferredArrivalTime: newDepartDate,
                 },
-                {
-                    Origin: selectedTo.AirportCode,
-                    Destination: selectedFrom.AirportCode,
-                    FlightCabinClass: activeIdClass,
-                    PreferredDepartureTime: newReturnDate,
-                    PreferredArrivalTime: newReturnDate,
-                },
             ],
             Sources: null,
+            to: selectedTo.AirportCode,
+            from: selectedFrom.AirportCode,
+            date: newDepartDate,
+            cabinClass: flightclassName,
+            // px: activeIdAdult + activeIdChild + activeIdInfant,
+            px: activeIdAdult,
         };
 
 
+        const parsedDate = new Date(newDepartDate);
 
-        sessionStorage.setItem("adults", activeIdAdult);
-        sessionStorage.setItem("childs", activeIdChild);
-        sessionStorage.setItem("infants", activeIdInfant);
+        const formattedDate = parsedDate.toISOString();
+        dispatch(itenaryOnewayRequest(payload));
 
-        dispatch(returnAction(payload));
+        // navigate(
+        //     `/Searchresult?adult=${activeIdAdult}&child=${activeIdChild}&infant=${activeIdInfant}`
+        // );
+        // }
     }
+
+
+
+    useEffect(() => {
+        if (!reducerState?.Itenerary?.flightOnewayData.length > 0) {
+            setOnewayResultCame(false)
+        }
+
+    }, [reducerState?.Itenerary?.flightOnewayData])
+
+    useEffect(() => {
+        if (reducerState?.Itenerary?.isLoading == false) {
+            setLoader(false);
+            setOnewayResultCame(true)
+        }
+    }, [reducerState?.Itenerary?.isLoading])
 
 
     return (
         <>
-            <div className="container px-0" style={{ paddingBottom: "35px" }}>
+            <div className="container" style={{ paddingBottom: "35px" }}>
                 <div className="row g-2 newReturnForm">
                     <div className="col-lg-3">
                         <div className="newReturnSingleBox">
@@ -572,7 +509,7 @@ const ItenaryRoundFlightForm = ({ closeModal, selectedIndex, onFlightSelect }) =
                     <div className="col-lg-3">
                         <div className="newReturnSingleBox">
                             <div>
-                                <span className="nrsb">From</span>
+                                <span className="nrsb">To</span>
                             </div>
                             <ToSearchInput
                                 placeholder="Search"
@@ -583,49 +520,50 @@ const ItenaryRoundFlightForm = ({ closeModal, selectedIndex, onFlightSelect }) =
                                 <span className="nrsb">{selectedTo?.code}</span>
                             </div>
                         </div>
-
                     </div>
                     <div className="col-lg-3">
                         {/* <Space direction="vertical" size={10}> */}
                         <div className="newReturnSingleBox">
                             <div className="d-flex justify-content-evenly">
                                 <span className="nrsb">Depart</span>
-                                <span className="nrsb">Return</span>
+                                {/* <span className="nrsb">Return</span> */}
                             </div>
-                            <RangePicker
+                            <DatePicker
                                 onChange={handleRangeChange}
-                                defaultValue={[dayjs(newDepartDate), dayjs(newReturnDate)]}
+                                defaultValue={[dayjs()]}
                                 format={dateFormat}
                                 disabledDate={disablePastDates}
                             />
                             <div className="d-flex justify-content-evenly">
-                                <span className="nrsb">{dayjs(newDepartDate).format('dddd')}</span>
-                                <span className="nrsb">{dayjs(newReturnDate).format('dddd')}</span>
+                                <span className="nrsb">
+                                    {dayjs(newDepartDate).format("dddd")}
+                                </span>
                             </div>
-
                         </div>
                         {/* </Space> */}
                     </div>
 
                     <div className="col-lg-3">
                         <div>
-                            <div className="newReturnSingleBox " onClick={handleTravelClickOpen}>
+                            <div
+                                className="newReturnSingleBox "
+                                onClick={handleTravelClickOpen}
+                            >
                                 <div>
                                     <span className="nrsb">Traveller & Class</span>
                                 </div>
 
                                 <p className="nrsbpara">
-                                    {(totalCount === 0 && 1) || totalCount} {" "}
-                                    Traveller
+                                    {(totalCount === 0 && 1) || totalCount} Traveller
                                 </p>
                                 <div className="d-none d-md-block ">
                                     <span className="nrsb">
-                                        {(activeIdClass === 1 && "All") ||
-                                            (activeIdClass === 2 && "Economy") ||
-                                            (activeIdClass === 3 && "Premium Economy") ||
-                                            (activeIdClass === 4 && "Business") ||
-                                            (activeIdClass === 5 && "Premium Business") ||
-                                            (activeIdClass === 6 && "First Class")}
+                                        {
+
+                                            (activeIdClass === 2 && flightclassName === "Y" && "Economy") ||
+                                            (activeIdClass === 3 && flightclassName === "W" && "Premium Economy") ||
+                                            (activeIdClass === 4 && flightclassName === "C" && "Business") ||
+                                            (activeIdClass === 6 && flightclassName === "F" && "First Class")}
                                     </span>
                                 </div>
                             </div>
@@ -685,15 +623,14 @@ const ItenaryRoundFlightForm = ({ closeModal, selectedIndex, onFlightSelect }) =
                                                             key={ele.id}
                                                             style={{
                                                                 backgroundColor:
-                                                                    ele.id === activeIdClass
-                                                                        ? "#d90429"
-                                                                        : "#fff",
+                                                                    ele.id === activeIdClass ? "#d90429" : "#fff",
                                                                 color:
-                                                                    ele.id === activeIdClass
-                                                                        ? "#fff"
-                                                                        : "#d90429",
+                                                                    ele.id === activeIdClass ? "#fff" : "#d90429",
                                                             }}
-                                                            onClick={() => setActiveIdClass(ele.id)}
+                                                            onClick={() => {
+                                                                setActiveIdClass(ele.id);
+                                                                setflightClassName(ele.value);
+                                                            }}
                                                         >
                                                             {ele.label}
                                                         </li>
@@ -730,15 +667,18 @@ const ItenaryRoundFlightForm = ({ closeModal, selectedIndex, onFlightSelect }) =
                             </Dialog>
                         </div>
                     </div>
-
                 </div>
+
 
                 <div
                     style={{ marginTop: "45px" }}
                     className="onewaySearch-btn" id="item-5Return">
-                    <Button className="returnButton" style={{ padding: "8px 36px", height: "unset" }} onClick={handleRoundSubmit}>Search</Button>
+                    <Button className="returnButton" style={{ padding: "8px 36px", height: "unset" }} onClick={handleOnewaySubmit}>Search</Button>
                 </div>
             </div>
+
+
+
 
 
             <>
@@ -757,23 +697,16 @@ const ItenaryRoundFlightForm = ({ closeModal, selectedIndex, onFlightSelect }) =
 
                         <>
                             {
-                                returnDomestic &&
-                                <ItenaryRoundFlightResult onFlightSelect={onFlightSelect} selectedIndex={selectedIndex} closeModal={closeModal} />
-                            }
-                            {
-                                returnInternational &&
-                                <ItenaryRoundFlightResultInternational onFlightSelect={onFlightSelect} selectedIndex={selectedIndex} closeModal={closeModal} />
+                                onewayResultCame &&
+                                <ItenaryOnewayResult onFlightSelect={onFlightSelect} selectedIndex={selectedIndex} closeModal={closeModal} />
                             }
                         </>
                 }
             </>
-
         </>
     );
-};
+}
 
-export default ItenaryRoundFlightForm;
-
-
+export default ItenaryOnewayForm;
 
 

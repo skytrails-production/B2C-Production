@@ -18,13 +18,13 @@ import { setSelectedFlightRequest } from '../../../Redux/Itenary/itenary';
 
 
 
-const ItenaryRoundFlightResult = ({ closeModal }) => {
+const ItenaryRoundFlightResult = ({ closeModal, selectedIndex, onFlightSelect }) => {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const reducerState = useSelector((state) => state);
     const markUpamount =
-        reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
+        reducerState?.markup?.markUpData?.data?.result?.[0]?.flightMarkup;
     const [loading, setLoading] = useState(false);
     const result = reducerState?.return?.returnData?.data?.data?.Response?.Results;
     let initialGoFlight;
@@ -84,7 +84,7 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
 
     // fitler the array for going flight
 
-
+    console.log(result, "result")
     useEffect(() => {
 
         const uniqueData = !result ? [] : (result?.[0]?.filter((item, index, array) => {
@@ -93,9 +93,9 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                 .some(
                     prevItem =>
                         prevItem.AirlineCode === item.AirlineCode &&
-                        prevItem.Segments?.[0]?.[prevItem.Segments[0].length - 1]?.Origin
+                        prevItem.Segments?.[0]?.[prevItem.Segments?.[0].length - 1]?.Origin
                             ?.DepTime ===
-                        item.Segments?.[0]?.[prevItem.Segments[0].length - 1]?.Origin
+                        item.Segments?.[0]?.[prevItem.Segments?.[0].length - 1]?.Origin
                             ?.DepTime,
                 );
             return isUnique;
@@ -117,9 +117,9 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                 .some(
                     prevItem =>
                         prevItem.AirlineCode === item.AirlineCode &&
-                        prevItem.Segments?.[0]?.[prevItem.Segments[0].length - 1]?.Origin
+                        prevItem.Segments?.[0]?.[prevItem.Segments?.[0].length - 1]?.Origin
                             ?.DepTime ===
-                        item.Segments?.[0]?.[prevItem.Segments[0].length - 1]?.Origin
+                        item.Segments?.[0]?.[prevItem.Segments?.[0].length - 1]?.Origin
                             ?.DepTime,
                 );
             return isUnique;
@@ -127,6 +127,8 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
 
         setReturnResult([[...uniqueData]])
     }, [result]);
+
+
 
     // fitler the array for return flight 
 
@@ -170,8 +172,8 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
     if (result !== undefined) {
         initialGoFlight = result?.[0]?.[0];
         initialReturnFlight = result?.[1]?.[0];
-        onGoTime = result?.[0][0]?.Segments[0][0]?.Destination?.ArrTime;
-        IncomeTime = result?.[1][0]?.Segments[0][0]?.Destination?.ArrTime;
+        onGoTime = result?.[0]?.[0]?.Segments?.[0]?.[0]?.Destination?.ArrTime;
+        IncomeTime = result?.[1]?.[0]?.Segments?.[0]?.[0]?.Destination?.ArrTime;
     }
 
 
@@ -206,43 +208,16 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
 
         const payloadGoing = ongoFlight;
         const payloadReturn = incomeGlight;
-
         const newPayload = [{
-
             payloadGoing: payloadGoing,
             payloadReturn: payloadReturn
         }]
 
-        console.log(newPayload, "new payload new payload")
+        // console.log(newPayload, "rfr")
 
-        dispatch(setSelectedFlightRequest(newPayload));
+        onFlightSelect(newPayload)
         closeModal();
-        // sessionStorage.setItem("goingResultIndex", ongoFlight?.ResultIndex)
-        // sessionStorage.setItem("ReturnResultIndex", incomeGlight?.ResultIndex)
-        // // setLoading(true);
-        // const payload = {
-        //     EndUserIp: reducerState?.ip?.ipData,
-        //     TokenId: reducerState?.ip?.tokenData,
-        //     TraceId: reducerState?.return?.returnData?.data?.data?.Response?.TraceId,
-        //     ResultIndex: `${ongoFlight?.ResultIndex}`,
-        // };
-        // const payloadReturn = {
-        //     EndUserIp: reducerState?.ip?.ipData,
-        //     TokenId: reducerState?.ip?.tokenData,
-        //     TraceId: reducerState?.return?.returnData?.data?.data?.Response?.TraceId,
-        //     ResultIndex: `${incomeGlight?.ResultIndex}`,
-        // };
-        // await dispatch(ruleAction(payload));
-        // await dispatch(quoteAction(payload));
-        // await dispatch(ruleActionReturn(payloadReturn));
-        // await dispatch(quoteActionReturn(payloadReturn));
-        // setLoading(false);
-        // navigate("/FlightresultReturn/Passengerdetail");
-
     };
-
-    // console.log(ongoFlight?.Fare, "fare")
-
 
 
     // filter logic here 
@@ -288,11 +263,11 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
     const filteredData =
         goingResult?.[0]?.filter((item) => {
             const segmentLength = item?.Segments?.[0].length;
-            const depTime = new Date(item?.Segments?.[0][0]?.Origin?.DepTime);
+            const depTime = new Date(item?.Segments?.[0]?.[0]?.Origin?.DepTime);
             const hour = depTime.getHours();
-            const ArrTime = new Date(item?.Segments?.[0][segmentLength - 1]?.Destination?.ArrTime);
+            const ArrTime = new Date(item?.Segments?.[0]?.[segmentLength - 1]?.Destination?.ArrTime);
             const hourArr = ArrTime.getHours();
-            const airlineName = item?.Segments?.[0][0]?.Airline?.AirlineName;
+            const airlineName = item?.Segments?.[0]?.[0]?.Airline?.AirlineName;
 
 
             const categoryFilters = selectedCategory.map((category) => {
@@ -347,12 +322,12 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
 
     const filteredDatareturn =
         returnResult?.[0]?.filter((item) => {
-            const segmentLength = item?.Segments?.[0].length;
-            const depTime = new Date(item?.Segments?.[0][0]?.Origin?.DepTime);
+            const segmentLength = item?.Segments?.[0]?.length;
+            const depTime = new Date(item?.Segments?.[0]?.[0]?.Origin?.DepTime);
             const hour = depTime.getHours();
-            const ArrTime = new Date(item?.Segments?.[0][segmentLength - 1]?.Destination?.ArrTime);
+            const ArrTime = new Date(item?.Segments?.[0]?.[segmentLength - 1]?.Destination?.ArrTime);
             const hourArr = ArrTime.getHours();
-            const airlineName = item?.Segments?.[0][0]?.Airline?.AirlineName;
+            const airlineName = item?.Segments?.[0]?.[0]?.Airline?.AirlineName;
 
 
             const categoryFilters = selectedCategory.map((category) => {
@@ -513,7 +488,7 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
 
                                     <div className="busDepartureMain">
                                         <h2 className="sidebar-title">Departure From {
-                                            result.length > 0 && result?.[0][0]?.Segments?.[0][0]?.Origin?.Airport?.CityName
+                                            result?.length > 0 && result?.[0]?.[0]?.Segments?.[0]?.[0]?.Origin?.Airport?.CityName
                                         }</h2>
 
                                         <div>
@@ -659,7 +634,7 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
 
                                     <div className="busDepartureMain">
                                         <h2 className="sidebar-title">Arrival at  {
-                                            result.length > 0 && result?.[0][0]?.Segments?.[0][arrSegmentLength - 1]?.Destination
+                                            result?.length > 0 && result?.[0]?.[0]?.Segments?.[0]?.[arrSegmentLength - 1]?.Destination
                                                 ?.Airport?.CityName
                                         }</h2>
 
@@ -813,7 +788,7 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
 
                                     <div className="busDepartureMain">
                                         <h2 className="sidebar-title">Departure From {
-                                            result.length > 0 && result?.[1][0]?.Segments?.[0][0]?.Origin?.Airport?.CityName
+                                            result?.length > 0 && result?.[1]?.[0]?.Segments?.[0]?.[0]?.Origin?.Airport?.CityName
                                         }</h2>
 
                                         <div>
@@ -959,7 +934,7 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
 
                                     <div className="busDepartureMain">
                                         <h2 className="sidebar-title">Arrival at  {
-                                            result.length > 0 && result?.[1][0]?.Segments?.[0][arrSegmentLength - 1]?.Destination
+                                            result?.length > 0 && result?.[1]?.[0]?.Segments?.[0]?.[arrSegmentLength - 1]?.Destination
                                                 ?.Airport?.CityName
                                         }</h2>
 
@@ -1115,7 +1090,7 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                         <div>
                                             {
                                                 [...new Set(
-                                                    result[0]?.map(item => `${item?.Segments[0][0]?.Airline?.AirlineName}, ${item?.Segments[0][0]?.Airline?.AirlineCode}`))]
+                                                    result?.[0]?.map(item => `${item?.Segments?.[0]?.[0]?.Airline?.AirlineName}, ${item?.Segments[0][0]?.Airline?.AirlineCode}`))]
                                                     .map((airline, index) => (
                                                         <label key={index} className="sidebar-label-container  ps-0">
                                                             <div className="svgBOx">
@@ -1186,8 +1161,8 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                     {filteredData?.map((item, index) => {
                                                         const isSelected = selectedFlightIndex === index;
                                                         const duration = `${Math.floor(
-                                                            item?.Segments?.[0][0]?.Duration / 60
-                                                        )}hr ${item?.Segments?.[0][0]?.Duration % 60
+                                                            item?.Segments?.[0]?.[0]?.Duration / 60
+                                                        )}hr ${item?.Segments?.[0]?.[0]?.Duration % 60
                                                             }min`;
 
                                                         return (
@@ -1212,63 +1187,63 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                                                         />{" "}
                                                                                     </div>
                                                                                     <span>{
-                                                                                        item?.Segments[0][0]?.Airline
+                                                                                        item?.Segments?.[0]?.[0]?.Airline
                                                                                             ?.AirlineName
                                                                                     }</span>
                                                                                     <p>{
-                                                                                        item?.Segments[0][0]?.Airline
+                                                                                        item?.Segments?.[0]?.[0]?.Airline
                                                                                             ?.AirlineCode
                                                                                     }
                                                                                         {
-                                                                                            item?.Segments[0][0]?.Airline
+                                                                                            item?.Segments?.[0]?.[0]?.Airline
                                                                                                 ?.FlightNumber
                                                                                         }</p>
                                                                                 </div>
                                                                                 <div class="returnResultOtherDetails">
                                                                                     <div class="returnResultTimingBox">
                                                                                         <span>{
-                                                                                            item?.Segments[0][0]?.Origin
+                                                                                            item?.Segments?.[0]?.[0]?.Origin
                                                                                                 ?.Airport?.CityName
                                                                                         }</span>
                                                                                         <p>{dayjs(
-                                                                                            item?.Segments[0][0]?.Origin
+                                                                                            item?.Segments?.[0]?.[0]?.Origin
                                                                                                 ?.DepTime
                                                                                         ).format("DD MMM, YY")}
                                                                                         </p>
                                                                                         <h5 class="daySize">{dayjs(
-                                                                                            item?.Segments[0][0]?.Origin
+                                                                                            item?.Segments?.[0]?.[0]?.Origin
                                                                                                 ?.DepTime
                                                                                         ).format("h:mm A")}</h5>
                                                                                     </div>
                                                                                     <div class="returnResultDurationBox">
                                                                                         {
-                                                                                            item?.Segments[0].length > 1 ?
+                                                                                            item?.Segments?.[0]?.length > 1 ?
                                                                                                 <h4>
                                                                                                     {`${Math.floor(
-                                                                                                        item?.Segments[0][0]?.Duration /
+                                                                                                        item?.Segments?.[0]?.[0]?.Duration /
                                                                                                         60
-                                                                                                    )}hr ${item?.Segments[0][0]?.Duration %
+                                                                                                    )}hr ${item?.Segments?.[0]?.[0]?.Duration %
                                                                                                     60
                                                                                                         }min`}{" "}
                                                                                                     -{" "}
                                                                                                     {`${Math.floor(
-                                                                                                        item?.Segments[0][1]?.Duration /
+                                                                                                        item?.Segments?.[0]?.[1]?.Duration /
                                                                                                         60
-                                                                                                    )}hr ${item?.Segments[0][0]?.Duration %
+                                                                                                    )}hr ${item?.Segments?.[0]?.[0]?.Duration %
                                                                                                     60
                                                                                                         }min`}
                                                                                                 </h4> : <h4>
                                                                                                     {`${Math.floor(
-                                                                                                        item?.Segments[0][0]?.Duration /
+                                                                                                        item?.Segments?.[0]?.[0]?.Duration /
                                                                                                         60
-                                                                                                    )}hr ${item?.Segments[0][0]?.Duration %
+                                                                                                    )}hr ${item?.Segments?.[0]?.[0]?.Duration %
                                                                                                     60
                                                                                                         }min`}
                                                                                                 </h4>}
 
 
                                                                                         {
-                                                                                            item?.Segments[0].length > 1 ?
+                                                                                            item?.Segments?.[0].length > 1 ?
                                                                                                 (
                                                                                                     <div className=" stopBefReturn">
                                                                                                         <Divider
@@ -1299,12 +1274,12 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                                                                 )
                                                                                         }
                                                                                         <p>{
-                                                                                            item?.Segments[0].length > 1 ?
-                                                                                                `${item?.Segments[0].length - 1} stop via ${item?.Segments[0][0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
+                                                                                            item?.Segments?.[0].length > 1 ?
+                                                                                                `${item?.Segments?.[0].length - 1} stop via ${item?.Segments?.[0]?.[0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
 
                                                                                         <span>
                                                                                             {
-                                                                                                item?.Segments[0][0]
+                                                                                                item?.Segments?.[0]?.[0]
                                                                                                     ?.NoOfSeatAvailable
                                                                                             }{" "}
                                                                                             Seats Left
@@ -1313,18 +1288,18 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                                                     <div class="returnResultTimingBox">
                                                                                         <span>
                                                                                             {
-                                                                                                item?.Segments[0][item?.Segments[0].length - 1]?.Destination
+                                                                                                item?.Segments?.[0]?.[item?.Segments?.[0].length - 1]?.Destination
                                                                                                     ?.Airport?.CityName
                                                                                             }
                                                                                         </span>
                                                                                         <p>
                                                                                             {dayjs(
-                                                                                                item?.Segments?.[0][item?.Segments[0].length - 1]?.Destination?.ArrTime
+                                                                                                item?.Segments?.[0]?.[item?.Segments?.[0].length - 1]?.Destination?.ArrTime
                                                                                             ).format("DD MMM, YY")}
                                                                                         </p>
                                                                                         <h5 className="daySize">
                                                                                             {dayjs(
-                                                                                                item?.Segments?.[0][item?.Segments[0].length - 1]
+                                                                                                item?.Segments?.[0]?.[item?.Segments?.[0].length - 1]
                                                                                                     ?.Destination?.ArrTime
                                                                                             ).format("h:mm A")}
                                                                                         </h5>
@@ -1401,8 +1376,8 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                             const isSelected = selectedFlightIndexReturn === index;
 
                                                             const duration = `${Math.floor(
-                                                                item?.Segments?.[0][0]?.Duration / 60
-                                                            )}hr ${item?.Segments?.[0][0]?.Duration % 60
+                                                                item?.Segments?.[0]?.[0]?.Duration / 60
+                                                            )}hr ${item?.Segments?.[0]?.[0]?.Duration % 60
                                                                 }min`;
 
                                                             return (
@@ -1422,17 +1397,17 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                                                 </div>
                                                                                 <span>
                                                                                     {
-                                                                                        item?.Segments[0][0]?.Airline
+                                                                                        item?.Segments?.[0]?.[0]?.Airline
                                                                                             ?.AirlineName
                                                                                     }
                                                                                 </span>
                                                                                 <p>
                                                                                     {
-                                                                                        item?.Segments?.[0][0]?.Airline
+                                                                                        item?.Segments?.[0]?.[0]?.Airline
                                                                                             ?.AirlineCode
                                                                                     }
                                                                                     {
-                                                                                        item?.Segments?.[0][0]?.Airline
+                                                                                        item?.Segments?.[0]?.[0]?.Airline
                                                                                             ?.FlightNumber
                                                                                     }
 
@@ -1453,63 +1428,63 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                                                             />{" "}
                                                                                         </div>
                                                                                         <span>{
-                                                                                            item?.Segments[0][0]?.Airline
+                                                                                            item?.Segments?.[0]?.[0]?.Airline
                                                                                                 ?.AirlineName
                                                                                         }</span>
                                                                                         <p>{
-                                                                                            item?.Segments[0][0]?.Airline
+                                                                                            item?.Segments?.[0]?.[0]?.Airline
                                                                                                 ?.AirlineCode
                                                                                         }
                                                                                             {
-                                                                                                item?.Segments[0][0]?.Airline
+                                                                                                item?.Segments?.[0]?.[0]?.Airline
                                                                                                     ?.FlightNumber
                                                                                             }</p>
                                                                                     </div>
                                                                                     <div class="returnResultOtherDetails">
                                                                                         <div class="returnResultTimingBox">
                                                                                             <span>{
-                                                                                                item?.Segments[0][0]?.Origin
+                                                                                                item?.Segments?.[0]?.[0]?.Origin
                                                                                                     ?.Airport?.CityName
                                                                                             }</span>
                                                                                             <p>{dayjs(
-                                                                                                item?.Segments[0][0]?.Origin
+                                                                                                item?.Segments?.[0]?.[0]?.Origin
                                                                                                     ?.DepTime
                                                                                             ).format("DD MMM, YY")}
                                                                                             </p>
                                                                                             <h5 class="daySize">{dayjs(
-                                                                                                item?.Segments[0][0]?.Origin
+                                                                                                item?.Segments?.[0]?.[0]?.Origin
                                                                                                     ?.DepTime
                                                                                             ).format("h:mm A")}</h5>
                                                                                         </div>
                                                                                         <div class="returnResultDurationBox">
                                                                                             {
-                                                                                                item?.Segments[0].length > 1 ?
+                                                                                                item?.Segments?.[0].length > 1 ?
                                                                                                     <h4>
                                                                                                         {`${Math.floor(
-                                                                                                            item?.Segments[0][0]?.Duration /
+                                                                                                            item?.Segments?.[0]?.[0]?.Duration /
                                                                                                             60
-                                                                                                        )}hr ${item?.Segments[0][0]?.Duration %
+                                                                                                        )}hr ${item?.Segments?.[0]?.[0]?.Duration %
                                                                                                         60
                                                                                                             }min`}{" "}
                                                                                                         -{" "}
                                                                                                         {`${Math.floor(
-                                                                                                            item?.Segments[0][1]?.Duration /
+                                                                                                            item?.Segments?.[0]?.[1]?.Duration /
                                                                                                             60
-                                                                                                        )}hr ${item?.Segments[0][0]?.Duration %
+                                                                                                        )}hr ${item?.Segments?.[0]?.[0]?.Duration %
                                                                                                         60
                                                                                                             }min`}
                                                                                                     </h4> : <h4>
                                                                                                         {`${Math.floor(
-                                                                                                            item?.Segments[0][0]?.Duration /
+                                                                                                            item?.Segments?.[0]?.[0]?.Duration /
                                                                                                             60
-                                                                                                        )}hr ${item?.Segments[0][0]?.Duration %
+                                                                                                        )}hr ${item?.Segments?.[0]?.[0]?.Duration %
                                                                                                         60
                                                                                                             }min`}
                                                                                                     </h4>}
 
 
                                                                                             {
-                                                                                                item?.Segments[0].length > 1 ?
+                                                                                                item?.Segments?.[0].length > 1 ?
                                                                                                     (
                                                                                                         <div className=" stopBefReturn">
                                                                                                             <Divider
@@ -1540,12 +1515,12 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                                                                     )
                                                                                             }
                                                                                             <p>{
-                                                                                                item?.Segments[0].length > 1 ?
-                                                                                                    `${item?.Segments[0].length - 1} stop via ${item?.Segments[0][0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
+                                                                                                item?.Segments?.[0].length > 1 ?
+                                                                                                    `${item?.Segments?.[0].length - 1} stop via ${item?.Segments?.[0]?.[0]?.Destination?.Airport?.CityName}` : "Non Stop"}</p>
 
                                                                                             <span>
                                                                                                 {
-                                                                                                    item?.Segments[0][0]
+                                                                                                    item?.Segments?.[0]?.[0]
                                                                                                         ?.NoOfSeatAvailable
                                                                                                 }{" "}
                                                                                                 Seats Left
@@ -1554,18 +1529,18 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                                                         <div class="returnResultTimingBox">
                                                                                             <span>
                                                                                                 {
-                                                                                                    item?.Segments[0][item?.Segments[0].length - 1]?.Destination
+                                                                                                    item?.Segments?.[0]?.[item?.Segments?.[0].length - 1]?.Destination
                                                                                                         ?.Airport?.CityName
                                                                                                 }
                                                                                             </span>
                                                                                             <p>
                                                                                                 {dayjs(
-                                                                                                    item?.Segments?.[0][item?.Segments[0].length - 1]?.Destination?.ArrTime
+                                                                                                    item?.Segments?.[0]?.[item?.Segments[0].length - 1]?.Destination?.ArrTime
                                                                                                 ).format("DD MMM, YY")}
                                                                                             </p>
                                                                                             <h5 className="daySize">
                                                                                                 {dayjs(
-                                                                                                    item?.Segments?.[0][item?.Segments[0].length - 1]
+                                                                                                    item?.Segments?.[0]?.[item?.Segments[0].length - 1]
                                                                                                         ?.Destination?.ArrTime
                                                                                                 ).format("h:mm A")}
                                                                                             </h5>
@@ -1617,7 +1592,7 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                         </div>
                                                         <span>
                                                             {
-                                                                ongoFlight?.Segments[0][0]?.Airline
+                                                                ongoFlight?.Segments?.[0]?.[0]?.Airline
                                                                     ?.AirlineName
                                                             }
                                                         </span>
@@ -1632,7 +1607,7 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                             </div>
                                                             <span>
                                                                 {
-                                                                    ongoFlight?.Segments[0][0]?.Airline
+                                                                    ongoFlight?.Segments?.[0]?.[0]?.Airline
                                                                         ?.AirlineName
                                                                 }
                                                             </span>
@@ -1640,19 +1615,19 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                         <div className="singleFlightBoxTwo">
                                                             <span>
                                                                 {
-                                                                    ongoFlight?.Segments[0][0]?.Origin
+                                                                    ongoFlight?.Segments?.[0]?.[0]?.Origin
                                                                         ?.Airport?.CityName
                                                                 }
                                                             </span>
                                                             <p>
                                                                 {dayjs(
-                                                                    ongoFlight?.Segments[0][0]?.Origin
+                                                                    ongoFlight?.Segments?.[0]?.[0]?.Origin
                                                                         ?.DepTime
                                                                 ).format("DD MMM, YY")}
                                                             </p>
                                                             <h5 className="daySize">
                                                                 {dayjs(
-                                                                    ongoFlight?.Segments[0][0]?.Origin
+                                                                    ongoFlight?.Segments?.[0]?.[0]?.Origin
                                                                         ?.DepTime
                                                                 ).format("h:mm A")}
                                                             </h5>
@@ -1671,18 +1646,18 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                         <div className="singleFlightBoxFour">
                                                             <span>
                                                                 {
-                                                                    ongoFlight?.Segments[0][ongoFlight?.Segments[0].length - 1]?.Destination
+                                                                    ongoFlight?.Segments?.[0]?.[ongoFlight?.Segments[0].length - 1]?.Destination
                                                                         ?.Airport?.CityName
                                                                 }
                                                             </span>
                                                             <p>
                                                                 {dayjs(
-                                                                    ongoFlight?.Segments?.[0][ongoFlight?.Segments[0].length - 1]?.Destination?.ArrTime
+                                                                    ongoFlight?.Segments?.[0]?.[ongoFlight?.Segments[0].length - 1]?.Destination?.ArrTime
                                                                 ).format("DD MMM, YY")}
                                                             </p>
                                                             <h5 className="daySize">
                                                                 {dayjs(
-                                                                    ongoFlight?.Segments?.[0][ongoFlight?.Segments[0].length - 1]
+                                                                    ongoFlight?.Segments?.[0]?.[ongoFlight?.Segments[0].length - 1]
                                                                         ?.Destination?.ArrTime
                                                                 ).format("h:mm A")}
                                                             </h5>
@@ -1718,7 +1693,7 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                         </div>
                                                         <span>
                                                             {
-                                                                incomeGlight?.Segments[0][0]?.Airline
+                                                                incomeGlight?.Segments?.[0]?.[0]?.Airline
                                                                     ?.AirlineName
                                                             }
                                                         </span>
@@ -1736,7 +1711,7 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                             </div>
                                                             <span>
                                                                 {
-                                                                    incomeGlight?.Segments[0][0]?.Airline
+                                                                    incomeGlight?.Segments?.[0]?.[0]?.Airline
                                                                         ?.AirlineName
                                                                 }
                                                             </span>
@@ -1745,19 +1720,19 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                         <div className="singleFlightBoxTwo">
                                                             <span>
                                                                 {
-                                                                    incomeGlight?.Segments[0][0]?.Origin
+                                                                    incomeGlight?.Segments?.[0]?.[0]?.Origin
                                                                         ?.Airport?.CityName
                                                                 }
                                                             </span>
                                                             <p>
                                                                 {dayjs(
-                                                                    incomeGlight?.Segments[0][0]?.Origin
+                                                                    incomeGlight?.Segments?.[0]?.[0]?.Origin
                                                                         ?.DepTime
                                                                 ).format("DD MMM, YY")}
                                                             </p>
                                                             <h5 className="daySize">
                                                                 {dayjs(
-                                                                    incomeGlight?.Segments[0][0]?.Origin
+                                                                    incomeGlight?.Segments?.[0]?.[0]?.Origin
                                                                         ?.DepTime
                                                                 ).format("h:mm A")}
                                                             </h5>
@@ -1775,18 +1750,18 @@ const ItenaryRoundFlightResult = ({ closeModal }) => {
                                                         <div className="singleFlightBoxFour">
                                                             <span>
                                                                 {
-                                                                    incomeGlight?.Segments[0][incomeGlight?.Segments[0].length - 1]?.Destination
+                                                                    incomeGlight?.Segments?.[0]?.[incomeGlight?.Segments?.[0].length - 1]?.Destination
                                                                         ?.Airport?.CityName
                                                                 }
                                                             </span>
                                                             <p>
                                                                 {dayjs(
-                                                                    incomeGlight?.Segments?.[0][incomeGlight?.Segments[0].length - 1]?.Destination?.ArrTime
+                                                                    incomeGlight?.Segments?.[0]?.[incomeGlight?.Segments?.[0].length - 1]?.Destination?.ArrTime
                                                                 ).format("DD MMM, YY")}
                                                             </p>
                                                             <h5 className="daySize">
                                                                 {dayjs(
-                                                                    incomeGlight?.Segments?.[0][incomeGlight?.Segments[0].length - 1]
+                                                                    incomeGlight?.Segments?.[0]?.[incomeGlight?.Segments?.[0].length - 1]
                                                                         ?.Destination?.ArrTime
                                                                 ).format("h:mm A")}
                                                             </h5>

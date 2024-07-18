@@ -430,7 +430,6 @@ const GrmHotelForm = () => {
       children_ages: data.ChildAge || [],
     }));
 
-    // sessionStorage.setItem("hotelFormData", JSON.stringify(searchTermLast));
     sessionStorage.setItem("clientNationality", JSON.stringify(selectNationality?.countryCode));
     sessionStorage.setItem(
       "revisithotel",
@@ -455,27 +454,21 @@ const GrmHotelForm = () => {
       "cityCode": selectedFrom.cityCode,
       "currency": "INR",
       "client_nationality": selectNationality?.countryCode || "In",
-      // "client_nationality": "In",
       "checkin": dayjs(newDepartDate).format("YYYY-MM-DD"),
       "checkout": dayjs(newReturnDate).format("YYYY-MM-DD"),
       "cutoff_time": 30000,
       "version": "2.0",
     };
 
-    // SecureStorage.setItem(
-    //   "revisitHotelDataGRN", JSON.stringify([
-    //     {
-    //       cityCode: searchTermLast.cityCode,
-    //       cityName: searchTermLast.cityName,
-    //       countryCode: searchTermLast.countryCode,
-    //       countryName: searchTermLast.countryName,
-    //     },
-    //   ])
-    // );
-
     const pageNumber = 1;
     sessionStorage.setItem("grnPayload", JSON.stringify(payload));
-    dispatch(hotelActionGRN(payload, pageNumber));
+    // dispatch(hotelActionGRN(payload, pageNumber));
+
+    // Loop to dispatch the action with incrementing page numbers
+    for (let pageNumber = 1; pageNumber <= 10; pageNumber++) {
+      dispatch(hotelActionGRN(payload, pageNumber));
+    }
+
     navigate("/st-hotel/hotelresult");
 
 

@@ -2,10 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CouponContainer from "../../components/Coupon/Couponcontainer";
 
-
-export default function PriceSummaryGRN(props) {
-
-  const { onFinalAmountChange } = props;
+function PriceSummaryGRNcoupon(props) {
+    const { onFinalAmountChange , oncouponselect} = props;
 
     const reducerState = useSelector((state) => state);
 
@@ -13,7 +11,7 @@ export default function PriceSummaryGRN(props) {
     const commnetRate = hotelinfoGRN?.rate?.rate_comments?.MandatoryTax;
 
     const markUpamount =
-        reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup *
+        Number(reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup) *
         Number(hotelinfoGRN?.rate?.price);
 
         const [showApplyButton, setShowApplyButton] = useState(false);
@@ -84,18 +82,18 @@ export default function PriceSummaryGRN(props) {
             //     discountAmount = discountAmount + discountValueObj?.[0].value;
             //   }
             // }
-            const publishedFare =  hotelinfoGRN?.rate?.price ;
+            const publishedFare =  Number(hotelinfoGRN?.rate?.price) ;
     if (selectedCoupon !== null) {
       let discountamount = 0;
       if (publishedFare <= discountValueObj?.[0].value?.min[0]) {
-        discountamount = discountValueObj?.[0].value?.min[1];
-      } else if (publishedFare >= discountValueObj?.[0].value?.max[0]) {
+        discountamount = Number(discountValueObj?.[0].value?.min[1]);
+      } else if (Number(publishedFare) >= Number(discountValueObj?.[0].value?.max[0])) {
         discountamount = Number(discountValueObj?.[0].value?.max[1]);
       }
 
       if (discountValueObj?.[0].type == "PERCENTAGE") {
         finalAmount = Number(publishedFare) + Number(markUpamount)  - Number(publishedFare) * Number(discountamount * 0.01);
-        discountAmount = publishedFare * (discountamount * 0.01);
+        discountAmount = Number(publishedFare) * Number(discountamount * 0.01);
 
        
       } else if (discountValueObj?.[0].type == "AMOUNT") {
@@ -106,7 +104,7 @@ export default function PriceSummaryGRN(props) {
               finalAmount =
                 finalAmount +
                 Number(hotelinfoGRN?.rate?.price) +
-                Number(markUpamount) ;
+                Number( markUpamount );
             }
             // return { amountGenerator: { finalAmount, discountAmount } };
             return {finalAmount, discountAmount};
@@ -115,115 +113,115 @@ export default function PriceSummaryGRN(props) {
 
           // console.log("finalAmount",finalAmount,discountAmount);
         
-        
+        // console.log("couponvalue",selectedCoupon.couponCode);
           useEffect(() => {
             if (typeof onFinalAmountChange === 'function') {
               onFinalAmountChange(finalAmount);
+              oncouponselect(couponCode);
             } else {
               console.error('onFinalAmountChange is not a function:');
             }
-          }, [finalAmount]);
-        
-        
-
-    return (
-        <>
-            <div className="priceSummaryHotel">
-                <div className="head">
-                    <span>Price Summary</span>
-                </div>
-                {
-                    commnetRate &&
-                    <div className="priceChart">
-                        <div>
-                            <span className="text-bold">Check in Time Payment</span>
-                        </div>
-                        <div>
-                            <span></span>
-                            <p>
-
-                                {commnetRate}
-                            </p>
-                        </div>
-
-                    </div>
-                }
-
-                <div className="priceChart">
-                    <div>
-                        <span className="text-bold">Rate</span>
-                    </div>
-                    
-                    <div>
-                        <span>Published</span>
-                        <p>
-                            {"₹"}
-                            {Number(hotelinfoGRN?.rate?.price).toFixed(0)}
-                        </p>
-                    </div>
-                    
-                    <div>
-                        <span>Other Tax</span>
-                        <p>
-                            {"₹"}
-                            {Number(markUpamount).toFixed(0)}
-                        </p>
-                    </div>
-
-                    <div>
-                        <span className="text-bold">No of Rooms</span>
-                        <p className="text-bold"> {hotelinfoGRN?.rate?.rooms.length}</p>
-                    </div>
-                </div>
-                <div className="TotGst">
-              
-              {/* <div>
-                <span>Base Fare </span>
-                <p>{(Number(hotelinfoGRN?.rate?.price)).toFixed(2)}</p>
-              </div> */}
-
-              {discountAmount > 0 && (
+          }, [finalAmount,couponCode]);
+  return (
+    <>
+    <div className="priceSummaryHotel">
+        <div className="head">
+            <span>Price Summary</span>
+        </div>
+        {
+            commnetRate &&
+            <div className="priceChart">
                 <div>
-                  <span>Discount Amount:</span>
-                  <p>
-                    {"₹"}
-                    {Number(discountAmount).toFixed(2)}
-                  </p>
+                    <span className="text-bold">Check in Time Payment</span>
                 </div>
-              )}
+                <div>
+                    <span></span>
+                    <p>
 
-            
-                    <div>
-                        <span>Grand Total:</span>
-                        <p>
-                            {"₹"}
-                            {/* {(Number(hotelinfoGRN?.rate?.price) + Number(markUpamount)).toFixed(0)} */}
-                            {Number(finalAmount).toFixed(2)}
-                        </p>
-                    </div>
-
-
-
+                        {commnetRate}
+                    </p>
                 </div>
-
-                {/* <CouponContainer
-              value={flight}
-              couponCode={couponCode}
-              couponApplied={couponApplied}
-              couponStatus={couponStatus}
-              couponDiscount={couponDiscount}
-              loading={loading}
-              selectedCoupon={selectedCoupon}
-              error={error}
-              onCouponChange={handleCouponChange}
-              onCouponStatusChange={handleCouponStatusChange}
-              onCouponDiscountChange={handleCouponDiscountChange}
-              onLoadingChange={handleLoadingChange}
-              onErrorChange={handleErrorChange}
-              setSelectedCoupon={setSelectedCoupon}
-            /> */}
 
             </div>
-        </>
-    );
+        }
+
+        <div className="priceChart">
+            <div>
+                <span className="text-bold">Rate</span>
+            </div>
+            
+            <div>
+                <span>Published</span>
+                <p>
+                    {"₹"}
+                    {Number(hotelinfoGRN?.rate?.price).toFixed(0)}
+                </p>
+            </div>
+            
+            <div>
+                <span>Other Tax</span>
+                <p>
+                    {"₹"}
+                    {Number(markUpamount).toFixed(0)}
+                </p>
+            </div>
+
+            <div>
+                <span className="text-bold">No of Rooms</span>
+                <p className="text-bold"> {hotelinfoGRN?.rate?.rooms.length}</p>
+            </div>
+        </div>
+        <div className="TotGst">
+      
+      {/* <div>
+        <span>Base Fare </span>
+        <p>{(Number(hotelinfoGRN?.rate?.price)).toFixed(2)}</p>
+      </div> */}
+
+      {discountAmount > 0 && (
+        <div>
+          <span>Discount Amount:</span>
+          <p>
+            {"₹"}
+            {Number(discountAmount).toFixed(2)}
+          </p>
+        </div>
+      )}
+
+    
+            <div>
+                <span>Grand Total:</span>
+                <p>
+                    {"₹"}
+                    {/* {(Number(hotelinfoGRN?.rate?.price) + Number(markUpamount)).toFixed(0)} */}
+                    {Number(finalAmount).toFixed(2)}
+                </p>
+            </div>
+
+
+
+        </div>
+
+        <CouponContainer
+      value={flight}
+      couponCode={couponCode}
+      couponApplied={couponApplied}
+      couponStatus={couponStatus}
+      couponDiscount={couponDiscount}
+      loading={loading}
+      selectedCoupon={selectedCoupon}
+      error={error}
+      onCouponChange={handleCouponChange}
+      onCouponStatusChange={handleCouponStatusChange}
+      onCouponDiscountChange={handleCouponDiscountChange}
+      onLoadingChange={handleLoadingChange}
+      onErrorChange={handleErrorChange}
+      setSelectedCoupon={setSelectedCoupon}
+    />
+
+    </div>
+</>
+  )
 }
+
+export default PriceSummaryGRNcoupon

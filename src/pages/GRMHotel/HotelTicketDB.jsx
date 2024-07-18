@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 // import userApi from "../../Redux/API/api";
 import userApi from "../../Redux/API/api";
 
@@ -9,7 +9,8 @@ import userApi from "../../Redux/API/api";
 
 const HotelTicketDB = () => {
 
-
+    const location = useLocation();
+    const { finalamount } = location.state || {};
     const navigate = useNavigate();
 
     const reducerState = useSelector((state) => state);
@@ -36,7 +37,8 @@ const HotelTicketDB = () => {
             "booking_reference": getBookingDetails?.booking_reference,
             "checkin": getBookingDetails?.checkin,
             "checkout": getBookingDetails?.checkout,
-            "total": getBookingDetails?.price?.total,
+            // "total": getBookingDetails?.price?.total,
+            "total":Number(finalamount).toFixed(2),
             "holder": {
                 "title": passenger?.[0]?.adults?.[0]?.Title,
                 "name": passenger?.[0]?.adults?.[0]?.FirstName,
