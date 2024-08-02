@@ -12,11 +12,14 @@ import {
   Radio,
   notification,
   Checkbox,
+  DatePicker,
+  InputNumber,
 } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import "./Inventory.css";
 import { apiURL } from "../../Constants/constant";
 import { useEffect } from "react";
+import moment from "moment";
 const { Title } = Typography;
 const { Option } = Select;
 
@@ -24,33 +27,74 @@ const InventoryHotelForm = () => {
   const [hotelFacilities, setHotelFacilities] = useState([]);
   const [totalRoomCount, setTotalRoomCount] = useState(0);
   const [totalAvailableRoomsCount, setTotalAvailableRoomsCount] = useState(0);
-  console.log(totalAvailableRoomsCount, "available");
-  console.log(setTotalAvailableRoomsCount, "absjdhbsdf");
+  // console.log(totalAvailableRoomsCount, "available");
+  // console.log(setTotalAvailableRoomsCount, "absjdhbsdf");
   const [currentAmenities, setCurrentAmenities] = useState("");
   const [hotelAmenities, setHotelAmenities] = useState([]);
-  const [currentPolicy, setCurrentPolicy] = useState(""); // State for current policy input
   const [hotelPolicies, setHotelPolicies] = useState([]);
-  const [currentFacility, setCurrentFacility] = useState("");
+  const [bookingPolicies, setBookingPolicies] = useState([]);
+
+  const [safe2Stay, setSafe2Stay] = useState([]);
+
   const [rooms, setRooms] = useState([
     {
       room_type: "",
       description: "",
       totalRooms: 0,
-      noOfAdult: 0,
-      noOfChildren: 0,
-      room_Price: 0,
       availableRooms: 0,
       priceDetails: {
-        net: [],
+        gst: [
+          {
+            amount: 0,
+            amountType: "",
+            currency: "",
+            included: false,
+            name: "",
+          },
+        ],
+        net: [
+          {
+            amount: 0,
+            amountType: "",
+            currency: "",
+            included: false,
+            name: "",
+          },
+        ],
+        Weekday: [
+          {
+            noOfAdult: 0,
+            noOfChildren: 0,
+            room_Price: 0,
+            isSingle: false,
+            isDouble: false,
+            isCP: false,
+            isMAP: false,
+          },
+        ],
+        Weekend: [
+          {
+            noOfAdult: 0,
+            noOfChildren: 0,
+            room_Price: 0,
+            isSingle: false,
+            isDouble: false,
+            isCP: false,
+            isMAP: false,
+          },
+        ],
       },
+      roomAmineties: [],
     },
   ]);
 
   const [hotelImages, setHotelImages] = useState([]);
   const [roomsImages, setroomsImages] = useState([]);
   // let roomArr=[];
+  const [form] = Form.useForm();
   const [formData, setFormData] = useState({
     mealType: [],
+    typeOfRoom: [],
     location: {
       type: "Point",
       coordinates: [0, 0], // Initial values
@@ -62,22 +106,101 @@ const InventoryHotelForm = () => {
     panCard: "",
     description: "",
     hotelPolicy: "",
-
+    bookingPolicy: [],
+    // safe2Stay: "",
     locality: "",
     cityCode: "",
     hotelAddress: "",
-    rating: "1",
+    rating: null,
     totalRooms: "",
     availableRooms: "",
     totalPrice: "",
     hotelCode: "",
+    startFrom: null, // Initialize with null or default date as needed
+    availableDate: null,
   });
 
-  const handleNetChange = (value, roomIndex, netIndex, field) => {
-    const newRooms = [...rooms];
-    newRooms[roomIndex].priceDetails.net[netIndex][field] = value;
-    setRooms(newRooms);
+  const handleGstChange = (value, roomIndex, gstIndex, field) => {
+    setRooms((prevRooms) => {
+      const newRooms = [...prevRooms];
+      newRooms[roomIndex].priceDetails.gst[gstIndex][field] = value;
+      return newRooms;
+    });
   };
+
+  const handleNetChange = (value, roomIndex, netIndex, field) => {
+    setRooms((prevRooms) => {
+      const newRooms = [...prevRooms];
+      newRooms[roomIndex].priceDetails.net[netIndex][field] = value;
+      return newRooms;
+    });
+  };
+
+  // Handler for Weekday data
+  const handleWeekdayChange = (value, roomIndex, WeekdayIndex, field) => {
+    const updatedRooms = [...rooms];
+    updatedRooms[roomIndex].priceDetails.Weekday[WeekdayIndex][field] = value;
+    setRooms(updatedRooms);
+  };
+
+  // Handler for Weekend data
+  const handleWeekendChange = (value, roomIndex, WeekendIndex, field) => {
+    const updatedRooms = [...rooms];
+    updatedRooms[roomIndex].priceDetails.Weekend[WeekendIndex][field] = value;
+    setRooms(updatedRooms);
+  };
+
+  // const handleWeekdayChange = (value, roomIndex, WeekdayIndex, field) => {
+  //   const newRooms = [...rooms];
+
+  //   if (!newRooms[roomIndex].priceDetails.Weekday) {
+  //     newRooms[roomIndex].priceDetails.Weekday = [];
+  //   }
+
+  //   if (!newRooms[roomIndex].priceDetails.Weekday[WeekdayIndex]) {
+  //     newRooms[roomIndex].priceDetails.Weekday[WeekdayIndex] = {};
+  //   }
+
+  //   // Check if the field should be a number and convert it
+  //   if (
+  //     field === "noOfAdult" ||
+  //     field === "noOfChildren" ||
+  //     field === "room_Price"
+  //   ) {
+  //     newRooms[roomIndex].priceDetails.Weekday[WeekdayIndex][field] =
+  //       Number(value);
+  //   } else {
+  //     newRooms[roomIndex].priceDetails.Weekday[WeekdayIndex][field] = value;
+  //   }
+
+  //   setRooms(newRooms);
+  // };
+
+  // const handleWeekendChange = (value, roomIndex, WeekendIndex, field) => {
+  //   const newRooms = [...rooms];
+
+  //   if (!newRooms[roomIndex].priceDetails.Weekend) {
+  //     newRooms[roomIndex].priceDetails.Weekend = [];
+  //   }
+
+  //   if (!newRooms[roomIndex].priceDetails.Weekend[WeekendIndex]) {
+  //     newRooms[roomIndex].priceDetails.Weekend[WeekendIndex] = {};
+  //   }
+
+  //   // Check if the field should be a number and convert it
+  //   if (
+  //     field === "noOfAdults" ||
+  //     field === "noOfChildrens" ||
+  //     field === "roomPrice"
+  //   ) {
+  //     newRooms[roomIndex].priceDetails.Weekend[WeekendIndex][field] =
+  //       Number(value);
+  //   } else {
+  //     newRooms[roomIndex].priceDetails.Weekend[WeekendIndex][field] = value;
+  //   }
+
+  //   setRooms(newRooms);
+  // };
 
   const addNetItem = (roomIndex) => {
     const newRooms = [...rooms];
@@ -96,6 +219,63 @@ const InventoryHotelForm = () => {
     });
     setRooms(newRooms);
   };
+
+  const addGstItem = (roomIndex) => {
+    const newRooms = [...rooms];
+    if (!newRooms[roomIndex].priceDetails) {
+      newRooms[roomIndex].priceDetails = { gst: [] };
+    }
+    if (!newRooms[roomIndex].priceDetails.gst) {
+      newRooms[roomIndex].priceDetails.gst = [];
+    }
+    newRooms[roomIndex].priceDetails.gst.push({
+      amount: 0,
+      amountType: "value",
+      currency: "In",
+      included: false,
+      name: "",
+    });
+    setRooms(newRooms);
+  };
+
+  // addWeekdayItem
+
+  const addWeekdayItem = (roomIndex) => {
+    const newRooms = [...rooms];
+    if (!newRooms[roomIndex].priceDetails) {
+      newRooms[roomIndex].priceDetails = { Weekday: [] };
+    }
+    if (!newRooms[roomIndex].priceDetails.Weekday) {
+      newRooms[roomIndex].priceDetails.Weekday = [];
+    }
+    newRooms[roomIndex].priceDetails.Weekday.push({
+      noOfAdult: "",
+      noOfChildren: "",
+      room_Price: "",
+      isSingle: "",
+      isDouble: "",
+    });
+    setRooms(newRooms);
+  };
+
+  const addWeekendItem = (roomIndex) => {
+    const newRooms = [...rooms];
+    if (!newRooms[roomIndex].priceDetails) {
+      newRooms[roomIndex].priceDetails = { Weekend: [] };
+    }
+    if (!newRooms[roomIndex].priceDetails.Weekend) {
+      newRooms[roomIndex].priceDetails.Weekend = [];
+    }
+    newRooms[roomIndex].priceDetails.Weekend.push({
+      noOfAdults: "",
+      noOfChildrens: "",
+      room_Prices: "",
+      isSingle: "",
+      isDouble: "",
+    });
+    setRooms(newRooms);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -103,20 +283,24 @@ const InventoryHotelForm = () => {
       [name]: value,
     });
   };
+
   const handleMealTypeChange = (checkedValues) => {
     setFormData({ ...formData, mealType: checkedValues });
   };
+
+  const handleTypeofRoomChange = (checkedValues) => {
+    setFormData({ ...formData, typeOfRoom: checkedValues });
+  };
+
   const handleFileChange = ({ file, fileList }) => {
     console.log("File changed:", file);
     console.log("File list:", fileList);
-
     setHotelImages(fileList);
   };
 
   const handleRoomFileChange = ({ file, fileList }) => {
     console.log("File changed:", file);
     console.log("File list:", fileList);
-
     setroomsImages(fileList);
   };
 
@@ -134,62 +318,81 @@ const InventoryHotelForm = () => {
     }));
   };
 
-  //rooms
-
   const handleSubmit = async () => {
-    console.log("Form data:", rooms, totalRoomCount);
+    //console.log("Form data:", rooms, totalRoomCount);
     const formdata = new FormData();
 
+    // Append other form data
     formdata.append("hotelName", formData.hotelName);
     formdata.append("hotelCity", formData.hotelCity);
     formdata.append("hotelCountry", formData.hotelCountry);
     formdata.append("hotelState", formData.hotelState);
     formdata.append("panCard", formData.panCard);
-    formdata.append("rating", formData.rating);
-    formdata.append("total Price", formData.totalPrice);
-    formdata.append("description", formData.description);
-    formdata.append("cityCode", formData.cityCode);
-    formdata.append("locality", formData.locality);
-    formdata.append("hotelAddress", formData.hotelAddress);
-    formdata.append("totalPrice", formData.totalPrice);
-    formdata.append("totalRooms", totalRoomCount);
-    formdata.append("availableRooms", totalAvailableRoomsCount);
+    formdata.append("rating", formData.rating || "");
+    formdata.append("description", formData.description || "");
+    formdata.append("cityCode", formData.cityCode || "");
+    formdata.append("locality", formData.locality || "");
+    formdata.append("hotelAddress", formData.hotelAddress || "");
+    formdata.append("totalPrice", formData.totalPrice || "0");
+    formdata.append("totalRooms", totalRoomCount || "0");
+    formdata.append("availableRooms", totalAvailableRoomsCount || "0");
 
-    formdata.append("amenities", JSON.stringify(hotelAmenities));
-    formdata.append("facilities", JSON.stringify(hotelFacilities));
+    // Handle arrays and JSON fields
+    formdata.append("amenities", JSON.stringify(hotelAmenities || []));
+    formdata.append("facilities", JSON.stringify(hotelFacilities || []));
+    formdata.append("bookingPolicy", JSON.stringify(bookingPolicies || []));
+    formdata.append("safe2Stay", JSON.stringify(safe2Stay || []));
+    formdata.append("hotelPolicy", JSON.stringify(hotelPolicies || []));
+    formdata.append("hotelCode", formData.hotelCode || "");
+    formdata.append("mealType", JSON.stringify(formData.mealType || []));
+    formdata.append("typeOfRoom", JSON.stringify(formData.typeOfRoom || []));
+    formdata.append("location", JSON.stringify(formData.location || {}));
 
-    formdata.append("hotelPolicy", JSON.stringify(hotelPolicies));
-    console.log(hotelPolicies, "----------");
-    formdata.append("hotelCode", formData.hotelCode);
-    formdata.append("roomArr", JSON.stringify(rooms));
-    formdata.append("mealType", JSON.stringify(formData.mealType));
-    formdata.append("location", JSON.stringify(formData.location));
-    console.log(JSON.stringify(formData.location), "location-----");
+    // Handle date fields
+    if (formData.startFrom) {
+      formdata.append(
+        "startFrom",
+        moment(formData.startFrom).format("YYYY-MM-DD")
+      );
+    }
+
+    if (formData.availableDate) {
+      formdata.append(
+        "availableDate",
+        moment(formData.availableDate).format("YYYY-MM-DD")
+      );
+    }
+
+    // Handle images
     hotelImages.forEach((file) => {
       formdata.append("hotelImages", file.originFileObj);
     });
-
     roomsImages.forEach((file) => {
       formdata.append("roomsImages", file.originFileObj);
     });
 
-    // Log the formdata object to check if hotelPolicy and hotelFacilities are included
+    formdata.append("roomArr", JSON.stringify(rooms));
+
+    // Debugging: Log form data
     for (let [key, value] of formdata.entries()) {
       console.log(`${key}: ${value}`);
     }
 
+    // API call
     try {
+      const token = localStorage.getItem("token");
       const response = await fetch(
         `${apiURL.baseURL}/skyTrails/api/inventory/createInventory`,
         {
           method: "POST",
+          headers: {
+            token: token,
+          },
           body: formdata,
         }
       );
 
       const responseData = await response.json();
-
-      // Log the response from the server
       console.log(responseData);
 
       if (response.ok) {
@@ -198,6 +401,8 @@ const InventoryHotelForm = () => {
           className: "custom-notification",
         });
 
+        form.resetFields();
+        // Reset form
         setFormData({
           hotelName: "",
           hotelCity: "",
@@ -206,19 +411,31 @@ const InventoryHotelForm = () => {
           panCard: "",
           rating: "",
           description: "",
-          hotelPolicy: "",
+          cityCode: "",
           locality: "",
-          hotelAmenities: [],
           hotelAddress: "",
-          totalRooms: "",
           totalPrice: "",
+          totalRooms: "",
           hotelCode: "",
-          mealType: [], // Reset mealType
+          totalRoomCount: "",
+          mealType: [],
+          typeOfRoom: [],
+          location: {
+            type: "Point",
+            coordinates: [0, 0],
+          },
+          startFrom: null,
+          availableDate: null,
         });
+
         setHotelFacilities([]);
         setHotelPolicies([]);
+        setBookingPolicies([]);
+        setHotelAmenities([]);
         setHotelImages([]);
+        setroomsImages([]);
         setRooms([]);
+        setSafe2Stay([]);
       } else {
         notification.error({
           message: "Error",
@@ -235,36 +452,32 @@ const InventoryHotelForm = () => {
     }
   };
 
-  console.log(rooms, typeof rooms, "++++++++++++++++++", typeof rooms);
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
 
-  const handleFacilityAdd = () => {
-    if (currentFacility.trim() !== "") {
-      setHotelFacilities([...hotelFacilities, currentFacility.trim()]);
-      setCurrentFacility("");
-    }
+  const handleFacilitiesChange = (e) => {
+    // Split the input by commas or newlines and trim whitespace
+    const facilities = e.target.value
+      .split(/\s*,\s*|\n/)
+      .map((facility) => facility.trim())
+      .filter((facility) => facility);
+    setHotelFacilities(facilities);
   };
 
-  // Handle adding policy
-  const handlePolicyAdd = () => {
-    if (currentPolicy.trim() !== "") {
-      setHotelPolicies([...hotelPolicies, currentPolicy.trim()]);
-      console.log(setHotelPolicies, "pppppppppppp");
-      setCurrentPolicy("");
-    }
+  const handlePoliciesChange = (e) => {
+    // Splitting the input by newline character and updating the state
+    const policiesArray = e.target.value
+      .split("\n")
+      .map((policy) => policy.trim());
+    setHotelPolicies(policiesArray);
   };
 
-  const handleAmenitiesAdd = () => {
-    if (currentAmenities.trim() !== "") {
-      setHotelAmenities([...hotelAmenities, currentAmenities]);
-      setCurrentAmenities("");
-    }
-  };
-
-  const handleAmenityClose = (index) => {
-    setHotelAmenities(hotelAmenities.filter((_, i) => i !== index));
+  const handleBookingPoliciesChange = (e) => {
+    const bookingpoliciesArray = e.target.value
+      .split("\n")
+      .map((bookingpolicy) => bookingpolicy.trim());
+    setBookingPolicies(bookingpoliciesArray);
   };
 
   // Function to calculate total rooms across all entries
@@ -282,6 +495,7 @@ const InventoryHotelForm = () => {
     }
     setRooms(updatedRooms);
   };
+
   const calculateTotalAvailableRooms = (rooms) => {
     let totalAvailableRooms = 0;
 
@@ -291,6 +505,7 @@ const InventoryHotelForm = () => {
 
     return totalAvailableRooms;
   };
+
   const calculateTotalRooms = (rooms) => {
     let totalRooms = 0;
     rooms.forEach((room) => {
@@ -307,16 +522,21 @@ const InventoryHotelForm = () => {
         room_type: "",
         description: "",
         totalRooms: 0,
-        noOfAdult: 0,
-        noOfChildren: 0,
-        room_Price: 0,
+        // noOfAdult: 0,
+        // noOfChildren: 0,
+        // room_Price: 0,
         availableRooms: 0,
         priceDetails: {
           net: [],
+          gst: [],
+          Weekday: [],
+          Weekend: [],
         },
+        roomAmineties: [],
       },
     ]);
   };
+
   const removeRoom = (roomIndex) => {
     const updatedRooms = [...rooms];
     updatedRooms.splice(roomIndex, 1);
@@ -324,6 +544,26 @@ const InventoryHotelForm = () => {
     const totalRooms = calculateTotalRooms(updatedRooms);
     setTotalRoomCount(totalRooms);
   };
+
+  const handleStartDateChange = (date, dateString) => {
+    setFormData({
+      ...formData,
+      startFrom: date,
+    });
+  };
+
+  const handleEndDateChange = (date, dateString) => {
+    setFormData({
+      ...formData,
+      availableDate: date,
+    });
+  };
+
+  const disabledDate = (current) => {
+    // Disable dates before today (including today)
+    return current && current < moment().startOf("day");
+  };
+
   return (
     <div className="inventoryForm">
       <div className="form-container">
@@ -331,9 +571,11 @@ const InventoryHotelForm = () => {
           Inventory Hotel Form
         </Title>
         <Form
+          form={form}
+          initialValues={formData}
           name="hotel_form"
           layout="vertical"
-          initialValues={{ rating: 1 }}
+          // initialValues={{ rating: 1 }}
           onFinish={handleSubmit}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
@@ -358,7 +600,7 @@ const InventoryHotelForm = () => {
                 label="Hotel State"
                 name="hotelState"
                 rules={[
-                  { required: true, message: "Please enter hotel address" },
+                  { required: true, message: "Please enter hotel state" },
                 ]}
                 className="form-item"
               >
@@ -370,12 +612,13 @@ const InventoryHotelForm = () => {
               </Form.Item>
             </Col>
           </Row>
+
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label="City"
+                label="Hotel City"
                 name="hotelCity"
-                rules={[{ required: true, message: "Please enter city" }]}
+                rules={[{ required: true, message: "Please enter hotel city" }]}
                 className="form-item"
               >
                 <Input
@@ -389,7 +632,7 @@ const InventoryHotelForm = () => {
               <Form.Item
                 label="Country"
                 name="hotelCountry"
-                rules={[{ required: true, message: "Please enter country" }]}
+                rules={[{ required: true, message: "Please enter  country" }]}
                 className="form-item"
               >
                 <Input
@@ -400,12 +643,79 @@ const InventoryHotelForm = () => {
               </Form.Item>
             </Col>
           </Row>
+
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="CompanyName"
+                name="CompanyName"
+                rules={[
+                  { required: true, message: "Please enter Company Name" },
+                ]}
+                className="form-item"
+              >
+                <Input
+                  name="CompanyName"
+                  value={formData.CompanyName}
+                  onChange={handleChange}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label="GstNo"
+                name="gstNo"
+                rules={[{ required: true, message: "Please enter  gstNo" }]}
+                className="form-item"
+              >
+                <Input
+                  name="gstNo"
+                  value={formData.gstNo}
+                  onChange={handleChange}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item
+                label="Start Date"
+                name="startFrom"
+                rules={[{ required: true, message: "Please enter start date" }]}
+                className="form-item"
+              >
+                <DatePicker
+                  value={formData.startFrom}
+                  onChange={handleStartDateChange}
+                />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item
+                label="Available Date"
+                name="availableDate"
+                rules={[
+                  { required: true, message: "Please enter available date" },
+                ]}
+                className="form-item"
+              >
+                <DatePicker
+                  value={formData.availableDate}
+                  onChange={handleEndDateChange}
+                  disabledDate={disabledDate}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
                 label="Description"
                 name="description"
-                rules={[{ required: true, message: "Please enter city" }]}
+                rules={[
+                  { required: true, message: "Please enter description" },
+                ]}
                 className="form-item"
               >
                 <Input
@@ -455,7 +765,7 @@ const InventoryHotelForm = () => {
                 label="HotelAddress"
                 name="hotelAddress"
                 rules={[
-                  { required: true, message: "Please select hotel rating" },
+                  { required: true, message: "Please select hotel address" },
                 ]}
                 className="form-item"
               >
@@ -470,26 +780,19 @@ const InventoryHotelForm = () => {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label="Do you have a PAN card?"
+                label="PAN card"
                 name="panCard"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select whether you have a PAN card",
-                  },
-                ]}
+                rules={[{ required: true, message: "Please enter pan Number" }]}
                 className="form-item"
               >
-                <Radio.Group
+                <Input
                   name="panCard"
                   onChange={handleChange}
                   value={formData.panCard}
-                >
-                  <Radio value="yes">Yes</Radio>
-                  <Radio value="no">No</Radio>
-                </Radio.Group>
+                />
               </Form.Item>
             </Col>
+
             <Col span={12}>
               <Form.Item
                 label="Rating"
@@ -499,19 +802,18 @@ const InventoryHotelForm = () => {
                 ]}
                 className="form-item"
               >
-                <Select
-                  name="rating"
+                <Input
+                  type="text"
+                  min={0}
+                  max={5}
                   value={formData.rating}
-                  onChange={(value) =>
-                    setFormData({ ...formData, rating: value })
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      rating: parseFloat(e.target.value),
+                    })
                   }
-                >
-                  <Option value="1">1 star</Option>
-                  <Option value="2">2 stars</Option>
-                  <Option value="3">3 stars</Option>
-                  <Option value="4">4 stars</Option>
-                  <Option value="5">5 stars</Option>
-                </Select>
+                />
               </Form.Item>
             </Col>
           </Row>
@@ -537,19 +839,15 @@ const InventoryHotelForm = () => {
               </Form.Item>
             </Col>
           </Row>
-
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
                 label="Total Price"
                 name="totalPrice"
-                rules={[
-                  { required: true, message: "Please enter hotel price" },
-                ]}
                 className="form-item"
               >
                 <Input
-                  type="number"
+                  type="text"
                   name="totalPrice"
                   value={formData.totalPrice}
                   onChange={handleChange}
@@ -560,13 +858,10 @@ const InventoryHotelForm = () => {
               <Form.Item
                 label="Hotel Code"
                 name="hotelCode"
-                rules={[
-                  { required: true, message: "Please enter hotel price" },
-                ]}
                 className="form-item"
               >
                 <Input
-                  type="number"
+                  type="text"
                   name="hotelCode"
                   value={formData.hotelCode}
                   onChange={handleChange}
@@ -574,81 +869,45 @@ const InventoryHotelForm = () => {
               </Form.Item>
             </Col>
           </Row>
+
           <Form.Item label="Hotel Facilities" className="form-item">
-            <Input
-              value={currentFacility}
-              onChange={(e) => setCurrentFacility(e.target.value)}
-              placeholder="Enter facility"
-              style={{ marginBottom: "10px" }}
+            <Input.TextArea
+              value={hotelFacilities.join("\n")}
+              onChange={handleFacilitiesChange}
+              placeholder="Enter facilities separated by commas or new lines"
+              rows={4} // Adjust the number of rows as needed
             />
-            <Button
-              type="dashed"
-              onClick={handleFacilityAdd}
-              className="add-facility-button"
-            >
-              + Add Facility
-            </Button>
-            <div className="facility-chips">
-              {hotelFacilities.map((facilities, index) => (
-                <Tag
-                  key={index}
-                  closable
-                  onClose={() => {
-                    setHotelFacilities(
-                      hotelFacilities.filter((_, i) => i !== index)
-                    );
-                  }}
-                >
-                  {facilities}
-                </Tag>
-              ))}
-            </div>
           </Form.Item>
           <Form.Item
             label="Hotel Policy"
             name="hotelPolicy"
             className="form-item"
           >
-            <Input
-              value={currentPolicy}
-              onChange={(e) => setCurrentPolicy(e.target.value)}
-              placeholder="Enter hotel policy"
-              style={{ marginBottom: "10px" }}
+            <Input.TextArea
+              value={hotelPolicies.join("\n")}
+              rows={4}
+              onChange={handlePoliciesChange}
+              placeholder="Enter hotel policies, each on a new line"
             />
-            <Button
-              type="dashed"
-              onClick={handlePolicyAdd}
-              className="add-facility-button"
-            >
-              + Add Policy
-            </Button>
-            <div className="facility-chips">
-              {hotelPolicies.map((policy, index) => (
-                <Tag
-                  key={index}
-                  closable
-                  onClose={() => {
-                    setHotelPolicies(
-                      hotelPolicies.filter((_, i) => i !== index)
-                    );
-                  }}
-                >
-                  {policy}
-                </Tag>
-              ))}
-            </div>
+          </Form.Item>
+
+          <Form.Item
+            label="Booking Policy"
+            name="bookingPolicy"
+            className="form-item"
+          >
+            <Input.TextArea
+              value={bookingPolicies.join("\n")}
+              rows={4}
+              onChange={handleBookingPoliciesChange}
+              placeholder="Enter booking policies, each on a new line"
+            />
           </Form.Item>
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
                 label="Meal Type"
                 name="mealType"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please select at least one meal type",
-                  },
-                ]}
                 className="form-item"
               >
                 <Checkbox.Group
@@ -662,97 +921,44 @@ const InventoryHotelForm = () => {
                 </Checkbox.Group>
               </Form.Item>
             </Col>
-          </Row>
-          {/* <Form.Item label="Hotel Facilities" className="form-item">
-            <Input
-              value={currentFacility}
-              onChange={(e) => setCurrentFacility(e.target.value)}
-              placeholder="Enter facility"
-              style={{ marginBottom: "10px" }}
-            />
-            <Button
-              type="dashed"
-              onClick={handleFacilityAdd}
-              className="add-facility-button"
-            >
-              + Add Facility
-            </Button>
-            <div className="facility-chips">
-              {hotelFacilities.map((facilities, index) => (
-                <Tag
-                  key={index}
-                  closable
-                  onClose={() => {
-                    setHotelFacilities(
-                      hotelFacilities.filter((_, i) => i !== index)
-                    );
-                  }}
-                >
-                  {facilities}
-                </Tag>
-              ))}
-            </div>
-          </Form.Item> */}
 
-          {/* <Form.Item label="Amenities" name="amenities" className="form-item">
-            <Input
-              value={currentAmenities}
-              onChange={(e) => setCurrentAmenities(e.target.value)}
-              placeholder="Enter amenities"
-              style={{ marginBottom: "10px" }}
-            />
-            <Button
-              type="dashed"
-              onClick={handleAmenitiesAdd}
-              className="add-facility-button"
-            >
-              + Add Amenities
-            </Button>
-            <div className="facility-chips">
-              {hotelAmenities.map((amenity, index) => (
-                <Tag
-                  key={index}
-                  closable
-                  onClose={() => {
-                    setHotelAmenities(
-                      hotelAmenities.filter((_, i) => i !== index)
-                    );
+            <Col span={12}>
+              <Form.Item
+                label="Type of Room"
+                name="typeOfRoom"
+                className="form-item"
+              >
+                <Input
+                  value={formData.typeOfRoom.join(", ")} // Join array to a string
+                  onChange={(e) => {
+                    setFormData({
+                      ...formData,
+                      typeOfRoom: e.target.value
+                        .split(",")
+                        .map((item) => item.trim()),
+                    });
                   }}
-                >
-                  {amenity}
-                </Tag>
-              ))}
-            </div>
-          </Form.Item> */}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
 
           <Form.Item label="Amenities" name="amenities" className="form-item">
-            <Input
-              value={currentAmenities}
-              onChange={(e) => setCurrentAmenities(e.target.value)}
-              placeholder="Enter amenities"
-              style={{ marginBottom: "10px" }}
+            <Input.TextArea
+              value={hotelAmenities.join("\n")}
+              rows={4}
+              onChange={(e) => {
+                const updatedAmenities = e.target.value
+                  .split("\n")
+                  .map((item) => item.trim());
+                setHotelAmenities(updatedAmenities);
+              }}
+              placeholder="Enter amenities, each on a new line"
             />
-            <Button
-              type="dashed"
-              onClick={handleAmenitiesAdd}
-              className="add-facility-button"
-            >
-              + Add Amenities
-            </Button>
-            <div className="facility-chips">
-              {hotelAmenities.map((amenity, index) => (
-                <Tag
-                  key={index}
-                  closable
-                  onClose={() => handleAmenityClose(index)}
-                >
-                  {amenity}
-                </Tag>
-              ))}
-            </div>
           </Form.Item>
+          <h2 className="room-details-heading">Room Details</h2>
 
-          <Form.Item label="Room Details" className="form-item">
+          <Form.Item className="form-item">
             {rooms.map((room, roomIndex) => (
               <div key={roomIndex} className="room-item">
                 <Row gutter={16}>
@@ -791,18 +997,45 @@ const InventoryHotelForm = () => {
                     </Form.Item>
                   </Col>
                 </Row>
-                <Form.Item>
+                <Row gutter={16}>
+                  <Col span={24}>
+                    <Form.Item
+                      label="Room Amenities"
+                      className="form-item"
+                      required
+                    >
+                      <Input.TextArea
+                        rows={4}
+                        placeholder="Enter amenities separated by commas"
+                        value={room.roomAmineties.join(", ")} // Convert array to string for display
+                        onChange={(e) =>
+                          handleRoomChange(
+                            e.target.value
+                              .split(",")
+                              .map((item) => item.trim()),
+                            roomIndex,
+                            "roomAmineties"
+                          )
+                        } // Split string into array
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={16}>
                   <Col span={12}>
                     <Form.Item
                       label="Total Room"
                       name={`totalRooms-${roomIndex}`}
                       rules={[
-                        { required: true, message: "Please enter total room" },
+                        {
+                          required: true,
+                          message: "Please enter total room",
+                        },
                       ]}
                       className="form-item"
                     >
                       <Input
-                        type="number"
+                        type="text"
                         value={room.totalRooms}
                         onChange={(e) =>
                           handleRoomChange(
@@ -814,76 +1047,16 @@ const InventoryHotelForm = () => {
                       />
                     </Form.Item>
                   </Col>
-                </Form.Item>
-                <Row gutter={16}>
-                  <Col span={12}>
-                    <Form.Item
-                      label="No of Adult"
-                      className="form-item"
-                      required
-                    >
-                      <Input
-                        type="number"
-                        value={room.noOfAdult}
-                        onChange={(e) =>
-                          handleRoomChange(
-                            e.target.value,
-                            roomIndex,
-                            "noOfAdult"
-                          )
-                        }
-                      />
-                    </Form.Item>
-                  </Col>
-                  <Col span={12}>
-                    <Form.Item
-                      label="No Of Children"
-                      className="form-item"
-                      required
-                    >
-                      <Input
-                        type="number"
-                        value={room.noOfChildren}
-                        onChange={(e) =>
-                          handleRoomChange(
-                            parseInt(e.target.value),
-                            roomIndex,
-                            "noOfChildren"
-                          )
-                        }
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
 
-                <Row gutter={16}>
-                  <Col span={12}>
-                    <Form.Item
-                      label="Room Price"
-                      className="form-item"
-                      required
-                    >
-                      <Input
-                        type="number"
-                        value={room.room_Price}
-                        onChange={(e) =>
-                          handleRoomChange(
-                            e.target.value,
-                            roomIndex,
-                            "room_Price"
-                          )
-                        }
-                      />
-                    </Form.Item>
-                  </Col>
                   <Col span={12}>
                     <Form.Item
                       label="Available Rooms"
                       className="form-item"
+                      name={`availableRooms-${roomIndex}`}
                       required
                     >
                       <Input
-                        type="number"
+                        type="text"
                         value={room.availableRooms}
                         onChange={(e) =>
                           handleRoomChange(
@@ -898,121 +1071,528 @@ const InventoryHotelForm = () => {
                 </Row>
 
                 <div>
-                  {room?.priceDetails?.net?.map((netItem, netIndex) => (
-                    <div key={netIndex} className="net-item">
-                      <Row gutter={16}>
-                        <Col span={12}>
-                          <Form.Item
-                            label="Amount"
-                            className="form-item"
-                            required
-                          >
-                            <Input
-                              type="number"
-                              value={netItem.amount}
-                              onChange={(e) =>
-                                handleNetChange(
-                                  e.target.value,
-                                  roomIndex,
-                                  netIndex,
-                                  "amount"
-                                )
-                              }
-                            />
-                          </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                          <Form.Item
-                            label="Amount Type"
-                            className="form-item"
-                            required
-                          >
-                            <Input
-                              type="text"
-                              //value={netItem.amountType}
-                              readOnly
-                              value="value"
-                              onChange={(e) =>
-                                handleNetChange(
-                                  e.target.value,
-                                  roomIndex,
-                                  netIndex,
-                                  "amountType"
-                                )
-                              }
-                            />
-                          </Form.Item>
-                        </Col>
-                      </Row>
-                      <Row gutter={16}>
-                        <Col span={12}>
-                          <Form.Item
-                            label="Currency"
-                            className="form-item"
-                            required
-                          >
-                            <Input
-                              type="text"
-                              //value={netItem.currency}
-                              readOnly
-                              value="In"
-                              onChange={(e) =>
-                                handleNetChange(
-                                  e.target.value,
-                                  roomIndex,
-                                  netIndex,
-                                  "currency"
-                                )
-                              }
-                            />
-                          </Form.Item>
-                        </Col>
-                        <Col span={12}>
-                          <Form.Item
-                            label="Included"
-                            className="form-item"
-                            required
-                          >
-                            <Checkbox
-                              checked={netItem.included}
-                              onChange={(e) =>
-                                handleNetChange(
-                                  e.target.checked,
-                                  roomIndex,
-                                  netIndex,
-                                  "included"
-                                )
-                              }
-                            />
-                          </Form.Item>
-                        </Col>
-                      </Row>
-                      <Row gutter={16}>
-                        <Col span={12}>
-                          <Form.Item
-                            label="Name"
-                            className="form-item"
-                            required
-                          >
-                            <Input
-                              type="text"
-                              value={netItem.name}
-                              onChange={(e) =>
-                                handleNetChange(
-                                  e.target.value,
-                                  roomIndex,
-                                  netIndex,
-                                  "name"
-                                )
-                              }
-                            />
-                          </Form.Item>
-                        </Col>
-                      </Row>
-                    </div>
-                  ))}
-                  <Button type="dashed" onClick={() => addNetItem(roomIndex)}>
+                  {rooms[roomIndex]?.priceDetails?.net?.map(
+                    (netItem, netIndex) => (
+                      <div key={`net-${netIndex}`}>
+                        <Row gutter={16}>
+                          <Col span={12}>
+                            <Form.Item
+                              label="Amount"
+                              className="form-item"
+                              required
+                            >
+                              <Input
+                                type="text"
+                                value={netItem.amount}
+                                onChange={(e) =>
+                                  handleNetChange(
+                                    e.target.value,
+                                    roomIndex,
+                                    netIndex,
+                                    "amount"
+                                  )
+                                }
+                              />
+                            </Form.Item>
+                          </Col>
+                          <Col span={12}>
+                            <Form.Item
+                              label="Amount Type"
+                              className="form-item"
+                              required
+                            >
+                              <Input
+                                type="text"
+                                value={netItem.amountType}
+                                onChange={(e) =>
+                                  handleNetChange(
+                                    e.target.value,
+                                    roomIndex,
+                                    netIndex,
+                                    "amountType"
+                                  )
+                                }
+                              />
+                            </Form.Item>
+                          </Col>
+                        </Row>
+                        <Row gutter={16}>
+                          <Col span={12}>
+                            <Form.Item
+                              label="Currency"
+                              className="form-item"
+                              required
+                            >
+                              <Input
+                                type="text"
+                                value={netItem.currency}
+                                onChange={(e) =>
+                                  handleNetChange(
+                                    e.target.value,
+                                    roomIndex,
+                                    netIndex,
+                                    "currency"
+                                  )
+                                }
+                              />
+                            </Form.Item>
+                          </Col>
+                          <Col span={12}>
+                            <Form.Item
+                              label="Included"
+                              className="form-item"
+                              required
+                            >
+                              <Checkbox
+                                checked={netItem.included}
+                                onChange={(e) =>
+                                  handleNetChange(
+                                    e.target.checked,
+                                    roomIndex,
+                                    netIndex,
+                                    "included"
+                                  )
+                                }
+                              >
+                                Included
+                              </Checkbox>
+                            </Form.Item>
+                          </Col>
+                        </Row>
+                        <Form.Item label="Name" className="form-item" required>
+                          <Input
+                            type="text"
+                            value={netItem.name}
+                            onChange={(e) =>
+                              handleNetChange(
+                                e.target.value,
+                                roomIndex,
+                                netIndex,
+                                "name"
+                              )
+                            }
+                          />
+                        </Form.Item>
+                      </div>
+                    )
+                  )}
+                  <Button
+                    type="dashed"
+                    onClick={() => addNetItem(roomIndex)}
+                    className="addItems"
+                  >
                     Add Net Item
+                  </Button>
+                </div>
+
+                <div>
+                  {rooms[roomIndex]?.priceDetails?.gst?.map(
+                    (gstItem, gstIndex) => (
+                      <div key={`gst-${gstIndex}`}>
+                        <Row gutter={16}>
+                          <Col span={12}>
+                            <Form.Item
+                              label="Amount"
+                              className="form-item"
+                              required
+                            >
+                              <Input
+                                type="text"
+                                value={gstItem.amount}
+                                onChange={(e) =>
+                                  handleGstChange(
+                                    e.target.value,
+                                    roomIndex,
+                                    gstIndex,
+                                    "amount"
+                                  )
+                                }
+                              />
+                            </Form.Item>
+                          </Col>
+                          <Col span={12}>
+                            <Form.Item
+                              label="Amount Type"
+                              className="form-item"
+                              required
+                            >
+                              <Input
+                                type="text"
+                                value={gstItem.amountType}
+                                onChange={(e) =>
+                                  handleGstChange(
+                                    e.target.value,
+                                    roomIndex,
+                                    gstIndex,
+                                    "amountType"
+                                  )
+                                }
+                              />
+                            </Form.Item>
+                          </Col>
+                        </Row>
+                        <Row gutter={16}>
+                          <Col span={12}>
+                            <Form.Item
+                              label="Currency"
+                              className="form-item"
+                              required
+                            >
+                              <Input
+                                type="text"
+                                value={gstItem.currency}
+                                onChange={(e) =>
+                                  handleGstChange(
+                                    e.target.value,
+                                    roomIndex,
+                                    gstIndex,
+                                    "currency"
+                                  )
+                                }
+                              />
+                            </Form.Item>
+                          </Col>
+                          <Col span={12}>
+                            <Form.Item
+                              label="Included"
+                              className="form-item"
+                              required
+                            >
+                              <Checkbox
+                                checked={gstItem.included}
+                                onChange={(e) =>
+                                  handleGstChange(
+                                    e.target.checked,
+                                    roomIndex,
+                                    gstIndex,
+                                    "included"
+                                  )
+                                }
+                              >
+                                Included
+                              </Checkbox>
+                            </Form.Item>
+                          </Col>
+                        </Row>
+                        <Form.Item label="Name" className="form-item" required>
+                          <Input
+                            type="text"
+                            value={gstItem.name}
+                            onChange={(e) =>
+                              handleGstChange(
+                                e.target.value,
+                                roomIndex,
+                                gstIndex,
+                                "name"
+                              )
+                            }
+                          />
+                        </Form.Item>
+                      </div>
+                    )
+                  )}
+                  <Button
+                    type="dashed"
+                    onClick={() => addGstItem(roomIndex)}
+                    className="addItems"
+                  >
+                    Add GST Item
+                  </Button>
+                </div>
+
+                <div>
+                  {rooms[roomIndex]?.priceDetails?.Weekday?.map(
+                    (weekdayItem, weekdayIndex) => (
+                      <div key={`weekday-${weekdayIndex}`}>
+                        <Row gutter={16}>
+                          <Col span={12}>
+                            <Form.Item
+                              label="Adults"
+                              className="form-item"
+                              required
+                            >
+                              <Input
+                                type="text"
+                                value={weekdayItem.noOfAdult}
+                                onChange={(e) =>
+                                  handleWeekdayChange(
+                                    e.target.value,
+                                    roomIndex,
+                                    weekdayIndex,
+                                    "noOfAdult"
+                                  )
+                                }
+                              />
+                            </Form.Item>
+                          </Col>
+                          <Col span={12}>
+                            <Form.Item
+                              label="Children"
+                              className="form-item"
+                              required
+                            >
+                              <Input
+                                type="text"
+                                value={weekdayItem.noOfChildren}
+                                onChange={(e) =>
+                                  handleWeekdayChange(
+                                    e.target.value,
+                                    roomIndex,
+                                    weekdayIndex,
+                                    "noOfChildren"
+                                  )
+                                }
+                              />
+                            </Form.Item>
+                          </Col>
+                        </Row>
+                        <Form.Item
+                          label="Room Price"
+                          className="form-item"
+                          required
+                        >
+                          <Input
+                            type="text"
+                            value={weekdayItem.room_Price}
+                            onChange={(e) =>
+                              handleWeekdayChange(
+                                e.target.value,
+                                roomIndex,
+                                weekdayIndex,
+                                "room_Price"
+                              )
+                            }
+                          />
+                        </Form.Item>
+                        <Row gutter={16}>
+                          <Col span={12}>
+                            <Radio.Group
+                              // value={weekdayItem.isSingle ? "single" : "double"}
+                              value={
+                                weekdayItem.isSingle
+                                  ? "single"
+                                  : weekdayItem.isDouble
+                                  ? "double"
+                                  : null
+                              }
+                              onChange={(e) => {
+                                handleWeekdayChange(
+                                  e.target.value === "single",
+                                  roomIndex,
+                                  weekdayIndex,
+                                  "isSingle"
+                                );
+                                handleWeekdayChange(
+                                  e.target.value === "double",
+                                  roomIndex,
+                                  weekdayIndex,
+                                  "isDouble"
+                                );
+                              }}
+                            >
+                              <Radio value="single">Is Single</Radio>
+                              <Radio value="double">Is Double</Radio>
+                            </Radio.Group>
+                          </Col>
+                          <Col span={12}>
+                            <Checkbox.Group
+                              value={[
+                                ...(weekdayItem.isCP ? ["isCP"] : []),
+                                ...(weekdayItem.isMAP ? ["isMAP"] : []),
+                                ...(weekdayItem.isEP ? ["isEP"] : []),
+                                ...(weekdayItem.isJAP ? ["isJAP"] : []),
+                              ]}
+                              onChange={(checkedValues) => {
+                                handleWeekdayChange(
+                                  checkedValues.includes("isCP"),
+                                  roomIndex,
+                                  weekdayIndex,
+                                  "isCP"
+                                );
+                                handleWeekdayChange(
+                                  checkedValues.includes("isMAP"),
+                                  roomIndex,
+                                  weekdayIndex,
+                                  "isMAP"
+                                );
+                                handleWeekdayChange(
+                                  checkedValues.includes("isEP"),
+                                  roomIndex,
+                                  weekdayIndex,
+                                  "isEP"
+                                );
+                                handleWeekdayChange(
+                                  checkedValues.includes("isJAP"),
+                                  roomIndex,
+                                  weekdayIndex,
+                                  "isJAP"
+                                );
+                              }}
+                            >
+                              <Checkbox value="isCP">Is CP</Checkbox>
+                              <Checkbox value="isMAP">Is MAP</Checkbox>
+                              <Checkbox value="isEP">Is EP</Checkbox>
+                              <Checkbox value="isJAP">Is JAP</Checkbox>
+                            </Checkbox.Group>
+                          </Col>
+                        </Row>
+                      </div>
+                    )
+                  )}
+                  <Button
+                    type="dashed"
+                    onClick={() => addWeekdayItem(roomIndex)}
+                    className="addItems"
+                  >
+                    Add Weekday Item
+                  </Button>
+                </div>
+
+                <div>
+                  {rooms[roomIndex]?.priceDetails?.Weekend?.map(
+                    (weekendItem, weekendIndex) => (
+                      <div key={`weekend-${weekendIndex}`}>
+                        <Row gutter={16}>
+                          <Col span={12}>
+                            <Form.Item
+                              label="Adults"
+                              className="form-item"
+                              required
+                            >
+                              <Input
+                                type="text"
+                                value={weekendItem.noOfAdult}
+                                onChange={(e) =>
+                                  handleWeekendChange(
+                                    e.target.value,
+                                    roomIndex,
+                                    weekendIndex,
+                                    "noOfAdult"
+                                  )
+                                }
+                              />
+                            </Form.Item>
+                          </Col>
+                          <Col span={12}>
+                            <Form.Item
+                              label="Children"
+                              className="form-item"
+                              required
+                            >
+                              <Input
+                                type="text"
+                                value={weekendItem.noOfChildren}
+                                onChange={(e) =>
+                                  handleWeekendChange(
+                                    e.target.value,
+                                    roomIndex,
+                                    weekendIndex,
+                                    "noOfChildren"
+                                  )
+                                }
+                              />
+                            </Form.Item>
+                          </Col>
+                        </Row>
+                        <Form.Item
+                          label="Room Price"
+                          className="form-item"
+                          required
+                        >
+                          <Input
+                            type="text"
+                            value={weekendItem.room_Price}
+                            onChange={(e) =>
+                              handleWeekendChange(
+                                e.target.value,
+                                roomIndex,
+                                weekendIndex,
+                                "room_Price"
+                              )
+                            }
+                          />
+                        </Form.Item>
+                        <Row gutter={16}>
+                          <Col span={12}>
+                            <Radio.Group
+                              // value={weekendItem.isSingle ? "single" : "double"}
+                              value={
+                                weekendItem.isSingle
+                                  ? "single"
+                                  : weekendItem.isDouble
+                                  ? "double"
+                                  : null
+                              }
+                              onChange={(e) => {
+                                handleWeekendChange(
+                                  e.target.value === "single",
+                                  roomIndex,
+                                  weekendIndex,
+                                  "isSingle"
+                                );
+                                handleWeekendChange(
+                                  e.target.value === "double",
+                                  roomIndex,
+                                  weekendIndex,
+                                  "isDouble"
+                                );
+                              }}
+                            >
+                              <Radio value="single">Is Single</Radio>
+                              <Radio value="double">Is Double</Radio>
+                            </Radio.Group>
+                          </Col>
+                          <Col span={12}>
+                            <Checkbox.Group
+                              value={[
+                                ...(weekendItem.isCP ? ["isCP"] : []),
+                                ...(weekendItem.isMAP ? ["isMAP"] : []),
+                                ...(weekendItem.isEP ? ["isEP"] : []),
+                                ...(weekendItem.isJAP ? ["isJAP"] : []),
+                              ]}
+                              onChange={(checkedValues) => {
+                                handleWeekendChange(
+                                  checkedValues.includes("isCP"),
+                                  roomIndex,
+                                  weekendIndex,
+                                  "isCP"
+                                );
+                                handleWeekendChange(
+                                  checkedValues.includes("isMAP"),
+                                  roomIndex,
+                                  weekendIndex,
+                                  "isMAP"
+                                );
+                                handleWeekendChange(
+                                  checkedValues.includes("isEP"),
+                                  roomIndex,
+                                  weekendIndex,
+                                  "isEP"
+                                );
+                                handleWeekendChange(
+                                  checkedValues.includes("isJAP"),
+                                  roomIndex,
+                                  weekendIndex,
+                                  "isJAP"
+                                );
+                              }}
+                            >
+                              <Checkbox value="isCP">Is CP</Checkbox>
+                              <Checkbox value="isMAP">Is MAP</Checkbox>
+                              <Checkbox value="isEP">Is EP</Checkbox>
+                              <Checkbox value="isJAP">Is JAP</Checkbox>
+                            </Checkbox.Group>
+                          </Col>
+                        </Row>
+                      </div>
+                    )
+                  )}
+                  <Button
+                    type="dashed"
+                    onClick={() => addWeekendItem(roomIndex)}
+                    className="addItems"
+                  >
+                    Add Weekend Item
                   </Button>
                 </div>
 
@@ -1030,6 +1610,24 @@ const InventoryHotelForm = () => {
                 <PlusOutlined /> Add Room
               </Button>
             </Form.Item>
+          </Form.Item>
+
+          <Form.Item
+            label="Safe to Stay"
+            name="safe2Stay"
+            className="form-item"
+          >
+            <Input.TextArea
+              value={safe2Stay.join("\n")}
+              rows={4}
+              onChange={(e) => {
+                const updatedSafe2Stay = e.target.value
+                  .split("\n")
+                  .map((item) => item.trim());
+                setSafe2Stay(updatedSafe2Stay);
+              }}
+              placeholder="Enter safe to stay features, each on a new line"
+            />
           </Form.Item>
 
           <Row gutter={16}>
@@ -1084,7 +1682,7 @@ const InventoryHotelForm = () => {
                 className="form-item"
               >
                 <Input
-                  type="number"
+                  type="text"
                   value={formData.location?.coordinates?.[0] ?? ""} // Use specific coordinate value
                   onChange={(e) => handleCoordinatesChange(0, e.target.value)}
                   placeholder="Enter latitude"
@@ -1105,7 +1703,7 @@ const InventoryHotelForm = () => {
                 className="form-item"
               >
                 <Input
-                  type="number"
+                  type="text"
                   value={formData.location?.coordinates?.[1] ?? ""} // Use specific coordinate value
                   onChange={(e) => handleCoordinatesChange(1, e.target.value)}
                   placeholder="Enter longitude"

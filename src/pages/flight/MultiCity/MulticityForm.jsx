@@ -330,7 +330,7 @@ const MulticityForm = () => {
   const today = dayjs().format(dateFormat);
   const [newDepartDate, setNewDepartDate] = useState(today);
 
-  console.log(newDepartDate, "new departure date")
+  // console.log(newDepartDate, "new departure date")
 
   const handleRangeChange = (date) => {
     if (date) {

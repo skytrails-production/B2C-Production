@@ -29,7 +29,7 @@ const ReturnSummaryWithCoupon = (props) => {
     const [showInput, setShowInput] = useState(false);
     const isDummyStorageTrue = sessionStorage.getItem("hdhhfb7383__3u8748");
     const propFunction = props.handleClick;
-    const { onFinalAmountChange } = props;
+    const { onFinalAmountChange , oncouponselect} = props;
     // const [couponApplied, setCouponApplied] = useState(false);
 
     // const inputRef = useRef(null);
@@ -287,10 +287,11 @@ const ReturnSummaryWithCoupon = (props) => {
       useEffect(() => {
         if (typeof onFinalAmountChange === 'function') {
           onFinalAmountChange(finalAmount);
+          oncouponselect(couponCode);
         } else {
           console.error('onFinalAmountChange is not a function:');
         }
-      }, [finalAmount]);
+      }, [finalAmount,couponCode]);
     
 
     return (

@@ -321,7 +321,7 @@ const BusReviewBooking = () => {
         const payload = {
           firstname: passengerSessionStorageParsed[0].FirstName,
           phone: passengerSessionStorageParsed[0].Phoneno,
-          amount: Number(finalAmount),
+          amount: Number(finalAmount).toFixed(2),
           // amount: 1,
           email: passengerSessionStorageParsed[0].Email,
           productinfo: "ticket",
@@ -395,7 +395,7 @@ const BusReviewBooking = () => {
             );
             setTransactionAmount(null);
             // sessionStorage.removeItem("totalaftercoupon");
-            sessionStorage.removeItem("couponCode");
+            // sessionStorage.removeItem("couponCode");
             setToggle(false);
 
             setIsDisableScroll(false);

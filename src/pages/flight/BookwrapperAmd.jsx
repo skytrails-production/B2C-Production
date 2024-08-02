@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { apiURL } from "../../Constants/constant";
 import "./bookwrapper.css";
 import FlightLoader from "./FlightLoader/FlightLoader";
@@ -6,6 +6,7 @@ import fromTo from "../../images/fromTo.png";
 import "bootstrap/dist/css/bootstrap.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
+import Box from '@mui/material/Box';
 import DialogContent from "@mui/material/DialogContent";
 import Login from "../../components/Login";
 import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
@@ -20,6 +21,7 @@ import {
 } from "../../Redux/FlightFareQuoteRule/actionFlightQuote";
 import "./booknow.css";
 import { useDispatch, useSelector } from "react-redux";
+// import Box from '@mui/material/Box';
 import { useLocation, useNavigate } from "react-router-dom";
 import { PassengersAction } from "../../Redux/Passengers/passenger";
 import BookNowLeft from "./BookNowLeft";
@@ -40,11 +42,14 @@ import userApi from "../../Redux/API/api";
 import {
   validateEmail,
   validateName,
+  validateGender,
   validatePhoneNumber,
   isValidPassportNumber,
 } from "../../utility/validationFunctions";
 import flightPaymentLoding from "../../images/loading/loading-ban.gif";
 import { Checkbox } from 'antd';
+import AirSeatMap from "../../components/AirSeatMap/AirSeatMap"
+import { IoIosArrowForward } from "react-icons/io";
 
 const variants = {
   initial: {
@@ -61,6 +66,21 @@ const variants = {
   },
 };
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 550,
+  height: 500,
+  borderRadius: "15px",
+  bgcolor: 'background.paper',
+  background: 'aliceblue',
+  // border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 export default function BookWrapper() {
   const location = useLocation();
   // const navigate = useNavigate();
@@ -74,6 +94,10 @@ export default function BookWrapper() {
   const [statusOk, setStatusOk] = useState(true);
   const [jsonSavePnrData, setJsonSaveData] = useState(null);
   const dispatch = useDispatch();
+
+  const [open, setOpen] = React.useState(false);
+  // const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   // const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const adultCount = queryParams.get("adult");
@@ -98,25 +122,33 @@ export default function BookWrapper() {
   const arrivalMomentt = moment(`${"010724"} ${"0555"}`, "DDMMYYYY HHmm");
 
 
+
   const [finalAmount, setFinalAmount] = useState(0);
 
-const handleFinalAmountChange = (amount) => {
-  setFinalAmount(amount);
-};
+  const handleFinalAmountChange = (amount) => {
+    setFinalAmount(amount);
+  };
 
-const [couponvalue, setCouponValue] = useState("");
-const handlecouponChange = (code) => {
-  setCouponValue(code);
-};
+  const [couponvalue, setCouponValue] = useState("");
+  const handlecouponChange = (code) => {
+    setCouponValue(code);
+  };
 
-// console.log("couponvalue",couponvalue);
-
-
-
-// console.log("ResultIndex",ResultIndex);
+  const [discountvalue, setdiscountValue] = useState("");
 
 
-// console.log("amount",finalAmount);
+  const handledisocuntChange = (amount) => {
+    setdiscountValue(amount);
+  };
+
+  // console.log("couponvalue",couponvalue);
+
+
+
+  // console.log("ResultIndex",ResultIndex);
+
+
+  // console.log("amount",finalAmount);
   // '1800' '0555'
   const arrTimeISOt = arrivalMomentt.toISOString();
   // console.log(arrTimeISOt, "arrTimeISOttttttttttttttttttttttttttttttt")
@@ -211,7 +243,7 @@ const handlecouponChange = (code) => {
 
   // return <div>hiiii</div>;
 
- 
+
 
   const convertXmlToJson = () => {
     const parser = new XMLParser();
@@ -220,7 +252,7 @@ const handlecouponChange = (code) => {
     if (xmlData !== "") {
       convertData =
         result["soapenv:Envelope"]["soapenv:Body"][
-          "Air_SellFromRecommendationReply"
+        "Air_SellFromRecommendationReply"
         ];
       setJsonData(convertData);
     }
@@ -287,17 +319,17 @@ const handlecouponChange = (code) => {
     if (authenticUser !== 200) {
       setIsLoginModalOpen(true);
     } else {
-      setOpenTravelModal(true);
+      setOpen(true)
+      // setOpenTravelModal(true);
     }
   };
-  
+
 
   const couponconfirmation = async () => {
     try {
       const token = SecureStorage.getItem("jwtToken");
       const response = await axios.get(
-        `${
-          apiURL.baseURL
+        `${apiURL.baseURL
         }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
 
         {
@@ -318,6 +350,7 @@ const handlecouponChange = (code) => {
   const handleTravelClose = (event, reason) => {
     if (reason !== "backdropClick") {
       setOpenTravelModal(false);
+      setOpen(false);
     }
   };
 
@@ -376,77 +409,71 @@ const handlecouponChange = (code) => {
               <traveller>
                   <surname>${passengerData[i]?.lastName}</surname>
                  
-                  <quantity>${
-                    passengerData[i]?.PaxType === 1 ? adultCount : childCount
-                  }</quantity>
+                  <quantity>${passengerData[i]?.PaxType === 1 ? adultCount : childCount
+        }</quantity>
               </traveller>
               <passenger>
                   <firstName>${passengerData[i]?.firstName}</firstName>
-                  <type>${
-                    passengerData[i]?.PaxType === 1 ? "ADT" : "CHD"
-                    // : passengerData[i]?.PaxType === 2
-                    // ? "CHD"
-                    // :
-                  }</type>
+                  <type>${passengerData[i]?.PaxType === 1 ? "ADT" : "CHD"
+        // : passengerData[i]?.PaxType === 2
+        // ? "CHD"
+        // :
+        }</type>
               </passenger>
               </travellerInformation>
-              ${
-                passengerData[i]?.PaxType !== 1
-                  ? `<dateOfBirth>
+              ${passengerData[i]?.PaxType !== 1
+          ? `<dateOfBirth>
                       <dateAndTimeDetails>
                           <qualifier>706</qualifier>
                           <date>${convertDateFormatAmd(
-                            passengerData[i]?.DateOfBirth
-                          )}</date>
+            passengerData[i]?.DateOfBirth
+          )}</date>
                       </dateAndTimeDetails>
                     </dateOfBirth>`
-                  : ""
-              }
+          : ""
+        }
       </passengerData>
-      ${
-        i < infantCount
+      ${i < infantCount
           ? ` <passengerData>
           <travellerInformation>
               <traveller>
                   <surname>${
-                    //   ,
-                    passengerData[Number(adultCount) + Number(childCount) + i]
-                      ?.lastName
-                  }</surname>
+          //   ,
+          passengerData[Number(adultCount) + Number(childCount) + i]
+            ?.lastName
+          }</surname>
                   <quantity>${infantCount}</quantity>
               </traveller>
               <passenger>
-                  <firstName>${
-                    passengerData[Number(adultCount) + Number(childCount) + i]
-                      ?.firstName
-                  }</firstName>
-                  <type>${
-                    "INF"
-                    // passengerData[i]?.PaxType === 1 ? "ADT" : "CHD"
-                    // : passengerData[i]?.PaxType === 2
-                    // ? "CHD"
-                    // :
-                  }</type>
+                  <firstName>${passengerData[Number(adultCount) + Number(childCount) + i]
+            ?.firstName
+          }</firstName>
+                  <type>${"INF"
+          // passengerData[i]?.PaxType === 1 ? "ADT" : "CHD"
+          // : passengerData[i]?.PaxType === 2
+          // ? "CHD"
+          // :
+          }</type>
               </passenger>
               </travellerInformation>
               ${
-                // passengerData[i]?.PaxType !== 1
-                // ?
-                `<dateOfBirth>
+          // passengerData[i]?.PaxType !== 1
+          // ?
+          `<dateOfBirth>
                       <dateAndTimeDetails>
                           <qualifier>706</qualifier>
                           <date>${convertDateFormatAmd(
-                            passengerData[
-                              Number(adultCount) + Number(childCount) + i
-                            ]?.DateOfBirth
-                          )}</date>
+            passengerData[
+              Number(adultCount) + Number(childCount) + i
+            ]?.DateOfBirth
+          )}</date>
                       </dateAndTimeDetails>
                     </dateOfBirth>`
-                // : ""
-              }
+          // : ""
+          }
       </passengerData>`
           : ""
-      }
+        }
   </travellerInfo>`;
       dataElementsMaster += `<dataElementsIndiv>
             <elementManagementData>
@@ -668,21 +695,20 @@ const handlecouponChange = (code) => {
                 <freetextDetail>
                     <subjectQualifier>3</subjectQualifier>
                     <type>P27</type>
-                    <companyId>${
-                      sesstioResultIndex?.flightDetails?.flightInformation
-                        ?.companyId?.marketingCarrier ||
-                      sesstioResultIndex?.flightDetails[0]?.flightInformation
-                        ?.companyId?.marketingCarrier
-                    }</companyId>
+                    <companyId>${sesstioResultIndex?.flightDetails?.flightInformation
+        ?.companyId?.marketingCarrier ||
+      sesstioResultIndex?.flightDetails[0]?.flightInformation
+        ?.companyId?.marketingCarrier
+      }</companyId>
                 </freetextDetail>
-                <longFreetext>PAX CTCM ${
-                  passengerData[0]?.ContactNo
-                }</longFreetext>
+                <longFreetext>PAX CTCM ${passengerData[0]?.ContactNo
+      }</longFreetext>
             </freetextData>
         </dataElementsIndiv>
        
     </dataElementsMaster>
 </PNR_AddMultiElements>`;
+    console.log(amadiesPayload, "amadiesPayload")
 
     fetchDataAmadesContinue(amadiesPayload);
   };
@@ -715,7 +741,7 @@ const handlecouponChange = (code) => {
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
   const isPassportRequired =
     reducerState?.searchFlight?.flightDetails?.from?.CountryCode !== "IN " ||
-    reducerState?.searchFlight?.flightDetails?.to?.CountryCode !== "IN "
+      reducerState?.searchFlight?.flightDetails?.to?.CountryCode !== "IN "
       ? true
       : false;
 
@@ -750,90 +776,83 @@ const handlecouponChange = (code) => {
       text += ` <segmentInformation>
                         <travelProductInformation>
                             <flightDate>
-                                <departureDate>${
-                                  isOther
-                                    ? sesstioResultIndex[0]?.flightDetails[i]
-                                        ?.flightInformation?.productDateTime
-                                        ?.dateOfDeparture
-                                    : sesstioResultIndex?.flightDetails[i]
-                                        ?.flightInformation?.productDateTime
-                                        ?.dateOfDeparture
-                                }</departureDate>
+                                <departureDate>${isOther
+          ? sesstioResultIndex[0]?.flightDetails[i]
+            ?.flightInformation?.productDateTime
+            ?.dateOfDeparture
+          : sesstioResultIndex?.flightDetails[i]
+            ?.flightInformation?.productDateTime
+            ?.dateOfDeparture
+        }</departureDate>
                             </flightDate>
                             <boardPointDetails>
-                                <trueLocationId>${
-                                  isOther
-                                    ? sesstioResultIndex[0]?.flightDetails[i]
-                                        ?.flightInformation?.location[0]
-                                        ?.locationId
-                                    : sesstioResultIndex?.flightDetails[i]
-                                        ?.flightInformation?.location[0]
-                                        ?.locationId
-                                }</trueLocationId>
+                                <trueLocationId>${isOther
+          ? sesstioResultIndex[0]?.flightDetails[i]
+            ?.flightInformation?.location[0]
+            ?.locationId
+          : sesstioResultIndex?.flightDetails[i]
+            ?.flightInformation?.location[0]
+            ?.locationId
+        }</trueLocationId>
                             </boardPointDetails>
                             <offpointDetails>
-                                <trueLocationId>${
-                                  isOther
-                                    ? sesstioResultIndex[0]?.flightDetails[i]
-                                        ?.flightInformation?.location[1]
-                                        ?.locationId
-                                    : sesstioResultIndex?.flightDetails[i]
-                                        ?.flightInformation?.location[1]
-                                        ?.locationId
-                                }</trueLocationId>
+                                <trueLocationId>${isOther
+          ? sesstioResultIndex[0]?.flightDetails[i]
+            ?.flightInformation?.location[1]
+            ?.locationId
+          : sesstioResultIndex?.flightDetails[i]
+            ?.flightInformation?.location[1]
+            ?.locationId
+        }</trueLocationId>
                             </offpointDetails>
                             <companyDetails>
-                                <marketingCompany>${
-                                  isOther
-                                    ? sesstioResultIndex[0]?.flightDetails[i]
-                                        ?.flightInformation?.companyId
-                                        ?.marketingCarrier
-                                    : sesstioResultIndex?.flightDetails[i]
-                                        ?.flightInformation?.companyId
-                                        ?.marketingCarrier
-                                }</marketingCompany>
+                                <marketingCompany>${isOther
+          ? sesstioResultIndex[0]?.flightDetails[i]
+            ?.flightInformation?.companyId
+            ?.marketingCarrier
+          : sesstioResultIndex?.flightDetails[i]
+            ?.flightInformation?.companyId
+            ?.marketingCarrier
+        }</marketingCompany>
                             </companyDetails>
                             <flightIdentification>
-                                <flightNumber>${
-                                  isOther
-                                    ? sesstioResultIndex[0]?.flightDetails[i]
-                                        ?.flightInformation?.flightOrtrainNumber
-                                    : sesstioResultIndex?.flightDetails[i]
-                                        ?.flightInformation?.flightOrtrainNumber
-                                }</flightNumber>
-                                <bookingClass>${
-                                  sesstioResultIndex[0]?.fareDetails
-                                    ?.groupOfFares?.productInformation
-                                    ?.cabinProduct?.rbd ||
-                                  sesstioResultIndex?.fareDetails?.groupOfFares
-                                    ?.productInformation?.cabinProduct?.rbd ||
-                                  sesstioResultIndex[0]?.fareDetails
-                                    ?.groupOfFares?.productInformation
-                                    ?.cabinProduct?.rbd ||
-                                  sesstioResultIndex?.fareDetails?.groupOfFares[
-                                    i
-                                  ]?.productInformation?.cabinProduct?.rbd ||
-                                  sesstioResultIndex?.fareDetails?.groupOfFares
-                                    ?.productInformation?.cabinProduct?.rbd ||
-                                  sesstioResultIndex?.fareDetails
-                                    ?.groupOfFares[0]?.productInformation
-                                    ?.cabinProduct?.rbd ||
-                                  sesstioResultIndex?.fareDetails
-                                    ?.groupOfFares[0]?.productInformation
-                                    ?.cabinProduct?.rbd ||
-                                  sesstioResultIndex[0]?.fareDetails
-                                    ?.groupOfFares[0]?.productInformation
-                                    ?.cabinProduct?.rbd ||
-                                  sesstioResultIndex?.fareDetails
-                                    ?.groupOfFares[0]?.productInformation
-                                    ?.cabinProduct[0]?.rbd
-                                }</bookingClass>
+                                <flightNumber>${isOther
+          ? sesstioResultIndex[0]?.flightDetails[i]
+            ?.flightInformation?.flightOrtrainNumber
+          : sesstioResultIndex?.flightDetails[i]
+            ?.flightInformation?.flightOrtrainNumber
+        }</flightNumber>
+                                <bookingClass>${sesstioResultIndex[0]?.fareDetails
+          ?.groupOfFares?.productInformation
+          ?.cabinProduct?.rbd ||
+        sesstioResultIndex?.fareDetails?.groupOfFares
+          ?.productInformation?.cabinProduct?.rbd ||
+        sesstioResultIndex[0]?.fareDetails
+          ?.groupOfFares?.productInformation
+          ?.cabinProduct?.rbd ||
+        sesstioResultIndex?.fareDetails?.groupOfFares[
+          i
+        ]?.productInformation?.cabinProduct?.rbd ||
+        sesstioResultIndex?.fareDetails?.groupOfFares
+          ?.productInformation?.cabinProduct?.rbd ||
+        sesstioResultIndex?.fareDetails
+          ?.groupOfFares[0]?.productInformation
+          ?.cabinProduct?.rbd ||
+        sesstioResultIndex?.fareDetails
+          ?.groupOfFares[0]?.productInformation
+          ?.cabinProduct?.rbd ||
+        sesstioResultIndex[0]?.fareDetails
+          ?.groupOfFares[0]?.productInformation
+          ?.cabinProduct?.rbd ||
+        sesstioResultIndex?.fareDetails
+          ?.groupOfFares[0]?.productInformation
+          ?.cabinProduct[0]?.rbd
+        }</bookingClass>
                             </flightIdentification>
                         </travelProductInformation>
                         <relatedproductInformation>
-                            <quantity>${
-                              Number(adultCount) + Number(childCount)
-                            }</quantity>
+                            <quantity>${Number(adultCount) + Number(childCount)
+        }</quantity>
                             <statusCode>NN</statusCode>
                         </relatedproductInformation>
                     </segmentInformation>
@@ -849,87 +868,81 @@ const handlecouponChange = (code) => {
        <segmentInformation>
                         <travelProductInformation>
                             <flightDate>
-                                <departureDate>${
-                                  sesstioResultIndex[0]?.flightDetails
-                                    ?.flightInformation?.productDateTime
-                                    ?.dateOfDeparture ||
-                                  sesstioResultIndex?.flightDetails[0]
-                                    ?.flightInformation?.productDateTime
-                                    ?.dateOfDeparture ||
-                                  sesstioResultIndex[0]?.flightDetails
-                                    ?.flightDetails?.flightInformation
-                                    ?.productDateTime?.dateOfDeparture ||
-                                  sesstioResultIndex?.flightDetails
-                                    ?.flightDetails?.flightInformation
-                                    ?.productDateTime?.dateOfDeparture ||
-                                  sesstioResultIndex?.flightDetails
-                                    ?.flightInformation?.productDateTime
-                                    ?.dateOfDeparture
-                                }</departureDate>
+                                <departureDate>${sesstioResultIndex[0]?.flightDetails
+      ?.flightInformation?.productDateTime
+      ?.dateOfDeparture ||
+    sesstioResultIndex?.flightDetails[0]
+      ?.flightInformation?.productDateTime
+      ?.dateOfDeparture ||
+    sesstioResultIndex[0]?.flightDetails
+      ?.flightDetails?.flightInformation
+      ?.productDateTime?.dateOfDeparture ||
+    sesstioResultIndex?.flightDetails
+      ?.flightDetails?.flightInformation
+      ?.productDateTime?.dateOfDeparture ||
+    sesstioResultIndex?.flightDetails
+      ?.flightInformation?.productDateTime
+      ?.dateOfDeparture
+    }</departureDate>
                             </flightDate>
                             <boardPointDetails>
-                                <trueLocationId>${
-                                  sesstioResultIndex?.flightDetails
-                                    ?.flightInformation?.location[0]?.locationId
-                                }</trueLocationId>
+                                <trueLocationId>${sesstioResultIndex?.flightDetails
+      ?.flightInformation?.location[0]?.locationId
+    }</trueLocationId>
                             </boardPointDetails>
                             <offpointDetails>
-                                <trueLocationId>${
-                                  sesstioResultIndex?.flightDetails
-                                    ?.flightInformation?.location[1]?.locationId
-                                }</trueLocationId>
+                                <trueLocationId>${sesstioResultIndex?.flightDetails
+      ?.flightInformation?.location[1]?.locationId
+    }</trueLocationId>
                             </offpointDetails>
                             <companyDetails>
-                                <marketingCompany>${
-                                  sesstioResultIndex?.flightDetails
-                                    ?.flightInformation?.companyId
-                                    ?.marketingCarrier
-                                }</marketingCompany>
+                                <marketingCompany>${sesstioResultIndex?.flightDetails
+      ?.flightInformation?.companyId
+      ?.marketingCarrier
+    }</marketingCompany>
                             </companyDetails>
                             <flightIdentification>
-                                <flightNumber>${
-                                  sesstioResultIndex?.flightDetails
-                                    ?.flightInformation?.flightOrtrainNumber
-                                }</flightNumber>
+                                <flightNumber>${sesstioResultIndex?.flightDetails
+      ?.flightInformation?.flightOrtrainNumber
+    }</flightNumber>
                                 <bookingClass>${
-                                  // sesstioResultIndex?.fareDetails?.groupOfFares
-                                  //   ?.productInformation
-                                  //   ? sesstioResultIndex?.fareDetails
-                                  //       ?.groupOfFares?.productInformation
-                                  //       ?.cabinProduct?.rbd
-                                  //   : sesstioResultIndex[0]?.fareDetails
-                                  //       ?.groupOfFares[0]?.productInformation
-                                  //       ?.cabinProduct?.rbd
+    // sesstioResultIndex?.fareDetails?.groupOfFares
+    //   ?.productInformation
+    //   ? sesstioResultIndex?.fareDetails
+    //       ?.groupOfFares?.productInformation
+    //       ?.cabinProduct?.rbd
+    //   : sesstioResultIndex[0]?.fareDetails
+    //       ?.groupOfFares[0]?.productInformation
+    //       ?.cabinProduct?.rbd
 
-                                  sesstioResultIndex[0]?.fareDetails
-                                    ?.groupOfFares?.productInformation
-                                    ?.cabinProduct?.rbd ||
-                                  sesstioResultIndex?.fareDetails?.groupOfFares
-                                    ?.productInformation?.cabinProduct?.rbd ||
-                                  sesstioResultIndex[0]?.fareDetails
-                                    ?.groupOfFares?.productInformation
-                                    ?.cabinProduct?.rbd ||
-                                  sesstioResultIndex?.fareDetails
-                                    ?.groupOfFares[0]?.productInformation
-                                    ?.cabinProduct?.rbd ||
-                                  sesstioResultIndex?.fareDetails?.groupOfFares
-                                    ?.productInformation?.cabinProduct?.rbd ||
-                                  sesstioResultIndex?.fareDetails
-                                    ?.groupOfFares[0]?.productInformation
-                                    ?.cabinProduct?.rbd ||
-                                  sesstioResultIndex[0]?.fareDetails
-                                    ?.groupOfFares[0]?.productInformation
-                                    ?.cabinProduct?.rbd ||
-                                  sesstioResultIndex?.fareDetails
-                                    ?.groupOfFares[0]?.productInformation
-                                    ?.cabinProduct[0]?.rbd
-                                }</bookingClass>
+    sesstioResultIndex[0]?.fareDetails
+      ?.groupOfFares?.productInformation
+      ?.cabinProduct?.rbd ||
+    sesstioResultIndex?.fareDetails?.groupOfFares
+      ?.productInformation?.cabinProduct?.rbd ||
+    sesstioResultIndex[0]?.fareDetails
+      ?.groupOfFares?.productInformation
+      ?.cabinProduct?.rbd ||
+    sesstioResultIndex?.fareDetails
+      ?.groupOfFares[0]?.productInformation
+      ?.cabinProduct?.rbd ||
+    sesstioResultIndex?.fareDetails?.groupOfFares
+      ?.productInformation?.cabinProduct?.rbd ||
+    sesstioResultIndex?.fareDetails
+      ?.groupOfFares[0]?.productInformation
+      ?.cabinProduct?.rbd ||
+    sesstioResultIndex[0]?.fareDetails
+      ?.groupOfFares[0]?.productInformation
+      ?.cabinProduct?.rbd ||
+    sesstioResultIndex?.fareDetails
+      ?.groupOfFares[0]?.productInformation
+      ?.cabinProduct[0]?.rbd
+    }</bookingClass>
                             </flightIdentification>
                         </travelProductInformation>
                         <relatedproductInformation>
-                            <quantity>${
-                              Number(adultCount) + Number(childCount)
-                            }</quantity>
+                            <quantity>${Number(adultCount) + Number(childCount)
+    }</quantity>
                             <statusCode>NN</statusCode>
                         </relatedproductInformation>
                     </segmentInformation>
@@ -1135,21 +1148,19 @@ const handlecouponChange = (code) => {
                 </messageActionDetails>
                 <itineraryDetails>
                     <originDestinationDetails>
-                        <origin>${
-                          sesstioResultIndex?.flightDetails?.flightInformation
-                            ? sesstioResultIndex?.flightDetails
-                                ?.flightInformation?.location[0]?.locationId
-                            : sesstioResultIndex?.flightDetails[0]
-                                ?.flightInformation?.location[0]?.locationId
-                        }</origin>
-                        <destination>${
-                          sesstioResultIndex?.flightDetails?.flightInformation
-                            ? sesstioResultIndex?.flightDetails
-                                ?.flightInformation?.location[1]?.locationId
-                            : sesstioResultIndex?.flightDetails[
-                                sesstioResultIndex?.flightDetails?.length - 1
-                              ]?.flightInformation?.location[1]?.locationId
-                        }</destination>
+                        <origin>${sesstioResultIndex?.flightDetails?.flightInformation
+            ? sesstioResultIndex?.flightDetails
+              ?.flightInformation?.location[0]?.locationId
+            : sesstioResultIndex?.flightDetails[0]
+              ?.flightInformation?.location[0]?.locationId
+          }</origin>
+                        <destination>${sesstioResultIndex?.flightDetails?.flightInformation
+            ? sesstioResultIndex?.flightDetails
+              ?.flightInformation?.location[1]?.locationId
+            : sesstioResultIndex?.flightDetails[
+              sesstioResultIndex?.flightDetails?.length - 1
+            ]?.flightInformation?.location[1]?.locationId
+          }</destination>
                     </originDestinationDetails>
                     <message>
                         <messageFunctionDetails>
@@ -1252,6 +1263,7 @@ const handlecouponChange = (code) => {
   };
 
   const fetchDataAmadesContinue = async (amadiesPayload) => {
+    console.log(airesellRes?.data?.headers?.MessageID, airesellRes?.data?.headers?.UniqueID, airesellRes?.data?.headers?.SessionId, airesellRes?.data?.headers?.SecurityToken)
     const res = await axios({
       method: "POST",
       url: `${apiURL.baseURL}/skyTrails/amadeus/pnraddmultielements`,
@@ -1274,47 +1286,6 @@ const handlecouponChange = (code) => {
     }
   };
 
-  // useEffect( async () => {
-  //   if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {
-  //     setLoaderPayment(false);
-  //     navigate("/bookedTicket");
-  //   } else if (
-  //     reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
-  //     reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== undefined
-  //   ) {
-
-  //     try {
-  //       const token = SecureStorage.getItem("jwtToken");
-  //       const payload = {
-
-  //         "refund_amount": transactionAmount ||
-  //           (!isDummyTicketBooking
-  //             ? (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
-  //             : 99),
-  //         "txnId": refundTxnId,
-  //       }
-
-  //       const res = await axios({
-  //         method: "POST",
-  //         url: `${apiURL.baseURL}/skyTrails/api/transaction/refundPolicy`,
-  //         data: payload,
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           token: token,
-  //         },
-  //       });
-  //     } catch (error) {
-  //       console.warn(error);
-  //     }
-
-  //     swalModal(
-  //       "flight",
-  //       reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
-  //       false
-  //     );
-  //     navigate("/");
-  //   }
-  // }, [reducerState?.flightBook?.flightBookData?.Response]);
 
   const refundAmount = async () => {
     try {
@@ -1325,7 +1296,7 @@ const handlecouponChange = (code) => {
           // parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) +
           // markUpamount *
           //   parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0),
-          Number(finalAmount),
+          Number(finalAmount).toFixed(2),
 
         txnId: refundTxnId,
       };
@@ -1343,7 +1314,7 @@ const handlecouponChange = (code) => {
       console.warn(error);
     } finally {
       saveDb();
-      
+
     }
 
     swalModal(
@@ -1355,122 +1326,7 @@ const handlecouponChange = (code) => {
     navigate("/");
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     if (
-  //       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage === ""
-  //     ) {
-  //       setLoaderPayment(false);
-  //       navigate("/bookedTicket");
-  //     } else if (
-  //       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
-  //       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !==
-  //         undefined
-  //     ) {
-  //       try {
-  //         const token = SecureStorage.getItem("jwtToken");
-  //         const payload = {
-  //           refund_amount:
-  //             transactionAmount ||
-  //             (!isDummyTicketBooking
-  //               ? (
-  //                   Number(fareValue?.Fare?.PublishedFare) +
-  //                   Number(markUpamount) *
-  //                     Number(fareValue?.Fare?.PublishedFare)
-  //                 ).toFixed(0)
-  //               : 99),
-  //           // "refund_amount": 1,
-  //           txnId: refundTxnId,
-  //         };
 
-  //         const res = await axios({
-  //           method: "POST",
-  //           url: `${apiURL.baseURL}/skyTrails/api/transaction/refundPolicy`,
-  //           data: payload,
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //             token: token,
-  //           },
-  //         });
-  //       } catch (error) {
-  //         console.warn(error);
-  //       }
-
-  //       swalModal(
-  //         "flight",
-  //         // reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage,
-  //         "Booking failed, your amount will be refunded within 72 hours.",
-  //         false
-  //       );
-  //       navigate("/");
-  //     }
-  //   };
-
-  //   fetchData(); // Call the async function
-
-  //   // Cleanup function (if needed)
-  //   const cleanup = () => {
-  //     // Perform cleanup tasks here if needed
-  //     // For example, unsubscribe from event listeners or clear timers
-  //   };
-
-  //   // Return cleanup function
-  //   return cleanup;
-  // }, [reducerState?.flightBook?.flightBookDataGDS?.Response]);
-
-  // useEffect(() => {
-  //   if (
-  //     reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode !== 0 &&
-  //     reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode !== undefined
-  //   ) {
-  //     swalModal(
-  //       "flight",
-  //       reducerState?.flightFare?.flightQuoteData?.Error?.ErrorMessage,
-  //       false
-  //     );
-  //     navigate("/");
-  //   }
-  // }, [reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode]);
-
-  // useEffect(() => {
-  //   if (
-  //     reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage == "" &&
-  //     !isDummyTicketBooking
-  //   ) {
-  //     getTicketForNonLCC();
-  //   } else if (
-  //     reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage == "" &&
-  //     isDummyTicketBooking
-  //   ) {
-  //     setLoaderPayment(false);
-  //     navigate("/bookedTicket");
-  //   } else if (
-  //     reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
-  //     reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !==
-  //       undefined
-  //   ) {
-  //     swalModal(
-  //       "flight",
-  //       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage,
-  //       false
-  //     );
-  //     navigate("/");
-  //   }
-  // }, [reducerState?.flightBook?.flightBookDataGDS?.Response]);
-
-  // useEffect(() => {
-  //   if (
-  //     reducerState?.flightBook?.flightTicketDataGDS?.data?.data?.Response?.Error
-  //       ?.ErrorCode === 0 ||
-  //     (reducerState?.flightBook?.flightTicketDataGDS?.data?.data?.Response
-  //       ?.Error?.ErrorCode !== 0 &&
-  //       reducerState?.flightBook?.flightTicketDataGDS?.data?.data?.Response
-  //         ?.Error?.ErrorCode !== undefined)
-  //   ) {
-  //     setLoaderPayment(false);
-  //     navigate("/bookedTicket");
-  //   }
-  // }, [reducerState?.flightBook?.flightTicketDataGDS?.data?.data?.Response]);
 
   for (let i = 0; i < adultCount; i++) {
     passengerLists.push({
@@ -1522,54 +1378,8 @@ const handlecouponChange = (code) => {
     setPassengerData(list);
   };
 
-  // const totalMinutes = TicketDetails?.Segments[0][0]?.Duration;
-  // const durationHours = Math.floor(totalMinutes / 60);
-  // const durationMinutes = totalMinutes % 60;
-  // const duration_Time = `${durationHours} Hours and ${durationMinutes} minutes`;
   const authenticUser = reducerState?.logIn?.loginData?.status;
 
-  // const notAuthenticUser = reducerState?.logIn?.loginData?.userNotFound;
-
-  // razorpay integration part
-
-  // const [Razorpay, isLoaded] = useRazorpay();
-
-  // const handlePayment = useCallback(async () => {
-  //   try {
-  //     // Implement createOrder to create an order on your backend
-  //     // const order = await createOrder(params);
-
-  //     const options = {
-  //       key: "rzp_test_rSxJ8wZCLzTJck",
-  //       amount: "300" * 100,
-  //       currency: "INR",
-  //       name: "The Skytrails",
-  //       description: "Test Transaction",
-  //       image: "https://travvolt.s3.amazonaws.com/Brand.png",
-  //       // order_id: order.id,
-  //       handler: (response) => {
-  //         console.log(response);
-  //         if (response.razorpay_payment_id) {
-  //           setLoaderPayment(true);
-  //           dispatch(PassengersAction(passengerData));
-  //         } else {
-  //           // Handle payment failure
-  //           console.log("Payment failed");
-  //         }
-  //       },
-  //       notes: {
-  //         address: "Razorpay Corpora te Office",
-  //       },
-  //       theme: {
-  //         color: "#e73c34",
-  //       },
-  //     };
-  //     const rzpay = new Razorpay(options);
-  //     rzpay.open();
-  //   } catch (error) {
-  //     console.error("Error creating order:", error);
-  //   }
-  // }, [Razorpay]);
   const [airlines, setAirlines] = useState(
     reducerState?.flightList?.flightDetails
   );
@@ -1579,7 +1389,7 @@ const handlecouponChange = (code) => {
   const grandTotal =
     parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) +
     markUpamount *
-      parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0);
+    parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0);
   // console.log( parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) ,"bhjsdgsdbfuydgbfuyfegbfuyfedyufbfedyfb")
   const handlePayment = async () => {
     // console.log(passengerData)
@@ -1589,10 +1399,10 @@ const handlecouponChange = (code) => {
     const payload = {
       firstname: passengerData?.[0]?.firstName,
       phone: passengerData?.[0]?.ContactNo,
-      amount: Number(finalAmount),
-        // transactionAmount ||
-        // grandTotal,
-       
+      amount: Number(finalAmount).toFixed(2),
+      // transactionAmount ||
+      // grandTotal,
+
       // amount: 1,
 
       email: passengerData[0]?.email,
@@ -1654,7 +1464,7 @@ const handlecouponChange = (code) => {
             // Handle error
           }
           // if (sessionStorage.getItem("couponCode")) {
-            // couponconfirmation();
+          // couponconfirmation();
           // }
           // sessionStorage.removeItem("flightcoupon");
           // sessionStorage.removeItem("couponCode");
@@ -1761,95 +1571,91 @@ const handlecouponChange = (code) => {
             ?.baggageDetails?.quantityCode ||
             sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
               ?.quantityCode) === "W"
-            ? `${
-                sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-                  ?.baggageDetails?.freeAllowance ||
-                sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
-                  ?.freeAllowance
-              } ${
-                sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-                  ?.baggageDetails?.unitQualifier ||
-                sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
-                  ?.unitQualifier === "K"
-                  ? "KG"
-                  : `${
-                      sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-                        ?.baggageDetails?.unitQualifier ||
-                      sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-                        ?.baggageDetails?.unitQualifier
-                    }`
+            ? `${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+              ?.baggageDetails?.freeAllowance ||
+            sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
+              ?.freeAllowance
+            } ${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+              ?.baggageDetails?.unitQualifier ||
+              sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
+                ?.unitQualifier === "K"
+              ? "KG"
+              : `${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                ?.baggageDetails?.unitQualifier ||
+              sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                ?.baggageDetails?.unitQualifier
               }`
-            : `(${
-                sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
-                  ?.freeAllowance ||
-                sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-                  ?.baggageDetails?.freeAllowance
-              } × 23KG)`,
+            }`
+            : `(${sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
+              ?.freeAllowance ||
+            sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+              ?.baggageDetails?.freeAllowance
+            } × 23KG)`,
       },
     ];
     const times = jsonSavePnrData?.originDestinationDetails?.itineraryInfo
       ?.elementManagementItinerary
       ? nonStop
       : jsonSavePnrData?.originDestinationDetails?.itineraryInfo.map(
-          (itinerary, index) => {
-            let depTime = String(itinerary?.travelProduct?.product?.depTime);
-            let depDate = String(itinerary?.travelProduct?.product?.depDate);
-            let arrTime = String(itinerary?.travelProduct?.product?.arrTime);
-            let arrDate = String(itinerary?.travelProduct?.product?.arrDate);
-            // console.log(itinerary,"itineraryitineraryitinerary")
+        (itinerary, index) => {
+          let depTime = String(itinerary?.travelProduct?.product?.depTime);
+          let depDate = String(itinerary?.travelProduct?.product?.depDate);
+          let arrTime = String(itinerary?.travelProduct?.product?.arrTime);
+          let arrDate = String(itinerary?.travelProduct?.product?.arrDate);
+          // console.log(itinerary,"itineraryitineraryitinerary")
 
-            // Ensure depTime and arrTime are properly formatted
-            if (depTime && depTime.length === 2) {
-              depTime = "00" + depTime;
-            }
-            if (arrTime && arrTime.length === 2) {
-              arrTime = "00" + arrTime;
-            }
-            if (depTime && depTime.length === 3) {
-              depTime = "0" + depTime;
-            }
-            if (arrTime && arrTime.length === 3) {
-              arrTime = "0" + arrTime;
-            }
-            if (depDate && depDate.length === 5) {
-              depDate = "0" + depDate;
-            }
-            if (depDate && depDate.length === 4) {
-              depDate = "00" + depDate;
-            }
-            if (arrDate && arrDate.length === 4) {
-              arrDate = "00" + arrDate;
-            }
-            if (arrDate && arrDate.length === 5) {
-              arrDate = "0" + arrDate;
-            }
-
-            // console.log(itinerary,"itineraryitineraryitinerary",depTime,arrTime)
-
-            // Parse depDate and depTime into ISO format for departure
-            const depDateTimeString = `${depDate}${depTime}`;
-            const departureMoment = moment(depDateTimeString, "YYMMDDHHmm");
-            const depTimeISO = departureMoment.isValid()
-              ? departureMoment.toISOString()
-              : null;
-
-            // Parse arrDate and arrTime into ISO format for arrival
-            const arrDateTimeString = `${arrDate}${arrTime}`;
-            const arrivalMoment = moment(arrDateTimeString, "YYMMDDHHmm");
-            const arrTimeISO = arrivalMoment.isValid()
-              ? arrivalMoment.toISOString()
-              : null;
-
-            // console.log(depDateTimeString,departureMoment,depTimeISO,arrDateTimeString,arrivalMoment,arrTimeISO,arrDate,depDate,"deppppppppppp")
-
-            return {
-              depTime: depTimeISO,
-              depDate,
-              arrTime: arrTimeISO,
-              arrDate,
-            };
+          // Ensure depTime and arrTime are properly formatted
+          if (depTime && depTime.length === 2) {
+            depTime = "00" + depTime;
           }
-        );
+          if (arrTime && arrTime.length === 2) {
+            arrTime = "00" + arrTime;
+          }
+          if (depTime && depTime.length === 3) {
+            depTime = "0" + depTime;
+          }
+          if (arrTime && arrTime.length === 3) {
+            arrTime = "0" + arrTime;
+          }
+          if (depDate && depDate.length === 5) {
+            depDate = "0" + depDate;
+          }
+          if (depDate && depDate.length === 4) {
+            depDate = "00" + depDate;
+          }
+          if (arrDate && arrDate.length === 4) {
+            arrDate = "00" + arrDate;
+          }
+          if (arrDate && arrDate.length === 5) {
+            arrDate = "0" + arrDate;
+          }
+
+          // console.log(itinerary,"itineraryitineraryitinerary",depTime,arrTime)
+
+          // Parse depDate and depTime into ISO format for departure
+          const depDateTimeString = `${depDate}${depTime}`;
+          const departureMoment = moment(depDateTimeString, "YYMMDDHHmm");
+          const depTimeISO = departureMoment.isValid()
+            ? departureMoment.toISOString()
+            : null;
+
+          // Parse arrDate and arrTime into ISO format for arrival
+          const arrDateTimeString = `${arrDate}${arrTime}`;
+          const arrivalMoment = moment(arrDateTimeString, "YYMMDDHHmm");
+          const arrTimeISO = arrivalMoment.isValid()
+            ? arrivalMoment.toISOString()
+            : null;
+
+          // console.log(depDateTimeString,departureMoment,depTimeISO,arrDateTimeString,arrivalMoment,arrTimeISO,arrDate,depDate,"deppppppppppp")
+
+          return {
+            depTime: depTimeISO,
+            depDate,
+            arrTime: arrTimeISO,
+            arrDate,
+          };
+        }
+      );
 
     let depTimeString = String(
       jsonData?.itineraryDetails?.segmentInformation?.flightDetails?.flightDate
@@ -1929,154 +1735,80 @@ const handlecouponChange = (code) => {
         ?.elementManagementItinerary
         ? nonStop
         : jsonSavePnrData?.originDestinationDetails?.itineraryInfo.map(
-            (stopss, index) => {
-              const depTimeISO = times[index]?.depTime;
-              const arrTimeISO = times[index]?.arrTime;
+          (stopss, index) => {
+            const depTimeISO = times[index]?.depTime;
+            const arrTimeISO = times[index]?.arrTime;
 
-              return {
-                Airline: {
-                  AirlineCode:
-                    stopss?.travelProduct?.companyDetail?.identification,
-                  AirlineName:
-                    stopss?.travelProduct?.companyDetail?.identification,
-                  FlightNumber:
-                    stopss?.travelProduct?.productDetails?.identification,
-                  FareClass:
-                    stopss?.travelProduct?.productDetails?.classOfService,
-                },
-                Origin: {
-                  AirportCode:
-                    stopss?.travelProduct?.boardpointDetail?.cityCode,
-                  // AirportName: reducerState?.searchReducer?.search?.[0]?.code,
-                  // CityName: reducerState?.searchReducer?.search?.[0]?.name,
-                  AirportName: findAirportByCode(
-                    stopss?.travelProduct?.boardpointDetail?.cityCode
-                  )?.code,
-                  CityName: findAirportByCode(
-                    stopss?.travelProduct?.boardpointDetail?.cityCode
-                  )?.name,
-                  Terminal: stopss?.flightDetail?.arrivalStationInfo?.terminal,
-                  DepTime: depTimeISO,
-                },
-                Destination: {
-                  AirportCode: stopss?.travelProduct?.offpointDetail?.cityCode,
-                  // AirportName: reducerState?.searchReducer?.search?.[1]?.code,
-                  // CityName: reducerState?.searchReducer?.search?.[1]?.name,
-                  AirportName: findAirportByCode(
-                    stopss?.travelProduct?.offpointDetail?.cityCode
-                  )?.code,
-                  CityName: findAirportByCode(
-                    stopss?.travelProduct?.offpointDetail?.cityCode
-                  )?.name,
-                  Terminal:
-                    stopss?.flightDetail?.departureInformation?.departTerminal,
-                  ArrTime: arrTimeISO,
-                },
-                Baggage:
-                  (sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-                    ?.baggageDetails?.quantityCode ||
+            return {
+              Airline: {
+                AirlineCode:
+                  stopss?.travelProduct?.companyDetail?.identification,
+                AirlineName:
+                  stopss?.travelProduct?.companyDetail?.identification,
+                FlightNumber:
+                  stopss?.travelProduct?.productDetails?.identification,
+                FareClass:
+                  stopss?.travelProduct?.productDetails?.classOfService,
+              },
+              Origin: {
+                AirportCode:
+                  stopss?.travelProduct?.boardpointDetail?.cityCode,
+                // AirportName: reducerState?.searchReducer?.search?.[0]?.code,
+                // CityName: reducerState?.searchReducer?.search?.[0]?.name,
+                AirportName: findAirportByCode(
+                  stopss?.travelProduct?.boardpointDetail?.cityCode
+                )?.code,
+                CityName: findAirportByCode(
+                  stopss?.travelProduct?.boardpointDetail?.cityCode
+                )?.name,
+                Terminal: stopss?.flightDetail?.arrivalStationInfo?.terminal,
+                DepTime: depTimeISO,
+              },
+              Destination: {
+                AirportCode: stopss?.travelProduct?.offpointDetail?.cityCode,
+                // AirportName: reducerState?.searchReducer?.search?.[1]?.code,
+                // CityName: reducerState?.searchReducer?.search?.[1]?.name,
+                AirportName: findAirportByCode(
+                  stopss?.travelProduct?.offpointDetail?.cityCode
+                )?.code,
+                CityName: findAirportByCode(
+                  stopss?.travelProduct?.offpointDetail?.cityCode
+                )?.name,
+                Terminal:
+                  stopss?.flightDetail?.departureInformation?.departTerminal,
+                ArrTime: arrTimeISO,
+              },
+              Baggage:
+                (sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                  ?.baggageDetails?.quantityCode ||
+                  sesstioResultIndex?.baggage?.freeBagAllownceInfo
+                    ?.baggageDetails?.quantityCode) === "W"
+                  ? `${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                    ?.baggageDetails?.freeAllowance ||
+                  sesstioResultIndex?.baggage?.freeBagAllownceInfo
+                    ?.baggageDetails?.freeAllowance
+                  } ${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                    ?.baggageDetails?.unitQualifier ||
                     sesstioResultIndex?.baggage?.freeBagAllownceInfo
-                      ?.baggageDetails?.quantityCode) === "W"
-                    ? `${
-                        sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-                          ?.baggageDetails?.freeAllowance ||
-                        sesstioResultIndex?.baggage?.freeBagAllownceInfo
-                          ?.baggageDetails?.freeAllowance
-                      } ${
-                        sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-                          ?.baggageDetails?.unitQualifier ||
-                        sesstioResultIndex?.baggage?.freeBagAllownceInfo
-                          ?.baggageDetails?.unitQualifier === "K"
-                          ? "KG"
-                          : `${
-                              sesstioResultIndex?.flight?.baggage
-                                ?.freeBagAllownceInfo?.baggageDetails
-                                ?.unitQualifier ||
-                              sesstioResultIndex?.flight?.baggage
-                                ?.freeBagAllownceInfo?.baggageDetails
-                                ?.unitQualifier
-                            }`
-                      }`
-                    : `(${
-                        sesstioResultIndex?.baggage?.freeBagAllownceInfo
-                          ?.baggageDetails?.freeAllowance ||
-                        sesstioResultIndex?.sesstioResultIndex?.baggage
-                          ?.freeBagAllownceInfo?.baggageDetails?.freeAllowance
-                      } × 23KG)`,
-              };
-            }
-          ),
-      // airlineDetails: [
-      //   {
-      //     Airline: {
-      //       AirlineCode:
-      //         sesstioResultIndex?.flightDetails?.flightInformation?.companyId
-      //           ?.marketingCarrier ||
-      //         sesstioResultIndex?.flightDetails[0]?.flightInformation?.companyId
-      //           ?.marketingCarrier,
-      //       AirlineName:
-      //         sesstioResultIndex?.flightDetails?.flightInformation?.companyId
-      //           ?.marketingCarrier ||
-      //         sesstioResultIndex?.flightDetails[0]?.flightInformation?.companyId
-      //           ?.marketingCarrier,
-      //       FlightNumber:
-      //         sesstioResultIndex?.flightDetails?.flightInformation
-      //           ?.flightOrtrainNumber ||
-      //         sesstioResultIndex?.flightDetails[0]?.flightInformation
-      //           ?.flightOrtrainNumber,
-      //       FareClass:
-      //         sesstioResultIndex[0]?.fareDetails?.groupOfFares
-      //           ?.productInformation?.cabinProduct?.rbd ||
-      //         sesstioResultIndex?.fareDetails?.groupOfFares?.productInformation
-      //           ?.cabinProduct?.rbd,
-      //     },
-      //     Origin: {
-      //       AirportCode:
-      //         reducerState?.searchFlight?.flightDetails?.from?.AirportCode,
-      //       AirportName: reducerState?.searchFlight?.flightDetails?.from?.code,
-      //       CityName: reducerState?.searchFlight?.flightDetails?.from?.name,
-      //       Terminal:
-      //         sesstioResultIndex?.flightDetails?.flightInformation?.location[0]
-      //           ?.locationId ||
-      //         sesstioResultIndex?.flightDetails[0].flightInformation
-      //           ?.location[0]?.locationId,
-      //       DepTime: depTimeISO,
-      //     },
-      //     Destination: {
-      //       AirportCode:
-      //         reducerState?.searchFlight?.flightDetails?.to?.AirportCode,
-      //       AirportName: reducerState?.searchFlight?.flightDetails?.to?.code,
-      //       CityName: reducerState?.searchFlight?.flightDetails?.to?.name,
-      //       Terminal:
-      //         sesstioResultIndex?.flightDetails?.flightInformation?.location[
-      //           sesstioResultIndex?.flightDetails?.flightInformation?.location
-      //             ?.length - 1
-      //         ]?.locationId ||
-      //         sesstioResultIndex?.flightDetails[
-      //           sesstioResultIndex?.flightDetails?.length - 1
-      //         ].flightInformation?.location[
-      //           sesstioResultIndex?.flightDetails?.flightInformation?.location
-      //             ?.length - 1
-      //         ]?.locationId,
-      //       DepTime: arrTimeISO,
-      //     },
-      //     Baggage: `${
-      //       sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
-      //         ?.quantityCode === "W"
-      //         ? `${sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.freeAllowance}`
-      //         : Number(
-      //             sesstioResultIndex?.baggage?.freeBagAllownceInfo
-      //               ?.baggageDetails?.freeAllowance
-      //           ) * 23
-      //     } ${
-      //       sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
-      //         ?.unitQualifier === "K"
-      //         ? "KG"
-      //         : "LB"
-      //     }`,
-      //   },
-      //   ,
-      // ],
+                      ?.baggageDetails?.unitQualifier === "K"
+                    ? "KG"
+                    : `${sesstioResultIndex?.flight?.baggage
+                      ?.freeBagAllownceInfo?.baggageDetails
+                      ?.unitQualifier ||
+                    sesstioResultIndex?.flight?.baggage
+                      ?.freeBagAllownceInfo?.baggageDetails
+                      ?.unitQualifier
+                    }`
+                  }`
+                  : `(${sesstioResultIndex?.baggage?.freeBagAllownceInfo
+                    ?.baggageDetails?.freeAllowance ||
+                  sesstioResultIndex?.sesstioResultIndex?.baggage
+                    ?.freeBagAllownceInfo?.baggageDetails?.freeAllowance
+                  } × 23KG)`,
+            };
+          }
+        ),
+
       passengerDetails: reducerState?.passengers?.passengersData?.map(
         (item) => ({
           ...item,
@@ -2103,57 +1835,7 @@ const handlecouponChange = (code) => {
       });
     }
   };
-  // console.log(jsonSavePnrData, "jsonSavePNR")
-  // const handleButtonClick = () => {
-  //   const payloadGDS = {
-  //     ResultIndex: ResultIndex,
-  //     Passengers: passengerData.map((item, index) => {
-  //       return {
-  //         ...item,
-  //         PassportExpiry: isPassportRequired
-  //           ? convertDateFormat(item?.PassportExpiry)
-  //           : "",
-  //         Email: apiURL.flightEmail,
-  //         ContactNo: apiURL.phoneNo,
-  //       };
-  //     }),
-  //     EndUserIp: reducerState?.ip?.ipData,
-  //     TokenId: reducerState?.ip?.tokenData,
-  //     TraceId: reducerState?.oneWay?.oneWayData?.data?.data?.Response?.TraceId,
-  //   };
 
-  //   if (fareValue?.IsLCC == false) {
-  //     dispatch(bookActionGDS(payloadGDS));
-  //   } else if (fareValue?.IsLCC == true) {
-  //     getTicketForLCC();
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   // console.warn(reducerState, "reducer state");
-  //   if (
-  //     reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode !== 0 &&
-  //     reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode !== undefined
-  //   ) {
-  //     // navigate(`/flighterror?${reducerState?.flightFare?.flightQuoteData?.Error?.ErrorMessage}`);
-  //     setErrorMassage({
-  //       error: true,
-  //       Message: reducerState?.flightFare?.flightQuoteData?.Error?.ErrorMessage,
-  //     });
-
-  //     return;
-  //   }
-  //   if (
-  //     reducerState?.flightFare?.flightRuleData?.Error?.ErrorCode !== 0 &&
-  //     reducerState?.flightFare?.flightRuleData?.Error?.ErrorCode !== undefined
-  //   ) {
-  //     // navigate(`/flighterror?${reducerState?.flightFare?.flightRuleData?.Error?.ErrorMessage}`);
-  //     setErrorMassage({
-  //       error: true,
-  //       Message: reducerState?.flightFare?.flightRuleData?.Error?.ErrorCode,
-  //     });
-  //   }
-  // });
 
   function convertDateFormat(inputDate) {
     // Split the input date string into year, month, and day
@@ -2172,72 +1854,6 @@ const handlecouponChange = (code) => {
     return outputDate;
   }
 
-
-
-
-  // const getTicketForLCC = () => {
-  //   const payloadLcc = {
-  //     ResultIndex: ResultIndex,
-  //     EndUserIp: reducerState?.ip?.ipData,
-  //     TokenId: reducerState?.ip?.tokenData,
-  //     TraceId:
-  //       reducerState?.oneWay?.oneWayData?.data?.data?.Response?.TraceId ||
-  //       reducerState?.return?.returnData?.data?.data?.Response?.TraceId,
-  //     Passengers: passengerData.map((item, index) => {
-  //       return {
-  //         ...item,
-  //         PassportExpiry: isPassportRequired
-  //           ? convertDateFormat(item?.PassportExpiry)
-  //           : "",
-  //         Email: apiURL.flightEmail,
-  //         ContactNo: apiURL.phoneNo,
-  //       };
-  //     }),
-  //   };
-  //   dispatch(bookAction(payloadLcc));
-  // };
-
-  // const getTicketForNonLCC = () => {
-  //   const payLoadDomestic = {
-  //     EndUserIp: reducerState?.ip?.ipData,
-  //     TokenId: reducerState?.ip?.tokenData,
-  //     TraceId: reducerState?.oneWay?.oneWayData?.data?.data?.Response?.TraceId,
-  //     PNR: reducerState?.flightBook?.flightBookDataGDS?.Response?.PNR,
-  //     BookingId:
-  //       reducerState?.flightBook?.flightBookDataGDS?.Response?.BookingId,
-  //   };
-  //   const payLoadInternational = {
-  //     EndUserIp: reducerState?.ip?.ipData,
-  //     TokenId: reducerState?.ip?.tokenData,
-  //     TraceId: reducerState?.oneWay?.oneWayData?.data?.data?.Response?.TraceId,
-  //     PNR: reducerState?.flightBook?.flightBookDataGDS?.Response?.PNR,
-  //     BookingId:
-  //       reducerState?.flightBook?.flightBookDataGDS?.Response?.BookingId,
-  //     Passengers: passengerData.map((item, index) => {
-  //       return {
-  //         ...item,
-  //         Email: apiURL.flightEmail,
-  //         ContactNo: apiURL.phoneNo,
-  //       };
-  //     }),
-  //   };
-  //   // console.warn(payLoadInternational, "payload international")
-  //   if (isPassportRequired) {
-  //     dispatch(bookTicketGDS(payLoadInternational));
-  //   } else {
-  //     dispatch(bookTicketGDS(payLoadDomestic));
-  //   }
-  // };
-
-  // formatted time of flights
-
-  // const duration = `${Math.floor(
-  //   TicketDetails?.Segments[0][0]?.Duration / 60
-  // )}hr ${TicketDetails?.Segments[0][0]?.Duration % 60}min`;
-
-  // check login and authentication when booking
-
-  // const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -2347,59 +1963,73 @@ const handlecouponChange = (code) => {
   // };
 
   // console.log(reducerState   ,"reducerState");
-  const[firstnamevalue, setfirstnamevalue]= useState('');
-  const[lastnamevalue, setlastnamevalue] = useState('');
-  const[numbervalue, setnumbervalue] = useState('');
+  const [firstnamevalue, setfirstnamevalue] = useState('');
+  const [lastnamevalue, setlastnamevalue] = useState('');
+  const [numbervalue, setnumbervalue] = useState('');
 
-//   const passengerdetail = (e) => {
-//     const isChecked = e.target.checked;
-//     if (isChecked) {
-//     const fullName = reducerState?.logIn?.loginData?.data?.result?.username ;
-//     const lastName = fullName ? fullName.split(' ').slice(1).join(' ') : '';
-//     const firstName = fullName ? fullName.split(' ')[0] : '';
-//     const phonenumber = reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number
+  const passengerdetail = (e) => {
+    const isChecked = e.target.checked;
+    // console.log(passengerData,"gasjdgajdgasjd");
+    if (isChecked) {
+      const fullName = reducerState?.logIn?.loginData?.data?.result?.username;
+      const lastName = fullName ? fullName.split(' ').slice(1).join(' ') : '';
+      const firstName = fullName ? fullName.split(' ')[0] : '';
+      const phonenumber = reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number
 
-// // console.log(firstName,lastName,phonenumber);
-// setnumbervalue(phonenumber);
-// setfirstnamevalue(firstName);
-// setlastnamevalue(lastName);
-// // handleServiceChange()
-//     }else{
-//       setfirstnamevalue(' ');
-//       setlastnamevalue(' ');
-//       setnumbervalue('');
-//     }
-   
-//   };
+      // console.log(firstName,lastName,phonenumber);
+      setnumbervalue(phonenumber);
+      setfirstnamevalue(firstName);
+      setlastnamevalue(lastName);
+      handleServiceChange({ target: { name: 'firstName', value: firstName } }, 0);
+      handleServiceChange({ target: { name: 'lastName', value: lastName } }, 0);
+      handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
+      // handleServiceChange()
+    } else {
+      setfirstnamevalue(' ');
+      setlastnamevalue(' ');
+      setnumbervalue('');
+      handleServiceChange({ target: { name: 'firstName', value: '' } }, 0);
+      handleServiceChange({ target: { name: 'lastName', value: '' } }, 0);
+      handleServiceChange({ target: { name: 'ContactNo', value: '' } }, 0);
+    }
 
-const passengerdetail = (e) => {
-  const isChecked = e.target.checked;
-  // console.log(passengerData,"gasjdgajdgasjd");
-  if (isChecked) {
-  const fullName = reducerState?.logIn?.loginData?.data?.result?.username ;
-  const lastName = fullName ? fullName.split(' ').slice(1).join(' ') : '';
-  const firstName = fullName ? fullName.split(' ')[0] : '';
-  const phonenumber = reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number
+  };
 
-// console.log(firstName,lastName,phonenumber);
-setnumbervalue(phonenumber);
-setfirstnamevalue(firstName);
-setlastnamevalue(lastName);
-handleServiceChange({ target: { name: 'firstName', value: firstName } }, 0);
-handleServiceChange({ target: { name: 'lastName', value: lastName } }, 0);
-handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
-// handleServiceChange()
-  }else{
-    setfirstnamevalue(' ');
-    setlastnamevalue(' ');
-    setnumbervalue('');
-    handleServiceChange({ target: { name: 'firstName', value: '' } }, 0);
-  handleServiceChange({ target: { name: 'lastName', value: '' } }, 0);
-  handleServiceChange({ target: { name: 'ContactNo', value: '' } }, 0);
+  // const markUpamount =
+  //   reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
+  const finalamountvalue1 = Number(sesstioResultIndex?.monetaryDetail?.[0]?.amount) +
+    Number(markUpamount) * Number(sesstioResultIndex?.monetaryDetail?.[0]?.amount);
+  const taxvaluetotal = Number((Number(markUpamount) * Number(sesstioResultIndex?.monetaryDetail?.[0]?.amount)));
+
+  const bookticketamd = () => {
+    setOpenTravelModal(true)
   }
- 
-};
 
+  const [placement, setPlacement] = useState('left');
+  const dropdownRef = useRef(null);
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+  const onChange = (e) => {
+    setPlacement(e.target.value);
+  };
+  const [isDropdown, setIsDropdown] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdown(pre=>!pre);
+    if (dropdownRef.current) {
+      const elementPosition = dropdownRef.current.getBoundingClientRect().top;
+      console.log(elementPosition, dropdownRef.current, "elementposition")
+      window.scrollTo({
+        top: isDropdown ? 0 : Number(elementPosition) + 470,
+        behavior: 'smooth'
+      });
+    }
+  };
+console.log(isDropdown,"dddddd")
 
 
 
@@ -2418,7 +2048,7 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
         </div> */}
 
         {!reducerState?.flightFare?.flightQuoteData?.Results === true &&
-        ResultIndex?.ResultIndex ? (
+          ResultIndex?.ResultIndex ? (
           <FlightLoader />
         ) : (
           <div className="">
@@ -2433,7 +2063,7 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                   <motion.div className="row">
                     <motion.div
                       variants={variants}
-                      className="martop col-lg-12 "
+                      className=" col-lg-12 "
                     >
                       {
                         // TicketDetails?.Segments[0].length == 2 ?
@@ -2456,51 +2086,49 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                   sesstioResultIndex?.flightDetails
                                     ?.flightInformation
                                     ? sesstioResultIndex?.flightDetails
-                                        ?.flightInformation?.location[0]
-                                        ?.locationId
+                                      ?.flightInformation?.location[0]
+                                      ?.locationId
                                     : sesstioResultIndex?.flightDetails[0]
-                                        .flightInformation?.location[0]
-                                        ?.locationId
+                                      .flightInformation?.location[0]
+                                      ?.locationId
                                 }
                                 <FiArrowRight style={{ margin: "5px" }} />{" "}
                                 {sesstioResultIndex?.flightDetails
                                   ?.flightInformation
                                   ? sesstioResultIndex?.flightDetails
-                                      ?.flightInformation?.location[1]
-                                      ?.locationId
+                                    ?.flightInformation?.location[1]
+                                    ?.locationId
                                   : sesstioResultIndex?.flightDetails[
-                                      sesstioResultIndex?.flightDetails.length -
-                                        1
-                                    ].flightInformation?.location[1]
-                                      ?.locationId}
+                                    sesstioResultIndex?.flightDetails.length -
+                                    1
+                                  ].flightInformation?.location[1]
+                                    ?.locationId}
                               </p>
                               <div className="aboveSpan">
                                 <span className="aboveSOne">
                                   {sesstioResultIndex?.flightDetails
                                     ?.flightInformation
                                     ? convertTime(
-                                        sesstioResultIndex?.flightDetails
-                                          ?.flightInformation?.productDateTime
-                                          ?.timeOfDeparture
-                                      )
+                                      sesstioResultIndex?.flightDetails
+                                        ?.flightInformation?.productDateTime
+                                        ?.timeOfDeparture
+                                    )
                                     : convertTime(
-                                        sesstioResultIndex?.flightDetails[0]
-                                          ?.flightInformation?.productDateTime
-                                          ?.timeOfDeparture
-                                      )}
+                                      sesstioResultIndex?.flightDetails[0]
+                                        ?.flightInformation?.productDateTime
+                                        ?.timeOfDeparture
+                                    )}
                                 </span>
                                 {/* <span>Non Stop {duration}</span> */}
                                 <span>
                                   {" "}
                                   {sesstioResultIndex?.flightDetails.length < 1
-                                    ? `${
-                                        sesstioResultIndex?.flightDetails
-                                          .length - 1
-                                      } stop via ${
-                                        sesstioResultIndex?.flightDetails
-                                          ?.flightInformation[0]?.location[1]
-                                          ?.locationId
-                                      }`
+                                    ? `${sesstioResultIndex?.flightDetails
+                                      .length - 1
+                                    } stop via ${sesstioResultIndex?.flightDetails
+                                      ?.flightInformation[0]?.location[1]
+                                      ?.locationId
+                                    }`
                                     : "Non Stop"}
                                 </span>
                               </div>
@@ -2631,37 +2259,37 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                         ?.freeBagAllownceInfo?.baggageDetails
                                         ?.quantityCode === "N"
                                         ? sesstioResultIndex?.baggage
-                                            ?.freeBagAllownceInfo
-                                            ?.baggageDetails?.freeAllowance * 23
+                                          ?.freeBagAllownceInfo
+                                          ?.baggageDetails?.freeAllowance * 23
                                         : Number(
-                                            sesstioResultIndex?.baggage
-                                              ?.freeBagAllownceInfo
-                                              ?.baggageDetails?.freeAllowance
-                                          ) === 0
-                                        ? "No baggage"
-                                        : sesstioResultIndex?.baggage
+                                          sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance
+                                        ) === 0
+                                          ? "No baggage"
+                                          : sesstioResultIndex?.baggage
                                             ?.freeBagAllownceInfo
                                             ?.baggageDetails?.freeAllowance}
                                       {sesstioResultIndex?.baggage
                                         ?.freeBagAllownceInfo?.baggageDetails
                                         ?.quantityCode === "N"
                                         ? sesstioResultIndex?.baggage
-                                            ?.freeBagAllownceInfo
-                                            ?.baggageDetails?.unitQualifier ===
+                                          ?.freeBagAllownceInfo
+                                          ?.baggageDetails?.unitQualifier ===
                                           "K"
                                           ? "KG"
                                           : "LB"
                                         : Number(
-                                            sesstioResultIndex?.baggage
-                                              ?.freeBagAllownceInfo
-                                              ?.baggageDetails?.freeAllowance
-                                          ) !== 0 ||
+                                          sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance
+                                        ) !== 0 ||
                                           sesstioResultIndex?.baggage
                                             ?.freeBagAllownceInfo
                                             ?.baggageDetails?.freeAllowance !==
-                                            "0"
-                                        ? "KG"
-                                        : ""}
+                                          "0"
+                                          ? "KG"
+                                          : ""}
 
                                       {/* {item?.Baggage?.split(" ")[0]} */}
                                     </span>
@@ -2695,30 +2323,9 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                           ) : (
                             sesstioResultIndex?.flightDetails?.map(
                               (item, index) => {
-                                // const nextFlight =
-                                //   TicketDetails?.Segments[0][index + 1];
-                                // let layoverHours = 0;
-                                // let layoverMinutes = 0;
-                                // let layoverDuration = 0;
 
-                                // if (nextFlight) {
-                                //   const arrivalTime = dayjs(
-                                //     item?.Destination?.ArrTime
-                                //   );
-                                //   const departureTime = dayjs(
-                                //     nextFlight?.Origin?.DepTime
-                                //   );
-                                //   layoverDuration = departureTime.diff(
-                                //     arrivalTime,
-                                //     "minutes"
-                                //   ); // Calculate difference in minutes
-                                //   layoverHours = Math.floor(
-                                //     layoverDuration / 60
-                                //   ); // Extract hours
-                                //   layoverMinutes = layoverDuration % 60;
-                                // }
                                 return (
-                                  // <>hii</>
+
                                   <>
                                     <div className="bookcenteredBox">
                                       <div>
@@ -2855,15 +2462,15 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                             {sesstioResultIndex?.baggage
                                               ?.freeBagAllownceInfo
                                               ?.baggageDetails?.quantityCode ===
-                                            "N"
+                                              "N"
                                               ? sesstioResultIndex?.baggage
-                                                  ?.freeBagAllownceInfo
-                                                  ?.baggageDetails
-                                                  ?.freeAllowance * 23
+                                                ?.freeBagAllownceInfo
+                                                ?.baggageDetails
+                                                ?.freeAllowance * 23
                                               : sesstioResultIndex?.baggage
-                                                  ?.freeBagAllownceInfo
-                                                  ?.baggageDetails
-                                                  ?.freeAllowance}
+                                                ?.freeBagAllownceInfo
+                                                ?.baggageDetails
+                                                ?.freeAllowance}
                                             {
                                               // sesstioResultIndex?.baggage
                                               // ?.freeBagAllownceInfo?.baggageDetails
@@ -2875,17 +2482,17 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                                 ?.unitQualifier === "L"
                                                 ? "LB"
                                                 : Number(
-                                                    sesstioResultIndex?.baggage
-                                                      ?.freeBagAllownceInfo
-                                                      ?.baggageDetails
-                                                      ?.freeAllowance
-                                                  ) !== 0 ||
+                                                  sesstioResultIndex?.baggage
+                                                    ?.freeBagAllownceInfo
+                                                    ?.baggageDetails
+                                                    ?.freeAllowance
+                                                ) !== 0 ||
                                                   sesstioResultIndex?.baggage
                                                     ?.freeBagAllownceInfo
                                                     ?.baggageDetails
                                                     ?.freeAllowance !== "0"
-                                                ? "KG"
-                                                : ""
+                                                  ? "KG"
+                                                  : ""
                                               // :"KG"
                                             }
                                             {/* {item?.Baggage?.split(" ")[0]} */}
@@ -2930,86 +2537,7 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                       }
                     </motion.div>
 
-                    {/* <motion.div variants={variants} className="col-lg-12 mt-3">
-                      <div className="bookNowCancel">
-                        <div className="bookCancleOne">
-                          <p>Cancellation Refund Policy</p>
-                          <div>
-                            <img
-                              src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${TicketDetails?.Segments[0][0]?.Airline?.AirlineCode}.png`}
-                            />{" "}
-                            <span>
-                              {
-                                TicketDetails?.Segments[0][0]?.Airline
-                                  ?.AirlineName
-                              }
-                            </span>
-                          </div>
-                          <span>Cancellation Penalty :</span>
-                        </div>
 
-                        <div className="bookCancleTwo">
-                          <span>Cancel Between</span>
-                          <div className="svgLineBox">
-                            <div>
-                              <div className="svgCircle"></div>
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                max-width="560"
-                                height="9"
-                                viewBox="0 0 560 9"
-                                fill="none"
-                              >
-                                <path
-                                  d="M4 5L662 4"
-                                  stroke="#dc817e"
-                                  stroke-width="8"
-                                  stroke-linecap="round"
-                                />
-                                <defs>
-                                  <linearGradient
-                                    id="paint0_linear_367_27446"
-                                    x1="4.00583"
-                                    y1="7.99358"
-                                    x2="662.006"
-                                    y2="7.98716"
-                                    gradientUnits="userSpaceOnUse"
-                                  >
-                                    <stop stop-color="#41754C" />
-                                    <stop
-                                      offset="0.494792"
-                                      stop-color="#E2C735"
-                                    />
-                                    <stop
-                                      offset="0.494892"
-                                      stop-color="#DFCB66"
-                                    />
-                                    <stop offset="1" stop-color="#DA3030" />
-                                  </linearGradient>
-                                </defs>
-                              </svg>
-                            </div>
-                            <div>
-                              <span>
-                                From {detailsOfCancel?.[0]?.From}-
-                                {detailsOfCancel?.[0]?.To}{" "}
-                                {detailsOfCancel?.[0]?.Unit}
-                              </span>
-                              <span>
-                                From {detailsOfCancel?.[1]?.From}-
-                                {detailsOfCancel?.[1]?.To}{" "}
-                                {detailsOfCancel?.[1]?.Unit}
-                              </span>
-                            </div>
-                            <div>
-                              <span>{detailsOfCancel?.[0]?.Details}</span>
-                              <span>{detailsOfCancel?.[1]?.Details}</span>
-                            </div>
-
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div> */}
 
                     <div className="col-lg-12 accor_dian mt-4">
                       {fareRule && (
@@ -3082,19 +2610,19 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                     class="form-control"
                                   ></input> */}
                                   <input
-        type="text"
-        name="firstName"
-        value={index === 0 ? firstnamevalue : passengerData[index]?.firstName || ''}
-        id="floatingInput"
-        className="form-control"
-        onChange={(e) => {
-          if (index === 0) {
-            setfirstnamevalue(e.target.value);
-          }
-          handleServiceChange(e, index);
-        }}
-        // placeholder="First Name"
-      />
+                                    type="text"
+                                    name="firstName"
+                                    value={index === 0 ? firstnamevalue : passengerData[index]?.firstName || ''}
+                                    id="floatingInput"
+                                    className="form-control"
+                                    onChange={(e) => {
+                                      if (index === 0) {
+                                        setfirstnamevalue(e.target.value);
+                                      }
+                                      handleServiceChange(e, index);
+                                    }}
+                                  // placeholder="First Name"
+                                  />
                                   {sub &&
                                     !validateName(
                                       passengerData[index]?.firstName
@@ -3111,28 +2639,19 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                   >
                                     Last Name
                                   </label>
-                                  {/* <input
-                                    type="text"
-                                    name="lastName"
-                                    id="floatingInput"
-                                    value={index === 0 ?  lastnamevalue: " "}
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(e, index)
-                                    }
-                                  ></input> */}
-                                   <input
+
+                                  <input
                                     type="text"
                                     name="lastName"
                                     id="floatingInput"
                                     value={index === 0 ? lastnamevalue : passengerData[index]?.lastName || ''}
                                     class="form-control"
                                     onChange={(e) => {
-          if (index === 0) {
-            setlastnamevalue(e.target.value);
-          }
-          handleServiceChange(e, index);
-        }}
+                                      if (index === 0) {
+                                        setlastnamevalue(e.target.value);
+                                      }
+                                      handleServiceChange(e, index);
+                                    }}
                                   ></input>
                                   {sub &&
                                     !validateName(
@@ -3235,25 +2754,7 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                               </div>
                               <div className="row g-3 mb-3">
                                 <div className="col-lg-3 col-md-3">
-                                  {/* <div class="form-floating">
-                                    <input
-                                      onChange={(e) =>
-                                        handleServiceChange(
-                                          e,
-                                          index + Number(adultCount)
-                                        )
-                                      }
-                                      type="text"
-                                      name="FirstName"
-                                      class="form-control"
-                                      id="floatingInput"
-                                      placeholder="First Name"
-                                    />
-                                    <label for="floatingInput">
-                                      First Name
-                                    </label>
-                                    {sub && !validateName(passengerData[index + Number(adultCount)].FirstName) && <span className="error10">First name  </span>}
-                                  </div> */}
+
 
                                   <label
                                     for="exampleInputEmail1"
@@ -3284,23 +2785,7 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                     )}
                                 </div>
                                 <div className="col-lg-3 col-md-3">
-                                  {/* <div class="form-floating">
-                                    <input
-                                      onChange={(e) =>
-                                        handleServiceChange(
-                                          e,
-                                          index + Number(adultCount)
-                                        )
-                                      }
-                                      type="text"
-                                      name="LastName"
-                                      class="form-control"
-                                      id="floatingInput"
-                                      placeholder="Last Name"
-                                    />
-                                    <label for="floatingInput">Last Name</label>
-                                    {sub && !validateName(passengerData[index + Number(adultCount)].LastName) && <span className="error10">Last name </span>}
-                                  </div> */}
+
 
                                   <label
                                     for="exampleInputEmail1"
@@ -3339,8 +2824,8 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                       )
                                     }
                                   >
-                                    <option value="1">Female</option>
-                                    <option value="2">Male</option>
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
                                   </select>
                                 </div>
                                 <div className="col-lg-3 col-md-3">
@@ -3369,23 +2854,7 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                       passengerData[index + Number(adultCount)]
                                         .DateOfBirth
                                     ) && <span className="error10">DOB </span>}
-                                  {/* <div class="form-floating">
-                                    <input
-                                      type="date"
-                                      name="DateOfBirth"
-                                      className="form-control"
-                                      onChange={(e) =>
-                                        handleServiceChange(
-                                          e,
-                                          index + Number(adultCount)
-                                        )
-                                      }
-                                      max={maxDateChild}
-                                      min={minDateChild}
-                                    />
-                                    <label htmlFor="DateOfBirth">DOB</label>
-                                    {sub && !validateDate(passengerData[index + Number(adultCount)].DateOfBirth) && <span className="error10">DOB </span>}
-                                  </div> */}
+
                                 </div>
                               </div>
                               {/* passport details here */}
@@ -3396,24 +2865,7 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                   </div>
                                   <div className="row g-3 mb-3">
                                     <div className="col-lg-3 col-md-3">
-                                      {/* <div class="form-floating">
-                                        <input
-                                          onChange={(e) =>
-                                            handleServiceChange(
-                                              e,
-                                              index + Number(adultCount)
-                                            )
-                                          }
-                                          type="text"
-                                          name="PassportNo"
-                                          class="form-control"
-                                          id="floatingInput"
-                                          placeholder="Passport Number"
-                                        />
-                                        <label for="floatingInput">
-                                          Passport Number
-                                        </label>
-                                      </div> */}
+
 
                                       <label
                                         for="exampleInputEmail1"
@@ -3445,24 +2897,7 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                         )}
                                     </div>
                                     <div className="col-lg-3 col-md-3">
-                                      {/* <div class="form-floating">
-                                        <input
-                                          onChange={(e) =>
-                                            handleServiceChange(
-                                              e,
-                                              index + Number(adultCount)
-                                            )
-                                          }
-                                          type="text"
-                                          name="PassportExpiry"
-                                          class="form-control"
-                                          id="floatingInput"
-                                          placeholder="Passport Expiry"
-                                        />
-                                        <label for="floatingInput">
-                                          Passport Expiry
-                                        </label>
-                                      </div> */}
+
                                       <label
                                         for="exampleInputEmail1"
                                         class="form-label"
@@ -3503,27 +2938,7 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                               </div>
                               <div className="row g-3 mb-3">
                                 <div className="col-lg-3 col-md-3">
-                                  {/* <div class="form-floating">
-                                    <input
-                                      onChange={(e) =>
-                                        handleServiceChange(
-                                          e,
-                                          index +
-                                          Number(adultCount) +
-                                          Number(childCount)
-                                        )
-                                      }
-                                      type="text"
-                                      name="FirstName"
-                                      class="form-control"
-                                      id="floatingInput"
-                                      placeholder="First Name"
-                                    />
-                                    <label for="floatingInput">
-                                      First Name
-                                    </label>
-                                    {sub && !validateName(passengerData[index + Number(adultCount) + Number(childCount)].FirstName) && <span className="error10">First name </span>}
-                                  </div> */}
+
 
                                   <label
                                     for="exampleInputEmail1"
@@ -3540,8 +2955,8 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                       handleServiceChange(
                                         e,
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       )
                                     }
                                   ></input>
@@ -3549,8 +2964,8 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                     !validateName(
                                       passengerData[
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       ]?.firstName
                                     ) && (
                                       <span className="error10">
@@ -3559,25 +2974,7 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                     )}
                                 </div>
                                 <div className="col-lg-3 col-md-3">
-                                  {/* <div class="form-floating">
-                                    <input
-                                      onChange={(e) =>
-                                        handleServiceChange(
-                                          e,
-                                          index +
-                                          Number(adultCount) +
-                                          Number(childCount)
-                                        )
-                                      }
-                                      type="text"
-                                      name="LastName"
-                                      class="form-control"
-                                      id="floatingInput"
-                                      placeholder="Last Name"
-                                    />
-                                    <label for="floatingInput">Last Name</label>
-                                    {sub && !validateName(passengerData[index + Number(adultCount) + Number(childCount)].LastName) && <span className="error10">Last name </span>}
-                                  </div> */}
+
 
                                   <label
                                     for="exampleInputEmail1"
@@ -3594,8 +2991,8 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                       handleServiceChange(
                                         e,
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       )
                                     }
                                   ></input>
@@ -3603,8 +3000,8 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                     !validateName(
                                       passengerData[
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       ]?.lastName
                                     ) && (
                                       <span className="error10">
@@ -3627,35 +3024,17 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                       handleServiceChange(
                                         e,
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       )
                                     }
                                   >
-                                    <option value="1">Female</option>
-                                    <option value="2">Male</option>
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
                                   </select>
                                 </div>
                                 <div className="col-lg-3 col-md-3">
-                                  {/* <div class="form-floating">
-                                    <input
-                                      type="date"
-                                      name="DateOfBirth"
-                                      className="form-control"
-                                      onChange={(e) =>
-                                        handleServiceChange(
-                                          e,
-                                          index +
-                                          Number(adultCount) +
-                                          Number(childCount)
-                                        )
-                                      }
-                                      min={minDateInfer}
-                                      max={currentDate}
-                                    />
-                                    <label htmlFor="DateOfBirth">DOB</label>
-                                    {sub && !validateDate(passengerData[index + Number(adultCount) + Number(childCount)].DateOfBirth) && <span className="error10">DOB </span>}
-                                  </div> */}
+
                                   <label
                                     for="exampleInputEmail1"
                                     class="form-label"
@@ -3671,8 +3050,8 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                       handleServiceChange(
                                         e,
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       )
                                     }
                                     min={minDateInfer}
@@ -3682,8 +3061,8 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                     !validateDate(
                                       passengerData[
                                         index +
-                                          Number(adultCount) +
-                                          Number(childCount)
+                                        Number(adultCount) +
+                                        Number(childCount)
                                       ]?.DateOfBirth
                                     ) && <span className="error10">DOB </span>}
                                 </div>
@@ -3696,26 +3075,7 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                   </div>
                                   <div className="row g-3 mb-3">
                                     <div className="col-lg-3 col-md-3">
-                                      {/* <div class="form-floating">
-                                        <input
-                                          onChange={(e) =>
-                                            handleServiceChange(
-                                              e,
-                                              index +
-                                              Number(adultCount) +
-                                              Number(childCount)
-                                            )
-                                          }
-                                          type="text"
-                                          name="PassportNo"
-                                          class="form-control"
-                                          id="floatingInput"
-                                          placeholder="Passport Number"
-                                        />
-                                        <label for="floatingInput">
-                                          Passport Number
-                                        </label>
-                                      </div> */}
+
                                       <label
                                         for="exampleInputEmail1"
                                         class="form-label"
@@ -3731,33 +3091,13 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                           handleServiceChange(
                                             e,
                                             index +
-                                              Number(adultCount) +
-                                              Number(childCount)
+                                            Number(adultCount) +
+                                            Number(childCount)
                                           )
                                         }
                                       ></input>
                                     </div>
                                     <div className="col-lg-3 col-md-3">
-                                      {/* <div class="form-floating">
-                                        <input
-                                          onChange={(e) =>
-                                            handleServiceChange(
-                                              e,
-                                              index +
-                                              Number(adultCount) +
-                                              Number(childCount)
-                                            )
-                                          }
-                                          type="text"
-                                          name="PassportExpiry"
-                                          class="form-control"
-                                          id="floatingInput"
-                                          placeholder="Passport Expiry"
-                                        />
-                                        <label for="floatingInput">
-                                          Passport Expiry
-                                        </label>
-                                      </div> */}
 
                                       <label
                                         for="exampleInputEmail1"
@@ -3775,8 +3115,8 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                           handleServiceChange(
                                             e,
                                             index +
-                                              Number(adultCount) +
-                                              Number(childCount)
+                                            Number(adultCount) +
+                                            Number(childCount)
                                           );
                                           // console.log(
                                           //   e.target.value,
@@ -3793,7 +3133,7 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                             </div>
                           ))}
 
-                         {authenticUser == 200 ? <Checkbox onChange={passengerdetail}>Booking flight for yourself</Checkbox> : " " } 
+                        {authenticUser == 200 ? <Checkbox onChange={passengerdetail}>Booking flight for yourself</Checkbox> : " "}
                         {/* infant details here  */}
                       </div>
                     </motion.div>
@@ -3844,8 +3184,8 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                                   class="form-control"
                                   onChange={(e) => {
                                     // if (index === 0) {
-                                      setnumbervalue(e.target.value);
-          // }
+                                    setnumbervalue(e.target.value);
+                                    // }
                                     handleServiceChange(e, 0);
                                   }}
                                 ></input>
@@ -3863,34 +3203,97 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                         </form>
                       </div>
                     </motion.div>
+                   
+                   {/* {!isDropdown && 
+                      < div ref={dropdownRef}  className="col-lg-12 mt-3">
+                    {V_aliation ? (
+                      <button
+                        className="bookWrapperButton"
+                        type="submit"
+                        onClick={() => toggleDropdown()}
+                      // onClick={() => xmlpassengerData()}
+                      // onClick={() => handleTravelClickOpen()}
+                      // onClick={() => skip()}
+                      >
+                        Continue
+                      </button>
+                    ) : (
+                      <button
+                        className="bookWrapperButton validationFalse"
+                        // type="submit"
+                        onClick={() => setSub(true)}
+                      // onClick={() => handleTravelClickOpen()}
+                      >
+                        Continue
+                      </button>
+                    )}
+                  </div>} */}
 
-                    {/* trip security  */}
-                    {/* <motion.div variants={variants} className="col-lg-12">
+                  {/* <motion.div ref={dropdownRef} variants={variants} className="col-lg-12 mt-3">
+                    <div className={`bookflightPassenger ${isDropdown?"": "cnt-dis"}`}>
+
+                      <>
+                        <div
+
+
+                        >
+                          <div
+                            style={{
+                              // height: "50px",
+
+                              display: "flex",
+                              // justifyContent: "center",
+                              alignItems: "start",
+                              gap: "5px"
+                            }}
+
+                            className="toggle-bar-seat"
+                            onClick={() => {isDropdown &&  toggleDropdown()}}
+                          >
+                            <p>
+
+                              Selecting the Ideal Plane Seat
+                            </p>  <span className={`arrow-dropdown ${isDropdown ? "open" : ""}`}><IoIosArrowForward /></span>
+
+                          </div>
+                          {
+                            
+                            <AirSeatMap isDropdown={isDropdown} state={ResultIndex} />}
+                        </div>
+
+
+                      </>
+                    </div>
+                  </motion.div> */}
+
+                  {/* trip security  */}
+                  {/* <motion.div variants={variants} className="col-lg-12">
                       <TripSecureComponent />
                     </motion.div> */}
 
-                    {/* trip security  */}
+                  {/* trip security  */}
 
-                    <div className="d-block mt-3 d-sm-none col-lg-3 col-md-3">
-                      <BookNowLeft
-                        toggle={toggle}
-                        toggleState={toggleState}
-                        oncouponselect={handlecouponChange}
-                         onFinalAmountChange={handleFinalAmountChange}
-                        transactionAmount={setTransactionAmountState}
-                        Amount={transactionAmount}
-                      />
-                    </div>
-
+                  <div className="d-block mt-3 d-sm-none col-lg-3 col-md-3">
+                    <BookNowLeft
+                      toggle={toggle}
+                      toggleState={toggleState}
+                      oncouponselect={handlecouponChange}
+                      disountdata={handledisocuntChange}
+                      onFinalAmountChange={handleFinalAmountChange}
+                      transactionAmount={setTransactionAmountState}
+                      Amount={transactionAmount}
+                    />
+                  </div>
+                  {/* {isDropdown && */}
                     <div className="col-lg-12 my-4 smallButtMobile">
                       {V_aliation ? (
                         <button
                           className="bookWrapperButton"
                           type="submit"
                           onClick={() => handleTravelClickOpen()}
-                          // onClick={() => xmlpassengerData()}
-                          // onClick={() => handleTravelClickOpen()}
-                          // onClick={() => skip()}
+                        // onClick={() => xmlpassengerData()}
+                        // onClick={() => handleTravelClickOpen()}
+                        // onClick={() => skip()}
                         >
                           Continue
                         </button>
@@ -3899,12 +3302,101 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                           className="bookWrapperButton validationFalse"
                           // type="submit"
                           onClick={() => setSub(true)}
-                          // onClick={() => handleTravelClickOpen()}
+                        // onClick={() => handleTravelClickOpen()}
                         >
                           Continue
                         </button>
                       )}
 
+                      <div>
+                        {/* <Button onClick={handleOpen}>Open modal</Button> */}
+                        <Modal
+                          open={open}
+                          onClose={handleClose}
+                          aria-labelledby="modal-modal-title"
+                          aria-describedby="modal-modal-description"
+                        >
+                          <Box sx={style}>
+                            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                              <button
+                                style={{
+                                  background: 'none',
+                                  border: 'none',
+                                  cursor: 'pointer',
+                                  fontSize: '24px',
+                                  fontWeight: 'bold',
+                                }}
+                                onClick={handleClose}
+                                aria-label="Close"
+                              >
+                                &times;
+                              </button>
+                            </div>
+                            <div style={{ display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-evenly" }}>
+                              <h1 style={{ textAlign: "center", color: "black", fontWeight: "bold" }}>
+                                Total Fare
+                              </h1>
+                              <div className="TotGstFlight" style={{ borderRadius: "9px", backgroundColor: "aliceblue" }}>
+                                <div style={{ display: "flex", color: "black" }}>
+                                  <div style={{ display: "flex", gap: "12px", color: "black" }}>
+
+
+                                    <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Base Fare: </span>
+
+
+                                  </div>
+                                  <p style={{ color: "black", fontSize: "15px" }}>
+                                    {"₹"}
+                                    {
+                                      Number(sesstioResultIndex?.monetaryDetail?.[0]?.amount) -
+                                      Number(sesstioResultIndex?.monetaryDetail?.[1]?.amount)}
+
+                                  </p>
+
+
+                                </div>
+
+                                <div style={{ display: "flex", color: "black" }}>
+                                  <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Surcharges: </span>
+                                  <p style={{ color: "black", fontSize: "15px" }}>
+                                    {"₹"}
+                                    {Number(sesstioResultIndex?.monetaryDetail?.[1]?.amount).toFixed(0)}
+                                  </p>
+                                </div>
+
+                                <div style={{ display: "flex", color: "black" }}>
+                                  <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Other Fare: </span>
+                                  <p style={{ color: "black", fontSize: "15px" }}>
+                                    {"₹"}
+                                    {Number(taxvaluetotal).toFixed(2)}
+                                  </p>
+                                </div>
+
+                                {discountvalue > 0 && (
+                                  <div style={{ display: "flex", color: "black" }}>
+                                    <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Discount Amount:</span>
+                                    <p style={{ color: "black", fontSize: "15px" }}>
+                                      {"₹"}
+                                      {Number(discountvalue).toFixed(2)}
+                                    </p>
+                                  </div>
+                                )}
+
+                                <div style={{ display: "flex", color: "black" }}>
+                                  <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Grand Total:</span>
+                                  <p style={{ color: "black", fontSize: "15px" }}>
+                                    {"₹"}
+                                    {Number(finalAmount).toFixed(2)}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className=" mt-4 smallButtMobile" style={{ display: "flex", flexDirection: "row-reverse" }}>
+                                <button onClick={bookticketamd} className="bookWrapperButton">Continue</button>
+                              </div>
+                            </div>
+                          </Box>
+                        </Modal>
+                      </div>
                       <Dialog
                         sx={{ zIndex: "99999" }}
                         disableEscapeKeyDown
@@ -3930,15 +3422,17 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
                         </DialogActions>
                       </Dialog>
                     </div>
-                  </motion.div>
+                    {/* } */}
                 </motion.div>
-                <div className="d-none d-sm-block col-lg-3 col-md-3">
-                  {<BookNowLeftAmd onFinalAmountChange={handleFinalAmountChange}  oncouponselect={handlecouponChange}/>}
-                </div>
+              </motion.div>
+              <div className="d-none d-sm-block col-lg-3 col-md-3">
+                {<BookNowLeftAmd onFinalAmountChange={handleFinalAmountChange} disountdata={handledisocuntChange} oncouponselect={handlecouponChange} />}
               </div>
             </div>
           </div>
-        )}
+          </div >
+        )
+  }
 
         <Modal
           open={isLoginModalOpen}
@@ -4019,7 +3513,7 @@ handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
         </Modal>
       </>
     );
-  } else {
-    return <PaymentLoader />;
-  }
+} else {
+  return <PaymentLoader />;
+}
 }

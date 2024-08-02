@@ -6,6 +6,9 @@ import { useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { apiURL } from "../../Constants/constant";
+import { FiPlusCircle } from "react-icons/fi";
+import { useLocation } from "react-router-dom";
+import { FiMinusCircle } from "react-icons/fi";
 
 import "./booknowleft.css";
 import Couponcontainer from "../../components/Coupon/Couponcontainer";
@@ -29,13 +32,21 @@ const KeyValue = ({ data, value }) => {
 
 const BookNowLeft = (props) => {
   const [showInput, setShowInput] = useState(false);
-  const { onFinalAmountChange,oncouponselect } = props;
+  const location = useLocation();
+  const { onFinalAmountChange,oncouponselect,disountamount } = props;
   // console.log(props.baggAmount, "props.BaseFareeeeeeeeeeeee")
 
   const isDummyStorageTrue = sessionStorage.getItem("hdhhfb7383__3u8748");
   const propFunction = props.handleClick;
 
   const [finalAmountNew, setFinalAmountNew] = useState(0);
+
+  const [showDetails, setShowDetails] = useState(false);
+
+  const toggleDetails = () => {
+    setShowDetails(!showDetails);
+  };
+  const queryParams = new URLSearchParams(location.search);
 
 
   const inputRef = useRef(null);
@@ -201,6 +212,7 @@ const BookNowLeft = (props) => {
 
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
+     // console.log("fareValue", fareValue,fareQuote);
   // console.log("fareValue", discountValue);
 
   const integerValue = discountValue;
@@ -211,6 +223,10 @@ const BookNowLeft = (props) => {
   //   parseInt(fareValue?.Fare?.PublishedFare) +
   //   markUpamount * parseInt(fareValue?.Fare?.PublishedFare);
   let total = 0;
+
+  const adultCount =Number( queryParams.get("adult"));
+  const childCount =Number( queryParams.get("child"));
+  const infantCount =Number( queryParams.get("infant"));
 
   const dateString = fareValue?.Segments[0][0]?.Origin?.DepTime;
   const date = new Date(dateString);
@@ -305,18 +321,33 @@ const BookNowLeft = (props) => {
   };
   const { finalAmount, discountAmount } = totalPriceCalculator();
 
+  const finalvalue = Number(finalAmount) - Number(taxvalue);
+
   useEffect(() => {
-    if (typeof onFinalAmountChange === 'function') {
+    if (typeof onFinalAmountChange === 'function' &&
+      typeof oncouponselect === 'function' &&
+      typeof disountamount === 'function') {
       onFinalAmountChange(finalAmount);
       oncouponselect(couponCode);
+      disountamount(discountAmount);
     } else {
       console.error(error);
     }
-  }, [finalAmount,couponCode]);
+  }, [finalAmount,couponCode,discountAmount]);
   // console.log("totalPriceCalculator", totalPriceCalculator());
 
 
- 
+  const adultamount = Number(fareValue?.FareBreakdown?.[0]?.BaseFare) ;
+  const chilsamount = Number(fareValue?.FareBreakdown?.[1]?.BaseFare)  ;
+  const infantamount = Number(fareValue?.FareBreakdown?.[2]?.BaseFare) ;
+
+  const  childmultiply =  chilsamount;
+
+  const infantmultiplicity = infantamount;
+  // const totalTax = amdata?.monetaryDetail?.[1]?.amount    ;
+
+
+  const multiplydata =  adultamount;
 
   // console.log(
   //   finalAmount,
@@ -408,14 +439,48 @@ const BookNowLeft = (props) => {
 
             <div className="TotGstFlight">
               <div>
+              <div style={{display:"flex",gap:"1px"}}>
                 <span>Base Fare : </span>
-                <p> {"₹"}{parseInt(fareValue?.Fare?.BaseFare)}</p>
-              </div>
+                <div style={{background:"none",border:"none",padding:"2px",cursor:"pointer",marginRight:"2px",marginTop:"-4px"}}>                <span style={{margin:"2px"}} onClick={toggleDetails} >
+        {showDetails ? <FiMinusCircle/> : <FiPlusCircle/>}
+      </span>
+      </div>
+      </div>
+      <p> {"₹"}{parseInt(fareValue?.Fare?.BaseFare)}</p>
+      </div>
+      {showDetails && (
+        <div  style={{width:"100%",display:"flex",flexDirection:"column"}} >
+          <div style={{ borderBottom: "none",width:"100%",display:"flex",justifyContent:"space-between" }}>
+            <p>
+              Adult(s) ({adultCount} × {adultamount})
+            </p>
+            <p>{"₹"} {multiplydata} </p>
+          </div>
+          <div style={{ borderBottom: "none" ,width:"100%",display:"flex",justifyContent:"space-between"}}>
+            {childCount > 0 && (
+              <>
+                <p>Child(s) ({childCount} × {chilsamount})</p>
+                <p>{"₹"} {childmultiply}</p>
+              </>
+            )}
+          </div>
+          <div style={{ borderBottom: "none" ,width:"100%",display:"flex",justifyContent:"space-between"}}>
+            {infantCount > 0 && (
+              <>
+                <p>Infant(s) ({infantCount} × {infantamount})</p>
+                <p>{"₹"} {infantmultiplicity}</p>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+   
+               
               <div>
                 <span>Surcharge : </span>
                 <p> {"₹"}{parseInt(fareValue?.Fare?.Tax) }</p>
               </div>
-              <div>
+              {/* <div>
                 <span>Other TAX : </span>
                 <p>
                   {"₹"}
@@ -425,14 +490,23 @@ const BookNowLeft = (props) => {
                     Number(props.mellAmount)
                   ).toFixed(2)}
                 </p>
-              </div>
+              </div> */}
+              {((Number(props.mellAmount) > 0) || (Number(props.baggAmount) > 0)) && (
+  <div>
+    <span>Other TAX : </span>
+    <p>
+      {"₹"}
+      {(Number(props.baggAmount) + Number(props.mellAmount))}
+    </p>
+  </div>
+)}
 
               {discountAmount > 0 && (
                 <div>
                   <span>Discount Amount :</span>
                   <p>
                     {"₹"}
-                    {Number(discountAmount)}
+                    {Number(discountAmount).toFixed(2)}
                   </p>
                 </div>
               )}
@@ -449,7 +523,7 @@ const BookNowLeft = (props) => {
 
                   {/* {grandtotalamount} */}
                   {Number(
-                    Number(finalAmount) +
+                    Number(finalvalue) +
                     Number(props.baggAmount) +
                     Number(props.mellAmount)
                   ).toFixed(2)}

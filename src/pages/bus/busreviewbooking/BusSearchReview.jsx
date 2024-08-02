@@ -305,7 +305,7 @@ const BusSearchReview = () => {
                             <Grid item xs={12} sm={12} md={3} py={1}>
                               <Box className="contact_input">
                                 <label  className="form_lable">
-                                  Gender<span className="star_color">*</span>
+                                  Gender <span className="star_color">*</span>
                                 </label>
                                 <select
                                   className="select_class"
@@ -313,7 +313,7 @@ const BusSearchReview = () => {
                                   value={values.gender}
                                   onChange={handleChange}
                                 >
-                                  <option value="">Gender</option>
+                                  <option value="">Select Gender</option>
                                   <option value="1">Male</option>
                                   <option value="2">Female</option>
                                 </select>

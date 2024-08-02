@@ -129,7 +129,7 @@ const HotelBookRoomGRN = () => {
   };
   // no of rooms shown
 
-  console.log(reducerState, "reducer state in the book room page");
+  // console.log(reducerState, "reducer state in the book room page");
   // room component
 
   const renderRooms = (rooms) =>
@@ -337,7 +337,7 @@ const HotelBookRoomGRN = () => {
 
   // check room category available
 
-  console.log(hotelinfoGRN, "hotel info grn");
+  // console.log(hotelinfoGRN, "hotel info grn");
 
   return (
     <>

@@ -1,0 +1,37 @@
+.Inventorylogo {
+  display: flex;
+  margin: auto;
+  width: 100%;
+}
+.logo-image {
+  width: 100%;
+}
+
+.fixed-sider {
+  position: fixed;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+}
+
+.fixed-header {
+  position: fixed;
+  width: 100%;
+  z-index: 2;
+  top: 0;
+}
+
+.site-layout-content {
+  /* Adjust this value based on the width of your Sider */
+  margin-top: 64px; /* Height of the Header */
+  /* //padding: 24px; */
+  overflow-y: auto;
+  height: calc(100vh - 64px); /* Height minus the Header */
+}
+
+
+.site-layout {
+  width: 100%;
+}

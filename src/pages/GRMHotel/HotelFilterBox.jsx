@@ -23,7 +23,7 @@ const HotelFilterBox = ({
 }) => {
     const [showAllFacilities, setShowAllFacilities] = useState(false);
     const [activeFilter, setActiveFilter] = useState(false)
-    console.log(activeFilter, "active filter")
+    // console.log(activeFilter, "active filter")
     const handleCategoryChange = (event) => {
         const value = parseInt(event.target.value, 10);
         const updatedCategories = selectedCategories?.includes(value)

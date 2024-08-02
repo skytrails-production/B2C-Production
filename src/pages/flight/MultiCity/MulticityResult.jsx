@@ -291,7 +291,7 @@ const MulticityResult = () => {
     </div>)
   }
 
-  console.log(filteredData, "filtered data")
+  // console.log(filteredData, "filtered data")
 
   const arrSegmentLength = result?.[0]?.[0]?.Segments?.[0]?.length;
 

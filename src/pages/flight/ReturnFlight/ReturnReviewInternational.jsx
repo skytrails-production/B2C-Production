@@ -41,6 +41,13 @@ const ReturnReviewInternational = () => {
     const childs = sessionStorage.getItem("childs");
     const infants = sessionStorage.getItem("infants");
 
+    const [couponvalue, setCouponValue] = useState("");
+
+
+        const handlecouponChange = (code) => {
+          setCouponValue(code);
+        };
+
     const storedData = sessionStorage.getItem("selectedFlightGoingInternational");
     const ResultIndex = JSON.parse(storedData);
     // const ResultIndexReturn = sessionStorage.getItem("ReturnResultIndex");
@@ -124,9 +131,7 @@ const ReturnReviewInternational = () => {
             const token = SecureStorage.getItem("jwtToken");
             const response = await axios.get(
                 `${apiURL.baseURL
-                }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
-                    "couponCode"
-                )}`,
+                  }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
 
                 {
                     headers: {
@@ -196,7 +201,8 @@ const ReturnReviewInternational = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {
-                navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl");
+                couponconfirmation();
+                navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl",{state:{finalamount:finalAmount}});
             }
             else if (
                 reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
@@ -253,7 +259,8 @@ const ReturnReviewInternational = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage === "") {
-                navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl");
+                couponconfirmation();
+                navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl",{state:{finalamount:finalAmount}});
             }
             else if (
                 reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
@@ -272,7 +279,7 @@ const ReturnReviewInternational = () => {
                                 (!isDummyTicketBooking
                                     ?
                                     //  (Number(fareValue?.Fare?.PublishedFare) + Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare)).toFixed(0)
-                                    Number(finalAmount)
+                                    Number(finalAmount).toFixed(2)
                                     : 99),
                         "txnId": refundTxnId,
                     }
@@ -339,6 +346,7 @@ const ReturnReviewInternational = () => {
             isDummyTicketBooking
         ) {
             setLoaderPayment(false);
+            couponconfirmation();
             navigate("/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl",{state:{finalamount:finalAmount}});
         }
         else if (
@@ -533,9 +541,9 @@ const ReturnReviewInternational = () => {
                     } catch (error) {
                         console.error("Error verifying payment:", error);
                     }
-                    if (sessionStorage.getItem("couponCode")) {
-                        couponconfirmation();
-                    }
+                    // if (sessionStorage.getItem("couponCode")) {
+                    //     couponconfirmation();
+                    // }
                 } else {
                     try {
                         // Make API call if payment status is 'success'
@@ -546,7 +554,7 @@ const ReturnReviewInternational = () => {
                         swalModal("py", verifyResponse.data.responseMessage, false)
                         // Handle verifyResponse as needed
                         setTransactionAmount(null);
-                        sessionStorage.removeItem("couponCode");
+                        // sessionStorage.removeItem("couponCode");
                         // setTimer11(false);
 
                         setToggle(false);
@@ -1034,7 +1042,7 @@ const ReturnReviewInternational = () => {
                                                         {passenger.Title} {passenger.FirstName} {passenger.LastName}
                                                     </span>
                                                     <span>
-                                                        {passenger.Title === "Mr"
+                                                         {passenger.Gender === "1"
                                                             ? "Male"
                                                             : "Female"
                                                         }
@@ -1055,6 +1063,7 @@ const ReturnReviewInternational = () => {
 
                     <div className="col-lg-3 col-md-3">
                         <RetSummIntlWithCoupon
+                          oncouponselect={handlecouponChange}
                             toggle={toggle}
                             onFinalAmountChange={handleFinalAmountChange}
                             toggleState={toggleState}

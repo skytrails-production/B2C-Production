@@ -42,7 +42,7 @@ const BookedTicketInternationalDB = () => {
                 //     ? (Number(bookingDataLcc?.FlightItinerary?.Fare?.OfferedFare) + (Number(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare) * Number(markUpamount))).toFixed(0)
                 //     : (Number(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare) +
                 //         (Number(markUpamount) * Number(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare))).toFixed(0)
-               Number( finalamount)
+                Number(finalamount).toFixed(2)
                 ,
                 airlineDetails: bookingDataLcc?.FlightItinerary?.Segments.map(
                     (item, index) => {
@@ -117,7 +117,7 @@ const BookedTicketInternationalDB = () => {
                     // ? (Number(bookingDataNonLcc?.FlightItinerary?.Fare?.OfferedFare) + (Number(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) * Number(markUpamount))).toFixed(0)
                     // : (Number(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) +
                     //     (Number(markUpamount) * Number(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare))).toFixed(0)
-                    Number(finalamount)
+                    Number(finalamount).toFixed(2)
                 ,
 
                 airlineDetails: bookingDataNonLcc?.FlightItinerary?.Segments.map(

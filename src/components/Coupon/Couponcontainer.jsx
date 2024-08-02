@@ -149,8 +149,10 @@ const CouponContainer = ({
               marginTop: "10px",
               marginBottom: "10px",
               width: "100%",
-              backgroundImage:
-                "linear-gradient(to top, rgb(237, 210, 135), rgb(184, 134, 11))",
+              backgroundImage: "linear-gradient(90deg, rgba(230,54,84,1) 0%, rgba(241,4,29,1) 100% )",
+              // backgroundImage:
+              //   "linear-gradient(to top, rgb(237, 210, 135), rgb(184, 134, 11))",
+              background:"rgb(230,54,84)",
             }}
           >
             {loading ? <Spin /> : "Apply Coupon"}

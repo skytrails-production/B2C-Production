@@ -61,7 +61,7 @@ const BusSaleSummary = (props) => {
   const discount1 = Number(discount).toFixed(1);
   // const coupondiscount1 = Number(couponDiscount).toFixed(1);
 
-  const othertax =  Number(markUpamount * published).toFixed(1);
+  const othertax =  (markUpamount * published).toFixed(1);
 
   // const totalaftercoupon = Number(grandTotal - coupondiscount1).toFixed(2);
   // const couponamount = sessionStorage.getItem("totalaftercoupon");

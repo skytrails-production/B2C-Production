@@ -333,6 +333,10 @@ function Busalesummarycoupon(props) {
           <p>
             {"₹"}
             {othertax}
+              {/* {((markUpamount * published) > 50
+                            ? (markUpamount * published)
+                            : 50
+                          ).toFixed(2)} */}
           </p>
         </div>
         {/* <div>

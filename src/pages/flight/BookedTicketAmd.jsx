@@ -10,9 +10,9 @@ import axios from "axios";
 
 import "./bookedTicket.css";
 const BookedTicket = () => {
-  console.log("AMDDDDDDDD");
+  // console.log("AMDDDDDDDD");
   const reducerState = useSelector((state) => state);
-  console.log(reducerState,"reducer state")
+  // console.log(reducerState,"reducer state")
   const location = useLocation();
   const { PNR } = location.state || {};
   //   const bookingDataLcc = reducerState?.flightBook?.flightBookData?.Response;

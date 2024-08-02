@@ -36,7 +36,7 @@ export default function HotelResult({
     const [loader, setLoader] = useState(true)
 
 
-    console.log(reducerState, "reducer state, dfdfd")
+    // console.log(reducerState, "reducer state, dfdfd")
 
     let filteredHotels = hotels?.filter((hotel) => {
 
@@ -91,7 +91,7 @@ export default function HotelResult({
 
 
 
-    console.log(filteredHotels, "filtered hotels")
+    // console.log(filteredHotels, "filtered hotels")
 
     // Sort filtered hotels based on price only if sortBy is selected
     if (sortBy === "lowToHigh") {

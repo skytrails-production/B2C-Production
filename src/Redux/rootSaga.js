@@ -11,7 +11,10 @@ import { hotelSearchWatcher } from "./Saga/hotelSaga";
 import { busSearchWatcher } from "./Saga/busSearch";
 import { searchResultWatcher } from "./Saga/searchPackageSaga";
 import { searchOneResultWatcher } from "./Saga/searchOnePackageSaga";
-import { getHolidayBookingWatcher, packageBookIDSaga } from "./Saga/BookPackage";
+import {
+  getHolidayBookingWatcher,
+  packageBookIDSaga,
+} from "./Saga/BookPackage";
 // import { busSeatWatcher } from "./Saga/BusSeatSaga";
 import { watchSubmitFormData } from "./Saga/PacakgeBookingSaga";
 
@@ -22,7 +25,7 @@ import { hotelSearchWatcherGRN } from "./Saga/hotelSagaGRN";
 import { flightListWatcher } from "./Saga/flightlListSaga";
 import { tnplWatcher } from "./Saga/tnplSaga";
 import { IteneraryWatcher } from "./Saga/itenarySaga";
-
+import { getInventoryWatcher } from "./Saga/InventoryAuth";
 
 export function* rootSaga() {
   yield all([
@@ -49,7 +52,6 @@ export function* rootSaga() {
     tnplWatcher(),
     IteneraryWatcher(),
     flightListWatcher(),
-
+    getInventoryWatcher(),
   ]);
 }
-

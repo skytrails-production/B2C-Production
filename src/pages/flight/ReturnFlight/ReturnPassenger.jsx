@@ -9,7 +9,7 @@ import {
 } from "../../../Redux/Passengers/passenger";
 import FlightLoader from "../FlightLoader/FlightLoader";
 import Alert from "@mui/material/Alert";
-import { isValidPassportNumber } from "./passportValidation";
+import { isValidPassportNumber,validateGender } from "./passportValidation";
 import dayjs from "dayjs";
 // import fromTo from "../../images/fromTo.png";
 import fromTo from "../../../images/fromTo.png";
@@ -156,7 +156,7 @@ const ReturnPassenger = () => {
         LastName: "",
         PaxType: 1,
         DateOfBirth: "",
-        Gender: 1,
+        Gender: "",
         PassportNo: "",
         PassportExpiry: "",
         AddressLine1: "gaya",
@@ -184,7 +184,7 @@ const ReturnPassenger = () => {
         LastName: "",
         PaxType: 2,
         DateOfBirth: "",
-        Gender: 1,
+        Gender: "",
         PassportNo: "",
         PassportExpiry: "",
         Fare: farePrice[1],
@@ -198,7 +198,7 @@ const ReturnPassenger = () => {
         LastName: "",
         PaxType: 3,
         DateOfBirth: "",
-        Gender: 1,
+        Gender: "",
         PassportNo: "",
         PassportExpiry: "",
         Fare: farePrice[2],
@@ -362,7 +362,7 @@ const ReturnPassenger = () => {
 
         const valid = passengerData.filter(
             (item) =>
-                item.FirstName === "" || item.LastName === "" || item.DateOfBirth === ""
+                item.FirstName === "" || item.LastName === "" || item.DateOfBirth === ""|| item.Gender === ""
         );
 
         const emailVal = passengerList.filter(
@@ -451,7 +451,7 @@ const ReturnPassenger = () => {
             </div>
             <div className="container  px-0 pt-4">
                 <div className="row">
-                    <div className="col-lg-9 martop">
+                    <div className="col-lg-9 ">
                         <div className="row">
                             {/* for departure  */}
 
@@ -778,7 +778,7 @@ const ReturnPassenger = () => {
                                                             class="form-control"
                                                         ></input>
                                                         {passengerData[i].FirstName == "" && sub && (
-                                                            <span id="error1">Enter First Name</span>
+                                                            <span id="error10" style={{color:"red"}}>Enter First Name</span>
                                                         )}
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
@@ -793,7 +793,7 @@ const ReturnPassenger = () => {
                                                             onChange={(e) => handleServiceChange(e, i)}
                                                         ></input>
                                                         {passengerData[i].LastName == "" && sub && (
-                                                            <span id="error1">Enter Last Name</span>
+                                                            <span id="error10" style={{color:"red"}}>Enter Last Name</span>
                                                         )}
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
@@ -809,11 +809,30 @@ const ReturnPassenger = () => {
                                                             max={maxDate}
                                                         ></input>
                                                         {passengerData[i].DateOfBirth == "" && sub && (
-                                                            <span id="error1">Enter DOB</span>
+                                                            <span id="error10" style={{color:"red"}}>Enter DOB</span>
                                                         )}
                                                     </div>
                                                 </div>
-
+                                                <div className="col-lg-3 col-md-3">
+                                                        <label for="exampleInputEmail1" class="form-label">
+                                                            Gender
+                                                        </label>
+                                                        <select
+                                                            className="form-select"
+                                                            name="Gender"
+                                                            onChange={(e) =>
+                                                                handleServiceChange(e, i)
+                                                            }
+                                                        >
+                                                            <option value="">Select Gender</option>
+                                                            <option value="1">Male</option>
+                                                            <option value="2">Female</option>
+                                                            {/* <option value="3">Others</option> */}
+                                                        </select>
+                                                        {passengerData[i].Gender === "" && sub && (
+                                                            <span id="error10" style={{color:"red"}}>Select Gender</span>
+                                                        )}
+                                                </div>
                                                 {/* passport details here */}
                                                 {isPassportRequired == true ? (
                                                     <>
@@ -841,7 +860,7 @@ const ReturnPassenger = () => {
                                                                     passengerData[i].PassportNo
                                                                 ) &&
                                                                     sub && (
-                                                                        <span id="error1">
+                                                                        <span id="error10" style={{color:"red"}}>
                                                                             Enter Valid Passport number
                                                                         </span>
                                                                     )}
@@ -895,7 +914,7 @@ const ReturnPassenger = () => {
                                                         ></input>
                                                         {passengerData[Number(adults) + i].FirstName ==
                                                             "" &&
-                                                            sub && <span id="error1">Enter First Name</span>}
+                                                            sub && <span id="error10" style={{color:"red"}}>Enter First Name</span>}
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
                                                         <label for="exampleInputEmail1" class="form-label">
@@ -924,9 +943,11 @@ const ReturnPassenger = () => {
                                                                 handleServiceChange(e, i + Number(adults))
                                                             }
                                                         >
-                                                            <option value="1">Female</option>
-                                                            <option value="2">Male</option>
-                                                            <option value="3">Others</option>
+                                                           <option value=" ">Select Gender</option>
+                                                          <option value="1">Male</option>
+                                                            <option value="2">Female</option>
+
+                                                            {/* <option value="3">Others</option> */}
                                                         </select>
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
@@ -946,7 +967,7 @@ const ReturnPassenger = () => {
                                                         ></input>
                                                         {passengerData[Number(adults) + i].DateOfBirth ==
                                                             "" &&
-                                                            sub && <span id="error1">Enter DOB</span>}
+                                                            sub && <span id="error10" style={{color:"red"}}>Enter DOB</span>}
                                                     </div>
                                                 </div>
 
@@ -977,7 +998,7 @@ const ReturnPassenger = () => {
                                                                     passengerData[Number(adults) + i].PassportNo
                                                                 ) &&
                                                                     sub && (
-                                                                        <span id="error1">
+                                                                        <span id="error10" style={{color:"red"}}>
                                                                             Enter a valid passport
                                                                         </span>
                                                                     )}
@@ -1057,7 +1078,7 @@ const ReturnPassenger = () => {
                                                         />
                                                         {passengerData[i + Number(adults) + Number(childs)]
                                                             .LastName == "" &&
-                                                            sub && <span id="error1">Enter Last Name</span>}
+                                                            sub && <span id="error10" style={{color:"red"}}>Enter Last Name</span>}
                                                     </div>
 
                                                     <div className="col-lg-3 col-md-3">
@@ -1074,9 +1095,13 @@ const ReturnPassenger = () => {
                                                                 )
                                                             }
                                                         >
-                                                            <option value="1">Female</option>
-                                                            <option value="2">Male</option>
+                                                            <option value="">Select Gender</option>
+                                                         <option value="1">Male</option>
+                                                            <option value="2">Female</option>
                                                         </select>
+                                                        {passengerData[i].Gender == "" && sub && (
+                                                            <span id="error10" style={{color:"red"}}>Select Gender</span>
+                                                        )}
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
                                                         <label for="exampleInputEmail1" class="form-label">
@@ -1099,7 +1124,7 @@ const ReturnPassenger = () => {
                                                         />
                                                         {passengerData[i + Number(adults) + Number(childs)]
                                                             .DateOfBirth == "" &&
-                                                            sub && <span id="error1">Enter DOB</span>}
+                                                            sub && <span id="error10" style={{color:"red"}}>Enter DOB</span>}
                                                     </div>
                                                 </div>
                                                 {/* passport details here */}
@@ -1134,7 +1159,7 @@ const ReturnPassenger = () => {
                                                                     ].PassportNo
                                                                 ) &&
                                                                     sub && (
-                                                                        <span id="error1">
+                                                                        <span id="error10" style={{color:"red"}}>
                                                                             Enter a valid Passport Number
                                                                         </span>
                                                                     )}
@@ -1192,7 +1217,7 @@ const ReturnPassenger = () => {
                                                         onChange={(e) => handleServiceChange(e, 0)}
                                                     />
                                                     {!validateEmail1(passengerData[0].Email) && sub && (
-                                                        <span id="error1">Enter Email</span>
+                                                        <span id="error10" style={{color:"red"}}>Enter Email</span>
                                                     )}
                                                 </div>
                                                 <div className="col-lg-5 col-md-5">
@@ -1208,7 +1233,7 @@ const ReturnPassenger = () => {
                                                     />
                                                     {!validatePhoneNumber(passengerData[0].ContactNo) ==
                                                         true &&
-                                                        sub && <span id="error1">Enter Contact</span>}
+                                                        sub && <span id="error10" style={{color:"red"}}>Enter Contact</span>}
                                                 </div>
                                             </div>
                                         </div>

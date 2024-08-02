@@ -31,10 +31,9 @@
 // sagaMiddleware.run(rootSaga);
 // export const persistor = persistStore(store);
 // export default store;
-
-
-
 // new logic where we are saving our redux data into localstorage in the encrypted format 
+
+
 
 import { legacy_createStore, applyMiddleware, compose } from "redux";
 import { persistStore, persistReducer } from "redux-persist";

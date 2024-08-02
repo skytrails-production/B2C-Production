@@ -100,7 +100,7 @@ const HotelResultMain = () => {
 
 
 
-    console.log(hotelData, "hotel data")
+    // console.log(hotelData, "hotel data")
 
     return (
         <div>

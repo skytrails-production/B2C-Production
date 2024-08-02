@@ -21,6 +21,7 @@ import {
   validatePhoneNumber,
   validateName,
   validateAge,
+  validateGender,
 } from "../../../utility/validationFunctions";
 
 const variants = {
@@ -84,7 +85,7 @@ const BusPassengerDetail = () => {
     Age: "",
     Email: "",
     FirstName: "",
-    Gender: 1,
+    Gender: "",
     IdNumber: null,
     IdType: null,
     LastName: "",
@@ -231,6 +232,7 @@ const BusPassengerDetail = () => {
         validateName(item.FirstName) &&
         validateName(item.LastName) &&
         validateAge(item.Age) &&
+        validateGender(item.Gender) &&
         item?.Address !== ""
     );
     const result = res.length === passengerData.length ? true : false;
@@ -501,9 +503,18 @@ const BusPassengerDetail = () => {
                                     )
                                   }
                                 >
+                                 <option value="">Select Gender</option>
                                   <option value="1">Male</option>
                                   <option value="2">Female</option>
                                 </select>
+                                {sub &&
+                                  !validateGender(
+                                    passengerData[index].Gender
+                                  ) && (
+                                    <span className="error10">
+                                      Enter a valid Gender
+                                    </span>
+                                  )}
                               </div>
 
                               <div className="col-lg-3 col-md-3">

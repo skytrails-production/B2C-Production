@@ -12,7 +12,7 @@ import { hotelReducerGRN } from "./HotelGRN/hotelReducer";
 import { searchPackageReducer } from "./SearchPackage/searchPackageReducer";
 import { searchOnePackageReducer } from "./OnePackageSearchResult/searchOnePackageReducer";
 import { LOGOUT_REQUEST } from "./Auth/logIn/actionType";
-import { packageBookingReducer } from "./HolidayBook/bookingHolidayReducer"
+import { packageBookingReducer } from "./HolidayBook/bookingHolidayReducer";
 import storage from "redux-persist/lib/storage/session";
 import { passengersReducer } from "./Passengers/passengerReducer";
 // import {packageBookingReducer} from "./HolidayBook/bookingHolidayReducer"
@@ -22,8 +22,10 @@ import { busSearchReducer } from "./busSearch/busSearchReducer";
 import { packageBookIDReducer } from "./HolidayBookingRequest/bookingHolidayReducer";
 import { packageBookingIDReducer } from "./BookingPackageData/bookingHolidayReducer";
 import { markUpDataReducer } from "./markup/markupReducer";
+import { itenaryReducer } from "./Itenary/itenaryReducer";
+import { InventoryReducer } from "./inventoryLogin/InventoryReducer";
 import { tnplReducer } from "./TNPL/tnplReducer"
-import { itenaryReducer } from "./Itenary/itenaryReducer"
+import { airlineSeatMapReducer } from "./AirlineSeatMap/airlineSeatmapReducer";
 
 const appReducer = combineReducers({
   logIn: logInReducer,
@@ -45,8 +47,9 @@ const appReducer = combineReducers({
   TNPL: tnplReducer,
   Itenerary: itenaryReducer,
   searchFlight: searchFlightReducer,
-  flightList: flightListReducer
+  flightList: flightListReducer,
 
+  airlineSeatMap:airlineSeatMapReducer
 });
 
 const rootReducer = (state, action) => {
@@ -55,19 +58,17 @@ const rootReducer = (state, action) => {
     sessionStorage.clear();
     localStorage.clear();
     return appReducer(undefined, action);
-  } else
-    if (action.type === "CLEAR_ONEWAY_REDUCER") {
-      return {
-        ...state,
-        oneWay: oneWayReducer(undefined, action),
-      };
-    }
-    else if (action.type === "CLEAR_BUS_SEARCH_REDUCER") {
-      return {
-        ...state,
-        getBusResult: busSearchReducer(undefined, action),
-      };
-    }
+  } else if (action.type === "CLEAR_ONEWAY_REDUCER") {
+    return {
+      ...state,
+      oneWay: oneWayReducer(undefined, action),
+    };
+  } else if (action.type === "CLEAR_BUS_SEARCH_REDUCER") {
+    return {
+      ...state,
+      getBusResult: busSearchReducer(undefined, action),
+    };
+  }
   // else if (action.type === "CLEAR_HOTEL_REDUCER") {
   //   return {
   //     ...state,
@@ -82,7 +83,6 @@ const rootReducer = (state, action) => {
   return appReducer(state, action);
 };
 export default rootReducer;
-
 
 // import { combineReducers } from "redux";
 // import { oneWayReducer } from "./FlightSearch/oneWayReducer";

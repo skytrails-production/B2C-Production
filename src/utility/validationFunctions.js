@@ -59,5 +59,8 @@ export function validateAge(Age) {
   // console.log(Age, "age");
 
   // Check if the converted age is a valid number and within the range 0 to 120
-  return !isNaN(ageNumber) && ageNumber > 0 && ageNumber <= 120;
+  return !isNaN(ageNumber) && ageNumber > 0 && ageNumber <= 100;
+}
+export function validateGender(Gender) {
+  return Gender === '1' || Gender === '2';
 }

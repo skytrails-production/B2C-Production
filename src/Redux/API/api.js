@@ -655,6 +655,20 @@ function api() {
   // itenerary api's 
 
 
+  //inventoryAuth 
+
+  const InventoryAuth = (payload) => {
+    return axios({
+      method: "POST",
+      url: "/skyTrails/api/inventory/partnerLogin",
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
   return {
     userIP,
     markUp,
@@ -708,8 +722,10 @@ function api() {
     savehotelRoominItenerary,
     handleItenaryActivitySelection,
     hotelSearchforItenerary,
+
     hotelSelectedRoom,
     IterneraryOneWaySearch,
+
   };
 }
 

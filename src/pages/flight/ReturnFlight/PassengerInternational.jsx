@@ -189,7 +189,7 @@ const PassengerInternational = () => {
         LastName: "",
         PaxType: 1,
         DateOfBirth: "",
-        Gender: 1,
+        Gender: "",
         PassportNo: "",
         PassportExpiry: "",
         AddressLine1: "gaya",
@@ -217,7 +217,7 @@ const PassengerInternational = () => {
         LastName: "",
         PaxType: 2,
         DateOfBirth: "",
-        Gender: 1,
+        Gender: "",
         PassportNo: "",
         PassportExpiry: "",
         Fare: farePrice[1],
@@ -231,7 +231,7 @@ const PassengerInternational = () => {
         LastName: "",
         PaxType: 3,
         DateOfBirth: "",
-        Gender: 1,
+        Gender: "",
         PassportNo: "",
         PassportExpiry: "",
         Fare: farePrice[2],
@@ -397,7 +397,7 @@ const PassengerInternational = () => {
 
         const valid = passengerData.filter(
             (item) =>
-                item.FirstName === "" || item.LastName === "" || item.DateOfBirth === ""
+                item.FirstName === "" || item.LastName === "" || item.DateOfBirth === ""|| item.Gender === ""
         );
 
         const emailVal = passengerList.filter((item) =>
@@ -815,6 +815,27 @@ const PassengerInternational = () => {
                                                     </div>
                                                 </div>
 
+                                                <div className="col-lg-3 col-md-3">
+                                                        <label for="exampleInputEmail1" class="form-label">
+                                                            Gender
+                                                        </label>
+                                                        <select
+                                                            className="form-select"
+                                                            name="Gender"
+                                                            onChange={(e) =>
+                                                                handleServiceChange(e, i)
+                                                            }
+                                                        >
+                                                            <option value="">Select Gender</option>
+                                                            <option value="1">Male</option>
+                                                            <option value="2">Female</option>
+                                                            {/* <option value="3">Others</option> */}
+                                                        </select>
+                                                        {passengerData[i].Gender === "" && sub && (
+                                                            <span id="error10" style={{color:"red"}}>Select Gender</span>
+                                                        )}
+                                                </div>
+
                                                 {/* passport details here */}
                                                 {isPassportRequired == true ? (
                                                     <>
@@ -921,9 +942,10 @@ const PassengerInternational = () => {
                                                                 handleServiceChange(e, i + Number(adults))
                                                             }
                                                         >
-                                                            <option value="1">Female</option>
-                                                            <option value="2">Male</option>
-                                                            <option value="3">Others</option>
+                                                         <option value="">Select Gender</option>
+                                                            <option value="1">Male</option>
+                                                            <option value="2">Female</option>
+                                                            {/* <option value="3">Others</option> */}
                                                         </select>
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">
@@ -1056,8 +1078,9 @@ const PassengerInternational = () => {
                                                                 )
                                                             }
                                                         >
-                                                            <option value="1">Female</option>
-                                                            <option value="2">Male</option>
+                                                         <option value="">Select Gender</option>
+                                                            <option value="1">Male</option>
+                                                            <option value="2">Female</option>
                                                         </select>
                                                     </div>
                                                     <div className="col-lg-3 col-md-3">

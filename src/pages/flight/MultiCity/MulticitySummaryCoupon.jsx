@@ -27,7 +27,7 @@ const KeyValue = ({ data, value }) => {
 };
 
 const MulticitySummaryCoupon = (props) => {
-    const { onFinalAmountChange } = props;
+    const { onFinalAmountChange,oncouponselect } = props;
     const [showInput, setShowInput] = useState(false);
     const isDummyStorageTrue = sessionStorage.getItem("hdhhfb7383__3u8748");
     const propFunction = props.handleClick;
@@ -297,10 +297,11 @@ const MulticitySummaryCoupon = (props) => {
       useEffect(() => {
         if (typeof onFinalAmountChange === 'function') {
           onFinalAmountChange(finalAmount);
+          oncouponselect(couponCode);
         } else {
-          console.error('onFinalAmountChange is not a function:');
+            console.error(error);
         }
-      }, [finalAmount]);
+      }, [finalAmount,couponCode]);
 
 
 

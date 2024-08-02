@@ -2,7 +2,7 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  background-color: rgb(225, 237, 249);
+  background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -57,3 +57,51 @@
 /* .inventoryForm {
   background-image: url("./bg.png");
 } */
+
+.form-item {
+  /* Add any necessary styles for the form item */
+}
+
+.add-facility-button {
+  /* Add styles for the button if needed */
+}
+
+.facility-chips {
+  display: flex;
+  flex-wrap: wrap; /* Ensures that tags wrap to the next line */
+  gap: 8px; /* Space between tags */
+  margin-top: 10px;
+}
+
+.facility-chips .ant-tag {
+  margin-bottom: 8px; /* Space between lines of tags */
+}
+
+@media (max-width: 768px) {
+  .facility-chips {
+    gap: 4px; /* Reduce space between tags on smaller screens */
+  }
+
+  .add-facility-button {
+    width: 100%; /* Ensure the button spans full width on small screens */
+    margin-bottom: 10px;
+  }
+
+  .form-item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+.addItems {
+  margin-top: 5px;
+}
+
+/* In YourComponent.css or inline styles */
+.room-details-heading {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center; /* Center the heading if desired */
+  color: #333; /* Adjust color as needed */
+}

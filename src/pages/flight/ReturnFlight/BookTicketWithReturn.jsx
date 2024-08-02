@@ -53,7 +53,7 @@ const BookedTicketWithReturn = () => {
                     // ? (Number(bookingDataLcc?.FlightItinerary?.Fare?.OfferedFare) + Number(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare) * Number(markUpamount)).toFixed(0)
                     // : (Number(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare) +
                     //     Number(markUpamount) * Number(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare)).toFixed(0),
-                   Number( finalamount),
+                    Number(finalamount).toFixed(2),
 
                 airlineDetails: bookingDataLcc?.FlightItinerary?.Segments.map(
                     (item, index) => {
@@ -119,7 +119,7 @@ const BookedTicketWithReturn = () => {
                 origin: bookingDataNonLcc?.FlightItinerary?.Origin,
                 destination: bookingDataNonLcc?.FlightItinerary?.Destination,
                 paymentStatus: "success",
-                totalAmount: finalamount,
+                totalAmount: Number(finalamount).toFixed(2),
                 // couponvalue
                     // ? bookingDataNonLcc?.FlightItinerary?.Fare?.OfferedFare
                     // : parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) +
@@ -211,7 +211,7 @@ const BookedTicketWithReturn = () => {
                     // ? (Number(bookingDataLccReturn?.FlightItinerary?.Fare?.OfferedFare) + (Number(bookingDataLccReturn?.FlightItinerary?.Fare?.PublishedFare) * Number(markUpamount))).toFixed(0)
                     // : (Number(bookingDataLccReturn?.FlightItinerary?.Fare?.PublishedFare) +
                     //     (Number(markUpamount) * Number(bookingDataLccReturn?.FlightItinerary?.Fare?.PublishedFare))).toFixed(0),
-                    Number(finalamount),
+                    Number(finalamount).toFixed(2),
                 airlineDetails: bookingDataLccReturn?.FlightItinerary?.Segments.map(
                     (item, index) => {
                         return {
@@ -285,7 +285,7 @@ const BookedTicketWithReturn = () => {
                     // ? (Number(bookingDataNonLccReturn?.FlightItinerary?.Fare?.OfferedFare) + (Number(bookingDataNonLccReturn?.FlightItinerary?.Fare?.PublishedFare) * Number(markUpamount))).toFixed(0)
                     // : (Number(bookingDataNonLccReturn?.FlightItinerary?.Fare?.PublishedFare) +
                     //     (Number(markUpamount) * Number(bookingDataNonLccReturn?.FlightItinerary?.Fare?.PublishedFare))).toFixed(0),
-                   Number( finalamount),
+                    Number(finalamount).toFixed(2),
 
                 airlineDetails: bookingDataNonLccReturn?.FlightItinerary?.Segments.map(
                     (item, index) => {

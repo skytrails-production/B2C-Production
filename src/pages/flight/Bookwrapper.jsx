@@ -32,6 +32,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { PassengersAction } from "../../Redux/Passengers/passenger";
 import BookNowLeft from "./BookNowLeft";
 import BookNowLeftAmd from "./BookNowLeftAmd";
+import Box from '@mui/material/Box';
 import PaymentLoader from "./FlightLoader/paymentLoader";
 import Flighterror from "./Flighterror";
 import axios from "axios";
@@ -49,6 +50,7 @@ import {
   validateName,
   validatePhoneNumber,
   isValidPassportNumber,
+  validateGender,
 } from "../../utility/validationFunctions";
 import flightPaymentLoding from "../../images/loading/loading-ban.gif";
 import secureLocalStorage from "react-secure-storage";
@@ -68,8 +70,28 @@ const variants = {
   },
 };
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 550,
+  background:'aliceblue',
+  height:500,
+  borderRadius:"15px",
+  bgcolor: 'aliceblue',
+  // border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 export default function BookWrapper() {
 
+
+
+  const [open, setOpen] = React.useState(false);
+  // const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   const [finalAmount, setFinalAmount] = useState(0);
 
   const handleFinalAmountChange = (amount) => {
@@ -83,6 +105,12 @@ export default function BookWrapper() {
     setCouponValue(code);
   };
 
+  const [discountvalue, setdiscountValue] = useState("");
+
+
+  const handledisocuntChange = (amount) => {
+    setdiscountValue(amount);
+  };
   
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
   const [transactionAmount, setTransactionAmount] = useState(null);
@@ -108,7 +136,9 @@ export default function BookWrapper() {
     if (authenticUser !== 200) {
       setIsLoginModalOpen(true);
     } else {
-      setOpenTravelModal(true);
+      setOpen(true)
+
+      // setOpenTravelModal(true);
     }
   };
 
@@ -133,6 +163,7 @@ export default function BookWrapper() {
   const handleTravelClose = (event, reason) => {
     if (reason !== "backdropClick") {
       setOpenTravelModal(false);
+      setOpen(false);
     }
   };
 
@@ -144,7 +175,7 @@ export default function BookWrapper() {
   const childCount = queryParams.get("child");
   const infantCount = queryParams.get("infant");
   const reducerState = useSelector((state) => state);
-  console.log(reducerState, "ResultIndex");
+  // console.log(reducerState, "ResultIndex");
   const isDummyTicketBooking = JSON.parse(
     sessionStorage.getItem("hdhhfb7383__3u8748")
   );
@@ -269,6 +300,7 @@ export default function BookWrapper() {
   );
 
   const fareValue = reducerState?.flightFare?.flightQuoteData?.Results;
+  const taxvalue = markUpamount * parseInt(fareValue?.Fare?.PublishedFare);
   // const ResultIndex = sessionStorage.getItem("ResultIndex");
 
   const isPassportRequired =
@@ -355,7 +387,7 @@ export default function BookWrapper() {
     LastName: "",
     PaxType: 1,
     DateOfBirth: "",
-    Gender: 1,
+    Gender: "",
     PassportNo: "",
     PassportExpiry: "",
     AddressLine1: "test",
@@ -382,7 +414,7 @@ export default function BookWrapper() {
     LastName: "",
     PaxType: 2,
     DateOfBirth: "",
-    Gender: 1,
+    Gender: "",
     PassportNo: "",
     PassportExpiry: "",
     Fare: farePrice,
@@ -396,7 +428,7 @@ export default function BookWrapper() {
     LastName: "",
     PaxType: 3,
     DateOfBirth: "",
-    Gender: 1,
+    Gender: "",
     PassportNo: "",
     PassportExpiry: "",
     Fare: farePrice,
@@ -790,12 +822,15 @@ export default function BookWrapper() {
 
   sessionStorage.getItem("firstuser");
 
+  // console.log("baggageFare",baggageFare);
+
   const handlePayment = async () => {
     // console.log(transactionAmount, baggageFare, "transactionAmount + baggageFare ")
     // console.log(passengerData, "passengerData");
     const token = SecureStorage?.getItem("jwtToken");
     // console.log(passengerData);
     setLoaderPayment1(true);
+    
     // setIsDisableScroll(true);
     const payload = {
       firstname: passengerData[0]?.FirstName,
@@ -808,18 +843,7 @@ export default function BookWrapper() {
       //   (Number(finalAmount) && Number(finalAmount) + Number(baggageFare) + Number(mellFare)) ||
         (!isDummyTicketBooking
           ? 
-      //     // parseInt(
-      //     //     reducerState?.flightFare?.flightQuoteData?.Results?.Fare
-      //     //       ?.PublishedFare
-      //     //   ) +
-      //     //   markUpamount *
-      //     //     parseInt(
-      //     //       reducerState?.flightFare?.flightQuoteData?.Results?.Fare
-      //     //         ?.PublishedFare
-      //     //     ) +finalAmount
-          Number(finalAmount) +
-            Number(baggageFare) +
-            Number( mellFare)
+          Number(finalAmount) + Number(baggageFare) + Number( mellFare)
           : 99),
       // amount: 1,
 
@@ -1192,12 +1216,17 @@ export default function BookWrapper() {
     }
   }, [baggageList]);
 
+  const bookticketvo =  () => {
+    setOpenTravelModal(true)
+  }
+
   const validation = async () => {
     const result = await passengerData.filter(
       (item) =>
         validateName(item.FirstName) &&
         validateName(item.LastName) &&
         validateDate(item.DateOfBirth) &&
+        validateGender(item.Gender) &&
         (isPassportRequired ? isValidPassportNumber(item.PassportNo) : true)
     );
     // console.warn("result", result);
@@ -1281,7 +1310,8 @@ export default function BookWrapper() {
         //       parseInt(bookingDataLcc?.FlightItinerary?.Fare?.PublishedFare) -
         //     subBag -
         //     subMel,
-        totalAmount:finalAmount - subBag - subMel,
+        // totalAmount:finalAmount - subBag - subMel,
+        totalAmount:    Number(finalAmount) - subBag - subMel,
         airlineDetails: bookingDataLcc?.FlightItinerary?.Segments.map(
           (item, index) => {
             return {
@@ -1355,7 +1385,7 @@ export default function BookWrapper() {
         //   : parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare) +
         //     markUpamount *
         //       parseInt(bookingDataNonLcc?.FlightItinerary?.Fare?.PublishedFare),
-      finalAmount,
+        Number(finalAmount).toFixed(2),
         airlineDetails: bookingDataNonLcc?.FlightItinerary?.Segments.map(
           (item, index) => {
             return {
@@ -1884,6 +1914,33 @@ export default function BookWrapper() {
                                     for="exampleInputEmail1"
                                     class="form-label"
                                   >
+                                    Gender
+                                  </label>
+                                  <select
+                                    className="form-select"
+                                    name="Gender"
+                                    onChange={(e) =>
+                                      handleServiceChange(
+                                        e,
+                                        index 
+                                      )
+                                    }
+                                  >
+                                   <option value="">Select Gender</option>
+                                    <option value="1">Male</option>
+                                    <option value="2">Female</option>
+
+                                  </select>
+                                  {sub &&
+                                    !validateGender(
+                                      passengerData[index].Gender
+                                    ) && <span className="error10">Select Gender</span>}
+                                </div>
+                                <div className="col-lg-3 col-md-3">
+                                  <label
+                                    for="exampleInputEmail1"
+                                    class="form-label"
+                                  >
                                     Date of Birth
                                   </label>
                                   <input
@@ -2075,9 +2132,14 @@ export default function BookWrapper() {
                                       )
                                     }
                                   >
-                                    <option value="1">Female</option>
-                                    <option value="2">Male</option>
+                                      <option value="">Select Gender</option>
+                                   <option value="1">Male</option>
+                                    <option value="2">Female</option>
                                   </select>
+                                  {sub &&
+                                    !validateGender(
+                                      passengerData[index].Gender
+                                    ) && <span className="error10">Select Gender</span>}
                                 </div>
                                 <div className="col-lg-3 col-md-3">
                                   <label
@@ -2374,9 +2436,14 @@ export default function BookWrapper() {
                                       )
                                     }
                                   >
-                                    <option value="1">Female</option>
-                                    <option value="2">Male</option>
+                                   <option value="">Select Gender</option>
+                                  <option value="1">Male</option>
+                                    <option value="2">Female</option>
                                   </select>
+                                  {sub &&
+                                    !validateGender(
+                                      passengerData[index].Gender
+                                    ) && <span className="error10">Select Gender</span>}
                                 </div>
                                 <div className="col-lg-3 col-md-3">
                                   {/* <div class="form-floating">
@@ -2621,6 +2688,7 @@ export default function BookWrapper() {
 
                         toggle={toggle}
                         oncouponselect={handlecouponChange}
+                        disountamount = {handledisocuntChange}
                         toggleState={toggleState}
                         setTransactionAmountstate={setTransactionAmountState}
                         // onFinalAmountChange={handleFinalAmountChange}
@@ -2650,6 +2718,126 @@ export default function BookWrapper() {
                           Continue
                         </button>
                       )}
+                      <div>
+                      {/* <Button onClick={handleOpen}>Open modal</Button> */}
+                      <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
+      <Box sx={style}>
+        <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <button
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              fontSize: '24px',
+              fontWeight: 'bold',
+            }}
+            onClick={handleClose}
+            aria-label="Close"
+          >
+            &times;
+          </button>
+        </div>
+        <div style={{display:"flex",flexDirection:"column",height:"100%",justifyContent:"space-evenly"}}>
+        <h1 style={{textAlign:"center",color:"black",fontWeight:"bold"}}>
+          Total Fare
+        </h1>
+        <div className="TotGstFlight"  style={{borderRadius:"9px",backgroundColor:"aliceblue"}}>
+              <div style={{display:"flex"}}>
+              <div  style={{display:"flex",gap:"12px",color:"black"}}>
+                <span  style={{color:"black",fontSize:"18px",fontWeight:"600"}}>Base Fare : </span>
+                {/* <div style={{background:"none",border:"none",padding:"2px",cursor:"pointer",marginRight:"2px",marginTop:"-4px"}}>                <span style={{margin:"2px"}} onClick={toggleDetails} >
+        {showDetails ? <FiMinusCircle/> : <FiPlusCircle/>}
+      </span>
+      </div> */}
+      </div>
+                <p style={{color:"black",fontSize:"15px"}}> {"₹"}{parseInt(fareValue?.Fare?.BaseFare)}</p>
+
+
+              </div>
+
+              {/* {showDetails && (
+        <div  style={{width:"100%",display:"flex",flexDirection:"column"}} >
+          <div style={{ borderBottom: "none",width:"100%",display:"flex",justifyContent:"space-between" }}>
+            <p>
+              Adult(s) ({adultCount} × {adultamount})
+            </p>
+            <p>{"₹"} {multiplydata} </p>
+          </div>
+          <div style={{ borderBottom: "none" ,width:"100%",display:"flex",justifyContent:"space-between"}}>
+            {childCount > 0 && (
+              <>
+                <p>Child(s) ({childCount} × {chilsamount})</p>
+                <p>{"₹"} {childmultiply}</p>
+              </>
+            )}
+          </div>
+          <div style={{ borderBottom: "none" ,width:"100%",display:"flex",justifyContent:"space-between"}}>
+            {infantCount > 0 && (
+              <>
+                <p>Infant(s) ({infantCount} × {infantamount})</p>
+                <p>{"₹"} {infantmultiplicity}</p>
+              </>
+            )}
+          </div>
+        </div>
+      )} */}
+
+
+              <div style={{display:"flex",color:"black"}}>
+                <span  style={{color:"black",fontSize:"18px",fontWeight:"600"}}>Surcharge : </span>
+                <p style={{color:"black",fontSize:"15px"}}> {"₹"}{parseInt(fareValue?.Fare?.Tax) }</p>
+              </div>
+              <div style={{display:"flex",color:"black"}}>
+                <span style={{color:"black",fontSize:"18px",fontWeight:"600"}}>Other TAX : </span>
+                <p style={{color:"black",fontSize:"15px"}}>
+                  {"₹"}
+                  {(
+                    Number(taxvalue)+ Number(baggageFare) +
+                    Number( mellFare)).toFixed(2)}
+                </p>
+              </div>
+
+              {discountvalue > 0 && (
+                <div style={{display:"flex",color:"black"}}>
+                  <span style={{color:"black",fontSize:"18px",fontWeight:"600"}}>Discount Amount :</span>
+                  <p style={{color:"black",fontSize:"15px"}}>
+                    {"₹"}
+                    {Number(discountvalue).toFixed(2)}
+                  </p>
+                </div>
+              )}
+
+              <div style={{display:"flex",color:"black"}}>
+                <span style={{color:"black",fontSize:"18px",fontWeight:"600"}}>Grand Total :</span>
+                <p style={{color:"black",fontSize:"15px"}}>
+                  {"₹"}
+                  {/* {(
+                    Number(taxvaluetotal) +
+                    Number(props.baggAmount) +
+                    Number(props.mellAmount)
+                  ).toFixed(2)} */}
+
+                  {/* {grandtotalamount} */}
+                  {Number(
+                    Number(finalAmount)  + Number(baggageFare) +
+                    Number( mellFare)
+                  ).toFixed(2)}
+                </p>
+              </div>
+            </div>
+            <div className=" mt-4 smallButtMobile"  style={{display:"flex",flexDirection:"row-reverse"}}>
+            <button onClick={bookticketvo}  className="bookWrapperButton">Continue</button>
+            </div>
+            </div>
+      </Box>
+    </Modal>
+    </div>
+
 
                       <Dialog
                         sx={{ zIndex: "99999" }}
@@ -2685,7 +2873,7 @@ export default function BookWrapper() {
                     oncouponselect={handlecouponChange}
                     setTransactionAmountstate={setTransactionAmountState}
                     // onFinalAmountChange={handleFinalAmountChange}
-                    
+                    disountamount = {handledisocuntChange}
                     transactionAmount={transactionAmount}
                     baggAmount={baggageFare}
                     onFinalAmountChange={handleFinalAmountChange}

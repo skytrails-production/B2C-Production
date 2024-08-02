@@ -118,7 +118,12 @@ import SmallDevice from "./components/SmallDevicePopUp";
 
 import ItenaryDashboard from "./pages/Itenary/ItenaryDashboard";
 import ItenaryResult from "./pages/Itenary/ItenaryResult";
+
+import InventoryForgetPassword from "./pages/Inventory/InventoryForgetPassword";
+import InventoryDashboard from "./pages/Inventory/InventoryDashboard";
+
 import ItenaryPdfDownloader from "./pages/Itenary/ItenaryPdfDownloader";
+
 
 
 function App() {
@@ -247,10 +252,13 @@ function App() {
 
   return (
     <div className="background_gradient">
+      {/* this is my space rachna */}
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
+        location.pathname !== "/inventoryForgetPassword" &&
+        location.pathname !== "/inventoryDashboard" &&
         location.pathname !== "/inventoryhotelform" && <InsideNavbar />}
-
+      {/* this is my space rachna */}
       {/* /Searchresult */}
 
       {/* {showPopup && (
@@ -500,21 +508,29 @@ function App() {
           path="/inventoryhotelform"
           element={<InventoryHotelForm />}
         ></Route>
-
+        <Route
+          path="/inventoryForgetPassword"
+          element={<InventoryForgetPassword />}
+        ></Route>
 
         <Route
-          path="/itenarydashboard"
-          element={<ItenaryDashboard />}
+          path="/inventoryDashboard"
+          element={<InventoryDashboard />}
         ></Route>
-        <Route
-          path="/itenaryresult"
-          element={<ItenaryResult />}
-        ></Route>
+
+
+        {/* <Route path="/inventoryDashboard" element={<InventoryDashboard /></Route>} */}
+        {/* inventory */}
+
+        <Route path="/itenarydashboard" element={<ItenaryDashboard />}></Route>
+        <Route path="/itenaryresult" element={<ItenaryResult />}></Route>
+
         <Route
           // path="/itenaryDownload"
           path="/itenaryresult/itenaryDownload/:id"
           element={<ItenaryPdfDownloader />}
         ></Route>
+       
         {/* <Route
           path="/practice"
           element={<ItenaryPractice/>}
@@ -527,10 +543,14 @@ function App() {
 
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
+        location.pathname !== "/inventoryForgetPassword" &&
+        location.pathname !== "/inventoryDashboard" &&
         location.pathname !== "/inventoryhotelform" && <Whatsapp />}
 
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
+        location.pathname !== "/inventoryForgetPassword" &&
+        location.pathname !== "/inventoryDashboard" &&
         location.pathname !== "/inventoryhotelform" && <ScrollToTop />}
 
       {/* <PayLater /> */}
@@ -538,6 +558,8 @@ function App() {
 
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
+        location.pathname !== "/inventoryForgetPassword" &&
+        location.pathname !== "/inventoryDashboard" &&
         location.pathname !== "/inventoryhotelform" && <Footer />}
     </div>
   );

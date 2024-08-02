@@ -116,15 +116,20 @@ const ReturnReviewBooking = () => {
     }
   }, [authenticUser]);
 
+  const [couponvalue, setCouponValue] = useState("");
+
+
+  const handlecouponChange = (code) => {
+    setCouponValue(code);
+  };
+
   // coupon logic here
   const couponconfirmation = async () => {
     try {
       const token = SecureStorage.getItem("jwtToken");
       const response = await axios.get(
         `${apiURL.baseURL
-        }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
-          "couponCode"
-        )}`,
+          }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
 
         {
           headers: {
@@ -428,6 +433,7 @@ const ReturnReviewBooking = () => {
       if (
         reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorMessage === ""
       ) {
+        couponconfirmation();
         setLoaderPayment(false);
         navigate("/bookedTicketWithReturn", { state: { finalamount: finalAmount } });
       } else if (
@@ -486,8 +492,9 @@ const ReturnReviewBooking = () => {
       if (
         reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorMessage === ""
       ) {
+        couponconfirmation();
         setLoaderPayment(false);
-        navigate("/bookedTicketWithReturn");
+        navigate("/bookedTicketWithReturn", { state: { finalamount: finalAmount } });
       } else if (
         reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorCode !== 0 &&
         reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorCode !== undefined
@@ -570,8 +577,9 @@ const ReturnReviewBooking = () => {
       "" &&
       isDummyTicketBooking
     ) {
+      couponconfirmation();
       setLoaderPayment(false);
-      navigate("/bookedTicketWithReturn");
+      navigate("/bookedTicketWithReturn", { state: { finalamount: finalAmount } });
     } else if (
       reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorCode !==
       0 &&
@@ -596,8 +604,9 @@ const ReturnReviewBooking = () => {
         reducerState?.flightBook?.flightTicketDataGDSReturn?.data?.data
           ?.Response?.Error?.ErrorCode !== undefined)
     ) {
+      couponconfirmation();
       setLoaderPayment(false);
-      navigate("/bookedTicketWithReturn");
+      navigate("/bookedTicketWithReturn", { state: { finalamount: finalAmount } });
     }
   }, [
     reducerState?.flightBook?.flightTicketDataGDSReturn?.data?.data?.Response,
@@ -772,9 +781,9 @@ const ReturnReviewBooking = () => {
           } catch (error) {
             console.error("Error verifying payment:", error);
           }
-          if (sessionStorage.getItem("couponCode")) {
-            couponconfirmation();
-          }
+          // if (sessionStorage.getItem("couponCode")) {
+          //   couponconfirmation();
+          // }
         } else {
           try {
             // Make API call if payment status is 'success'
@@ -1276,7 +1285,7 @@ const ReturnReviewBooking = () => {
                             {passenger.LastName}
                           </span>
                           <span>
-                            {passenger.Title === "Mr"
+                            {passenger.Gender === "1"
                               ? "Male"
                               : "Female"
                             }
@@ -1294,6 +1303,7 @@ const ReturnReviewBooking = () => {
           <div className="col-lg-3 col-md-3">
             <ReturnSummaryWithCoupon
               toggle={toggle}
+              oncouponselect={handlecouponChange}
               onFinalAmountChange={handleFinalAmountChange}
               toggleState={toggleState}
               transactionAmount={setTransactionAmountState}

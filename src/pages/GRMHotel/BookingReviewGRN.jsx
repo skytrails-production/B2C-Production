@@ -109,7 +109,25 @@ const BookingReviewGRN = ({
         return stars;
     };
 
+    const couponconfirmation3 = async () => {
+        try {
+          const token = SecureStorage.getItem("jwtToken");
+          const response = await axios.get(
+            `${apiURL.baseURL
+            }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
 
+            {
+              headers: {
+                token: token,
+              },
+            }
+          );
+          // sessionStorage.removeItem("totalaftercoupon");
+          // sessionStorage.removeItem("couponCode");
+        } catch (error) {
+          // console.log(error);
+        }
+      };
     useEffect(() => {
         if (
             reducerState?.hotelSearchResultGRN?.bookRoom?.status ===
@@ -117,6 +135,7 @@ const BookingReviewGRN = ({
         ) {
             
             setLoaderPayment(false);
+            couponconfirmation3();
             navigate("/st-hotel/hotelresult/selectroom/guestDetails/review/ticket",{ state: { finalamount: finalAmount } });
             return;
         }
@@ -241,25 +260,25 @@ const BookingReviewGRN = ({
         setCouponValue(code);
       };
 
-      const couponconfirmation3 = async () => {
-        try {
-          const token = SecureStorage.getItem("jwtToken");
-          const response = await axios.get(
-            `${apiURL.baseURL
-            }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
+    //   const couponconfirmation3 = async () => {
+    //     try {
+    //       const token = SecureStorage.getItem("jwtToken");
+    //       const response = await axios.get(
+    //         `${apiURL.baseURL
+    //         }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
     
-            {
-              headers: {
-                token: token,
-              },
-            }
-          );
-          // sessionStorage.removeItem("totalaftercoupon");
-          // sessionStorage.removeItem("couponCode");
-        } catch (error) {
-          // console.log(error);
-        }
-      };
+    //         {
+    //           headers: {
+    //             token: token,
+    //           },
+    //         }
+    //       );
+    //       // sessionStorage.removeItem("totalaftercoupon");
+    //       // sessionStorage.removeItem("couponCode");
+    //     } catch (error) {
+    //       // console.log(error);
+    //     }
+    //   };
 
     //   console.log(couponvalue,couponvalue,"couponvalue");
 
@@ -333,7 +352,7 @@ const BookingReviewGRN = ({
                         );
                         setLoaderPayment(true);
                         // couponconfirmation3();
-                        couponconfirmation3();
+                        // couponconfirmation3();
                     } catch (error) {
                         console.error("Error verifying payment:", error);
                         // Handle error

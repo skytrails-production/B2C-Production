@@ -51,6 +51,13 @@ const MulticityReviewBooking = () => {
     const handleFinalAmountChange = (amount) => {
       setFinalAmount(amount);
     };
+
+    const [couponvalue, setCouponValue] = useState("");
+
+
+    const handlecouponChange = (code) => {
+      setCouponValue(code);
+    };
   
     const reducerState = useSelector((state) => state);
     // console.log(ResultIndex?.ResultIndex, "result index")
@@ -124,9 +131,7 @@ const MulticityReviewBooking = () => {
             const token = SecureStorage.getItem("jwtToken");
             const response = await axios.get(
                 `${apiURL.baseURL
-                }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
-                    "couponCode"
-                )}`,
+                 }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
 
                 {
                     headers: {
@@ -159,7 +164,8 @@ const MulticityReviewBooking = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {
-                navigate("/multicityresult/PassengerDetailsMulticity/multicityreviewbooking/bookedTicketMulticityDB");
+                couponconfirmation();
+                navigate("/multicityresult/PassengerDetailsMulticity/multicityreviewbooking/bookedTicketMulticityDB",{state:{finalamount:finalAmount}});
             }
             else if (
                 reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
@@ -218,6 +224,7 @@ const MulticityReviewBooking = () => {
     useEffect(() => {
         const fetchData = async () => {
             if (reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage === "") {
+                couponconfirmation();
                 navigate("/multicityresult/PassengerDetailsMulticity/multicityreviewbooking/bookedTicketMulticityDB",{state:{finalamount:finalAmount}});
             }
             else if (
@@ -487,9 +494,9 @@ const MulticityReviewBooking = () => {
                     } catch (error) {
                         console.error("Error verifying payment:", error);
                     }
-                    if (sessionStorage.getItem("couponCode")) {
-                        couponconfirmation();
-                    }
+                    // if (sessionStorage.getItem("couponCode")) {
+                    //     couponconfirmation();
+                    // }
                 } else {
                     try {
                         // Make API call if payment status is 'success'
@@ -589,7 +596,7 @@ const MulticityReviewBooking = () => {
             </div>
             <div className="container px-0 pt-4">
                 <div className="row">
-                    <div className="col-lg-9 martop">
+                    <div className="col-lg-9 ">
                         <div className="row">
 
 
@@ -843,7 +850,7 @@ const MulticityReviewBooking = () => {
                     <div className="col-lg-3 col-md-3">
                         <MulticitySummaryCoupon
                             toggle={toggle}
-                            
+                            oncouponselect={handlecouponChange}
                             onFinalAmountChange={handleFinalAmountChange}
                             toggleState={toggleState}
                             transactionAmount={setTransactionAmountState}

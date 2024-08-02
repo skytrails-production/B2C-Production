@@ -29,7 +29,7 @@ const RetSummIntlWithCoupon = (props) => {
   const [showInput, setShowInput] = useState(false);
   const isDummyStorageTrue = sessionStorage.getItem("hdhhfb7383__3u8748");
   const propFunction = props.handleClick;
-
+  const { onFinalAmountChange,oncouponselect } = props;
   // const [couponApplied, setCouponApplied] = useState(false);
 
   // const inputRef = useRef(null);
@@ -214,7 +214,7 @@ const RetSummIntlWithCoupon = (props) => {
   const handleErrorChange = (errorMessage) => {
     setError(errorMessage);
   };
-  const flight = "FLIGHT";
+  const flight = "FLIGHTS";
 
   const totalPriceCalculator = () => {
     let finalAmount = 0;
@@ -249,26 +249,30 @@ const RetSummIntlWithCoupon = (props) => {
     const publishedFare = Number(fareValue?.Fare?.PublishedFare);
 
     if (selectedCoupon !== null) {
-      let discountAmount = 0;
+      let discountamount = 0;
 
       if (publishedFare <= discountValueObj?.[0]?.value?.min?.[0]) {
-        discountAmount = discountValueObj?.[0]?.value?.min?.[1];
+        discountamount = discountValueObj?.[0]?.value?.min?.[1];
       } else if (publishedFare >= discountValueObj?.[0]?.value?.max?.[0]) {
-        discountAmount = discountValueObj?.[0]?.value?.max?.[1];
+        discountamount = discountValueObj?.[0]?.value?.max?.[1];
       }
 
       if (discountValueObj?.[0]?.type === "PERCENTAGE") {
         finalAmount =
           publishedFare +
           markUpamount * Number(fareValue?.Fare?.PublishedFare) -
-          publishedFare * (discountAmount * 0.01);
-        discountAmount = publishedFare * (discountAmount * 0.01);
+        //   publishedFare * (discountAmount * 0.01);
+        // discountAmount = publishedFare * (discountAmount * 0.01);
+        publishedFare * (discountamount * 0.01);
+        discountAmount = publishedFare * (discountamount * 0.01);
       } else if (discountValueObj?.[0]?.type === "AMOUNT") {
         finalAmount =
           publishedFare +
           markUpamount * Number(fareValue?.Fare?.PublishedFare) -
-          discountAmount;
-        discountAmount = discountAmount;
+        //   discountAmount;
+        // discountAmount = discountAmount;
+        Number( discountamount);
+        discountAmount = Number(discountamount);
       }
     } else {
       finalAmount =
@@ -282,9 +286,17 @@ const RetSummIntlWithCoupon = (props) => {
 
   //    console.log("finalAmghvfggggggggggggggggggggggggggggggggggggount", fareValueReturn)
 
+  // useEffect(() => {
+  //   props.onFinalAmountChange(finalAmount);
+  // }, [finalAmount]);
   useEffect(() => {
-    props.onFinalAmountChange(finalAmount);
-  }, [finalAmount]);
+    if (typeof onFinalAmountChange === 'function') {
+      onFinalAmountChange(finalAmount);
+      oncouponselect(couponCode);
+    } else {
+      console.error(error);
+    }
+  }, [finalAmount,couponCode]);
 
   return (
     <>
@@ -462,7 +474,7 @@ const RetSummIntlWithCoupon = (props) => {
                   {"₹"}
                   {/* {(Number(fareValue?.Fare?.PublishedFare) + Number(fareValue?.Fare?.PublishedFare * markUpamount)).toFixed(0)} */}
                   {/* {grandtotal} */}
-                  {finalAmount}
+                  {Number(finalAmount).toFixed(2)}
                 </p>
               </div>
             </div>
