@@ -309,12 +309,26 @@ function api() {
 
   // Holiday Package API
   const searchPackage = (payload) => {
-    // console.log("searchPackage" + payload.destination);
-    // console.log("searchPackage" + payload.days);
-    // const { destination } = payload;
-    // ?filter=${days}&keyword=${destination}
+
     return axios.get(
       `${apiURL.baseURL}/skyTrails/international/getAll?keyword=${payload}`
+    );
+  };
+
+
+  const searchPackageCategory = (payload) => {
+
+    return axios.get(
+      `${apiURL.baseURL}/skyTrails/api/packages/packagesCategory?seeAll=true&keyword=${payload}`
+
+    );
+  };
+
+  const searchPackageCountry = (payload) => {
+
+    return axios.get(
+      `${apiURL.baseURL}/skyTrails/domesticAndInternationalPackages?country=${payload}`
+
     );
   };
 
@@ -696,6 +710,8 @@ function api() {
     hotelBookRoom,
     hotelBookingDetails,
     searchPackage,
+    searchPackageCategory,
+    searchPackageCountry,
     getOnePackage,
     bookingHoliday,
     getBusSearch,

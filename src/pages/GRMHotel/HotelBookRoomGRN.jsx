@@ -74,7 +74,7 @@ const HotelBookRoomGRN = () => {
     }
   }, [
     reducerState?.hotelSearchResultGRN?.hotelDetails?.status ||
-      reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images,
+    reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images,
   ]);
 
   const star = (data) => {
@@ -110,6 +110,8 @@ const HotelBookRoomGRN = () => {
     }
   }, [reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.errors]);
 
+  console.log(reducerState, "reducer state")
+
   const handleClickSaveRoom = async () => {
     const payload = {
       data: {
@@ -143,7 +145,7 @@ const HotelBookRoomGRN = () => {
             border: selectedRoomIndex === index ? "0.5px solid #e73c34" : "",
           }}
         >
-            
+
           <div>
             <div className="insideOffer">
               <input
@@ -298,11 +300,11 @@ const HotelBookRoomGRN = () => {
                     )}
                     {inclusion.toLowerCase() ===
                       "free fitness center access" && (
-                      <>
-                        <img src={freeGym} alt="wifi" />
-                        <p className="panDesign3">Free Gym</p>
-                      </>
-                    )}
+                        <>
+                          <img src={freeGym} alt="wifi" />
+                          <p className="panDesign3">Free Gym</p>
+                        </>
+                      )}
                   </div>
                 </div>
               ))}

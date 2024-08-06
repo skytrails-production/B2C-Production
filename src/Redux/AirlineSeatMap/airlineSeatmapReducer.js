@@ -3,11 +3,10 @@ import * as types from "./airlineSeatMapType";
 const initialState = {
   number_of_airline: {},
   seatList: {},
-  amountList:[],
-  defaultSeatOccupation:[],
-  midAmount:0
-
-
+  amountList: [],
+  amountTVO :0,
+  defaultSeatOccupation: [],
+  midAmount: 0,
 };
 
 export const airlineSeatMapReducer = (state = initialState, action) => {
@@ -18,37 +17,35 @@ export const airlineSeatMapReducer = (state = initialState, action) => {
       return {
         ...state,
         number_of_airline: payload?.no,
-        seatList:payload?.seatList,
+        seatList: payload?.seatList,
         // defaultSeatOccupation: payload?.defaultSeatOccupation
-
       };
     case types.SEAT_SET_AIRLINE:
+      console.log("resucer py", payload);
       return {
         ...state,
-        seatList:payload
+        seatList: payload,
+      };
+    case types.SEAT_SET_AMOUNT_TVO:
 
-
+      return {
+        ...state,
+        amountTVO: payload,
       };
     case types.SEAT_SET_MID_AMOUNT:
       return {
         ...state,
-        midAmount:payload
-
-
+        midAmount: payload,
       };
     case types.DEFAULT_SEAT_OCCUPATION:
       return {
         ...state,
-        defaultSeatOccupation:payload
-
-
+        defaultSeatOccupation: payload,
       };
     case types.AMOUNT_SET_AIRLINE:
       return {
         ...state,
-        amountList:payload
-
-
+        amountList: payload,
       };
     case types.CLEAR_SEAT_AIRRLINE:
       return {
@@ -57,7 +54,7 @@ export const airlineSeatMapReducer = (state = initialState, action) => {
       };
     case types.CLEAR_ALL_AIRRLINE:
       return initialState;
-   
+
     default:
       return state;
   }

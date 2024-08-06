@@ -1,0 +1,38 @@
+@import "../../../mixins.scss";
+
+.HoliCateHeading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0px;
+  text-transform: capitalize;
+  > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    h5 {
+      margin-bottom: 0 !important;
+    }
+  }
+
+  p {
+    margin-bottom: 0 !important;
+    font-weight: 600;
+  }
+  img {
+    width: 30px;
+    // margin-right: 8px;
+  }
+}
+
+.paddHotCategory {
+  padding: 51px;
+  border-radius: 10px;
+  margin-bottom: 40px;
+  overflow-x: hidden;
+
+  @include md {
+    padding: 43px !important;
+  }
+}

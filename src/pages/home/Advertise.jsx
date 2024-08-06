@@ -46,10 +46,10 @@ const Advertise = () => {
       <div className="container p-0 mt-4">
         <Slider {...settings}>
           {localDataArray?.map((ad) =>
-        //   console.log(ad.isClickAble,ad.url,localDataArray,"data")
+          //   console.log(ad.isClickAble,ad.url,localDataArray,"data")
           (
             <div className="slick-slide advertise-slide" key={ad._id}>
-              {ad.title==="Vivid Sydeny 2024" ? (
+              {ad.title === "Vivid Sydeny 2024" ? (
                 <a href="https://www.vividsydney.com/" target="_blank" rel="noreferrer">
                   <img
                     style={{ cursor: "pointer" }}

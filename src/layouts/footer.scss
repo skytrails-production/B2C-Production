@@ -1,0 +1,228 @@
+@import "../mixins.scss";
+
+.footers {
+  background-color: white;
+  padding: 80px 0 30px 0;
+  .footerBoxMain {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    @include md {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: unset;
+    }
+
+    .footerSingleBox {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 100%;
+
+      @include md {
+        width: auto;
+      }
+      > img {
+        width: 220px;
+        margin: 20px auto;
+      }
+
+      .followBox {
+        display: flex !important;
+        flex-direction: row !important;
+        gap: 12px !important;
+        justify-content: space-between !important;
+
+        @include md {
+          display: flex !important;
+          flex-direction: column !important;
+          gap: 15px !important;
+          width: 100% !important;
+        }
+      }
+
+      .footerSingleBoxContent {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        justify-content: flex-start;
+        color: #071c2c;
+
+        .iconBoxFooter {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .DownLLoad {
+          display: flex;
+          justify-content: space-between;
+
+          @include md {
+            flex-direction: column;
+            gap: 12px;
+          }
+
+          img {
+            width: 95%;
+
+            @include md {
+              width: 100%;
+            }
+          }
+        }
+
+        h4 {
+          font-size: 14px;
+          font-weight: bold;
+        }
+        a {
+          text-decoration: none;
+          color: #071c2c;
+          transition: all 0.2s ease-in-out;
+          padding-right: 5px;
+
+          svg {
+            font-size: 20px;
+          }
+
+          &:hover {
+            color: var(--primary);
+          }
+        }
+      }
+      .footerSingleBoxContentLinks {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        justify-content: flex-start;
+        color: #071c2c;
+
+        h4 {
+          font-size: 14px;
+          font-weight: bold;
+        }
+        a {
+          text-decoration: none;
+          color: #071c2c;
+          transition: all 0.2s ease-in-out;
+          padding-right: 5px;
+          font-size: 12px;
+
+          svg {
+            font-size: 20px;
+          }
+
+          &:hover {
+            color: var(--primary);
+          }
+        }
+      }
+    }
+  }
+  .footerBoxMainTwo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 30px;
+    @include md {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: unset;
+    }
+
+    .footerSingleBox {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      width: 42%;
+
+      @include md {
+        width: auto;
+      }
+      > img {
+        width: 220px;
+      }
+
+      .footerSingleBoxContent {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        justify-content: flex-start;
+        color: #071c2c;
+
+        .iconBoxFooter {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .DownLLoad {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          img {
+            width: 95%;
+          }
+        }
+
+        h4 {
+          font-size: 14px;
+          font-weight: bold;
+        }
+        a {
+          text-decoration: none;
+          color: #071c2c;
+          transition: all 0.2s ease-in-out;
+          padding-right: 5px;
+
+          svg {
+            font-size: 20px;
+          }
+
+          &:hover {
+            color: var(--primary);
+          }
+        }
+      }
+      .footerSingleBoxContentLinks {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        justify-content: flex-start;
+        color: #071c2c;
+
+        h4 {
+          font-size: 14px;
+          font-weight: bold;
+        }
+        a {
+          text-decoration: none;
+          color: #071c2c;
+          transition: all 0.2s ease-in-out;
+          padding-right: 5px;
+          font-size: 12px;
+
+          svg {
+            font-size: 20px;
+          }
+
+          &:hover {
+            color: var(--primary);
+          }
+        }
+      }
+    }
+  }
+
+  hr {
+    opacity: 0.2 !important;
+  }
+}

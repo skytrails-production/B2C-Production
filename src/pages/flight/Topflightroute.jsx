@@ -1,14 +1,19 @@
-import React from "react";
-import "./Topflightroute.css";
+import React, { useState, useEffect, useRef } from 'react'
+import "./Topflightroute.scss";
+import Img from '../../LazyLoading/Img';
 import flightimg from "../../images/black-plane.svg";
 import { useNavigate } from "react-router-dom";
-import one from "../../images/flightRoute/1.png"
-import two from "../../images/flightRoute/2.png"
-import three from "../../images/flightRoute/3.png"
-import four from "../../images/flightRoute/4.png"
-import five from "../../images/flightRoute/5.png"
-import six from "../../images/flightRoute/6.png"
-import seven from "../../images/flightRoute/7.png"
+
+import one from "../../images/flightRoute/one.svg"
+import two from "../../images/flightRoute/two.svg"
+import three from "../../images/flightRoute/three.svg"
+import four from "../../images/flightRoute/four.svg"
+import { useDispatch, useSelector } from 'react-redux';
+import { searchaAirportListReq, searchFlightListReq } from '../../Redux/FlightList/actionFlightList';
+import { oneWayAction } from '../../Redux/FlightSearch/oneWay';
+import { searchFlight } from '../../Redux/SearchFlight/actionSearchFlight';
+import dayjs from 'dayjs';
+
 
 const flightRoutes = [
   {
@@ -19,75 +24,195 @@ const flightRoutes = [
     arrivalCode: "MAA",
     code1: "MAA-BOM",
     imgages: one,
+    fromDetails: {
+      AirportCode: "MAA",
+      CityCode: "MAA",
+      CountryCode: "IN ",
+      code: "Chennai International Airport",
+      createdAt: "2023-01-30T14:58:34.428Z",
+      id: "Maa",
+      name: "Chennai",
+      updatedAt: "2023-01-30T14:58:34.428Z",
+      __v: 0,
+      _id: "63d7db1a64266cbf450e07c2",
+    },
+    to: {
+      AirportCode: "BOM",
+      CityCode: "BOM",
+      CountryCode: "IN ",
+      code: "Chhatrapati Shivaji Maharaj International Airport",
+      createdAt: "2023-01-30T14:58:34.428Z",
+      id: "BOM",
+      name: "Mumbai",
+      updatedAt: "2023-01-30T14:58:34.428Z",
+      __v: 0,
+      _id: "63d7db1a64266cbf450e07c2",
+    }
   },
   {
     id: 2,
-    from: "Chandigarh",
-    destination: "Delhi",
-    code: "IXC",
-    arrivalCode: "DEL",
-    code1: "IXC-DEL",
-    imgages: two,
-  },
-  {
-    id: 3,
-    from: "Patna",
-    destination: "Delhi",
-    code: "PAT",
-    arrivalCode: "DEL",
-    code1: "PAT-DEL",
-    imgages: seven,
-  },
-  {
-    id: 4,
-    from: "Delhi",
-    destination: "Pune",
-    code: "DEL",
-    arrivalCode: "PNQ",
-    code1: "DEL-PNQ",
-    imgages: two,
-  },
-  {
-    id: 5,
-    from: "Delhi",
-    destination: "Goa",
-    code: "DEL",
-    arrivalCode: "GOI",
-    code1: "DEL-GOI",
-    imgages: three,
-  },
-  {
-    id: 6,
-    from: "Delhi",
-    destination: "Bangalore",
-    code: "DEL",
-    arrivalCode: "BLR",
-    code1: "DEL-BLR",
-    imgages: four,
-  },
-  {
-    id: 7,
     from: "Delhi",
     destination: "Mumbai",
     code: "DEL",
     arrivalCode: "BOM",
     code1: "DEL-BOM",
-    imgages: five,
+    imgages: two,
+    fromDetails: {
+      AirportCode: "DEL",
+      CityCode: "DEL",
+      CountryCode: "IN ",
+      code: "Indira Gandhi Airport",
+      createdAt: "2023-01-30T14:58:34.428Z",
+      id: "DEL",
+      name: "Delhi",
+      updatedAt: "2023-01-30T14:58:34.428Z",
+      __v: 0,
+      _id: "63d7db1a64266cbf450e07c1",
+    },
+
+    to: {
+      AirportCode: "BOM",
+      CityCode: "BOM",
+      CountryCode: "IN ",
+      code: "Chhatrapati Shivaji Maharaj International Airport",
+      createdAt: "2023-01-30T14:58:34.428Z",
+      id: "BOM",
+      name: "Mumbai",
+      updatedAt: "2023-01-30T14:58:34.428Z",
+      __v: 0,
+      _id: "63d7db1a64266cbf450e07c2",
+    }
+  },
+
+  {
+    id: 3,
+    from: "Hyderabad",
+    destination: "Mumbai",
+    code: "HYD",
+    arrivalCode: "BOM",
+    code1: "HYD-BOM",
+    imgages: three,
+    fromDetails: {
+      AirportCode: "HYD",
+      CityCode: "HYD",
+      CountryCode: "IN ",
+      code: "Rajiv Gandhi International Airport",
+      createdAt: "2023-01-30T14:58:34.428Z",
+      id: "HYD",
+      name: "Hyderabad",
+      updatedAt: "2023-01-30T14:58:34.428Z",
+      __v: 0,
+      _id: "668278aa909eb1823ba942db",
+    },
+    to: {
+      AirportCode: "BOM",
+      CityCode: "BOM",
+      CountryCode: "IN ",
+      code: "Chhatrapati Shivaji Maharaj International Airport",
+      createdAt: "2023-01-30T14:58:34.428Z",
+      id: "BOM",
+      name: "Mumbai",
+      updatedAt: "2023-01-30T14:58:34.428Z",
+      __v: 0,
+      _id: "63d7db1a64266cbf450e07c2",
+    }
   },
   {
-    id: 8,
-    from: "Delhi",
-    destination: "Hyderabad",
-    code: "DEL",
-    arrivalCode: "HYD",
-    code1: "DEL-HYD",
-    imgages: six,
+    id: 4,
+    from: "Chandigarh",
+    destination: "Delhi",
+    code: "IXC",
+    arrivalCode: "DEL",
+    code1: "IXC-DEL",
+    imgages: four,
+    fromDetails: {
+      AirportCode: "IXC",
+      CityCode: "IXC",
+      CountryCode: "IN ",
+      code: "Chandigarh",
+      createdAt: "2023-01-30T14:58:34.428Z",
+      id: "IXC",
+      name: "Chandigarh",
+      updatedAt: "2023-01-30T14:58:34.428Z",
+      __v: 0,
+      _id: "668278aa909eb1823ba94368",
+    },
+    to: {
+      AirportCode: "DEL",
+      CityCode: "DEL",
+      CountryCode: "IN ",
+      code: "Indira Gandhi Airport",
+      createdAt: "2023-01-30T14:58:34.428Z",
+      id: "DEL",
+      name: "Delhi",
+      updatedAt: "2023-01-30T14:58:34.428Z",
+      __v: 0,
+      _id: "63d7db1a64266cbf450e07c1",
+    }
   },
+  {
+    id: 5,
+    from: "Patna",
+    destination: "Delhi",
+    code: "PAT",
+    arrivalCode: "DEL",
+    code1: "PAT-DEL",
+    imgages: one,
+    fromDetails: {
+      AirportCode: "PAT",
+      CityCode: "PAT",
+      CountryCode: "IN ",
+      code: "Patna",
+      createdAt: "2023-01-30T14:58:34.428Z",
+      id: "PAT",
+      name: "Patna",
+      updatedAt: "2023-01-30T14:58:34.428Z",
+      __v: 0,
+      _id: "668278aa909eb1823ba94886",
+    },
+    to: {
+      AirportCode: "DEL",
+      CityCode: "DEL",
+      CountryCode: "IN ",
+      code: "Indira Gandhi Airport",
+      createdAt: "2023-01-30T14:58:34.428Z",
+      id: "DEL",
+      name: "Delhi",
+      updatedAt: "2023-01-30T14:58:34.428Z",
+      __v: 0,
+      _id: "63d7db1a64266cbf450e07c1",
+    }
+  },
+
+
 ];
 
 function Topflightroute() {
 
+
+  const carouselContainer = useRef();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const reducerState = useSelector((state) => state);
+
+  const [selectedFrom, setSelectedFrom] = useState([]);
+  const [selectedTo, setSelectedTo] = useState([]);
+
+  const navigation = (dir) => {
+    const container = carouselContainer.current;
+
+    const scrollAmount =
+      dir === "left"
+        ? container.scrollLeft - (container.offsetWidth + 20)
+        : container.scrollLeft + (container.offsetWidth + 20);
+
+    container.scrollTo({
+      left: scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
+
 
   function getNextDayDateIfAfter9PM() {
     const currentDate = new Date();
@@ -97,86 +222,177 @@ function Topflightroute() {
     return currentDate;
   }
 
-  // Example usage:
   const todaydate = getNextDayDateIfAfter9PM();
-  // console.log(todaydate);
-  const handlePopularSearch = (popularParam) => {
-    const updatedParam = [
-      {
-        Destination: popularParam.arrivalCode,
-        FlightCabinClass: 1,
-        Origin: popularParam.origincode,
-        PreferredArrivalTime: todaydate,
-        PreferredDepartureTime: todaydate,
-        activeIdAdult: 1,
-        activeIdChild: 0,
-        activeIdInfant: 0,
-        selectedFrom: {
-          AirportCode: popularParam.code,
-          CityCode: popularParam.code,
-          CountryCode: "IN ",
-          code: popularParam.code,
-          createdAt: todaydate,
-          id: popularParam.id,
-          name: popularParam.from,
-          updatedAt: todaydate,
-          __v: 0,
-          _id: "",
+
+  // const handlePopularSearch = (popularParam) => {
+  //   const updatedParam = [
+  //     {
+  //       Destination: popularParam.arrivalCode,
+  //       FlightCabinClass: 1,
+  //       Origin: popularParam.origincode,
+  //       PreferredArrivalTime: todaydate,
+  //       PreferredDepartureTime: todaydate,
+  //       activeIdAdult: 1,
+  //       activeIdChild: 0,
+  //       activeIdInfant: 0,
+  //       selectedFrom: {
+  //         AirportCode: popularParam.code,
+  //         CityCode: popularParam.code,
+  //         CountryCode: "IN ",
+  //         code: popularParam.code,
+  //         createdAt: todaydate,
+  //         id: popularParam.id,
+  //         name: popularParam.from,
+  //         updatedAt: todaydate,
+  //         __v: 0,
+  //         _id: "",
+  //       },
+  //       selectedTo: {
+  //         AirportCode: popularParam.arrivalCode,
+  //         CityCode: popularParam.arrivalCode,
+  //         CountryCode: "IN ",
+  //         code: popularParam.arrivalCode,
+  //         createdAt: todaydate,
+  //         id: popularParam.origincode,
+  //         name: popularParam.destination,
+  //         updatedAt: todaydate,
+  //         __v: 0,
+  //         _id: "",
+  //       },
+  //       startDate: todaydate,
+  //       totalCount: 0,
+  //     },
+  //   ];
+  //   sessionStorage.setItem("onewayprop", JSON.stringify(updatedParam));
+  //   sessionStorage.setItem("isPopularSearch", true);
+  //   navigate(`/Searchresult?adult=${1}&child=${0}&infant=${0}`);
+  // };
+
+
+  function handleOnewaySubmit(event) {
+    // event.preventDefault();
+
+    sessionStorage.setItem("SessionExpireTime", new Date());
+
+    const payload = {
+      EndUserIp: reducerState?.ip?.ipData,
+      TokenId: reducerState?.ip?.tokenData,
+      AdultCount: 1,
+      ChildCount: 0,
+      InfantCount: 0,
+      DirectFlight: "false",
+      OneStopFlight: "false",
+      JourneyType: 1,
+      PreferredAirlines: null,
+      Segments: [
+        {
+          Origin: event.fromDetails.AirportCode,
+          Destination: event.to.AirportCode,
+          FlightCabinClass: 2,
+          PreferredDepartureTime: dayjs(todaydate).format("DD MMM, YY"),
+          PreferredArrivalTime: dayjs(todaydate).format("DD MMM, YY"),
         },
-        selectedTo: {
-          AirportCode: popularParam.arrivalCode,
-          CityCode: popularParam.arrivalCode,
-          CountryCode: "IN ",
-          code: popularParam.arrivalCode,
-          createdAt: todaydate,
-          id: popularParam.origincode,
-          name: popularParam.destination,
-          updatedAt: todaydate,
-          __v: 0,
-          _id: "",
+      ],
+      Sources: null,
+      from: event.fromDetails.AirportCode,
+      to: event.to.AirportCode,
+      date: dayjs(todaydate).format("DD MMM, YY"),
+      cabinClass: "Y",
+      px: 1,
+    };
+    setSelectedFrom(event?.fromDetails)
+    setSelectedTo(event?.to)
+
+    sessionStorage.setItem(
+      "onewayprop",
+      JSON.stringify([
+        {
+          Origin: event.fromDetails.AirportCode,
+          Destination: event.to.AirportCode,
+          FlightCabinClass: 2,
+          PreferredDepartureTime: dayjs(todaydate).format("DD MMM, YY"),
+          PreferredArrivalTime: dayjs(todaydate).format("DD MMM, YY"),
+          // PreferredArrivalTimeCld: newDepartDateCld,
+          selectedFrom: event.fromDetails,
+          selectedTo: event.to,
+          totalCount: 1,
+          todaydate: dayjs(todaydate).format("DD MMM, YY"),
+          activeIdAdult: 1,
+          activeIdChild: 0,
+          activeIdInfant: 0,
+          // flightclassName
         },
-        startDate: todaydate,
-        totalCount: 0,
-      },
-    ];
-    sessionStorage.setItem("onewayprop", JSON.stringify(updatedParam));
-    sessionStorage.setItem("isPopularSearch", true);
-    navigate(`/Searchresult?adult=${1}&child=${0}&infant=${0}`);
-  };
+      ])
+    );
+    const parsedDate = new Date(todaydate);
+
+    const formattedDate = parsedDate.toISOString();
+
+    dispatch(oneWayAction(payload));
+
+    dispatch(searchFlightListReq());
+    dispatch(searchaAirportListReq());
+
+    const searchpy = {
+      from: event.fromDetails,
+      to: event.to,
+      departureDate: formattedDate,
+    };
+
+    console.log(searchpy, "search pyyyyyy")
+    dispatch(searchFlight(searchpy));
+    navigate(
+      `/Searchresult?adult=${1}&child=${0}&infant=${0}`
+    );
+    // }
+  }
+
 
   return (
-    <section className="container " style={{ marginTop: "62px", marginBottom: "80px" }}>
-      <div class="offerText my-5">
-        <p>Best Flight Deals</p>
 
-      </div>
-      <div className="row g-5">
-        {flightRoutes.map((route) => (
-          <div
-            key={route.id}
-            className="col-lg-3 col-md-4 col-sm-6"
-            style={{ cursor: "pointer" }}
-            onClick={() => handlePopularSearch(route)}
-          >
-            <div className="flight-route-box">
-              <div className="route-img-flight">
-                <img src={route.imgages} alt={route.id} className="route-img" />
-              </div>
-              <div className="route-text-flight">
-                <div className="route-content-span">
-                  <span>{route.from}</span>
-                  <span className="flightTopImg">
-                    <img src={flightimg} alt={route.id} />
-                  </span>
-                  <span>{route.destination}</span>
-                </div>
-                <div className="route-sort-caption">{route.code1}</div>
-              </div>
+    <div className='container paddHotCatTopRoute'>
+
+      <h2>Best Flight Deals</h2>
+      <div className="categoryMainBox">
+        <div className='HoliCateHeading'>
+
+        </div>
+        <div>
+          <div className="carouselTopFlight">
+            <div className="carouselItems" ref={carouselContainer}>
+              {
+                flightRoutes?.map((item, index) => {
+                  return (
+                    <div className="carouselItem" onClick={() => handleOnewaySubmit(item)} >
+                      <div className="posterBlock">
+                        <Img src={item?.imgages} />
+                      </div>
+                      <div className="textBlock">
+                        <span className="titleHoliCat">
+                          <span>{item.from}</span>
+                          <span className="flightTopImg">
+                            <img width={20} src={flightimg} alt={item.id} />
+                          </span>
+                          <span>{item.destination}</span>
+                        </span>
+                        <div className="dateHoliCat">
+                          <span >
+                            {item.code1}
+                          </span>
+                          <span>
+                            {/* ₹ {item?.pakage_amount?.amount} */}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })
+              }
             </div>
           </div>
-        ))}
+        </div>
       </div>
-    </section>
+    </div>
   );
 }
 

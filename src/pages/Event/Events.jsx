@@ -12,7 +12,7 @@ import "./event.css";
 // import CloseIcon from "@mui/icons-material/Close";
 import apple from "../../images/download/apple.png";
 import google from "../../images/download/google.png";
-import mobil from "../../images/download/mobil.png";
+// import mobil from "../../images/download/mobil.png";
 import check from "../../images/download/check.png";
 import scan from "../../images/scan.png";
 import { useSelector } from "react-redux";
@@ -356,11 +356,11 @@ const Events = () => {
                 </div>
               </div>
             </div>
-            <div class="col-lg-6">
+            {/* <div class="col-lg-6">
               <div class="download-img-mobil">
                 <img src={mobil} alt="mobil" />
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

@@ -5,20 +5,14 @@ import BookWrapper from "./pages/flight/Bookwrapper";
 import BookWrapperAmd from "./pages/flight/BookwrapperAmd";
 import Searchresult from "./pages/flight/Searchresult";
 import "./App.css";
+import './index.scss'
 import LoginForm from "./components/Login";
 import DummyTicketBookingForm from "./components/DummyTicketBookingForm";
 import SignUp from "./components/Signup";
 import BookedTicketAmd from "./pages/flight/BookedTicketAmd";
 import Hotel from "./pages/Hotel/HotelHome";
-import HolidayPackageSearchResult from "./pages/holidaypackages/holidaypackagesearchresult/HolidayPackageSearchResult";
-// import HolidaypackageInfo from "./pages/holidaypackages/holidaypackageInfo/HolidaypackageInfo";
-// import HolidayPassengerDetail from "./pages/holidaypackages/holidaypassengerdetail/HolidayPassengerDetail";
-import Holidaypackages from "./pages/holidaypackages/Holidaypackages";
 import Payment from "./pages/flight/Payment";
-// import Booking from "./pages/Return/Booking";
-// import CompleteBooking from "./pages/Return/CompleteBooking";
-// Forex
-import Forex from "./pages/forex/Forex";
+
 // Bus
 import Bus from "./pages/bus/Bus";
 import BusReviewBooking from "./pages/bus/busreviewbooking/BusReviewBooking";
@@ -38,7 +32,6 @@ import PrivacyPolicy from "./layouts/PrivacyPolicy";
 // import NonStopFlight from "./pages/Return/NonStopFlight";
 import BusResult from "./pages/bus/bussearchresult/BusResult";
 import Download from "./pages/home/Download";
-import Holidayinfo from "./pages/holidaypackages/holidaypackagesearchresult/Holidayinfo";
 
 import SsdcForm from "./components/ssdc/SSDClanding";
 import Hotelresult from "./pages/Hotel/hotelresult/Hotelresult";
@@ -55,7 +48,7 @@ import BookedTicket from "./pages/flight/BookedTicket";
 import Flighterror from "./pages/flight/Flighterror";
 import ContactUs from "./layouts/ContactUs";
 import BookingHistory from "./components/bookingHistory/BookingHistory";
-import HolidayCategoryDetails from "./pages/holidaypackages/holidayCategory/HolidayCategoryDetails";
+// import HolidayCategoryDetails from "./pages/holidaypackages/holidayCategory/HolidayCategoryDetails";
 import { debounce } from "lodash";
 import { useLocation } from "react-router-dom";
 import InsideNavbar from "./UI/BigNavbar/InsideNavbar";
@@ -63,7 +56,7 @@ import InsideNavbar from "./UI/BigNavbar/InsideNavbar";
 import FlightETicket from "../src/components/FlightETicket";
 import BusETicket from "../src/components/BusETicket";
 import DummyPnrHome from "./components/DummyPnrHome";
-import HolidayCountryDetails from "./pages/holidaypackages/holidayCategory/HolidayCountryDetails";
+// import HolidayCountryDetails from "./pages/holidaypackages/holidayCategory/HolidayCountryDetails";
 import Events from "./pages/Event/Events";
 import ReturnMain from "./pages/flight/ReturnFlight/ReturnMain";
 import ReturnResult from "./pages/flight/ReturnFlight/ReturnResult";
@@ -81,7 +74,7 @@ import BookedTicketInternationalDB from "./pages/flight/ReturnFlight/BookedTicke
 
 import { useNetworkState } from "react-use";
 import Offline from "./components/Offline";
-import HolidayBudgetDetails from "./pages/holidaypackages/holidayCategory/HolidayBudgetDetails";
+// import HolidayBudgetDetails from "./pages/holidaypackages/holidayCategory/HolidayBudgetDetails";
 import MulticityResult from "./pages/flight/MultiCity/MulticityResult";
 import MulticityPassengerDetails from "./pages/flight/MultiCity/MulticityPassengerDetails";
 import MulticityReviewBooking from "./pages/flight/MultiCity/MulticityReviewBooking";
@@ -123,6 +116,11 @@ import InventoryForgetPassword from "./pages/Inventory/InventoryForgetPassword";
 import InventoryDashboard from "./pages/Inventory/InventoryDashboard";
 
 import ItenaryPdfDownloader from "./pages/Itenary/ItenaryPdfDownloader";
+import HolidayPackageResultMain from "./pages/NewPackagePages/HolidayPackageSearchResult/HolidayPackageResultMain";
+import HolidayDetailsEnquiry from "./pages/NewPackagePages/holidayDetailsEnquiryPages/HolidayDetailsEnquiry";
+import PackageHomePage from "./pages/NewPackagePages/PackageHomePage";
+import Navbar from "./pages/navbar/Navbar";
+import BottomNavbar from "./pages/navbar/BottomNavbar";
 
 
 
@@ -250,15 +248,34 @@ function App() {
     );
   }
 
+
+  // console.log(location.pathname, "location of pathname")
+
   return (
     <div className="background_gradient">
-      {/* this is my space rachna */}
+
+
+      {location.pathname == "/" &&
+        <SmallDevice />}
+
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
-        location.pathname !== "/inventoryForgetPassword" &&
-        location.pathname !== "/inventoryDashboard" &&
-        location.pathname !== "/inventoryhotelform" && <InsideNavbar />}
-      {/* this is my space rachna */}
+        // location.pathname !== "/inventoryhotelform" && <InsideNavbar />}
+        location.pathname !== "/inventoryhotelform" && <Navbar />}
+      {location.pathname !== "/inventoryLogin" &&
+        location.pathname !== "/inventoryRegister" &&
+        // location.pathname !== "/inventoryhotelform" && <InsideNavbar />}
+        location.pathname !== "/inventoryhotelform" && <BottomNavbar />}
+      {/* 
+      {location.pathname == "/" ||
+        location.pathname == "/st-hotel" ||
+        location.pathname == "/holidaypackages" ||
+        location.pathname == "/bus" || <BottomNavbar />} */}
+
+
+
+
+
       {/* /Searchresult */}
 
       {/* {showPopup && (
@@ -274,7 +291,11 @@ function App() {
 
       {/* <InsideNavbar /> */}
 
-      <SmallDevice />
+      {/* <SmallDevice /> */}
+
+
+
+      {/* <BottomNavbar /> */}
 
       <Routes>
         <Route index element={<Home />}></Route>
@@ -343,7 +364,7 @@ function App() {
           path="/st-hotel/hotelresult/selectroom"
           element={<HotelBookRoomGRN />}
         />
-        <Route path="/bookedTicketSucess/:id" element={<BookedTicketAmd/>} />
+        <Route path="/bookedTicketSucess/:id" element={<BookedTicketAmd />} />
         <Route
           path="/st-hotel/hotelresult/selectroom/guestDetails"
           element={<BookingDetailsGRN />}
@@ -387,37 +408,22 @@ function App() {
         <Route exact path="/FlightEticket/:id" element={<FlightETicket />} />
         <Route exact path="/busEticket/:id" element={<BusETicket />} />
 
-        {/* Holiday packages routes */}
-        <Route path="holidaypackages" element={<Holidaypackages />}></Route>
 
-        {/* <Route path="/HolidayInfo" element={<Holidayinfo />} /> */}
+        {/* new package links  */}
 
-        <Route exact path="/HolidayInfo/:id" element={<Holidayinfo />} />
 
-        <Route
-          path="/holidaycategorydetails/:keyword"
-          element={<HolidayCategoryDetails />}
-        ></Route>
+        <Route path="holidaypackages" element={<PackageHomePage />}></Route>
 
         <Route
-          path="/holidaybudgetdetails/:keyword"
-          element={<HolidayBudgetDetails />}
-        ></Route>
-        <Route
-          path="/holidaycountrydetails/:keyword"
-          element={<HolidayCountryDetails />}
-        ></Route>
-
-        {/* <Route path="/HolidaypackageInfo" element={<HolidaypackageInfo />} /> */}
-
-        {/* <Route
-          path="/holidaypassengerdetail"
-          element={<HolidayPassengerDetail />}
-        ></Route> */}
-        <Route
-          path="/HolidayPackageSearchResult/:keyword"
-          element={<HolidayPackageSearchResult />}
+          path="/holidaypackages/:type/:keyword"
+          element={<HolidayPackageResultMain />}
         />
+        <Route
+          path="/holidaypackages/packagedetails/:id"
+          element={<HolidayDetailsEnquiry />}
+        />
+
+        {/* new package links  */}
 
         <Route path="/SSDC/:country" element={<SsdcForm />}></Route>
 
@@ -437,8 +443,6 @@ function App() {
         {/* <Route path="/SelectBusSeat" element={<SeatLayout />}></Route> */}
         <Route path="/busresult" element={<BusResult />}></Route>
 
-        {/* Forex */}
-        {/* <Route path="/forex" element={<Forex />} /> */}
 
         {/* Taxi */}
         <Route path="taxi" element={<Taxi />}></Route>

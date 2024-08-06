@@ -250,6 +250,29 @@
 }
 
 
+.noHotels {
+    margin-bottom: 200px;
+    margin-top: 30px;
+    text-align: center;
+
+}
+
+.noHotels h3 {
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.noHotels p {
+    font-size: 15px;
+    color: #e73c34;
+}
+
+.noHotels p svg {
+    font-size: 12px;
+    margin-left: 5px;
+}
+
+
 .hotelPriceSlider:where(.css-dev-only-do-not-override-j9bb5n).ant-slider {
     box-sizing: border-box;
     margin: 0px 0px !important;

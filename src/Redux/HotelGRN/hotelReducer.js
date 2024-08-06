@@ -54,6 +54,7 @@ export const hotelReducerGRN = (state = initState, action) => {
 
         return {
           ...state,
+          ticketData: payload,
           hasMore: false,
           isLoading: false,
           isError: false,

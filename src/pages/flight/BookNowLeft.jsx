@@ -33,6 +33,18 @@ const KeyValue = ({ data, value }) => {
 const BookNowLeft = (props) => {
   const [showInput, setShowInput] = useState(false);
   const location = useLocation();
+  const AmountList = useSelector((state) => state?.airlineSeatMap?.amountTVO);
+  let totalSeatAmount
+  // useEffect(()=>{
+    
+    totalSeatAmount=AmountList?  AmountList.reduce((acc,curr)=>{
+
+      // console.log(acc,curr)
+      return acc+curr[0]
+  },0):0
+  // },[AmountList])
+  // console.log(totalSeatAmount,"bookwrqappernowtotalamunt")
+
   const { onFinalAmountChange,oncouponselect,disountamount } = props;
   // console.log(props.baggAmount, "props.BaseFareeeeeeeeeeeee")
 
@@ -42,9 +54,13 @@ const BookNowLeft = (props) => {
   const [finalAmountNew, setFinalAmountNew] = useState(0);
 
   const [showDetails, setShowDetails] = useState(false);
+  const [showDetailsOther, setShowDetailsOther] = useState(false);
 
   const toggleDetails = () => {
     setShowDetails(!showDetails);
+  };
+  const toggleDetailsOther = () => {
+    setShowDetailsOther(!showDetailsOther);
   };
   const queryParams = new URLSearchParams(location.search);
 
@@ -491,15 +507,46 @@ const BookNowLeft = (props) => {
                   ).toFixed(2)}
                 </p>
               </div> */}
-              {((Number(props.mellAmount) > 0) || (Number(props.baggAmount) > 0)) && (
+              {((Number(props.mellAmount) > 0) || (Number(props.baggAmount) > 0) || (totalSeatAmount) >0) && (
   <div>
-    <span>Other TAX : </span>
+    <span onClick={()=>toggleDetailsOther()}>Other TAX {showDetailsOther ? <FiMinusCircle/> : <FiPlusCircle/>} : </span>
     <p>
       {"₹"}
-      {(Number(props.baggAmount) + Number(props.mellAmount))}
+      {(Number(props.baggAmount) + Number(props.mellAmount) + Number(totalSeatAmount))}
     </p>
   </div>
-)}
+  
+
+)
+
+}
+{showDetailsOther && Number(props.mellAmount)!==0 &&  <div  style={{width:"100%",display:"flex",flexDirection:"column"}} >
+          <div style={{ borderBottom: "none",width:"100%",display:"flex",justifyContent:"space-between" }}>
+            <p>
+              Meal
+            </p>
+            <p>{"₹"} {Number(props.mellAmount)} </p>
+          </div>
+          </div>
+          }
+{showDetailsOther && Number(props.baggAmount)!==0 &&  <div  style={{width:"100%",display:"flex",flexDirection:"column"}} >
+          <div style={{ borderBottom: "none",width:"100%",display:"flex",justifyContent:"space-between" }}>
+            <p>
+              Baggage
+            </p>
+            <p>{"₹"} {Number(props.baggAmount)} </p>
+          </div>
+          </div>
+          }
+{showDetailsOther && Number(totalSeatAmount)!==0 &&  <div  style={{width:"100%",display:"flex",flexDirection:"column"}} >
+          <div style={{ borderBottom: "none",width:"100%",display:"flex",justifyContent:"space-between" }}>
+            <p>
+              Seat
+            </p>
+            <p>{"₹"} {Number(totalSeatAmount)} </p>
+          </div>
+          </div>
+          }
 
               {discountAmount > 0 && (
                 <div>
@@ -525,7 +572,8 @@ const BookNowLeft = (props) => {
                   {Number(
                     Number(finalvalue) +
                     Number(props.baggAmount) +
-                    Number(props.mellAmount)
+                    Number(props.mellAmount)+
+                    Number(totalSeatAmount)
                   ).toFixed(2)}
                 </p>
               </div>

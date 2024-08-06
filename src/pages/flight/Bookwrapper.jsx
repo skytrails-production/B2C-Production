@@ -54,6 +54,8 @@ import {
 } from "../../utility/validationFunctions";
 import flightPaymentLoding from "../../images/loading/loading-ban.gif";
 import secureLocalStorage from "react-secure-storage";
+import FlightLayoutTVO from "../../components/flightLayout/FlightLayoutTVO"
+import {clear_all_airline} from "../../Redux/AirlineSeatMap/actionAirlineSeatMap"
 
 const variants = {
   initial: {
@@ -90,6 +92,17 @@ export default function BookWrapper() {
 
 
   const [open, setOpen] = React.useState(false);
+  const seatList = useSelector((state) => state?.airlineSeatMap?.seatList);
+  const AmountList = useSelector((state) => state?.airlineSeatMap?.amountTVO);
+  let totalSeatAmount
+  // useEffect(()=>{
+    
+    totalSeatAmount=AmountList?  AmountList.reduce((acc,curr)=>{
+
+      // console.log(acc,curr)
+      return acc+curr[0]
+  },0):0
+  // },[AmountList])
   // const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [finalAmount, setFinalAmount] = useState(0);
@@ -202,6 +215,7 @@ export default function BookWrapper() {
   const [showMell, setShowMell] = useState(false);
   // const [showBaggage, setShowBaggage] = useState(false);
   const [baggageList, setBaggageList] = useState([]);
+  const [seatMapList, setSeatMapList] = useState([]);
   const [mellList, setMellList] = useState([]);
   const [baggageListNub, setBaggageListNub] = useState([]);
   const [MellListNub, setMellListNub] = useState([]);
@@ -320,6 +334,7 @@ export default function BookWrapper() {
   useEffect(() => {
     dispatch(ruleAction(payload));
     dispatch(quoteAction(payload));
+    dispatch(clear_all_airline())
   }, []);
   // console.log(reducerState,"reducerState")
   useEffect(() => {
@@ -352,6 +367,7 @@ export default function BookWrapper() {
         ].fill(0);
         setBaggageListNub(baglis);
         setMellListNub(mell);
+        setSeatMapList(res?.data?.data?.Response?.SeatDynamic)
 
         // console.log(
         //   // res?.data?.data?.Response?.Baggage[0]?.length, baggageListNub[0],
@@ -610,7 +626,7 @@ export default function BookWrapper() {
                 //     Number(markUpamount) *
                 //       Number(fareValue?.Fare?.PublishedFare)
                 //   ).toFixed(0)
-                Number(finalAmount).toFixed(2)
+                (Number(finalAmount)+Number(baggageFare)+Number(mellFare)+Number(totalSeatAmount)).toFixed(2)
                 : 99),
             // "refund_amount": 1,
             txnId: refundTxnId,
@@ -840,10 +856,10 @@ export default function BookWrapper() {
       oneyWayDate: reducerState?.searchFlight?.flightDetails?.departureDate,
       returnDate: "",
       amount:
-      //   (Number(finalAmount) && Number(finalAmount) + Number(baggageFare) + Number(mellFare)) ||
+      // //   (Number(finalAmount) && Number(finalAmount) + Number(baggageFare) + Number(mellFare)) ||
         (!isDummyTicketBooking
           ? 
-          Number(finalAmount) + Number(baggageFare) + Number( mellFare)
+          Number(finalAmount) + Number(baggageFare) + Number( mellFare)+Number( totalSeatAmount)
           : 99),
       // amount: 1,
 
@@ -945,6 +961,8 @@ export default function BookWrapper() {
   };
 
   const handleButtonClick = () => {
+    const allSeats = Object.values(seatList).flat();
+    passengerData[0]={...passengerData[0],SeatDynamic:  allSeats}
     const payloadGDS = {
       ResultIndex: ResultIndex?.ResultIndex,
       Passengers: passengerData.map((item, index) => {
@@ -959,6 +977,7 @@ export default function BookWrapper() {
               : "",
             Baggage: [baggageData[index]],
             MealDynamic: [mellData[index]],
+            // SeatDynamic:  allSeats
           };
         } else if (index < baggageData.length) {
           return {
@@ -970,6 +989,7 @@ export default function BookWrapper() {
               ? convertDateFormat(item?.PassportExpiry)
               : "",
             Baggage: [baggageData[index]],
+            // SeatDynamic:  allSeats
           };
         } else if (index < mellData.length) {
           return {
@@ -981,6 +1001,7 @@ export default function BookWrapper() {
               ? convertDateFormat(item?.PassportExpiry)
               : "",
             MealDynamic: [mellData[index]],
+            // SeatDynamic:  allSeats
           };
         } else {
           return {
@@ -1050,6 +1071,8 @@ export default function BookWrapper() {
   }
 
   const getTicketForLCC = () => {
+    const allSeats = Object.values(seatList).flat();
+    passengerData[0]={...passengerData[0],SeatDynamic:  allSeats}
     const payloadLcc = {
       ResultIndex: ResultIndex?.ResultIndex,
       EndUserIp: reducerState?.ip?.ipData,
@@ -1070,6 +1093,7 @@ export default function BookWrapper() {
               : "",
             Baggage: [baggageData[index]],
             MealDynamic: [mellData[index]],
+            // SeatDynamic:  allSeats
           };
         } else if (index < baggageData.length) {
           return {
@@ -1081,6 +1105,7 @@ export default function BookWrapper() {
               ? convertDateFormat(item?.PassportExpiry)
               : "",
             Baggage: [baggageData[index]],
+            // SeatDynamic:  allSeats
           };
         } else if (index < mellData.length) {
           return {
@@ -1092,11 +1117,13 @@ export default function BookWrapper() {
               ? convertDateFormat(item?.PassportExpiry)
               : "",
             MealDynamic: [mellData[index]],
+            // SeatDynamic:  allSeats
           };
         } else {
           return {
             ...item,
             Email: apiURL.flightEmail,
+            // SeatDynamic:  allSeats,
             // ContactNo: apiURL.phoneNo,
             ContactNo:passengerData[0]?.ContactNo,
             PassportExpiry: isPassportRequired
@@ -1110,6 +1137,8 @@ export default function BookWrapper() {
   };
 
   const getTicketForNonLCC = () => {
+    const allSeats = Object.values(seatList).flat();
+    passengerData[0]={...passengerData[0],SeatDynamic:  allSeats}
     const payLoadDomestic = {
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
@@ -1137,6 +1166,7 @@ export default function BookWrapper() {
               : "",
             Baggage: [baggageData[index]],
             MealDynamic: [mellData[index]],
+            // SeatDynamic:  allSeats
           };
         } else if (index < baggageData.length) {
           return {
@@ -1148,6 +1178,7 @@ export default function BookWrapper() {
               ? convertDateFormat(item?.PassportExpiry)
               : "",
             Baggage: [baggageData[index]],
+            // SeatDynamic:  allSeats
           };
         } else if (index < mellData.length) {
           return {
@@ -1159,11 +1190,13 @@ export default function BookWrapper() {
               ? convertDateFormat(item?.PassportExpiry)
               : "",
             MealDynamic: [mellData[index]],
+            // SeatDynamic:  allSeats
           };
         } else {
           return {
             ...item,
             Email: apiURL.flightEmail,
+            SeatDynamic:  allSeats,
             // ContactNo: apiURL.phoneNo,
             ContactNo:passengerData[0]?.ContactNo,
             PassportExpiry: isPassportRequired
@@ -1311,7 +1344,7 @@ export default function BookWrapper() {
         //     subBag -
         //     subMel,
         // totalAmount:finalAmount - subBag - subMel,
-        totalAmount:    Number(finalAmount) - subBag - subMel,
+        totalAmount:    Number(finalAmount) ,
         airlineDetails: bookingDataLcc?.FlightItinerary?.Segments.map(
           (item, index) => {
             return {
@@ -2670,6 +2703,11 @@ export default function BookWrapper() {
                       </div>
                     </motion.div>
 
+                    <div className="col-lg-12 mt-3">
+                        <FlightLayoutTVO seatMap={seatMapList}/>
+                    
+                    </div>
+
                     {/* trip security  */}
                     {/* <motion.div variants={variants} className="col-lg-12">
                       <TripSecureComponent />
@@ -2797,7 +2835,7 @@ export default function BookWrapper() {
                 <p style={{color:"black",fontSize:"15px"}}>
                   {"₹"}
                   {(
-                    Number(taxvalue)+ Number(baggageFare) +
+                    Number(taxvalue)+ Number(baggageFare) + Number(totalSeatAmount)+
                     Number( mellFare)).toFixed(2)}
                 </p>
               </div>
@@ -2824,7 +2862,7 @@ export default function BookWrapper() {
 
                   {/* {grandtotalamount} */}
                   {Number(
-                    Number(finalAmount)  + Number(baggageFare) +
+                    Number(finalAmount)  + Number(baggageFare) + Number(totalSeatAmount)+
                     Number( mellFare)
                   ).toFixed(2)}
                 </p>

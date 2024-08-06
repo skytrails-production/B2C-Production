@@ -17,6 +17,12 @@ export const setSeatMidAmount = (data) => {
     payload: data,
   };
 };
+export const setSeatAmountTvo = (data) => {
+  return {
+    type: types.SEAT_SET_AMOUNT_TVO,
+    payload: data,
+  };
+};
 export const setDefaultSeatOccupation = (data) => {
   return {
     type: types.DEFAULT_SEAT_OCCUPATION,

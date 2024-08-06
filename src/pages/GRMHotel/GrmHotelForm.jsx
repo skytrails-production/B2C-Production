@@ -410,6 +410,11 @@ const GrmHotelForm = () => {
     }
   };
 
+  const handleFocusDatePicker = (e) => {
+    e.target.blur();
+  };
+
+
   const disablePastDates = (current) => {
     return current && current < dayjs().startOf('day');
   };
@@ -510,58 +515,58 @@ const GrmHotelForm = () => {
       {/* {loader ? (
         <Hotelmainloading />
       ) : ( */}
-      <div className="container" style={{ paddingBottom: "35px" }}>
-        <div className="row g-2 newReturnForm">
+      <div className="container transParentBG" style={{ paddingBottom: "57px" }}>
+        <div className="row g-2 newOneWayMain">
 
           <div className="col-lg-3">
-            <div className="newReturnSingleBox">
-              <div>
-                <span className="nrsb">From</span>
-              </div>
+            <div className="newOnewaySingle">
+              <span >From</span>
               <FromSearchInput
                 placeholder="Search"
                 style={{ width: "100%" }}
-                onItemSelect={handleFromSelect} // Pass the callback function
+                onItemSelect={handleFromSelect}
               />
-              <div>
-                <span className="nrsb">{selectedFrom?.countryName}</span>
-              </div>
+              {/* <div> */}
+              {/* <span>{selectedFrom?.countryName}</span> */}
+              {/* </div> */}
             </div>
           </div>
 
           <div className="col-lg-3">
-            <div className="newReturnSingleBox">
-              <div className="d-flex justify-content-evenly">
-                <span className="nrsb">Check In</span>
-                <span className="nrsb">Check Out</span>
-              </div>
+            <div className="newOnewaySingle">
+              {/* <div className="d-flex justify-content-evenly"> */}
+              <span className="me-4">Check In</span>
+              <span className="ms-5 smMargin">Check Out</span>
+              {/* </div> */}
               <RangePicker
                 onChange={handleRangeChange}
                 defaultValue={[dayjs(newDepartDate), dayjs(newReturnDate)]}
                 format={dateFormat}
                 disabledDate={disablePastDates}
+                onFocus={handleFocusDatePicker}
               />
-              <div className="d-flex justify-content-evenly">
+              {/* <div className="d-flex justify-content-evenly">
                 <span className="nrsb">{dayjs(newDepartDate).format('dddd')}</span>
                 <span className="nrsb">{dayjs(newReturnDate).format('dddd')}</span>
-              </div>
+              </div> */}
             </div>
           </div>
 
           <div className="col-lg-3">
             <div>
-              <div className="newReturnSingleBox " onClick={handleTravelClickOpen}>
-                <div>
-                  <span className="nrsb">Guests & Rooms</span>
-                </div>
-
-                <p className="nrsbpara">
-                  {condition} Room
-                </p>
-                <div className="d-none d-md-block ">
+              <div className="newOnewaySingle " onClick={handleTravelClickOpen}>
+                {/* <div> */}
+                <span className="nrsb">Guests & Rooms</span>
+                {/* </div> */}
+                <div className="travelContent">
+                  <p >
+                    {condition} Room, {numAdults} Adults {numChildren} Child
+                  </p>
+                  {/* <div className="d-none d-md-block ">
                   <span className="nrsb">
-                    {numAdults} Adults {numChildren} Child
+                    
                   </span>
+                </div> */}
                 </div>
               </div>
               <Dialog
@@ -748,28 +753,34 @@ const GrmHotelForm = () => {
           </div>
 
           <div className="col-lg-3">
-            <div className="newReturnSingleBox">
-              <div>
-                <span className="nrsb">Nationality</span>
-              </div>
+            <div className="newOnewaySingle">
+              {/* <div> */}
+              <span >Nationality</span>
+              {/* </div> */}
               <ToSearchInput
                 placeholder="Search"
                 style={{ width: "100%" }}
                 onItemSelect={handleNationalitySelect} // Pass the callback function
               />
-              <div>
+              {/* <div>
                 <span className="nrsb">{selectNationality?.countryCode3}</span>
-              </div>
+              </div> */}
             </div>
 
           </div>
 
 
-          <div
+          {/* <div
             style={{ position: "relative", top: "80px", marginTop: "-45px" }}
             className="onewaySearch-btn" id="item-5Return">
             <Button className="returnButton" style={{ padding: "8px 36px", height: "unset" }} onClick={handleSubmit} loading={loader}>Search</Button>
-          </div>
+          </div> */}
+        </div>
+        <div
+          className="flightSearchButtonBox">
+          <Button onClick={handleSubmit} loading={loader}>
+            Search
+          </Button>
         </div>
       </div>
       {/* )} */}

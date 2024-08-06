@@ -23,15 +23,12 @@ import {
 import { useNavigate } from "react-router-dom";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import "./style/Oneway.css";
+import "./onewaynew.scss";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import "./card.css";
-// import { Helmet } from "react-helmet-async";
-import "./flight.css";
 import TravelerCounter from "./TravelerCounter";
 import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
 // import SecureStorage from "react-secure-storage";
@@ -40,9 +37,6 @@ import { returnActionClear } from "../Redux/FlightSearch/Return/return";
 import { Select } from "antd";
 import { DatePicker, Button } from "antd";
 import dayjs from "dayjs";
-// import { tokenAction } from "../Redux/IP/actionIp";
-
-// const { RangePicker } = DatePicker;
 
 // from data logic
 
@@ -369,6 +363,10 @@ function OnewayNew() {
     return current && current < dayjs().startOf("day");
   };
 
+  const handleFocusDatePicker = (e) => {
+    e.target.blur();
+  };
+
   const handleTravelerCountChange = (category, value) => {
     if (category === "adult") {
       const newAdultCount = Math.min(Math.max(1, activeIdAdult + value), 9);
@@ -437,8 +435,8 @@ function OnewayNew() {
       setOpenTravelModal(false);
       setCountPassanger(
         parseInt(activeIdChild) +
-          parseInt(activeIdInfant) +
-          parseInt(activeIdAdult)
+        parseInt(activeIdInfant) +
+        parseInt(activeIdAdult)
       );
     }
   };
@@ -477,36 +475,6 @@ function OnewayNew() {
       // px: activeIdAdult + activeIdChild + activeIdInfant,
       px: activeIdAdult,
     };
-
-    // SecureStorage.setItem(
-    //     "revisitOnewayData",
-    //     JSON.stringify([
-    //         {
-    //             AirportCode: selectedFrom.AirportCode,
-    //             CityCode: selectedFrom.CityCode,
-    //             CountryCode: selectedFrom.CountryCode,
-    //             code: selectedFrom.code,
-    //             createdAt: selectedFrom.createdAt,
-    //             id: selectedFrom.id,
-    //             name: selectedFrom.name,
-    //             updatedAt: selectedFrom.updatedAt,
-    //             __v: selectedFrom._v,
-    //             _id: selectedFrom._id,
-    //         },
-    //         {
-    //             AirportCode: selectedTo.AirportCode,
-    //             CityCode: selectedTo.CityCode,
-    //             CountryCode: selectedTo.CountryCode,
-    //             code: selectedTo.code,
-    //             createdAt: selectedTo.createdAt,
-    //             id: selectedTo.id,
-    //             name: selectedTo.name,
-    //             updatedAt: selectedTo.updatedAt,
-    //             __v: selectedTo._v,
-    //             _id: selectedTo._id,
-    //         },
-    //     ])
-    // );
 
     sessionStorage.setItem(
       "onewayprop",
@@ -564,82 +532,70 @@ function OnewayNew() {
 
   return (
     <>
-      <div className="container" style={{ paddingBottom: "35px" }}>
-        <div className="row g-2 newReturnForm">
+      <div className="container " style={{ paddingBottom: "57px" }}>
+        <div className="row g-2 newOneWayMain">
           <div className="col-lg-3">
-            <div className="newReturnSingleBox">
-              <div>
-                <span className="nrsb">From</span>
-              </div>
+            <div className="newOnewaySingle">
+              {/* <div> */}
+              <span>Departure</span>
+              {/* </div> */}
               <FromSearchInput
                 placeholder="Search"
                 style={{ width: "100%" }}
-                onItemSelect={handleFromSelect} // Pass the callback function
+                onItemSelect={handleFromSelect}
               />
-              <div>
+              {/* <div>
                 <span className="nrsb">{selectedFrom?.code}</span>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="col-lg-3">
-            <div className="newReturnSingleBox">
-              <div>
-                <span className="nrsb">To</span>
-              </div>
+            <div className="newOnewaySingle">
+              {/* <div> */}
+              <span>Arrival</span>
+              {/* </div> */}
               <ToSearchInput
                 placeholder="Search"
                 style={{ width: "100%" }}
                 onItemSelect={handleToSelect} // Pass the callback function
               />
-              <div>
+              {/* <div>
                 <span className="nrsb">{selectedTo?.code}</span>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="col-lg-3">
-            {/* <Space direction="vertical" size={10}> */}
-            <div className="newReturnSingleBox">
-              <div className="d-flex justify-content-evenly">
-                <span className="nrsb">Depart</span>
-                {/* <span className="nrsb">Return</span> */}
-              </div>
+            <div className="newOnewaySingle">
+
+              <span>Depart</span>
+
               <DatePicker
                 onChange={handleRangeChange}
                 defaultValue={[dayjs()]}
                 format={dateFormat}
                 disabledDate={disablePastDates}
+                onFocus={handleFocusDatePicker}
               />
-              <div className="d-flex justify-content-evenly">
+              {/* <div className="d-flex justify-content-evenly">
                 <span className="nrsb">
                   {dayjs(newDepartDate).format("dddd")}
                 </span>
-              </div>
+              </div> */}
             </div>
-            {/* </Space> */}
           </div>
 
           <div className="col-lg-3">
             <div>
-              <div
-                className="newReturnSingleBox "
-                onClick={handleTravelClickOpen}
-              >
-                <div>
-                  <span className="nrsb">Traveller & Class</span>
-                </div>
-
-                <p className="nrsbpara">
-                  {(totalCount === 0 && 1) || totalCount} Traveller
-                </p>
-                <div className="d-none d-md-block ">
-                  <span className="nrsb">
-                    {
-                        
-                      (activeIdClass === 2 && flightclassName === "Y" && "Economy") ||
-                      (activeIdClass === 3 &&flightclassName === "W" && "Premium Economy") ||
-                      (activeIdClass === 4 && flightclassName === "C" &&"Business") ||
+              <div className="newOnewaySingle" onClick={handleTravelClickOpen}>
+                <span>Traveller & Class</span>
+                <div className="travelContent">
+                  <p>
+                    {(totalCount === 0 && 1) || totalCount} Traveller,
+                    {(activeIdClass === 2 && flightclassName === "Y" && "Economy") ||
+                      (activeIdClass === 3 && flightclassName === "W" && "Premium Economy") ||
+                      (activeIdClass === 4 && flightclassName === "C" && "Business") ||
                       (activeIdClass === 6 && flightclassName === "F" && "First Class")}
-                  </span>
+                  </p>
                 </div>
               </div>
               <Dialog
@@ -745,16 +701,8 @@ function OnewayNew() {
         </div>
 
         <div
-          style={{ position: "relative", top: "80px", marginTop: "-45px" }}
-          className="onewaySearch-btn"
-          id="item-5Return"
-        >
-          <Button
-            className="returnButton"
-            style={{ padding: "8px 36px", height: "unset" }}
-            onClick={handleOnewaySubmit}
-            loading={loader}
-          >
+          className="flightSearchButtonBox">
+          <Button onClick={handleOnewaySubmit} loading={loader}>
             Search
           </Button>
         </div>

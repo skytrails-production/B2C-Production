@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import HotelResult from './HotelResult'
 import { useSelector } from "react-redux";
 // import { useNavigate } from "react-router-dom";
+import { FaPen } from "react-icons/fa";
 import HotelFilterBox from './HotelFilterBox';
 import SkeletonHotelResult from "./Skeletons/SkeletonHotelResult"
 import SkeletonHotelResultFilter from "./Skeletons/SkeletonHotelResultFilter"
@@ -61,6 +62,7 @@ const HotelResultMain = () => {
     const [priceRange, setPriceRange] = useState([0, 0]);
     const [sortBy, setSortBy] = useState(null); // No initial sorting
     const [searchTerm, setSearchTerm] = useState("");
+    const [errors, setErrors] = useState(false)
 
     const uniqueFacilities = getUniqueFacilities(hotelData);
     const { min, max } = getMinMaxPrices(hotelData);
@@ -100,7 +102,19 @@ const HotelResultMain = () => {
 
 
 
-    // console.log(hotelData, "hotel data")
+
+    // console.log(reducerState, "reducer state, dfdfd")
+
+
+
+
+    useEffect(() => {
+        if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.errors?.[0]?.code == "1501") {
+            setErrors(true);
+        }
+
+    }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data])
+
 
     return (
         <div>
@@ -115,48 +129,60 @@ const HotelResultMain = () => {
             </div>
 
             <div className="container">
-                <div className="row">
-                    <div className=" col-lg-3 col-md-3 pt-4">
-                        {
-                            loader ?
-                                <SkeletonHotelResultFilter />
-                                :
+                {
+                    errors ?
+                        <div className="row">
+                            <div className='noHotels'>
+                                <h3>No result found for the requested search criteria !</h3>
+                                <p>Please Modify Your search <FaPen /></p>
+                            </div>
+                        </div>
+                        :
+                        <div className="row">
+                            <div className=" col-lg-3 col-md-3 pt-4">
+                                {
+                                    loader ?
+                                        <SkeletonHotelResultFilter />
+                                        :
 
-                                <HotelFilterBox
-                                    uniqueFacilities={uniqueFacilities}
-                                    onCategoryChange={handleCategoryChange}
-                                    onFacilityChange={handleFacilityChange}
-                                    onPriceChange={handlePriceChange}
-                                    onSortChange={handleSortChange}
-                                    onSearchTermChange={handleSearchTermChange}
-                                    onClearFilters={handleClearFilters}
-                                    minPrice={min}
-                                    maxPrice={max}
-                                    searchTerm={searchTerm}
-                                    selectedCategories={selectedCategories}
-                                    selectedFacilities={selectedFacilities}
-                                    priceRange={priceRange}
-                                    sortBy={sortBy}
-                                />
-                        }
-                    </div>
-                    <div className=" col-lg-9 col-md-12 pt-4">
-                        {
-                            loader ?
-                                <SkeletonHotelResult />
-                                :
-                                <HotelResult
-                                    hotels={hotelData}
-                                    selectedCategories={selectedCategories}
-                                    selectedFacilities={selectedFacilities}
-                                    priceRange={priceRange}
-                                    sortBy={sortBy}
-                                    searchTerm={searchTerm}
-                                />
-                        }
-                    </div>
+                                        <HotelFilterBox
+                                            uniqueFacilities={uniqueFacilities}
+                                            onCategoryChange={handleCategoryChange}
+                                            onFacilityChange={handleFacilityChange}
+                                            onPriceChange={handlePriceChange}
+                                            onSortChange={handleSortChange}
+                                            onSearchTermChange={handleSearchTermChange}
+                                            onClearFilters={handleClearFilters}
+                                            minPrice={min}
+                                            maxPrice={max}
+                                            searchTerm={searchTerm}
+                                            selectedCategories={selectedCategories}
+                                            selectedFacilities={selectedFacilities}
+                                            priceRange={priceRange}
+                                            sortBy={sortBy}
+                                        />
+                                }
+                            </div>
 
-                </div>
+
+                            <div className=" col-lg-9 col-md-12 pt-4">
+                                {
+                                    loader ?
+                                        <SkeletonHotelResult />
+                                        :
+                                        <HotelResult
+                                            hotels={hotelData}
+                                            selectedCategories={selectedCategories}
+                                            selectedFacilities={selectedFacilities}
+                                            priceRange={priceRange}
+                                            sortBy={sortBy}
+                                            searchTerm={searchTerm}
+                                        />
+                                }
+                            </div>
+
+                        </div>
+                }
             </div>
 
 

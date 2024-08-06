@@ -133,11 +133,11 @@
   flex-direction: row;
   border-radius: 8px;
   /* border: 1px solid lightgray; */
-  /* background: #FFFBFB; */
+  background: #FFFBFB;
   margin-bottom: 17px;
   cursor: pointer;
   flex-wrap: nowrap;
-  /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 }
 
 

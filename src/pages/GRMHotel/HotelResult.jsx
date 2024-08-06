@@ -36,7 +36,9 @@ export default function HotelResult({
     const [loader, setLoader] = useState(true)
 
 
+
     // console.log(reducerState, "reducer state, dfdfd")
+
 
     let filteredHotels = hotels?.filter((hotel) => {
 
@@ -91,7 +93,9 @@ export default function HotelResult({
 
 
 
+
     // console.log(filteredHotels, "filtered hotels")
+
 
     // Sort filtered hotels based on price only if sortBy is selected
     if (sortBy === "lowToHigh") {
@@ -134,13 +138,14 @@ export default function HotelResult({
 
     const handleClick = (item) => {
         // setMainLoader(true);
+
         const payload = {
 
             "data": {
                 "rate_key": item?.min_rate?.rate_key,
                 "group_code": item?.min_rate?.group_code,
             },
-            "searchID": searchId,
+            "searchID": item?.search_id,
             "hotel_code": item?.hotel_code,
 
         }

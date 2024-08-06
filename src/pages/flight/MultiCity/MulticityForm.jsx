@@ -533,83 +533,66 @@ const MulticityForm = () => {
   return (
     <>
       {/* <section className="oneWayAbsDesignMulticity"> */}
-      <div className="container" style={{ paddingBottom: "35px" }}>
-        <div className="row g-2 newReturnForm">
+      <div className="container" style={{ paddingBottom: "57px" }}>
+        <div className="row g-2 newOneWayMain">
 
 
           <div className="col-lg-3">
-            <div className="newReturnSingleBox">
-              <div>
-                <span className="nrsb">From</span>
-              </div>
+            <div className="newOnewaySingle">
+              <span>Departure</span>
               <FromSearchInput
                 placeholder="Search"
                 style={{ width: "100%" }}
                 onItemSelect={handleFromSelect} // Pass the callback function
               />
-              <div>
+              {/* <div>
                 <span className="nrsb">{selectedFrom?.code}</span>
-              </div>
+              </div> */}
             </div>
           </div>
           <div className="col-lg-3">
-            <div className="newReturnSingleBox">
-              <div>
-                <span className="nrsb">To</span>
-              </div>
+            <div className="newOnewaySingle">
+              <span>Arrival</span>
               <ToSearchInput
                 placeholder="Search"
                 style={{ width: "100%" }}
                 onItemSelect={handleToSelect} // Pass the callback function
               />
-              <div>
+              {/* <div>
                 <span className="nrsb">{selectedTo?.code}</span>
-              </div>
+              </div> */}
             </div>
 
           </div>
           <div className="col-lg-2">
-            {/* <Space direction="vertical" size={10}> */}
-            <div className="newReturnSingleBox">
-              <div className="d-flex justify-content-evenly">
-                <span className="nrsb">Depart</span>
-                {/* <span className="nrsb">Return</span> */}
-              </div>
+            <div className="newOnewaySingle">
+              <span>Depart</span>
               <DatePicker
                 onChange={handleRangeChange}
                 defaultValue={[dayjs()]}
                 format={dateFormat}
                 disabledDate={disablePastDates}
               />
-              <div className="d-flex justify-content-evenly">
+              {/* <div className="d-flex justify-content-evenly">
                 <span className="nrsb">{dayjs(newDepartDate).format('dddd')}</span>
-
-              </div>
-
+              </div> */}
             </div>
-            {/* </Space> */}
           </div>
 
           <div className="col-lg-2">
             <div>
-              <div className="newReturnSingleBox " onClick={handleTravelClickOpen}>
-                <div>
-                  <span className="nrsb">Traveller & Class</span>
-                </div>
-
-                <p className="nrsbpara">
-                  {(totalCount === 0 && 1) || totalCount} {" "}
-                  Traveller
-                </p>
-                <div className="d-none d-md-block ">
-                  <span className="nrsb">
+              <div className="newOnewaySingle " onClick={handleTravelClickOpen}>
+                <span >Traveller & Class</span>
+                <div className=" travelContent">
+                  <p >
+                    {(totalCount === 0 && 1) || totalCount} {" "}Traveller
                     {(activeIdClass === 1 && "All") ||
                       (activeIdClass === 2 && "Economy") ||
                       (activeIdClass === 3 && "Premium Economy") ||
                       (activeIdClass === 4 && "Business") ||
                       (activeIdClass === 5 && "Premium Business") ||
                       (activeIdClass === 6 && "First Class")}
-                  </span>
+                  </p>
                 </div>
               </div>
               <Dialog
@@ -714,9 +697,9 @@ const MulticityForm = () => {
             </div>
           </div>
 
-          <div className=" col-lg-2">
+          <div className="col-lg-2">
             <button
-              className="multiFormButton"
+              className="multicityButton"
               onClick={handleAddTrip}
             >
               Add

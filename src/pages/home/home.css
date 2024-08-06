@@ -596,16 +596,15 @@ body .form-group:not(:last-child) {
   padding: 7px 0px 6px;
 }
 
-.tabBox {
+/* .tabBox {
   display: flex;
   width: 300px;
   gap: 5px;
-  /* background-color: #fff; */
   padding: 12px;
   border-radius: 10px 10px 0px 0px;
   justify-content: space-between;
   align-items: center;
-}
+} */
 
 .tabBox>div {
   display: flex;
@@ -657,21 +656,7 @@ body .form-group:not(:last-child) {
   letter-spacing: 0.72px;
 }
 
-@media (max-width: 600px) {
-  .buttonTabs {
-    width: 100%;
-    /* position: absolute;
-    left: 50%;
-    top: 22%;
-    transform: translate(-50%, -50%);
-    z-index: 2; */
-  }
 
-  .buttonTabs .container {
-    display: flex;
-    justify-content: center;
-  }
-}
 
 .homeabsnew {
   /* width: 100%; */
@@ -698,6 +683,36 @@ body .form-group:not(:last-child) {
   /* border: 1px solid #f0f0f0; */
   padding: var(--6, 24px);
 
+}
+
+
+@media (max-width: 600px) {
+  .buttonTabs {
+    width: 100%;
+    /* position: absolute;
+    left: 50%;
+    top: 22%;
+    transform: translate(-50%, -50%);
+    z-index: 2; */
+  }
+
+  .buttonTabs .container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .homeabsnew {
+    width: 91%;
+    position: absolute;
+    left: 50%;
+    top: 40%;
+    border-radius: 24px;
+    transform: translate(-50%, -50%);
+    /* z-index: 2; */
+    border: 1px solid #f0f0f0;
+    padding: var(--6, 24px);
+    background: rgba(246, 248, 251, 0.6);
+  }
 }
 
 

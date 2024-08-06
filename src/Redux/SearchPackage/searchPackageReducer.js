@@ -26,6 +26,36 @@ export const searchPackageReducer = (state = initialState, action) => {
         isLoading: true,
         isError: false,
       };
+    case types.GET_SEARCH_PACKAGE_DATA_CATEGORY:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+      };
+
+    case types.SET_SEARCH_PACKAGE_DATA_CATEGORY:
+      return {
+        ...state,
+        packageSearchResult: payload,
+        isLoading: true,
+        isError: false,
+      };
+
+
+    case types.GET_SEARCH_PACKAGE_DATA_COUNTRY:
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+      };
+
+    case types.SET_SEARCH_PACKAGE_DATA_COUNTRY:
+      return {
+        ...state,
+        packageSearchResult: payload,
+        isLoading: true,
+        isError: false,
+      };
     case types.CLEAR_PACKAGE_DATA:
       return {
         packageSearchResult: [],

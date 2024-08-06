@@ -1,15 +1,16 @@
-.smallContainer{
-    position: fixed;
-    bottom: 0;
+.smallContainer {
+    position: relative;
+    top: 0;
     background: #f1f1f1;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    /* box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; */
     display: flex;
     z-index: 100;
     width: 100%;
     justify-content: center;
     align-items: center;
 }
-.smallContainerInner{
+
+.smallContainerInner {
     /* max-width: 300px;
     wid */
     width: 100%;
@@ -17,26 +18,26 @@
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap:10px;
-    padding:10px;
+    gap: 10px;
+    padding: 10px;
     /* background-color: rgba(224, 150, 150, 0.603); */
     border: 7px;
 
 }
-.smallContainerHeader{
-display: flex;
-justify-content: space-between;
-align-items: center;
-width: 100%;
-}
-.smallContainerBody{
 
+.smallContainerHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
-.smallContainerBtn{
 
-}
+.smallContainerBody {}
+
+.smallContainerBtn {}
+
 @media (min-width: 668px) {
-    .smallContainer{
+    .smallContainer {
         display: none !important;
     }
 }
