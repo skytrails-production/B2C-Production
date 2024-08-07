@@ -67,7 +67,7 @@ const Seat = ({ seat, planeNo }) => {
     const queryParams = new URLSearchParams(location.search);
     const adultCount = queryParams.get("adult");
     const childCount = queryParams.get("child");
-    const traveller=Number(adultCount)+Number(childCount)
+    const traveller = Number(adultCount) + Number(childCount)
     const seatList = useSelector((state) => state?.airlineSeatMap?.seatList);
     // const allSeats = Object.values(seatList).flat();
 
@@ -222,8 +222,12 @@ const Plane = ({ data, planeNo }) => {
             return accumulator + seat?.Price;
 
         }, 0);
-        amount[planeNo] = [Amount]
+        if (amount.length>=planeNo) {
+
+            amount[planeNo] = [Amount] 
+        }
         dispatch(setSeatAmountTvo(amount))
+
 
         // console.log(airlineSeatMap, Amount, amount[planeNo], "Amount")
 
@@ -278,6 +282,7 @@ const Plane = ({ data, planeNo }) => {
 const FlightLayoutTVO = ({ seatMap }) => {
     const seatList = useSelector((state) => state?.airlineSeatMap?.seatList);
     const AmountList = useSelector((state) => state?.airlineSeatMap?.amountTVO);
+    console.log(AmountList,"AmountList")
     const dispatch = useDispatch()
     let seatListt = []
     let seatAmountList = []
@@ -296,92 +301,92 @@ const FlightLayoutTVO = ({ seatMap }) => {
 
         return data;
     }
-    const FlightTypes = ({planeNo}) => {
+    const FlightTypes = ({ planeNo }) => {
         // const Amount=useSelector((state)=>state?.airlineSeatMap?.amountList)
-    
+
         // const [seatAmount,setSeatAmount]=useState([])
         // const dispatch=useDispatch()
         // let Mid
-        const typeFun=(data)=>{
+        const typeFun = (data) => {
             let type = [
                 { title: "Free", color: "#50E3C2", class: "free-seat" },
                 { title: "Exit Row Seats", color: "red", class: "exit-row seat-occupied" },
                 { title: "Occupied", color: "red", class: "seat-occupied" },
                 { title: "Restricted Recline", color: "red", class: "restricted-recline seat-occupied" },
-                
-              ];
-             
-        //       if(!data){
-        //           return type
-        //         }
-        //         let data2=Array.from( new Set(data.map(item=>{
-        //             return item.amount
-        //         })))
-        //         data2.sort((a, b) => b - a); 
-        //         // console.log(data2)
-        //         console.log(data,data2,"dataaaaaaaaaaaaaaaaaa")
-          
-          
-          
-        //   if(data2?.length===1){
-        //       type.push({ title: `₹ ${data2?.[0]}`
-        //    , color: "red", class: "seat-price-low"})
-        //    Mid=data2?.[0]+1
-        //   }
-        //   else if(data2?.length===2){
-        //         type.push({ title: `₹ ${data2?.[0]}`
-        //    , color: "red", class: "seat-price-high"})
-        //     type.push({ title: `₹ ${data2?.[1]}`
-        //    , color: "red", class: "seat-price-low"})
-        //    Mid=data2?.[0]
-           
-        //   }
-        //   else if(data2?.length===3){
-        //         type.push({ title: `₹ ${data2?.[0]}`
-        //    , color: "red", class: "seat-price-highhhh"})
-        //     type.push({ title: `₹ ${data2?.[1]}-${data2?.[2]}`
-        //    , color: "red", class: "seat-price-low"})
-        //    Mid=data2?.[0]
-        //   }
-        //   else if(3<data2?.length){
-        //   let mid=(data2?.length/2).toFixed()
-        //   let maxHigh=data2[0]
-        //   let minHigh=data2[mid-1]
-        //   let maxLow=data2[mid]
-        //   let minLow=data2[data2?.length-1]
-        //        type.push({ title: `₹ ${minHigh}-${maxHigh}`
-        //    , color: "red", class: "seat-price-high"})
-        //     type.push({ title: `₹ ${minLow}-${maxLow}`
-        //    , color: "red", class: "seat-price-low"})
-        //   console.log(maxHigh,minHigh,maxLow,minLow)
-        //   Mid=minHigh
-        //   }
-    
-          return type
-          
-          }
-          const Type=typeFun()
+
+            ];
+
+            //       if(!data){
+            //           return type
+            //         }
+            //         let data2=Array.from( new Set(data.map(item=>{
+            //             return item.amount
+            //         })))
+            //         data2.sort((a, b) => b - a); 
+            //         // console.log(data2)
+            //         console.log(data,data2,"dataaaaaaaaaaaaaaaaaa")
+
+
+
+            //   if(data2?.length===1){
+            //       type.push({ title: `₹ ${data2?.[0]}`
+            //    , color: "red", class: "seat-price-low"})
+            //    Mid=data2?.[0]+1
+            //   }
+            //   else if(data2?.length===2){
+            //         type.push({ title: `₹ ${data2?.[0]}`
+            //    , color: "red", class: "seat-price-high"})
+            //     type.push({ title: `₹ ${data2?.[1]}`
+            //    , color: "red", class: "seat-price-low"})
+            //    Mid=data2?.[0]
+
+            //   }
+            //   else if(data2?.length===3){
+            //         type.push({ title: `₹ ${data2?.[0]}`
+            //    , color: "red", class: "seat-price-highhhh"})
+            //     type.push({ title: `₹ ${data2?.[1]}-${data2?.[2]}`
+            //    , color: "red", class: "seat-price-low"})
+            //    Mid=data2?.[0]
+            //   }
+            //   else if(3<data2?.length){
+            //   let mid=(data2?.length/2).toFixed()
+            //   let maxHigh=data2[0]
+            //   let minHigh=data2[mid-1]
+            //   let maxLow=data2[mid]
+            //   let minLow=data2[data2?.length-1]
+            //        type.push({ title: `₹ ${minHigh}-${maxHigh}`
+            //    , color: "red", class: "seat-price-high"})
+            //     type.push({ title: `₹ ${minLow}-${maxLow}`
+            //    , color: "red", class: "seat-price-low"})
+            //   console.log(maxHigh,minHigh,maxLow,minLow)
+            //   Mid=minHigh
+            //   }
+
+            return type
+
+        }
+        const Type = typeFun()
         // useEffect(()=>{
         //     dispatch(setSeatMidAmount(Mid))
         // },[])
-          
-          
-    
+
+
+
         return (
-          <div className='plane-type-container' onMouseOver={(e)=>e.stopPropagation()}>
-            
-              {Type&& Type.map((item) => {
-                return (
-                  <div className='plane-type-item'>
-                    <div className={`seat ${item.class}`}></div>
-                    <div className="plane-type-item-title">{item.title}</div>
-                  </div>
-                );
-              })}
-            
-          </div>
+            <div className='plane-type-container' onMouseOver={(e) => e.stopPropagation()}>
+
+                {Type && Type.map((item) => {
+                    return (
+                        <div className='plane-type-item'>
+                            <div className={`seat ${item.class}`}></div>
+                            <div className="plane-type-item-title">{item.title}</div>
+                        </div>
+                    );
+                })}
+
+            </div>
         );
-      };
+    };
     useEffect(() => {
         seatListt = []
 

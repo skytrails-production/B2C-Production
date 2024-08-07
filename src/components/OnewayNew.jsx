@@ -90,9 +90,21 @@ const fetchFromCity = (value, callback) => {
 
 const FromSearchInput = (props) => {
   const { onItemSelect } = props;
+  const {data} = props;
+
+
+  // useEffect(() => {
+  //   setFromDisplayValue(selectedFrom.name);
+  //   ),[]  }
+  useEffect(()=>{
+    setFromDisplayValue(data.name);
+  },[data])
   const [fromData, setFromData] = useState([]);
   const [fromValue, setFromValue] = useState(initialSelectedFromData.name);
   const [selectedItem, setSelectedItem] = useState(initialSelectedFromData);
+
+
+
 
   const [FromPlaceholder, setFromPlaceholder] = useState("");
   const [FromDisplayValue, setFromDisplayValue] = useState(
@@ -227,6 +239,12 @@ const fetchToCity = (value, callback) => {
 
 const ToSearchInput = (props) => {
   const { onItemSelect } = props;
+  const {data} = props
+
+  useEffect(()=>{
+    setToDisplayValue(data.name);
+  },[data])
+  
   const [toData, setToData] = useState([]);
   const [toValue, setToValue] = useState(initialSelectedToData.name);
   const [selectedItem, setSelectedItem] = useState(initialSelectedToData);
@@ -529,6 +547,15 @@ function OnewayNew() {
   //     setTO(from)
   //     setSelectedTo(tempFrom);
   // };
+  // console.log(selectedTo.name,"selectedTo")
+  const handleRoundLogoClick = () => {
+   
+    setSelectedFrom(selectedTo);
+    setSelectedTo(selectedFrom);
+    console.log(selectedTo,selectedFrom);
+  };
+
+ 
 
   return (
     <>
@@ -543,12 +570,60 @@ function OnewayNew() {
                 placeholder="Search"
                 style={{ width: "100%" }}
                 onItemSelect={handleFromSelect}
+                data={selectedFrom}
               />
               {/* <div>
                 <span className="nrsb">{selectedFrom?.code}</span>
               </div> */}
             </div>
           </div>
+
+
+          <div
+                      className="roundlogo"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRoundLogoClick();
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="40"
+                        height="40"
+                        viewBox="0 0 40 40"
+                        fill="none"
+                      >
+                        <circle
+                          cx="20"
+                          cy="20"
+                          r="19"
+                          fill="white"
+                          stroke="lightgray"
+                          stroke-width="2"
+                        />
+                      </svg>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="20"
+                        viewBox="0 0 18 20"
+                        fill="none"
+                        justifyContent="center"
+                      >
+                        <path
+                          d="M13 15L1 15M1 15L5 19M1 15L5 11M5 5L17 5M17 5L13 0.999999M17 5L13 9"
+                          stroke="#071C2C"
+                          stroke-width="2"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    </div>
+
+
+
+
           <div className="col-lg-3">
             <div className="newOnewaySingle">
               {/* <div> */}
@@ -558,6 +633,7 @@ function OnewayNew() {
                 placeholder="Search"
                 style={{ width: "100%" }}
                 onItemSelect={handleToSelect} // Pass the callback function
+                data={selectedTo}
               />
               {/* <div>
                 <span className="nrsb">{selectedTo?.code}</span>

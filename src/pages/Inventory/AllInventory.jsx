@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { apiURL } from "../../Constants/constant";
-import { Table, message, Button, Popconfirm } from "antd";
+import { Table, message } from "antd";
+
 const AllInventory = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -51,8 +52,6 @@ const AllInventory = () => {
     fetchData();
   }, []);
 
-
-  
   const columns = [
     {
       title: "Hotel Name",
@@ -143,7 +142,7 @@ const AllInventory = () => {
       dataIndex: "availableRooms",
       key: "availableRooms",
     },
-    
+
     // Add more columns as needed
   ];
 

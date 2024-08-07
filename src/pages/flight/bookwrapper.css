@@ -636,3 +636,16 @@
 .cnt-dis{
   background-color: #9797972e;
 }
+.skip-add-on-flight{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+
+  
+  cursor: pointer;
+}
+.skip-add-on-flight >p{
+  color: #d90429;
+  font-size: 12px;
+  font-weight: 600;
+}

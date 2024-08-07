@@ -2006,7 +2006,6 @@ export default function BookWrapper() {
   }
 
   const [placement, setPlacement] = useState('left');
-  const dropdownRef = useRef(null);
   const showDrawer = () => {
     setOpen(true);
   };
@@ -2016,6 +2015,7 @@ export default function BookWrapper() {
   const onChange = (e) => {
     setPlacement(e.target.value);
   };
+  const dropdownRef = useRef(null);
   const [isDropdown, setIsDropdown] = useState(false);
 
   const toggleDropdown = () => {

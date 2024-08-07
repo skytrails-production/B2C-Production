@@ -4,7 +4,8 @@
 	 viewBox="0 0 151.1 171.6" style="enable-background:new 0 0 151.1 171.6;" xml:space="preserve">
 <style type="text/css">
 	.st0{fill:#FFF;}
-	.st1{fill:#d90429;}
+	<!-- .st1{fill:#d90429;} -->
+	.st1{fill:#FFF;}
 </style>
 <path class="st0" d="M0,0c0,0,17.4,93.4,33.2,132.3c21.6,52.9,60.5,43.2,78.4,2.4C126.1,102.1,153.8-0.1,151.1,0C148.5,0.1,0,0,0,0z
 	"/>

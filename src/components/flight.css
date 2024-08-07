@@ -190,15 +190,55 @@
 }
 
 .roundlogo {
-  position: absolute;
+  /* position: absolute;
   right: 0px;
   top: 50%;
   transform: translate(0%, -50%);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 100;
+  z-index: 100; */
+  position: absolute;
+    right: -24%;
+    top: 50%;
+    transform: translate(-49%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
 }
+@media(max-width: 991px) {
+  .roundlogo{
+    position: absolute;
+    right: -82%;
+    transform: rotateX(90deg);
+    top: 32%;
+    transform: translate(-49%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+
+  }
+}
+
+@media(max-width: 600px) {
+  .roundlogo{
+    position: absolute;
+    right: -82%;
+    transform: rotateX(90deg);
+    top: 32%;
+    transform: translate(-49%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+
+  }
+}
+
+
+
 
 .roundlogo svg {
   position: absolute;
