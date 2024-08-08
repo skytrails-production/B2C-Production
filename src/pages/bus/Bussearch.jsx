@@ -628,7 +628,7 @@ const Homeform = (props) => {
                       </span>
 
                       <div
-                        className="roundlogo"
+                        className="roundlogo1"
                         onClick={handleRoundLogoClick}
                         style={{ cursor: "pointer" }}
                       >

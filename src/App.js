@@ -122,6 +122,9 @@ import PackageHomePage from "./pages/NewPackagePages/PackageHomePage";
 import Navbar from "./pages/navbar/Navbar";
 import BottomNavbar from "./pages/navbar/BottomNavbar";
 
+import Packageform from "./pages/NewPackagePages/Packageform/Packageform"
+import PhoneNumber from "./components/PhoneNumber";
+
 
 
 function App() {
@@ -171,6 +174,40 @@ function App() {
   useEffect(() => {
     dispatch(getMarkUpAction());
   }, []);
+
+
+
+  useEffect(() => {
+    // Generate a unique identifier for cache-busting
+    const cacheBuster = new Date().getTime();
+
+    // Function to update URLs with cache-buster
+    const updateAssetURLs = () => {
+      // Update stylesheet URLs
+      const links = document.querySelectorAll('link[rel="stylesheet"]');
+      links.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href) {
+          link.setAttribute('href', `${href}?v=${cacheBuster}`);
+        }
+      });
+
+      // Update script URLs
+      const scripts = document.querySelectorAll('script[src]');
+      scripts.forEach(script => {
+        const src = script.getAttribute('src');
+        if (src) {
+          script.setAttribute('src', `${src}?v=${cacheBuster}`);
+        }
+      });
+    };
+
+    // Apply cache-busting
+    updateAssetURLs();
+
+    // Optionally, you can perform other cache-related actions here
+
+  }, []); // Empty dependency array ensures this runs only on initial load
 
   // const isSearchResult = location.pathname.includes("/Searchresult");
   // const isPayment = location.pathname.includes("/payment");
@@ -260,10 +297,14 @@ function App() {
 
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
+        location.pathname !=="/phone" &&
+        location.pathname !== "/Package/form" &&
         // location.pathname !== "/inventoryhotelform" && <InsideNavbar />}
         location.pathname !== "/inventoryhotelform" && <Navbar />}
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
+        location.pathname !=="/phone" &&
+        location.pathname !== "/Package/form" &&
         // location.pathname !== "/inventoryhotelform" && <InsideNavbar />}
         location.pathname !== "/inventoryhotelform" && <BottomNavbar />}
       {/* 
@@ -534,7 +575,13 @@ function App() {
           path="/itenaryresult/itenaryDownload/:id"
           element={<ItenaryPdfDownloader />}
         ></Route>
-       
+
+         <Route
+          // path="/itenaryDownload"
+          path="/Package/form"
+          element={<Packageform/>}
+        ></Route>
+       <Route path="/phone" element={<PhoneNumber />}></Route>
         {/* <Route
           path="/practice"
           element={<ItenaryPractice/>}
@@ -544,17 +591,22 @@ function App() {
       {/* complete inventory */}
 
       {/* <Whatsapp /> */}
+      
 
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/inventoryForgetPassword" &&
         location.pathname !== "/inventoryDashboard" &&
+        location.pathname !=="/phone" &&
+        location.pathname !== "/Package/form" &&
         location.pathname !== "/inventoryhotelform" && <Whatsapp />}
 
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/inventoryForgetPassword" &&
         location.pathname !== "/inventoryDashboard" &&
+        location.pathname !=="/phone" &&
+        location.pathname !== "/Package/form" &&
         location.pathname !== "/inventoryhotelform" && <ScrollToTop />}
 
       {/* <PayLater /> */}
@@ -564,6 +616,8 @@ function App() {
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/inventoryForgetPassword" &&
         location.pathname !== "/inventoryDashboard" &&
+        location.pathname !=="/phone" &&
+        location.pathname !== "/Package/form" &&
         location.pathname !== "/inventoryhotelform" && <Footer />}
     </div>
   );
