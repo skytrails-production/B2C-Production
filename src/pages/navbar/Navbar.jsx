@@ -110,11 +110,12 @@ const Navbar = () => {
             ),
         },
         {
+
             key: '2',
             label: (
-                <a target="_blank" rel="noopener noreferrer" href="">
+                <Link to="/bookinghistory" rel="noopener noreferrer" >
                     Booking History
-                </a>
+                </Link>
             ),
         },
 

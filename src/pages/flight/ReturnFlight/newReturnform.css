@@ -59,6 +59,9 @@
     border-radius: 5px;
 
 }
+.newReturnSingleBoxReturn{
+    border: 1px solid #D1D5DB;
+}
 
 .newReturnSingleBox:nth-of-type(2) {
     padding: 3px 20px !important;

@@ -660,7 +660,7 @@ hr {
 @media (min-width: 992px) {
   /* Large devices (lg and up) */
   .custom-height-lg {
-      height: 220px ; /* Fixed height for large devices */
+      height: auto !important ; /* Fixed height for large devices */
   }
 }
 @media (min-width: 768px) {

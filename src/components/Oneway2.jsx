@@ -6,7 +6,7 @@ import { apiURL } from "../Constants/constant";
 import axios from "axios";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import "react-datepicker/dist/react-datepicker.css";
-import { oneWayAction, resetOneWay ,oneWayActionCombined} from "../Redux/FlightSearch/oneWay";
+import { oneWayAction, resetOneWay, oneWayActionCombined } from "../Redux/FlightSearch/oneWay";
 import { searchFlight, clearSearch } from "../Redux/SearchFlight/actionSearchFlight";
 import { useNavigate } from "react-router-dom";
 import "react-date-range/dist/styles.css";
@@ -133,13 +133,13 @@ const FromSearchInput = (props) => {
   };
   const renderFromOption = (option) => {
     // console.log(option,"optionnnnnnnnnn")
-    return(
-    <div>
-      <div >{option.code}</div>
-      <div style={{ color: "gray" }}>
-        {option.name} ({option?.item?.AirportCode})
-      </div>
-    </div>)
+    return (
+      <div>
+        <div >{option.code}</div>
+        <div style={{ color: "gray" }}>
+          {option.name} ({option?.item?.AirportCode})
+        </div>
+      </div>)
   };
 
   return (
@@ -214,18 +214,18 @@ const fetchToCity = (value, callback) => {
 const ToSearchInput = (props) => {
 
   let value2 = JSON.parse(sessionStorage.getItem("onewayprop"));
-let initialSelectedToData = {
-  AirportCode: value2?.[0]?.selectedTo?.AirportCode,
-  CityCode: value2?.[0]?.selectedTo?.CityCode,
-  CountryCode: value2?.[0]?.selectedTo?.CountryCode,
-  code: value2?.[0]?.selectedTo?.code,
-  createdAt: "2023-01-30T14:58:34.428Z",
-  id: value2?.[0]?.selectedTo?.id,
-  name: value2?.[0]?.selectedTo?.name,
-  updatedAt: "2023-01-30T14:58:34.428Z",
-  __v: 0,
-  _id: "63d7db1a64266cbf450e07c1",
-};
+  let initialSelectedToData = {
+    AirportCode: value2?.[0]?.selectedTo?.AirportCode,
+    CityCode: value2?.[0]?.selectedTo?.CityCode,
+    CountryCode: value2?.[0]?.selectedTo?.CountryCode,
+    code: value2?.[0]?.selectedTo?.code,
+    createdAt: "2023-01-30T14:58:34.428Z",
+    id: value2?.[0]?.selectedTo?.id,
+    name: value2?.[0]?.selectedTo?.name,
+    updatedAt: "2023-01-30T14:58:34.428Z",
+    __v: 0,
+    _id: "63d7db1a64266cbf450e07c1",
+  };
 
   const { onItemSelect } = props;
   const [toData, setToData] = useState([]);
@@ -360,7 +360,7 @@ function OnewayNew() {
   const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData);
   const [selectedTo, setSelectedTo] = useState(initialSelectedToData);
   // console.log(reducerState, "reducerstate")
- 
+
   useEffect(() => {
     dispatch(clearbookTicketGDS());
     dispatch(resetAllFareData());
@@ -433,11 +433,11 @@ function OnewayNew() {
 
   const ClassItems = [
     // { id: 1,value:"Y", label: "All" },
-    { id: 2,value:"Y", label: "Economy" },
-    { id: 3, value:"W", label:"Premium Economy"},
-    { id: 4,value:"C", label: "Business" },
+    { id: 2, value: "Y", label: "Economy" },
+    { id: 3, value: "W", label: "Premium Economy" },
+    { id: 4, value: "C", label: "Business" },
     // { id: 5, label: "Premium Business" },
-    { id: 6,value:"F", label: "First" },
+    { id: 6, value: "F", label: "First" },
   ];
 
   const handleTravelClickOpen = () => {
@@ -498,57 +498,7 @@ function OnewayNew() {
       // px: activeIdAdult + activeIdChild + activeIdInfant,
       px: activeIdAdult,
     };
-    // console.log(payload, "oneway payload");
 
-    // SecureStorage.setItem(
-    //     "revisitOnewayData",
-    //     JSON.stringify([
-    //         {
-    //             AirportCode: selectedFrom.AirportCode,
-    //             CityCode: selectedFrom.CityCode,
-    //             CountryCode: selectedFrom.CountryCode,
-    //             code: selectedFrom.code,
-    //             createdAt: selectedFrom.createdAt,
-    //             id: selectedFrom.id,
-    //             name: selectedFrom.name,
-    //             updatedAt: selectedFrom.updatedAt,
-    //             __v: selectedFrom._v,
-    //             _id: selectedFrom._id,
-    //         },
-    //         {
-    //             AirportCode: selectedTo.AirportCode,
-    //             CityCode: selectedTo.CityCode,
-    //             CountryCode: selectedTo.CountryCode,
-    //             code: selectedTo.code,
-    //             createdAt: selectedTo.createdAt,
-    //             id: selectedTo.id,
-    //             name: selectedTo.name,
-    //             updatedAt: selectedTo.updatedAt,
-    //             __v: selectedTo._v,
-    //             _id: selectedTo._id,
-    //         },
-    //     ])
-    // );
-
-    // sessionStorage.setItem(
-    //   "onewayprop",
-    //   JSON.stringify([
-    //     {
-    //       Origin: selectedFrom.AirportCode,
-    //       Destination: selectedTo.AirportCode,
-    //       FlightCabinClass: activeIdClass,
-    //       PreferredDepartureTime: newDepartDate,
-    //       PreferredArrivalTime: newDepartDate,
-    //       selectedFrom,
-    //       selectedTo,
-    //       totalCount,
-    //       newDepartDate,
-    //       activeIdAdult,
-    //       activeIdChild,
-    //       activeIdInfant,
-    //     },
-    //   ])
-    // );
     const parsedDate = new Date(newDepartDate);
 
     // Convert to ISO 8601 format with UTC
@@ -572,97 +522,138 @@ function OnewayNew() {
 
 
 
-  // ///////////////roundlogic//////////////////////////////
 
-  // const handleRoundLogoClick = () => {
-  //     const tempFrom = { ...selectedFrom };
-  //     const tempSelectedFrom = selectedFrom;
-  //     setSelectedFrom(selectedTo);
-  //     setFrom(to)
-  //     setTO(from)
-  //     setSelectedTo(tempFrom);
-  // };
+  const handleFocusDatePicker = (e) => {
+    e.target.blur();
+  };
+  const handleRoundLogoClick = () => {
+
+    setSelectedFrom(selectedTo);
+    setSelectedTo(selectedFrom);
+    console.log(selectedTo, selectedFrom);
+  };
+
+
+
+
 
 
   return (
     <>
       {/* <div className=" homeabsnew1" style={{ width: "100%" }}>
         <section className="HotelAbsDesignInner w-100"> */}
-      <div className=" container mt-2" >
-        <div className="row g-2 newReturnForm">
+      <div className=" container" >
+        <div className="row g-2 newOneWayMain">
           <div className="col-lg-3">
-            <div className="newReturnSingleBox">
-              <div>
-                <span className="nrsb">From</span>
-              </div>
+            <div className="newOnewaySingle relative">
+              {/* <div> */}
+              <span>Departure</span>
+              {/* </div> */}
               <FromSearchInput
                 placeholder="Search"
                 style={{ width: "100%" }}
-                onItemSelect={handleFromSelect} // Pass the callback function
+                onItemSelect={handleFromSelect}
+                data={selectedFrom}
               />
-              <div>
-                <span className="nrsb">{selectedFrom?.code}</span>
-              </div>
+
             </div>
+            {/* <div
+              className="roundlogo "
+              onClick={(e) => {
+                e.stopPropagation();
+                handleRoundLogoClick();
+              }}
+              style={{ cursor: "pointer" }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                viewBox="0 0 40 40"
+                fill="none"
+              >
+                <circle
+                  cx="20"
+                  cy="20"
+                  r="19"
+                  fill="white"
+                  stroke="lightgray"
+                  stroke-width="2"
+                />
+              </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="20"
+                viewBox="0 0 18 20"
+                fill="none"
+                justifyContent="center"
+              >
+                <path
+                  d="M13 15L1 15M1 15L5 19M1 15L5 11M5 5L17 5M17 5L13 0.999999M17 5L13 9"
+                  stroke="#071C2C"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div> */}
           </div>
+
+
+
+
+
+
+
           <div className="col-lg-3">
-            <div className="newReturnSingleBox">
-              <div>
-                <span className="nrsb">To</span>
-              </div>
+            <div className="newOnewaySingle">
+              {/* <div> */}
+              <span>Arrival</span>
+              {/* </div> */}
               <ToSearchInput
                 placeholder="Search"
                 style={{ width: "100%" }}
                 onItemSelect={handleToSelect} // Pass the callback function
+                data={selectedTo}
               />
-              <div>
+              {/* <div>
                 <span className="nrsb">{selectedTo?.code}</span>
-              </div>
+              </div> */}
             </div>
-
           </div>
           <div className="col-lg-2">
-            {/* <Space direction="vertical" size={10}> */}
-            <div className="newReturnSingleBox">
-              <div className="d-flex justify-content-evenly">
-                <span className="nrsb">Depart</span>
-                {/* <span className="nrsb">Return</span> */}
-              </div>
+            <div className="newOnewaySingle">
+
+              <span>Depart</span>
+
               <DatePicker
                 onChange={handleRangeChange}
                 defaultValue={[dayjs(initialDepartDate)]}
                 format={dateFormat}
                 disabledDate={disablePastDates}
+                onFocus={handleFocusDatePicker}
               />
-              <div className="d-flex justify-content-evenly">
-                <span className="nrsb">{dayjs(newDepartDate).format('dddd')}</span>
-
-              </div>
-
+              {/* <div className="d-flex justify-content-evenly">
+                <span className="nrsb">
+                  {dayjs(newDepartDate).format("dddd")}
+                </span>
+              </div> */}
             </div>
-            {/* </Space> */}
           </div>
 
           <div className="col-lg-2">
             <div>
-              <div className="newReturnSingleBox " onClick={handleTravelClickOpen}>
-                <div>
-                  <span className="nrsb">Traveller & Class</span>
-                </div>
-
-                <p className="nrsbpara">
-                  {(totalCount === 0 && 1) || totalCount} {" "}
-                  Traveller
-                </p>
-                <div className="d-none d-md-block ">
-                  <span className="nrsb">
-                    {
-                      (activeIdClass === 2 && flightclassName === "Y" && "Economy") ||
+              <div className="newOnewaySingle" onClick={handleTravelClickOpen}>
+                <span>Traveller & Class</span>
+                <div className="travelContent">
+                  <p>
+                    {(totalCount === 0 && 1) || totalCount} Traveller,
+                    {(activeIdClass === 2 && flightclassName === "Y" && "Economy") ||
                       (activeIdClass === 3 && flightclassName === "W" && "Premium Economy") ||
-                      (activeIdClass === 4 && flightclassName === "C" && "Business") || 
-                      (activeIdClass === 6 && flightclassName === "F" && "First Class")
-                      }
-                  </span>
+                      (activeIdClass === 4 && flightclassName === "C" && "Business") ||
+                      (activeIdClass === 6 && flightclassName === "F" && "First Class")}
+                  </p>
                 </div>
               </div>
               <Dialog
@@ -721,16 +712,14 @@ function OnewayNew() {
                               key={ele.id}
                               style={{
                                 backgroundColor:
-                                  ele.id === activeIdClass
-                                    ? "#d90429"
-                                    : "#fff",
+                                  ele.id === activeIdClass ? "#d90429" : "#fff",
                                 color:
-                                  ele.id === activeIdClass
-                                    ? "#fff"
-                                    : "#d90429",
+                                  ele.id === activeIdClass ? "#fff" : "#d90429",
                               }}
-                              onClick={() => {setActiveIdClass(ele.id);
-                                setflightClassName(ele.value)}}
+                              onClick={() => {
+                                setActiveIdClass(ele.id);
+                                setflightClassName(ele.value);
+                              }}
                             >
                               {ele.label}
                             </li>
@@ -769,24 +758,18 @@ function OnewayNew() {
           </div>
           <div className=" col-lg-2">
             <Button
-              className="multiFormButton"
+              className="Oneway2Search"
               onClick={handleOnewaySubmit}
               loading={loader}
             >
               Search
             </Button>
           </div>
-
         </div>
 
-        {/* <div
-                    style={{ position: "relative", top: "80px", marginTop: "-45px" }}
-                    className="onewaySearch-btn" id="item-5Return">
-                    <Button className="returnButton" style={{ padding: "8px 36px", height: "unset" }} onClick={handleOnewaySubmit} loading={loader}>Search</Button>
-                </div> */}
+
       </div>
-      {/* </section>
-      </div> */}
+
     </>
   );
 }
