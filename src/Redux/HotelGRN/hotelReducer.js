@@ -33,40 +33,48 @@ export const hotelReducerGRN = (state = initState, action) => {
       // oldHotels.concat(payload?.data?.data?.hotels)
 
 
-      if (payload?.data?.data?.hotels) {
-        const search_id = payload?.data?.data?.search_id;
-        const updatedHotels = payload?.data?.data?.hotels.map(hotel => ({
-          ...hotel,
-          search_id
-        }));
-        let olddata = [...state?.onlyHotels, ...updatedHotels]
-        return {
-          ...state,
-          ticketData: payload,
-          onlyHotels: olddata,
-          isLoading: false,
-          isError: false,
-          showSuccessMessage: true,
-          hasMore: true,
-        };
-      }
-      else if (payload?.data?.data?.errors) {
+      // if (payload?.data?.data?.hotels) {
+      //   const search_id = payload?.data?.data?.search_id;
+      //   const updatedHotels = payload?.data?.data?.hotels.map(hotel => ({
+      //     ...hotel,
+      //     search_id
+      //   }));
+      //   let olddata = [...state?.onlyHotels, ...updatedHotels]
+      //   return {
+      //     ...state,
+      //     ticketData: payload,
+      //     onlyHotels: olddata,
+      //     isLoading: false,
+      //     isError: false,
+      //     showSuccessMessage: true,
+      //     hasMore: true,
+      //   };
+      // }
+      // else if (payload?.data?.data?.errors) {
 
-        return {
-          ...state,
-          ticketData: payload,
-          hasMore: false,
-          isLoading: false,
-          isError: false,
-          showSuccessMessage: true,
-        }
+      //   return {
+      //     ...state,
+      //     ticketData: payload,
+      //     hasMore: false,
+      //     isLoading: false,
+      //     isError: false,
+      //     showSuccessMessage: true,
+      //   }
 
-      }
-      else {
-        return { ...state }
-      }
+      // }
+      // else {
+      //   return { ...state }
+      // }
 
-
+      return {
+        ...state,
+        ticketData: payload,
+        // onlyHotels: payload,
+        isLoading: false,
+        isError: false,
+        showSuccessMessage: true,
+        hasMore: true,
+      };
 
 
     case types.HOTEL_SINGLE_DETAIL_REQUEST:

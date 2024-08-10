@@ -1,6 +1,6 @@
 import { all } from "redux-saga/effects";
 
-import { oneWayWatcher } from "./Saga/oneWaySaga";
+import { oneWayWatcher,oneWayWatcherCombined } from "./Saga/oneWaySaga";
 import { returnWatcher } from "./Saga/returnSaga";
 import { multicityWatcher } from "./Saga/multicitySaga";
 import { ipWatcher } from "./Saga/ipSaga";
@@ -31,6 +31,7 @@ export function* rootSaga() {
   yield all([
     loginWatcher(),
     oneWayWatcher(),
+    oneWayWatcherCombined(),
     returnWatcher(),
     multicityWatcher(),
     ipWatcher(),

@@ -8,6 +8,10 @@ import busimg from "../../images/aerial.png"
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
 import Partners from "../home/Partners";
+import NewHolidayCategory from "../NewPackagePages/holidayCategory/NewHolidayCategory";
+import NewHolidayTrending from "../NewPackagePages/holidayTrending/NewHolidayTrending";
+import HolidayTopCountries from "../NewPackagePages/holidayCountries/HolidayTopCountries";
+import Blog from "../home/Blog";
 
 
 
@@ -29,17 +33,34 @@ const Taxi = () => {
         <Bussearch />
       </div>
 
-      <div>
-        <FLightOffer />
+      <div className="mt-3">
+        <NewHolidayCategory />
       </div>
+      <div>
+        <NewHolidayTrending />
+      </div>
+
       <div>
         <Advertise />
       </div>
-      <Download />
+
+      <div>
+        <HolidayTopCountries />
+      </div>
+
+      <div>
+        <WhyChooseUs />
+      </div>
+      <div>
+        <Download />
+      </div>
       <div>
         <Partners />
       </div>
-      <WhyChooseUs />
+
+      <div>
+        <Blog />
+      </div>
     </div>
   );
 };

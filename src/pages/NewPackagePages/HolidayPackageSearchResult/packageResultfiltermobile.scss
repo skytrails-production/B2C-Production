@@ -1,0 +1,15 @@
+@import "../../../mixins.scss";
+
+// .filterPackageMobileBox {
+.PackagetagFilters {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  justify-content: flex-start;
+  align-items: flex-start;
+
+  p {
+    margin-bottom: 20px !important;
+  }
+}
+// }

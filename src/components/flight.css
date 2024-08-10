@@ -199,15 +199,16 @@
   align-items: center;
   z-index: 100; */
   position: absolute;
-    right: -24%;
-    top: 50%;
-    transform: translate(-49%, -50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 100;
+  right: -24%;
+  top: 50%;
+  transform: translate(-49%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
 }
-.roundlogo1{
+
+.roundlogo1 {
   position: absolute;
   right: 0px;
   top: 50%;
@@ -217,8 +218,9 @@
   align-items: center;
   z-index: 100;
 }
+
 @media(max-width: 991px) {
-  .roundlogo{
+  .roundlogo {
     position: absolute;
     right: -82%;
     transform: rotateX(90deg);
@@ -233,16 +235,17 @@
 }
 
 @media(max-width: 600px) {
-  .roundlogo{
+  .roundlogo {
     position: absolute;
-    right: -82%;
+    right: 16%;
     transform: rotateX(90deg);
     top: 32%;
-    transform: translate(-49%, -50%);
+    transform: translate(33%, -50%);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 100;
+    width: 50px;
 
   }
 }

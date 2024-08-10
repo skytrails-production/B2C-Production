@@ -4,8 +4,10 @@ const initState = {
   oneWayData: [],
 
   isLoading: false,
+  isLoadingFilter: false,
 
   isError: false,
+  isErrorCombine: false,
 
   showSuccessMessage: false,
 };
@@ -20,11 +22,24 @@ export const oneWayReducer = (state = initState, action) => {
         isError: false,
         oneWayData: []
       };
+    case types.ONE_WAY_REQUEST_COMBINED:
+      return {
+        ...state,
+        isLoadingFilter: true,
+        isErrorCombine: false,
+        oneWayData: []
+      };
     case types.ONE_WAY_FAIL:
       return {
         ...state,
         isLoading: false,
         isError: true,
+      };
+    case types.ONE_WAY_FAIL_COMBINED:
+      return {
+        ...state,
+        isLoadingFilter: false,
+        isErrorCombine: true,
       };
 
     case types.ONE_WAY_SUCCESS:
@@ -33,6 +48,14 @@ export const oneWayReducer = (state = initState, action) => {
         oneWayData: payload,
         isLoading: false,
         isError: false,
+        showSuccessMessage: true,
+      };
+    case types.ONE_WAY_SUCCESS_COMBINED:
+      return {
+        ...state,
+        oneWayData: payload,
+        isLoadingFilter: false,
+        isErrorCombine: false,
         showSuccessMessage: true,
       };
 
@@ -44,6 +67,8 @@ export const oneWayReducer = (state = initState, action) => {
         oneWayData: [],
         isLoading: false,
         isError: false,
+        isLoadingFilter: false,
+        isErrorCombine: false,
         showSuccessMessage: true,
       };
 

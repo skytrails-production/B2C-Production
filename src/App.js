@@ -175,10 +175,11 @@ function App() {
     dispatch(getMarkUpAction());
   }, []);
 
-
+  const [cacheLoader, setCacheLoader] = useState(false);
 
   useEffect(() => {
     // Generate a unique identifier for cache-busting
+    setCacheLoader(true);
     const cacheBuster = new Date().getTime();
 
     // Function to update URLs with cache-buster
@@ -204,6 +205,7 @@ function App() {
 
     // Apply cache-busting
     updateAssetURLs();
+    setCacheLoader(false)
 
     // Optionally, you can perform other cache-related actions here
 
@@ -287,6 +289,20 @@ function App() {
 
 
   // console.log(location.pathname, "location of pathname")
+  if (cacheLoader) {
+    return (
+      <div style={{ width: "100%", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
+
+        <div style={{    border: "8px solid #f3f3f3",borderTop: "8px solid #e73c34",borderRadius:"50%",
+    width: "50px",
+    height: "50px",
+    animation: "rotate 1s linear infinite",
+    margin: "0 auto"}}>
+
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="background_gradient">
@@ -297,13 +313,13 @@ function App() {
 
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
-        location.pathname !=="/phone" &&
+        location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
         // location.pathname !== "/inventoryhotelform" && <InsideNavbar />}
         location.pathname !== "/inventoryhotelform" && <Navbar />}
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
-        location.pathname !=="/phone" &&
+        location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
         // location.pathname !== "/inventoryhotelform" && <InsideNavbar />}
         location.pathname !== "/inventoryhotelform" && <BottomNavbar />}
@@ -576,12 +592,12 @@ function App() {
           element={<ItenaryPdfDownloader />}
         ></Route>
 
-         <Route
+        <Route
           // path="/itenaryDownload"
           path="/Package/form"
-          element={<Packageform/>}
+          element={<Packageform />}
         ></Route>
-       <Route path="/phone" element={<PhoneNumber />}></Route>
+        <Route path="/phone" element={<PhoneNumber />}></Route>
         {/* <Route
           path="/practice"
           element={<ItenaryPractice/>}
@@ -591,13 +607,13 @@ function App() {
       {/* complete inventory */}
 
       {/* <Whatsapp /> */}
-      
+
 
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/inventoryForgetPassword" &&
         location.pathname !== "/inventoryDashboard" &&
-        location.pathname !=="/phone" &&
+        location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
         location.pathname !== "/inventoryhotelform" && <Whatsapp />}
 
@@ -605,7 +621,7 @@ function App() {
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/inventoryForgetPassword" &&
         location.pathname !== "/inventoryDashboard" &&
-        location.pathname !=="/phone" &&
+        location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
         location.pathname !== "/inventoryhotelform" && <ScrollToTop />}
 
@@ -616,7 +632,7 @@ function App() {
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/inventoryForgetPassword" &&
         location.pathname !== "/inventoryDashboard" &&
-        location.pathname !=="/phone" &&
+        location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
         location.pathname !== "/inventoryhotelform" && <Footer />}
     </div>

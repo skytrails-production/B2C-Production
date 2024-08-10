@@ -113,6 +113,11 @@ const PackageResultFilter = ({
                     value={priceRange}
                     onChange={handlePriceChange}
                 />
+
+                <div className="d-flex flex-row justify-content-between align-items-center ">
+                    <span style={{ fontWeight: "600", fontSize: "13px" }}>₹ {priceRange?.[0]}</span>
+                    <span style={{ fontWeight: "600", fontSize: "13px" }}>₹ {priceRange?.[1]}</span>
+                </div>
             </div>
             <div className="PackagetagFilters" >
                 <p>Themes</p>

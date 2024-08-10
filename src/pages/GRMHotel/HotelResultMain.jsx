@@ -1,28 +1,34 @@
 import React, { useState, useEffect } from 'react'
 import HotelResult from './HotelResult'
 import { useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
 import { FaPen } from "react-icons/fa";
 import HotelFilterBox from './HotelFilterBox';
-import SkeletonHotelResult from "./Skeletons/SkeletonHotelResult"
-import SkeletonHotelResultFilter from "./Skeletons/SkeletonHotelResultFilter"
+import { EditOutlined } from '@ant-design/icons';
 import GrmHotelform2 from './GrmHotelform2';
+import HolidayResultSkeleton from '../NewPackagePages/HolidayPackageSearchResult/holidayresultSkeletonPage/HolidayResultSkeleton';
+import HotelMobileFilter from './HotelMobileFilter';
+import dayjs from 'dayjs';
+import { useNavigate } from 'react-router-dom';
 
 
 const HotelResultMain = () => {
 
     // const navigate = useNavigate();
     const reducerState = useSelector((state) => state);
+    console.log(reducerState, "reducerState")
     const [loader, setLoader] = useState(true);
     const [hotelData, setHotelData] = useState([])
+    const navigate = useNavigate();
+    const grnPayload = JSON.parse(sessionStorage.getItem('revisithotel'));
+
 
 
     useEffect(() => {
-        if (reducerState?.hotelSearchResultGRN?.onlyHotels?.length > 0) {
-            setHotelData(reducerState?.hotelSearchResultGRN?.onlyHotels)
+        if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels?.length > 0) {
+            setHotelData(reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels)
             setLoader(false)
         }
-    }, [reducerState?.hotelSearchResultGRN?.onlyHotels, reducerState?.hotelSearchResultGRN])
+    }, [reducerState?.hotelSearchResultGRN?.ticketData])
 
     // const getUniqueFacilities = (hotels) => {
     //     console.log(hotels, "hotels")
@@ -31,6 +37,8 @@ const HotelResultMain = () => {
     //     );
     //     return Array.from(new Set(allFacilities));
     // };
+
+    // console.log(hotelData, "hotel data")
     const getUniqueFacilities = (hotels) => {
         const allFacilities = hotels?.flatMap((hotel) =>
             hotel?.facilities
@@ -60,7 +68,7 @@ const HotelResultMain = () => {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedFacilities, setSelectedFacilities] = useState([]);
     const [priceRange, setPriceRange] = useState([0, 0]);
-    const [sortBy, setSortBy] = useState(null); // No initial sorting
+    const [sortBy, setSortBy] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [errors, setErrors] = useState(false)
 
@@ -102,23 +110,41 @@ const HotelResultMain = () => {
 
 
 
-
-    // console.log(reducerState, "reducer state, dfdfd")
-
-
-
-
     useEffect(() => {
         if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.errors?.[0]?.code == "1501") {
             setErrors(true);
+        }
+        if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.errors?.[0]?.code == "5111") {
+            setErrors(true);
+        }
+        else {
+            setErrors(false)
         }
 
     }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data])
 
 
+
+    if (loader) {
+        return <HolidayResultSkeleton />
+    }
+
+
+
+    let totalAdults = 0;
+    let totalChildren = 0;
+
+
+    grnPayload?.[0]?.rooms?.forEach((room) => {
+        totalAdults += room?.adults || 0;
+        totalChildren += room?.children_ages.length || 0;
+    });
+
+
+
     return (
         <div>
-            <div className='mainimgHotelSearchResult'>
+            <div className='mainimgHotelSearchResult visibleBigHotel'>
                 <GrmHotelform2 />
                 <div className="container searchMainBoxAbs">
                     <div className="HotelResultSearchBarBox">
@@ -127,24 +153,38 @@ const HotelResultMain = () => {
                     </div>
                 </div>
             </div>
-
-            <div className="container">
-                {
-                    errors ?
-                        <div className="row">
-                            <div className='noHotels'>
-                                <h3>No result found for the requested search criteria !</h3>
-                                <p>Please Modify Your search <FaPen /></p>
+            <div className=' visibleSmall stickyHotelDetails' >
+                <section style={{ borderTop: "1px solid lightgray", background: "white" }}>
+                    <div className="container ">
+                        <div className='smallHotelEditBox'>
+                            <div className='smallHotelEditDetails'>
+                                <p>{grnPayload?.[0]?.cityName}</p>
+                                <span>{dayjs(grnPayload?.[0]?.checkin).format("DD MMM")}-{dayjs(grnPayload?.[0]?.checkout).format("DD MMM")} | {grnPayload?.[0]?.rooms?.length} {grnPayload?.[0]?.rooms.length == 0 ? "Room" : "Rooms"} | {Number(totalAdults) + Number(totalChildren)} Guests</span>
+                            </div>
+                            <div onClick={() => { navigate("/st-hotel") }}>
+                                <EditOutlined />
                             </div>
                         </div>
-                        :
-                        <div className="row">
-                            <div className=" col-lg-3 col-md-3 pt-4">
-                                {
-                                    loader ?
-                                        <SkeletonHotelResultFilter />
-                                        :
+                    </div>
+                </section>
+            </div>
 
+            {
+                loader ? <HolidayResultSkeleton />
+                    :
+
+                    <div className="container">
+                        {
+                            errors ?
+                                <div className="row">
+                                    <div className='noHotels'>
+                                        <h3>No result found for the requested search criteria !</h3>
+                                        <p>Please Modify Your search <FaPen /></p>
+                                    </div>
+                                </div>
+                                :
+                                <div className="row pt-4">
+                                    <div className=" col-lg-3 visibleBig p-0">
                                         <HotelFilterBox
                                             uniqueFacilities={uniqueFacilities}
                                             onCategoryChange={handleCategoryChange}
@@ -161,15 +201,32 @@ const HotelResultMain = () => {
                                             priceRange={priceRange}
                                             sortBy={sortBy}
                                         />
-                                }
-                            </div>
+
+                                    </div>
 
 
-                            <div className=" col-lg-9 col-md-12 pt-4">
-                                {
-                                    loader ?
-                                        <SkeletonHotelResult />
-                                        :
+                                    <div className="col-lg-12 visibleSmall stikcyHotelFilter">
+                                        <HotelMobileFilter
+                                            uniqueFacilities={uniqueFacilities}
+                                            onCategoryChange={handleCategoryChange}
+                                            onFacilityChange={handleFacilityChange}
+                                            onPriceChange={handlePriceChange}
+                                            onSortChange={handleSortChange}
+                                            onSearchTermChange={handleSearchTermChange}
+                                            onClearFilters={handleClearFilters}
+                                            minPrice={min}
+                                            maxPrice={max}
+                                            searchTerm={searchTerm}
+                                            selectedCategories={selectedCategories}
+                                            selectedFacilities={selectedFacilities}
+                                            priceRange={priceRange}
+                                            sortBy={sortBy}
+                                        />
+                                    </div>
+
+
+                                    <div className=" col-lg-9 col-md-12 ">
+
                                         <HotelResult
                                             hotels={hotelData}
                                             selectedCategories={selectedCategories}
@@ -178,14 +235,14 @@ const HotelResultMain = () => {
                                             sortBy={sortBy}
                                             searchTerm={searchTerm}
                                         />
-                                }
-                            </div>
 
-                        </div>
-                }
-            </div>
+                                    </div>
 
+                                </div>
+                        }
+                    </div>
 
+            }
 
         </div>
     )

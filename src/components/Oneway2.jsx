@@ -6,7 +6,7 @@ import { apiURL } from "../Constants/constant";
 import axios from "axios";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import "react-datepicker/dist/react-datepicker.css";
-import { oneWayAction, resetOneWay } from "../Redux/FlightSearch/oneWay";
+import { oneWayAction, resetOneWay ,oneWayActionCombined} from "../Redux/FlightSearch/oneWay";
 import { searchFlight, clearSearch } from "../Redux/SearchFlight/actionSearchFlight";
 import { useNavigate } from "react-router-dom";
 import "react-date-range/dist/styles.css";
@@ -555,6 +555,7 @@ function OnewayNew() {
     const formattedDate = parsedDate.toISOString();
     // console.log(formattedDate,"formattedDate")
     dispatch(oneWayAction(payload));
+    dispatch(oneWayActionCombined(payload));
     const searchpy = {
       from: { ...selectedFrom },
       to: { ...selectedTo },

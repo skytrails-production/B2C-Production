@@ -70,7 +70,22 @@ function api() {
   const oneWaySearch = (payload) => {
     return axios({
       method: "POST",
+      // url: "/skytrails/api/combined/combineTVOAMADEUSPriceSort",
+      url: "/skytrails/api/combined/AMADEUSPriceSort",
+
+
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+  const oneWaySearchCombined = (payload) => {
+    return axios({
+      method: "POST",
       url: "/skytrails/api/combined/combineTVOAMADEUSPriceSort",
+      // url: "/skytrails/api/combined/AMADEUSPriceSort",
 
 
       baseURL: `${apiURL.baseURL}`,
@@ -444,7 +459,8 @@ function api() {
 
     return axios({
       method: "POST",
-      url: `/skyTrails/grnconnect/hotelSearchWithPagination?page=${payload.page}`,
+      // url: `/skyTrails/grnconnect/hotelSearchWithPagination?page=${payload.page}`,
+      url: `/skyTrails/grnconnect/searchmultihotel`,
       baseURL: `${apiURL.baseURL}`,
       data: payload.data,
       headers: {
@@ -689,6 +705,7 @@ function api() {
     userB2CLogin,
     userB2BToken,
     oneWaySearch,
+    oneWaySearchCombined,
     flightQuoteSearch,
     flightRuleSearch,
     flightGetTicketLcc,

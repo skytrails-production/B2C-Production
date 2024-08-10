@@ -17,6 +17,8 @@
   --black3: #020c1b;
   --black4: #222222;
   --black5: #000000;
+  --borderDarkGray: #ddd;
+  --borderLightGray: lightgray;
   --pureWhite: #fff;
   --white2: #f1f1f1;
   --black-lighter: #1c4b91;
@@ -32,9 +34,9 @@
   box-sizing: border-box;
 }
 
-// body {
-//   background-color: var(--black4);
-// }
+body {
+  background-color: #f1f1f1;
+}
 
 ::-webkit-scrollbar {
   display: none;

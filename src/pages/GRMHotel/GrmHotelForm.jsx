@@ -8,7 +8,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-
+import { useMediaQuery } from 'react-responsive';
+import CustomCalender from "./CustomCalender";
 import {
   hotelActionGRN,
   clearHotelReducerGRN,
@@ -306,6 +307,8 @@ const GrmHotelForm = () => {
   const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData);
   const [selectNationality, setSelectNationality] = useState(initialSelectedToData);
 
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+
 
   const handleFromSelect = (item) => {
     setSelectedFrom(item);
@@ -382,17 +385,45 @@ const GrmHotelForm = () => {
 
 
 
-  // date selection logic here 
+  // date selection logic here
 
 
+
+  // const dateFormat = "DD MMM";
+
+  // const today = dayjs().format(dateFormat);
+
+  // const initialDepartDate = new Date();
+  // const initialReturnDate = dayjs(initialDepartDate).add(1, 'day').toDate();
+  const [modalVisible, setModalVisible] = useState(false);
+  // const [newDepartDate, setNewDepartDate] = useState(today);
+  // const [newReturnDate, setNewReturnDate] = useState(initialReturnDate);
 
   const dateFormat = "DD MMM";
+  const today = dayjs();
 
-  const initialDepartDate = new Date();
-  const initialReturnDate = dayjs(initialDepartDate).add(1, 'day').toDate();
+  const [newDepartDate, setNewDepartDate] = useState(today);
+  const [newReturnDate, setNewReturnDate] = useState(today.add(1, 'day'));
 
-  const [newDepartDate, setNewDepartDate] = useState(initialDepartDate);
-  const [newReturnDate, setNewReturnDate] = useState(initialReturnDate);
+
+  // console.log(newDepartDate, newReturnDate, "dep ret")
+
+  // const [mobileDepartDate, setMobileDepartDate] = useState()
+
+
+  const handleOpenModal = () => {
+    setModalVisible(true);
+  };
+
+
+  const handleCloseModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleSelectDateRange = (startDate, endDate) => {
+    setNewDepartDate(dayjs(startDate).format("DD MMM, YY"));
+    setNewReturnDate(dayjs(endDate).format("DD MMM, YY"));
+  };
 
   const handleRangeChange = (dates, dateStrings) => {
     if (dates) {
@@ -406,13 +437,10 @@ const GrmHotelForm = () => {
       setNewDepartDate(dayjs(departDate).format("DD MMM, YY"));
       setNewReturnDate(dayjs(returnDate).format("DD MMM, YY"));
     } else {
-      console.log("Selection cleared");
+      // console.log("Selection cleared");
     }
   };
 
-  const handleFocusDatePicker = (e) => {
-    e.target.blur();
-  };
 
 
   const disablePastDates = (current) => {
@@ -467,12 +495,10 @@ const GrmHotelForm = () => {
 
     const pageNumber = 1;
     sessionStorage.setItem("grnPayload", JSON.stringify(payload));
-    // dispatch(hotelActionGRN(payload, pageNumber));
 
-    // Loop to dispatch the action with incrementing page numbers
-    for (let pageNumber = 1; pageNumber <= 10; pageNumber++) {
-      dispatch(hotelActionGRN(payload, pageNumber));
-    }
+    // for (let pageNumber = 1; pageNumber <= 10; pageNumber++) {
+    dispatch(hotelActionGRN(payload, pageNumber));
+    // }
 
     navigate("/st-hotel/hotelresult");
 
@@ -532,27 +558,61 @@ const GrmHotelForm = () => {
             </div>
           </div>
 
-          <div className="col-lg-3">
-            <div className="newOnewaySingle">
-              {/* <div className="d-flex justify-content-evenly"> */}
-              <span className="me-4">Check In</span>
-              <span className="ms-5 smMargin">Check Out</span>
-              {/* </div> */}
-              <RangePicker
-                onChange={handleRangeChange}
-                defaultValue={[dayjs(newDepartDate), dayjs(newReturnDate)]}
-                format={dateFormat}
-                disabledDate={disablePastDates}
-                onFocus={handleFocusDatePicker}
-              />
-              {/* <div className="d-flex justify-content-evenly">
+
+          {
+
+            isMobile ?
+              (
+                <div className="col-lg-3">
+                  <div className="newOnewaySingle " onClick={handleOpenModal}>
+                    <span className="me-4">Depart</span>
+                    <span className="ms-5 smMargin">Return</span>
+                    <div className="travelContent smallCustomCalender">
+                      <p className="selectedDates">
+                        {dayjs(newDepartDate).format("DD MMM, YY")}
+                      </p>
+                      <p className="selectedDates">
+                        {dayjs(newReturnDate).format("DD MMM, YY")}
+                      </p>
+                    </div>
+                  </div>
+                  <CustomCalender
+                    visible={modalVisible}
+                    onClose={handleCloseModal}
+                    onSelectDateRange={handleSelectDateRange}
+                    startDate={dayjs(newDepartDate).format("DD MMM, YY")}
+                    endDate={dayjs(newReturnDate).format("DD MMM, YY")}
+                  />
+                </div>
+              )
+              :
+              (
+
+                <div className="col-lg-3">
+                  <div className="newOnewaySingle">
+                    {/* <div className="d-flex justify-content-evenly"> */}
+                    <span className="me-4">Check In</span>
+                    <span className="ms-5 smMargin">Check Out</span>
+                    {/* </div> */}
+                    <RangePicker
+                      onChange={handleRangeChange}
+                      defaultValue={[dayjs(newDepartDate), dayjs(newReturnDate)]}
+                      // defaultValue={[dayjs(), dayjs()]}
+                      format={dateFormat}
+                      disabledDate={disablePastDates}
+                    // onFocus={handleFocusDatePicker}
+                    />
+                    {/* <div className="d-flex justify-content-evenly">
                 <span className="nrsb">{dayjs(newDepartDate).format('dddd')}</span>
                 <span className="nrsb">{dayjs(newReturnDate).format('dddd')}</span>
               </div> */}
-            </div>
-          </div>
+                  </div>
+                </div>
+              )}
 
-          <div className="col-lg-3">
+
+
+          <div className="col-lg-4">
             <div>
               <div className="newOnewaySingle " onClick={handleTravelClickOpen}>
                 {/* <div> */}
@@ -752,7 +812,7 @@ const GrmHotelForm = () => {
             </div>
           </div>
 
-          <div className="col-lg-3">
+          <div className="col-lg-2">
             <div className="newOnewaySingle">
               {/* <div> */}
               <span >Nationality</span>

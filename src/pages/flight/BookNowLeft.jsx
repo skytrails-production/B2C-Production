@@ -36,16 +36,16 @@ const BookNowLeft = (props) => {
   const AmountList = useSelector((state) => state?.airlineSeatMap?.amountTVO);
   let totalSeatAmount
   // useEffect(()=>{
-    
-    totalSeatAmount=AmountList?  AmountList.reduce((acc,curr)=>{
 
-      // console.log(acc,curr)
-      return acc+curr[0]
-  },0):0
+  totalSeatAmount = AmountList ? AmountList.reduce((acc, curr) => {
+
+    // console.log(acc,curr)
+    return acc + curr[0]
+  }, 0) : 0
   // },[AmountList])
   // console.log(totalSeatAmount,"bookwrqappernowtotalamunt")
 
-  const { onFinalAmountChange,oncouponselect,disountamount } = props;
+  const { onFinalAmountChange, oncouponselect, disountamount } = props;
   // console.log(props.baggAmount, "props.BaseFareeeeeeeeeeeee")
 
   const isDummyStorageTrue = sessionStorage.getItem("hdhhfb7383__3u8748");
@@ -228,7 +228,7 @@ const BookNowLeft = (props) => {
 
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
-     // console.log("fareValue", fareValue,fareQuote);
+  // console.log("fareValue", fareValue,fareQuote);
   // console.log("fareValue", discountValue);
 
   const integerValue = discountValue;
@@ -240,9 +240,9 @@ const BookNowLeft = (props) => {
   //   markUpamount * parseInt(fareValue?.Fare?.PublishedFare);
   let total = 0;
 
-  const adultCount =Number( queryParams.get("adult"));
-  const childCount =Number( queryParams.get("child"));
-  const infantCount =Number( queryParams.get("infant"));
+  const adultCount = Number(queryParams.get("adult"));
+  const childCount = Number(queryParams.get("child"));
+  const infantCount = Number(queryParams.get("infant"));
 
   const dateString = fareValue?.Segments[0][0]?.Origin?.DepTime;
   const date = new Date(dateString);
@@ -313,9 +313,9 @@ const BookNowLeft = (props) => {
         finalAmount = Number(publishedFare) + Number(markUpamount) * Number(publishedFare) - Number(publishedFare) * Number(discountamount * 0.01);
         discountAmount = Number(publishedFare) * Number(discountamount * 0.01);
 
-       
+
       } else if (discountValueObj?.[0].type == "AMOUNT") {
-        finalAmount = Number(publishedFare) + Number(markUpamount)* Number(publishedFare) - Number(discountamount);
+        finalAmount = Number(publishedFare) + Number(markUpamount) * Number(publishedFare) - Number(discountamount);
         discountAmount = Number(discountamount);
       }
       // } else if (discountValueObj?.[0].type == "AMOUNT") {
@@ -328,9 +328,9 @@ const BookNowLeft = (props) => {
       // }
     } else {
       finalAmount =
-      Number( finalAmount) +
-      Number(fareValue?.Fare?.PublishedFare) +
-      Number( markUpamount) * Number(fareValue?.Fare?.PublishedFare);
+        Number(finalAmount) +
+        Number(fareValue?.Fare?.PublishedFare) +
+        Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare);
     }
     // return { amountGenerator: { finalAmount, discountAmount } };
     return { finalAmount, discountAmount };
@@ -349,21 +349,21 @@ const BookNowLeft = (props) => {
     } else {
       console.error(error);
     }
-  }, [finalAmount,couponCode,discountAmount]);
+  }, [finalAmount, couponCode, discountAmount]);
   // console.log("totalPriceCalculator", totalPriceCalculator());
 
 
-  const adultamount = Number(fareValue?.FareBreakdown?.[0]?.BaseFare) ;
-  const chilsamount = Number(fareValue?.FareBreakdown?.[1]?.BaseFare)  ;
-  const infantamount = Number(fareValue?.FareBreakdown?.[2]?.BaseFare) ;
+  const adultamount = Number(fareValue?.FareBreakdown?.[0]?.BaseFare);
+  const chilsamount = Number(fareValue?.FareBreakdown?.[1]?.BaseFare);
+  const infantamount = Number(fareValue?.FareBreakdown?.[2]?.BaseFare);
 
-  const  childmultiply =  chilsamount;
+  const childmultiply = chilsamount;
 
   const infantmultiplicity = infantamount;
   // const totalTax = amdata?.monetaryDetail?.[1]?.amount    ;
 
 
-  const multiplydata =  adultamount;
+  const multiplydata = adultamount;
 
   // console.log(
   //   finalAmount,
@@ -426,7 +426,7 @@ const BookNowLeft = (props) => {
                         <span>Adult x {data?.PassengerCount}</span>
                         <p>
                           {"₹"}
-                          {data?.BaseFare + data?.Tax}
+                          {Number(data?.BaseFare + data?.Tax).toFixed(0)}
                         </p>
                       </>
                     )}
@@ -435,7 +435,7 @@ const BookNowLeft = (props) => {
                         <span>Child x {data?.PassengerCount}</span>
                         <p>
                           {"₹"}
-                          {data?.BaseFare + data?.Tax}
+                          {Number(data?.BaseFare + data?.Tax).toFixed(0)}
                         </p>
                       </>
                     )}
@@ -444,7 +444,7 @@ const BookNowLeft = (props) => {
                         <span>Infant x {data?.PassengerCount}</span>
                         <p>
                           {"₹"}
-                          {data?.BaseFare + data?.Tax}
+                          {Number(data?.BaseFare + data?.Tax).toFixed(0)}
                         </p>
                       </>
                     )}
@@ -455,46 +455,46 @@ const BookNowLeft = (props) => {
 
             <div className="TotGstFlight">
               <div>
-              <div style={{display:"flex",gap:"1px"}}>
-                <span>Base Fare : </span>
-                <div style={{background:"none",border:"none",padding:"2px",cursor:"pointer",marginRight:"2px",marginTop:"-4px"}}>                <span style={{margin:"2px"}} onClick={toggleDetails} >
-        {showDetails ? <FiMinusCircle/> : <FiPlusCircle/>}
-      </span>
-      </div>
-      </div>
-      <p> {"₹"}{parseInt(fareValue?.Fare?.BaseFare)}</p>
-      </div>
-      {showDetails && (
-        <div  style={{width:"100%",display:"flex",flexDirection:"column"}} >
-          <div style={{ borderBottom: "none",width:"100%",display:"flex",justifyContent:"space-between" }}>
-            <p>
-              Adult(s) ({adultCount} × {adultamount})
-            </p>
-            <p>{"₹"} {multiplydata} </p>
-          </div>
-          <div style={{ borderBottom: "none" ,width:"100%",display:"flex",justifyContent:"space-between"}}>
-            {childCount > 0 && (
-              <>
-                <p>Child(s) ({childCount} × {chilsamount})</p>
-                <p>{"₹"} {childmultiply}</p>
-              </>
-            )}
-          </div>
-          <div style={{ borderBottom: "none" ,width:"100%",display:"flex",justifyContent:"space-between"}}>
-            {infantCount > 0 && (
-              <>
-                <p>Infant(s) ({infantCount} × {infantamount})</p>
-                <p>{"₹"} {infantmultiplicity}</p>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-   
-               
+                <div style={{ display: "flex", gap: "1px" }}>
+                  <span>Base Fare : </span>
+                  <div style={{ background: "none", border: "none", padding: "2px", cursor: "pointer", marginRight: "2px", marginTop: "-4px" }}>                <span style={{ margin: "2px" }} onClick={toggleDetails} >
+                    {showDetails ? <FiMinusCircle /> : <FiPlusCircle />}
+                  </span>
+                  </div>
+                </div>
+                <p> {"₹"}{parseInt(fareValue?.Fare?.BaseFare)}</p>
+              </div>
+              {showDetails && (
+                <div style={{ width: "100%", display: "flex", flexDirection: "column" }} >
+                  <div style={{ borderBottom: "none", width: "100%", display: "flex", justifyContent: "space-between" }}>
+                    <p>
+                      Adult(s) ({adultCount} × {adultamount})
+                    </p>
+                    <p>{"₹"} {multiplydata} </p>
+                  </div>
+                  <div style={{ borderBottom: "none", width: "100%", display: "flex", justifyContent: "space-between" }}>
+                    {childCount > 0 && (
+                      <>
+                        <p>Child(s) ({childCount} × {chilsamount})</p>
+                        <p>{"₹"} {childmultiply}</p>
+                      </>
+                    )}
+                  </div>
+                  <div style={{ borderBottom: "none", width: "100%", display: "flex", justifyContent: "space-between" }}>
+                    {infantCount > 0 && (
+                      <>
+                        <p>Infant(s) ({infantCount} × {infantamount})</p>
+                        <p>{"₹"} {infantmultiplicity}</p>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+
+
               <div>
                 <span>Surcharge : </span>
-                <p> {"₹"}{parseInt(fareValue?.Fare?.Tax) }</p>
+                <p> {"₹"}{parseInt(fareValue?.Fare?.Tax)}</p>
               </div>
               {/* <div>
                 <span>Other TAX : </span>
@@ -507,46 +507,46 @@ const BookNowLeft = (props) => {
                   ).toFixed(2)}
                 </p>
               </div> */}
-              {((Number(props.mellAmount) > 0) || (Number(props.baggAmount) > 0) || (totalSeatAmount) >0) && (
-  <div>
-    <span onClick={()=>toggleDetailsOther()}>Other TAX {showDetailsOther ? <FiMinusCircle/> : <FiPlusCircle/>} : </span>
-    <p>
-      {"₹"}
-      {(Number(props.baggAmount) + Number(props.mellAmount) + Number(totalSeatAmount))}
-    </p>
-  </div>
-  
+              {((Number(props.mellAmount) > 0) || (Number(props.baggAmount) > 0) || (totalSeatAmount) > 0) && (
+                <div>
+                  <span onClick={() => toggleDetailsOther()}>Other TAX {showDetailsOther ? <FiMinusCircle /> : <FiPlusCircle />} : </span>
+                  <p>
+                    {"₹"}
+                    {(Number(props.baggAmount) + Number(props.mellAmount) + Number(totalSeatAmount))}
+                  </p>
+                </div>
 
-)
 
-}
-{showDetailsOther && Number(props.mellAmount)!==0 &&  <div  style={{width:"100%",display:"flex",flexDirection:"column"}} >
-          <div style={{ borderBottom: "none",width:"100%",display:"flex",justifyContent:"space-between" }}>
-            <p>
-              Meal
-            </p>
-            <p>{"₹"} {Number(props.mellAmount)} </p>
-          </div>
-          </div>
-          }
-{showDetailsOther && Number(props.baggAmount)!==0 &&  <div  style={{width:"100%",display:"flex",flexDirection:"column"}} >
-          <div style={{ borderBottom: "none",width:"100%",display:"flex",justifyContent:"space-between" }}>
-            <p>
-              Baggage
-            </p>
-            <p>{"₹"} {Number(props.baggAmount)} </p>
-          </div>
-          </div>
-          }
-{showDetailsOther && Number(totalSeatAmount)!==0 &&  <div  style={{width:"100%",display:"flex",flexDirection:"column"}} >
-          <div style={{ borderBottom: "none",width:"100%",display:"flex",justifyContent:"space-between" }}>
-            <p>
-              Seat
-            </p>
-            <p>{"₹"} {Number(totalSeatAmount)} </p>
-          </div>
-          </div>
-          }
+              )
+
+              }
+              {showDetailsOther && Number(props.mellAmount) !== 0 && <div style={{ width: "100%", display: "flex", flexDirection: "column" }} >
+                <div style={{ borderBottom: "none", width: "100%", display: "flex", justifyContent: "space-between" }}>
+                  <p>
+                    Meal
+                  </p>
+                  <p>{"₹"} {Number(props.mellAmount)} </p>
+                </div>
+              </div>
+              }
+              {showDetailsOther && Number(props.baggAmount) !== 0 && <div style={{ width: "100%", display: "flex", flexDirection: "column" }} >
+                <div style={{ borderBottom: "none", width: "100%", display: "flex", justifyContent: "space-between" }}>
+                  <p>
+                    Baggage
+                  </p>
+                  <p>{"₹"} {Number(props.baggAmount)} </p>
+                </div>
+              </div>
+              }
+              {showDetailsOther && Number(totalSeatAmount) !== 0 && <div style={{ width: "100%", display: "flex", flexDirection: "column" }} >
+                <div style={{ borderBottom: "none", width: "100%", display: "flex", justifyContent: "space-between" }}>
+                  <p>
+                    Seat
+                  </p>
+                  <p>{"₹"} {Number(totalSeatAmount)} </p>
+                </div>
+              </div>
+              }
 
               {discountAmount > 0 && (
                 <div>
@@ -572,7 +572,7 @@ const BookNowLeft = (props) => {
                   {Number(
                     Number(finalvalue) +
                     Number(props.baggAmount) +
-                    Number(props.mellAmount)+
+                    Number(props.mellAmount) +
                     Number(totalSeatAmount)
                   ).toFixed(2)}
                 </p>

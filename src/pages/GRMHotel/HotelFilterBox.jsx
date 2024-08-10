@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Slider } from "antd";
+import { Checkbox, Input, Slider } from "antd";
 import debounce from "lodash/debounce";
 
 import starsvg from "./../../images/star.svg";
@@ -74,15 +74,39 @@ const HotelFilterBox = ({
     const facilitiesToShow = showAllFacilities ? uniqueFacilities : uniqueFacilities.slice(0, 10);
 
     return (
-        <div className="hotelFilterNew">
-            <div className="hotelFilterOuter">
+        <div className="holidayFilterMainBox ">
+
+
+            <div className="holidayFilterClear">
+                <h5 style={{ cursor: "pointer", fontSize: "15px", fontWeight: "700" }} onClick={handleClearFilters}>
+                    Clear Filters
+                </h5>
+            </div>
+
+            {/* <div className="hotelFilterOuter">
                 <div className="hotelSearchFilter">
                     <p className="">Sort By Price</p>
                     <input type="text" placeholder="Search by Hotel Name" value={searchTerm} onChange={handleSearchChange} />
                 </div>
+            </div> */}
+
+
+
+
+            <div className="holidayFilterSearch">
+                <p className="">Search By Name</p>
+                <Input
+                    type="text"
+                    placeholder="Search by Hotel Name"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                />
             </div>
 
-            <div className="busDepartureMain">
+
+
+
+            <div className="busDepartureMain" style={{ background: "#fff" }}>
                 <p className="">Sort By Price</p>
                 <div>
                     <label className="sidebar-label-container ps-0">
@@ -122,104 +146,101 @@ const HotelFilterBox = ({
             </div>
 
 
-            <div style={{ textAlign: "center" }}>
-                <span style={{ color: "#e73c34", fontWeight: "600", fontSize: "14px", cursor: "pointer", }} onClick={handleClearFilters}>
-                    Clear Filters
-                </span>
-            </div>
 
-
-            <div className="hotelFilterOuter">
-                <div className="hoterRatingFilter">
-                    <p className="">Filter by Rating</p>
-                    <label>
-                        <input
-                            type="checkbox"
-                            value="3"
-                            checked={selectedCategories.includes(3)}
-                            onChange={handleCategoryChange}
-                        />
-                        {[1, 2, 3, 4, 5].map((item, index) => (
-                            <React.Fragment key={index}>
-                                {index <= 2 ? (
-                                    <img src={starsvg} alt="" />
-                                ) : (
-                                    <img src={starBlank} alt="" />
-                                )}
-                            </React.Fragment>
-                        ))}
-                    </label>
-
-                    <label>
-                        <input
-                            type="checkbox"
-                            value="4"
-                            checked={selectedCategories.includes(4)}
-                            onChange={handleCategoryChange}
-                        />
-                        {[1, 2, 3, 4, 5].map((item, index) => (
-                            <React.Fragment key={index}>
-                                {index <= 3 ? (
-                                    <img src={starsvg} alt="" />
-                                ) : (
-                                    <img src={starBlank} alt="" />
-                                )}
-                            </React.Fragment>
-                        ))}
-                    </label>
-
-                    <label>
-                        <input
-                            type="checkbox"
-                            value="5"
-                            checked={selectedCategories.includes(5)}
-                            onChange={handleCategoryChange}
-                        />
-                        {[1, 2, 3, 4, 5].map((item, index) => (
-                            <img src={starsvg} alt="" key={index} />
-                        ))}
-                    </label>
-                </div>
-            </div>
-
-            <div className="hotelFilterOuter">
-                <div className="hotelPriceSlider">
-                    <p className="">Sort By Price</p>
-                    <Slider
-                        range
-                        step={400}
-                        min={minPrice}
-                        max={maxPrice}
-                        value={priceRange}
-                        onChange={handlePriceChange}
-                    />
-                </div>
-            </div>
-
-            <div className="hotelFilterOuter">
-                <div className="hoterFacilityFilter">
-                    <p className="">Filter by Facilities</p>
-                    {facilitiesToShow.map((facility) => (
-                        facility !== undefined &&
-                        <label key={facility}>
-                            <input
-                                type="checkbox"
-                                value={facility}
-                                checked={selectedFacilities.includes(facility)}
-                                onChange={handleFacilityChange}
-                            />
-                            {facility}
-                        </label>
+            <div className="PackagetagFilters" >
+                <p>Themes</p>
+                <Checkbox
+                    value="3"
+                    checked={selectedCategories.includes(3)}
+                    onChange={handleCategoryChange}
+                >
+                    {[1, 2, 3, 4, 5].map((item, index) => (
+                        <React.Fragment key={index}>
+                            {index <= 2 ? (
+                                <img src={starsvg} alt="" />
+                            ) : (
+                                <img src={starBlank} alt="" />
+                            )}
+                        </React.Fragment>
                     ))}
-                    {uniqueFacilities.length > 15 && (
-                        <div style={{ textAlign: "center" }}>
-                            <span style={{ color: "#e73c34", fontWeight: "600", fontSize: "14px", cursor: "pointer", }} onClick={handleShowMore}>
-                                {showAllFacilities ? "Show Less" : "Show More"}
-                            </span>
-                        </div>
-                    )}
+                </Checkbox>
+                <Checkbox
+                    value="4"
+                    checked={selectedCategories.includes(4)}
+                    onChange={handleCategoryChange}
+                >
+                    {[1, 2, 3, 4, 5].map((item, index) => (
+                        <React.Fragment key={index}>
+                            {index <= 3 ? (
+                                <img src={starsvg} alt="" />
+                            ) : (
+                                <img src={starBlank} alt="" />
+                            )}
+                        </React.Fragment>
+                    ))}
+                </Checkbox>
+                <Checkbox
+                    value="5"
+                    checked={selectedCategories.includes(5)}
+                    onChange={handleCategoryChange}
+                >
+                    {[1, 2, 3, 4, 5].map((item, index) => (
+                        <React.Fragment key={index}>
+                            {index <= 4 ? (
+                                <img src={starsvg} alt="" />
+                            ) : (
+                                <img src={starBlank} alt="" />
+                            )}
+                        </React.Fragment>
+                    ))}
+                </Checkbox>
+            </div>
+
+
+
+
+            <div className="holidayFilterSlider" >
+                <p>Filter By Price</p>
+                <Slider
+                    range
+                    step={400}
+                    min={minPrice}
+                    max={maxPrice}
+                    value={priceRange}
+                    onChange={handlePriceChange}
+                />
+
+                <div className="d-flex flex-row justify-content-between align-items-center ">
+                    <span style={{ fontWeight: "600", fontSize: "13px" }}>₹ {priceRange?.[0]}</span>
+                    <span style={{ fontWeight: "600", fontSize: "13px" }}>₹ {priceRange?.[1]}</span>
                 </div>
             </div>
+
+
+            <div className="PackagetagFilters">
+                <p className="">Filter by Facilities</p>
+                {facilitiesToShow.map((facility) => (
+                    facility !== undefined &&
+
+                    <Checkbox
+                        key={facility}
+                        value={facility}
+                        checked={selectedFacilities.includes(facility)}
+                        onChange={handleFacilityChange}
+                    >
+                        {facility}
+                    </Checkbox>
+
+                ))}
+                {uniqueFacilities.length > 15 && (
+                    <div style={{ textAlign: "center" }}>
+                        <span style={{ color: "#e73c34", fontWeight: "600", fontSize: "14px", cursor: "pointer", }} onClick={handleShowMore}>
+                            {showAllFacilities ? "Show Less" : "Show More"}
+                        </span>
+                    </div>
+                )}
+            </div>
+
 
             {/* <button onClick={handleClearFilters}>Clear Filters</button> */}
 

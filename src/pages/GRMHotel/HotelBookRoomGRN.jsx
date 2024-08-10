@@ -36,7 +36,7 @@ const HotelBookRoomGRN = () => {
   const [showRooms, setShowRooms] = useState(10);
   const reducerState = useSelector((state) => state);
   const searchId =
-    reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.search_id;
+    reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.search_id;
 
   useEffect(() => {
     dispatch(clearHotelRoomSelect());
@@ -84,6 +84,9 @@ const HotelBookRoomGRN = () => {
     }
     return stars;
   };
+
+
+  console.log(reducerState, "reducerStatte")
 
   const [selectedRoomIndex, setSelectedRoomIndex] = useState(0);
   const [selectedRoom, setSelectedRoom] = useState(

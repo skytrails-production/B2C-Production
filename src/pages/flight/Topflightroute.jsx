@@ -197,6 +197,7 @@ function Topflightroute() {
 
   const [selectedFrom, setSelectedFrom] = useState([]);
   const [selectedTo, setSelectedTo] = useState([]);
+  const [flightclassName, setflightClassName] = useState("Y");
 
   const navigation = (dir) => {
     const container = carouselContainer.current;
@@ -320,7 +321,7 @@ function Topflightroute() {
           activeIdAdult: 1,
           activeIdChild: 0,
           activeIdInfant: 0,
-          // flightclassName
+          flightclassName
         },
       ])
     );

@@ -3,6 +3,7 @@
 .newOneWayMain {
   display: flex;
   align-items: center;
+  position: relative;
 
   .newOnewaySingle {
     background-color: white;
@@ -63,7 +64,7 @@
     }
 
     .smMargin {
-      margin-left: 102px !important;
+      margin-left: 123px !important;
       @include md {
         margin-left: 3rem !important;
       }
@@ -88,9 +89,112 @@
         overflow: hidden;
         text-overflow: ellipsis;
         line-height: 1.3;
+
+        span {
+          font-size: 12px !important;
+        }
       }
       @include md {
         font-size: 20px;
+      }
+    }
+
+    .smallCustomCalender {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 105px !important;
+
+      .modalContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+
+      .modalContent {
+        width: 90%;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        max-height: 80%;
+      }
+
+      .weekdaysContainer {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .weekday {
+        width: 14%;
+        text-align: center;
+        font-weight: bold;
+        color: #555;
+      }
+
+      .monthContainer {
+        margin-bottom: 20px;
+      }
+
+      .monthLabel {
+        font-size: 18px;
+        text-align: center;
+        margin: 10px 0;
+      }
+
+      .daysContainer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1px;
+      }
+
+      .day {
+        width: 13%;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 0.5px solid #f1f1f1;
+        border-radius: 3px;
+        margin-bottom: 5px;
+        margin-right: 3px;
+      }
+
+      .dayText {
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .selectedDay {
+        background-color: #ff9ca7;
+      }
+
+      .inRangeDay {
+        background-color: #ff9ca7;
+      }
+
+      .selectedDayText {
+        color: #fff;
+        font-weight: bold;
+      }
+
+      .disabledDay {
+        background-color: #e0e0e0;
+      }
+
+      .disabledDayText {
+        color: #aaa;
+      }
+
+      .scrollableContainer {
+        max-height: 60vh;
+        overflow-y: auto;
+      }
+
+      .selectedDates {
+        margin-top: 0px;
+        font-size: 16px;
       }
     }
   }
@@ -106,6 +210,49 @@
     font-size: 17px;
     font-weight: 600;
     min-height: 68px;
+  }
+
+  .roundlogoFlight {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    z-index: 1;
+    width: 40px;
+    top: 23%;
+    left: 79%;
+    transform: translate(-34%, -50%);
+
+    svg {
+      transform: rotate(90deg);
+
+      @include md {
+        transform: rotate(0deg);
+      }
+    }
+
+    @include md {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: absolute;
+      z-index: 2;
+      width: 40px;
+      top: 50%;
+      left: 24%;
+      transform: translate(-34%, -50%);
+    }
+  }
+
+  .hotelFormInnerBtton button {
+    width: 100% !important;
+    min-height: 68px !important;
+    background-color: var(--primary);
+
+    &:hover {
+      background-color: var(--primaryHover) !important;
+      color: var(--pureWhite);
+    }
   }
 }
 
@@ -133,6 +280,125 @@
     &:hover {
       color: white !important;
       background-color: var(--primaryHover) !important;
+    }
+  }
+}
+
+.customCalenderModalTraveller {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: 100% !important;
+  bottom: 0 !important;
+  margin: 0px auto !important;
+  padding-bottom: 0 !important;
+  position: relative;
+  pointer-events: none;
+  top: 0 !important;
+
+  @include md {
+    max-width: auto !important;
+    width: 480px !important;
+    height: auto !important;
+    bottom: unset !important;
+    top: 172px !important;
+  }
+
+  .ant-modal {
+    bottom: 0 !important;
+  }
+
+  > div {
+    position: fixed !important;
+    bottom: 0px !important;
+    width: 100%;
+
+    @include md {
+      position: static !important;
+      bottom: unset !important;
+      width: auto !important;
+    }
+
+    .travellersModalNew {
+      h3 {
+        font-size: 17px;
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .travellerContentBox {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+
+        label {
+          font-size: 16px;
+          font-weight: 600;
+        }
+
+        button {
+          border: 1px solid var(--borderDarkGray) !important;
+          color: var(--black3) !important;
+          &:hover {
+            color: var(--black3) !important;
+          }
+        }
+        .travellerClickButtons {
+          display: flex;
+          flex-direction: row;
+          gap: 12px;
+          justify-content: center;
+          align-items: center;
+
+          h3 {
+            width: 38px;
+            margin: 0 !important;
+            height: 38px;
+            padding: 10px;
+            border-radius: 50%;
+            font-size: 20px;
+            border: 1px solid var(--borderDarkGray);
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+          }
+        }
+        > div {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+
+          .travellerTextContent {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            align-items: flex-start;
+            justify-content: flex-start;
+
+            label {
+              font-size: 16px;
+              font-weight: 600;
+            }
+
+            small {
+              font-size: 13px;
+              font-weight: 500;
+              color: #777;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .ant-modal-content {
+    // height: 100%;
+    border-radius: 18px 18px 0 0;
+
+    @include md {
+      border-radius: 18px;
     }
   }
 }

@@ -33,7 +33,6 @@ const NewHolidayTrending = () => {
     }, []);
 
 
-    console.log(packageData, "packageData")
 
     return (
         <>

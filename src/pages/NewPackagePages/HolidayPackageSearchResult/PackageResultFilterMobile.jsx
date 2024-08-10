@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Select, Modal, Button, Slider, Checkbox } from "antd";
 import { SlidersOutlined } from '@ant-design/icons';
+import "./packageResultfiltermobile.scss";
 const { Option } = Select;
 
 const PackageResultFilterMobile = ({
@@ -139,6 +140,9 @@ const PackageResultFilterMobile = ({
         setClearVisible(false);
     };
 
+
+    // console.log(localPriceRange, "localPriceRange")
+
     return (
         <div className="filterPackageMobileBox">
             {
@@ -238,8 +242,8 @@ const PackageResultFilterMobile = ({
                             onChange={handlePriceChange}
                         />
                         <div className="d-flex flex-row justify-content-between align-items-center ">
-                            <span style={{ fontWeight: "600", fontSize: "13px" }}>{minPrice}</span>
-                            <span style={{ fontWeight: "600", fontSize: "13px" }}>{maxPrice}</span>
+                            <span style={{ fontWeight: "600", fontSize: "13px" }}>₹ {localPriceRange?.[0]}</span>
+                            <span style={{ fontWeight: "600", fontSize: "13px" }}>₹ {localPriceRange?.[1]}</span>
                         </div>
                     </div>
                 </Modal>

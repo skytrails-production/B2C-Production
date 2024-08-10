@@ -8,7 +8,8 @@ import { MdCancel } from "react-icons/md";
 import { MdOutlineFreeBreakfast } from "react-icons/md";
 import { clearHotelRoomAndGallery, hotelActionGRN, hotelGalleryRequest, singleHotelGRN } from "../../Redux/HotelGRN/hotel";
 import "./hotelResult.css"
-import InfiniteScroll from "react-infinite-scroll-component";
+// import InfiniteScroll from "react-infinite-scroll-component";
+import "./hotelresult.scss"
 import dayjs from "dayjs";
 import freeWifi from "./SVGs/freeWifi.svg"
 import freeBreakfast from "./SVGs/freeBreakfast.svg"
@@ -18,6 +19,7 @@ import expressCheckin from "./SVGs/expressCheckin.svg"
 import welcomeDrink from "./SVGs/welcomeDrink.svg"
 import freeGym from "./SVGs/freeGym.svg"
 import SkeletonHotelResult from "./Skeletons/SkeletonHotelResult";
+import HotelResultCard from "./HotelResultCard";
 
 export default function HotelResult({
     hotels,
@@ -35,15 +37,15 @@ export default function HotelResult({
     const grnPayload = JSON.parse(sessionStorage.getItem('grnPayload'));
     const [loader, setLoader] = useState(true)
 
-
-
-    // console.log(reducerState, "reducer state, dfdfd")
-
+    console.log(hotels, "hotels")
 
     let filteredHotels = hotels?.filter((hotel) => {
 
         // Hide hotels with empty category or category less than 3
         if (!hotel.category || hotel.category < 3) {
+            return false;
+        }
+        if (!hotel.images.url) {
             return false;
         }
         // Filter by search term
@@ -92,11 +94,6 @@ export default function HotelResult({
     });
 
 
-
-
-    // console.log(filteredHotels, "filtered hotels")
-
-
     // Sort filtered hotels based on price only if sortBy is selected
     if (sortBy === "lowToHigh") {
         filteredHotels.sort((a, b) => a.min_rate.price - b.min_rate.price);
@@ -104,15 +101,14 @@ export default function HotelResult({
         filteredHotels.sort((a, b) => b.min_rate.price - a.min_rate.price);
     }
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const searchId = reducerState?.hotelSearchResultGRN?.ticketData
-        ?.data?.data?.search_id;
+    // const [currentPage, setCurrentPage] = useState(1);
+    // const searchId = reducerState?.hotelSearchResultGRN?.ticketData
+    //     ?.data?.data?.search_id;
 
-    // const [mainLoader, setMainLoader] = useState(false)
 
-    const fetchMoreData = () => {
-        setCurrentPage((pre) => pre + 1)
-    }
+    // const fetchMoreData = () => {
+    //     setCurrentPage((pre) => pre + 1)
+    // }
 
     useEffect(() => {
         dispatch(clearHotelRoomAndGallery())
@@ -128,12 +124,12 @@ export default function HotelResult({
     }, [reducerState?.hotelSearchResultGRN?.onlyHotels, reducerState?.hotelSearchResultGRN])
 
 
-    const handlePageChangeScrroll = () => {
-        dispatch(hotelActionGRN(grnPayload, currentPage));
-    };
-    useEffect(() => {
-        handlePageChangeScrroll()
-    }, [currentPage])
+    // const handlePageChangeScrroll = () => {
+    //     dispatch(hotelActionGRN(grnPayload, currentPage));
+    // };
+    // useEffect(() => {
+    //     handlePageChangeScrroll()
+    // }, [currentPage])
 
 
     const handleClick = (item) => {
@@ -170,222 +166,23 @@ export default function HotelResult({
     });
 
 
-    // const storedFormData = JSON.parse(sessionStorage.getItem('hotelFormData'));
-
 
     return (
-        <section className="">
-
-            {
-                loader ?
-                    <SkeletonHotelResult />
-                    :
-                    // <InfiniteScroll
-                    //     dataLength={filteredHotels?.length}
-                    //     next={fetchMoreData}
-                    //     hasMore={hasMore}
-                    //     loader={<div className="col-4 offset-lg-4 loaderHotelFetching" >
-                    //         <span className='loaderFetching'></span>
-                    //     </div>}
-                    //     endMessage={<p style={{ textAlign: 'center' }}><b>No More Result !</b></p>}
-                    // >
-
-                    <>
-                        {
-                            // sortedAndFilteredResults
-                            filteredHotels
-                                ?.length > 0 ? (
-                                filteredHotels
-                                    ?.map((result, index) => {
-                                        // const hotelCode = result?.hotel_code;
-                                        return (
-                                            <div className="col-lg-12" >
-
-                                                <div onClick={() => handleClick(result)} className="hotelResultBoxSearch" key={index}>
-                                                    <div>
-                                                        <div className="hotelImage">
-                                                            <img
-                                                                src={result?.images?.url === "" ? hotelNotFound : result?.images?.url}
-                                                                alt="hotelImage" />
-                                                        </div>
-                                                        <div className="hotelResultDetails">
-                                                            <div className="hotleTitle">
-                                                                <p>{result?.name}</p>
-                                                            </div>
 
 
-                                                            <div className="hotelRating">
-                                                                <div>
-                                                                    {Array.from({ length: result?.category }, (_, index) => (
-                                                                        <img key={index} src={starsvg} alt={`Star ${index + 1}`} />
-                                                                    ))}
-                                                                </div>
-                                                            </div>
+        <div className='row g-4'>
+            {filteredHotels?.length > 0 &&
+                filteredHotels
+                    ?.map((result, index) => (
 
-                                                            <div>
-                                                                <p className="hotAddress">
-                                                                    {result?.address}
-                                                                </p>
-                                                            </div>
-                                                            <div className="breakCancel">
-                                                                {result?.min_rate?.boarding_details?.[0] !== "Room Only" &&
-                                                                    <span className="brcl1">
-                                                                        <MdOutlineFreeBreakfast />   Breakfast Included
-                                                                    </span>
-                                                                }
-                                                                {result?.min_rate?.cancellation_policy?.cancel_by_date &&
-                                                                    <span className="brcl2">
-                                                                        <MdCancel />
-                                                                        {`cancellation till ${dayjs(result?.min_rate?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")}`}
-                                                                    </span>
-                                                                }
+                        <div key={index} className="col-lg-6">
+                            <HotelResultCard
+                                result={result}
+                            />
+                        </div>
 
-                                                            </div>
-                                                            <div className="othInc">
-                                                                {result?.min_rate?.other_inclusions?.map((inclusion, e) => (
-                                                                    <div className="othIncInner" key={e}>
-                                                                        <div className="d-flex justify-content-start align-items-center gap-2">
-                                                                            {inclusion.toLowerCase() == "free wifi" &&
-                                                                                <>
-                                                                                    <img src={freeWifi} alt="wifi" />
-                                                                                    <p className="panDesign3">Free WiFi</p>
-                                                                                </>
-
-                                                                            }
-                                                                            {inclusion.toLowerCase() == "free internet" &&
-                                                                                <>
-                                                                                    <img src={freeWifi} alt="wifi" />
-                                                                                    <p className="panDesign3">Free internet</p>
-                                                                                </>
-
-                                                                            }
-                                                                            {inclusion.toLowerCase() == "free breakfast" &&
-                                                                                <>
-                                                                                    <img src={freeBreakfast} alt="wifi" />
-                                                                                    <p className="panDesign3">Free Breakfast</p>
-                                                                                </>
-                                                                            }
-                                                                            {inclusion.toLowerCase() == "breakfast" &&
-                                                                                <>
-                                                                                    <img src={freeBreakfast} alt="wifi" />
-                                                                                    <p className="panDesign3">Breakfast</p>
-                                                                                </>
-                                                                            }
-                                                                            {inclusion.toLowerCase() == "continental breakfast" &&
-                                                                                <>
-                                                                                    <img src={freeBreakfast} alt="wifi" />
-
-                                                                                    <p className="panDesign3">Continental breakfast</p>
-                                                                                </>
-                                                                            }
-                                                                            {inclusion.toLowerCase() == "free self parking" &&
-                                                                                <>
-                                                                                    <img src={freeParking} alt="wifi" />
-                                                                                    <p className="panDesign3"> Free self parking</p>
-                                                                                </>
-                                                                            }
-                                                                            {inclusion.toLowerCase() == "parking" &&
-                                                                                <>
-                                                                                    <img src={freeParking} alt="wifi" />
-                                                                                    <p className="panDesign3"> Free Parking</p>
-                                                                                </>
-                                                                            }
-                                                                            {inclusion.toLowerCase() == "free parking" &&
-                                                                                <>
-                                                                                    <img src={freeParking} alt="wifi" />
-                                                                                    <p className="panDesign3"> Free Parking</p>
-                                                                                </>
-                                                                            }
-                                                                            {inclusion.toLowerCase() == "free valet parking" &&
-                                                                                <>
-                                                                                    <img src={freeParking} alt="wifi" />
-
-                                                                                    <p className="panDesign3"> Free Valet Parking</p>
-                                                                                </>
-                                                                            }
-                                                                            {inclusion.toLowerCase() == "drinking water" &&
-                                                                                <>
-                                                                                    <img src={drinkingWater} alt="wifi" />
-                                                                                    <p className="panDesign3"> Drinking water</p>
-                                                                                </>
-                                                                            }
-                                                                            {inclusion.toLowerCase() == "express check-in" &&
-                                                                                <>
-                                                                                    <img src={expressCheckin} alt="wifi" />
-                                                                                    <p className="panDesign3"> Express check-in</p>
-                                                                                </>
-                                                                            }
-                                                                            {inclusion.toLowerCase() == "welcome drink" &&
-                                                                                <>
-
-                                                                                    <img src={welcomeDrink} alt="wifi" />
-                                                                                    <p className="panDesign3">Welcome drink</p>
-                                                                                </>
-                                                                            }
-                                                                            {inclusion.toLowerCase() == "free fitness center access" &&
-                                                                                <>
-                                                                                    <img src={freeGym} alt="wifi" />
-                                                                                    <p className="panDesign3">Free Gym</p>
-                                                                                </>
-                                                                            }
-
-
-                                                                        </div>
-                                                                    </div>
-                                                                ))}
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="priceBookHotel">
-                                                        <div className="priceBookHotelOne ">
-                                                            <span><del> ₹{result?.min_rate?.price + Math.floor(Math.random() * (1200 - 700 + 1)) + 700}</del></span>
-                                                            <span>Offer Price</span>
-                                                            <p>₹{result?.min_rate?.price}</p>
-                                                            <h4>Show More<ArrowForwardIosIcon /></h4>
-                                                            <div className="emiBOx" onClick={(e) => {
-                                                                e.stopPropagation()
-                                                                const payload = {
-                                                                    "amount": result?.min_rate?.price,
-                                                                    "travelType": "Hotel"
-                                                                }
-                                                                const payloadString = JSON.stringify(payload);
-                                                                sessionStorage.setItem("payLaterProps", payloadString);
-                                                                navigate("/payLaterDetails");
-                                                            }}>
-                                                                <span>Book Now At</span>
-                                                                <p style={{ fontSize: "12px" }}>
-                                                                    {
-                                                                        (result?.min_rate?.price).toFixed(0) <= 5000
-                                                                            ? (result?.min_rate?.price / 3).toFixed(0)
-                                                                            : (result?.min_rate?.price <= 50000
-                                                                                ? (result?.min_rate?.price / 6).toFixed(0)
-                                                                                : (result?.min_rate?.price / 12).toFixed(0))
-                                                                    }/Month →
-                                                                </p>
-
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        );
-                                    })
-                            ) :
-
-                                (
-                                    <div className="filteredNotFound">
-                                        {/* <img src={hotelFilter} alt="filter" />
-                                                        <h1>Result not found</h1> */}
-                                    </div>
-                                )
-                        }
-                    </>
-                // </InfiniteScroll>
-            }
-
-        </section>
+                    ))}
+        </div>
     );
 }
 

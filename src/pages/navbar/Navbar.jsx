@@ -200,7 +200,13 @@ const Navbar = () => {
                         <ul className="menuItems">
                             <li
                                 className="menuItem"
-                                onClick={showConfirmationModal}
+                                onClick={() => {
+
+                                    setMobileMenu(false)
+                                    showConfirmationModal()
+                                }
+                                }
+                            // onClick={}
                             >
                                 My Account
                             </li>

@@ -4732,7 +4732,7 @@ function NewItems({
           style={{ margin: "40px", gap: "14px" }}
         >
           <div className="col col-lg-3">
-            {!loader && filteredDatanew ? (
+            {!loader && filteredDatanew  && !reducerState?.oneWay?.isLoadingFilter ? (
               <div className="container filterpart-1">
                 <div className="filter-new-data">
                   <div className="filter-name">
