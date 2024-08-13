@@ -314,11 +314,13 @@ function App() {
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/phone" &&
+        location.pathname !== "/inventoryDashboard" &&
         location.pathname !== "/Package/form" &&
         // location.pathname !== "/inventoryhotelform" && <InsideNavbar />}
         location.pathname !== "/inventoryhotelform" && <Navbar />}
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
+        
         location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
         // location.pathname !== "/inventoryhotelform" && <InsideNavbar />}

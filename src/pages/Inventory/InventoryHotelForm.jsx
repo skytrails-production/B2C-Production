@@ -22,6 +22,7 @@ import { useEffect } from "react";
 import moment from "moment";
 import { Spin } from "antd";
 import imageCompression from "browser-image-compression";
+import { CloseOutlined } from "@ant-design/icons";
 
 const { Title } = Typography;
 
@@ -30,7 +31,7 @@ const InventoryHotelForm = () => {
   const [hotelFacilities, setHotelFacilities] = useState([]);
   const [totalRoomCount, setTotalRoomCount] = useState(0);
   const [totalAvailableRoomsCount, setTotalAvailableRoomsCount] = useState(0);
-  const [currentAmenities, setCurrentAmenities] = useState("");
+
   const [hotelAmenities, setHotelAmenities] = useState([]);
   const [hotelPolicies, setHotelPolicies] = useState([]);
   const [bookingPolicies, setBookingPolicies] = useState([]);
@@ -168,16 +169,27 @@ const InventoryHotelForm = () => {
       if (!file.originFileObj) return file;
 
       const compressedFile = await compressImage(file.originFileObj);
-      return { ...file, originFileObj: compressedFile };
+      const base64String = await fileToBase64(compressedFile);
+
+      return { ...file, originFileObj: compressedFile, base64String };
     });
 
     return await Promise.all(promises);
   };
 
+  const fileToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   const compressImage = async (imageFile) => {
     const options = {
-      maxSizeMB: 1,
-      maxWidthOrHeight: 800,
+      maxSizeMB: 0.5, // Compress to 0.5 MB or less
+      maxWidthOrHeight: 500, // Resize to 500px max width/height
       useWebWorker: true,
     };
 
@@ -276,8 +288,12 @@ const InventoryHotelForm = () => {
     setFormData({ ...formData, mealType: checkedValues });
   };
 
-  const handleTypeofRoomChange = (checkedValues) => {
-    setFormData({ ...formData, typeOfRoom: checkedValues });
+  const handleRoomTypeChange = (e) => {
+    const value = e.target.value;
+    setFormData({
+      ...formData,
+      typeOfRoom: value ? value.split(",").map((item) => item.trim()) : [],
+    });
   };
 
   // const handleRoomFileChange = ({ file, fileList }) => {
@@ -324,13 +340,14 @@ const InventoryHotelForm = () => {
 
     // Handle arrays and JSON fields
     formdata.append("amenities", JSON.stringify(hotelAmenities || []));
+
     formdata.append("facilities", JSON.stringify(hotelFacilities || []));
-    formdata.append("bookingPolicy", bookingPolicies || []);
-    formdata.append("safe2Stay", safe2Stay || []);
+    formdata.append("bookingPolicy", JSON.stringify(bookingPolicies || []));
+    formdata.append("safe2Stay", JSON.stringify(safe2Stay || []));
     formdata.append("hotelPolicy", JSON.stringify(hotelPolicies || []));
     formdata.append("hotelCode", formData.hotelCode || "");
     formdata.append("mealType", JSON.stringify(formData.mealType || []));
-    formdata.append("typeOfRoom", formData.typeOfRoom || []);
+    formdata.append("typeOfRoom", JSON.stringify(formData.typeOfRoom || []));
     formdata.append("location", JSON.stringify(formData.location || {}));
 
     // Handle date fields
@@ -386,41 +403,41 @@ const InventoryHotelForm = () => {
           className: "custom-notification",
         });
 
-        form.resetFields();
+        //form.resetFields();
         // Reset form
-        setFormData({
-          hotelName: " ",
-          hotelCity: " ",
-          hotelCountry: "",
-          hotelState: "",
-          panCard: "",
-          rating: "",
-          description: "",
-          cityCode: "",
-          locality: "",
-          hotelAddress: "",
-          totalPrice: "",
-          totalRooms: "",
-          hotelCode: "",
-          totalRoomCount: "",
-          mealType: [],
-          typeOfRoom: [],
-          location: {
-            type: "Point",
-            coordinates: [0, 0],
-          },
-          startFrom: null,
-          availableDate: null,
-        });
+        // setFormData({
+        //   hotelName: " ",
+        //   hotelCity: " ",
+        //   hotelCountry: "",
+        //   hotelState: "",
+        //   panCard: "",
+        //   rating: "",
+        //   description: "",
+        //   cityCode: "",
+        //   locality: "",
+        //   hotelAddress: "",
+        //   totalPrice: "",
+        //   totalRooms: "",
+        //   hotelCode: "",
+        //   totalRoomCount: "",
+        //   mealType: [],
+        //   typeOfRoom: [],
+        //   location: {
+        //     type: "Point",
+        //     coordinates: [0, 0],
+        //   },
+        //   startFrom: null,
+        //   availableDate: null,
+        // });
 
-        setHotelFacilities([]);
-        setHotelPolicies([]);
-        setBookingPolicies([]);
-        setHotelAmenities([]);
-        setHotelImages([]);
-        setroomsImages([]);
-        setRooms([]);
-        setSafe2Stay([]);
+        // setHotelFacilities([]);
+        // setHotelPolicies([]);
+        // setBookingPolicies([]);
+        // setHotelAmenities([]);
+        // setHotelImages([]);
+        // setroomsImages([]);
+        // setRooms([]);
+        // setSafe2Stay([]);
       } else {
         notification.error({
           message: "Error",
@@ -443,29 +460,10 @@ const InventoryHotelForm = () => {
     console.log("Failed:", errorInfo);
   };
 
-  const handleFacilitiesChange = (e) => {
-    // Split the input by commas or newlines and trim whitespace
-    const facilities = e.target.value
-      .split("\n")
-      .map((facility) => facility.trim());
 
-    setHotelFacilities(facilities);
-  };
 
-  const handlePoliciesChange = (e) => {
-    // Splitting the input by newline character and updating the state
-    const policiesArray = e.target.value
-      .split("\n")
-      .map((policy) => policy.trim());
-    setHotelPolicies(policiesArray);
-  };
 
-  const handleBookingPoliciesChange = (e) => {
-    const bookingpoliciesArray = e.target.value
-      .split("\n")
-      .map((bookingpolicy) => bookingpolicy.trim());
-    setBookingPolicies(bookingpoliciesArray);
-  };
+
 
   // Function to calculate total rooms across all entries
 
@@ -549,6 +547,31 @@ const InventoryHotelForm = () => {
   const disabledDate = (current) => {
     // Disable dates before today (including today)
     return current && current < moment().startOf("day");
+  };
+
+  const buttonStyle = {
+    backgroundColor: "#ff4d4f",
+    borderColor: "#ff4d4f",
+    color: "white",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: "10px",
+  };
+
+  const hoverStyle = {
+    borderColor: "#ff7875",
+    color: "white",
+  };
+
+  const focusStyle = {
+    backgroundColor: "#ff4d4f",
+    borderColor: "#ff4d4f",
+    color: "white",
+  };
+
+  const iconStyle = {
+    marginRight: "8px",
   };
 
   return (
@@ -867,8 +890,13 @@ const InventoryHotelForm = () => {
 
             <Form.Item label="Hotel Facilities" className="form-item">
               <Input.TextArea
-                value={hotelFacilities.join("\n")}
-                onChange={handleFacilitiesChange}
+                value={hotelFacilities.join(", ")}
+                onChange={(e) => {
+                  const updatedFaclities = e.target.value
+                    .split(",") // Split the input by commas
+                    .map((item) => item.trim()); // Trim whitespace around each item
+                  setHotelFacilities(updatedFaclities);
+                }}
                 placeholder="Enter facilities separated by commas or new lines"
                 rows={4} // Adjust the number of rows as needed
               />
@@ -879,9 +907,14 @@ const InventoryHotelForm = () => {
               className="form-item"
             >
               <Input.TextArea
-                value={hotelPolicies.join("\n")}
+                value={hotelPolicies.join(", ")}
                 rows={4}
-                onChange={handlePoliciesChange}
+                onChange={(e) => {
+                  const updatedPolicies = e.target.value
+                    .split(",") // Split the input by commas
+                    .map((item) => item.trim()); // Trim whitespace around each item
+                  setHotelPolicies(updatedPolicies);
+                }}
                 placeholder="Enter hotel policies, each on a new line"
               />
             </Form.Item>
@@ -892,9 +925,14 @@ const InventoryHotelForm = () => {
               className="form-item"
             >
               <Input.TextArea
-                value={bookingPolicies.join("\n")}
+                value={bookingPolicies.join(", ")}
                 rows={4}
-                onChange={handleBookingPoliciesChange}
+                onChange={(e) => {
+                  const updatedBookingPolicies = e.target.value
+                    .split(",") // Split the input by commas
+                    .map((item) => item.trim()); // Trim whitespace around each item
+                  setBookingPolicies(updatedBookingPolicies);
+                }}
                 placeholder="Enter booking policies, each on a new line"
               />
             </Form.Item>
@@ -924,15 +962,8 @@ const InventoryHotelForm = () => {
                   className="form-item"
                 >
                   <Input
-                    value={formData.typeOfRoom.join(", ")} // Join array to a string
-                    onChange={(e) => {
-                      setFormData({
-                        ...formData,
-                        typeOfRoom: e.target.value
-                          .split(",")
-                          .map((item) => item.trim()),
-                      });
-                    }}
+                    value={formData.typeOfRoom.join(", ")} // Display array as comma-separated string
+                    onChange={handleRoomTypeChange}
                   />
                 </Form.Item>
               </Col>
@@ -940,17 +971,19 @@ const InventoryHotelForm = () => {
 
             <Form.Item label="Amenities" name="amenities" className="form-item">
               <Input.TextArea
-                value={hotelAmenities.join("\n")}
+                value={hotelAmenities.join(", ")}
                 rows={4}
                 onChange={(e) => {
                   const updatedAmenities = e.target.value
-                    .split("\n")
+                    .split(",")
                     .map((item) => item.trim());
+
                   setHotelAmenities(updatedAmenities);
                 }}
                 placeholder="Enter amenities, each on a new line"
               />
             </Form.Item>
+
             <h2 className="room-details-heading">Room Details</h2>
 
             <Form.Item className="form-item">
@@ -1408,8 +1441,15 @@ const InventoryHotelForm = () => {
                                   ...(weekdayItem.isMAP ? ["isMAP"] : []),
                                   ...(weekdayItem.isEP ? ["isEP"] : []),
                                   ...(weekdayItem.isJAP ? ["isJAP"] : []),
+                                  ...(weekdayItem.isAP ? ["isAP"] : []),
                                 ]}
                                 onChange={(checkedValues) => {
+                                  handleWeekdayChange(
+                                    checkedValues.includes("isAP"),
+                                    roomIndex,
+                                    weekdayIndex,
+                                    "isAP"
+                                  );
                                   handleWeekdayChange(
                                     checkedValues.includes("isCP"),
                                     roomIndex,
@@ -1440,6 +1480,7 @@ const InventoryHotelForm = () => {
                                 <Checkbox value="isMAP">Is MAP</Checkbox>
                                 <Checkbox value="isEP">Is EP</Checkbox>
                                 <Checkbox value="isJAP">Is JAP</Checkbox>
+                                <Checkbox value="isAP">Is AP</Checkbox>
                               </Checkbox.Group>
                             </Col>
                           </Row>
@@ -1555,6 +1596,7 @@ const InventoryHotelForm = () => {
                                   ...(weekendItem.isMAP ? ["isMAP"] : []),
                                   ...(weekendItem.isEP ? ["isEP"] : []),
                                   ...(weekendItem.isJAP ? ["isJAP"] : []),
+                                   ...(weekendItem.isAP ? ["isAP"] : []),
                                 ]}
                                 onChange={(checkedValues) => {
                                   handleWeekendChange(
@@ -1581,12 +1623,20 @@ const InventoryHotelForm = () => {
                                     weekendIndex,
                                     "isJAP"
                                   );
+                                  
+                                  handleWeekendChange(
+                                    checkedValues.includes("isAP"),
+                                    roomIndex,
+                                    weekendIndex,
+                                    "isAP"
+                                  )
                                 }}
                               >
                                 <Checkbox value="isCP">Is CP</Checkbox>
                                 <Checkbox value="isMAP">Is MAP</Checkbox>
                                 <Checkbox value="isEP">Is EP</Checkbox>
                                 <Checkbox value="isJAP">Is JAP</Checkbox>
+                                <Checkbox value="isAP">Is AP</Checkbox>
                               </Checkbox.Group>
                             </Col>
                           </Row>
@@ -1603,9 +1653,19 @@ const InventoryHotelForm = () => {
                   </div>
 
                   <Button
-                    type="danger"
+                    type="primary"
+                    danger
                     onClick={() => removeRoom(roomIndex)}
-                    className="remove-room-button"
+                    icon={<CloseOutlined style={iconStyle} />}
+                    style={buttonStyle}
+                    onMouseEnter={(e) =>
+                      Object.assign(e.target.style, hoverStyle)
+                    }
+                    onMouseLeave={(e) =>
+                      Object.assign(e.target.style, buttonStyle)
+                    }
+                    onFocus={(e) => Object.assign(e.target.style, focusStyle)}
+                    onBlur={(e) => Object.assign(e.target.style, buttonStyle)}
                   >
                     Remove Room
                   </Button>
@@ -1624,15 +1684,15 @@ const InventoryHotelForm = () => {
               className="form-item"
             >
               <Input.TextArea
-                value={safe2Stay.join("\n")}
+                value={safe2Stay.join(", ")} // Display array items separated by commas
                 rows={4}
                 onChange={(e) => {
                   const updatedSafe2Stay = e.target.value
-                    .split("\n")
-                    .map((item) => item.trim());
+                    .split(",") // Split the input by commas
+                    .map((item) => item.trim()); // Trim whitespace around each item
                   setSafe2Stay(updatedSafe2Stay);
                 }}
-                placeholder="Enter safe to stay features, each on a new line"
+                placeholder="Enter safe to stay features, each separated by a comma"
               />
             </Form.Item>
 
@@ -1645,6 +1705,7 @@ const InventoryHotelForm = () => {
                     fileList={roomsImages}
                     onChange={handleRoomFileChange}
                     beforeUpload={() => false}
+                    maxCount={5} // Set maximum number of images to 5
                   >
                     <div>
                       <PlusOutlined />

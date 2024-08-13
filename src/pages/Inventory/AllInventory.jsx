@@ -1,23 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { apiURL } from "../../Constants/constant";
-import { Table, message } from "antd";
+import { Table, message, Button, Modal } from "antd";
+
 
 const AllInventory = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedInventory, setSelectedInventory] = useState(null);
+
+  const [isDescriptionModalVisible, setIsDescriptionModalVisible] =
+    useState(false);
+  const [selectedDescription, setSelectedDescription] = useState("");
+
+  const showDescriptionModal = (description) => {
+    setSelectedDescription(description);
+    setIsDescriptionModalVisible(true);
+  };
+
+  const handleDescriptionModalClose = () => {
+    setIsDescriptionModalVisible(false);
+    setSelectedDescription("");
+  };
+
+  const handleViewDetails = (record) => {
+    setSelectedInventory(record);
+    setIsModalVisible(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      const token = localStorage.getItem("token"); // Retrieve the token from local storage
-      console.log(token, "tokenssssssssssssssss");
+      const token = localStorage.getItem("token");
       if (!token) {
         message.error("No token found. Please login first.");
         setLoading(false);
         return;
       }
       try {
-        console.log("Fetching data...");
-
         const response = await fetch(
           `${apiURL.baseURL}/skyTrails/api/inventory/getAllHotelInventoryofPartner`,
           {
@@ -30,8 +53,6 @@ const AllInventory = () => {
         );
 
         const responseData = await response.json();
-        console.log("Response data:", responseData); // Log the response data
-
         if (
           responseData.statusCode === 200 &&
           Array.isArray(responseData.result.result)
@@ -40,10 +61,9 @@ const AllInventory = () => {
         } else {
           message.error("Failed to fetch inventory data");
         }
-
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching inventory data:", error); // Log the error response for debugging
+        console.error("Error fetching inventory data:", error);
         message.error("Failed to fetch inventory data");
         setLoading(false);
       }
@@ -60,9 +80,35 @@ const AllInventory = () => {
       fixed: "left",
     },
     {
+      title: "Actions",
+      key: "actions",
+      render: (text, record) => (
+        <Button type="link" onClick={() => handleViewDetails(record)}>
+          View Details
+        </Button>
+      ),
+    },
+    {
       title: "Description",
       dataIndex: "description",
       key: "description",
+      width: 400,
+      render: (text) => (
+        <div
+          style={{
+            display: "-webkit-box",
+            WebkitLineClamp: 3, // Limit to 3 lines
+            WebkitBoxOrient: "vertical",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            cursor: "pointer", // Make it look clickable
+            color: "blue", // Optional: Change text color to indicate it's clickable
+          }}
+          onClick={() => showDescriptionModal(text)} // Show modal on click
+        >
+          {text}
+        </div>
+      ),
     },
     {
       title: "Locality",
@@ -74,7 +120,6 @@ const AllInventory = () => {
       dataIndex: "hotelCity",
       key: "hotelCity",
     },
-
     {
       title: "HotelCountry",
       dataIndex: "hotelCountry",
@@ -96,9 +141,11 @@ const AllInventory = () => {
       key: "cityCode",
     },
     {
-      title: "HotelAddress",
+      title: "Hotel Address",
       dataIndex: "hotelAddress",
       key: "hotelAddress",
+      width: 500,
+      className: "hotel-address-column", // Add a custom class
     },
     {
       title: "HotelCode",
@@ -142,8 +189,7 @@ const AllInventory = () => {
       dataIndex: "availableRooms",
       key: "availableRooms",
     },
-
-    // Add more columns as needed
+    // Other columns...
   ];
 
   return (
@@ -158,6 +204,152 @@ const AllInventory = () => {
           scroll={{ x: true }} // Enable horizontal scrolling
         />
       </div>
+
+      {/* Modal for viewing all details */}
+      {isModalVisible && selectedInventory && (
+        <Modal
+          title="Inventory Details"
+          visible={isModalVisible}
+          onCancel={handleCancel}
+          footer={[
+            <Button key="close" onClick={handleCancel}>
+              Close
+            </Button>,
+          ]}
+        >
+          {/* Details of selected inventory */}
+          <div>
+            <p>
+              <strong>Hotel Name:</strong> {selectedInventory.hotelName}
+            </p>
+            <p>
+              <strong>Description:</strong> {selectedInventory.description}
+            </p>
+            <p>
+              <strong>Locality:</strong> {selectedInventory.locality}
+            </p>
+            <p>
+              <strong>Hotel City:</strong> {selectedInventory.hotelCity}
+            </p>
+            <p>
+              <strong>Hotel Country:</strong> {selectedInventory.hotelCountry}
+            </p>
+            <p>
+              <strong>Hotel State:</strong> {selectedInventory.hotelState}
+            </p>
+            <p>
+              <strong>Rating:</strong> {selectedInventory.rating}
+            </p>
+            <p>
+              <strong>City Code:</strong> {selectedInventory.cityCode}
+            </p>
+            <p>
+              <strong>Hotel Address:</strong> {selectedInventory.hotelAddress}
+            </p>
+            <p>
+              <strong>Hotel Code:</strong> {selectedInventory.hotelCode}
+            </p>
+            <p>
+              <strong>Start Date:</strong> {selectedInventory.startFrom}
+            </p>
+            <p>
+              <strong>End Date:</strong> {selectedInventory.availableDate}
+            </p>
+            <p>
+              <strong>Total Rooms:</strong> {selectedInventory.totalRooms}
+            </p>
+            <p>
+              <strong>Available Rooms:</strong>{" "}
+              {selectedInventory.availableRooms}
+            </p>
+            <p>
+              <strong>Location:</strong>{" "}
+              {selectedInventory.location.coordinates.join(", ")}
+            </p>
+            <div>
+              <strong>Hotel Images:</strong>
+              <div
+                style={{
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: "10px",
+                  marginTop: "10px",
+                }}
+              >
+                {selectedInventory.hotelImages.map((image, index) => (
+                  <img
+                    key={index}
+                    src={image}
+                    alt={`Hotel Image ${index + 1}`}
+                    style={{
+                      width: "100px",
+                      height: "auto",
+                      borderRadius: "5px",
+                    }}
+                  />
+                ))}
+              </div>
+            </div>
+            <div>
+              {/* Other room details */}
+              {selectedInventory.rooms.map((room, roomIndex) => (
+                <div key={roomIndex}>
+                  {/* Display Room Images */}
+                  {selectedInventory.rooms.map((room, roomIndex) => (
+                    <div key={roomIndex}>
+                      <p>
+                        <strong>Room Type:</strong> {room.room_type}
+                      </p>
+                      <p>
+                        <strong>Room Description:</strong> {room.description}
+                      </p>
+                      <p>
+                        <strong>Total Rooms:</strong> {room.totalRooms}
+                      </p>
+                      <p>
+                        <strong>Available Rooms:</strong> {room.availableRooms}
+                      </p>
+
+                      {/* Displaying Room Images */}
+                      <div>
+                        <strong>Room Images:</strong>
+                        {room.roomsImages.map((image, index) => (
+                          <img
+                            key={index}
+                            src={image}
+                            alt={`Room Image ${index + 1}`}
+                            style={{
+                              width: "100px",
+                              height: "100px",
+                              margin: "5px",
+                            }}
+                          />
+                        ))}
+                      </div>
+
+                      {/* Additional details can be added here */}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* Modal for displaying the full description */}
+      <Modal
+        title="Description"
+        visible={isDescriptionModalVisible}
+        onCancel={handleDescriptionModalClose}
+        footer={[
+          <Button key="close" onClick={handleDescriptionModalClose}>
+            Close
+          </Button>,
+        ]}
+      >
+        <p>{selectedDescription}</p>
+      </Modal>
     </div>
   );
 };

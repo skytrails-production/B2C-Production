@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Typography, Modal, Alert } from "antd";
+import { Form, Input, Button, Typography, Modal, Alert, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import "./Login.css";
@@ -14,16 +14,16 @@ const Logininventory = () => {
   const [messageType, setMessageType] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const reducerState = useSelector((state) => state);
   const dispatch = useDispatch();
 
   console.log(reducerState, "inventorystatessssssss");
 
   const handleSubmit = async (values) => {
+    setLoading(true);
     console.log("Success:", values);
-    const requestData = {
-      ...values,
-    };
+    const requestData = { ...values };
 
     try {
       const response = await fetch(
@@ -38,26 +38,21 @@ const Logininventory = () => {
       );
 
       const result = await response.json();
-      setMessage(
-        result.responseMessage || "Incorrect login credential provided"
-      );
+      setMessage(result.responseMessage || "Incorrect login credential provided");
       setMessageType(response.ok ? "success" : "error");
 
       if (response.ok) {
         const token = result.result.token;
-
-        // Store the token in local storage
         localStorage.setItem("token", token);
-        const managerName = result.result.managerName;
-        console.log(managerName, "managernamessssss");
-
         setTimeout(() => {
-          navigate("/inventoryDashboard"); // Redirect to a dashboard or homepage after a delay
+          navigate("/inventoryDashboard");
         }, 2000);
       }
     } catch (error) {
       setMessage("Incorrect login credential provided");
       setMessageType("error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -74,6 +69,7 @@ const Logininventory = () => {
   };
 
   const handleResetPassword = async () => {
+    setLoading(true);
     try {
       const response = await fetch(
         `${apiURL.baseURL}/skyTrails/api/inventory/partnerForgetPassword`,
@@ -86,9 +82,7 @@ const Logininventory = () => {
         }
       );
       const result = await response.json();
-      setMessage(
-        result.responseMessage || "An error occurred during password reset."
-      );
+      setMessage(result.responseMessage || "An error occurred during password reset.");
       setMessageType(response.ok ? "success" : "error");
 
       if (response.ok) {
@@ -97,6 +91,8 @@ const Logininventory = () => {
     } catch (error) {
       setMessage("An error occurred during password reset.");
       setMessageType("error");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -106,6 +102,7 @@ const Logininventory = () => {
         <Title level={2} className="login-heading">
           Inventory Login
         </Title>
+        {loading && <Spin size="large" style={{ margin: '20px auto', display: 'block' }} />}
         <Form
           name="basic"
           layout="vertical"
@@ -131,7 +128,13 @@ const Logininventory = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-button">
+            <Button 
+              type="primary" 
+              htmlType="submit" 
+              className="login-button"
+              loading={loading}  // Button loading spinner
+              disabled={loading} // Disable button during loading
+            >
               Submit
             </Button>
           </Form.Item>
@@ -172,7 +175,12 @@ const Logininventory = () => {
             <Input value={email} onChange={(e) => setEmail(e.target.value)} />
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button 
+              type="primary" 
+              htmlType="submit"
+              loading={loading} // Button loading spinner
+              disabled={loading} // Disable button during loading
+            >
               Submit
             </Button>
           </Form.Item>
