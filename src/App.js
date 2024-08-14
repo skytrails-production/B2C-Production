@@ -293,11 +293,13 @@ function App() {
     return (
       <div style={{ width: "100%", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
 
-        <div style={{    border: "8px solid #f3f3f3",borderTop: "8px solid #e73c34",borderRadius:"50%",
-    width: "50px",
-    height: "50px",
-    animation: "rotate 1s linear infinite",
-    margin: "0 auto"}}>
+        <div style={{
+          border: "8px solid #f3f3f3", borderTop: "8px solid #e73c34", borderRadius: "50%",
+          width: "50px",
+          height: "50px",
+          animation: "rotate 1s linear infinite",
+          margin: "0 auto"
+        }}>
 
         </div>
       </div>
@@ -308,8 +310,18 @@ function App() {
     <div className="background_gradient">
 
 
-      {location.pathname == "/" &&
-        <SmallDevice />}
+      {/* <div className="triColorBox">
+        
+      </div> */}
+
+
+      <div class="triColorBox">
+        <h3>This Independence day get upto 500/- discount !</h3>
+      </div>
+
+
+      {/* {location.pathname == "/" &&
+        <SmallDevice />} */}
 
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&

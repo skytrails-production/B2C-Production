@@ -18,6 +18,48 @@ body {
   background: white;
 }
 
+
+.triColorBox {
+  height: 70px;
+  background-color: white;
+  /* background-image: radial-gradient(orange white green); */
+  background-image: linear-gradient(to right,
+      #d35400,
+      #d35400 -8%,
+      #ff8c00 8%,
+      #f1f1f0 40%,
+      #fff 65%,
+      #90ee90 78%,
+      green 119%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+
+
+}
+
+.triColorBox h3 {
+  margin-bottom: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #06038d;
+
+
+}
+
+
+@media(max-width: 600px) {
+  .triColorBox h3 {
+    font-size: 13px;
+  }
+}
+
+
+
+
 .to_Search_Container {
   text-align: center;
   color: black;

@@ -225,12 +225,13 @@
     padding: 15px;
     border-radius: 8px;
     // border: 1px solid lightgray;
+    border: 1px solid lightgray;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 
     @include md {
       max-height: 100vh;
       overflow-y: scroll;
-
+      padding: 24px;
       position: sticky;
       position: -webkit-sticky;
       top: 10px;
@@ -283,7 +284,7 @@
           font-family: "Montserrat";
         }
         h2 {
-          font-size: 14px;
+          font-size: 13px;
           font-weight: 500;
           margin-bottom: 0 !important;
           color: var(--black4) !important;
@@ -298,14 +299,14 @@
         padding: 10px;
 
         p {
-          font-size: 16px;
+          font-size: 14px;
           font-weight: 600;
           margin-bottom: 0 !important;
           color: var(--black4) !important;
           font-family: "Montserrat";
         }
         h5 {
-          font-size: 16px;
+          font-size: 14px;
           font-weight: 600;
           margin-bottom: 0 !important;
           color: var(--black4) !important;
@@ -326,10 +327,12 @@
           font-weight: 600;
           color: var(--black4) !important;
           font-family: "Montserrat";
+          font-size: 13px;
+          margin-bottom: 0;
         }
         h6 {
           margin-bottom: 0;
-          font-size: 14px;
+          font-size: 13px;
           font-family: "Montserrat";
           color: var(--black4) !important;
         }
@@ -354,9 +357,10 @@
       button {
         margin-top: 15px;
         width: 100%;
+        padding: 15px 0px !important;
         background-color: var(--primary) !important;
         color: var(--pureWhite) !important;
-        font-size: 14px !important;
+        font-size: 13px !important;
         font-family: "Montserrat";
         font-weight: 500;
 
