@@ -15,7 +15,7 @@ const HotelResultMain = () => {
 
     // const navigate = useNavigate();
     const reducerState = useSelector((state) => state);
-    console.log(reducerState, "reducerState")
+    // console.log(reducerState, "reducerState")
     const [loader, setLoader] = useState(true);
     const [hotelData, setHotelData] = useState([])
     const navigate = useNavigate();
@@ -30,15 +30,6 @@ const HotelResultMain = () => {
         }
     }, [reducerState?.hotelSearchResultGRN?.ticketData])
 
-    // const getUniqueFacilities = (hotels) => {
-    //     console.log(hotels, "hotels")
-    //     const allFacilities = hotels?.flatMap((hotel) =>
-    //         hotel?.facilities?.split(";")?.map((facility) => facility?.trim())
-    //     );
-    //     return Array.from(new Set(allFacilities));
-    // };
-
-    // console.log(hotelData, "hotel data")
     const getUniqueFacilities = (hotels) => {
         const allFacilities = hotels?.flatMap((hotel) =>
             hotel?.facilities
@@ -148,8 +139,6 @@ const HotelResultMain = () => {
                 <GrmHotelform2 />
                 <div className="container searchMainBoxAbs">
                     <div className="HotelResultSearchBarBox">
-
-
                     </div>
                 </div>
             </div>
@@ -172,7 +161,6 @@ const HotelResultMain = () => {
             {
                 loader ? <HolidayResultSkeleton />
                     :
-
                     <div className="container">
                         {
                             errors ?

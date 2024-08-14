@@ -22,14 +22,9 @@ import Img from '../../LazyLoading/Img';
 const HotelResultCard = ({ result }) => {
 
     const navigate = useNavigate()
-    // const reducerState = useSelector((state) => state);
     const dispatch = useDispatch();
-
-    console.log(result, "results")
     const handleClick = (item) => {
-        // setMainLoader(true);
 
-        console.log(item, "item")
 
         const payload = {
 

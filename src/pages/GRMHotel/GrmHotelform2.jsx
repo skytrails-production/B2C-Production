@@ -542,7 +542,7 @@ function GrmHotelform2() {
     <>
 
       <div className="container transParentBG" style={{ paddingBottom: "57px", paddingTop: "13px" }}>
-        <div className="row g-2 newOneWayMain">
+        <div className="row g-2 newOneWayMainOneway2">
           <div className="col-lg-3">
             <div className="newOnewaySingle">
               <span >From</span>
@@ -575,7 +575,7 @@ function GrmHotelform2() {
                 <span className="nrsb">Guests & Rooms</span>
                 <div className="travelContent">
                   <p >
-                    {condition} <span>Room,</span> {numAdults} <span>Adults</span> {numChildren} <span>Child</span>
+                    {condition} Room, {numAdults} Adults, {numChildren} Child
                   </p>
                 </div>
               </div>

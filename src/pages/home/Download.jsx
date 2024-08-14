@@ -79,6 +79,13 @@ const Download = () => {
                     />
 
                   </div>
+
+
+                  {sent && (
+                    <div style={{ color: 'green', fontSize: '12px' }}>
+                      download link sent to your whatsApp
+                    </div>
+                  )}
                   {validmobileclick && !validno && (
                     <div style={{ color: 'red', fontSize: '12px' }}>
                       Enter valid Mobile Number

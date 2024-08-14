@@ -5,7 +5,6 @@ import "./holidayResult.scss";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiURL } from "../../../Constants/constant";
 import { useDispatch, useSelector } from "react-redux";
-
 import { FaPen } from "react-icons/fa";
 import { searchPackageAction, searchPackageActionCategory, searchPackageActionTopCountries } from "../../../Redux/SearchPackage/actionSearchPackage";
 import PackageResultFilterMobile from "./PackageResultFilterMobile";
@@ -41,7 +40,6 @@ const HolidayPackageResultMain = () => {
         }
         if (type == 'category') {
 
-            // console.log("fdjfkjffk")
             dispatch(searchPackageActionCategory(keyword))
         }
         if (type == 'country') {
@@ -171,8 +169,6 @@ const HolidayPackageResultMain = () => {
     }, [Package, packageData])
 
 
-    console.log(Package, "package main")
-    console.log(packageData, "package data")
 
     if (loading) {
         return <HolidayResultSkeleton />

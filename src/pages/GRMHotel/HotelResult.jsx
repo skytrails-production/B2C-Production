@@ -1,25 +1,12 @@
 import React, { useEffect, useState } from "react";
-import hotelNotFound from "../../images/hotelNotFound.jpg"
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import starsvg from "../../images/star.svg"
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { MdCancel } from "react-icons/md";
-import { MdOutlineFreeBreakfast } from "react-icons/md";
 import { clearHotelRoomAndGallery, hotelActionGRN, hotelGalleryRequest, singleHotelGRN } from "../../Redux/HotelGRN/hotel";
-import "./hotelResult.css"
-// import InfiniteScroll from "react-infinite-scroll-component";
-import "./hotelresult.scss"
-import dayjs from "dayjs";
-import freeWifi from "./SVGs/freeWifi.svg"
-import freeBreakfast from "./SVGs/freeBreakfast.svg"
-import freeParking from "./SVGs/freeParking.svg"
-import drinkingWater from "./SVGs/DrinkingWater.svg"
-import expressCheckin from "./SVGs/expressCheckin.svg"
-import welcomeDrink from "./SVGs/welcomeDrink.svg"
-import freeGym from "./SVGs/freeGym.svg"
-import SkeletonHotelResult from "./Skeletons/SkeletonHotelResult";
+import "./hotelResult.css";
+import "./hotelresult.scss";
+import { FaPen } from "react-icons/fa";
 import HotelResultCard from "./HotelResultCard";
+import HotelResultSkeleton from "./HotelResultSkeleton";
 
 export default function HotelResult({
     hotels,
@@ -35,9 +22,25 @@ export default function HotelResult({
     const dispatch = useDispatch();
     const [hasMore, setHasMore] = useState(true);
     const grnPayload = JSON.parse(sessionStorage.getItem('grnPayload'));
-    const [loader, setLoader] = useState(true)
+    const [loader, setLoader] = useState(true);
+    const [tooManyFilter, setToomanyFilter] = useState(false);
+    const [isFilterApplied, setIsFilterApplied] = useState(false);
 
-    console.log(hotels, "hotels")
+
+    useEffect(() => {
+
+        if (
+            selectedCategories.length > 0 ||
+            selectedFacilities.length > 0 ||
+            priceRange[0] !== 0 ||
+            priceRange[1] !== Infinity ||
+            searchTerm
+        ) {
+            setIsFilterApplied(true);
+        } else {
+            setIsFilterApplied(false);
+        }
+    }, [selectedCategories, selectedFacilities, priceRange, searchTerm]);
 
     let filteredHotels = hotels?.filter((hotel) => {
 
@@ -56,7 +59,7 @@ export default function HotelResult({
             return false;
         }
         // Hide hotels with no facilities
-        if (hotel.facilities == undefined) {
+        if (hotel.facilities === undefined) {
             return false;
         }
 
@@ -93,69 +96,54 @@ export default function HotelResult({
         return false;
     });
 
-
-    // Sort filtered hotels based on price only if sortBy is selected
     if (sortBy === "lowToHigh") {
         filteredHotels.sort((a, b) => a.min_rate.price - b.min_rate.price);
     } else if (sortBy === "highToLow") {
         filteredHotels.sort((a, b) => b.min_rate.price - a.min_rate.price);
     }
 
-    // const [currentPage, setCurrentPage] = useState(1);
-    // const searchId = reducerState?.hotelSearchResultGRN?.ticketData
-    //     ?.data?.data?.search_id;
-
-
-    // const fetchMoreData = () => {
-    //     setCurrentPage((pre) => pre + 1)
-    // }
+    useEffect(() => {
+        dispatch(clearHotelRoomAndGallery());
+    }, []);
 
     useEffect(() => {
-        dispatch(clearHotelRoomAndGallery())
-    }, [])
-
-
+        if (filteredHotels.length > 0) {
+            setLoader(false)
+        }
+    }, [filteredHotels])
 
     useEffect(() => {
         if (reducerState?.hotelSearchResultGRN?.onlyHotels?.length > 0) {
-            setHasMore(reducerState?.hotelSearchResultGRN?.hasMore)
-            setLoader(false);
+            setHasMore(reducerState?.hotelSearchResultGRN?.hasMore);
+            // setLoader(false);
         }
-    }, [reducerState?.hotelSearchResultGRN?.onlyHotels, reducerState?.hotelSearchResultGRN])
-
-
-    // const handlePageChangeScrroll = () => {
-    //     dispatch(hotelActionGRN(grnPayload, currentPage));
-    // };
-    // useEffect(() => {
-    //     handlePageChangeScrroll()
-    // }, [currentPage])
-
+    }, [reducerState?.hotelSearchResultGRN?.onlyHotels, reducerState?.hotelSearchResultGRN]);
 
     const handleClick = (item) => {
-        // setMainLoader(true);
-
         const payload = {
-
-            "data": {
-                "rate_key": item?.min_rate?.rate_key,
-                "group_code": item?.min_rate?.group_code,
+            data: {
+                rate_key: item?.min_rate?.rate_key,
+                group_code: item?.min_rate?.group_code,
             },
-            "searchID": item?.search_id,
-            "hotel_code": item?.hotel_code,
-
-        }
+            searchID: item?.search_id,
+            hotel_code: item?.hotel_code,
+        };
 
         const galleryPayload = {
-            "hotel_id": item?.hotel_code,
-        }
-        dispatch(hotelGalleryRequest(galleryPayload))
-        dispatch(singleHotelGRN(payload))
-        navigate("/st-hotel/hotelresult/selectroom")
+            hotel_id: item?.hotel_code,
+        };
+        dispatch(hotelGalleryRequest(galleryPayload));
+        dispatch(singleHotelGRN(payload));
+        navigate("/st-hotel/hotelresult/selectroom");
     };
 
-
-
+    useEffect(() => {
+        if (hotels?.length !== 0 && filteredHotels?.length === 0 && isFilterApplied) {
+            setToomanyFilter(true);
+        } else {
+            setToomanyFilter(false);
+        }
+    }, [hotels, filteredHotels]);
 
     let totalAdults = 0;
     let totalChildren = 0;
@@ -168,24 +156,43 @@ export default function HotelResult({
 
 
     return (
+        <>
+
+            {
+                loader ?
+                    (
+                        <HotelResultSkeleton />
+                    ) :
+
+                    (
+
+                        <>
+                            {
+                                tooManyFilter ?
+                                    <div className="col-lg-9">
+                                        <div className='noHotels'>
+                                            <h3>Too many filter Applied !</h3>
+                                            <p>Please remove some <FaPen /></p>
+                                        </div>
+                                    </div>
+                                    :
+                                    <div className="row g-4">
+                                        {filteredHotels?.length > 0 &&
+                                            filteredHotels.map((result, index) => (
+                                                <div key={index} className="col-lg-6">
+                                                    <HotelResultCard
+                                                        result={result}
+                                                    />
+                                                </div>
+                                            ))}
+                                    </div>
+                            }
+                        </>
+                    )
+            }
+
+        </>
 
 
-        <div className='row g-4'>
-            {filteredHotels?.length > 0 &&
-                filteredHotels
-                    ?.map((result, index) => (
-
-                        <div key={index} className="col-lg-6">
-                            <HotelResultCard
-                                result={result}
-                            />
-                        </div>
-
-                    ))}
-        </div>
     );
 }
-
-
-
-

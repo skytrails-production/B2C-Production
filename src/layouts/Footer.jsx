@@ -191,8 +191,8 @@ const Footer = () => {
             <div className="footerSingleBoxContent">
               <h4>Download the Skytrails App</h4>
               <div className="DownLLoad">
-                <Img src={playstoreSVG} />
-                <Img src={appstoreSVG} />
+                <a href="https://play.google.com/store/apps/details?id=com.skytrails&hl=en_IN" target="_blank"><Img src={playstoreSVG} /></a>
+                <a href="https://apps.apple.com/in/app/the-skytrails/id6475768819" target="_blank"><Img src={appstoreSVG} /></a>
               </div>
             </div>
           </div>

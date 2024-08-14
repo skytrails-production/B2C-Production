@@ -12,9 +12,7 @@ import { useNavigate } from "react-router-dom";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import "./style/Oneway.css";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
+import "./oneway2.scss"
 import "react-datepicker/dist/react-datepicker.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./card.css";
@@ -24,11 +22,12 @@ import TravelerCounter from "./TravelerCounter";
 import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
 // import SecureStorage from "react-secure-storage";
 import { returnActionClear } from "../Redux/FlightSearch/Return/return";
-
-import { Select } from "antd";
-import { DatePicker, Space, Button } from "antd";
+import { Modal, Select } from "antd";
+import { SearchOutlined } from '@ant-design/icons';
+import { Dropdown, Menu } from 'antd';
+import { DatePicker, Button } from "antd";
 import dayjs from "dayjs";
-import reduxSaga from "redux-saga";
+// import reduxSaga from "redux-saga";
 // const { RangePicker } = DatePicker;
 
 
@@ -535,7 +534,14 @@ function OnewayNew() {
 
 
 
-
+  const items = ClassItems.map((ele) => ({
+    key: ele.id, // Unique key
+    label: ele.label, // Label to display
+    onClick: () => {
+      setActiveIdClass(ele.id);
+      setflightClassName(ele.value);
+    },
+  }));
 
 
   return (
@@ -543,7 +549,7 @@ function OnewayNew() {
       {/* <div className=" homeabsnew1" style={{ width: "100%" }}>
         <section className="HotelAbsDesignInner w-100"> */}
       <div className=" container" >
-        <div className="row g-2 newOneWayMain">
+        <div className="row g-2 newOneWayMainOneway2">
           <div className="col-lg-3">
             <div className="newOnewaySingle relative">
               {/* <div> */}
@@ -642,7 +648,7 @@ function OnewayNew() {
             </div>
           </div>
 
-          <div className="col-lg-2">
+          <div className="col-lg-3">
             <div>
               <div className="newOnewaySingle" onClick={handleTravelClickOpen}>
                 <span>Traveller & Class</span>
@@ -656,7 +662,7 @@ function OnewayNew() {
                   </p>
                 </div>
               </div>
-              <Dialog
+              {/* <Dialog
                 sx={{ zIndex: "99999" }}
                 disableEscapeKeyDown
                 open={openTravelModal}
@@ -753,17 +759,94 @@ function OnewayNew() {
                     Ok
                   </Button>
                 </DialogActions>
-              </Dialog>
+              </Dialog> */}
+
+              <Modal className="customCalenderModalTraveller" open={openTravelModal} onCancel={handleTravelClose} footer={null}>
+                <>
+                  <div className="travellersModalNew">
+                    <div>
+                      <h3>Traveller & Class</h3>
+                    </div>
+                    <div className="travellerContentBox">
+                      <TravelerCounter
+                        label="Adults"
+                        sublabel="Age 13 or above"
+                        count={activeIdAdult}
+                        onIncrement={() =>
+                          handleTravelerCountChange("adult", 1)
+                        }
+                        onDecrement={() =>
+                          handleTravelerCountChange("adult", -1)
+                        }
+                      />
+                      <TravelerCounter
+                        label="Children"
+                        sublabel="Age 2-12 Years"
+                        count={activeIdChild}
+                        onIncrement={() =>
+                          handleTravelerCountChange("child", 1)
+                        }
+                        onDecrement={() =>
+                          handleTravelerCountChange("child", -1)
+                        }
+                      />
+                      <TravelerCounter
+                        label="Infants"
+                        sublabel="Age 0-2 Years"
+                        count={activeIdInfant}
+                        onIncrement={() =>
+                          handleTravelerCountChange("infant", 1)
+                        }
+                        onDecrement={() =>
+                          handleTravelerCountChange("infant", -1)
+                        }
+                      />
+                      <div>
+                        <label htmlFor=""> Choose Travel Class</label>
+                        <Dropdown
+                          overlay={
+                            <Menu
+                              items={items}
+                              selectedKeys={[activeIdClass]}
+                            />
+                          }
+                          placement="top"
+                          arrow={{
+                            pointAtCenter: true,
+                          }}
+                        >
+                          <Button>
+                            {ClassItems.find((ele) => ele.id === activeIdClass)?.label || 'Select Class'}
+                          </Button>
+                        </Dropdown>
+                      </div>
+                    </div>
+                    {/* <div>
+                      <h3 className="d-none d-md-block">
+                        Choose Travel Class
+                      </h3>
+                    </div>
+                    <div>
+                      
+                    </div> */}
+                  </div>
+                </>
+                <div className="calenderButton">
+
+                  <Button onClick={handleTravelClose} >Continue</Button>
+                </div>
+              </Modal>
             </div>
           </div>
-          <div className=" col-lg-2">
-            <Button
+          <div className=" col-lg-1">
+            {/* <Button
               className="Oneway2Search"
               onClick={handleOnewaySubmit}
               loading={loader}
             >
               Search
-            </Button>
+            </Button> */}
+            <Button className="Oneway2Search" onClick={handleOnewaySubmit} loading={loader} type="primary" icon={<SearchOutlined />} />
           </div>
         </div>
 

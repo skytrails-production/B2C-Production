@@ -157,9 +157,9 @@ const HotelFilterBox = ({
                     {[1, 2, 3, 4, 5].map((item, index) => (
                         <React.Fragment key={index}>
                             {index <= 2 ? (
-                                <img src={starsvg} alt="" />
+                                <img className="pe-2" src={starsvg} alt="" />
                             ) : (
-                                <img src={starBlank} alt="" />
+                                <img className="pe-2" src={starBlank} alt="" />
                             )}
                         </React.Fragment>
                     ))}
@@ -172,9 +172,9 @@ const HotelFilterBox = ({
                     {[1, 2, 3, 4, 5].map((item, index) => (
                         <React.Fragment key={index}>
                             {index <= 3 ? (
-                                <img src={starsvg} alt="" />
+                                <img className="pe-2" src={starsvg} alt="" />
                             ) : (
-                                <img src={starBlank} alt="" />
+                                <img className="pe-2" src={starBlank} alt="" />
                             )}
                         </React.Fragment>
                     ))}
@@ -187,9 +187,9 @@ const HotelFilterBox = ({
                     {[1, 2, 3, 4, 5].map((item, index) => (
                         <React.Fragment key={index}>
                             {index <= 4 ? (
-                                <img src={starsvg} alt="" />
+                                <img className="pe-2" src={starsvg} alt="" />
                             ) : (
-                                <img src={starBlank} alt="" />
+                                <img className="pe-2" src={starBlank} alt="" />
                             )}
                         </React.Fragment>
                     ))}

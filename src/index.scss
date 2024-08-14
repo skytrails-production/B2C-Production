@@ -15,7 +15,7 @@
   --black: #04152d;
   --black2: #041226;
   --black3: #020c1b;
-  --black4: #222222;
+  --black4: #333333c7;
   --black5: #000000;
   --borderDarkGray: #ddd;
   --borderLightGray: lightgray;
@@ -56,10 +56,10 @@ body {
     transform: translateX(-100%);
     background-image: linear-gradient(
       90deg,
-      rgba(#f1f1f1, 0) 0,
-      rgba(#f1f1f1, 0.2) 20%,
-      rgba(#f1f1f1, 0.5) 60%,
-      rgba(#f1f1f1, 0)
+      rgba(#fff, 0) 0,
+      rgba(#fff, 0.5) 20%,
+      rgba(#fff, 0.6) 60%,
+      rgba(#fff, 0)
     );
     animation: shimmer 2s infinite;
     content: "";
