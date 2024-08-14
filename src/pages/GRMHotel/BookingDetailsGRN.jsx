@@ -6,6 +6,8 @@ import { Skeleton, Space } from 'antd';
 import { motion } from "framer-motion";
 import { swalModal } from "../../utility/swal";
 import { Navigate, useNavigate } from "react-router-dom";
+import HotelGalleryCarousel from "./HotelGalleryCarousel";
+import "./bookingDetailsGRN.scss"
 
 const BookingDetailsGRN = () => {
     const reducerState = useSelector((state) => state);
@@ -29,6 +31,12 @@ const BookingDetailsGRN = () => {
             navigate("/st-hotel")
         }
     }, [reducerState?.hotelSearchResultGRN?.hotelRoom?.errors])
+
+    const hotelGallery =
+        reducerState?.hotelSearchResultGRN?.hotelGallery?.data?.data?.images
+            ?.regular;
+
+
 
     return (
 
@@ -278,23 +286,26 @@ const BookingDetailsGRN = () => {
                     </div>
                 </>
             ) : (
-                <>
-                    <div className='mainimgHotelSearch'>
-                    </div>
+                <div className="my-4">
 
-                    <div className="my-4 ">
-                        <div className="container">
-                            <div className="row gy-4">
-                                <div className="col-lg-9 order-lg-1 order-md-2 order-sm-2 order-2">
-                                    <HotelGuestDetailsGRN />
-                                </div>
-                                <div className="col-lg-3 order-lg-2 order-md-1 order-sm-1 order-1">
-                                    <PriceSummaryGRN />
-                                </div>
+
+                    <div className="container bookingDetailsMain">
+
+                        <div className="row">
+                            <HotelGalleryCarousel data={hotelGallery} />
+                        </div>
+
+                        <div className="row gy-4">
+                            <div className="col-lg-8">
+                                <HotelGuestDetailsGRN />
+                            </div>
+                            <div className="col-lg-4">
+                                <PriceSummaryGRN />
                             </div>
                         </div>
                     </div>
-                </>
+
+                </div>
             )}
         </>
 

@@ -1,6 +1,6 @@
 @import "../../mixins.scss";
 
-.hotelBookRoomMain {
+.bookingDetailsMain {
   color: var(--black4) !important;
   font-family: "Montserrat";
 
@@ -18,6 +18,25 @@
       width: 100%;
     }
 
+    .hotelReviewAmenity {
+      > div {
+        display: grid;
+        grid-template-columns: 50% 50%;
+        justify-content: space-between;
+        row-gap: 10px;
+
+        p {
+          font-size: 14px;
+          font-family: "Montserrat";
+          font-weight: 500;
+
+          @include md {
+            font-size: 15px;
+          }
+        }
+      }
+    }
+
     @include md {
       display: flex;
       flex-direction: column;
@@ -27,6 +46,53 @@
       border-radius: 12px;
       padding: 30px;
       // margin-top: 1.5rem;
+    }
+
+    .roomTitle {
+      .HotelRoomHeadings1 {
+        font-weight: 600;
+        font-size: 0.9rem;
+        position: relative;
+        margin-bottom: 15px;
+        width: 94%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @include md {
+          font-size: 1.2rem;
+          width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      .HotelRoomHeadings2 {
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding-bottom: 15px;
+        position: relative;
+        margin-bottom: 15px;
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @include md {
+          font-size: 1.2rem;
+          width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          width: 80px;
+          height: 2px;
+          background-color: #ddd;
+        }
+      }
     }
 
     h5 {
@@ -100,6 +166,16 @@
           padding-right: 12px;
         }
       }
+    }
+
+    .showMoore {
+      color: var(--primary);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .error-text {
+      font-size: 13px;
     }
   }
 
@@ -340,6 +416,18 @@
           font-family: "Montserrat";
           color: var(--black4) !important;
         }
+
+        .grTotal {
+          font-weight: 600;
+          color: var(--black2) !important;
+          font-family: "Montserrat";
+          font-size: 15px;
+          margin-bottom: 0;
+
+          @include md {
+            font-size: 17px;
+          }
+        }
       }
     }
 
@@ -423,11 +511,6 @@
         align-items: center;
         gap: 10px;
 
-        .form-check-input:checked {
-          background-color: #d90429 !important;
-          border-color: #d90429 !important;
-        }
-
         .hotelTitleComp {
           display: flex;
           flex-direction: column;
@@ -508,7 +591,7 @@
     margin-bottom: 15px;
 
     // @include ellipsis(1);
-    width: 94%;
+    width: 100%;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;

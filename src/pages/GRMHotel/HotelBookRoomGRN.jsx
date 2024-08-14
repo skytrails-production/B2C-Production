@@ -526,7 +526,7 @@ const HotelBookRoomGRN = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-lg-4 p-0">
+                <div className="col-lg-4 ">
 
                   <div className="initialBookingData">
                     <div className="checkInCheckOutBox">

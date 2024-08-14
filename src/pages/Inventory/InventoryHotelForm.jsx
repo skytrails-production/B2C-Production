@@ -460,11 +460,6 @@ const InventoryHotelForm = () => {
     console.log("Failed:", errorInfo);
   };
 
-
-
-
-
-
   // Function to calculate total rooms across all entries
 
   const handleRoomChange = (value, roomIndex, key) => {
@@ -1596,7 +1591,7 @@ const InventoryHotelForm = () => {
                                   ...(weekendItem.isMAP ? ["isMAP"] : []),
                                   ...(weekendItem.isEP ? ["isEP"] : []),
                                   ...(weekendItem.isJAP ? ["isJAP"] : []),
-                                   ...(weekendItem.isAP ? ["isAP"] : []),
+                                  ...(weekendItem.isAP ? ["isAP"] : []),
                                 ]}
                                 onChange={(checkedValues) => {
                                   handleWeekendChange(
@@ -1623,13 +1618,13 @@ const InventoryHotelForm = () => {
                                     weekendIndex,
                                     "isJAP"
                                   );
-                                  
+
                                   handleWeekendChange(
                                     checkedValues.includes("isAP"),
                                     roomIndex,
                                     weekendIndex,
                                     "isAP"
-                                  )
+                                  );
                                 }}
                               >
                                 <Checkbox value="isCP">Is CP</Checkbox>

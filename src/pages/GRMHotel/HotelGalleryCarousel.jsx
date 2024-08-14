@@ -54,7 +54,7 @@ const HotelGalleryCarousel = ({ data }) => {
     // };
 
     return (
-        <div className='position-relative pe-0'>
+        <div className='position-relative'>
             <div className="carouselPackageHotelGallery">
 
                 <BsFillArrowLeftCircleFill

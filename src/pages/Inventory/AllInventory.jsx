@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { apiURL } from "../../Constants/constant";
-import { Table, message, Button, Modal } from "antd";
-
+import { Table, message, Button, Modal, Upload } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import axios from "axios";
 
 const AllInventory = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedInventory, setSelectedInventory] = useState(null);
-
   const [isDescriptionModalVisible, setIsDescriptionModalVisible] =
     useState(false);
   const [selectedDescription, setSelectedDescription] = useState("");
+  const [imageCounts, setImageCounts] = useState({}); // State to manage image counts
 
   const showDescriptionModal = (description) => {
     setSelectedDescription(description);
@@ -58,6 +59,13 @@ const AllInventory = () => {
           Array.isArray(responseData.result.result)
         ) {
           setData(responseData.result.result);
+
+          // Initialize imageCounts with existing data
+          const counts = responseData.result.result.reduce((acc, item) => {
+            acc[item._id] = (item.hotelImages || []).length;
+            return acc;
+          }, {});
+          setImageCounts(counts);
         } else {
           message.error("Failed to fetch inventory data");
         }
@@ -72,6 +80,38 @@ const AllInventory = () => {
     fetchData();
   }, []);
 
+  const handleImageUpload = async (record, file, onSuccess, onError) => {
+    const formData = new FormData();
+    const token = localStorage.getItem("token");
+
+    formData.append("hotelId", record._id);
+    formData.append("hotelImages", file);
+
+    try {
+      const response = await axios.put(
+        `${apiURL.baseURL}/skyTrails/api/inventory/uploadInventoryImage`,
+        formData,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+      onSuccess(response.data);
+
+      // Update the image count
+      setImageCounts((prevCounts) => ({
+        ...prevCounts,
+        [record._id]: (prevCounts[record._id] || 0) + 1,
+      }));
+
+      message.success(`${file.name} image uploaded successfully`);
+    } catch (error) {
+      onError(error);
+      message.error(`${file.name} image upload failed.`);
+    }
+  };
+
   const columns = [
     {
       title: "Hotel Name",
@@ -79,6 +119,27 @@ const AllInventory = () => {
       key: "hotelName",
       fixed: "left",
     },
+    {
+      title: "Upload Hotel Image",
+      key: "uploadHotelImage",
+      render: (text, record) => (
+        <div>
+          <Upload
+            customRequest={async ({ file, onSuccess, onError }) =>
+              handleImageUpload(record, file, onSuccess, onError)
+            }
+            showUploadList={false} // Hide the default upload list UI
+          >
+            <Button icon={<UploadOutlined />}>Upload Image</Button>
+          </Upload>
+          <p style={{ marginLeft: 8 }}>
+            {imageCounts[record._id] || 0}{" "}
+            {imageCounts[record._id] === 1 ? "image" : "images"}
+          </p>
+        </div>
+      ),
+    },
+
     {
       title: "Actions",
       key: "actions",
@@ -102,7 +163,7 @@ const AllInventory = () => {
             overflow: "hidden",
             textOverflow: "ellipsis",
             cursor: "pointer", // Make it look clickable
-            color: "blue", // Optional: Change text color to indicate it's clickable
+            color: "black", // Optional: Change text color to indicate it's clickable
           }}
           onClick={() => showDescriptionModal(text)} // Show modal on click
         >
@@ -115,6 +176,7 @@ const AllInventory = () => {
       dataIndex: "locality",
       key: "locality",
     },
+
     {
       title: "HotelCity",
       dataIndex: "hotelCity",
@@ -189,7 +251,6 @@ const AllInventory = () => {
       dataIndex: "availableRooms",
       key: "availableRooms",
     },
-    // Other columns...
   ];
 
   return (

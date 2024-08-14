@@ -52,7 +52,7 @@ const Download = () => {
           </div>
           <div class="row align-items-center">
 
-            <div class="col-lg-6 ">
+            <div class="col-lg-6 order-lg-1 order-md-2 order-sm-2 order-2">
               <div class="download-app">
                 <h2>Download the app now</h2>
                 <p>Get up to 10% off on your 1st Booking</p>
@@ -109,7 +109,7 @@ const Download = () => {
                 </div>
               </div>
             </div>
-            <div class="col-lg-6 ">
+            <div class="col-lg-6 order-lg-2 order-md-1 order-sm-1 order-1">
               <div className="downloadImg">
                 <Img src={downloadMobile} />
               </div>
