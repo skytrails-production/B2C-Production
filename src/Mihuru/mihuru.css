@@ -1,0 +1,27 @@
+.loanSuccess {
+    display: flex;
+    flex-direction: column;
+    flex-direction: 40px;
+    justify-content: center;
+    align-items: center;
+    /* margin: 30px; */
+    height: 70vh;
+}
+
+.loanSuccess span {
+    background-color: green;
+    /* padding: 30px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    width: 80px;
+    border-radius: 50%;
+    color: white;
+    font-size: 50px;
+}
+
+.loanSuccess h3 {
+    font-size: 20px;
+    margin-top: 20px;
+}

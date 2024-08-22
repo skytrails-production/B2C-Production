@@ -9,14 +9,16 @@
 .headFlight {
     border-radius: 4px 4px 0px 0px;
     /* background: #B8CCFF; */
-    background: #d90429;
+    /* background: #d90429; */
+    background: #FFFBFB;
 
     padding: 10px;
     text-align: center;
 }
 
 .headFlight span {
-    color: #fff;
+    /* color: #fff; */
+    color: #E73C34;
     font-family: 'Montserrat';
     font-size: 18px;
     text-align: center;
@@ -196,3 +198,102 @@ p {
     font-weight: bold;
     font-size: 15px;
 }
+
+
+
+
+
+
+
+
+
+
+
+/* /////////////////////////////////////////////////////////////////////// */
+
+.priceSummary-new{
+    /* .priceSummary { */
+        border-radius: 8px;
+        /* border: 1px solid #5C85A4; */
+        background: #FFF;
+        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        padding: 16px;
+    /* } */
+}
+
+
+.headFlight-new {
+    border-radius: 4px 4px 0px 0px;
+    /* background: #B8CCFF; */
+    /* background: #d90429; */
+    background: #FFFBFB;
+    /* background: #FFFBFB; */
+    padding: 10px;
+    text-align: center;
+}
+
+.headFlight-new span {
+    /* color: #fff; */
+    color: #E73C34;
+    font-family: 'Montserrat';
+    font-size: 18px;
+    text-align: center;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+
+.totCOmmFlight-new {
+    display: flex;
+    flex-direction: column;
+    background: #FFFBFB;
+    gap: 5px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+
+.totCOmmFlight-new>div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.totCOmmFlightDiv{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
+}
+
+.totCOmmFlight-new>div span {
+    font-size: 13px;
+}
+
+.totCOmmFlight-new>div p {
+    font-size: 13px;
+}
+
+.TotGstFlight-new{
+    display: flex;
+    flex-direction: column;
+    /* background: #B8CCFF; */
+    /* background: #FFFBFB; */
+    padding: 10px;
+    gap: 5px;
+}
+
+.TotGstFlight-new>div {
+    display: flex;
+    flex-direction: row;
+    font-size: 16px;
+    justify-content: space-between;
+    align-items: center;
+    color: #333333 !important;
+
+}
+
+

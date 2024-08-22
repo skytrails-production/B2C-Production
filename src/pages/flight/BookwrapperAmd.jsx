@@ -6,12 +6,14 @@ import fromTo from "../../images/fromTo.png";
 import "bootstrap/dist/css/bootstrap.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
+import { IoPersonSharp } from "react-icons/io5";
 import Box from '@mui/material/Box';
 import DialogContent from "@mui/material/DialogContent";
 import Login from "../../components/Login";
 import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 import { motion } from "framer-motion";
 import SecureStorage from "react-secure-storage";
+import lineimg from "../../images/line-01.png";
 import { FiArrowRight } from "react-icons/fi";
 import moment from "moment";
 import {
@@ -71,8 +73,8 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 550,
-  height: 500,
+  width: 475,
+  height: 400,
   borderRadius: "15px",
   bgcolor: 'background.paper',
   background: 'aliceblue',
@@ -708,7 +710,7 @@ export default function BookWrapper() {
        
     </dataElementsMaster>
 </PNR_AddMultiElements>`;
-    console.log(amadiesPayload, "amadiesPayload")
+    // console.log(amadiesPayload, "amadiesPayload")
 
     fetchDataAmadesContinue(amadiesPayload);
   };
@@ -2029,9 +2031,31 @@ export default function BookWrapper() {
       });
     }
   };
-console.log(isDropdown,"dddddd")
+// console.log(isDropdown,"dddddd")
 
 
+const [currentAdultCount, setCurrentAdultCount] = useState(0);
+
+const addAdult = () => {
+  if (currentAdultCount < adultCount) {
+    setCurrentAdultCount((prevCount) => prevCount + 1);
+  }
+};
+
+
+const [currentChildCount, setcurrentChildCount] = useState(0);
+const addChild = () => {
+if (currentChildCount < childCount) {
+  setcurrentChildCount((prevCount) => prevCount + 1);
+}
+}
+
+const [currentinfantCount, setcurrentinfantCount] = useState(0);
+const addinfant = () => {
+if (currentinfantCount < infantCount) {
+  setcurrentinfantCount((prevCount) => prevCount + 1);
+}
+}
 
 
 
@@ -2053,6 +2077,7 @@ console.log(isDropdown,"dddddd")
         ) : (
           <div className="">
             <div className="container px-0 pt-4">
+            
               <div className="row">
                 <motion.div
                   variants={variants}
@@ -2070,7 +2095,8 @@ console.log(isDropdown,"dddddd")
 
                         <div className="booknowFlight">
                           <div className="bookaboveBox">
-                            <div>
+                          <div style={{width:"100%"}}>
+                            <div style={{display:"flex",flexDirection:"row",width:"100%",justifyContent:"space-between"}}>
                               {/* {TicketDetails?.AirlineRemark !== null &&
                               TicketDetails?.AirlineRemark !== "--." ? (
                                 <p className="text-center w-100 mandaField">
@@ -2080,7 +2106,7 @@ console.log(isDropdown,"dddddd")
                                 ""
                               )} */}
 
-                              <p>
+                              <p className="flightdestination-right-para">
                                 {
                                   //"sesstioResultIndex?.flightDetails"
                                   sesstioResultIndex?.flightDetails
@@ -2104,8 +2130,31 @@ console.log(isDropdown,"dddddd")
                                   ].flightInformation?.location[1]
                                     ?.locationId}
                               </p>
-                              <div className="aboveSpan">
-                                <span className="aboveSOne">
+                             
+                            </div>
+                            <div className="aboveSpan">
+                            <div>
+                              <p>
+                             
+                              {/* <img
+                                      src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${sesstioResultIndex?.flightDetails
+                                    ?.flightInformation?.companyId?.marketingCarrier}.png`} style={{height:"50px",width:"50px",borderRadius:"5px"}}
+                                    /> */}
+
+                                    </p>
+                                    {/* <p style={{fontSize:"12px",textAlign:"center"}}>
+                                  {
+                                    sesstioResultIndex?.flightDetails
+                                      ?.flightInformation?.companyId
+                                      ?.marketingCarrier
+                                  }
+                                  {
+                                    sesstioResultIndex?.flightDetails
+                                      ?.flightInformation?.flightOrtrainNumber
+                                  }
+                                </p> */}
+                                </div>
+                                {/* <span className="aboveSOne">
                                   {sesstioResultIndex?.flightDetails
                                     ?.flightInformation
                                     ? convertTime(
@@ -2118,9 +2167,9 @@ console.log(isDropdown,"dddddd")
                                         ?.flightInformation?.productDateTime
                                         ?.timeOfDeparture
                                     )}
-                                </span>
+                                </span> */}
                                 {/* <span>Non Stop {duration}</span> */}
-                                <span>
+                                {/* <span style={{color:"#E73C34"}}>
                                   {" "}
                                   {sesstioResultIndex?.flightDetails.length < 1
                                     ? `${sesstioResultIndex?.flightDetails
@@ -2130,29 +2179,20 @@ console.log(isDropdown,"dddddd")
                                       ?.locationId
                                     }`
                                     : "Non Stop"}
-                                </span>
-                              </div>
-                            </div>
+                                </span>                       */}
+                              </div>                              
                           </div>
-
+                          </div>
                           {sesstioResultIndex?.flightDetails
                             ?.flightInformation ? (
                             <>
-                              <div className="bookcenteredBox">
+                              <div className="bookcenteredBox ">
                                 <div>
-                                  <img
+                                <div>
+                                <img
                                     src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${sesstioResultIndex?.flightDetails?.flightInformation?.companyId?.marketingCarrier}.png`}
                                   />{" "}
-                                </div>
-                                <span>
-                                  {findAirlineByCode(
-                                    sesstioResultIndex?.flightDetails
-                                      ?.flightInformation?.companyId
-                                      ?.marketingCarrier
-                                  )}
-                                </span>
-                                <p>
-                                  {
+                                  <p style={{marginTop:"1px",color:"#E73C34"}}> {
                                     sesstioResultIndex?.flightDetails
                                       ?.flightInformation?.companyId
                                       ?.marketingCarrier
@@ -2160,13 +2200,54 @@ console.log(isDropdown,"dddddd")
                                   {
                                     sesstioResultIndex?.flightDetails
                                       ?.flightInformation?.flightOrtrainNumber
+                                  }</p>
+
+                                </div>
+                                 
+                                </div>
+                                <p style={{color:"#E73C34",textAlign:"center"}}>
+                                  {/* {findAirlineByCode(
+                                    sesstioResultIndex?.flightDetails
+                                      ?.flightInformation?.companyId
+                                      ?.marketingCarrier
+                                  )} */}
+                                  {sesstioResultIndex?.flightDetails
+                                    ?.flightInformation
+                                    ? convertTime(
+                                      sesstioResultIndex?.flightDetails
+                                        ?.flightInformation?.productDateTime
+                                        ?.timeOfDeparture
+                                    )
+                                    : convertTime(
+                                      sesstioResultIndex?.flightDetails[0]
+                                        ?.flightInformation?.productDateTime
+                                        ?.timeOfDeparture
+                                    )}
+                                </p>
+                                <p style={{color:"#E73C34",fontSize:"14px"}}>
+                                {sesstioResultIndex?.flightDetails.length < 1
+                                    ? `${sesstioResultIndex?.flightDetails
+                                      .length - 1
+                                    } stop via ${sesstioResultIndex?.flightDetails
+                                      ?.flightInformation[0]?.location[1]
+                                      ?.locationId
+                                    }`
+                                    : "Non Stop"}
+                                  {/* {
+                                    sesstioResultIndex?.flightDetails
+                                      ?.flightInformation?.companyId
+                                      ?.marketingCarrier
                                   }
+                                  {
+                                    sesstioResultIndex?.flightDetails
+                                      ?.flightInformation?.flightOrtrainNumber
+                                  } */}
                                 </p>
                               </div>
-                              <div className="bookbottomBox">
+                              <div className="container flightdestination mb-4">
                                 <div>
-                                  <div className="bookBottomOne">
-                                    <p>
+                                  <div className="row  w-100">
+                                    {/* <p>
                                       {convertTime(
                                         sesstioResultIndex?.flightDetails
                                           ?.flightInformation?.productDateTime
@@ -2179,20 +2260,35 @@ console.log(isDropdown,"dddddd")
                                           ?.flightInformation?.productDateTime
                                           ?.timeOfArrival
                                       )}
-                                    </p>
-                                  </div>
-                                  <div className="bookBottomTwo">
+                                    </p> */}
+                                 
+                                  {/* <div className="bookBottomTwo">
                                     <img src={fromTo} alt="icon" />
-                                  </div>
-                                  <div className="bookBottomThree">
-                                    <p>
-                                      {/* {item?.Origin?.Airport?.CityName}{" "} */}
-                                      {
+                                  </div> */}
+                                  <div className="col-6 col-md-5 align-items-center mb-3 mb-md-0 flightdestination-right">
+                                    <p className="flightdestination-right-para">
+                                      
+                                      {/* {
                                         sesstioResultIndex?.flightDetails
                                           ?.flightInformation?.location[0]
                                           ?.locationId
-                                      }
-                                      <span>
+                                      } */}
+                                      {
+                                          findAirportByCode(
+                                            sesstioResultIndex?.flightDetails
+                                              ?.flightInformation?.location[0]
+                                              ?.locationId
+                                          )?.name
+                                        }
+                                      </p>
+                                      <p className="flightdestination-right-para">
+                                      {convertTime(
+                                        sesstioResultIndex?.flightDetails
+                                          ?.flightInformation?.productDateTime
+                                          ?.timeOfDeparture
+                                      )}
+                                      </p>
+                                      <p className="flightdestination-right-para1">
                                         {
                                           findAirportByCode(
                                             sesstioResultIndex?.flightDetails
@@ -2200,7 +2296,9 @@ console.log(isDropdown,"dddddd")
                                               ?.locationId
                                           )?.name
                                         }
-                                        {", "}
+                                        </p>
+                                        {/* {", "} */}
+                                        <p className="flightdestination-right-para1">
                                         Terminal-
                                         {/* {item?.Origin?.Airport?.Terminal
                                                 ? item?.Origin?.Airport
@@ -2211,28 +2309,49 @@ console.log(isDropdown,"dddddd")
                                             ?.flightInformation?.location[0]
                                             ?.terminal
                                         }
-                                      </span>
-                                    </p>
-                                    <p>
-                                      {
-                                        // item?.Destination?.Airport
-                                        //   ?.CityName
-                                      }
-                                      {
+                                        </p>
+                                      {/* </p> */}
+                                      </div>
+                                    {/* </p> */}
+                                    <div className="col-12 col-md-2  mb-3 mb-md-0" style={{display: "flex", flexdirection: "row", alignItems:"center",justifyContent:"center"}}>
+                                   <div className="d-flex flex-column align-items-center">
+                                    <img src={lineimg} alt="" style={{ width: "100%" }}/>
+                                   </div>
+                                    </div>
+
+                                    <div className="col-6 col-md-5 align-items-center flightdestination-right">
+                                    {/* <p className="flightdestination-right-para">{
                                         sesstioResultIndex?.flightDetails
                                           ?.flightInformation?.location[1]
                                           ?.locationId
-                                      }{" "}
-                                      <span>
-                                        {
+                                      }</p> */}
+                                    <p className="flightdestination-right-para"> {
                                           findAirportByCode(
                                             sesstioResultIndex?.flightDetails
                                               ?.flightInformation?.location[1]
                                               ?.locationId
                                           )?.name
-                                        }
-                                        {", "}
-                                        Terminal-
+                                        }</p>
+                                    {/* <p className="flightdestination-right-para1"> {
+                                          findAirportByCode(
+                                            sesstioResultIndex?.flightDetails
+                                              ?.flightInformation?.location[1]
+                                              ?.locationId
+                                          )?.name
+                                        }</p> */}
+                                        <p className="flightdestination-right-para"> {convertTime(
+                                        sesstioResultIndex?.flightDetails
+                                          ?.flightInformation?.productDateTime
+                                          ?.timeOfArrival
+                                      )}</p>
+                                        <p className="flightdestination-right-para1"> {
+                                          findAirportByCode(
+                                            sesstioResultIndex?.flightDetails
+                                              ?.flightInformation?.location[1]
+                                              ?.locationId
+                                          )?.name
+                                        }</p>
+                                      <p> Terminal-
                                         {/* {item?.Destination?.Airport
                                                 ?.Terminal
                                                 ? item?.Destination?.Airport
@@ -2242,12 +2361,45 @@ console.log(isDropdown,"dddddd")
                                           sesstioResultIndex?.flightDetails
                                             ?.flightInformation?.location[1]
                                             ?.terminal
-                                        }
-                                      </span>
+                                        }</p>
+
+                                    </div>
+                                    <p>
+                                      {/* {
+                                        // item?.Destination?.Airport
+                                        //   ?.CityName
+                                      }
+                                      {
+                                        sesstioResultIndex?.flightDetails
+                                          ?.flightInformation?.location[1]
+                                          ?.locationId
+                                      }{" "} */}
+                                      {/* <span> */}
+                                        {/* {
+                                          findAirportByCode(
+                                            sesstioResultIndex?.flightDetails
+                                              ?.flightInformation?.location[1]
+                                              ?.locationId
+                                          )?.name */}
+                                        {/* } */}
+                                        {/* {", "} */}
+                                        {/* Terminal- */}
+                                        {/* {item?.Destination?.Airport
+                                                ?.Terminal
+                                                ? item?.Destination?.Airport
+                                                    ?.Terminal
+                                                : "Y"} */}
+                                        {/* {
+                                          sesstioResultIndex?.flightDetails
+                                            ?.flightInformation?.location[1]
+                                            ?.terminal
+                                        } */}
+                                      {/* </span> */}
                                     </p>
                                   </div>
                                 </div>
-                                <div className="bookBottomFour">
+                              
+                                {/* <div className="bookBottomFour">
                                   <div>
                                     <p>Baggage</p>
                                     <span>ADULT</span>
@@ -2289,23 +2441,24 @@ console.log(isDropdown,"dddddd")
                                             ?.baggageDetails?.freeAllowance !==
                                           "0"
                                           ? "KG"
-                                          : ""}
+                                          : ""} */}
 
                                       {/* {item?.Baggage?.split(" ")[0]} */}
-                                    </span>
+                                    {/* </span>
                                   </div>
                                   <div>
                                     <p>Cabin</p>
-                                    <span>
+                                    <span> */}
                                       {/* {sesstioResultIndex?.baggage
                                         ?.freeBagAllownceInfo?.baggageDetails
                                         ?.quantityCode !== "N"
                                         ? "7KG"
                                         : "Included"} */}
-                                      Included
+                                      {/* Included
                                     </span>
                                   </div>
-                                </div>
+                                </div> */}
+                                {/* </div> */}
                               </div>
                               {/* <div>
                                       {layoverDuration !== 0 && (
@@ -2319,6 +2472,45 @@ console.log(isDropdown,"dddddd")
                                       )}
                                     </div> */}
                               {/* klkkk */}
+                              <div style={{backgroundColor:"#ffdeff",padding:"5px",borderRadius:"12px",fontSize:"14px"}}>
+      <p></p>
+        <p style={{color:"black"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i> Baggage (ADULT) check-in <span> {sesstioResultIndex?.baggage
+                                        ?.freeBagAllownceInfo?.baggageDetails
+                                        ?.quantityCode === "N"
+                                        ? sesstioResultIndex?.baggage
+                                          ?.freeBagAllownceInfo
+                                          ?.baggageDetails?.freeAllowance * 23
+                                        : Number(
+                                          sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance
+                                        ) === 0
+                                          ? "No baggage"
+                                          : sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance}
+                                      {sesstioResultIndex?.baggage
+                                        ?.freeBagAllownceInfo?.baggageDetails
+                                        ?.quantityCode === "N"
+                                        ? sesstioResultIndex?.baggage
+                                          ?.freeBagAllownceInfo
+                                          ?.baggageDetails?.unitQualifier ===
+                                          "K"
+                                          ? "KG"
+                                          : "LB"
+                                        : Number(
+                                          sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance
+                                        ) !== 0 ||
+                                          sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance !==
+                                          "0"
+                                          ? "KG"
+                                          : ""}
+</span> cabin Included</p>
+      </div>
                             </>
                           ) : (
                             sesstioResultIndex?.flightDetails?.map(
@@ -2329,19 +2521,11 @@ console.log(isDropdown,"dddddd")
                                   <>
                                     <div className="bookcenteredBox">
                                       <div>
-                                        <img
+                                      <div>
+                                       <img
                                           src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${sesstioResultIndex?.flightDetails[index]?.flightInformation?.companyId?.marketingCarrier}.png`}
                                         />{" "}
-                                      </div>
-                                      <span>
-                                        {findAirlineByCode(
-                                          sesstioResultIndex?.flightDetails[
-                                            index
-                                          ]?.flightInformation?.companyId
-                                            ?.marketingCarrier
-                                        )}
-                                      </span>
-                                      <p>
+                                           <p style={{marginTop:"1px", color:"#E73C34"}}>
                                         {
                                           sesstioResultIndex?.flightDetails[
                                             index
@@ -2355,11 +2539,52 @@ console.log(isDropdown,"dddddd")
                                             ?.flightOrtrainNumber
                                         }
                                       </p>
+                                      </div>
+                                       
+                                      </div>
+                                      <p style={{textAlign:"center",fontSize:"14px",color:"#E73C34"}}>
+                                        {/* {findAirlineByCode(
+                                          sesstioResultIndex?.flightDetails[
+                                            index
+                                          ]?.flightInformation?.companyId
+                                            ?.marketingCarrier
+                                        )} */}
+                                        {convertTime(
+                                              sesstioResultIndex?.flightDetails[
+                                                index
+                                              ]?.flightInformation
+                                                ?.productDateTime?.timeOfArrival
+                                            )}
+                                      </p>
+                                      {/* <p>
+                                        {
+                                          sesstioResultIndex?.flightDetails[
+                                            index
+                                          ]?.flightInformation?.companyId
+                                            ?.marketingCarrier
+                                        }
+                                        {
+                                          sesstioResultIndex?.flightDetails[
+                                            index
+                                          ]?.flightInformation
+                                            ?.flightOrtrainNumber
+                                        }
+                                      </p> */}
                                     </div>
-                                    <div className="bookbottomBox">
-                                      <div>
-                                        <div className="bookBottomOne">
-                                          <p>
+                                    <div style={{display:"flex",flexDirection:"column"}}>
+                                    <div className="container flightdestination mb-4">
+                                     
+                                        <div className="row  w-100">
+                                        <div className="col-6 col-md-5 align-items-center mb-3 mb-md-0 flightdestination-right">
+                                        <p className="flightdestination-right-para"> {
+                                                findAirportByCode(
+                                                  sesstioResultIndex
+                                                    ?.flightDetails[index]
+                                                    ?.flightInformation
+                                                    ?.location[0]?.locationId
+                                                )?.name
+                                              }</p>
+                                               <p className="flightdestination-right-para">
                                             {convertTime(
                                               sesstioResultIndex?.flightDetails[
                                                 index
@@ -2367,39 +2592,7 @@ console.log(isDropdown,"dddddd")
                                                 ?.productDateTime?.timeOfArrival
                                             )}
                                           </p>
-                                          <p>
-                                            {convertTime(
-                                              sesstioResultIndex?.flightDetails[
-                                                index
-                                              ]?.flightInformation
-                                                ?.productDateTime
-                                                ?.timeOfDeparture
-                                            )}
-                                          </p>
-                                        </div>
-                                        <div className="bookBottomTwo">
-                                          <img src={fromTo} alt="icon" />
-                                        </div>
-                                        <div className="bookBottomThree">
-                                          <p>
-                                            {/* {item?.Origin?.Airport?.CityName}{" "} */}
-                                            {
-                                              sesstioResultIndex?.flightDetails[
-                                                index
-                                              ]?.flightInformation?.location[1]
-                                                ?.locationId
-                                            }
-                                            <span>
-                                              {
-                                                findAirportByCode(
-                                                  sesstioResultIndex
-                                                    ?.flightDetails[index]
-                                                    ?.flightInformation
-                                                    ?.location[1]?.locationId
-                                                )?.name
-                                              }
-                                              {", "}
-                                              Terminal-
+                                          <p className="flightdestination-right-para1">  Terminal-
                                               {/* {item?.Origin?.Airport?.Terminal
                                                 ? item?.Origin?.Airport
                                                     ?.Terminal
@@ -2409,49 +2602,75 @@ console.log(isDropdown,"dddddd")
                                                   ?.flightDetails[index]
                                                   ?.flightInformation
                                                   ?.location[0]?.terminal
-                                              }
-                                            </span>
-                                          </p>
-                                          <p>
-                                            {
-                                              // item?.Destination?.Airport
-                                              //   ?.CityName
-                                            }
-                                            {
-                                              sesstioResultIndex?.flightDetails[
-                                                index
-                                              ]?.flightInformation?.location[1]
-                                                ?.locationId
-                                            }{" "}
-                                            <span>
-                                              {
-                                                // item?.Destination?.Airport
-                                                //   ?.AirportName
+                                              }</p>
+
+                                        </div>
+                                        <div className="col-12 col-md-2  mb-3 mb-md-0" style={{display: "flex", flexdirection: "row", alignItems:"center",justifyContent:"center"}}>
+                                   <div className="d-flex flex-column align-items-center">
+                                    <img src={lineimg} alt="" style={{ width: "100%" }}/>
+                                   </div>
+                                    </div>
+                                     <div className="col-6 col-md-5 align-items-center flightdestination-right">
+                                     <p className="flightdestination-right-para"> {
                                                 findAirportByCode(
                                                   sesstioResultIndex
                                                     ?.flightDetails[index]
                                                     ?.flightInformation
                                                     ?.location[1]?.locationId
                                                 )?.name
-                                              }
-                                              {", "}
-                                              Terminal-
-                                              {/* {item?.Destination?.Airport
-                                                ?.Terminal
-                                                ? item?.Destination?.Airport
+                                              }</p>
+                                             
+                                      <p className="flightdestination-right-para"> {convertTime(
+                                              sesstioResultIndex?.flightDetails[
+                                                index
+                                              ]?.flightInformation
+                                                ?.productDateTime
+                                                ?.timeOfDeparture
+                                            )}</p>
+                                            <p className="flightdestination-right-para1">  Terminal-
+                                              {/* {item?.Origin?.Airport?.Terminal
+                                                ? item?.Origin?.Airport
                                                     ?.Terminal
-                                                : "Y"} */}
+                                                : "X"} */}
                                               {
                                                 sesstioResultIndex
                                                   ?.flightDetails[index]
                                                   ?.flightInformation
+                                                  ?.location[1]?.terminal
+                                              }</p>
+                                     </div>
+                                          {/* <p>
+                                            {convertTime(
+                                              sesstioResultIndex?.flightDetails[
+                                                index
+                                              ]?.flightInformation
+                                                ?.productDateTime?.timeOfArrival
+                                            )}
+                                          </p> */}
+                                          {/* <p>
+                                            {convertTime(
+                                              sesstioResultIndex?.flightDetails[
+                                                index
+                                              ]?.flightInformation
+                                                ?.productDateTime
+                                                ?.timeOfDeparture
+                                            )}
+                                          </p> */}
+                                          {/* <p> Terminal- */}
+                                              {/* {item?.Origin?.Airport?.Terminal
+                                                ? item?.Origin?.Airport
+                                                    ?.Terminal
+                                                : "X"} */}
+                                              {/* {
+                                                sesstioResultIndex
+                                                  ?.flightDetails[index]
+                                                  ?.flightInformation
                                                   ?.location[0]?.terminal
-                                              }
-                                            </span>
-                                          </p>
+                                              }</p> */}
                                         </div>
-                                      </div>
-                                      <div className="bookBottomFour">
+                                        </div>
+                                      
+                                        {/* <div>
                                         <div>
                                           <p>Baggage</p>
                                           <span>ADULT</span>
@@ -2471,12 +2690,137 @@ console.log(isDropdown,"dddddd")
                                                 ?.freeBagAllownceInfo
                                                 ?.baggageDetails
                                                 ?.freeAllowance}
+                                           */}
+                                              {/* sesstioResultIndex?.baggage
+                                                ?.freeBagAllownceInfo
+                                                ?.baggageDetails
+                                                ?.unitQualifier === "L"
+                                                ? "LB"
+                                                : Number(
+                                                  sesstioResultIndex?.baggage
+                                                    ?.freeBagAllownceInfo
+                                                    ?.baggageDetails
+                                                    ?.freeAllowance
+                                                ) !== 0 ||
+                                                  sesstioResultIndex?.baggage
+                                                    ?.freeBagAllownceInfo
+                                                    ?.baggageDetails
+                                                    ?.freeAllowance !== "0"
+                                                  ? "KG"
+                                                  : "" */}
+                                              
+                                          {/* </span>
+                                        </div>
+                                        <div>
+                                          <p>Cabin</p>
+                                          <span>
+                                           
+                                            Included
+                                          </span>
+                                        </div>
+                                        </div> */}
+
+                                    {/* <div className="col-6 col-md-5 align-items-center flightdestination-right">
+
+                                    </div>
+                                         */}
+                                        {/* <div className="bookBottomThree">
+                                          <p> */}
+                                            {/* {item?.Origin?.Airport?.CityName}{" "} */}
+                                            {/* {
+                                              sesstioResultIndex?.flightDetails[
+                                                index
+                                              ]?.flightInformation?.location[0]
+                                                ?.locationId
+                                            } */}
+                                            {/* <span> */}
+                                              {/* {
+                                                findAirportByCode(
+                                                  sesstioResultIndex
+                                                    ?.flightDetails[index]
+                                                    ?.flightInformation
+                                                    ?.location[0]?.locationId
+                                                )?.name
+                                              }
+                                              {", "}
+                                              Terminal- */}
+                                              {/* {item?.Origin?.Airport?.Terminal
+                                                ? item?.Origin?.Airport
+                                                    ?.Terminal
+                                                : "X"} */}
+                                              {/* {
+                                                sesstioResultIndex
+                                                  ?.flightDetails[index]
+                                                  ?.flightInformation
+                                                  ?.location[0]?.terminal
+                                              }
+                                            </span> */}
+                                          {/* </p>
+                                          <p>
+                                            { */}
+                                              {/* // item?.Destination?.Airport
+                                              //   ?.CityName */}
+                                            {/* }
                                             {
-                                              // sesstioResultIndex?.baggage
+                                              sesstioResultIndex?.flightDetails[
+                                                index
+                                              ]?.flightInformation?.location[1]
+                                                ?.locationId
+                                            }{" "}
+                                            <span>
+                                              { */}
+                                                {/* // item?.Destination?.Airport
+                                                //   ?.AirportName */}
+                                                {/* findAirportByCode(
+                                                  sesstioResultIndex
+                                                    ?.flightDetails[index]
+                                                    ?.flightInformation
+                                                    ?.location[1]?.locationId
+                                                )?.name
+                                              }
+                                              {", "}
+                                              Terminal- */}
+                                              {/* {item?.Destination?.Airport
+                                                ?.Terminal
+                                                ? item?.Destination?.Airport
+                                                    ?.Terminal
+                                                : "Y"} */}
+                                              {/* {
+                                                sesstioResultIndex
+                                                  ?.flightDetails[index]
+                                                  ?.flightInformation
+                                                  ?.location[0]?.terminal
+                                              } */}
+                                            {/* </span> */}
+                                          {/* </p>
+                                        </div> */}
+                                      </div>
+                                      {/* <div className="bookBottomFour">
+                                        <div>
+                                          <p>Baggage</p>
+                                          <span>ADULT</span>
+                                        </div>
+                                        <div>
+                                          <p>Check-in</p>
+                                          <span>
+                                            {sesstioResultIndex?.baggage
+                                              ?.freeBagAllownceInfo
+                                              ?.baggageDetails?.quantityCode ===
+                                              "N"
+                                              ? sesstioResultIndex?.baggage
+                                                ?.freeBagAllownceInfo
+                                                ?.baggageDetails
+                                                ?.freeAllowance * 23
+                                              : sesstioResultIndex?.baggage
+                                                ?.freeBagAllownceInfo
+                                                ?.baggageDetails
+                                                ?.freeAllowance}
+                                            { */}
+                                              {/* // sesstioResultIndex?.baggage
                                               // ?.freeBagAllownceInfo?.baggageDetails
                                               // ?.quantityCode === "N"
-                                              // ?
-                                              sesstioResultIndex?.baggage
+                                              // ? */}
+                                              {/* sesstioResultIndex?.baggage
                                                 ?.freeBagAllownceInfo
                                                 ?.baggageDetails
                                                 ?.unitQualifier === "L"
@@ -2493,14 +2837,14 @@ console.log(isDropdown,"dddddd")
                                                     ?.freeAllowance !== "0"
                                                   ? "KG"
                                                   : ""
-                                              // :"KG"
-                                            }
+                                              // :"KG" */}
+                                            {/* } */}
                                             {/* {item?.Baggage?.split(" ")[0]} */}
-                                          </span>
+                                          {/* </span>
                                         </div>
                                         <div>
                                           <p>Cabin</p>
-                                          <span>
+                                          <span> */}
                                             {
                                               // sesstioResultIndex?.baggage
                                               //   ?.freeBagAllownceInfo?.baggageDetails
@@ -2511,11 +2855,11 @@ console.log(isDropdown,"dddddd")
                                               //   " "
                                               // )[0]
                                             }
-                                            Included
+                                            {/* Included
                                           </span>
                                         </div>
-                                      </div>
-                                    </div>
+                                      </div> */}
+                                    {/* </div> */}
                                     {/* <div>
                                       {layoverDuration !== 0 && (
                                         <p className="text-bold">
@@ -2527,8 +2871,26 @@ console.log(isDropdown,"dddddd")
                                         </p>
                                       )}
                                     </div> */}
+                                   
+                                      
                                     {/* klkkk */}
+                                    <div style={{backgroundColor:"#ffdeff",padding:"5px",borderRadius:"12px",fontSize:"14px"}}>
+     
+        <p style={{color:"black"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i> Baggage (ADULT) check-in <span>{sesstioResultIndex?.baggage
+                                              ?.freeBagAllownceInfo
+                                              ?.baggageDetails?.quantityCode ===
+                                              "N"
+                                              ? sesstioResultIndex?.baggage
+                                                ?.freeBagAllownceInfo
+                                                ?.baggageDetails
+                                                ?.freeAllowance * 23
+                                              : sesstioResultIndex?.baggage
+                                                ?.freeBagAllownceInfo
+                                                ?.baggageDetails
+                                                ?.freeAllowance}</span> cabin Included</p>
+      </div>
                                   </>
+                                  
                                 );
                               }
                             )
@@ -2563,17 +2925,22 @@ console.log(isDropdown,"dddddd")
 
                     <motion.div variants={variants} className="col-lg-12 mt-3">
                       <div className="bookflightPassenger">
-                        <div className="headingBookFlight">
-                          <h3>Traveller Details</h3>
+                        <div className="headingBookFlight-new"  style={{padding:"12px",color:"#E73C34",backgroundColor:"#FFFBFB"}}>
+                        <h3>Passenger Details</h3>
                         </div>
-                        {adultCount > 0 &&
-                          Array.from({ length: adultCount }, (_, index) => (
+
+                        <div onClick={addAdult} style={{ cursor: "pointer",padding:"12px" }}>
+        <p> +Add the Adult</p>
+      </div>
+                        {currentAdultCount > 0 &&
+                          Array.from({ length: currentAdultCount }, (_, index) => (
                             <div className="bookFlightPassInner">
-                              <div className="bookAdultIndex">
+                              <div className="bookAdultIndex" style={{display:"flex",gap:"12px"}}>
+                              <IoPersonSharp/>
                                 <p>Adult {index + 1}</p>
                               </div>
                               <div className="row g-3 mb-3">
-                                <div className="col-lg-3 col-md-3">
+                                <div className="col-lg-6 col-md-6">
                                   <label
                                     for="exampleInputEmail1"
                                     class="form-label"
@@ -2592,7 +2959,7 @@ console.log(isDropdown,"dddddd")
                                     <option value="Miss">Miss</option>
                                   </select>
                                 </div>
-                                <div className="col-lg-3 col-md-3">
+                                <div className="col-lg-6 col-md-6">
                                   <label
                                     for="exampleInputEmail1"
                                     class="form-label"
@@ -2632,7 +2999,7 @@ console.log(isDropdown,"dddddd")
                                       </span>
                                     )}
                                 </div>
-                                <div className="col-lg-3 col-md-3">
+                                <div className="col-lg-6 col-md-6">
                                   <label
                                     for="exampleInputEmail1"
                                     class="form-label"
@@ -2662,7 +3029,7 @@ console.log(isDropdown,"dddddd")
                                       </span>
                                     )}
                                 </div>
-                                <div className="col-lg-3 col-md-3">
+                                <div className="col-lg-6 col-md-6">
                                   <label
                                     for="exampleInputEmail1"
                                     class="form-label"
@@ -2693,7 +3060,7 @@ console.log(isDropdown,"dddddd")
                                     <p>Passport Details</p>
                                   </div>
                                   <div className="row g-3 mb-3">
-                                    <div className="col-lg-3 col-md-3">
+                                    <div className="col-lg-6 col-md-6">
                                       <label
                                         for="exampleInputEmail1"
                                         class="form-label"
@@ -2718,7 +3085,7 @@ console.log(isDropdown,"dddddd")
                                           </span>
                                         )}
                                     </div>
-                                    <div className="col-lg-3 col-md-3">
+                                    <div className="col-lg-6 col-md-6">
                                       <label
                                         for="exampleInputEmail1"
                                         class="form-label"
@@ -2745,15 +3112,18 @@ console.log(isDropdown,"dddddd")
                           ))}
 
                         {/* child details here  */}
+                        {childCount > 0 && <div onClick={addChild} style={{ cursor: "pointer" ,padding:"12px"}}>
+        <p> + Add the Child</p>
+      </div> }
 
-                        {childCount > 0 &&
-                          Array.from({ length: childCount }, (_, index) => (
+                        {currentChildCount > 0 &&
+                          Array.from({ length: currentChildCount }, (_, index) => (
                             <div className="bookFlightPassInner">
                               <div className="bookAdultIndex">
                                 <p>Child {index + 1}</p>
                               </div>
                               <div className="row g-3 mb-3">
-                                <div className="col-lg-3 col-md-3">
+                                <div className="col-lg-6 col-md-6">
 
 
                                   <label
@@ -2784,7 +3154,7 @@ console.log(isDropdown,"dddddd")
                                       </span>
                                     )}
                                 </div>
-                                <div className="col-lg-3 col-md-3">
+                                <div className="col-lg-6 col-md-6">
 
 
                                   <label
@@ -2807,7 +3177,7 @@ console.log(isDropdown,"dddddd")
                                   ></input>
                                 </div>
 
-                                <div className="col-lg-3 col-md-3">
+                                <div className="col-lg-6 col-md-6">
                                   <label
                                     for="exampleInputEmail1"
                                     class="form-label"
@@ -2828,7 +3198,7 @@ console.log(isDropdown,"dddddd")
                                     <option value="2">Female</option>
                                   </select>
                                 </div>
-                                <div className="col-lg-3 col-md-3">
+                                <div className="col-lg-6 col-md-6">
                                   <label
                                     for="exampleInputEmail1"
                                     class="form-label"
@@ -2864,7 +3234,7 @@ console.log(isDropdown,"dddddd")
                                     <p>Passport Details</p>
                                   </div>
                                   <div className="row g-3 mb-3">
-                                    <div className="col-lg-3 col-md-3">
+                                    <div className="col-lg-6 col-md-6">
 
 
                                       <label
@@ -2896,7 +3266,7 @@ console.log(isDropdown,"dddddd")
                                           </span>
                                         )}
                                     </div>
-                                    <div className="col-lg-3 col-md-3">
+                                    <div className="col-lg-6 col-md-6">
 
                                       <label
                                         for="exampleInputEmail1"
@@ -2929,15 +3299,18 @@ console.log(isDropdown,"dddddd")
                         {/* child details here  */}
 
                         {/* infant details here  */}
+                        {infantCount >0 && <div onClick={addinfant} style={{ cursor: "pointer",padding:"12px" }}>
+        <p> + Add the infant</p>
+      </div> }
 
-                        {infantCount > 0 &&
-                          Array.from({ length: infantCount }, (_, index) => (
+                        {currentinfantCount > 0 &&
+                          Array.from({ length: currentinfantCount }, (_, index) => (
                             <div className="bookFlightPassInner">
                               <div className="bookAdultIndex">
                                 <p>Infant {index + 1}</p>
                               </div>
                               <div className="row g-3 mb-3">
-                                <div className="col-lg-3 col-md-3">
+                                <div className="col-lg-6 col-md-6">
 
 
                                   <label
@@ -2973,7 +3346,7 @@ console.log(isDropdown,"dddddd")
                                       </span>
                                     )}
                                 </div>
-                                <div className="col-lg-3 col-md-3">
+                                <div className="col-lg-6 col-md-6">
 
 
                                   <label
@@ -3010,7 +3383,7 @@ console.log(isDropdown,"dddddd")
                                     )}
                                 </div>
 
-                                <div className="col-lg-3 col-md-3">
+                                <div className="col-lg-6 col-md-6">
                                   <label
                                     for="exampleInputEmail1"
                                     class="form-label"
@@ -3033,7 +3406,7 @@ console.log(isDropdown,"dddddd")
                                     <option value="2">Female</option>
                                   </select>
                                 </div>
-                                <div className="col-lg-3 col-md-3">
+                                <div className="col-lg-6 col-md-6">
 
                                   <label
                                     for="exampleInputEmail1"
@@ -3074,7 +3447,7 @@ console.log(isDropdown,"dddddd")
                                     <p>Passport Details</p>
                                   </div>
                                   <div className="row g-3 mb-3">
-                                    <div className="col-lg-3 col-md-3">
+                                    <div className="col-lg-6 col-md-6">
 
                                       <label
                                         for="exampleInputEmail1"
@@ -3097,7 +3470,7 @@ console.log(isDropdown,"dddddd")
                                         }
                                       ></input>
                                     </div>
-                                    <div className="col-lg-3 col-md-3">
+                                    <div className="col-lg-6 col-md-6">
 
                                       <label
                                         for="exampleInputEmail1"
@@ -3133,10 +3506,20 @@ console.log(isDropdown,"dddddd")
                             </div>
                           ))}
 
-                        {authenticUser == 200 ? <Checkbox onChange={passengerdetail}>Booking flight for yourself</Checkbox> : " "}
+                        {/* {authenticUser == 200 ? <Checkbox onChange={passengerdetail}>Booking flight for yourself</Checkbox> : " "} */}
                         {/* infant details here  */}
                       </div>
                     </motion.div>
+
+                    {authenticUser == 200 ? (
+                      <div style={{padding:"15px",display:"flex",justifyContent:"flex-end",marginTop:"12px",marginBottom:"12px",backgroundColor:"#FFFBFB"}}>
+                          <Checkbox onChange={passengerdetail} style={{color:"#E73C34",fontWeight:"bold"}}>
+                            Booking flight for yourself
+                          </Checkbox>
+                          </div>
+                        ) : (
+                          " "
+                        )}
 
                     <motion.div variants={variants} className="col-lg-12 mt-3">
                       <div className="bookflightPassenger">
@@ -3391,7 +3774,7 @@ console.log(isDropdown,"dddddd")
                                 </div>
                               </div>
                               <div className=" mt-4 smallButtMobile" style={{ display: "flex", flexDirection: "row-reverse" }}>
-                                <button onClick={bookticketamd} className="bookWrapperButton">Continue</button>
+                                <button onClick={bookticketamd} style={{padding:"10px 13px"}} className="bookWrapperButton">Continue</button>
                               </div>
                             </div>
                           </Box>

@@ -12,11 +12,11 @@ export const swalModal = (type, message, payment) => {
   swal.fire({
     imageUrl: dynamicImage || FLIGHT,
     html: `<h5>${message}</h5>`,
-    imageWidth: 300,
+    imageWidth: 250,
     imageHeight: 200,
     width: 350,
     height: 400,
-    confirmButtonText: 'Ok',
+    confirmButtonText: 'Okay',
     confirmButtonColor: "#d90429",
     cancelButtonColor: "#d90429",
 
@@ -41,4 +41,6 @@ export const swalModal = (type, message, payment) => {
     }
   })
 }
+
+
 

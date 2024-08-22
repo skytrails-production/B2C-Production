@@ -375,11 +375,11 @@ const BookNowLeft = (props) => {
     <>
       {fareQuote === 0 ? (
         <>
-          <div className="priceSummary">
-            <div className="headFlight">
+          <div className=" priceSummary-new">
+            <div className="headFlight-new">
               <span>Price Summary</span>
             </div>
-            {fareValue?.Segments?.map((dat, index) => {
+            {/* {fareValue?.Segments?.map((dat, index) => {
               return dat?.map((data1) => {
                 const dateString = data1?.Origin?.DepTime;
                 const date = new Date(dateString);
@@ -391,7 +391,7 @@ const BookNowLeft = (props) => {
                 const formattedDate = `${day} ${month} ${year}`;
                 return (
                   <>
-                    <div className="totCOmmFlight">
+                    <div className="totCOmmFlight-new">
                       <div>
                         <span>{formattedDate}</span>
                         <p>{data1?.Airline?.FlightNumber}</p>
@@ -415,9 +415,9 @@ const BookNowLeft = (props) => {
                   </>
                 );
               });
-            })}
+            })} */}
 
-            <div className="totCOmmFlight">
+            {/* <div className="totCOmmFlight-new">
               {fareValue?.FareBreakdown?.map((data) => {
                 return (
                   <div className="">
@@ -451,46 +451,73 @@ const BookNowLeft = (props) => {
                   </div>
                 );
               })}
-            </div>
+            </div> */}
 
-            <div className="TotGstFlight">
-              <div>
-                <div style={{ display: "flex", gap: "1px" }}>
-                  <span>Base Fare : </span>
-                  <div style={{ background: "none", border: "none", padding: "2px", cursor: "pointer", marginRight: "2px", marginTop: "-4px" }}>                <span style={{ margin: "2px" }} onClick={toggleDetails} >
-                    {showDetails ? <FiMinusCircle /> : <FiPlusCircle />}
-                  </span>
-                  </div>
-                </div>
-                <p> {"₹"}{parseInt(fareValue?.Fare?.BaseFare)}</p>
+            <div className="TotGstFlight-new">
+            <div style={{color:"#333333",fontSize:"18px",fontWeight:"bold"}}>
+                <span>Total Price :</span>
+                <p>
+                  {"₹"}
+                  {/* {(
+                    Number(taxvaluetotal) +
+                    Number(props.baggAmount) +
+                    Number(props.mellAmount)
+                  ).toFixed(2)} */}
+
+                  {/* {Number(
+                    Number(finalvalue) +
+                    Number(props.baggAmount) +
+                    Number(props.mellAmount) +
+                    Number(totalSeatAmount)
+                  ).toFixed(2)} */}
+                  {/* {grandtotalamount} */}
+                  {Number(
+                    Number(finalvalue) +
+                    Number(props.baggAmount) +
+                    Number(props.mellAmount)+
+                    Number(totalSeatAmount)
+                  ).toFixed(2)}
+                </p>
               </div>
-              {showDetails && (
-                <div style={{ width: "100%", display: "flex", flexDirection: "column" }} >
-                  <div style={{ borderBottom: "none", width: "100%", display: "flex", justifyContent: "space-between" }}>
-                    <p>
-                      Adult(s) ({adultCount} × {adultamount})
-                    </p>
-                    <p>{"₹"} {multiplydata} </p>
-                  </div>
-                  <div style={{ borderBottom: "none", width: "100%", display: "flex", justifyContent: "space-between" }}>
-                    {childCount > 0 && (
-                      <>
-                        <p>Child(s) ({childCount} × {chilsamount})</p>
-                        <p>{"₹"} {childmultiply}</p>
-                      </>
-                    )}
-                  </div>
-                  <div style={{ borderBottom: "none", width: "100%", display: "flex", justifyContent: "space-between" }}>
-                    {infantCount > 0 && (
-                      <>
-                        <p>Infant(s) ({infantCount} × {infantamount})</p>
-                        <p>{"₹"} {infantmultiplicity}</p>
-                      </>
-                    )}
-                  </div>
-                </div>
-              )}
+              <div>
 
+              <div style={{display:"flex",gap:"1px"}}>
+                <span>Base Fare : </span>
+                <div style={{background:"none",border:"none",padding:"2px",cursor:"pointer",marginRight:"2px",marginTop:"-4px"}}>                <span style={{margin:"2px"}} onClick={toggleDetails} >
+        {showDetails ? <FiMinusCircle/> : <FiPlusCircle/>}
+      </span>
+      </div>
+      </div>
+      <p> {"₹"}{parseInt(fareValue?.Fare?.BaseFare)}</p>
+      </div>
+      {showDetails && (
+        <div  style={{width:"100%",display:"flex",flexDirection:"column"}} >
+          <div style={{ borderBottom: "none",width:"100%",display:"flex",justifyContent:"space-between" }}>
+            <p>
+              Adult(s) ({adultCount} × {adultamount})
+            </p>
+            <p>{"₹"} {multiplydata} </p>
+          </div>
+          <div style={{ borderBottom: "none" ,width:"100%",display:"flex",justifyContent:"space-between"}}>
+            {childCount > 0 && (
+              <>
+                <p>Child(s) ({childCount} × {chilsamount})</p>
+                <p>{"₹"} {childmultiply}</p>
+              </>
+            )}
+          </div>
+          <div style={{ borderBottom: "none" ,width:"100%",display:"flex",justifyContent:"space-between"}}>
+            {infantCount > 0 && (
+              <>
+                <p>Infant(s) ({infantCount} × {infantamount})</p>
+                <p>{"₹"} {infantmultiplicity}</p>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+   
+               
 
               <div>
                 <span>Surcharge : </span>
@@ -507,6 +534,7 @@ const BookNowLeft = (props) => {
                   ).toFixed(2)}
                 </p>
               </div> */}
+
               {((Number(props.mellAmount) > 0) || (Number(props.baggAmount) > 0) || (totalSeatAmount) > 0) && (
                 <div>
                   <span onClick={() => toggleDetailsOther()}>Other TAX {showDetailsOther ? <FiMinusCircle /> : <FiPlusCircle />} : </span>
@@ -515,6 +543,7 @@ const BookNowLeft = (props) => {
                     {(Number(props.baggAmount) + Number(props.mellAmount) + Number(totalSeatAmount))}
                   </p>
                 </div>
+
 
 
               )
@@ -551,17 +580,18 @@ const BookNowLeft = (props) => {
               {discountAmount > 0 && (
                 <div>
                   <span>Discount Amount :</span>
-                  <p>
-                    {"₹"}
+                  <p style={{color:"#44B50C"}}>
+                    - {"₹"}
                     {Number(discountAmount).toFixed(2)}
                   </p>
                 </div>
               )}
 
-              <div>
+
+              {/* <div>
                 <span>Grand Total :</span>
                 <p>
-                  {"₹"}
+                  {"₹"} */}
                   {/* {(
                     Number(taxvaluetotal) +
                     Number(props.baggAmount) +
@@ -569,14 +599,15 @@ const BookNowLeft = (props) => {
                   ).toFixed(2)} */}
 
                   {/* {grandtotalamount} */}
-                  {Number(
+                  {/* {Number(
                     Number(finalvalue) +
                     Number(props.baggAmount) +
                     Number(props.mellAmount) +
                     Number(totalSeatAmount)
                   ).toFixed(2)}
                 </p>
-              </div>
+              </div> */}
+
             </div>
             {/* <Couponcontainer value={flight}   /> */}
             <Couponcontainer

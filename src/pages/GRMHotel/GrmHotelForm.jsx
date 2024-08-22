@@ -1,6 +1,5 @@
 import { apiURL } from "../../Constants/constant";
 import React, { useEffect, useState, useRef } from "react";
-// import { Button } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -13,13 +12,13 @@ import CustomCalender from "./CustomCalender";
 import {
   hotelActionGRN,
   clearHotelReducerGRN,
+  hotelGalleryRequest,
+  singleHotelGRN,
 } from "../../Redux/HotelGRN/hotel";
 import { Select } from "antd";
-import { DatePicker, Space, Button } from "antd";
+import { DatePicker, Button } from "antd";
 import dayjs from "dayjs";
 const { RangePicker } = DatePicker;
-
-
 
 
 // Select city data logic 
@@ -44,52 +43,70 @@ const fetchFromCity = (value, callback) => {
     FromTimeout = null;
   }
   FromCurrentValue = value;
+
   const cityData = () => {
     axios
-      .get(`${apiURL.baseURL}/skyTrails/grnconnect/getcityList?keyword=${value}`)
+      .get(`${apiURL.baseURL}/skyTrails/grnconnect/searchcityandhotel?keyword=${value}`)
       .then((response) => {
         if (FromCurrentValue === value) {
           const { data } = response.data;
-          const result = data.map((item) => ({
-            value: item.cityCode,
+          const cityList = data.cityList.map((item) => ({
+            value: `city-${item.cityCode}`,
             name: item.cityName,
             code: item.countryCode,
             cityCode: item.countryName,
             item,
+            type: 'city',
           }));
-          callback(result);
+
+          const hotelList = data.hotelList.map((item) => ({
+            value: `hotel-${item.hotelCode}`,
+            name: item.hotelName,
+            code: item.cityCode,
+            cityCode: item.countryCode,
+            address: item.address,
+            countryName: item.countryName,
+            // cityName: item.cityName,
+            item,
+            type: 'hotel',
+
+          }));
+
+          const combinedList = [...cityList, ...hotelList];
+          callback(combinedList);
         }
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   };
+
   if (value) {
-    FromTimeout = setTimeout(cityData, 200);
+    FromTimeout = setTimeout(cityData, 300);
   } else {
     callback([]);
   }
 };
+
 
 const FromSearchInput = (props) => {
   const { onItemSelect } = props;
   const [fromData, setFromData] = useState([]);
   const [fromValue, setFromValue] = useState(initialSelectedFromData.cityName);
   const [selectedItem, setSelectedItem] = useState(initialSelectedFromData);
-
-
-  const [FromPlaceholder, setFromPlaceholder] = useState('')
+  const [FromPlaceholder, setFromPlaceholder] = useState('');
   const [FromDisplayValue, setFromDisplayValue] = useState(initialSelectedFromData.cityName);
   const [inputStyle, setInputStyle] = useState({});
 
   useEffect(() => {
     setFromData([
       {
-        value: initialSelectedFromData.cityCode,
+        value: `city-${initialSelectedFromData.cityCode}`,
         name: initialSelectedFromData.cityName,
         code: initialSelectedFromData.countryCode,
         cityCode: initialSelectedFromData.countryName,
         item: initialSelectedFromData,
+        type: 'city',
       },
     ]);
   }, []);
@@ -111,39 +128,86 @@ const FromSearchInput = (props) => {
 
   const handleFromFocus = () => {
     setFromPlaceholder('From');
-    setFromDisplayValue(''); // Clear display value to show placeholder
+    setFromDisplayValue('');
     setInputStyle({});
   };
 
   const handleFromBlur = () => {
     setFromPlaceholder('');
-    setFromDisplayValue(fromValue); // Reset display value to selected value
+    setFromDisplayValue(fromValue);
     setInputStyle({ caretColor: 'transparent' });
   };
-  const renderFromOption = (option) => (
-    <div>
-      <div>
-        {option.name} ({option.code})
+
+
+  // const renderFromOption = (option) => {
+
+  //   console.log(option, "option in redner option")
+  //   if (option.type === 'city') {
+  //     return (
+  //       <div>
+  //         <div>
+  //           {option.name} ({option.code})
+  //         </div>
+  //         <div style={{ color: "gray" }}>{option.cityCode}</div>
+  //       </div>
+  //     );
+  //   } else if (option.type === 'hotel') {
+  //     return (
+  //       <div>
+  //         <div>
+  //           {option.name} ({option.countryName})
+  //         </div>
+  //         <div style={{ color: "gray" }}>  {option.address}</div>
+  //       </div>
+  //     );
+  //   }
+  // };
+
+
+  const renderFromOption = (option) => {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', gap: "8px" }}>
+
+        {
+          option.type === 'city' ?
+            <i class="fa-solid fa-city"></i> :
+            <i class="fa-solid fa-bed"></i>
+        }
+        <div>
+          {option.type === 'city' ? (
+            <>
+              <div className="ellipsisHotelDropdown">
+                {option.name} ({option.code})
+              </div>
+              <div style={{ color: "gray" }}>{option.cityCode}</div>
+            </>
+          ) : (
+            <>
+              <div className="ellipsisHotelDropdown">
+                {option.name} - ({option.countryName})
+              </div>
+              <div className="ellipsisHotelDropdown" style={{ color: "gray" }}>{option.address}</div>
+            </>
+          )}
+        </div>
       </div>
-      <div style={{ color: "gray" }}>{option.cityCode}</div>
-    </div>
-  );
+    );
+  };
+
 
   return (
     <Select
       showSearch
+      className="hotelDropdown"
       style={inputStyle}
-      // value={fromValue}
       value={FromDisplayValue}
-      // placeholder={props.placeholder}
       placeholder={FromPlaceholder || props.placeholder}
-      // style={props.style}
       defaultActiveFirstOption={false}
       suffixIcon={null}
       filterOption={false}
       onSearch={handleFromSearch}
       onChange={handleFromChange}
-      onFocus={handleFromFocus} // Set placeholder on focus
+      onFocus={handleFromFocus}
       onBlur={handleFromBlur}
       notFoundContent={null}
       options={fromData.map((d) => ({
@@ -156,10 +220,6 @@ const FromSearchInput = (props) => {
 
 
 // select city data logic
-
-
-
-
 
 
 
@@ -297,7 +357,6 @@ const ToSearchInput = (props) => {
 const GrmHotelForm = () => {
 
 
-
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
   const currentDate = new Date();
 
@@ -306,6 +365,11 @@ const GrmHotelForm = () => {
   futureDate.setDate(currentDate.getDate() + 1);
   const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData);
   const [selectNationality, setSelectNationality] = useState(initialSelectedToData);
+
+  const [isSingleHotelSearched, setIsSIngleHotelSerched] = useState(false)
+
+
+  console.log(selectedFrom, "selected from")
 
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
@@ -450,9 +514,55 @@ const GrmHotelForm = () => {
 
   // date selection logic here 
 
+  // console.log(reducerState, "reducer Stae")
+
+
+  const selectedSingleHotel = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels?.filter(item => item.hotel_code == selectedFrom?.hotelCode)
+
+  console.log(selectedSingleHotel, "selectedSingleHotel")
+
+
+
+  // navigate by single hotel 
+
+  const handleClick = () => {
+
+    const payload = {
+      "data": {
+        "rate_key": selectedSingleHotel?.[0]?.min_rate?.rate_key,
+        "group_code": selectedSingleHotel?.[0]?.min_rate?.group_code,
+      },
+      "searchID": selectedSingleHotel?.[0]?.search_id,
+      "hotel_code": selectedSingleHotel?.[0]?.hotel_code,
+    }
+
+    const galleryPayload = {
+      "hotel_id": selectedSingleHotel?.[0]?.hotel_code,
+    }
+    dispatch(hotelGalleryRequest(galleryPayload))
+    dispatch(singleHotelGRN(payload))
+    navigate("/st-hotel/hotelresult/selectroom")
+  };
+
+
+
+  useEffect(() => {
+
+    if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels && isSingleHotelSearched) {
+      handleClick()
+    }
+  }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels])
+
+
+  // navigate by single hotel 
+
+
 
 
   function handleSubmit(event) {
+
+
+    setIsSIngleHotelSerched(true);
     event.preventDefault();
     setLoader(true)
 
@@ -481,26 +591,46 @@ const GrmHotelForm = () => {
       ])
     );
 
-    const payload = {
-      "rooms": [...dynamicFormData],
-      "rates": "concise",
-      "cityCode": selectedFrom.cityCode,
-      "currency": "INR",
-      "client_nationality": selectNationality?.countryCode || "In",
-      "checkin": dayjs(newDepartDate).format("YYYY-MM-DD"),
-      "checkout": dayjs(newReturnDate).format("YYYY-MM-DD"),
-      "cutoff_time": 30000,
-      "version": "2.0",
-    };
 
-    const pageNumber = 1;
-    sessionStorage.setItem("grnPayload", JSON.stringify(payload));
 
-    // for (let pageNumber = 1; pageNumber <= 10; pageNumber++) {
-    dispatch(hotelActionGRN(payload, pageNumber));
-    // }
 
-    navigate("/st-hotel/hotelresult");
+    if (selectedFrom.hotelName) {
+      const payload = {
+        "rooms": [...dynamicFormData],
+        "rates": "concise",
+        "hotel_codes": [`${selectedFrom.hotelCode}`],
+        "currency": "INR",
+        "client_nationality": selectNationality?.countryCode || "In",
+        "checkin": dayjs(newDepartDate).format("YYYY-MM-DD"),
+        "checkout": dayjs(newReturnDate).format("YYYY-MM-DD"),
+        "cutoff_time": 30000,
+        "version": "2.0",
+      };
+
+      sessionStorage.setItem("grnPayload", JSON.stringify(payload));
+      dispatch(hotelActionGRN(payload));
+      // navigate("/st-hotel/hotelresult");
+
+
+    } else {
+      const payload = {
+        "rooms": [...dynamicFormData],
+        "rates": "concise",
+        "cityCode": selectedFrom.cityCode,
+        "currency": "INR",
+        "client_nationality": selectNationality?.countryCode || "In",
+        "checkin": dayjs(newDepartDate).format("YYYY-MM-DD"),
+        "checkout": dayjs(newReturnDate).format("YYYY-MM-DD"),
+        "cutoff_time": 30000,
+        "version": "2.0",
+      };
+
+
+      sessionStorage.setItem("grnPayload", JSON.stringify(payload));
+      dispatch(hotelActionGRN(payload));
+      navigate("/st-hotel/hotelresult");
+    }
+
 
 
     if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels) {
@@ -544,10 +674,11 @@ const GrmHotelForm = () => {
       <div className="container transParentBG" style={{ paddingBottom: "57px" }}>
         <div className="row g-2 newOneWayMain">
 
-          <div className="col-lg-3">
+          <div className="col-lg-4">
             <div className="newOnewaySingle">
               <span >From</span>
               <FromSearchInput
+                className="grnFrom"
                 placeholder="Search"
                 style={{ width: "100%" }}
                 onItemSelect={handleFromSelect}
@@ -612,7 +743,7 @@ const GrmHotelForm = () => {
 
 
 
-          <div className="col-lg-4">
+          <div className="col-lg-3">
             <div>
               <div className="newOnewaySingle " onClick={handleTravelClickOpen}>
                 {/* <div> */}

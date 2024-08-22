@@ -49,6 +49,59 @@
       }
     }
 
+    .roomTitle {
+      .HotelRoomHeadings1 {
+        font-weight: 600;
+        font-size: 0.9rem;
+        position: relative;
+        margin-bottom: 15px;
+        width: 94%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @include md {
+          font-size: 1.2rem;
+          width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+      .HotelRoomHeadings2 {
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding-bottom: 15px;
+        position: relative;
+        margin-bottom: 15px;
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        @include md {
+          font-size: 1.2rem;
+          width: 100%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+
+        &::before {
+          content: "";
+          position: absolute;
+          bottom: 0;
+          width: 80px;
+          height: 2px;
+          background-color: #ddd;
+        }
+      }
+    }
+
+    .showMoore {
+      color: var(--primary);
+      cursor: pointer;
+      font-weight: 600;
+    }
+
     .hotelBookDesignFirst {
       display: flex;
       flex-direction: row;
@@ -98,6 +151,32 @@
         &:not(:last-child) {
           content: "|";
           padding-right: 12px;
+        }
+      }
+    }
+  }
+
+  .hotelReviewAmenity {
+    > div {
+      display: grid;
+      grid-template-columns: 50% 50%;
+      justify-content: space-between;
+      row-gap: 21px;
+
+      p {
+        font-size: 15px;
+        font-family: "Montserrat";
+        font-weight: 500;
+
+        @include md {
+          font-size: 16px;
+        }
+
+        i {
+          margin-right: 5px;
+        }
+        svg {
+          margin-right: 5px;
         }
       }
     }

@@ -315,9 +315,9 @@ function App() {
       </div> */}
 
 
-      <div class="triColorBox">
+      {/* <div class="triColorBox">
         <h3>This Independence day get upto 500/- discount !</h3>
-      </div>
+      </div> */}
 
 
       {/* {location.pathname == "/" &&
@@ -332,7 +332,7 @@ function App() {
         location.pathname !== "/inventoryhotelform" && <Navbar />}
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
-        
+
         location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
         // location.pathname !== "/inventoryhotelform" && <InsideNavbar />}

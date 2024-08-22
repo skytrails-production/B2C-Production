@@ -340,11 +340,11 @@ const BookNowLeftAmd = (props) => {
     <>
       {true ? (
         <>
-          <div className="priceSummary">
-            <div className="headFlight">
+          <div className="priceSummary-new">
+            <div className="headFlight-new">
               <span>Price Summary</span>
             </div>
-            {sesstioResultIndex?.flightDetails?.flightInformation ? (
+            {/* {sesstioResultIndex?.flightDetails?.flightInformation ? (
               <>
                 <div className="totCOmmFlight">
                   <div>
@@ -362,8 +362,8 @@ const BookNowLeftAmd = (props) => {
                     </p>
                     <p>Class</p>
                   </div>
-                </div>
-                <div className="priceChart">
+                </div> */}
+                {/* <div className="priceChart">
                   <div>
                     <span className="text-bold">From</span>
                     <p className="text-bold">
@@ -382,14 +382,14 @@ const BookNowLeftAmd = (props) => {
                       }
                     </p>
                   </div>
-                </div>
-              </>
-            ) : (
-              // [i]?.flightInformation?.productDateTime?.dateOfDeparture
-              sesstioResultIndex?.flightDetails?.map((dat, index) => {
+                </div> */}
+              {/* </> */}
+            {/* ) : ( */}
+              {/* // [i]?.flightInformation?.productDateTime?.dateOfDeparture */}
+              {/* sesstioResultIndex?.flightDetails?.map((dat, index) => {
                 return (
                   <>
-                    <div className="totCOmmFlight">
+                    <div className="TotGstFlight-new">
                       <div>
                         <span>
                           {convertDateFormat(
@@ -430,9 +430,9 @@ const BookNowLeftAmd = (props) => {
                   </>
                 );
               })
-            )}
+            )} */}
 
-            <div className="totCOmmFlight">
+            {/* <div className="totCOmmFlight">
 
               <div className="" style={{ display: "flex", flexDirection: "column" }}>
                 {Number(adultCount) !== 0 && (
@@ -466,9 +466,23 @@ const BookNowLeftAmd = (props) => {
                 )}
               </div>
 
-            </div>
+            </div> */}
 
-            <div className="TotGstFlight">
+            <div className="TotGstFlight-new">
+            <div style={{color:"#333333",fontSize:"18px",fontWeight:"bold"}}>
+                <span>Total Price :</span>
+                <p>
+                  {"₹"}
+                  {/* {(
+                    Number(taxvaluetotal) +
+                    Number(props.baggAmount) +
+                    Number(props.mellAmount)
+                  ).toFixed(2)} */}
+
+                  {/* {grandtotalamount} */}
+                  {Number(finalamountvalue1)}
+                </p>
+              </div>
               <div>
               <div style={{display:"flex",gap:"1px"}}>
                 <span>Base Fare: </span>
@@ -535,19 +549,19 @@ const BookNowLeftAmd = (props) => {
               {discountAmount > 0 && (
       <div>
         <span>Discount Amount:</span>
-        <p>
+        <p style={{color:"#44B50C"}}>
           {"₹"}
           {Number(discountAmount).toFixed(2)}
         </p>
       </div>
     )}
-              <div>
+              {/* <div>
                 <span>Grand Total:</span>
                 <p>
                   {"₹"}
                 {Number(finalamountvalue1)}
                 </p>
-              </div>
+              </div> */}
             </div>
 
             <CouponContainer

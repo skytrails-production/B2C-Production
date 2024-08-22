@@ -1,6 +1,6 @@
 @import "../../mixins.scss";
 
-.bookingDetailsMain {
+.bookingReviewMain {
   color: var(--black4) !important;
   font-family: "Montserrat";
 
@@ -115,6 +115,7 @@
 
     p {
       font-size: 14px;
+      color: var(--black4) !important;
       font-family: "Montserrat";
 
       @include md {
@@ -185,14 +186,38 @@
       font-size: 13px;
     }
 
-    .propertyRulesBox {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+    .passengerDetailsGuestBOx {
+      border: 1px solid #ddd;
+      column-gap: 20px;
+      padding: 12px 15px;
 
-      p {
-        // font-size: 15px;
-        font-weight: 500;
+      > div {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        align-items: center;
+        justify-content: flex-start;
+
+        p {
+          font-size: 14px;
+          color: var(--black1) !important;
+          font-family: "Montserrat";
+          font-weight: 500;
+
+          @include md {
+            font-size: 15px;
+          }
+        }
+        span {
+          font-size: 14px;
+          color: var(--black4) !important;
+          font-weight: 500;
+          font-family: "Montserrat";
+
+          @include md {
+            font-size: 15px;
+          }
+        }
       }
     }
   }

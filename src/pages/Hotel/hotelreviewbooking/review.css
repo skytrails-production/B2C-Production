@@ -299,13 +299,13 @@
 }
 
 .reviewDescriptionButton button {
-    padding: 12px 36px;
+    padding: 9px 36px;
     border-radius: 8px;
-    background: #d90429;
-    border: 2px solid #d90429;
+    background: var(--primary);
+    border: 2px solid var(--primary);
     color: #FFF;
     font-family: 'Montserrat';
-    font-size: 15px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
@@ -322,9 +322,9 @@
 }
 
 .reviewDescriptionButton button:hover {
-    background: #fff;
-    border: 2px solid #d90429;
-    color: #d90429;
+    background: var(--primaryHover);
+    /* border: 2px solid var(--primaryHover); */
+    /* color: var(--primary); */
 }
 
 /* .reviewDescriptionButton button:hover {} */

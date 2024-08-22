@@ -10,8 +10,10 @@ import { DatePicker, Button } from "antd";
 const PayLaterUsereCredential = () => {
 
     const reducerState = useSelector((state) => state);
-    const token = reducerState?.TNPL?.verifiedOTPData?.data?.sessionId
+    const token = reducerState?.TNPL?.verifiedOTPData?.data?.sessionid
     const dispatch = useDispatch();
+
+
 
     // const navigate = useNavigate()
     const generatedPlans = reducerState?.TNPL?.planDetails?.data?.plan_details;
@@ -103,7 +105,7 @@ const PayLaterUsereCredential = () => {
             pincode: formData.pincode,
             dob: dayjs(newDepartDate).format("YYYY-MM-DD"),
             gender: formData.gender,
-            partnerCallbackUrl: "theskytrails.com"
+            partnerCallbackUrl: "https://jzcckdnf-3000.inc1.devtunnels.ms/mihurupaymentsuccess"
 
         }
 

@@ -198,6 +198,20 @@
         font-size: 16px;
       }
     }
+
+    // .hotelDropdown {
+    //   width: 400px !important;
+    // }
+
+    // .grnFrom {
+    //   width: 100% !important;
+    // }
+
+    .ellipsisHotelDropdown {
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
   }
 
   .multicityButton {

@@ -72,65 +72,7 @@ export default function PriceSummaryGRN(props) {
 
   return (
     <>
-      {/* <div className="priceSummaryHotel">
-                <div className="head">
-                    <span>Price Summary</span>
-                </div>
-                {
-                    commnetRate &&
-                    <div className="priceChart">
-                        <div>
-                            <span className="text-bold">Check in Time Payment</span>
-                        </div>
-                        <div>
-                            <span></span>
-                            <p>
 
-                                {commnetRate}
-                            </p>
-                        </div>
-
-                    </div>
-                }
-
-                <div className="priceChart">
-                    <div>
-                        <span className="text-bold">Rate</span>
-                    </div>
-                    
-                    <div>
-                        <span>Published</span>
-                        <p>
-                            {"₹"}
-                            {Number(hotelinfoGRN?.rate?.price).toFixed(0)}
-                        </p>
-                    </div>
-                    
-                    <div>
-                        <span>Other Tax</span>
-                        <p>
-                            {"₹"}
-                            {Number(markUpamount).toFixed(0)}
-                        </p>
-                    </div>
-
-                    <div>
-                        <span className="text-bold">No of Rooms</span>
-                        <p className="text-bold"> {hotelinfoGRN?.rate?.rooms.length}</p>
-                    </div>
-                </div>
-                <div className="TotGst">
-            
-            
-                    <div>
-                        <span>Grand Total:</span>
-                        <p>
-                            {"₹"}
-                            {Number(finalAmount).toFixed(2)}
-                        </p>
-                    </div>
-                </div>
-            </div> */}
 
 
       <div className="initialBookingData">

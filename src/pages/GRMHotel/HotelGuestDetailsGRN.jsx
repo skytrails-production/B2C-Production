@@ -28,6 +28,8 @@ import expressCheckin from "./SVGs/expressCheckin.svg"
 import welcomeDrink from "./SVGs/welcomeDrink.svg"
 import freeGym from "./SVGs/freeGym.svg"
 import HotelGalleryCarousel from "./HotelGalleryCarousel";
+import Amenities from "./Amenities";
+import Authentic from "../Auth/Authentic";
 
 
 const styleLoader = {
@@ -86,6 +88,15 @@ const HotelGuestDetailsGRN = () => {
             navigate("/st-hotel/hotelresult/selectroom")
         }
     }, [reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.errors])
+
+
+    useEffect(() => {
+        if (
+            !reducerState?.hotelSearchResultGRN?.hotelDetails.length > 0 && !reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels?.length > 0) {
+            swalModal("hotel", "Session Expired", false);
+            navigate("/st-hotel");
+        }
+    }, [reducerState?.hotelSearchResultGRN?.hotelDetails, reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels]);
 
 
     // passenger details adding
@@ -295,22 +306,17 @@ const HotelGuestDetailsGRN = () => {
 
     const mapUrl = `https://maps.google.com/maps?q=${hotelinfoGRN?.geolocation?.latitude ?? 0},${hotelinfoGRN?.geolocation?.longitude ?? 0}&hl=es&z=14&output=embed`;
 
-    const [showAll, setShowAll] = useState(false);
-    const facilities = hotelinfoGRN?.facilities?.split(';')?.map(item => item.trim()) || [];
-    const initialDisplayCount = 10;
-    const facilitiesToShow = showAll ? facilities : facilities.slice(0, initialDisplayCount);
 
+
+
+    console.log(reducerState, "reducer state")
 
     return (
         <>
-
-
             <>
-
-
                 <div className="row">
                     <div className="mb-2 col-lg-12">
-                        <div className="roomNameAndCategory">
+                        <div className="roomNameAndCategory" >
                             <div >
                                 <h5 className="HotelRoomHeadings">{hotelinfoGRN?.name}</h5>
                             </div>
@@ -513,34 +519,7 @@ const HotelGuestDetailsGRN = () => {
                     {/* guest details sectin  */}
 
 
-                    <div className="col-lg-12 mt-3 mb-2">
-                        <div className="roomNameAndCategory">
-
-                            <div className="roomTitle">
-                                <h5 className="HotelRoomHeadings2">Amenities</h5>
-                            </div>
-                            <div className="row g-3">
-                                <div className="col-lg-12 my-4">
-                                    <div className="hotelReviewAmenity">
-                                        <div>
-                                            {facilitiesToShow.map((item, index) => (
-                                                <p key={index}>
-                                                    <img src={chevrondown} alt="Chevron Down" />
-                                                    {item}
-                                                </p>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {facilities.length > initialDisplayCount && (
-                                <p onClick={() => setShowAll(!showAll)} className="showMoore">
-                                    {showAll ? 'Show Less' : 'Show More'}
-                                </p>
-                            )}
-                        </div>
-                    </div>
-
+                    <Amenities />
 
 
 
@@ -809,7 +788,7 @@ const HotelGuestDetailsGRN = () => {
 
 
 
-            <Modal
+            {/* <Modal
                 open={isLoginModalOpen}
                 onClose={handleModalClose}
                 aria-labelledby="modal-modal-title"
@@ -866,7 +845,14 @@ const HotelGuestDetailsGRN = () => {
                         </div>
                     </div>
                 </div>
-            </Modal>
+            </Modal> */}
+
+            <Authentic
+                isOpen={isLoginModalOpen}
+                onClose={handleModalClose}
+            // isLogoutOpen={logoutModalVisible}
+            // onLogoutClose={closeLogoutModal}
+            />
         </>
     );
 };

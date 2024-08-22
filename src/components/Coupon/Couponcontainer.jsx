@@ -70,7 +70,7 @@ const CouponContainer = ({
     onLoadingChange(false);
     // }
   };
-// console.log("getCouponValue",getCouponValue?._id);
+  // console.log("getCouponValue",getCouponValue?._id);
   // const handleApplyCoupon = async () => {
   //   try {
   //     onLoadingChange(true);
@@ -139,7 +139,7 @@ const CouponContainer = ({
   };
 
   return (
-    <div>
+    <div style={{display:"flex",justifyContent:"end"}}>
       {!showInputField ? (
         <>
           <Button
@@ -148,11 +148,13 @@ const CouponContainer = ({
             style={{
               marginTop: "10px",
               marginBottom: "10px",
+
               width: "100%",
-              backgroundImage: "linear-gradient(90deg, rgba(230,54,84,1) 0%, rgba(241,4,29,1) 100% )",
+              backgroundColor: "#e73c34",
               // backgroundImage:
               //   "linear-gradient(to top, rgb(237, 210, 135), rgb(184, 134, 11))",
-              background:"rgb(230,54,84)",
+              background: "#e73c34",
+
             }}
           >
             {loading ? <Spin /> : "Apply Coupon"}
@@ -176,14 +178,15 @@ const CouponContainer = ({
 
           <div>
             {getCouponValue.map((coupon) => (
-            
+
               <div
                 key={coupon._id}
                 style={{
-                  backgroundColor: "#f4f4f4",
+                  backgroundColor: "#ffd6ff",
                   padding: "10px 10px",
                   marginTop: "10px",
                   marginBottom: "10px",
+                  borderRadius: "8px"
                 }}
               >
                 <Checkbox
@@ -198,11 +201,11 @@ const CouponContainer = ({
                   {coupon.content}
                 </Checkbox>
                 {coupon.userApplied?.includes(reducerState?.logIn?.loginData?.data?.result?._id) && (
-    <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>
-      Coupon already applied
-    </p>
-  )}
-                
+                  <p style={{ color: 'red', fontSize: '14px', marginTop: '5px' }}>
+                    Coupon already applied
+                  </p>
+                )}
+
               </div>
             ))}
           </div>

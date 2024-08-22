@@ -50,7 +50,7 @@
 }
 
 .bookaboveBox > div > .aboveSpan .aboveSOne {
-  color: #fff;
+  color: #E73C34;
   font-family: "Montserrat";
   font-size: 15px;
   font-style: normal;
@@ -58,7 +58,8 @@
   line-height: normal;
   padding: 4px 8px;
   border-radius: 4px;
-  background: #d90429;
+  background: #FFFBFB;
+  /* background: #d90429; */
 }
 
 .bookaboveBox .aboveBelowSpan {
@@ -70,7 +71,7 @@
 }
 
 .bookaboveBox .aboveBelowSpan span {
-  color: #d90429;
+  color: #E73C34;
 
   font-family: "Montserrat";
   font-size: 15px;
@@ -80,7 +81,8 @@
 }
 
 .bookaboveBox .aboveBelowSpan .aboveSOne {
-  color: #fff;
+  /* color: #fff; */
+  color: #E73C34;
   font-family: "Montserrat";
   font-size: 15px;
   font-style: normal;
@@ -88,7 +90,7 @@
   line-height: normal;
   padding: 4px 8px;
   border-radius: 4px;
-  background: #d90429;
+  background: #FFFBFB;
 }
 
 .bookcenteredBox {
@@ -362,6 +364,15 @@
   line-height: normal;
 }
 
+.headingBookFlight-new h3 {
+color:#E73C34;
+  font-family: "Montserrat";
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
 .roomIndexGuest {
   color: #071c2c !important;
   font-family: "Montserrat";
@@ -601,6 +612,16 @@
   color: #fff;
   background-color: #d90429;
 }
+
+.disablebagADDBtn{
+  padding: 0px 8px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  color: #848082;
+  transition: all 0.2 ease-in;
+  border: 0.7px solid #2b2929;
+}
 .qtyCounterBtn {
   width: 20px;
   height: 20px;
@@ -649,3 +670,39 @@
   font-size: 12px;
   font-weight: 600;
 }
+
+
+.flightdestination{
+  display: flex;
+  flex-direction: row;
+
+}
+
+.flightdestination-right{
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.flightdestination-right-para{
+  font-size: 18px;
+  font-weight: bold;
+}
+.flightdestination-right-para1{
+  font-size: 15px;
+  text-align: center;
+}
+
+.mandaField-new{
+border-radius: 4px;
+padding: 2px 7px;
+color: #44B50C !important;
+background-color: #E6FFD9;
+font-size: 14px !important;
+margin-top: 10px;
+}
+
+
+
+/* FFFBFB */
+/* E73C34 dark */

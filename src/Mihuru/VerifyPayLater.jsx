@@ -16,11 +16,11 @@ const VerifyPayLater = () => {
     const [loader, setLoader] = useState(false);
     const [formData, setFormData] = useState({
         phoneOTP: "",
-        emailOTP: "",
+        // emailOTP: "",
     })
     const [errors, setErrors] = useState({
         phoneOTP: "",
-        emailOTP: "",
+        // emailOTP: "",
     })
     const onInputChangeHandler = (e) => {
         setFormData({
@@ -37,9 +37,9 @@ const VerifyPayLater = () => {
         if (formData.phoneOTP.length < 4 || formData.phoneOTP.length > 4) {
             errors.phoneOTP = "Enter valid phone Otp"
         }
-        if (formData.emailOTP.length < 4 || formData.emailOTP.length > 4) {
-            errors.emailOTP = "Enter valid email Otp"
-        }
+        // if (formData.emailOTP.length < 4 || formData.emailOTP.length > 4) {
+        //     errors.emailOTP = "Enter valid email Otp"
+        // }
 
 
         return errors;
@@ -60,7 +60,7 @@ const VerifyPayLater = () => {
             "mobileNo": reducerState?.TNPL?.tnplUserData?.phone,
             "email": reducerState?.TNPL?.tnplUserData?.email,
             "mobileOTP": formData.phoneOTP,
-            "emailOTP": formData.emailOTP
+            // "emailOTP": formData.emailOTP
         }
 
         try {
@@ -109,10 +109,10 @@ const VerifyPayLater = () => {
                             <label for="inputPassword4" class="form-label">Verify Mobile OTP</label>
                             <input style={{ borderColor: errors.phoneOTP ? 'red' : '' }} type="text" id="phoneOTP" name="phoneOTP" class="form-control" onChange={onInputChangeHandler} />
                         </div>
-                        <div class="col-md-4">
+                        {/* <div class="col-md-4">
                             <label for="inputPassword4" class="form-label">Verify Email OTP</label>
                             <input style={{ borderColor: errors.emailOTP ? 'red' : '' }} type="text" id="emailOTP" name="emailOTP" class="form-control" onChange={onInputChangeHandler} />
-                        </div>
+                        </div> */}
 
 
 

@@ -568,7 +568,7 @@ function NewItems({
 
   function handleaViewDetail(item) {
     setSesstioResultIndex(item);
-    console.log(item,"itemmmmmmm");
+    // console.log(item,"itemmmmmmm");
     setOpenModal(true);
     setOpenModal1(true);
   }
@@ -2073,7 +2073,7 @@ function NewItems({
                                                 sesstioResultIndex
                                                   ?.flightDetails[index]
                                                   ?.flightInformation
-                                                  ?.location[0]?.terminal
+                                                  ?.location[1]?.terminal
                                               }
                                             </span>
                                           </p>
