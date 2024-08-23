@@ -3,6 +3,8 @@ import { apiURL } from "../../Constants/constant";
 import "./bookwrapper.css";
 import FlightLoader from "./FlightLoader/FlightLoader";
 import fromTo from "../../images/fromTo.png";
+import veg from "../../images/veg-01.png";
+import nonveg from "../../images/non veg-01.png";
 import "bootstrap/dist/css/bootstrap.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -246,7 +248,7 @@ export default function BookWrapper() {
     setIsDropdown(pre => !pre);
     if (dropdownRef.current) {
       const elementPosition = dropdownRef.current.getBoundingClientRect().top;
-      console.log(elementPosition, dropdownRef.current, "elementposition")
+      // console.log(elementPosition, dropdownRef.current, "elementposition")
       if (!isDropdown) {
         window.scrollTo({
           top: isDropdown ? 0 : Number(elementPosition) + 1100,
@@ -3005,6 +3007,7 @@ const addinfant = () => {
                             style={{
                               display: "flex",
                               gap: "15px",
+                              justifyContent:"end",
                               alignItems: "center",
                               fontSize: "12px",
                               fontWeight: "300",
@@ -3526,6 +3529,55 @@ const addinfant = () => {
                   mellList?.data?.Response?.MealDynamic?.[0]?.map(
                     (bag, index) => {
                       // if (0 < bag?.price) {
+                        let vegImage = null; 
+                      let icon;
+    let iconColor = "#000"; 
+
+    if (bag?.AirlineDescription) {
+    if (bag.AirlineDescription.toLowerCase().includes("non veg")|| bag.AirlineDescription.toLowerCase().includes("non-veg") || bag.AirlineDescription.toLowerCase().includes("nonveg")|| bag.AirlineDescription.toLowerCase().includes("chicken")) {
+    vegImage = <img src={nonveg} alt="Veg" style={{ marginTop: "14px", height: "15px" }} />;
+  } else if (bag.AirlineDescription.toLowerCase().includes("veg")){
+    vegImage =  <img src={veg} alt="nonveg" style={{ marginTop: "14px", height: "15px" }} />; 
+  }
+  else{
+    vegImage = null;
+  }
+    }
+    else{
+      vegImage = null;
+    }
+   
+if (bag?.AirlineDescription) {
+  if (bag.AirlineDescription.toLowerCase().includes("hotdog")) {
+    icon = <i className="fa-solid fa-hotdog" ></i>;
+    iconColor = "#228B22";
+  } else if (bag.AirlineDescription.toLowerCase().includes("Fruit")) {
+    icon = <i class="fa-solid fa-apple-whole"></i>;
+    iconColor = "#FFA500";
+  } else if (bag.AirlineDescription.toLowerCase().includes("Rice")) {
+    icon = <i class="fa-solid fa-bowl-rice"></i>;
+    iconColor = "#FF0000";
+  } else if (bag.AirlineDescription.toLowerCase().includes("Chicken")) {
+    icon = <i class="fa-solid fa-drumstick-bite"></i>;
+    iconColor = "#FF0000";
+  } 
+  else if (bag.AirlineDescription.toLowerCase().includes("sandwich")) {
+    icon = <i className="fa-solid fa-hotdog" ></i>;
+    iconColor = "#FF0000";
+  } else if (bag.AirlineDescription.toLowerCase().includes("beverage") || bag.AirlineDescription.toLowerCase().includes("Juice")) {
+    icon = (
+      <i className="fa-solid fa-martini-glass-citrus" ></i>
+    );
+  }
+  else if (bag.AirlineDescription.toLowerCase().includes("Tea") || bag.AirlineDescription.toLowerCase().includes("coffee")) {
+    icon = (
+      <i class="fa-solid fa-mug-hot"></i>
+    );
+  } 
+   else {
+    icon = <i className="fa-solid fa-bowl-food" ></i>;
+  }
+}
 
                       return (
                         <div
@@ -3535,9 +3587,13 @@ const addinfant = () => {
                           }}
                         >
                           <div className="bagListLeft">
-                            <PiSuitcaseRollingThin size={30} />
-                            <div className="bagAdditional">
-                              {/* Additional  */}
+                            {/* <PiSuitcaseRollingThin size={30} /> */}
+                            <div>
+                            {icon}
+                            {vegImage}
+                            </div>
+                           
+                            <div className="bagAdditional" style={{ color: iconColor }}>
                               <span> {bag?.AirlineDescription} </span>
                             </div>
                           </div>
@@ -3551,6 +3607,7 @@ const addinfant = () => {
                             <div className="qtyCounter">
                               <div
                                 className="qtyCounterBtn"
+                                style={{border:"1px solid #e7d6ff", borderRadius:"35px"}}
                                 onClick={() => mellFuncton("-", bag, index)}
                               >
                                 <GrFormSubtract />
@@ -3558,6 +3615,7 @@ const addinfant = () => {
                               {MellListNub[index]}{" "}
                               <div
                                 className="qtyCounterBtn"
+                                style={{border:"1px solid #e7d6ff", borderRadius:"35px"}}
                                 onClick={() => mellFuncton("+", bag, index)}
                               >
                                 <IoAdd />

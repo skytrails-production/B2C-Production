@@ -282,7 +282,7 @@ const Plane = ({ data, planeNo }) => {
 const FlightLayoutTVO = ({ seatMap }) => {
     const seatList = useSelector((state) => state?.airlineSeatMap?.seatList);
     const AmountList = useSelector((state) => state?.airlineSeatMap?.amountTVO);
-    console.log(AmountList,"AmountList")
+    // console.log(AmountList,"AmountList")
     const dispatch = useDispatch()
     let seatListt = []
     let seatAmountList = []

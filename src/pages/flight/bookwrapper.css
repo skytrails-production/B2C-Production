@@ -348,7 +348,8 @@
 }
 
 .bookflightPassenger {
-  padding: 24px;
+  /* padding: 24px; */
+  padding: 14px;
   box-sizing: content-box;
   border-radius: 8px;
   background: #fff;
@@ -434,8 +435,8 @@ color:#E73C34;
 
 .modalDialogueButtonOne {
   background-color: white;
-  border: 2px solid #d90429;
-  color: #d90429;
+  border: 2px solid #E73C34;
+  color: #E73C34;
   font-weight: 600;
   padding: 8px 24px;
   border-radius: 5px;
@@ -443,14 +444,14 @@ color:#E73C34;
 }
 
 .modalDialogueButtonOne:hover {
-  background-color: #d90429;
-  border: 2px solid #d90429;
+  background-color: #E73C34;
+  border: 2px solid #E73C34;
   color: #fff;
 }
 
 .modalDialogueButtonTwo {
-  background-color: #d90429;
-  border: 2px solid #d90429;
+  background-color: #E73C34;
+  border: 2px solid #E73C34;
   color: #fff;
   font-weight: 600;
   padding: 8px 24px;
@@ -460,15 +461,15 @@ color:#E73C34;
 
 .modalDialogueButtonOne:hover {
   background-color: white;
-  border: 2px solid #d90429;
-  color: #d90429;
+  border: 2px solid #E73C34;
+  color: #E73C34;
 }
 
 .custom-input {
   padding: 2px !important;
 }
 .bagMnContainer {
-  width: 700px;
+  width: 800px;
   position: relative;
   background-color: white;
   padding: 15px;
@@ -495,7 +496,8 @@ color:#E73C34;
 }
 .baggageAireLine {
   display: flex;
-  background-color: #dca1a1;
+  /* background-color: #dca1a1; */
+  background-color: rgb(255, 222, 255);
   padding: 10px;
   gap: 5px;
   border-radius: 6px;
@@ -509,10 +511,11 @@ color:#E73C34;
 .qtyCounter {
   display: inline-block;
   background-color: #fff;
-  width: 130px;
+  /* width: 130px; */
+  width: 100px;
   height: 32px;
   border-radius: 3px;
-  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  /* box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2); */
   vertical-align: middle;
   justify-content: space-between;
   display: flex;
@@ -541,16 +544,19 @@ color:#E73C34;
 }
 .bagListLeft {
   display: flex;
-  gap: 10px;
+  /* gap: 10px; */
+  gap: 25px;
   align-items: center;
-  font-size: 24px;
+  font-size: 17px;
   font-weight: 300;
 }
 .bagAdditional {
   font-size: 18px;
 }
 .bagAdditional > span {
-  color: #d90429;
+  /* color: #d90429; */
+  color: var(--black4);
+  font-weight: 500;
 }
 .bagListRight {
   display: flex;
@@ -576,7 +582,8 @@ color:#E73C34;
   border: none;
   outline: none !important;
   font-weight: 600;
-  background-color: #d90429;
+  /* background-color: #d90429; */
+  background-color: #E73C34;
 }
 .buttonBag:hover {
   transform: scale(1.1);
@@ -584,6 +591,7 @@ color:#E73C34;
 .bagPriceCon {
   box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.05);
   display: flex;
+  background-color: rgb(255, 222, 255);
   align-items: center;
   justify-content: space-between;
   height: 80px;
@@ -602,15 +610,16 @@ color:#E73C34;
   height: 40px;
   border: none;
   border-radius: 8px;
-  color: #d90429;
+  /* color: #d90429; */
+  color: #E73C34;
   transition: all 0.2 ease-in;
-  border: 0.7px solid #d90429;
+  border: 0.7px solid #E73C34;
 }
 .bagADDBtn:hover {
   /* border: #d90429; */
   font-weight: bold;
   color: #fff;
-  background-color: #d90429;
+  background-color: #E73C34;
 }
 
 .disablebagADDBtn{
@@ -646,7 +655,7 @@ color:#E73C34;
   border-radius: 10px; /* Rounded corners */
 }
 .extraBaggageSection::-webkit-scrollbar-thumb {
-  background-color: #ea384d !important; /* Gray thumb color */
+  background-color: #E73C34 !important; /* Gray thumb color */
   border-radius: 10px; /* Rounded corners for the thumb */
   height: 10px !important; /* Adjust height for desired thumb size */
   width: 10px !important; /* Adjust height for desired thumb size */

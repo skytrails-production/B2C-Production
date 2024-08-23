@@ -282,7 +282,7 @@
             align-items: center;
 
             @include md {
-              font-size: 18px;
+              font-size: 16px;
             }
 
             @include ellipsis(1);
