@@ -134,6 +134,7 @@ function App() {
   const navigate = useNavigate();
 
   const notOnline = useNetworkState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(ipAction());
@@ -255,6 +256,16 @@ function App() {
   //   )
   // }
 
+  useEffect(() => {
+    // Set a timeout to hide the loader after 5 seconds
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
+    // Cleanup the timeout if the component unmounts
+    return () => clearTimeout(timer);
+  }, []);
+
   const { pathname } = useLocation();
   const location = useLocation();
   useEffect(() => {
@@ -307,17 +318,9 @@ function App() {
   }
 
 
-  const [loading, setLoading] = useState(true);
+  
 
-  useEffect(() => {
-    // Set a timeout to hide the loader after 5 seconds
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 5000);
-
-    // Cleanup the timeout if the component unmounts
-    return () => clearTimeout(timer);
-  }, []);
+ 
 
 
 {loading &&
