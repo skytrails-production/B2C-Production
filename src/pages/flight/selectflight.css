@@ -672,7 +672,7 @@ hr {
 @media (max-width: 600px) {
   /* Large devices (lg and up) */
   .mainimgFlightSearch {
-      height: 420px !important; /* Fixed height for large devices */
+      /* height: 420px !important; Fixed height for large devices */
   }
   .bookBottomThree{
     gap:10px

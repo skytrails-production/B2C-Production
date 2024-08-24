@@ -1,7 +1,6 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import { Checkbox, Input, Slider } from "antd";
 import debounce from "lodash/debounce";
-
 import starsvg from "./../../images/star.svg";
 import starBlank from "./../../images/starBlank.svg";
 
@@ -20,6 +19,9 @@ const HotelFilterBox = ({
     selectedFacilities,
     priceRange,
     sortBy,
+    onLocationChange,
+    locations,
+    selectedLocations,
 }) => {
     const [showAllFacilities, setShowAllFacilities] = useState(false);
     const [activeFilter, setActiveFilter] = useState(false)
@@ -39,6 +41,17 @@ const HotelFilterBox = ({
             : [...selectedFacilities, value];
         onFacilityChange(updatedFacilities);
     };
+
+    const handleLocationChange = (event) => {
+        const value = event.target.value;
+        const updatedLocations = selectedLocations.includes(value)
+            ? selectedLocations.filter((location) => location !== value)
+            : [...selectedLocations, value];
+
+        onLocationChange(updatedLocations);
+    };
+
+
 
     const handlePriceChange = (value) => {
         onPriceChange(value);
@@ -82,15 +95,6 @@ const HotelFilterBox = ({
                     Clear Filters
                 </h5>
             </div>
-
-            {/* <div className="hotelFilterOuter">
-                <div className="hotelSearchFilter">
-                    <p className="">Sort By Price</p>
-                    <input type="text" placeholder="Search by Hotel Name" value={searchTerm} onChange={handleSearchChange} />
-                </div>
-            </div> */}
-
-
 
 
             <div className="holidayFilterSearch">
@@ -214,6 +218,26 @@ const HotelFilterBox = ({
                     <span style={{ fontWeight: "600", fontSize: "13px" }}>₹ {priceRange?.[0]}</span>
                     <span style={{ fontWeight: "600", fontSize: "13px" }}>₹ {priceRange?.[1]}</span>
                 </div>
+            </div>
+
+
+            <div className="PackagetagFilters">
+                <p className="">Filter by Location</p>
+
+                {locations.map((location) => (
+
+
+                    <Checkbox
+                        key={location}
+                        value={location}
+                        checked={selectedLocations.includes(location)}
+                        onChange={handleLocationChange}
+                    >
+                        {location}
+                    </Checkbox>
+
+                ))}
+
             </div>
 
 

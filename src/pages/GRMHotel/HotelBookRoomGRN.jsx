@@ -76,12 +76,6 @@ const HotelBookRoomGRN = () => {
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [showSelectRoomButton, setShowSelectRoomButton] = useState(true);
 
-  useEffect(() => {
-    const initialRoom = hotelinfoGRN?.rates?.filter((rate) =>
-      rate?.boarding_details?.includes(getBoardingType(selectedTabKey))
-    )[0];
-    setSelectedRoom(initialRoom);
-  }, [hotelinfoGRN?.rates, selectedTabKey]);
 
   const getBoardingType = (tabKey) => {
     switch (tabKey) {
@@ -97,6 +91,35 @@ const HotelBookRoomGRN = () => {
         return "";
     }
   };
+
+  useEffect(() => {
+    let initialTabKey = "1";
+
+    if (roomOnlyAvailable && !bedAndBreakfastAvailable && !halfBoardAvailable && !fullBoardAvailable) {
+      initialTabKey = "1";
+    } else if (bedAndBreakfastAvailable && !roomOnlyAvailable && !halfBoardAvailable && !fullBoardAvailable) {
+      initialTabKey = "2";
+    } else if (halfBoardAvailable && !bedAndBreakfastAvailable && !roomOnlyAvailable && !fullBoardAvailable) {
+      initialTabKey = "4";
+    } else if (fullBoardAvailable && !halfBoardAvailable && !bedAndBreakfastAvailable && !roomOnlyAvailable) {
+      initialTabKey = "3";
+    }
+
+    setSelectedTabKey(initialTabKey);
+
+    const initialRoom = hotelinfoGRN?.rates?.filter((rate) =>
+      rate?.boarding_details?.includes(getBoardingType(initialTabKey))
+    )[0];
+
+    setSelectedRoom(initialRoom);
+    setSelectedRoomIndex(0); // Ensure the first room is selected
+  }, [hotelinfoGRN?.rates, selectedTabKey]);
+
+
+
+  console.log(getBoardingType(1))
+
+
 
   const handleTabChange = (key) => {
     setSelectedTabKey(key);
@@ -427,18 +450,7 @@ const HotelBookRoomGRN = () => {
                       </div>
                     </div>
 
-                    <div className=" col-lg-12">
-                      <div className="roomDetailsDangerousHtml">
 
-                        <h5 className="HotelRoomHeadings">Stay Information</h5>
-                        <div
-                          className="dangerousHTMLhotelDetails"
-                          dangerouslySetInnerHTML={{
-                            __html: hotelinfoGRN.description,
-                          }}
-                        />
-                      </div>
-                    </div>
 
                     <Amenities />
                   </div>
@@ -517,6 +529,19 @@ const HotelBookRoomGRN = () => {
                           </p>
                         </div>
                       )}
+                    </div>
+
+                    <div className=" mt-3 col-lg-12">
+                      <div className="roomDetailsDangerousHtml">
+
+                        <h5 className="HotelRoomHeadings">Stay Information</h5>
+                        <div
+                          className="dangerousHTMLhotelDetails"
+                          dangerouslySetInnerHTML={{
+                            __html: hotelinfoGRN.description,
+                          }}
+                        />
+                      </div>
                     </div>
                   </div>
                   {/* </div> */}

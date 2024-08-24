@@ -2078,7 +2078,7 @@ if (currentinfantCount < infantCount) {
           <div className="">
             <div className="container px-0 pt-4">
             
-              <div className="row">
+              <div className="row" style={{width:"100%"}}>
                 <motion.div
                   variants={variants}
                   initial="initial"
@@ -2934,7 +2934,7 @@ if (currentinfantCount < infantCount) {
       </div>
                         {currentAdultCount > 0 &&
                           Array.from({ length: currentAdultCount }, (_, index) => (
-                            <div className="bookFlightPassInner">
+                            <div className="bookFlightPassInner" key={index}>
                               <div className="bookAdultIndex" style={{display:"flex",gap:"12px"}}>
                               <IoPersonSharp/>
                                 <p>Adult {index + 1}</p>
@@ -3118,7 +3118,7 @@ if (currentinfantCount < infantCount) {
 
                         {currentChildCount > 0 &&
                           Array.from({ length: currentChildCount }, (_, index) => (
-                            <div className="bookFlightPassInner">
+                            <div className="bookFlightPassInner" key={index}>
                               <div className="bookAdultIndex">
                                 <p>Child {index + 1}</p>
                               </div>
@@ -3299,13 +3299,13 @@ if (currentinfantCount < infantCount) {
                         {/* child details here  */}
 
                         {/* infant details here  */}
-                        {infantCount >0 && <div onClick={addinfant} style={{ cursor: "pointer",padding:"12px" }}>
+                        {infantCount > 0 && <div onClick={addinfant} style={{ cursor: "pointer",padding:"12px" }}>
         <p> + Add the infant</p>
       </div> }
 
                         {currentinfantCount > 0 &&
                           Array.from({ length: currentinfantCount }, (_, index) => (
-                            <div className="bookFlightPassInner">
+                            <div className="bookFlightPassInner" key={index}>
                               <div className="bookAdultIndex">
                                 <p>Infant {index + 1}</p>
                               </div>

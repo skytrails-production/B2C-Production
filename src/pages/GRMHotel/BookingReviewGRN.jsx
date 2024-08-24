@@ -81,8 +81,7 @@ const BookingReviewGRN = ({
     const hotelMainReducer = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data;
     const passenger = reducerState?.passengers?.passengersData;
     const [isDisableScroll, setIsDisableScroll] = useState(false);
-    // const emailRef = useRef();
-    // const commnetRate = hotelinfoGRN?.rate?.rate_comments?.MandatoryTax;
+    const [loadingButton, setLoadingButton] = useState(false)
     const markUpamount =
         reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup *
         Number(hotelinfoGRN?.rate?.price);
@@ -337,6 +336,7 @@ const BookingReviewGRN = ({
                             { easeBuzzPayId: easeBuzzPayId }
                         );
                         setLoaderPayment(true);
+                        setLoadingButton(true)
                         // couponconfirmation3();
                         // couponconfirmation3();
                     } catch (error) {
@@ -845,7 +845,7 @@ const BookingReviewGRN = ({
                             </div>
                         </div>
                         <div className="col-lg-4 ">
-                            <PriceSummaryGRNcoupon onFinalAmountChange={handleFinalAmountChange} oncouponselect={handlecouponChange} payButton={handlePayment} loadingPayButton={paymentLoading} />
+                            <PriceSummaryGRNcoupon onFinalAmountChange={handleFinalAmountChange} oncouponselect={handlecouponChange} payButton={handlePayment} loadingPayButton={paymentLoading} isPaymentSucessButton={loadingButton} />
                         </div>
                     </div>
                 </div>

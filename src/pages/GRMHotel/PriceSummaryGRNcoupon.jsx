@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import { Button } from "antd";
 
 function PriceSummaryGRNcoupon(props) {
-  const { onFinalAmountChange, oncouponselect, payButton, loadingPayButton } = props;
+  const { onFinalAmountChange, oncouponselect, payButton, loadingPayButton, isPaymentSucessButton } = props;
 
   const reducerState = useSelector((state) => state);
 
@@ -204,7 +204,7 @@ function PriceSummaryGRNcoupon(props) {
           <div className="sideBarButtonsHotel">
 
 
-            <Button type="primary" loading={loadingPayButton} onClick={payButton}>Pay Now</Button>
+            <Button type="primary" loading={isPaymentSucessButton} onClick={payButton} >Pay Now</Button>
           </div>
           <CouponContainer
             value={flight}

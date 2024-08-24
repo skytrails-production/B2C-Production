@@ -124,6 +124,7 @@ import BottomNavbar from "./pages/navbar/BottomNavbar";
 
 import Packageform from "./pages/NewPackagePages/Packageform/Packageform"
 import PhoneNumber from "./components/PhoneNumber";
+import Career from "./pages/skyTrailsCarrer/Career"
 
 
 
@@ -134,7 +135,6 @@ function App() {
   const navigate = useNavigate();
 
   const notOnline = useNetworkState();
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     dispatch(ipAction());
@@ -179,13 +179,9 @@ function App() {
   const [cacheLoader, setCacheLoader] = useState(false);
 
   useEffect(() => {
-    // Generate a unique identifier for cache-busting
     setCacheLoader(true);
     const cacheBuster = new Date().getTime();
-
-    // Function to update URLs with cache-buster
     const updateAssetURLs = () => {
-      // Update stylesheet URLs
       const links = document.querySelectorAll('link[rel="stylesheet"]');
       links.forEach(link => {
         const href = link.getAttribute('href');
@@ -193,8 +189,6 @@ function App() {
           link.setAttribute('href', `${href}?v=${cacheBuster}`);
         }
       });
-
-      // Update script URLs
       const scripts = document.querySelectorAll('script[src]');
       scripts.forEach(script => {
         const src = script.getAttribute('src');
@@ -204,11 +198,9 @@ function App() {
       });
     };
 
-    // Apply cache-busting
     updateAssetURLs();
     setCacheLoader(false)
 
-    // Optionally, you can perform other cache-related actions here
 
   }, []); // Empty dependency array ensures this runs only on initial load
 
@@ -255,17 +247,6 @@ function App() {
 
   //   )
   // }
-
-  useEffect(() => {
-    // Set a timeout to hide the loader after 5 seconds
-    const timer = setTimeout(() => {
-      setLoading(true);
-    }, 5000);
-
-    // Cleanup the timeout if the component unmounts
-    setLoading(false);
-    return () => clearTimeout(timer);
-  }, []);
 
   const { pathname } = useLocation();
   const location = useLocation();
@@ -317,29 +298,6 @@ function App() {
       </div>
     );
   }
-
-
-  
-
- 
-
-
-{loading &&
-  <div
-    style={{
-      position: 'fixed',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      textAlign: 'center',
-      fontSize: '24px',
-      color: '#333'
-    }}
-  >
-    Loading...
-  </div>
-}
-
 
   return (
     <div className="background_gradient">
@@ -641,11 +599,11 @@ function App() {
           element={<ItenaryPdfDownloader />}
         ></Route>
 
-        <Route
-          // path="/itenaryDownload"
-          path="/Package/form"
-          element={<Packageform />}
-        ></Route>
+        <Route path="/Package/form" element={<Packageform />}></Route>
+
+        {/* career  */}
+        <Route path="/career" element={<Career />}></Route>
+        {/* career  */}
         <Route path="/phone" element={<PhoneNumber />}></Route>
         {/* <Route
           path="/practice"

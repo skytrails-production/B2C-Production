@@ -21,7 +21,7 @@ export const airlineSeatMapReducer = (state = initialState, action) => {
         // defaultSeatOccupation: payload?.defaultSeatOccupation
       };
     case types.SEAT_SET_AIRLINE:
-      console.log("resucer py", payload);
+      // console.log("resucer py", payload);
       return {
         ...state,
         seatList: payload,

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { clearHotelRoomAndGallery, hotelActionGRN, hotelGalleryRequest, singleHotelGRN } from "../../Redux/HotelGRN/hotel";
+import { useDispatch } from "react-redux";
+import { clearHotelRoomAndGallery } from "../../Redux/HotelGRN/hotel";
 import "./hotelResult.css";
 import "./hotelresult.scss";
 import { FaPen } from "react-icons/fa";
@@ -15,13 +14,10 @@ export default function HotelResult({
     priceRange,
     sortBy,
     searchTerm,
+    selectedLocations,
 }) {
 
-    const navigate = useNavigate();
-    const reducerState = useSelector((state) => state);
     const dispatch = useDispatch();
-    const [hasMore, setHasMore] = useState(true);
-    const grnPayload = JSON.parse(sessionStorage.getItem('grnPayload'));
     const [loader, setLoader] = useState(true);
     const [tooManyFilter, setToomanyFilter] = useState(false);
     const [isFilterApplied, setIsFilterApplied] = useState(false);
@@ -41,6 +37,7 @@ export default function HotelResult({
             setIsFilterApplied(false);
         }
     }, [selectedCategories, selectedFacilities, priceRange, searchTerm]);
+
 
     let filteredHotels = hotels?.filter((hotel) => {
 
@@ -75,11 +72,22 @@ export default function HotelResult({
         if (selectedFacilities?.length > 0) {
             const hotelFacilities = hotel?.facilities?.split(";")
                 ?.map((facility) => facility?.trim());
+            // console.log(hotelFacilities, "hotel facility")
             if (
                 !selectedFacilities?.every((facility) =>
                     hotelFacilities?.includes(facility)
                 )
             ) {
+                return false;
+            }
+        }
+
+        if (selectedLocations.length > 0) {
+            const locationMatch = selectedLocations.some(
+                (location) =>
+                    hotel.name.includes(location) || hotel.address.includes(location)
+            );
+            if (!locationMatch) {
                 return false;
             }
         }
@@ -93,8 +101,13 @@ export default function HotelResult({
             return true;
         }
 
+
         return false;
     });
+
+    console.log(filteredHotels, "filtered hotels")
+
+
 
     if (sortBy === "lowToHigh") {
         filteredHotels.sort((a, b) => a.min_rate.price - b.min_rate.price);
@@ -112,30 +125,6 @@ export default function HotelResult({
         }
     }, [filteredHotels])
 
-    useEffect(() => {
-        if (reducerState?.hotelSearchResultGRN?.onlyHotels?.length > 0) {
-            setHasMore(reducerState?.hotelSearchResultGRN?.hasMore);
-            // setLoader(false);
-        }
-    }, [reducerState?.hotelSearchResultGRN?.onlyHotels, reducerState?.hotelSearchResultGRN]);
-
-    const handleClick = (item) => {
-        const payload = {
-            data: {
-                rate_key: item?.min_rate?.rate_key,
-                group_code: item?.min_rate?.group_code,
-            },
-            searchID: item?.search_id,
-            hotel_code: item?.hotel_code,
-        };
-
-        const galleryPayload = {
-            hotel_id: item?.hotel_code,
-        };
-        dispatch(hotelGalleryRequest(galleryPayload));
-        dispatch(singleHotelGRN(payload));
-        navigate("/st-hotel/hotelresult/selectroom");
-    };
 
     useEffect(() => {
         if (hotels?.length !== 0 && filteredHotels?.length === 0 && isFilterApplied) {

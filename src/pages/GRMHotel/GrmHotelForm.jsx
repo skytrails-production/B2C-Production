@@ -519,7 +519,7 @@ const GrmHotelForm = () => {
 
   const selectedSingleHotel = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels?.filter(item => item.hotel_code == selectedFrom?.hotelCode)
 
-  console.log(selectedSingleHotel, "selectedSingleHotel")
+  // console.log(selectedSingleHotel, "selectedSingleHotel")
 
 
 

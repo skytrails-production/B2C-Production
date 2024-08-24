@@ -1601,6 +1601,8 @@ const addinfant = () => {
 // const tableHtml = fareRule ? extractTableData(fareRule[0]?.FareRuleDetail) : '';
 
 
+// console.log("TicketDetails?.Segments[0]",TicketDetails?.Segments[0])
+
   // //////////////////////////////////////////////////////////////////////////////////
 
   if (loaderPayment == false) {
@@ -1613,7 +1615,7 @@ const addinfant = () => {
         ) : (
           <div className="">
             <div className="container px-0 pt-4">
-              <div className="row">
+              <div className="row" style={{width:"100%"}}>
                 <motion.div
                   variants={variants}
                   initial="initial"
@@ -1630,7 +1632,7 @@ const addinfant = () => {
                             <div style={{width:"100%"}}>
                             
 
-                        <div style={{display:"flex",flexDirection:"row",width:"100%",justifyContent:"space-between"}}>
+                        <div className="itemticket">
                         <div>
                               <p>
                                 {
@@ -1884,7 +1886,7 @@ const addinfant = () => {
       </div>
       <div style={{backgroundColor:"#ffdeff",padding:"5px",borderRadius:"12px",fontSize:"14px"}}>
       <p></p>
-        <p style={{color:"black"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i> Baggage (ADULT) check-in <span>{item?.Baggage?.split(" ")[0]}KG</span>  cabin {item?.CabinBaggage?.split(" ")[0]}KG</p>
+        <p style={{color:"black"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i> Baggage (ADULT) check-in <span>{item?.Baggage?.match(/\d+/)?.[0]}KG</span>  cabin {item?.CabinBaggage?.match(/\d+/)[0]}KG</p>
       </div>
       {/* <div className="bookBottomFour">
                                     <div>
@@ -3003,7 +3005,7 @@ const addinfant = () => {
                     <motion.div ref={dropdownRef} variants={variants} className="col-lg-12 mt-3">
                       <div>
 
-                          <div
+                          {/* <div
                             style={{
                               display: "flex",
                               gap: "15px",
@@ -3012,30 +3014,37 @@ const addinfant = () => {
                               fontSize: "12px",
                               fontWeight: "300",
                             }}
-                          >
-                            {showADDMELL && (
+                          > */}
+                          <div className="col-lg-12 mt-3">
+                          <div className="bookflightPassenger "> {showADDMELL && (
                               <button
-                                className={isOptionSelected ? "bagADDBtn": "disablebagADDBtn" }
+                                className={isOptionSelected ? "bagADDBtn1": "disablebagADDBtn" }
                                 disabled={!isOptionSelected}
-                                style={{fontSize:"15px"}}
+                                style={{fontSize:"18px",cursor:"pointer",border:"none",background:"none"}}
                                 // style={isOptionSelected ? { fontSize: "15px" } : { , fontSize: "15px" }}
                                 onClick={() => setShowMell(true)}
                               >
-                                Add Meal +
+                                <i class="fa-solid fa-cheese"></i>  Add Meal +
                               </button>
-                            )}
-                            {showADD && (
+                            )}</div>
+
+                          </div>
+                          <div className="col-lg-12 mt-3">
+                          <div className="bookflightPassenger ">
+                          {showADD && (
                               <button
                                 // className="bagADDBtn"
-                                className={isOptionSelected ? "bagADDBtn": "disablebagADDBtn" }
-                                style={{fontSize:"15px"}}
+                                className={isOptionSelected ? "bagADDBtn1": "disablebagADDBtn" }
+                                style={{fontSize:"18px",cursor:"pointer",border:"none",background:"none"}}
                                 disabled={!isOptionSelected}
                                 onClick={() => setShowBaggage(true)}
                               >
-                                Add Baggage +
+                                <i class="fa-solid fa-suitcase-rolling"></i>  Add Baggage +
                               </button>
                             )}
-                          </div>
+                          </div></div>
+                           
+                          {/* </div> */}
                       </div>
                     </motion.div>
 

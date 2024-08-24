@@ -12,7 +12,7 @@ const Amenities = () => {
 
 
     return (
-        <div className="col-lg-12 mt-3 mb-2 ">
+        <div className="col-lg-12 mt-3 mb-3 ">
             <div className="roomNameAndCategory" id='topAmenities'>
 
                 <div className="roomTitle">

@@ -183,7 +183,6 @@ const HotelMobileFilter = ({
     };
 
 
-    console.log(minPrice, maxPrice, "min max")
 
     return (
         <div className="filterPackageMobileBox">

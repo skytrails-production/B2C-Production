@@ -182,7 +182,7 @@ const CouponContainer = ({
               <div
                 key={coupon._id}
                 style={{
-                  backgroundColor: "#ffd6ff",
+                  backgroundColor: "#F4F4F4",
                   padding: "10px 10px",
                   marginTop: "10px",
                   marginBottom: "10px",

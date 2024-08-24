@@ -1,6 +1,7 @@
 @import "../../../mixins.scss";
 .carouselHotelGallery {
   margin-bottom: 50px;
+  overflow-x: hidden;
 
   .contentWrapper {
     position: relative;

@@ -9,6 +9,7 @@ import HolidayResultSkeleton from '../NewPackagePages/HolidayPackageSearchResult
 import HotelMobileFilter from './HotelMobileFilter';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
+import { apiURL } from '../../Constants/constant';
 
 
 const HotelResultMain = () => {
@@ -20,6 +21,7 @@ const HotelResultMain = () => {
     const [hotelData, setHotelData] = useState([])
     const navigate = useNavigate();
     const grnPayload = JSON.parse(sessionStorage.getItem('revisithotel'));
+    const cityCode = JSON.parse(sessionStorage.getItem('grnPayload'));
 
 
 
@@ -63,12 +65,29 @@ const HotelResultMain = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [errors, setErrors] = useState(false)
 
+    const [locations, setLocations] = useState([]);
+    const [selectedLocations, setSelectedLocations] = useState([]);
+
     const uniqueFacilities = getUniqueFacilities(hotelData);
     const { min, max } = getMinMaxPrices(hotelData);
 
     useEffect(() => {
         setPriceRange([min, max]);
     }, [min, max]);
+
+    useEffect(() => {
+        // Fetch location data from API
+        fetch(
+            `${apiURL.baseURL}/skyTrails/grnconnect/locationamelist?cityCode=${cityCode?.cityCode}`
+        )
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.success) {
+                    setLocations(data.data);
+                }
+            })
+            .catch((error) => console.error("Error fetching locations:", error));
+    }, []);
 
     const handleCategoryChange = (categories) => {
         setSelectedCategories(categories);
@@ -90,12 +109,17 @@ const HotelResultMain = () => {
         setSearchTerm(term);
     };
 
+    const handleLocationChange = (locations) => setSelectedLocations(locations);
+
+
+
     const handleClearFilters = () => {
         setSelectedCategories([]);
         setSelectedFacilities([]);
         setPriceRange([min, max]);
         setSortBy(null);
         setSearchTerm("");
+        setSelectedLocations([]);
     };
 
 
@@ -188,6 +212,9 @@ const HotelResultMain = () => {
                                             selectedFacilities={selectedFacilities}
                                             priceRange={priceRange}
                                             sortBy={sortBy}
+                                            onLocationChange={handleLocationChange}
+                                            locations={locations}
+                                            selectedLocations={selectedLocations}
                                         />
 
                                     </div>
@@ -209,6 +236,7 @@ const HotelResultMain = () => {
                                             selectedFacilities={selectedFacilities}
                                             priceRange={priceRange}
                                             sortBy={sortBy}
+
                                         />
                                     </div>
 
@@ -222,6 +250,7 @@ const HotelResultMain = () => {
                                             priceRange={priceRange}
                                             sortBy={sortBy}
                                             searchTerm={searchTerm}
+                                            selectedLocations={selectedLocations} // Pass selected locations
                                         />
 
                                     </div>

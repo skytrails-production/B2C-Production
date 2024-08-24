@@ -11,7 +11,7 @@ import { Select } from "antd";
 import { SearchOutlined } from '@ant-design/icons';
 import { DatePicker, Button } from "antd";
 import dayjs from "dayjs";
-import { hotelActionGRN, clearHotelReducerGRN, clearonlyHotelsGRN } from "../../Redux/HotelGRN/hotel";
+import { hotelActionGRN, clearHotelReducerGRN, clearonlyHotelsGRN, singleHotelGRN, hotelGalleryRequest } from "../../Redux/HotelGRN/hotel";
 const { RangePicker } = DatePicker;
 
 
@@ -40,18 +40,34 @@ const fetchFromCity = (value, callback) => {
   FromCurrentValue = value;
   const cityData = () => {
     axios
-      .get(`${apiURL.baseURL}/skyTrails/grnconnect/getcityList?keyword=${value}`)
+      .get(`${apiURL.baseURL}/skyTrails/grnconnect/searchcityandhotel?keyword=${value}`)
       .then((response) => {
         if (FromCurrentValue === value) {
           const { data } = response.data;
-          const result = data.map((item) => ({
-            value: item.cityCode,
+          const cityList = data.cityList.map((item) => ({
+            value: `city-${item.cityCode}`,
             name: item.cityName,
             code: item.countryCode,
             cityCode: item.countryName,
             item,
+            type: 'city',
           }));
-          callback(result);
+
+          const hotelList = data.hotelList.map((item) => ({
+            value: `hotel-${item.hotelCode}`,
+            name: item.hotelName,
+            code: item.cityCode,
+            cityCode: item.countryCode,
+            address: item.address,
+            countryName: item.countryName,
+            // cityName: item.cityName,
+            item,
+            type: 'hotel',
+
+          }));
+
+          const combinedList = [...cityList, ...hotelList];
+          callback(combinedList);
         }
       })
       .catch((error) => {
@@ -78,21 +94,20 @@ const FromSearchInput = (props) => {
   }
   const [fromValue, setFromValue] = useState(initialSelectedFromData.cityName);
   const [selectedItem, setSelectedItem] = useState(initialSelectedFromData);
-
-
-
   const [FromPlaceholder, setFromPlaceholder] = useState('')
   const [FromDisplayValue, setFromDisplayValue] = useState(initialSelectedFromData.cityName);
   const [inputStyle, setInputStyle] = useState({});
 
+
   useEffect(() => {
     setFromData([
       {
-        value: initialSelectedFromData?.cityCode,
-        name: initialSelectedFromData?.cityName,
-        code: initialSelectedFromData?.countryCode,
-        cityCode: initialSelectedFromData?.countryName,
+        value: `city-${initialSelectedFromData.cityCode}`,
+        name: initialSelectedFromData.cityName,
+        code: initialSelectedFromData.countryCode,
+        cityCode: initialSelectedFromData.countryName,
         item: initialSelectedFromData,
+        type: 'city',
       },
     ]);
   }, []);
@@ -123,14 +138,45 @@ const FromSearchInput = (props) => {
     setFromDisplayValue(fromValue); // Reset display value to selected value
     setInputStyle({ caretColor: 'transparent' });
   };
-  const renderFromOption = (option) => (
-    <div>
-      <div>
-        {option.name} ({option.code})
+  // const renderFromOption = (option) => (
+  //   <div>
+  //     <div>
+  //       {option.name} ({option.code})
+  //     </div>
+  //     <div style={{ color: "gray" }}>{option.cityCode}</div>
+  //   </div>
+  // );
+
+
+  const renderFromOption = (option) => {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', gap: "8px" }}>
+
+        {
+          option.type === 'city' ?
+            <i class="fa-solid fa-city"></i> :
+            <i class="fa-solid fa-bed"></i>
+        }
+        <div>
+          {option.type === 'city' ? (
+            <>
+              <div className="ellipsisHotelDropdown">
+                {option.name} ({option.code})
+              </div>
+              <div style={{ color: "gray" }}>{option.cityCode}</div>
+            </>
+          ) : (
+            <>
+              <div className="ellipsisHotelDropdown">
+                {option.name} - ({option.countryName})
+              </div>
+              <div className="ellipsisHotelDropdown" style={{ color: "gray" }}>{option.address}</div>
+            </>
+          )}
+        </div>
       </div>
-      <div style={{ color: "gray" }}>{option.cityCode}</div>
-    </div>
-  );
+    );
+  };
 
   return (
     <Select
@@ -369,7 +415,7 @@ function GrmHotelform2() {
   const [open, setOpen] = useState(false);
   const [loader, setLoader] = useState(false);
 
-
+  const [isSingleHotelSearched, setIsSIngleHotelSerched] = useState(false)
 
 
   const handleConditionChange = (event) => {
@@ -427,7 +473,7 @@ function GrmHotelform2() {
     }
   };
 
-
+  const selectedSingleHotel = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels?.filter(item => item.hotel_code == selectedFrom?.hotelCode)
 
   const disablePastDates = (current) => {
     return current && current < dayjs().startOf('day');
@@ -436,10 +482,41 @@ function GrmHotelform2() {
 
 
 
+  const handleClick = () => {
+
+    const payload = {
+      "data": {
+        "rate_key": selectedSingleHotel?.[0]?.min_rate?.rate_key,
+        "group_code": selectedSingleHotel?.[0]?.min_rate?.group_code,
+      },
+      "searchID": selectedSingleHotel?.[0]?.search_id,
+      "hotel_code": selectedSingleHotel?.[0]?.hotel_code,
+    }
+
+    const galleryPayload = {
+      "hotel_id": selectedSingleHotel?.[0]?.hotel_code,
+    }
+    dispatch(hotelGalleryRequest(galleryPayload))
+    dispatch(singleHotelGRN(payload))
+    navigate("/st-hotel/hotelresult/selectroom")
+  };
+
+
+
+  useEffect(() => {
+
+    if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels && isSingleHotelSearched) {
+      handleClick()
+    }
+  }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels])
+
+
 
 
   function handleSubmit(event) {
+
     event.preventDefault();
+    setIsSIngleHotelSerched(true);
     setLoader(true);
     sessionStorage.setItem("SessionExpireTime", new Date());
 

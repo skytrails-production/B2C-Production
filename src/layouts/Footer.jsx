@@ -206,6 +206,7 @@ const Footer = () => {
               <Link to="aboutus">About Skytrails</Link>
               <Link to="/skytrailsblogs"> Blogs</Link>
               <Link to="/oneWayDummyHome"> Dummy Pnr</Link>
+              <Link to="/career"> Career</Link>
             </div>
           </div>
           <div className="footerSingleBox">

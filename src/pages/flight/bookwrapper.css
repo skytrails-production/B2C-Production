@@ -623,13 +623,13 @@ color:#E73C34;
 }
 
 .disablebagADDBtn{
-  padding: 0px 8px;
-  height: 40px;
-  border: none;
-  border-radius: 8px;
+  /* padding: 0px 8px; */
+  /* height: 40px; */
+  /* border: none; */
+  /* border-radius: 8px; */
   color: #848082;
   transition: all 0.2 ease-in;
-  border: 0.7px solid #2b2929;
+  /* border: 0.7px solid #2b2929; */
 }
 .qtyCounterBtn {
   width: 20px;
@@ -715,3 +715,17 @@ margin-top: 10px;
 
 /* FFFBFB */
 /* E73C34 dark */
+
+.itemticket{
+  display:flex !important;
+  flex-direction:row !important;
+  width:100% !important;
+  justify-content:space-between !important;
+}
+
+
+@media only screen and (max-width: 500px) {
+  .itemticket{
+    flex-direction: column !important;
+  }
+}

@@ -199,21 +199,60 @@ const Navbar = () => {
                 {
                     mobileMenu && (
                         <ul className="menuItems">
+
+                            {
+                                userName ?
+
+                                    (
+                                        <>
+                                            <li
+                                                className="menuItem"
+
+                                            // onClick={}
+                                            >
+                                                <i class="fa-solid fa-user"></i>  {userName}
+                                            </li>
+
+
+                                        </>
+                                    )
+                                    :
+
+                                    (<li
+                                        className="menuItem"
+                                        onClick={() => {
+
+                                            setMobileMenu(false)
+                                            showConfirmationModal()
+                                        }
+                                        }
+                                    // onClick={}
+                                    >
+                                        My Account
+                                    </li>)
+
+                            }
+
                             <li
                                 className="menuItem"
                                 onClick={() => {
-
+                                    navigate("/aboutus")
                                     setMobileMenu(false)
-                                    showConfirmationModal()
                                 }
                                 }
-                            // onClick={}
                             >
-                                My Account
+                                About Us
                             </li>
-
-
-
+                            <li
+                                className="menuItem"
+                                onClick={() => {
+                                    navigate("/privacypolicy")
+                                    setMobileMenu(false)
+                                }
+                                }
+                            >
+                                Privacy Policy
+                            </li>
                         </ul>
                     )
                 }

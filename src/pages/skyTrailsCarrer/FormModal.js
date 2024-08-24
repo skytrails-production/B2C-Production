@@ -28,8 +28,13 @@ export const FormModal = ({ isModalOpen, setIsModalOpen, description }) => {
   const [exp, setExp] = useState(0);
   const [fileName, setFileName] = useState(null);
   const [fileNameUploaded, setFileNameUploaded] = useState("");
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
   const handleOk = async () => {
-    console.log(description, "param", fileName);
+    // console.log(description, "param", fileName);
     if (!firstName.trim()) {
       alert("First name is required");
       return;
@@ -93,19 +98,19 @@ export const FormModal = ({ isModalOpen, setIsModalOpen, description }) => {
 
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
+
       }
 
       const data = await response.json();
       console.log("Success:", data);
       // Handle success, e.g., show a success message or redirect
+      handleCancel()
     } catch (error) {
       console.error("Error:", error);
       // Handle error, e.g., show an error message
     }
   };
-  const handleCancel = () => {
-    setIsModalOpen(false);
-  };
+
 
   return (
     <div>
@@ -116,10 +121,19 @@ export const FormModal = ({ isModalOpen, setIsModalOpen, description }) => {
         onCancel={handleCancel}
         mask={false}
         maskClosable={false}
+        footer={[
+          <Button key="cancel" onClick={handleCancel}>
+            Cancel
+          </Button>,
+          <Button key="submit" type="primary" onClick={handleOk}>
+            Submit
+          </Button>,
+        ]}
       >
-        <lable>First name:</lable>
+        <lable >First name:</lable>
         <Input
           size="large"
+          className="mt-2"
           value={firstName}
           placeholder="Enter first name.."
           prefix={<UserOutlined />}
@@ -128,6 +142,7 @@ export const FormModal = ({ isModalOpen, setIsModalOpen, description }) => {
         <lable>Last name:</lable>
         <Input
           size="large"
+          className="mt-2"
           placeholder="Enter last name.."
           value={lastName}
           prefix={<UserOutlined />}
@@ -136,15 +151,17 @@ export const FormModal = ({ isModalOpen, setIsModalOpen, description }) => {
         <lable>Email:</lable>
         <Input
           size="large"
+          className="mt-2"
           placeholder="Enter Email"
           type="email"
           value={email}
           prefix={<MailOutlined />}
           onChange={(e) => setEmail(e.target.value)}
         />
-        <lable>Contact Num:</lable>
+        <lable>Contact Number:</lable>
         <Input
           size="large"
+          className="mt-2"
           placeholder="Enter number"
           value={contactNum}
           prefix={<ContactsOutlined />}
@@ -156,12 +173,14 @@ export const FormModal = ({ isModalOpen, setIsModalOpen, description }) => {
             min={1}
             max={10}
             placeholder="1"
+            className="mt-2"
             value={exp}
             onChange={(value) => setExp(value)}
           />
         </div>
         <label>Summary:</label>
         <TextArea
+          className="mt-2"
           showCount
           maxLength={100}
           onChange={(e) => setSummary(e.target.value)}
@@ -171,6 +190,7 @@ export const FormModal = ({ isModalOpen, setIsModalOpen, description }) => {
         />
         <label>Upload Resume:</label>
         <FileUpload
+          className="mt-2"
           setFileName={setFileName}
           fileName={fileName}
           fileNameUploaded={fileNameUploaded}

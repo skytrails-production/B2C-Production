@@ -38,7 +38,7 @@ const HotelTicketDB = () => {
             "checkin": getBookingDetails?.checkin,
             "checkout": getBookingDetails?.checkout,
             // "total": getBookingDetails?.price?.total,
-            "total":Number(finalamount).toFixed(2),
+            "total": Number(finalamount).toFixed(2),
             "holder": {
                 "title": passenger?.[0]?.adults?.[0]?.Title,
                 "name": passenger?.[0]?.adults?.[0]?.FirstName,
