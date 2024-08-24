@@ -259,10 +259,11 @@ function App() {
   useEffect(() => {
     // Set a timeout to hide the loader after 5 seconds
     const timer = setTimeout(() => {
-      setLoading(false);
+      setLoading(true);
     }, 5000);
 
     // Cleanup the timeout if the component unmounts
+    setLoading(false);
     return () => clearTimeout(timer);
   }, []);
 
