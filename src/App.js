@@ -182,13 +182,13 @@ function App() {
     setCacheLoader(true);
     const cacheBuster = new Date().getTime();
     const updateAssetURLs = () => {
-      const links = document.querySelectorAll('link[rel="stylesheet"]');
-      links.forEach(link => {
-        const href = link.getAttribute('href');
-        if (href) {
-          link.setAttribute('href', `${href}?v=${cacheBuster}`);
-        }
-      });
+      // const links = document.querySelectorAll('link[rel="stylesheet"]');
+      // links.forEach(link => {
+      //   const href = link.getAttribute('href');
+      //   if (href) {
+      //     link.setAttribute('href', `${href}?v=${cacheBuster}`);
+      //   }
+      // });
       const scripts = document.querySelectorAll('script[src]');
       scripts.forEach(script => {
         const src = script.getAttribute('src');
