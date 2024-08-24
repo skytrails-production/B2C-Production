@@ -306,6 +306,37 @@ function App() {
     );
   }
 
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Set a timeout to hide the loader after 5 seconds
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 5000);
+
+    // Cleanup the timeout if the component unmounts
+    return () => clearTimeout(timer);
+  }, []);
+
+
+{loading &&
+  <div
+    style={{
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      textAlign: 'center',
+      fontSize: '24px',
+      color: '#333'
+    }}
+  >
+    Loading...
+  </div>
+}
+
+
   return (
     <div className="background_gradient">
 
