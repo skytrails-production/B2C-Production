@@ -2246,7 +2246,7 @@ if (currentinfantCount < infantCount) {
                               </div>
                               <div className="container flightdestination mb-4">
                                 <div>
-                                  <div className="row  w-100">
+                                  <div className="row  w-100 flight-detailss">
                                     {/* <p>
                                       {convertTime(
                                         sesstioResultIndex?.flightDetails
@@ -2929,7 +2929,7 @@ if (currentinfantCount < infantCount) {
                         <h3>Passenger Details</h3>
                         </div>
 
-                        <div onClick={addAdult} style={{ cursor: "pointer",padding:"12px" }}>
+                        <div onClick={addAdult} style={{ cursor: "pointer",padding:"12px" , fontWeight:600}}>
         <p> +Add the Adult</p>
       </div>
                         {currentAdultCount > 0 &&
@@ -3112,8 +3112,8 @@ if (currentinfantCount < infantCount) {
                           ))}
 
                         {/* child details here  */}
-                        {childCount > 0 && <div onClick={addChild} style={{ cursor: "pointer" ,padding:"12px"}}>
-        <p> + Add the Child</p>
+                        {childCount > 0 && <div onClick={addChild} style={{ cursor: "pointer" ,padding:"12px",fontWeight:600}}>
+        <p> +Add the Child</p>
       </div> }
 
                         {currentChildCount > 0 &&
@@ -3299,8 +3299,8 @@ if (currentinfantCount < infantCount) {
                         {/* child details here  */}
 
                         {/* infant details here  */}
-                        {infantCount > 0 && <div onClick={addinfant} style={{ cursor: "pointer",padding:"12px" }}>
-        <p> + Add the infant</p>
+                        {infantCount > 0 && <div onClick={addinfant} style={{ cursor: "pointer",padding:"12px" , fontWeight:600}}>
+        <p> +Add the infant</p>
       </div> }
 
                         {currentinfantCount > 0 &&

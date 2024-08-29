@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { apiURL } from "../../Constants/constant";
-import { Table, message, Button, Modal, Upload } from "antd";
+import { Table, message, Button, Modal, Upload, Select, Spin } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
+const { Option } = Select;
 
 const AllInventory = () => {
   const [data, setData] = useState([]);
@@ -13,6 +14,8 @@ const AllInventory = () => {
     useState(false);
   const [selectedDescription, setSelectedDescription] = useState("");
   const [imageCounts, setImageCounts] = useState({}); // State to manage image counts
+
+ 
 
   const showDescriptionModal = (description) => {
     setSelectedDescription(description);
@@ -176,7 +179,16 @@ const AllInventory = () => {
       dataIndex: "locality",
       key: "locality",
     },
-
+    {
+      title: "CompanyName",
+      dataIndex: "CompanyName",
+      key: "CompanyName",
+    },
+    {
+      title: "GstNo",
+      dataIndex: "gstNo",
+      key: "gstNo",
+    },
     {
       title: "HotelCity",
       dataIndex: "hotelCity",

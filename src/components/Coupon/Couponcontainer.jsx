@@ -5,6 +5,7 @@ import SecureStorage from "react-secure-storage";
 import { useDispatch, useSelector } from "react-redux";
 import { Input, Button, Checkbox, Spin, Alert } from "antd";
 import { swalModal } from "../../utility/swal";
+import Authentic from "../../pages/Auth/Authentic";
 import swal from "sweetalert2";
 const CouponContainer = ({
   value,
@@ -34,10 +35,18 @@ const CouponContainer = ({
 
   // console.log("selectedCoupon",selectedCoupon)
 
+  
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  const handleModalClose = () => {
+      setIsLoginModalOpen(false);
+  };
+
   // console.log(couponappiled,"dhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
   useEffect(() => {
     if (authenticUser == 200) {
       setloginerror(false);
+      handleModalClose();
     }
   }, [authenticUser]);
 
@@ -45,6 +54,7 @@ const CouponContainer = ({
   const getCoupons = async () => {
     if (authenticUser !== 200) {
       setloginerror(true);
+      setIsLoginModalOpen(true);
       // swal.fire("Please Login");
       return;
     }
@@ -139,7 +149,7 @@ const CouponContainer = ({
   };
 
   return (
-    <div style={{display:"flex",justifyContent:"end"}}>
+    <div style={{display:"flex",justifyContent:"end",flexDirection:"column"}}>
       {!showInputField ? (
         <>
           <Button
@@ -159,13 +169,27 @@ const CouponContainer = ({
           >
             {loading ? <Spin /> : "Apply Coupon"}
           </Button>
-          {loginerror && (
+          {/* {loginerror && (
+            <div
+              style={{ color: "red", textAlign: "center", fontWeight: "bold" }}
+            > */}
+              {/* Please Login */}
+              {/* {loginerror && (
             <div
               style={{ color: "red", textAlign: "center", fontWeight: "bold" }}
             >
               Please Login
             </div>
-          )}
+          )} */}
+
+              <Authentic
+                isOpen={isLoginModalOpen}
+                onClose={handleModalClose}
+            // isLogoutOpen={logoutModalVisible}
+            // onLogoutClose={closeLogoutModal}
+            />
+            {/* </div> */}
+          {/* )} */}
         </>
       ) : (
         <div>
@@ -195,7 +219,7 @@ const CouponContainer = ({
                   disabled={coupon.userApplied?.includes(reducerState?.logIn?.loginData?.data?.result?._id)}
                   checked={selectedCoupon && selectedCoupon._id === coupon._id}
                 >
-                  <p style={{ fontSize: "18px", fontWeight: "bold" }}>
+                  <p style={{ fontSize: "18px", fontWeight: "bold" , color:"var(--black4)"}}>
                     {coupon.couponCode}
                   </p>{" "}
                   {coupon.content}

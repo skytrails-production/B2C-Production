@@ -1822,7 +1822,7 @@ const addinfant = () => {
     <div>
     <div key={index} className="container flightdestination mb-4">
   
-      <div className="row  w-100">
+      <div className="row  w-100 flight-detailss">
         <div className="col-6 col-md-5 align-items-center mb-3 mb-md-0 flightdestination-right">
           <p className="flightdestination-right-para">
             {item?.Origin?.Airport?.CityName}{" "}
@@ -1861,9 +1861,9 @@ const addinfant = () => {
             <img src={lineimg} alt="" style={{ width: "100%" }} />
           </div>
          
-          <div className="d-flex flex-column align-items-center">
+          {/* <div className="d-flex flex-column align-items-center">
             <img src={lineimg} alt="" style={{ width: "100%" }} />
-          </div>
+          </div> */}
         </div>
         <div className="col-6 col-md-5 align-items-center flightdestination-right">
           <p className="flightdestination-right-para">
@@ -1886,7 +1886,7 @@ const addinfant = () => {
       </div>
       <div style={{backgroundColor:"#ffdeff",padding:"5px",borderRadius:"12px",fontSize:"14px"}}>
       <p></p>
-        <p style={{color:"black"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i> Baggage (ADULT) check-in <span>{item?.Baggage?.match(/\d+/)?.[0]}KG</span>  cabin {item?.CabinBaggage?.match(/\d+/)[0]}KG</p>
+        <p style={{color:"var(--black4)"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i> Baggage (ADULT) check-in <span>{item?.Baggage?.match(/\d+/)?.[0]}KG</span>  cabin {item?.CabinBaggage?.match(/\d+/)[0]}KG</p>
       </div>
       {/* <div className="bookBottomFour">
                                     <div>
@@ -2053,7 +2053,7 @@ const addinfant = () => {
                         
                
 
-      <div onClick={addAdult} style={{ cursor: "pointer",padding:"12px" }}>
+      <div onClick={addAdult} style={{ cursor: "pointer",padding:"12px",fontWeight:600 }}>
         <p> +Add the Adult</p>
       </div>
 
@@ -2266,8 +2266,8 @@ const addinfant = () => {
 
                         {/* child details here  */}
 
-{childCount > 0 && <div onClick={addChild} style={{ cursor: "pointer" ,padding:"12px"}}>
-        <p> + Add the Child</p>
+{childCount > 0 && <div onClick={addChild} style={{ cursor: "pointer" ,padding:"12px",fontWeight:600 }}>
+        <p> +Add the Child</p>
       </div> }
                         
 
@@ -2389,8 +2389,10 @@ const addinfant = () => {
                                   </select>
                                   {sub &&
                                     !validateGender(
-                                      passengerData[index].Gender
+                                      passengerData[index + Number(adultCount)].Gender
                                     ) && <span className="error10">Select Gender</span>}
+
+                                    
                                 </div>
                                 <div className="col-lg-6 col-md-6">
                                   <label
@@ -2543,7 +2545,7 @@ const addinfant = () => {
                         {/* child details here  */}
                        
                         {/* infant details here  */}
-{infantCount >0 && <div onClick={addinfant} style={{ cursor: "pointer",padding:"12px" }}>
+{infantCount >0 && <div onClick={addinfant} style={{ cursor: "pointer",padding:"12px", fontWeight:600 }}>
         <p> + Add the infant</p>
       </div> }
                         {currentinfantCount > 0 &&
@@ -2689,7 +2691,12 @@ const addinfant = () => {
                                   </select>
                                   {sub &&
                                     !validateGender(
-                                      passengerData[index].Gender
+
+                                      passengerData[
+                                        index +
+                                        Number(adultCount) +
+                                        Number(childCount)
+                                      ].Gender
                                     ) && <span className="error10">Select Gender</span>}
                                 </div>
                                 <div className="col-lg-6 col-md-6">
@@ -3020,7 +3027,7 @@ const addinfant = () => {
                               <button
                                 className={isOptionSelected ? "bagADDBtn1": "disablebagADDBtn" }
                                 disabled={!isOptionSelected}
-                                style={{fontSize:"18px",cursor:"pointer",border:"none",background:"none"}}
+                                style={{fontSize:"18px",cursor:"pointer",border:"none",background:"none",color:"var(--black4)"}}
                                 // style={isOptionSelected ? { fontSize: "15px" } : { , fontSize: "15px" }}
                                 onClick={() => setShowMell(true)}
                               >
@@ -3035,7 +3042,7 @@ const addinfant = () => {
                               <button
                                 // className="bagADDBtn"
                                 className={isOptionSelected ? "bagADDBtn1": "disablebagADDBtn" }
-                                style={{fontSize:"18px",cursor:"pointer",border:"none",background:"none"}}
+                                style={{fontSize:"18px",cursor:"pointer",border:"none",background:"none",color:"var(--black4)"}}
                                 disabled={!isOptionSelected}
                                 onClick={() => setShowBaggage(true)}
                               >

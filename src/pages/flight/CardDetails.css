@@ -43,7 +43,8 @@
 
 .form-label {
 
-  color: #071C2C;
+  /* color: #071C2C; */
+  color: var(--black4);
   font-size: 12px;
   font-family: 'Montserrat';
   font-weight: 500;
