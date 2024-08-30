@@ -24,6 +24,35 @@ export const loginAction = (user) => {
   }
 };
 
+
+
+// login with social (google facebook)
+
+export const fetchLogInSocial = (user) => {
+  return {
+    type: types.LOGIN_SUCCESS_SOCIAL,
+    payload: user,
+  };
+};
+
+export const userDataSocial = (response) => {
+  return {
+    type: types.USER_DATA,
+    payload: response,
+  };
+};
+
+export const loginActionSocial = (user) => {
+  console.error("user details", user);
+  if (user) {
+    return {
+      type: types.LOGIN_REQUEST_SOCIAL,
+      payload: user,
+    };
+  }
+};
+
+
 export const logoutAction = () => {
   return {
     type: types.LOGOUT_REQUEST,

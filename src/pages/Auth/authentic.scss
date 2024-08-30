@@ -98,4 +98,69 @@
       }
     }
   }
+
+  .socialLoginBox {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    p {
+      color: var(--black4) !important;
+      font-size: 13px !important;
+      text-align: center;
+      // display: inline-block;
+      position: relative;
+      &::before {
+        position: absolute;
+        content: "";
+        width: 30px;
+        height: 1px;
+        background-color: var(--black4);
+        top: 50%; /* Aligns the lines to the middle vertically */
+        transform: translateY(-50%);
+        left: -37px;
+      }
+      &::after {
+        position: absolute;
+        content: "";
+        width: 30px;
+        height: 1px;
+        background-color: var(--black4);
+        top: 50%; /* Aligns the lines to the middle vertically */
+        transform: translateY(-50%);
+        right: -37px;
+      }
+    }
+
+    > div {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      flex-grow: 1;
+
+      .googleLogin {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid lightgray;
+        border-radius: 20px;
+        padding: 8px 12px;
+        flex: 1;
+        transition: 0.2s all;
+        cursor: pointer;
+
+        &:hover {
+          border: 1px solid var(--black4);
+        }
+      }
+    }
+  }
 }

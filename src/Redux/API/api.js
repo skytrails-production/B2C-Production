@@ -46,6 +46,19 @@ function api() {
     });
   };
 
+  const userB2CLoginWithSocial = (payload) => {
+    console.log("chal gye ")
+    return axios({
+      method: "POST",
+      url: "/skyTrails/api/user/socialLogin",
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+
 
 
 
@@ -703,6 +716,7 @@ function api() {
     userIP,
     markUp,
     userB2CLogin,
+    userB2CLoginWithSocial,
     userB2BToken,
     oneWaySearch,
     oneWaySearchCombined,

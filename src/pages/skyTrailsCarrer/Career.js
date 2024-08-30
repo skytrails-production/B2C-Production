@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Spin, Alert, List, Card, Button } from "antd";
+import { Spin, Alert, Button } from "antd";
 import { apiURL } from "../../Constants/constant";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import { FormModal } from "./FormModal";
 import "./career.css";
-import Container from "@mui/material/Container";
+// import Container from "@mui/material/Container";
 import dayjs from "dayjs";
 
 const contentStyle = {

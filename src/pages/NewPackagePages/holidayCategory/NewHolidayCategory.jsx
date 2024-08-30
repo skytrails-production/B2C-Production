@@ -28,7 +28,7 @@ const NewHolidayCategory = () => {
                     if (response.data.statusCode === 200) {
                         setPackageData(response.data.results);
                         sessionStorage.setItem("packageAvailable", JSON.stringify(response.data.results));
-                        console.log('packagelist', response);
+                        // console.log('packagelist', response);
                     } else {
                         console.log('packageError', response);
                     }

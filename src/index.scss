@@ -13,10 +13,10 @@
   --primaryHover: #bd251e;
   --primaryBlue: #071c2c;
   --black: #04152d;
-  --black2: #041226;
-  --black3: #020c1b;
+  --black2: #111111;
+  --black3: #222222;
   --black4: #333333c7;
-  --black5: #000000;
+  --black5: #444444;
   --borderDarkGray: #ddd;
   --borderLightGray: lightgray;
   --pureWhite: #fff;
@@ -26,6 +26,8 @@
   --pink: #da2f68;
   --orange: #f89e00;
   --gradient: linear-gradient(98.37deg, #f89e00 0.99%, #da2f68 100%);
+
+  --border-radius: 10px;
 }
 
 * {
@@ -116,4 +118,11 @@ body {
       }
     }
   }
+}
+
+.shaan {
+  cursor: pointer;
+  background-color: var(--primary);
+  color: var(--pureWhite);
+  border-radius: var(--border-radius);
 }

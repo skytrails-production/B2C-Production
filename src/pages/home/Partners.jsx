@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useRef } from 'react'
+// import { useNavigate } from 'react-router-dom';
 import "./partner.scss"
 
 import {
@@ -11,7 +11,7 @@ import Img from '../../LazyLoading/Img';
 const Partners = () => {
 
     const carouselContainer = useRef();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
     const navigation = (dir) => {
         const container = carouselContainer.current;

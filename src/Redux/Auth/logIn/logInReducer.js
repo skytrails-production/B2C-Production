@@ -21,6 +21,15 @@ export const logInReducer = (state = initialState, action) => {
         isLoading: false,
         isError: false,
       };
+    case types.LOGIN_SUCCESS_SOCIAL:
+      return {
+        ...state,
+        loginData: payload,
+        token: payload,
+        isLogin: true,
+        isLoading: false,
+        isError: false,
+      };
     case types.USER_DATA:
       return {
         ...state,
@@ -36,7 +45,21 @@ export const logInReducer = (state = initialState, action) => {
         isLoading: true,
         isError: false,
       };
+    case types.LOGIN_REQUEST_SOCIAL:
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
     case types.LOGIN_FAILURE:
+      return {
+        loginData: [],
+        userData: [],
+        isLogin: false,
+        isLoading: false,
+        isError: false,
+      };
+    case types.LOGIN_FAILURE_SOCIAL:
       return {
         loginData: [],
         userData: [],

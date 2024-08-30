@@ -71,7 +71,7 @@ const CarouselCategory = ({ data }) => {
                 {
                     data?.result?.docs?.map((item, index) => {
                         return (
-                            <div className="carouselItem" onClick={(e) => searchOneHoliday(item)} >
+                            <div key={index} className="carouselItem" onClick={(e) => searchOneHoliday(item)} >
                                 <div className="posterBlock">
                                     <Img src={item?.pakage_img} />
                                 </div>

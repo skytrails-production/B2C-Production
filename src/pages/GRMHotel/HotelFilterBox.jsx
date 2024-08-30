@@ -152,7 +152,7 @@ const HotelFilterBox = ({
 
 
             <div className="PackagetagFilters" >
-                <p>Themes</p>
+                <p>by star Rating</p>
                 <Checkbox
                     value="3"
                     checked={selectedCategories.includes(3)}

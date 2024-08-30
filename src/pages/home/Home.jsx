@@ -33,11 +33,11 @@ const Home = () => {
 
   const downloadRef = useRef(null);
 
-  const focusDownload = () => {
-    if (downloadRef.current) {
-      downloadRef.current.focus();
-    }
-  };
+  // const focusDownload = () => {
+  //   if (downloadRef.current) {
+  //     downloadRef.current.focus();
+  //   }
+  // };
 
   return (
     <div className="" style={{ background: "white" }}>

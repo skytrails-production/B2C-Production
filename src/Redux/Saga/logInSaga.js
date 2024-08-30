@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { LOGIN_REQUEST } from "../Auth/logIn/actionType";
+import { LOGIN_REQUEST, LOGIN_REQUEST_SOCIAL } from "../Auth/logIn/actionType";
 // import { LOGIN_REQUEST, LOGIN_SUCCESS, USER_DATA } from "../Auth/logIn/actionType";
 import userApi from "../API/api";
 import {
@@ -27,6 +27,15 @@ function* userLoginRequest(action) {
 
   }
 }
+function* userLoginRequestWithSocialLogin(action) {
+  try {
+    const user = yield call(userApi.userB2CLoginWithSocial, action.payload);
+    yield put(fetchLogIn(user));
+  } catch (error) {
+    console.log("Login Error saga", error?.response?.data)
+  }
+}
+
 
 // function* userDataRequest() {
 //   try {
@@ -41,5 +50,6 @@ function* userLoginRequest(action) {
 
 export function* loginWatcher() {
   yield takeLatest(LOGIN_REQUEST, userLoginRequest);
+  yield takeLatest(LOGIN_REQUEST_SOCIAL, userLoginRequestWithSocialLogin);
   // yield takeEvery(USER_DATA, userDataRequest);
 }

@@ -6,10 +6,10 @@ import newlogo from "../../images/logoSky.svg";
 import "./navbar.scss";
 import ContentsWrapper from "./ContentsWrapper";
 import { flightInactive, flightActive, holidayActive, holidayInactive, hotelActive, hotelInactive, busActive, busInactive, visaInactive } from "./NavbarSvgs";
-import Countrypicker from "../../layouts/Countrypicker";
+// import Countrypicker from "../../layouts/Countrypicker";
 import { FaUser } from "react-icons/fa";
 import Authentic from "../Auth/Authentic";
-import { Button, Dropdown, Space } from 'antd';
+import { Button, Dropdown } from 'antd';
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
@@ -20,7 +20,6 @@ const Navbar = () => {
     const userName = reducerState?.logIn?.loginData?.data?.result?.username;
     const navigate = useNavigate();
     const location = useLocation();
-
 
 
 
