@@ -89,17 +89,17 @@ function Cancellationpolicy({fareRule}) {
   
     
           if (currentItem) {
-            result += `<li style="list-style-type:disc; color="green">${currentItem.trim()} ${afterInrOrNotAllowed}</li>`;
+            result += `<li style="list-style-type:disc; "color:var(--black4)";"fontSize:13px"; color="green">${currentItem.trim()} ${afterInrOrNotAllowed}</li>`;
             currentItem = '';
           }
-          result += `<li style="list-style-type:disc; color:"green">${beforeTimeUnit} ${timeUnit}</li>`;
+          result += `<li style="list-style-type:disc; "color:var(--black4)"; "fontSize:13px"; color:"green">${beforeTimeUnit} ${timeUnit}</li>`;
         } else {
           currentItem += `${fullCell} `;
         }
       });
     
       if (currentItem) {
-        result += `<li style="list-style-type:disc;">${currentItem.trim()}</li>`;
+        result += `<li style="list-style-type:disc; "color:var(--black4)";"fontSize:13px">${currentItem.trim()}</li>`;
       }
     
       result += '</ul>';
@@ -132,7 +132,7 @@ function Cancellationpolicy({fareRule}) {
    
     <div my={2} className='cancelation-top'>
        <div style={{display:"flex",flexDirection:"row",gap:"12px"}} >
-       <div style={{display:"flex",alignItems:"center"}}> <MdFreeCancellation style={{color:"green"}}/> </div> <p style={{fontSize:"18px",fontWeight:"600"}}>Cancellation Fee Details</p></div>
+       <div style={{display:"flex",alignItems:"center"}}> <MdFreeCancellation style={{color:"green"}}/> </div> <p style={{fontSize:"18px",fontWeight:"600",color:"var(--black2)"}}>Cancellation Fee Details</p></div>
           
 
 
@@ -142,6 +142,7 @@ function Cancellationpolicy({fareRule}) {
  {/* <BsChevronRight style={{color:"green",fontSize:"25px"}}/> */}
     <div
       className="htmlFare"
+      style={{color:"var(--black4)",fontSize:"15px"}}
       dangerouslySetInnerHTML={{ __html: displayHtml }}
     />
  </div>

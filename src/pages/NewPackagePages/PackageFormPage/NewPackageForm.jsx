@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import Img from '../../../LazyLoading/Img';
 import { ConfigProvider, Select, Spin } from 'antd';
 import axios from 'axios';
-import newPackBanner from "../../../images/newpackageBanner.png";
+import newPackBanner from "../../../images/newpackageBanner.webp";
 import { apiURL } from '../../../Constants/constant';
 import { clearHolidayReducer } from '../../../Redux/OnePackageSearchResult/actionOneSearchPackage';
 import { clearPackageData } from '../../../Redux/SearchPackage/actionSearchPackage';

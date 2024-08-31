@@ -64,3 +64,13 @@ export function validateAge(Age) {
 export function validateGender(Gender) {
   return Gender === '1' || Gender === '2';
 }
+
+export function validatetitle(Title) {
+  const validTitles = ['Mr', 'Mrs', 'Miss'];
+  return validTitles.includes(Title);
+}
+
+export function validatetitle1(title) {
+  const validTitles1 = ['Mr', 'Mrs', 'Miss'];
+  return validTitles1.includes(title);
+}

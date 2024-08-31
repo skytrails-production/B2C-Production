@@ -112,6 +112,9 @@
     .carouselItem {
       width: 278px;
       cursor: pointer;
+      background-color: #f1f1f1;
+      border-radius: 10px;
+      padding: 7px;
 
       @include md {
         width: calc(25% - 15px);

@@ -6,7 +6,6 @@ import { motion } from "framer-motion";
 import Advertise from "../home/Advertise";
 import FLightOffer from "../flight/FLightOffer";
 import WhyChooseUs from "../../components/WhyChooseUs";
-import busimg from "../../images/aerial.png"
 import { Helmet } from "react-helmet-async";
 import Partners from "../home/Partners";
 
@@ -26,7 +25,7 @@ const Hotelhome = () => {
       </Helmet>
 
       <div className="mainimg">
-        <img className="bannerBack" src={busimg} alt="banner" />
+        <img className="bannerBack" alt="banner" />
 
         {/* <BigNavbar /> */}
         <HotelForm />

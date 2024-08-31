@@ -57,6 +57,7 @@ import {
   validatePhoneNumber,
   isValidPassportNumber,
   validateGender,
+  validatetitle,
 } from "../../utility/validationFunctions";
 import flightPaymentLoding from "../../images/loading/loading-ban.gif";
 import secureLocalStorage from "react-secure-storage";
@@ -435,7 +436,7 @@ export default function BookWrapper() {
   }, [isDisableScroll]);
 
   const passengerTemplate = {
-    Title: "Mr",
+    Title: "",
     FirstName: "",
     LastName: "",
     PaxType: 1,
@@ -812,6 +813,8 @@ export default function BookWrapper() {
     setPassengerData(list);
     // console.warn(passengerData, "passenger data");
   };
+
+  // console.log(passengerData,"passengerData");
 
   const totalMinutes = TicketDetails?.Segments[0][0]?.Duration;
   const durationHours = Math.floor(totalMinutes / 60);
@@ -1297,6 +1300,7 @@ export default function BookWrapper() {
         validateName(item.LastName) &&
         validateDate(item.DateOfBirth) &&
         validateGender(item.Gender) &&
+        validatetitle(item.Title)&&
         (isPassportRequired ? isValidPassportNumber(item.PassportNo) : true)
     );
     // console.warn("result", result);
@@ -1590,17 +1594,6 @@ const addinfant = () => {
   }
 }
 
-
-
-// const extractTableData = (html) => {
-//   const tableRegex = /<table[^>]*>[\s\S]*?<\/table>/i;
-//   const match = html.match(tableRegex);
-//   return match ? match[0] : '';
-// };
-
-// const tableHtml = fareRule ? extractTableData(fareRule[0]?.FareRuleDetail) : '';
-
-
 // console.log("TicketDetails?.Segments[0]",TicketDetails?.Segments[0])
 
   // //////////////////////////////////////////////////////////////////////////////////
@@ -1620,14 +1613,14 @@ const addinfant = () => {
                   variants={variants}
                   initial="initial"
                   whileInView="animate"
-                  className="col-lg-9 col-md-9"
+                  className="col-lg-8"
                 >
                   <motion.div className="row">
                     <motion.div variants={variants} className=" col-lg-12 ">
                       {
                         // TicketDetails?.Segments[0].length == 2 ?
 
-                        <div className="booknowFlight" style={{borderRadius:"35px"}}>
+                        <div className="booknowFlight" style={{borderRadius:"10px"}}>
                           <div className="bookaboveBox">
                             <div style={{width:"100%"}}>
                             
@@ -1810,6 +1803,17 @@ const addinfant = () => {
   let layoverMinutes = 0;
   let layoverDuration = 0;
 
+  function convertMinutes(minutes) {
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  return {
+    hours: hours,
+    minutes: mins
+  };
+}
+
+const convertedTime = convertMinutes(item?.Duration);
+
   if (nextFlight) {
     const arrivalTime = dayjs(item?.Destination?.ArrTime);
     const departureTime = dayjs(nextFlight?.Origin?.DepTime);
@@ -1817,10 +1821,16 @@ const addinfant = () => {
     layoverHours = Math.floor(layoverDuration / 60);
     layoverMinutes = layoverDuration % 60;
   }
+  const timeString = `${convertedTime.hours}h : ${convertedTime.minutes}m`;
 
   return (
+    
     <div>
-    <div key={index} className="container flightdestination mb-4">
+    <div style={{background: "rgb(247, 241, 255)",
+    borderRadius: "10px",
+    padding:" 8px"}}>
+  
+    <div key={index} className="container flightdestination mb-4" style={{paddingTop:"13px"}}>
   
       <div className="row  w-100 flight-detailss">
         <div className="col-6 col-md-5 align-items-center mb-3 mb-md-0 flightdestination-right">
@@ -1847,15 +1857,16 @@ const addinfant = () => {
             justifyContent: "center",
           }}
         >
-         <div>
-          {layoverDuration !== 0 && (
+         <div style={{fontSize:"12px"}}>
+          {/* {layoverDuration !== 0 && (
             <>
              
               <p style={{fontSize:"12px"}}>
                 {layoverHours !== 0 && `${layoverHours}h`} {layoverMinutes !== 0 && `${layoverMinutes} m`}
               </p>
             </>
-          )}
+          )} */}
+          {timeString}
           </div>
          <div className="d-flex flex-column align-items-center">
             <img src={lineimg} alt="" style={{ width: "100%" }} />
@@ -1884,10 +1895,10 @@ const addinfant = () => {
       </div>
       
       </div>
-      <div style={{backgroundColor:"#ffdeff",padding:"5px",borderRadius:"12px",fontSize:"14px"}}>
-      <p></p>
-        <p style={{color:"var(--black4)"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i> Baggage (ADULT) check-in <span>{item?.Baggage?.match(/\d+/)?.[0]}KG</span>  cabin {item?.CabinBaggage?.match(/\d+/)[0]}KG</p>
-      </div>
+      {/* <div style={{backgroundColor:"#ffdeff",padding:"9px",borderRadius:"5px",fontSize:"14px"}}> */}
+     
+        {/* <p style={{fontSize:"15px",color:"var(--black4)",fontWeight:500,fontFamily:"Montserrat"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i>  Baggage (ADULT) check-in <span>{item?.Baggage?.match(/\d+/)?.[0]}KG</span>  cabin {item?.CabinBaggage?.match(/\d+/)[0]}KG</p>
+      </div> */}
       {/* <div className="bookBottomFour">
                                     <div>
                                       <p>Baggage</p>
@@ -1907,7 +1918,43 @@ const addinfant = () => {
                                     </div>
                                   </div> */}
                                 {/* </div> */}
+                                <hr style={{opacity:"0.3"}}/>
+                                <p style={{fontSize:"15px",color:"var(--black4)",fontWeight:500,fontFamily:"Montserrat",padding:"5px"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i>  Baggage (ADULT) check-in <span>{item?.Baggage?.match(/\d+/)?.[0]}KG</span>  cabin {item?.CabinBaggage?.match(/\d+/)[0]}KG</p>
+                                </div>
+                                
+   {/* <div className="flightLayoverOuter">
+    {layoverDuration !== 0 && (
+            <>
+            <div className="flightLayover">
+              <p style={{fontSize:"12px"}}>
+              Layover Time: {layoverHours !== 0 && `${layoverHours}h`} {layoverMinutes !== 0 && `${layoverMinutes} m`}
+              </p>
+              </div>
+            </>
+          )}
+          </div> */}
+
+          {layoverDuration !== 0 && (
+                                <div className="flightLayoverOuter">
+                                  <div className="flightLayover">
+                                    {/* <p className="text-bold">
+                                        Layover Time: {layover}
+                                      </p> */}
+                                    <p className="text-bold">
+                                      Layover Time:{" "}
+                                      {layoverHours !== 0 &&
+                                        `${layoverHours} hours`}{" "}
+                                      {layoverMinutes !== 0 &&
+                                        `${layoverMinutes} minutes`}
+                                    </p>
+                                  </div>
+                                </div>
+                              )}
+                                
     </div>
+
+    
+    
   );
 })}
 
@@ -2054,7 +2101,7 @@ const addinfant = () => {
                
 
       <div onClick={addAdult} style={{ cursor: "pointer",padding:"12px",fontWeight:600 }}>
-        <p> +Add the Adult</p>
+        <p className="textcolor"> +Add the Adult</p>
       </div>
 
       
@@ -2062,7 +2109,7 @@ const addinfant = () => {
                           Array.from({ length: currentAdultCount }, (_, index) => (
                             <div className="bookFlightPassInner" key={index}>
                               <div className="bookAdultIndex" style={{display:"flex",gap:"12px"}}>
-                               <IoPersonSharp/> <p>Adult {index + 1}</p>
+                               <IoPersonSharp/> <p className="textcolor">Adult {index + 1}</p>
                               </div>
                               <div className="row g-3 mb-3">
                                 <div className="col-lg-6 col-md-6">
@@ -2075,15 +2122,22 @@ const addinfant = () => {
                                   <select
                                     className="form-select "
                                     name="Title"
+                                    value={passengerData[index].Title || ""} 
                                     onChange={(e) =>
                                       handleServiceChange(e, index)
                                     }
                                   >
+                                  <option value="">Select Title</option>
                                     <option value="Mr">Mr.</option>
                                     <option value="Mrs">Mrs.</option>
                                     <option value="Miss">Miss</option>
                                   </select>
+                                  {sub &&
+                                    !validatetitle(
+                                      passengerData[index].Title
+                                    ) && <span className="error10">Select Title</span>}
                                 </div>
+                                
                                 <div className="col-lg-6 col-md-6">
                                   <label
                                     for="exampleInputEmail1"
@@ -2267,7 +2321,7 @@ const addinfant = () => {
                         {/* child details here  */}
 
 {childCount > 0 && <div onClick={addChild} style={{ cursor: "pointer" ,padding:"12px",fontWeight:600 }}>
-        <p> +Add the Child</p>
+        <p className="textcolor"> +Add the Child</p>
       </div> }
                         
 
@@ -2275,7 +2329,7 @@ const addinfant = () => {
                           Array.from({ length: currentChildCount }, (_, index) => (
                             <div className="bookFlightPassInner" key={index}>
                               <div className="bookAdultIndex">
-                                <p>Child {index + 1}</p>
+                                <p className="textcolor">Child {index + 1}</p>
                               </div>
                               <div className="row g-3 mb-3">
                                 <div className="col-lg-6 col-md-6">
@@ -2546,13 +2600,13 @@ const addinfant = () => {
                        
                         {/* infant details here  */}
 {infantCount >0 && <div onClick={addinfant} style={{ cursor: "pointer",padding:"12px", fontWeight:600 }}>
-        <p> + Add the infant</p>
+        <p className="textcolor"> + Add the infant</p>
       </div> }
                         {currentinfantCount > 0 &&
                           Array.from({ length: currentinfantCount }, (_, index) => (
                             <div className="bookFlightPassInner" key={{index}}>
                               <div className="bookAdultIndex">
-                                <p>Infant {index + 1}</p>
+                                <p className="textcolor">Infant {index + 1}</p>
                               </div>
                               <div className="row g-3 mb-3">
                                 <div className="col-lg-6 col-md-6">
@@ -2983,9 +3037,9 @@ const addinfant = () => {
                             >
                               <div   onClick={() => { isDropdown && !skipAddOn && toggleDropdown(); skipAddOn && setSkipAddOn(false) }} style={{display:"flex",flex:1}}>
 
-                                <p style={{fontSize:"18px"}}>
+                                <p style={{fontSize:"16px",color:"grey"}}>
                                   Selecting the Ideal Plane Seat
-                                </p> <span style={{fontSize:"18px"}} className={`arrow-dropdown ${isDropdown ? "open" : ""}`}><IoIosArrowForward /></span>
+                                </p> <span style={{fontSize:"15px"}} className={`arrow-dropdown ${isDropdown ? "open" : ""}`}><IoIosArrowForward /></span>
                               </div>
                               {
                                 isDropdown && 
@@ -3027,7 +3081,7 @@ const addinfant = () => {
                               <button
                                 className={isOptionSelected ? "bagADDBtn1": "disablebagADDBtn" }
                                 disabled={!isOptionSelected}
-                                style={{fontSize:"18px",cursor:"pointer",border:"none",background:"none",color:"var(--black4)"}}
+                                style={{fontSize:"16px",cursor:"pointer",border:"none",background:"none"}}
                                 // style={isOptionSelected ? { fontSize: "15px" } : { , fontSize: "15px" }}
                                 onClick={() => setShowMell(true)}
                               >
@@ -3042,7 +3096,7 @@ const addinfant = () => {
                               <button
                                 // className="bagADDBtn"
                                 className={isOptionSelected ? "bagADDBtn1": "disablebagADDBtn" }
-                                style={{fontSize:"18px",cursor:"pointer",border:"none",background:"none",color:"var(--black4)"}}
+                                style={{fontSize:"16px",cursor:"pointer",border:"none",background:"none"}}
                                 disabled={!isOptionSelected}
                                 onClick={() => setShowBaggage(true)}
                               >
@@ -3256,7 +3310,7 @@ const addinfant = () => {
                       </div>}
                   </motion.div>
                 </motion.div>
-                <div className="d-none d-sm-block col-lg-3 col-md-3">
+                <div className="d-none d-sm-block col-lg-4 ">
                   <BookNowLeft
                     toggle={toggle}
                     toggleState={toggleState}

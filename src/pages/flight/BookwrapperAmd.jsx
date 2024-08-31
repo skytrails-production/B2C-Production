@@ -45,6 +45,7 @@ import {
   validateEmail,
   validateName,
   validateGender,
+  validatetitle1,
   validatePhoneNumber,
   isValidPassportNumber,
 } from "../../utility/validationFunctions";
@@ -1016,7 +1017,7 @@ export default function BookWrapper() {
   }, [isDisableScroll]);
 
   const passengerTemplate = {
-    title: "Mr",
+    title: "",
     firstName: "",
     lastName: "",
     gender: "",
@@ -1504,6 +1505,7 @@ export default function BookWrapper() {
 
     return data?.airlineName;
   }
+  // console.log(airports,airlines);
   function findAirportByCode(code) {
     const data = airports?.find((airport) => airport?.AirportCode === code);
 
@@ -1825,7 +1827,7 @@ export default function BookWrapper() {
       dateOfJourney: "dateOfJourney",
     };
     // console.log(payload, "saveDbbbbbbbbbbbbbbbbbbb")
-
+   
     const response = await userApi.flightBookingDB(payload);
     if (
       response?.data?.statusCode === 200 &&
@@ -1881,6 +1883,7 @@ export default function BookWrapper() {
         validateName(item?.firstName) &&
         validateName(item?.lastName) &&
         validateDate(item?.DateOfBirth) &&
+        validatetitle1(item.title)&&
         (isPassportRequired ? isValidPassportNumber(item?.passportNo) : true)
     );
     // console.warn("result", result);
@@ -1893,6 +1896,7 @@ export default function BookWrapper() {
     } else setValidation(false);
   };
 
+  
   useEffect(() => {
     validation();
   }, [passengerData]);
@@ -2083,7 +2087,7 @@ if (currentinfantCount < infantCount) {
                   variants={variants}
                   initial="initial"
                   whileInView="animate"
-                  className="col-lg-9 col-md-9"
+                  className="col-lg-8 "
                 >
                   <motion.div className="row">
                     <motion.div
@@ -2244,7 +2248,11 @@ if (currentinfantCount < infantCount) {
                                   } */}
                                 </p>
                               </div>
-                              <div className="container flightdestination mb-4">
+                              <div style={{background: "rgb(247, 241, 255",
+    borderRadius: "10px",
+    padding:"8px"}}>
+                              <div className="container flightdestination mb-4" style={{
+  paddingTop:"13px"}}>
                                 <div>
                                   <div className="row  w-100 flight-detailss">
                                     {/* <p>
@@ -2294,7 +2302,7 @@ if (currentinfantCount < infantCount) {
                                             sesstioResultIndex?.flightDetails
                                               ?.flightInformation?.location[0]
                                               ?.locationId
-                                          )?.name
+                                          )?.code
                                         }
                                         </p>
                                         {/* {", "} */}
@@ -2313,7 +2321,9 @@ if (currentinfantCount < infantCount) {
                                       {/* </p> */}
                                       </div>
                                     {/* </p> */}
-                                    <div className="col-12 col-md-2  mb-3 mb-md-0" style={{display: "flex", flexdirection: "row", alignItems:"center",justifyContent:"center"}}>
+                                    <div className="col-12 col-md-2  mb-3 mb-md-0" style={{display: "flex", flexDirection:"column", alignItems:"center",justifyContent:"center"}}>
+                                    <div style={{fontSize:"12px"}}>  {`${parseInt(sesstioResultIndex?.flightDetails?.flightInformation?.attributeDetails?.attributeDescription?.slice(0, 2), 10)}h
+                                     ${parseInt(sesstioResultIndex?.flightDetails?.flightInformation?.attributeDetails?.attributeDescription?.slice(2, 4), 10)}m`}</div>
                                    <div className="d-flex flex-column align-items-center">
                                     <img src={lineimg} alt="" style={{ width: "100%" }}/>
                                    </div>
@@ -2349,7 +2359,7 @@ if (currentinfantCount < infantCount) {
                                             sesstioResultIndex?.flightDetails
                                               ?.flightInformation?.location[1]
                                               ?.locationId
-                                          )?.name
+                                          )?.code
                                         }</p>
                                       <p> Terminal-
                                         {/* {item?.Destination?.Airport
@@ -2460,6 +2470,44 @@ if (currentinfantCount < infantCount) {
                                 </div> */}
                                 {/* </div> */}
                               </div>
+                              <hr style={{opacity:"0.3"}}/>
+                              <p style={{fontSize:"15px",color:"var(--black4)",fontWeight:500,fontFamily:"Montserrat",padding:"5px"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i> Baggage (ADULT) check-in <span> {sesstioResultIndex?.baggage
+                                        ?.freeBagAllownceInfo?.baggageDetails
+                                        ?.quantityCode === "N"
+                                        ? sesstioResultIndex?.baggage
+                                          ?.freeBagAllownceInfo
+                                          ?.baggageDetails?.freeAllowance * 23
+                                        : Number(
+                                          sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance
+                                        ) === 0
+                                          ? "No baggage"
+                                          : sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance}
+                                      {sesstioResultIndex?.baggage
+                                        ?.freeBagAllownceInfo?.baggageDetails
+                                        ?.quantityCode === "N"
+                                        ? sesstioResultIndex?.baggage
+                                          ?.freeBagAllownceInfo
+                                          ?.baggageDetails?.unitQualifier ===
+                                          "K"
+                                          ? "KG"
+                                          : "LB"
+                                        : Number(
+                                          sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance
+                                        ) !== 0 ||
+                                          sesstioResultIndex?.baggage
+                                            ?.freeBagAllownceInfo
+                                            ?.baggageDetails?.freeAllowance !==
+                                          "0"
+                                          ? "KG"
+                                          : ""}
+</span> cabin Included</p>
+                              </div>
                               {/* <div>
                                       {layoverDuration !== 0 && (
                                         <p className="text-bold">
@@ -2472,8 +2520,8 @@ if (currentinfantCount < infantCount) {
                                       )}
                                     </div> */}
                               {/* klkkk */}
-                              <div style={{backgroundColor:"#ffdeff",padding:"5px",borderRadius:"12px",fontSize:"14px"}}>
-      <p></p>
+                              {/* <div style={{backgroundColor:"#ffdeff",padding:"5px",borderRadius:"5px",fontSize:"14px"}}>
+    
         <p style={{color:"black"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i> Baggage (ADULT) check-in <span> {sesstioResultIndex?.baggage
                                         ?.freeBagAllownceInfo?.baggageDetails
                                         ?.quantityCode === "N"
@@ -2510,11 +2558,105 @@ if (currentinfantCount < infantCount) {
                                           ? "KG"
                                           : ""}
 </span> cabin Included</p>
-      </div>
+      </div> */}
                             </>
                           ) : (
                             sesstioResultIndex?.flightDetails?.map(
                               (item, index) => {
+
+                                const timeString = sesstioResultIndex?.flightDetails[index]?.flightInformation?.attributeDetails?.attributeDescription;
+const hours = timeString ? parseInt(timeString.slice(0, 2), 10) : 0;
+const minutes = timeString ? parseInt(timeString.slice(2, 4), 10) : 0;
+
+const timetravel = `${hours}h : ${minutes}m`;
+let layover;
+                              if (
+                                index <
+                                sesstioResultIndex?.flightDetails?.length - 1
+                              ) {
+                                const prevDateOfArrival =
+                                  sesstioResultIndex?.flightDetails?.[index]
+                                    ?.flightInformation?.productDateTime
+                                    ?.dateOfArrival;
+                                const nextDateOfDeparture =
+                                  sesstioResultIndex?.flightDetails?.[index + 1]
+                                    ?.flightInformation?.productDateTime
+                                    ?.dateOfDeparture;
+                                const prevTimeOfArrival =
+                                  sesstioResultIndex?.flightDetails?.[index]
+                                    ?.flightInformation?.productDateTime
+                                    ?.timeOfArrival;
+                                const nextTimeOfDeparture =
+                                  sesstioResultIndex?.flightDetails?.[index + 1]
+                                    ?.flightInformation?.productDateTime
+                                    ?.timeOfDeparture;
+
+                             
+                                function calculateLayoverTime(
+                                  prevDateOfArrival,
+                                  prevTimeOfArrival,
+                                  nextDateOfDeparture,
+                                  nextTimeOfDeparture
+                                ) {
+                                  // Parse the previous arrival datetime
+                                  const prevArrivalDateTime = new Date(
+                                    `20${prevDateOfArrival.slice(
+                                      4,
+                                      6
+                                    )}-${prevDateOfArrival.slice(
+                                      2,
+                                      4
+                                    )}-${prevDateOfArrival.slice(
+                                      0,
+                                      2
+                                    )}T${prevTimeOfArrival.slice(
+                                      0,
+                                      2
+                                    )}:${prevTimeOfArrival.slice(2, 4)}:00`
+                                  );
+
+                                  // Parse the next departure datetime
+                                  const nextDepartureDateTime = new Date(
+                                    `20${nextDateOfDeparture.slice(
+                                      4,
+                                      6
+                                    )}-${nextDateOfDeparture.slice(
+                                      2,
+                                      4
+                                    )}-${nextDateOfDeparture.slice(
+                                      0,
+                                      2
+                                    )}T${nextTimeOfDeparture.slice(
+                                      0,
+                                      2
+                                    )}:${nextTimeOfDeparture.slice(2, 4)}:00`
+                                  );
+
+                                  // Calculate the difference in milliseconds
+                                  const layoverDuration =
+                                    nextDepartureDateTime - prevArrivalDateTime;
+
+                                  // Convert the duration to total minutes
+                                  const totalMinutes = Math.floor(
+                                    layoverDuration / (1000 * 60)
+                                  );
+
+                                  // Calculate the hours and minutes from total minutes
+                                  const layoverHours = Math.floor(
+                                    totalMinutes / 60
+                                  );
+                                  const layoverMinutes = totalMinutes % 60;
+
+                                  return `${layoverHours} hours and ${layoverMinutes} minutes`;
+                                }
+                                layover = calculateLayoverTime(
+                                  prevDateOfArrival,
+                                  prevTimeOfArrival,
+                                  nextDateOfDeparture,
+                                  nextTimeOfDeparture
+                                );
+                              }
+
 
                                 return (
 
@@ -2572,7 +2714,11 @@ if (currentinfantCount < infantCount) {
                                       </p> */}
                                     </div>
                                     <div style={{display:"flex",flexDirection:"column"}}>
-                                    <div className="container flightdestination mb-4">
+                                    <div style={{background: "rgb(247, 241, 255)",
+    borderRadius: "10px",
+    padding:"8px"}}>
+                                    <div className="container flightdestination mb-4" style={{
+    padding:" 13px"}}>
                                      
                                         <div className="row  w-100">
                                         <div className="col-6 col-md-5 align-items-center mb-3 mb-md-0 flightdestination-right">
@@ -2585,13 +2731,27 @@ if (currentinfantCount < infantCount) {
                                                 )?.name
                                               }</p>
                                                <p className="flightdestination-right-para">
-                                            {convertTime(
+                                            {/* {convertTime(
                                               sesstioResultIndex?.flightDetails[
                                                 index
                                               ]?.flightInformation
                                                 ?.productDateTime?.timeOfArrival
+                                            )} */}
+                                            {convertTime(
+                                              sesstioResultIndex?.flightDetails[
+                                                index
+                                              ]?.flightInformation
+                                                ?.productDateTime
+                                                ?.timeOfDeparture
                                             )}
                                           </p>
+                                          <p className="flightdestination-right-para1"> {
+                                          findAirportByCode(
+                                            sesstioResultIndex?.flightDetails[index]
+                                              ?.flightInformation?.location[0]
+                                              ?.locationId
+                                          )?.code
+                                        }</p>
                                           <p className="flightdestination-right-para1">  Terminal-
                                               {/* {item?.Origin?.Airport?.Terminal
                                                 ? item?.Origin?.Airport
@@ -2605,7 +2765,8 @@ if (currentinfantCount < infantCount) {
                                               }</p>
 
                                         </div>
-                                        <div className="col-12 col-md-2  mb-3 mb-md-0" style={{display: "flex", flexdirection: "row", alignItems:"center",justifyContent:"center"}}>
+                                        <div className="col-12 col-md-2  mb-3 mb-md-0" style={{display: "flex", flexDirection:"column", alignItems:"center",justifyContent:"center"}}>
+                                        <div style={{fontSize:"12px"}}>{timetravel}</div>
                                    <div className="d-flex flex-column align-items-center">
                                     <img src={lineimg} alt="" style={{ width: "100%" }}/>
                                    </div>
@@ -2620,13 +2781,29 @@ if (currentinfantCount < infantCount) {
                                                 )?.name
                                               }</p>
                                              
-                                      <p className="flightdestination-right-para"> {convertTime(
+                                      <p className="flightdestination-right-para">
+                                       {/* {convertTime(
                                               sesstioResultIndex?.flightDetails[
                                                 index
                                               ]?.flightInformation
                                                 ?.productDateTime
                                                 ?.timeOfDeparture
-                                            )}</p>
+                                            )} */}
+                                            {convertTime(
+                                              sesstioResultIndex?.flightDetails[
+                                                index
+                                              ]?.flightInformation
+                                                ?.productDateTime?.timeOfArrival
+                                            )}
+                                            </p>
+                                           
+                                            <p className="flightdestination-right-para1"> {
+                                          findAirportByCode(
+                                            sesstioResultIndex?.flightDetails[index]
+                                              ?.flightInformation?.location[1]
+                                              ?.locationId
+                                          )?.code
+                                        }</p>
                                             <p className="flightdestination-right-para1">  Terminal-
                                               {/* {item?.Origin?.Airport?.Terminal
                                                 ? item?.Origin?.Airport
@@ -2669,7 +2846,34 @@ if (currentinfantCount < infantCount) {
                                               }</p> */}
                                         </div>
                                         </div>
-                                      
+                                        <hr style={{opacity:"0.3"}}/>
+                                        <p style={{fontSize:"15px",color:"var(--black4)",fontWeight:500,fontFamily:"Montserrat",padding:"5px"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i>  Baggage (ADULT) check-in <span>{sesstioResultIndex?.baggage
+                                              ?.freeBagAllownceInfo
+                                              ?.baggageDetails?.quantityCode ===
+                                              "N"
+                                              ? sesstioResultIndex?.baggage
+                                                ?.freeBagAllownceInfo
+                                                ?.baggageDetails
+                                                ?.freeAllowance * 23
+                                              : sesstioResultIndex?.baggage
+                                                ?.freeBagAllownceInfo
+                                                ?.baggageDetails
+                                                ?.freeAllowance}</span> cabin Included</p>
+                                        </div>
+
+
+                                        {index <
+                                    sesstioResultIndex?.flightDetails?.length -
+                                      1 && (
+                                    <div className="flightLayoverOuter">
+                                      <div className="flightLayover">
+                                        <p className="text-bold">
+                                          Layover Time: {layover}
+                                        </p>
+                                      </div>
+                                    </div>
+                                  )}
+                                        
                                         {/* <div>
                                         <div>
                                           <p>Baggage</p>
@@ -2874,9 +3078,9 @@ if (currentinfantCount < infantCount) {
                                    
                                       
                                     {/* klkkk */}
-                                    <div style={{backgroundColor:"#ffdeff",padding:"5px",borderRadius:"12px",fontSize:"14px"}}>
+                                    {/* <div style={{backgroundColor:"#ffdeff",padding:"9px",borderRadius:"5px",fontSize:"14px"}}>
      
-        <p style={{color:"black"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i> Baggage (ADULT) check-in <span>{sesstioResultIndex?.baggage
+        <p style={{color:"black"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i>  Baggage (ADULT) check-in <span>{sesstioResultIndex?.baggage
                                               ?.freeBagAllownceInfo
                                               ?.baggageDetails?.quantityCode ===
                                               "N"
@@ -2888,7 +3092,20 @@ if (currentinfantCount < infantCount) {
                                                 ?.freeBagAllownceInfo
                                                 ?.baggageDetails
                                                 ?.freeAllowance}</span> cabin Included</p>
-      </div>
+      </div> */}
+      {/* <div>
+                                      {layoverDuration !== 0 && (
+                                        <p className="text-bold">
+                                          Layover Time:{" "}
+                                          {layoverHours !== 0 &&
+                                            `${layoverHours} hours`}{" "}
+                                          {layoverMinutes !== 0 &&
+                                            `${layoverMinutes} minutes`}
+                                        </p>
+                                      )}
+                                    </div> */}
+
+     
                                   </>
                                   
                                 );
@@ -2949,15 +3166,21 @@ if (currentinfantCount < infantCount) {
                                   </label>
                                   <select
                                     className="form-select "
+                                    value={passengerData[index].title || ""} 
                                     name="title"
                                     onChange={(e) =>
                                       handleServiceChange(e, index)
                                     }
                                   >
+                                  <option value="">Select Title</option>
                                     <option value="Mr">Mr.</option>
                                     <option value="Mrs">Mrs.</option>
                                     <option value="Miss">Miss</option>
                                   </select>
+                                  {sub &&
+                                    !validatetitle1(
+                                      passengerData[index].title
+                                    ) && <span className="error10">Select Title</span>}
                                 </div>
                                 <div className="col-lg-6 col-md-6">
                                   <label
@@ -3656,7 +3879,7 @@ if (currentinfantCount < infantCount) {
 
                   {/* trip security  */}
 
-                  <div className="d-block mt-3 d-sm-none col-lg-3 col-md-3">
+                  <div className="d-block mt-3 d-sm-none col-lg-4 ">
                     <BookNowLeft
                       toggle={toggle}
                       toggleState={toggleState}
@@ -3808,7 +4031,7 @@ if (currentinfantCount < infantCount) {
                     {/* } */}
                 </motion.div>
               </motion.div>
-              <div className="d-none d-sm-block col-lg-3 col-md-3">
+              <div className="d-none d-sm-block col-lg-4 ">
                 {<BookNowLeftAmd onFinalAmountChange={handleFinalAmountChange} disountdata={handledisocuntChange} oncouponselect={handlecouponChange} />}
               </div>
             </div>

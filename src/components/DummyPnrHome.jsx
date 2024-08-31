@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Download from "../pages/home/Download";
 import Advertise from "../pages/home/Advertise"
 import FLightOffer from "../pages/flight/FLightOffer";
-import flightbanner from "../images/aerial.png";
+
 import WhyChooseUs from "./WhyChooseUs";
 import DummyTicketBookingForm from "./DummyTicketBookingForm"
 import { Helmet } from "react-helmet-async";
@@ -28,7 +28,7 @@ online flight booking,compare flight prices,best airfare deals,last minute fligh
 
             <div className="mainimg">
 
-                <img className="bannerBack" src={flightbanner} alt="background" />
+                <img className="bannerBack" alt="background" />
                 {/* <BigNavbar /> */}
                 <DummyTicketBookingForm />
             </div>

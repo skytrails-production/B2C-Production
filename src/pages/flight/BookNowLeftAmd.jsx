@@ -332,9 +332,30 @@ const BookNowLeftAmd = (props) => {
 
     const infantmultiplicity = infantamount*infantCount;
     // const totalTax = amdata?.monetaryDetail?.[1]?.amount    ;
-
+// console.log(ResultIndex,"ResultIndex");
 
     const multiplydata =  adultamount*adultCount;
+
+
+    const departurelocation = ResultIndex?.flightDetails
+    ?.flightInformation
+    ? ResultIndex?.flightDetails
+      ?.flightInformation?.location[0]
+      ?.locationId
+    : ResultIndex?.flightDetails[0]
+      .flightInformation?.location[0]
+      ?.locationId;
+
+      const arrivallocation =  ResultIndex?.flightDetails
+        ?.flightInformation
+        ? ResultIndex?.flightDetails
+          ?.flightInformation?.location[1]
+          ?.locationId
+        : ResultIndex?.flightDetails[
+          ResultIndex?.flightDetails.length -
+          1
+        ].flightInformation?.location[1]
+          ?.locationId
 
   return (
     <>
@@ -343,6 +364,53 @@ const BookNowLeftAmd = (props) => {
           <div className="priceSummary-new">
             <div className="headFlight-new">
               <span>Price Summary</span>
+            </div>
+
+            <div style={{display:"flex",justifyContent:"space-between",marginTop:"12px",padding:"10px"}} >
+              {/* <div><p className="departurelocation-value">{departurelocation}</p></div>
+              <div><i class="fa-solid fa-jet-fighter"></i></div>
+              <div><p className="departurelocation-value">{arrivallocation}</p></div> */}
+
+
+              <div className="checkInCheckOutBox">
+                      <div className="checkInInnerBoxOne">
+                        <div className="bookleftdetail">
+                          <p>Departure</p>
+                          <h5>
+                          {departurelocation}
+                          </h5>
+                          {/* <h2>
+                            sdd
+                          </h2> */}
+                        </div>
+
+                        <div className="bookleftdetail">
+                          <p>Arrival</p>
+                          <h5>
+                          {arrivallocation}
+                          </h5>
+                          {/* <h2>
+                          dfd
+                          </h2> */}
+                        </div>
+                      </div>
+                      <div className="checkInInnerBoxTwo">
+                        <p>
+                         {adultCount} Adult  {childCount > 0 && (
+              <>
+                {childCount} Child
+              </>
+            )} 
+            {infantCount > 0 && (
+              <> {infantCount} Infant</>)}
+                        </p>
+                        {/* <h5>
+                         Adult{" "}
+                         
+                        </h5> */}
+                      </div>
+                    </div>
+              
             </div>
             {/* {sesstioResultIndex?.flightDetails?.flightInformation ? (
               <>
@@ -470,8 +538,8 @@ const BookNowLeftAmd = (props) => {
 
             <div className="TotGstFlight-new">
             <div style={{color:"#333333",fontSize:"18px",fontWeight:"bold"}}>
-                <span>Total Price :</span>
-                <p>
+                <span className="textcolor">Total Price :</span>
+                <p className="textcolor">
                   {"₹"}
                   {/* {(
                     Number(taxvaluetotal) +
@@ -480,23 +548,23 @@ const BookNowLeftAmd = (props) => {
                   ).toFixed(2)} */}
 
                   {/* {grandtotalamount} */}
-                  {Number(finalamountvalue1)}
+                  {Number(finalamountvalue1).toFixed(0)}
                 </p>
               </div>
               <div>
               <div style={{display:"flex",gap:"1px"}}>
-                <span>Base Fare: </span>
+                <span className="textcolor1">Base Fare: </span>
                 <div style={{background:"none",border:"none",padding:"2px",cursor:"pointer",marginRight:"2px",marginTop:"-4px"}}>                <span style={{margin:"2px"}} onClick={toggleDetails} >
         {showDetails ? <FiMinusCircle/> : <FiPlusCircle/>}
       </span>
       </div>
 
       </div>
-                <p>
+                <p className="textcolor1">
                   {"₹"}
                   {
-                  Number(ResultIndex?.monetaryDetail?.[0]?.amount) -
-                  Number(ResultIndex?.monetaryDetail?.[1]?.amount)}
+                  Number(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0) -
+                  Number(ResultIndex?.monetaryDetail?.[1]?.amount).toFixed(0)}
                   {/* {
                   Number ((Number(ResultIndex?.[0]?.paxFareDetail?.totalFareAmount || ResultIndex?.paxFareDetail?.totalFareAmount) * adultCount) +
 
@@ -508,34 +576,34 @@ const BookNowLeftAmd = (props) => {
               {showDetails && (
         <div  style={{width:"100%",display:"flex",flexDirection:"column"}} >
           <div style={{ borderBottom: "none",width:"100%",display:"flex",justifyContent:"space-between" }}>
-            <p>
+            <p className="textcolor1">
               Adult(s) ({adultCount} × {adultamount})
             </p>
-            <p>{"₹"} {multiplydata} </p>
+            <p className="textcolor1">{"₹"}{multiplydata} </p>
           </div>
           <div style={{ borderBottom: "none" ,width:"100%",display:"flex",justifyContent:"space-between"}}>
             {childCount > 0 && (
               <>
-                <p>Child(s) ({childCount} × {chilsamount})</p>
-                <p>{"₹"} {childmultiply}</p>
+                <p className="textcolor1">Child(s) ({childCount} × {chilsamount})</p>
+                <p className="textcolor1">{"₹"}{childmultiply}</p>
               </>
             )}
           </div>
           <div style={{ borderBottom: "none" ,width:"100%",display:"flex",justifyContent:"space-between"}}>
             {infantCount > 0 && (
               <>
-                <p>Infant(s) ({infantCount} × {infantamount})</p>
-                <p>{"₹"} {infantmultiplicity}</p>
+                <p className="textcolor1">Infant(s) ({infantCount} × {infantamount})</p>
+                <p className="textcolor1">{"₹"}{infantmultiplicity}</p>
               </>
             )}
           </div>
         </div>
       )}
               <div>
-                <span>Surcharges: </span>
-                <p>
+                <span className="textcolor1">Surcharges: </span>
+                <p className="textcolor1">
                   {"₹"}
-                  { Number(ResultIndex?.monetaryDetail?.[1]?.amount).toFixed(0)}
+                  {Number(ResultIndex?.monetaryDetail?.[1]?.amount).toFixed(0)}
                 </p>
               </div>
              
@@ -550,8 +618,7 @@ const BookNowLeftAmd = (props) => {
       <div>
         <span>Discount Amount:</span>
         <p style={{color:"#44B50C"}}>
-          {"₹"}
-          {Number(discountAmount).toFixed(2)}
+          -{"₹"}{Number(discountAmount).toFixed(2)}
         </p>
       </div>
     )}

@@ -214,9 +214,10 @@ p {
 .priceSummary-new{
     /* .priceSummary { */
         border-radius: 8px;
-        /* border: 1px solid #5C85A4; */
+
+        border: 1px solid #d3d3d3;
         background: #FFF;
-        box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+        /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px; */
         padding: 16px;
     /* } */
 }
@@ -297,3 +298,107 @@ p {
 }
 
 
+.departurelocation-value{
+    color: var(--black2) !important;
+    font-family: Montserrat;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 0 !important;
+}
+
+
+.checkInCheckOutBox {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid lightgray;
+    border-radius: 8px;
+
+    .checkInInnerBoxOne {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+
+      > div {
+        width: 100%;
+        padding: 10px;
+        border-bottom: 1px solid lightgray;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        &:nth-child(1) {
+          border-right: 1px solid lightgray;
+        }
+      }
+
+      p {
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 0 !important;
+        color: var(--black4) !important;
+        font-family: "Montserrat";
+      }
+      h5 {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 0 !important;
+        color: var(--black2) !important;
+        font-family: "Montserrat";
+      }
+      h2 {
+        font-size: 13px;
+        font-weight: 500;
+        margin-bottom: 0 !important;
+        color: var(--black4) !important;
+        font-family: "Montserrat";
+      }
+    }
+    .checkInInnerBoxTwo {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+
+        p {
+          font-size: 14px;
+          font-weight: 600;
+          margin-bottom: 0 !important;
+          color: var(--black4) !important;
+          font-family: "Montserrat";
+        }
+        h5 {
+          font-size: 14px;
+          font-weight: 600;
+          margin-bottom: 0 !important;
+          color: var(--black4) !important;
+          font-family: "Montserrat";
+        }
+      }
+}
+
+.bookleftdetail{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.textcolor{
+font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 0 !important;
+            color: var(--black2) !important;
+            font-family: "Montserrat";
+}
+
+.textcolor1{
+font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 0 !important;
+            color: var(--black4) !important;
+            font-family: "Montserrat";
+}

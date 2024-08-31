@@ -2,13 +2,11 @@ import Download from "../home/Download";
 import React from "react";
 import { motion } from "framer-motion";
 import Advertise from "../home/Advertise";
-import flightbanner from "../../images/aerial.png";
-import hotelBanner from "../../images/hotelBanner.jpg"
+import hotelBanner from "../../images/hotelBanner.webp"
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
 import Partners from "../home/Partners";
 import GrmHotelForm from "./GrmHotelForm";
-import SwipeToSlide from "../../components/Card";
 import Blog from "../home/Blog";
 import GrnHomeStaticHotel from "./GrnHomeStaticHotel";
 import NewHolidayCategory from "../NewPackagePages/holidayCategory/NewHolidayCategory";
@@ -30,13 +28,6 @@ const GrmHotelHome = () => {
                 <meta name="description" content="hotel" />
                 <meta name="keywords" content="hotel,romantic getaways,family-hotels,luxury hotels,budget-friendly accommodations,pet-friendly hotels ,book hotels online,hotel deals,best hotel offers,last minute hotel booking,compare hotel prices " />
             </Helmet>
-
-            {/* <div className="mainimg">
-                <img className="bannerBack" src={flightbanner} alt="background" />
-                <div className="homeabsnew container">
-                    <GrmHotelForm />
-                    </div>
-                    </div> */}
 
             <div className='heroBannerFlight'>
                 <div className="backdrop-img">

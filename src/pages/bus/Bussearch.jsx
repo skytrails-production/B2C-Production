@@ -5,32 +5,17 @@ import {
   clearBusSearchReducer,
 } from "../../Redux/busSearch/busSearchAction";
 import { apiURL } from "../../Constants/constant";
-import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
 import "./bus.css";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-// import Swal from "sweetalert2";
-import Loadingbus from "./Busloading/Loadingbus";
 import SecureStorage from "react-secure-storage";
-import { CiSearch } from "react-icons/ci";
 import { swalModal } from "../../utility/swal";
 
 const Homeform = (props) => {
-  // const [value, setValue] = React.useState("1");
-  // const [placeholderFrom, setPlaceholderFrom] = useState("from");
-  // const [labelFrom, setLabelFrom] = useState("From");
-  // // const [startDate, setStartDate] = useState(null);
-  // const [placeholderTo, setPlaceholderTo] = useState("To");
-  // const [labelTo, setLabelTo] = useState("To");
 
-  // const [display, setDisplay] = useState("");
-  // const [isLoadingFrom, setIsLoadingFrom] = useState(false);
-  // const [isLoadingTo, setIsLoadingTo] = useState(false);
-
-  // Copied state end
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -604,9 +589,8 @@ const Homeform = (props) => {
                                   setdisplayFrom(false);
                                   setSelectedFromLast(result1);
                                 }}
-                                className={`${
-                                  index === cityIndex1 ? "hoverCity" : ""
-                                }`}
+                                className={`${index === cityIndex1 ? "hoverCity" : ""
+                                  }`}
                               >
                                 <div className="onewayResultFirst">
                                   <div className="resultOriginName">
@@ -727,9 +711,8 @@ const Homeform = (props) => {
                                 setdisplayTo(false);
                                 setSelectedToLast(result);
                               }}
-                              className={`${
-                                index === cityIndex ? "hoverCity" : ""
-                              }`}
+                              className={`${index === cityIndex ? "hoverCity" : ""
+                                }`}
                               key={result._id}
                             >
                               <div className="onewayResultFirst">
