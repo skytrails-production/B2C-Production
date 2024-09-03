@@ -3,7 +3,8 @@ import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
 import Home from "./pages/home/Home";
 import BookWrapper from "./pages/flight/Bookwrapper";
 import BookWrapperAmd from "./pages/flight/BookwrapperAmd";
-import Searchresult from "./pages/flight/Searchresult";
+// import Searchresult from "./pages/flight/Searchresult";
+import Searchresult from "./pages/flight/flightResult/FlightMain";
 import "./App.css";
 import './index.scss'
 import LoginForm from "./components/Login";

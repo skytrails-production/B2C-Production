@@ -29,7 +29,7 @@ import fromTo from "../../images/fromTo.png";
 import { FaArrowRight } from "react-icons/fa";
 import { useAnimation } from "framer-motion";
 import FlightProgressBar from "./FlightProgressBar";
-import NoResult  from "../../components/NoFlightResult"
+import NoResult from "../../components/NoFlightResult";
 // import { useInView } from 'react-intersection-observer';
 const variants = {
   initial: {
@@ -53,8 +53,6 @@ const variants = {
     },
   },
 };
-
-
 
 function NewItems({
   results,
@@ -112,15 +110,11 @@ function NewItems({
 
   {
     results?.result?.map((item, index) => {
-  
-
       const arrival = moment(
         item?.Segments?.[0]?.[item?.Segments?.[0]?.length - 1]?.Destination
           ?.ArrTime,
         "HHmm"
       ).format("hh:mm");
-
-    
     });
   }
 
@@ -135,7 +129,7 @@ function NewItems({
   const minPrice = results?.result?.reduce((min, item) => {
     const priceFromPublishedFare =
       item?.Fare?.PublishedFare || item?.monetaryDetail?.[0]?.amount || 0;
-  
+
     const currentMin = Math.min(min, priceFromPublishedFare);
 
     return currentMin;
@@ -146,9 +140,6 @@ function NewItems({
   const handlePriceRangeChange = (event) => {
     setPriceRangeValue(event.target.value);
   };
-  
-
-
 
   function getDifferenceInHoursTVO(startTime, endTime) {
     const start = new Date(startTime);
@@ -226,7 +217,6 @@ function NewItems({
   const maxFormattedTime = convertMinutesToHoursAndMinutes(maxtime);
   const minFormattedTime = convertMinutesToHoursAndMinutes(mintime);
 
-
   const [timeduration, setTimeduration] = useState("0hr 00min");
 
   // console.log("timeduration", timeduration);
@@ -246,7 +236,7 @@ function NewItems({
   };
 
   const controls = useAnimation();
- 
+
   useEffect(() => {
     setPriceRangeValue(maxPrice + 5001);
   }, [maxPrice]);
@@ -292,7 +282,6 @@ function NewItems({
         ? getDifferenceInHoursTVO(tvoDepTime, tvoArrTime)
         : convertToHoursAMD(item?.propFlightGrDetail?.flightProposal[1]?.ref);
 
-    
       let segmentLength = 0;
 
       if (item?.flightDetails) {
@@ -441,7 +430,6 @@ function NewItems({
     return `${hours}hr${minutes}min`;
   }
 
- 
   const handleIndexId = (ResultIndex) => {
     if (ResultIndex?.AirlineCode) {
       navigate(
@@ -454,7 +442,6 @@ function NewItems({
         { state: { ResultIndex } }
       );
     }
-   
   };
   function convertTime(timeString) {
     // Extract hours and minutes from the time string
@@ -587,7 +574,6 @@ function NewItems({
 
     return ` ${hours} h ${remainingMinutes} m`;
   }
- 
 
   const [filterdatalength, setFilterDatalength] = useState(1);
   useEffect(() => {
@@ -639,7 +625,6 @@ function NewItems({
   // }, []);
   const [resultsAvailable, setResultsAvailable] = useState(false);
 
-  
   useEffect(() => {
     if (!loader) {
       const timer = setTimeout(() => {
@@ -653,7 +638,6 @@ function NewItems({
       setResultsAvailable(false);
     }
   }, [loader]);
- 
 
   return (
     <>
@@ -665,11 +649,16 @@ function NewItems({
           style={{ margin: "40px", gap: "14px" }}
         >
           <div className="col col-lg-3">
-            {!loader && filteredDatanew  && !reducerState?.oneWay?.isLoadingFilter ? (
+            {!loader &&
+            filteredDatanew &&
+            !reducerState?.oneWay?.isLoadingFilter ? (
               <div className="container filterpart-1">
                 <div className="filter-new-data">
-                  <div onClick={() => setIsFilterOpen((pre) => !pre)} className="filter-name">
-                    <div >
+                  <div
+                    onClick={() => setIsFilterOpen((pre) => !pre)}
+                    className="filter-name"
+                  >
+                    <div>
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -1194,7 +1183,9 @@ function NewItems({
             {!loader && filteredDatanew ? (
               filterdatalength > 0 ? (
                 filteredDatanew.map((item, index) => {
-                  {/* console.log(item, "vitem"); */}
+                  {
+                    /* console.log(item, "vitem"); */
+                  }
                   const nextFlight = item?.Segments?.[0];
                   let layoverHours = 0;
                   let layoverMinutes = 0;
@@ -1251,7 +1242,6 @@ function NewItems({
                         >
                           <p className="flight-name-new">
                             {item?.Segments?.[0]?.[0]?.Airline?.AirlineName ||
-                          
                               findAirlineByCode(
                                 item?.flightDetails?.flightInformation
                                   ?.companyId?.marketingCarrier ||
@@ -1301,7 +1291,6 @@ function NewItems({
                             ).format("DD MMM, YY")}
                           </p>
                           <p className="flight-date-new text-center">
-                            
                             <p className="flight-date-new text-center">
                               {item?.Segments
                                 ? moment(
@@ -1324,7 +1313,6 @@ function NewItems({
                             {item?.Segments &&
                               item?.Segments[0] &&
                               `${layoverHours}h ${layoverMinutes}m`}
-
 
                             {item?.propFlightGrDetail &&
                               convertTimeToHoursAndMinutesFlight(
@@ -1402,7 +1390,6 @@ function NewItems({
                                       .timeOfArrival,
                                   "HHmm"
                                 ).format("hh:mm A")}
-                            
                           </p>
                         </div>
                       </div>
@@ -1856,14 +1843,10 @@ function NewItems({
                                 </div>
                                 <div>
                                   <p>Cabin</p>
-                                  <span>
-                                   
-                                    7 KG
-                                  </span>
+                                  <span>7 KG</span>
                                 </div>
                               </div>
                             </div>
-                           
                           </div>
                         ) : (
                           sesstioResultIndex?.flightDetails?.map(
@@ -1890,7 +1873,6 @@ function NewItems({
                                     ?.flightInformation?.productDateTime
                                     ?.timeOfDeparture;
 
-                             
                                 function calculateLayoverTime(
                                   prevDateOfArrival,
                                   prevTimeOfArrival,
@@ -1956,7 +1938,6 @@ function NewItems({
                                 );
                               }
 
-                             
                               return (
                                 // <>hii</>
                                 <div className="searchResModalBodyMapItem">
@@ -2068,7 +2049,6 @@ function NewItems({
                                               )}
                                               {", "}
                                               Terminal-
-                                            
                                               {
                                                 sesstioResultIndex
                                                   ?.flightDetails[index]
@@ -2087,7 +2067,6 @@ function NewItems({
                                         <div>
                                           <p>Check-in</p>
                                           <span>
-                                          
                                             {sesstioResultIndex?.baggage
                                               ?.freeBagAllownceInfo
                                               ?.baggageDetails?.quantityCode ===
@@ -2138,10 +2117,7 @@ function NewItems({
                                         </div>
                                         <div>
                                           <p>Cabin</p>
-                                          <span>
-                                          
-                                            7 KG
-                                          </span>
+                                          <span>7 KG</span>
                                         </div>
                                       </div>
                                     </div>
@@ -2186,10 +2162,9 @@ function NewItems({
                             }
                           </div>
                         </div>
-                        
+
                         <div className="bookaboveBox">
                           <div>
-                           
                             <div className="aboveSpan">
                               <span className="aboveSOne">
                                 {dayjs(
@@ -2238,7 +2213,6 @@ function NewItems({
                                 ?.flightInformation?.productDateTime
                                 ?.timeOfDeparture;
 
-                          
                             function calculateLayoverTime(
                               prevDateOfArrival,
                               prevTimeOfArrival,
@@ -2441,8 +2415,12 @@ function NewItems({
                     <div>
                       <div style={{ fontSize: "24px", fontWeight: "700" }}>
                         ₹
-                       {(Number(sesstioResultIndex?.monetaryDetail?.[0]?.amount) -
-                        Number(sesstioResultIndex?.monetaryDetail?.[1]?.amount)) || sesstioResultIndex?.Fare?.BaseFare}
+                        {Number(
+                          sesstioResultIndex?.monetaryDetail?.[0]?.amount
+                        ) -
+                          Number(
+                            sesstioResultIndex?.monetaryDetail?.[1]?.amount
+                          ) || sesstioResultIndex?.Fare?.BaseFare}
                       </div>
                       <div style={{ fontSize: "12px", fontWeight: "400" }}>
                         FOR 1 ADULT
@@ -2510,7 +2488,6 @@ export default function BasicGrid() {
     setItemOffset(newOffset);
   };
 
-
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [newResults, setNewResult] = useState([]);
 
@@ -2570,11 +2547,8 @@ export default function BasicGrid() {
     });
   };
 
-
-
   return (
     <>
-      
       <NewItems
         results={newResultsCombined}
         currentItems={currentItems}
@@ -2582,7 +2556,6 @@ export default function BasicGrid() {
         handelClearOne={handelClearOne}
         handleRadioChange={handleRadioChange}
       />
-    
     </>
   );
 }

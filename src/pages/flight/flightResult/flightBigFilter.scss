@@ -1,0 +1,45 @@
+@import "../../../mixins.scss";
+
+.flightFilterMainBox {
+    background-color: white;
+    padding: 15px;
+    position: sticky;
+    border-radius: 10px;
+    top: 10px;
+    //   overflow: hidden;
+    border: 1px solid lightgray;
+    overflow-y: scroll;
+    position: -webkit-sticky;
+    max-height: 100vh;
+    display: none ;
+    @include md{
+      display: block;
+    }
+  
+ 
+  
+   
+  }
+  .flight-filter-aireline{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    p{
+      color: #071c2c;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .flight-filter-aireline-item{
+      display: flex;
+      gap: 5px;
+      // align-items: center;
+      flex-direction: column;
+      p{
+        color: #071c2c;
+      font-size: 13px;
+      font-weight: 500;
+      }
+      
+      
+    }
+  }

@@ -1,0 +1,11 @@
+@import "../../mixins.scss";
+
+.isShowOneway2{
+    .isShowOneway2-1{
+        display: none;
+        @include md{
+            display: flex;
+        }
+    }
+    
+}

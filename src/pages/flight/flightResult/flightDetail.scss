@@ -1,0 +1,169 @@
+@import "../../../mixins.scss";
+.flightDetail-cnt {
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: none;
+  color: var(--black4);
+
+  background-color: #fff;
+  @include md {
+    gap: 16px;
+    border: 1px solid #d1d5db;
+    padding: 12px 16px;
+    border-radius: 8px;
+  }
+  .flightDetail-box-1 {
+    display: flex;
+    gap: 10px;
+    .flightDetail-img {
+      img {
+        height: 15px;
+        width: 15px;
+      }
+    }
+    .flight-details-right {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+      width: 100%;
+      justify-content: space-between;
+      @include md {
+        flex-direction: row;
+        // width: unset;
+      }
+      .flight-details-right-img {
+        display: none;
+        @include md {
+          height: 100%;
+          width: 70px;
+          display: block;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        }
+        .roundSpan{
+          width: 23px;
+          height: 33px;
+          border: 1px solid #d1d5db;
+          border-radius: 100%
+
+        };
+        .dottedSpan{
+          height: 100%;
+          border: 1px dashed #d1d5db;
+        }
+      }
+      .flight-details-right-inner {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 5px;
+        width: 100%;
+        
+        .flight-details-right-inne-1 {
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
+          white-space: nowrap;
+
+          span {
+            font-size: 12px;
+            overflow: hidden; /* Hides any overflowing content */
+            text-overflow: ellipsis;
+            white-space: break-spaces;
+            width: 90%;
+
+            @include md {
+              font-size: 14px;
+              width: 100%;
+            }
+          }
+          p {
+            font-size: 12px;
+            font-weight: 600;
+            font-size: 12px;
+            font-weight: 600;
+            width: 80%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            @include md {
+              font-size: 14px;
+              width: 100%;
+            }
+          }
+        }
+        .flight-details-right-inne-2 {
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
+          flex: 1;
+          
+          span {
+            font-size: 14px;
+          }
+          p {
+            font-size: 14px;
+            font-weight: 600;
+          }
+        }
+      }
+      .flight-details-right-inner-border {
+        border: none;
+        @include md{
+
+          border-right: 1px solid #d1d5db;
+        }
+    }
+    }
+
+
+    .air-img {
+      width: 30px;
+      height: 30px;
+      @include md {
+        width: 40px;
+        height: 40px;
+      }
+      img {
+        width: 100%;
+        height: 30px;
+        object-fit: contain;
+        @include md {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
+  }
+  .book-now {
+    flex: 1;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    button {
+      width: 100px;
+      border: none;
+      background-color: #e73c34;
+      height: 35px;
+      border-radius: 8px;
+      color: #fff;
+      padding: 4px 0px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      @include md {
+        width: 120px;
+      height: 35px;
+      border-radius: 16px;
+      color: #fff;
+      padding: 4px 0px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      }
+    }
+  }
+}

@@ -14,6 +14,9 @@ const HoliResFilterSmall = () => {
                 <Skeleton.Button active={false} size={'small'} shape={'round'} />
                 <Skeleton.Button active={false} size={'small'} shape={'round'} />
                 <Skeleton.Button active={false} size={'small'} shape={'round'} />
+                <Skeleton.Button active={false} size={'small'} shape={'round'} />
+                <Skeleton.Button active={false} size={'small'} shape={'round'} />
+                <Skeleton.Button active={false} size={'small'} shape={'round'} />
 
             </Space>
         </div>

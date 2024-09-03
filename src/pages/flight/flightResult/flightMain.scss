@@ -1,0 +1,10 @@
+@import "../../../mixins.scss";
+
+.flightMainOneWayDiv{
+    
+background-color: #fff;
+display: none;
+@include md{
+    margin-top: 40px;
+}
+}

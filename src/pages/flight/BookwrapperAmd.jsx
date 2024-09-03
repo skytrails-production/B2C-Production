@@ -1379,6 +1379,7 @@ export default function BookWrapper() {
     }
     list[i][name] = value;
     setPassengerData(list);
+    console.log("Passengerdatabookwraper",passengerData)
   };
 
   const authenticUser = reducerState?.logIn?.loginData?.status;
@@ -2563,6 +2564,7 @@ if (currentinfantCount < infantCount) {
                           ) : (
                             sesstioResultIndex?.flightDetails?.map(
                               (item, index) => {
+                                console.log(item,"itemmmmmmm")
 
                                 const timeString = sesstioResultIndex?.flightDetails[index]?.flightInformation?.attributeDetails?.attributeDescription;
 const hours = timeString ? parseInt(timeString.slice(0, 2), 10) : 0;
@@ -3810,7 +3812,7 @@ let layover;
                       </div>
                     </motion.div>
                    
-                   {/* {!isDropdown && 
+                    {!isDropdown && 
                       < div ref={dropdownRef}  className="col-lg-12 mt-3">
                     {V_aliation ? (
                       <button
@@ -3833,9 +3835,9 @@ let layover;
                         Continue
                       </button>
                     )}
-                  </div>} */}
+                  </div>} 
 
-                  {/* <motion.div ref={dropdownRef} variants={variants} className="col-lg-12 mt-3">
+                   <motion.div ref={dropdownRef} variants={variants} className="col-lg-12 mt-3">
                     <div className={`bookflightPassenger ${isDropdown?"": "cnt-dis"}`}>
 
                       <>
@@ -3864,13 +3866,13 @@ let layover;
                           </div>
                           {
                             
-                            <AirSeatMap isDropdown={isDropdown} state={ResultIndex} />}
+                            <AirSeatMap isDropdown={isDropdown} state={ResultIndex} passengerData={passengerData} />}
                         </div>
 
 
                       </>
                     </div>
-                  </motion.div> */}
+                  </motion.div> 
 
                   {/* trip security  */}
                   {/* <motion.div variants={variants} className="col-lg-12">

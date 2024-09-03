@@ -18,6 +18,7 @@ import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./card.css";
 // import { Helmet } from "react-helmet-async";
 import "./flight.css";
+import "./style/oneway2.scss";
 import TravelerCounter from "./TravelerCounter";
 import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
 // import SecureStorage from "react-secure-storage";
@@ -548,6 +549,7 @@ function OnewayNew() {
     <>
       {/* <div className=" homeabsnew1" style={{ width: "100%" }}>
         <section className="HotelAbsDesignInner w-100"> */}
+
       <div className=" container" >
         <div className="row g-2 newOneWayMainOneway2">
           <div className="col-lg-3">
@@ -848,6 +850,9 @@ function OnewayNew() {
             </Button> */}
             <Button className="Oneway2Search" onClick={handleOnewaySubmit} loading={loader} type="primary" icon={<SearchOutlined />} />
           </div>
+        </div>
+        <div className="sShowOneway2-2">
+
         </div>
 
 

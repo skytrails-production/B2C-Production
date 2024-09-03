@@ -3,6 +3,7 @@ import { Checkbox, Input, Slider } from "antd";
 import debounce from "lodash/debounce";
 import starsvg from "./../../images/star.svg";
 import starBlank from "./../../images/starBlank.svg";
+import  "../flight/popularfilter.css"
 
 const HotelFilterBox = ({
     uniqueFacilities,

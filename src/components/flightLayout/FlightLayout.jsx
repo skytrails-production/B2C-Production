@@ -15,6 +15,7 @@ import { useLocation } from 'react-router-dom';
 import planeHead from "./plane option 2.svg"
 import planeTail from "./tale part 1-01 (2).svg"
 import planeTail1 from "./tale part 2-01.svg"
+import AirSeatMap from '../AirSeatMap/AirSeatMap';
 
 
 const rowCharacteristic = {
@@ -144,6 +145,7 @@ const Seat = ({ className, children, res, seat, rowNumber, planeNo, seatAmountli
     const dispatch = useDispatch()
 
     const airlineSeatMap = useSelector((state) => state?.airlineSeatMap);
+    console.log(airlineSeatMap,"seatMapppppppp")
     const [SEATES, setSEATS] = useState(airlineSeatMap?.seatList)
     const findSeat = (seatToFind) => {
         return seatAmountlist.find(obj => obj.seat.some(seat => seat === seatToFind));
@@ -697,6 +699,7 @@ const Plane = ({ data, planeNo }) => {
 
 
 function FlightLayout({ data }) {
+    console.log(data,"dataaaaaaaaa")
     const dispatch = useDispatch();
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
@@ -715,6 +718,7 @@ function FlightLayout({ data }) {
               
                 return item?.Air_RetrieveSeatMapReply?.seatmapInformation?.cabin?.compartmentDetails?.defaultSeatOccupation || item?.Air_RetrieveSeatMapReply?.seatmapInformation?.cabin?.[0]?.compartmentDetails?.defaultSeatOccupation
             })
+            console.log(defaultSeatOccupation,"defaultSeatOccupation")
    
             dispatch(setDefaultSeatOccupation(defaultSeatOccupation))
 
