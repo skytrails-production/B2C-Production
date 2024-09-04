@@ -11,6 +11,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Select } from "antd";
 import { DatePicker } from "antd";
 import { useMediaQuery } from 'react-responsive';
+import { SearchOutlined } from '@ant-design/icons';
 import dayjs from "dayjs";
 import CustomCalenderSingle from "../../pages/GRMHotel/CustomCalenderSingle";
 import { busSearchAction, clearBusSearchReducer } from "../../Redux/busSearch/busSearchAction";
@@ -19,13 +20,13 @@ import { busSearchAction, clearBusSearchReducer } from "../../Redux/busSearch/bu
 
 let FromTimeout;
 let FromCurrentValue;
+// const initialSelectedFromData = {
+//     CityId: "7485",
+//     CityName: "Hyderabad",
+//     __v: 0,
+//     _id: "657fe0fc49ee28a4a5881810",
+// };
 
-const initialSelectedFromData = {
-    CityId: "7485",
-    CityName: "Hyderabad",
-    __v: 0,
-    _id: "657fe0fc49ee28a4a5881810",
-};
 const fetchFromCity = (value, callback) => {
     if (FromTimeout) {
         clearTimeout(FromTimeout);
@@ -60,8 +61,19 @@ const fetchFromCity = (value, callback) => {
 };
 
 const FromSearchInput = (props) => {
-    const { onItemSelect } = props;
+
     const { data } = props;
+
+    let value2 = JSON.parse(sessionStorage.getItem("busOnewayData"));
+
+    const initialSelectedFromData = {
+        CityId: value2?.[0]?.CityId,
+        CityName: value2?.[0]?.CityName,
+
+    };
+
+    console.log(value2, "value 2")
+    const { onItemSelect } = props;
 
     useEffect(() => {
         setFromDisplayValue(data.CityName);
@@ -158,12 +170,12 @@ const FromSearchInput = (props) => {
 let ToTimeout;
 let ToCurrentValue;
 
-const initialSelectedToData = {
-    CityId: "6395",
-    CityName: "Bangalore",
-    __v: 0,
-    _id: "657fe0fc49ee28a4a588060a",
-};
+// const initialSelectedToData = {
+//     CityId: "6395",
+//     CityName: "Bangalore",
+//     __v: 0,
+//     _id: "657fe0fc49ee28a4a588060a",
+// };
 
 const fetchToCity = (value, callback) => {
     if (ToTimeout) {
@@ -201,6 +213,14 @@ const fetchToCity = (value, callback) => {
 const ToSearchInput = (props) => {
     const { onItemSelect } = props;
     const { data } = props
+
+    let value2 = JSON.parse(sessionStorage.getItem("busOnewayData"));
+
+    const initialSelectedToData = {
+        CityId: value2?.[1]?.CityId,
+        CityName: value2?.[1]?.CityName,
+
+    };
 
     useEffect(() => {
         setToDisplayValue(data.CityName);
@@ -291,7 +311,24 @@ const ToSearchInput = (props) => {
 
 // to data logic
 
-function BusForm() {
+function BusFormInner() {
+
+
+    let value2 = JSON.parse(sessionStorage.getItem("busOnewayData"));
+
+
+    const initialSelectedFromData = {
+        CityId: value2?.[0]?.CityId,
+        CityName: value2?.[0]?.CityName,
+
+    };
+
+    const initialSelectedToData = {
+        CityId: value2?.[1]?.CityId,
+        CityName: value2?.[1]?.CityName,
+
+    };
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const reducerState = useSelector((state) => state);
@@ -302,9 +339,9 @@ function BusForm() {
 
     const isMobile = useMediaQuery({ maxWidth: 767 });
 
-    useEffect(() => {
-        dispatch(clearBusSearchReducer());
-    }, []);
+    // useEffect(() => {
+    //     dispatch(clearBusSearchReducer());
+    // }, []);
 
 
     const handleFromSelect = (item) => {
@@ -316,7 +353,8 @@ function BusForm() {
 
     const dateFormat = "DD MMM, YY";
     const today = dayjs().format(dateFormat);
-    const [newDepartDate, setNewDepartDate] = useState(today);
+    const initialDepartDate = value2?.[2]
+    const [newDepartDate, setNewDepartDate] = useState(initialDepartDate);
     const [modalVisible, setModalVisible] = useState(false);
     const [newDepartDateCld, setNewDepartDateCld] = useState("");
 
@@ -357,9 +395,6 @@ function BusForm() {
 
 
     // ////////////////////submit logic///////////////
-
-
-    console.log(selectedFrom, "selected from")
 
     function handleOnewaySubmit(event) {
         sessionStorage.setItem("SessionExpireTime", new Date());
@@ -411,8 +446,8 @@ function BusForm() {
 
     return (
         <>
-            <div className="container transParentBG" style={{ paddingBottom: "57px" }}>
-                <div className="row g-2 newOneWayMain">
+            <div className="container transParentBG" style={{ paddingBottom: "57px", paddingTop: "13px" }}>
+                <div className="row g-2 newBusFormInner">
                     <div className="col-lg-4">
                         <div className="newBusSingle">
                             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#333" data-name="Layer 1" id="fi_16443511" viewBox="0 0 128 128"><title></title><path d="M111,40a9,9,0,1,0-9,9A9.01353,9.01353,0,0,0,111,40Z"></path><path d="M85.99988,57.62231v1.02563c1.3197.61261,2.65515,1.18036,4,1.71759V57.62231c0-3.09851,3.12207-5.61945,6.96-5.61945h.048a13.037,13.037,0,0,1-4.51056-3.15778C88.67419,50.34863,85.99988,53.71375,85.99988,57.62231Z"></path><path d="M117.99988,65.98431v-8.362c0-3.90857-2.67426-7.27362-6.49744-8.77722a13.03641,13.03641,0,0,1-4.51056,3.15778h.048c3.83789,0,6.96,2.52094,6.96,5.61945v8.19843C115.33209,65.90778,116.66565,65.96686,117.99988,65.98431Z"></path><path d="M22.00165,44.50006A8.49951,8.49951,0,1,0,30.50116,36,8.50962,8.50962,0,0,0,22.00165,44.50006Z"></path><path d="M126,94H112v6h14a2.00587,2.00587,0,0,1,2,2V92.03A2.00627,2.00627,0,0,1,126,94Z"></path><path d="M126,0H67.84A11.87514,11.87514,0,0,0,56,11.89V16H47.41A3.1747,3.1747,0,0,0,44,18.95V22H42a2.00587,2.00587,0,0,0-2,2V36a1.99947,1.99947,0,0,0,2,2h8a1.99947,1.99947,0,0,0,2-2V24a2.00587,2.00587,0,0,0-2-2H48V20h8v84.11A11.8816,11.8816,0,0,0,67.84,116H74v5.33A6.67479,6.67479,0,0,0,80.67,128h4.66A6.67479,6.67479,0,0,0,92,121.33V116h34a2.00591,2.00591,0,0,0,2-2V102a2.00591,2.00591,0,0,1-2,2H110a2.00591,2.00591,0,0,1-2-2V92a2.00587,2.00587,0,0,1,2-2h16a2.00626,2.00626,0,0,1,2,1.97c-.01-8.54-.01-17.09-.01-20.47a2.00453,2.00453,0,0,0-2.17-1.82,80.1682,80.1682,0,0,1-45.78-9.62A7.833,7.833,0,0,1,76,53.18V26.91A2.87286,2.87286,0,0,1,78.84,24H126a2.00591,2.00591,0,0,0,2-2V2A2.00587,2.00587,0,0,0,126,0ZM88,121.33A2.67593,2.67593,0,0,1,85.33,124H80.67A2.67593,2.67593,0,0,1,78,121.33V116H88Zm-2.31677-20.93372A.91775.91775,0,0,1,85.02783,102H74.0379A2.00511,2.00511,0,0,1,72,100.02936v-8.055a2.045,2.045,0,0,1,3.34021-1.51581ZM121,14H109a2,2,0,0,1,0-4h12a2,2,0,0,1,0,4Z"></path><path d="M.36609,125.20258a2.81227,2.81227,0,0,0,2.21179,1.38824l9.04639,1.27783a8.25566,8.25566,0,0,0,6.23987-1.27051,5.42279,5.42279,0,0,0,2.07025-3.96637,4.72629,4.72629,0,0,0-3.11218-4.87067l7.0741-11.003-.17017-2.335-1.88074-2.41187-.45508,1.24774L11.97778,117.8988a1.99982,1.99982,0,0,0,1.3476,3.05328c.70117.119,2.71063.27924,2.62286,1.3559-.1416,1.73694-2.37158,1.83618-3.70874,1.60846l-7.84918-1.10889c.02637-.05908,11.57257-24.76,11.57257-24.76a1.998,1.998,0,0,0,.11328-1.39606l-1.36786-4.65094H19.1109l8.40216,10.77454c.0293.03662.05859.07275.08984.10742a.25846.25846,0,0,1,.02734.08936l1.63953,22.48657a2.60517,2.60517,0,0,0,2.7323,2.54059c.291,0,9.38226-.75732,9.38226-.75732,2.98419-.31152,4.87085-2.94586,4.58765-6.40582-.19727-2.40924-2.621-3.50006-4.43726-3.98151l.5058-18.51385c.001-.03711.001-.07422,0-.11084a4.58383,4.58383,0,0,0-.2392-1.27643c-.054-.16449-.87207-2.52258-1.82886-5.27777A3.423,3.423,0,0,0,41.355,90.53534c1.38647-1.98566.16174-4.061-1.08875-5.70673-1.4386-1.89233-3.39258-4.48132-3.1825-8.54846l.05865-4.66772,6.1969-3.74005a5.27387,5.27387,0,0,0-.14355-9.24078,5.39091,5.39091,0,0,0-5.28778.13818l-.70612.43469a12.91872,12.91872,0,0,0-.91461-3.63458A12.39629,12.39629,0,0,1,32.468,56.82983a8.95268,8.95268,0,0,1,.81128,3.853l-.01184.94373-6.646,4.09149a2.00018,2.00018,0,0,0,2.0976,3.40631l11.262-6.93372a1.35709,1.35709,0,0,1,1.33-.03125,1.26345,1.26345,0,0,1,.68939,1.11377,1.28357,1.28357,0,0,1-.68939,1.15192L24.96826,74.288a1.99889,1.99889,0,0,0-.67871,2.74561,2.05365,2.05365,0,0,0,2.745.67926L33.11176,74.045l-.02484,1.97968c-.3053,5.55817,2.38123,9.10162,3.99493,11.22437.17578.23193.38379.50537.56049.75146H11.39185a36.12229,36.12229,0,0,0,2.8595-4.00006H16.002a2,2,0,0,0,1.99988-2V72.00037a2,2,0,0,0,0-4.00006v-.00049L18,68H14a2,2,0,0,1,0-4h4l.00183.00018v-9.067c.154-.18726.3114-.37189.48145-.54529A8.01954,8.01954,0,0,1,21.0271,52.631,12.50483,12.50483,0,0,1,18.929,49.20648c-.32581.16016-.64215.34106-.95355.53174a1.99369,1.99369,0,0,0-1.97345-1.7381H8.769a4.52421,4.52421,0,0,0-4.58276,4.35211L2.00958,79.395c-.00488.05371-.00684.10693-.00684.16064a4.52046,4.52046,0,0,0,4.58276,4.44489H9.47046c-.21869.28278-.43677.55646-.64777.814a8.73613,8.73613,0,0,0-1.59857,2.42291A3.5921,3.5921,0,0,0,7.647,90.53082,3.40166,3.40166,0,0,0,10.428,92.00055h.166l1.4306,5.02643S.92957,120.75281.82117,120.9931C.25867,122.23676-.44147,123.78461.36609,125.20258Zm35.48541-33.202c1.10638,3.18536,2.08514,6.00592,2.15216,6.20667.01953.06055.03125.10889.03613.12744l-.54974,20.10907a2.00352,2.00352,0,0,0,1.77832,2.04248,6.2587,6.2587,0,0,1,2.38416.60028c.79932.47.22174,2.08221-.63733,2.17224L33.166,123.895l-1.54187-21.116a4.19107,4.19107,0,0,0-1.00775-2.5293l-6.4328-8.24915Z"></path></svg>
@@ -468,7 +503,7 @@ function BusForm() {
 
                         isMobile ?
                             (
-                                <div className="col-lg-4">
+                                <div className="col-lg-3">
                                     <div className="newBusSingle">
 
                                         <svg
@@ -527,7 +562,7 @@ function BusForm() {
                             )
                             :
                             (
-                                <div className="col-lg-4">
+                                <div className="col-lg-3">
                                     <div className="newBusSingle">
                                         <svg
                                             version="1.1"
@@ -568,7 +603,8 @@ function BusForm() {
 
                                             <DatePicker
                                                 onChange={handleRangeChange}
-                                                defaultValue={[dayjs()]}
+                                                // defaultValue={[dayjs()]}
+                                                defaultValue={[dayjs(newDepartDate)]}
                                                 format={dateFormat}
                                                 disabledDate={disablePastDates}
                                                 onFocus={handleFocusDatePicker}
@@ -580,17 +616,24 @@ function BusForm() {
                             )
                     }
 
+                    <div className=" col-lg-1">
+
+                        <Button className="Oneway2Search" onClick={handleOnewaySubmit} loading={loader} type="primary" icon={<SearchOutlined />} />
+                    </div>
+
                 </div>
 
-                <div
+                {/* <div
                     className="flightSearchButtonBox">
                     <Button onClick={handleOnewaySubmit} loading={loader}>
                         Search
                     </Button>
-                </div>
+                </div> */}
             </div>
         </>
     );
 }
 
-export default BusForm;
+export default BusFormInner;
+
+

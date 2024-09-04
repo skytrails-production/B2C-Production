@@ -550,7 +550,7 @@ function OnewayNew() {
       {/* <div className=" homeabsnew1" style={{ width: "100%" }}>
         <section className="HotelAbsDesignInner w-100"> */}
 
-      <div className=" container" >
+      <div className=" container" style={{ paddingBottom: "13px", paddingTop: "13px" }}>
         <div className="row g-2 newOneWayMainOneway2">
           <div className="col-lg-3">
             <div className="newOnewaySingle relative">

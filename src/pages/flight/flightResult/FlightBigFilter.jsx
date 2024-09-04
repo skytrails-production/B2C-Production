@@ -22,11 +22,11 @@ const FlightBigFilter = ({
   const [airlines, setAirlines] = useState([]);
   const [airports, setAirports] = useState([]);
   useEffect(() => {
-      setAirlines(flightList?.flightDetails);
-      setAirports(flightList?.aireportList);
+    setAirlines(flightList?.flightDetails);
+    setAirports(flightList?.aireportList);
   }, [
-      flightList?.flightDetails,
-      flightList?.aireportList,
+    flightList?.flightDetails,
+    flightList?.aireportList,
   ]);
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const FlightBigFilter = ({
     setSelectedCodes((prev) =>
       checked ? [...prev, value] : prev.filter((code) => code !== value)
     );
-    console.log(selectedCodes,"selected codes big")
+    console.log(selectedCodes, "selected codes big")
   };
 
   const handleStopChange = (event) => {
@@ -81,7 +81,7 @@ const FlightBigFilter = ({
   };
 
   useEffect(() => {
-    console.log(currentPriceRange,"currentPriceRange")
+    console.log(currentPriceRange, "currentPriceRange")
     onFilter(
       selectedCodes,
       selectedStops,
@@ -100,14 +100,14 @@ const FlightBigFilter = ({
   function findAirlineByCode(code) {
     // console.log(airlines)
     if (airlines.length !== 0) {
-        const data = airlines?.find((airline) => airline?.airlineCode === code);
-        if (data?.airlineName) {
-            return data?.airlineName;
-        }
-        return;
+      const data = airlines?.find((airline) => airline?.airlineCode === code);
+      if (data?.airlineName) {
+        return data?.airlineName;
+      }
+      return;
     }
     return;
-}
+  }
 
   return (
     <div className="flightFilterMainBox ">
@@ -161,7 +161,7 @@ const FlightBigFilter = ({
         </Checkbox>
 
       </div>
-      <div className="holidayFilterSlider flight-filter-aireline" >
+      <div className="holidayFilterSlider flight-filter-aireline mt-3" >
         <p>Filter By Price</p>
         <Slider
           range
@@ -511,49 +511,49 @@ const FlightBigFilter = ({
         <p>Filter By Airlines</p>
         <div className="flight-filter-aireline-item">
 
-     
-        {airlineCodes.map((code) => (
-          // <label key={code}>
-          //   <input type="checkbox" value={code} onChange={handleCheckboxChange} />
-          //   {code}
-          // </label>
-          <Checkbox
-            value={code}
-            // checked={selectedDays.includes("0-5")}
-            onChange={handleCheckboxChange}
-          >
-            <div style={{
-              display:"flex",
-              alignItems: "center",
-              margin:"0px",
-              padding: "0px",
-              gap:"5px"
-            }}>
 
-            <img
-              src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${code}.png`}
-              alt="flight"
-              style={{ borderRadius: "8px" }}
-              width={22}
-              height={22}
-              
-              />
-              <p style={{
-                margin:"0px !important",
-                fontSize:"14px",
-                fontWeight:"500"
-
+          {airlineCodes.map((code) => (
+            // <label key={code}>
+            //   <input type="checkbox" value={code} onChange={handleCheckboxChange} />
+            //   {code}
+            // </label>
+            <Checkbox
+              value={code}
+              // checked={selectedDays.includes("0-5")}
+              onChange={handleCheckboxChange}
+            >
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                margin: "0px",
+                padding: "0px",
+                gap: "5px"
               }}>
-                {findAirlineByCode(code)}
-              </p>
+
+                <img
+                  src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${code}.png`}
+                  alt="flight"
+                  style={{ borderRadius: "8px" }}
+                  width={22}
+                  height={22}
+
+                />
+                <p style={{
+                  margin: "0px !important",
+                  fontSize: "14px",
+                  fontWeight: "500"
+
+                }}>
+                  {findAirlineByCode(code)}
+                </p>
 
               </div>
 
-          </Checkbox>
+            </Checkbox>
 
-        ))}
+          ))}
         </div>
-        </div>
+      </div>
       {/* <div className="PackagetagFilters">
         <p>Filter By Days</p>
         <Checkbox

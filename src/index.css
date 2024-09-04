@@ -7,9 +7,32 @@ body {
   color: 'red !important';
   font-size: '12px';
 }
-.disableTrue{
+
+.disableTrue {
   overflow: hidden !important;
 }
-.disableFalse{
+
+.disableFalse {
   overflow: unset !important;
+}
+
+
+.mainimgHotelSearchResult {
+  height: 91px !important;
+  position: relative;
+  z-index: 3;
+  background-image: linear-gradient(to right, #84C2C8 0%, #ADE6E8 51%, #84C2C8 100%);
+}
+
+
+
+@media (min-width: 1200px) {
+
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container {
+    max-width: 1190px !important;
+  }
 }

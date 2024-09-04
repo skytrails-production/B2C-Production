@@ -618,7 +618,7 @@ function GrmHotelform2() {
   return (
     <>
 
-      <div className="container transParentBG" style={{ paddingBottom: "57px", paddingTop: "13px" }}>
+      <div className="container transParentBG" style={{ paddingBottom: "13px", paddingTop: "13px" }}>
         <div className="row g-2 newOneWayMainOneway2">
           <div className="col-lg-3">
             <div className="newOnewaySingle">

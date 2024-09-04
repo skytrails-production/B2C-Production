@@ -7,20 +7,35 @@
   border: none;
   color: var(--black4);
 
-  background-color: #fff;
+  background-color: #fbfbfb;
+  // background-color: #fff7f7;
   @include md {
     gap: 16px;
-    border: 1px solid #d1d5db;
+    border: 0.5px solid lightgray;
     padding: 12px 16px;
     border-radius: 8px;
   }
+
+  .layoverBox {
+    border-top: 1px solid #d1d5db;
+    border-bottom: 1px solid #d1d5db;
+    padding: 10px 0px;
+
+    p {
+      font-size: 13px;
+      font-weight: 500;
+      text-align: center;
+    }
+  }
+
   .flightDetail-box-1 {
     display: flex;
     gap: 10px;
+    align-items: center;
     .flightDetail-img {
       img {
-        height: 15px;
-        width: 15px;
+        height: 35px;
+        width: 35px;
       }
     }
     .flight-details-right {
@@ -29,6 +44,8 @@
       flex-direction: column;
       width: 100%;
       justify-content: space-between;
+      align-items: center;
+
       @include md {
         flex-direction: row;
         // width: unset;
@@ -36,6 +53,7 @@
       .flight-details-right-img {
         display: none;
         @include md {
+          position: relative;
           height: 100%;
           width: 70px;
           display: block;
@@ -43,16 +61,31 @@
           flex-direction: column;
           justify-content: center;
           align-items: center;
+          flex: 2;
         }
-        .roundSpan{
+        .roundSpan {
+          content: "";
+          top: 0;
           width: 23px;
-          height: 33px;
+          height: 23px;
+          position: absolute;
           border: 1px solid #d1d5db;
-          border-radius: 100%
+          border-radius: 100%;
+          background-color: #fff;
+        }
 
-        };
-        .dottedSpan{
-          height: 100%;
+        .roundSpan2 {
+          content: "";
+          bottom: 0;
+          width: 23px;
+          height: 23px;
+          position: absolute;
+          border: 1px solid #d1d5db;
+          background-color: #fff;
+          border-radius: 100%;
+        }
+        .dottedSpan {
+          height: 90px;
           border: 1px dashed #d1d5db;
         }
       }
@@ -62,7 +95,11 @@
         gap: 15px;
         padding: 5px;
         width: 100%;
-        
+
+        @include md {
+          flex: 8;
+        }
+
         .flight-details-right-inne-1 {
           display: flex;
           justify-content: space-between;
@@ -90,17 +127,28 @@
             text-overflow: ellipsis;
             overflow: hidden;
             @include md {
-              font-size: 14px;
+              font-size: 12px;
               width: 100%;
             }
           }
         }
+
+        .detRightDetails {
+          text-align: right;
+          gap: 10px;
+
+          span {
+            font-size: 13px;
+            font-weight: 500;
+          }
+        }
+
         .flight-details-right-inne-2 {
           display: flex;
           justify-content: space-between;
           flex-direction: column;
           flex: 1;
-          
+
           span {
             font-size: 14px;
           }
@@ -112,13 +160,85 @@
       }
       .flight-details-right-inner-border {
         border: none;
-        @include md{
-
+        @include md {
           border-right: 1px solid #d1d5db;
         }
-    }
-    }
+      }
 
+      .flight-details-right-inner2 {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 5px;
+        width: 100%;
+
+        @include md {
+          flex: 6;
+        }
+
+        .flight-details-right-inne-1 {
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
+          white-space: nowrap;
+
+          span {
+            font-size: 12px;
+            overflow: hidden; /* Hides any overflowing content */
+            text-overflow: ellipsis;
+            white-space: break-spaces;
+            width: 90%;
+
+            @include md {
+              font-size: 14px;
+              width: 100%;
+            }
+          }
+          p {
+            font-size: 12px;
+            font-weight: 600;
+            font-size: 12px;
+            font-weight: 600;
+            width: 80%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            @include md {
+              font-size: 12px;
+              width: 100%;
+            }
+          }
+        }
+
+        .detRightDetails {
+          text-align: left;
+          gap: 10px;
+
+          @include md {
+            text-align: right;
+          }
+
+          span {
+            font-size: 13px;
+            font-weight: 500;
+          }
+        }
+
+        .flight-details-right-inne-2 {
+          display: flex;
+          justify-content: space-between;
+          flex-direction: column;
+          flex: 1;
+
+          span {
+            font-size: 14px;
+          }
+          p {
+            font-size: 14px;
+            font-weight: 600;
+          }
+        }
+      }
+    }
 
     .air-img {
       width: 30px;
@@ -156,13 +276,13 @@
       cursor: pointer;
       @include md {
         width: 120px;
-      height: 35px;
-      border-radius: 16px;
-      color: #fff;
-      padding: 4px 0px;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
+        height: 35px;
+        border-radius: 10px;
+        color: #fff;
+        padding: 4px 0px;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
       }
     }
   }

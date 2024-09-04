@@ -1,54 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import "./flightDetail.scss"
 // import fromTo from "../../images/fromTo.png";
-import fromTo from "../../../images/fromTo.png";
+// import fromTo from "../../../images/fromTo.png";
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import duration from 'dayjs/plugin/duration';
 import { useSelector } from 'react-redux';
-import {  useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 dayjs.extend(customParseFormat);
 dayjs.extend(duration);
 
-
-// Extend Day.js with the customParseFormat plugin
 dayjs.extend(customParseFormat);
 const TimeDifference = (dateOfArrival, timeOfArrival, dateOfDeparture, timeOfDeparture) => {
-    console.log(dateOfDeparture, timeOfArrival, timeOfDeparture, dateOfArrival, "dateeeeeee")
 
-
-    // const calculateTimeDifference = () => {
-    //     // Combine date and time strings
-    //     const departure = `${dateOfDeparture}${timeOfDeparture}`;
-    //     const arrival = `${dateOfArrival}${timeOfArrival}`;
-
-    //     // Parse date and time as DDMMYYHHmm
-    //     const departureTime = dayjs(departure, "DDMMYYHHmm");
-    //     const arrivalTime = dayjs(arrival, "DDMMYYHHmm");
-
-    //     // Check if parsing was successful
-    //     if (!departureTime.isValid() || !arrivalTime.isValid()) {
-    //         return 'Invalid date/time format';
-    //     }
-
-    //     // Calculate the difference in milliseconds
-    //     const diffInMs = arrivalTime.diff(departureTime);
-
-    //     // Convert difference to duration
-    //     const diffDuration = dayjs.duration(diffInMs);
-
-    //     // Format the difference as "X hours Y minutes"
-    //     const hours = Math.floor(diffDuration.asHours());
-    //     const minutes = diffDuration.minutes();
-
-    //     return `${hours} hours ${minutes} minutes`;
-    // };
-
-    // return (
-    //     calculateTimeDifference()
-
-    // );
     function parseDateTime(date, time) {
         const day = parseInt(date.slice(0, 2), 10);
         const month = parseInt(date.slice(2, 4), 10) - 1; // Months are 0-based in JavaScript
@@ -81,22 +46,17 @@ const TimeDifference = (dateOfArrival, timeOfArrival, dateOfDeparture, timeOfDep
 
 };
 
-const ConvertDate = ({ dateStr }) => {
-    // Function to convert date
-    const convertToReadableDate = (dateStr) => {
-        // Parse the date string as DDMMYY
-        const parsedDate = dayjs(dateStr, "DDMMYY");
-        // Convert to the desired format: "dddd, MMMM D"
-        return parsedDate.format("dddd, MMMM D");
-    };
+// const ConvertDate = ({ dateStr }) => {
+//     const convertToReadableDate = (dateStr) => {
+//         const parsedDate = dayjs(dateStr, "DDMMYY");
+//         return parsedDate.format("dddd, MMMM D");
+//     };
+//     const formattedDate = convertToReadableDate(dateStr);
 
-    // Call the function with the provided dateStr prop
-    const formattedDate = convertToReadableDate(dateStr);
-
-    return (
-        formattedDate
-    );
-};
+//     return (
+//         formattedDate
+//     );
+// };
 function convertTo24HourFormat(timeStr) {
     // Parse the time string as HHmm
     const parsedTime = dayjs(timeStr, "HHmm");
@@ -107,44 +67,42 @@ function convertTo24HourFormat(timeStr) {
 
 const FlightDetailAMD = ({ flight }) => {
     const flightList = useSelector((state) => state?.flightList);
-    const [airlines, setAirlines] = useState([]);
+    // const [airlines, setAirlines] = useState([]);
     const [airports, setAirports] = useState([]);
     useEffect(() => {
-        setAirlines(flightList?.flightDetails);
+        // setAirlines(flightList?.flightDetails);
         setAirports(flightList?.aireportList);
     }, [
         flightList?.flightDetails,
         flightList?.aireportList,
     ]);
-    console.log(flight, flight?.flightDetails?.flightInformation?.productDateTime
-        , "flightAmdffff");
-    function findAirlineByCode(code) {
-        // console.log(airlines)
-        if (airlines.length !== 0) {
-            const data = airlines?.find((airline) => airline?.airlineCode === code);
-            if (data?.airlineName) {
-                return data?.airlineName;
-            }
-            return;
-        }
-        return;
-    }
+    // console.log(flight, flight?.flightDetails?.flightInformation?.productDateTime
+    //     , "flightAmdffff");
+    // function findAirlineByCode(code) {
+    //     // console.log(airlines)
+    //     if (airlines.length !== 0) {
+    //         const data = airlines?.find((airline) => airline?.airlineCode === code);
+    //         if (data?.airlineName) {
+    //             return data?.airlineName;
+    //         }
+    //         return;
+    //     }
+    //     return;
+    // }
     function findAirportByCode(code) {
-        // console.log(airlines)
+        console.log(airports, "airports")
         if (airports.length !== 0) {
             const data = airports?.find((airport) => airport?.AirportCode === code);
 
             if (data?.AirportCode) {
-                console.log(data)
+                console.log(data, "dataaaaaaaaaaaa")
                 return data;
             }
             return;
         }
         return;
     }
-    const bookingClass = JSON.parse(sessionStorage.getItem("onewayprop"))?.[0]?.
-        flightclassName
-        ;
+    const bookingClass = JSON.parse(sessionStorage.getItem("onewayprop"))?.[0]?.flightclassName;
     // This should log the correct value
     const ClassItems = [
         // { id: 1,value:"Y", label: "All" },
@@ -155,7 +113,7 @@ const FlightDetailAMD = ({ flight }) => {
         { id: 6, value: "F", label: "First" },
     ];
     const bookingClassItem = ClassItems.find(item => item.value === bookingClass)?.label;
-    console.log(bookingClassItem?.label, bookingClass, "bookingClass");
+    // console.log(bookingClassItem?.label, bookingClass, "bookingClass");
     const location = useLocation();
     const queryParams = new URLSearchParams(location?.search);
     const adultCount = queryParams.get("adult");
@@ -164,27 +122,27 @@ const FlightDetailAMD = ({ flight }) => {
     function formatDateString(dateString) {
         // Parse the date assuming it's in DDMMYY format
         const parsedDate = dayjs(dateString, 'DDMMYY');
-        
+
         // Format the date to 'dddd, MMMM D'
         return parsedDate.format('dddd, MMMM D');
     }
-    
-    const navigate=useNavigate()
+
+    const navigate = useNavigate()
     const handleIndexId = (ResultIndex) => {
-        console.log(ResultIndex, "ResultIndex")
+        // console.log(ResultIndex, "ResultIndex")
         if (ResultIndex?.AirlineCode) {
-          navigate(
-            `booknow?adult=${adultCount}&child=${childCount}&infant=${infantCount} `,
-            { state: { ResultIndex } }
-          );
+            navigate(
+                `booknow?adult=${adultCount}&child=${childCount}&infant=${infantCount} `,
+                { state: { ResultIndex } }
+            );
         } else if (ResultIndex?.flightDetails) {
-          navigate(
-            `booknowAmd?adult=${adultCount}&child=${childCount}&infant=${infantCount}`,
-            { state: { ResultIndex } }
-          );
+            navigate(
+                `booknowAmd?adult=${adultCount}&child=${childCount}&infant=${infantCount}`,
+                { state: { ResultIndex } }
+            );
         }
-       
-      };
+
+    };
 
     return (
         <div className='flightDetail-cnt'>
@@ -205,17 +163,14 @@ const FlightDetailAMD = ({ flight }) => {
                         <div className='flight-details-right-img'>
                             {/* <img src={fromTo} height={"100%"} alt="" /> */}
                             <span className='roundSpan'></span>
-                                <span className='dottedSpan'></span>
-                                <span className='roundSpan'></span>
+                            <span className='dottedSpan'></span>
+                            <span className='roundSpan2'></span>
                         </div>
                         <div className='flight-details-right-inner flight-details-right-inner-border'>
                             <div className='flight-details-right-inne-1'>
-                                <span>{`${
-                                    formatDateString(
-                                    flight?.flightDetails?.flightInformation?.productDateTime
-                                        ?.
-                                        dateOfDeparture
-                                    )
+                                <span>{`${formatDateString(
+                                    flight?.flightDetails?.flightInformation?.productDateTime?.dateOfDeparture
+                                )
                                     }· ${convertTo24HourFormat(flight?.flightDetails?.flightInformation?.productDateTime
                                         ?.
                                         timeOfDeparture
@@ -227,12 +182,11 @@ const FlightDetailAMD = ({ flight }) => {
                                     })`}</p>
                             </div>
                             <div className='flight-details-right-inne-1'>
-                                <span>{`${
-                                    formatDateString(
+                                <span>{`${formatDateString(
                                     flight?.flightDetails?.flightInformation?.productDateTime
                                         ?.
                                         dateOfArrival
-                                    )
+                                )
                                     }· ${convertTo24HourFormat(flight?.flightDetails?.flightInformation?.productDateTime
                                         ?.
                                         timeOfArrival
@@ -246,8 +200,8 @@ const FlightDetailAMD = ({ flight }) => {
                             </div>
 
                         </div>
-                        <div className='flight-details-right-inner'>
-                            <div className='flight-details-right-inne-1'>
+                        <div className='flight-details-right-inner2'>
+                            <div className='flight-details-right-inne-1 detRightDetails'>
                                 <span>
                                     Trip time: {TimeDifference(flight?.flightDetails?.flightInformation?.productDateTime
                                         ?.
@@ -263,11 +217,10 @@ const FlightDetailAMD = ({ flight }) => {
 
                                     )}</span>
                                 <span>{`ANA · ${bookingClassItem} class · ${flight?.
-                                    flightDetails?.flightInformation?.companyId?.marketingCarrier ||flight?.
-                                    flightDetails?.flightInformation?.
-                                        companyId?.marketingCarrier}${
-                                            flight?.
-                                    flightDetails?.flightInformation?.
+                                    flightDetails?.flightInformation?.companyId?.marketingCarrier || flight?.
+                                        flightDetails?.flightInformation?.
+                                        companyId?.marketingCarrier}${flight?.
+                                            flightDetails?.flightInformation?.
                                             flightOrtrainNumber ||
                                         flight?.
                                             flightDetails?.[0]?.flightInformation?.
@@ -279,105 +232,168 @@ const FlightDetailAMD = ({ flight }) => {
 
 
                 </div> :
-                flight?.flightDetails?.map((item, i) => {
-                    console.log(item, "item");
-                    return <div className='flightDetail-box-1'>
-                        <div className='air-img'>
-                            <img
-                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.
-                                    flightInformation?.companyId?.marketingCarrier}.png`}
-                                alt="flight"
-                                style={{ borderRadius: "8px" }}
-                                width={58}
-                                height={58}
-                            />
-                        </div>
-                        <div className='flight-details-right'>
-                            <div className='flight-details-right-img'>
-                                {/* <img src={fromTo} height={"100%"} alt="" /> */}
-                                
-                                <span className='roundSpan'></span>
-                                <span className='dottedSpan'></span>
-                                <span className='roundSpan'></span>
-                              
-                            </div>
-                            <div className='flight-details-right-inner flight-details-right-inner-border'>
-                                <div className='flight-details-right-inne-1'>
-                                    <span>{`${
-                                        formatDateString(
-                                        item?.flightInformation?.productDateTime
-                                            ?.
-                                            dateOfDeparture
-                                        )
-                                        } · ${convertTo24HourFormat(item?.flightInformation?.productDateTime
-                                            ?.
-                                            timeOfDeparture
-                                        )}`}</span>
-                                    <p>{`${findAirportByCode(item?.flightInformation?.
-                                        location?.[0]?.locationId)?.code
-                                        } (${item?.flightInformation?.
-                                            location?.[0]?.locationId
-                                        })`}</p>
+                flight?.flightDetails?.map((item, index) => {
+                    function calculateTimeDifference(dateOfDeparture, timeOfDeparture, dateOfArrival, timeOfArrival) {
+                        // Convert date and time strings to Date objects
+                        const departure = new Date(
+                            `20${dateOfDeparture.slice(4, 6)}-${dateOfDeparture.slice(2, 4)}-${dateOfDeparture.slice(0, 2)}T${timeOfDeparture.slice(0, 2)}:${timeOfDeparture.slice(2, 4)}:00`
+                        );
+
+                        const arrival = new Date(
+                            `20${dateOfArrival.slice(4, 6)}-${dateOfArrival.slice(2, 4)}-${dateOfArrival.slice(0, 2)}T${timeOfArrival.slice(0, 2)}:${timeOfArrival.slice(2, 4)}:00`
+                        );
+
+                        // Calculate the difference in milliseconds
+                        const difference = arrival - departure;
+
+                        // Convert milliseconds to minutes
+                        const minutes = Math.floor(difference / 1000 / 60);
+
+                        // Calculate hours and minutes
+                        const hours = Math.floor(minutes / 60);
+                        const remainingMinutes = minutes % 60;
+                        console.log(`${hours} hours ${remainingMinutes} minutes`)
+
+                        return `${hours} hours ${remainingMinutes} minutes`;
+                    }
+                    let layoverimeDifference;
+                    let isNotlast = index < flight?.flightDetails?.length - 1
+                    if (isNotlast) {
+                        let dateOfDeparture = item?.flightInformation?.productDateTime?.dateOfArrival
+                        let timeOfDeparture = item?.flightInformation?.productDateTime?.timeOfArrival
+                        let dateOfArrival = flight?.flightDetails?.[index + 1]?.flightInformation.productDateTime?.
+                            dateOfDeparture
+
+                        let timeOfArrival = flight?.flightDetails[index + 1]?.flightInformation?.productDateTime?.timeOfDeparture
+                        layoverimeDifference = calculateTimeDifference(dateOfDeparture, timeOfDeparture, dateOfArrival, timeOfArrival)
+                        console.log(dateOfDeparture, timeOfDeparture, dateOfArrival, timeOfArrival, "dateOfDeparture, timeOfDeparture, dateOfArrival, timeOfArrival");
+                    }
+                    // Output: "1 hours 30 minutes"
+                    let layoverCity = findAirportByCode(item?.flightInformation?.location[1]?.locationId)?.name
+
+
+
+
+                    return (
+                        <>
+                            <div className='flightDetail-box-1'>
+                                <div className='air-img'>
+                                    <img
+                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.
+                                            flightInformation?.companyId?.marketingCarrier}.png`}
+                                        alt="flight"
+                                        style={{ borderRadius: "8px" }}
+                                        width={58}
+                                        height={58}
+                                    />
                                 </div>
-                                <div className='flight-details-right-inne-1'>
-                                    <span>{`${
-                                        formatDateString(
-                                        item?.flightInformation?.productDateTime
-                                            ?.
+                                <div className='flight-details-right'>
+                                    <div className='flight-details-right-img'>
+                                        {/* <img src={fromTo} height={"100%"} alt="" /> */}
 
-                                            dateOfArrival
+                                        <span className='roundSpan'></span>
+                                        <span className='dottedSpan'></span>
+                                        <span className='roundSpan2'></span>
 
-                                        )
-                                        } · ${convertTo24HourFormat(item?.flightInformation?.productDateTime
-                                            ?.
+                                    </div>
+                                    <div className='flight-details-right-inner flight-details-right-inner-border'>
+                                        <div className='flight-details-right-inne-1'>
+                                            <span>{`${formatDateString(
+                                                item?.flightInformation?.productDateTime
+                                                    ?.
+                                                    dateOfDeparture
+                                            )
+                                                } · ${convertTo24HourFormat(item?.flightInformation?.productDateTime
+                                                    ?.
+                                                    timeOfDeparture
+                                                )}`}</span>
+                                            <p>{`${findAirportByCode(item?.flightInformation?.
+                                                location?.[0]?.locationId)?.code
+                                                } (${item?.flightInformation?.
+                                                    location?.[0]?.locationId
+                                                })`}</p>
+                                        </div>
+                                        <div className='flight-details-right-inne-1'>
+                                            <span>{`${formatDateString(
+                                                item?.flightInformation?.productDateTime
+                                                    ?.
 
-                                            timeOfArrival
+                                                    dateOfArrival
 
-                                        )}`}</span>
-                                    <p>{`${findAirportByCode(item?.flightInformation?.
-                                        location?.[1]?.locationId)?.code
-                                        } (${item?.flightInformation?.
-                                            location?.[1]?.locationId
-                                        })`}</p>
+                                            )
+                                                } · ${convertTo24HourFormat(item?.flightInformation?.productDateTime
+                                                    ?.
+
+                                                    timeOfArrival
+
+                                                )}`}</span>
+                                            <p>{`${findAirportByCode(item?.flightInformation?.
+                                                location?.[1]?.locationId)?.code
+                                                } (${item?.flightInformation?.
+                                                    location?.[1]?.locationId
+                                                })`}</p>
+                                        </div>
+
+                                    </div>
+                                    <div className='flight-details-right-inner2'>
+                                        <div className='flight-details-right-inne-1 detRightDetails'>
+                                            <span>
+                                                Trip time: {TimeDifference(item?.flightInformation?.productDateTime
+                                                    ?.
+                                                    dateOfArrival,
+                                                    item?.flightInformation?.productDateTime
+                                                        ?.
+                                                        timeOfArrival,
+                                                    item?.flightInformation?.productDateTime?.
+                                                        dateOfDeparture,
+                                                    item?.flightInformation?.productDateTime
+                                                        ?.
+                                                        timeOfDeparture,
+
+                                                )}</span>
+                                            <span>{`· ${bookingClassItem} class · ${item?.flightInformation?.companyId?.marketingCarrier || item?.flightInformation?.
+                                                companyId?.marketingCarrier}${item?.flightInformation?.
+                                                    flightOrtrainNumber ||
+                                                flight?.
+                                                    flightDetails?.[0]?.flightInformation?.
+                                                    flightOrtrainNumber
+                                                }`}</span>
+                                        </div>
+                                    </div>
                                 </div>
 
-                            </div>
-                            <div className='flight-details-right-inner'>
-                                <div className='flight-details-right-inne-1'>
-                                    <span>
-                                        Trip time: {TimeDifference(item?.flightInformation?.productDateTime
-                                            ?.
-                                            dateOfArrival,
-                                            item?.flightInformation?.productDateTime
-                                                ?.
-                                                timeOfArrival,
-                                            item?.flightInformation?.productDateTime?.
-                                                dateOfDeparture,
-                                            item?.flightInformation?.productDateTime
-                                                ?.
-                                                timeOfDeparture,
 
-                                        )}</span>
-                                    <span>{`· ${bookingClassItem} class · ${ item?.flightInformation?.companyId?.marketingCarrier || item?.flightInformation?.
-                                        companyId?.marketingCarrier}${
-                                            item?.flightInformation?.
-                                            flightOrtrainNumber ||
-                                        flight?.
-                                            flightDetails?.[0]?.flightInformation?.
-                                            flightOrtrainNumber
-                                    }`}</span>
+                            </div>
+                            {isNotlast &&
+                                <div className="layoverBox">
+                                    <p>Transit time:
+                                        {layoverimeDifference} - {layoverCity}
+                                        ({item?.flightInformation?.location[1]?.locationId
+                                        })
+                                    </p>
                                 </div>
-                            </div>
-                        </div>
+                            }
+                            {/* {layoverDuration !== 0 && (
+                                <div className="layoverBox">
 
+                                    <p className="">
+                                        Transit Time:{" "}
+                                        {layoverHours !== 0 &&
+                                            `${layoverHours} hours`}{" "}
+                                        {layoverMinutes !== 0 &&
+                                            `${layoverMinutes} minutes`}
+                                    </p>
 
-                    </div>
+                                </div>
+                            )} */}
+                        </>
+                    )
                 })
             }
 
             <div className='book-now'>
 
-                <button onClick={()=>handleIndexId(flight)}>Book Now</button>
+                <button onClick={() => handleIndexId(flight)}>Book Now</button>
             </div>
 
         </div>

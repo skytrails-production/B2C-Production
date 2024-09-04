@@ -32,7 +32,7 @@
   border-radius: 8px;
 }
 
-.innerFilter > p {
+.innerFilter>p {
   color: #b03737;
   font-family: "Montserrat";
   font-size: 16px;
@@ -86,11 +86,11 @@
   border: 2px solid rgb(165, 164, 164);
 }
 
-.checkmark .sidebar-label-container:hover input ~ .checkmark {
+.checkmark .sidebar-label-container:hover input~.checkmark {
   background-color: #ccc;
 }
 
-.sidebar-label-container input:checked ~ .checkmark {
+.sidebar-label-container input:checked~.checkmark {
   background-color: #d90429;
 }
 
@@ -100,7 +100,7 @@
   display: none;
 }
 
-.sidebar-label-container input:checked ~ .checkmark:after {
+.sidebar-label-container input:checked~.checkmark:after {
   display: block;
 }
 
@@ -130,7 +130,7 @@
   margin-bottom: 10px;
 }
 
-.busDepartureMain > div {
+.busDepartureMain>div {
   display: grid;
   grid-template-columns: auto auto;
   gap: 10px;
@@ -145,7 +145,7 @@
   padding: 6px;
 }
 
-.svgBOx > div {
+.svgBOx>div {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -157,18 +157,18 @@
   border: 1px solid #d90429 !important;
 }
 
-.sidebar-label-container:has(input:checked) > div .checkedSVG svg {
+.sidebar-label-container:has(input:checked)>div .checkedSVG svg {
   fill: #d90429;
 }
 
-.sidebar-label-container:has(input:checked) > div span {
+.sidebar-label-container:has(input:checked)>div span {
   color: #d90429;
 }
 
 .svgBOx span {
   font-size: 13px;
   display: block;
-  max-width: 80px;
+  max-width: 85px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -190,11 +190,13 @@
 .busDepartureMain .sidebar-label-container {
   margin-bottom: 0 !important;
 }
+
 .ClearFilterOneyOneContainer {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
 }
+
 .ClearFilterOneyOneItemDev {
   display: flex;
   justify-content: space-between;
@@ -205,11 +207,13 @@
   padding: 4px 4px;
   margin: 2px 4px;
 }
+
 .ClearFilterOneyOneItem {
   font-size: 13px;
   color: #6c757d;
   text-transform: capitalize;
 }
+
 .ClearFilterOneyOneItemX {
   font-size: 9px;
   color: #d90429;
@@ -227,13 +231,14 @@
   justify-content: center;
   align-items: center;
 }
+
 .ClearFilterOneyOneItemX:hover {
   background-color: #d90429;
   color: #fff;
 }
 
 @media (max-width: 1200px) {
-  .busDepartureMain > div {
+  .busDepartureMain>div {
     display: grid;
     grid-template-columns: auto auto;
     gap: 3px;

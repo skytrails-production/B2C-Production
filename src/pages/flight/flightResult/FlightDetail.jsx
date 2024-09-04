@@ -3,6 +3,8 @@ import "./flightDetail.scss"
 // import fromTo from "../../images/fromTo.png";
 import fromTo from "../../../images/fromTo.png";
 import { useLocation, useNavigate } from 'react-router-dom';
+import Item from 'antd/es/list/Item';
+import { Segment } from '@mui/icons-material';
 
 
 const FlightDetail = ({ flight }) => {
@@ -75,6 +77,7 @@ const FlightDetail = ({ flight }) => {
         }
 
     };
+
     return (
         <div className='flightDetail-cnt'>
             {flight?.
@@ -97,7 +100,7 @@ const FlightDetail = ({ flight }) => {
                             {/* <img src={fromTo} height={"100%"} alt="" /> */}
                             <span className='roundSpan'></span>
                             <span className='dottedSpan'></span>
-                            <span className='roundSpan'></span>
+                            <span className='roundSpan2'></span>
                         </div>
                         <div className='flight-details-right-inner flight-details-right-inner-border'>
                             <div className='flight-details-right-inne-1'>
@@ -128,8 +131,8 @@ const FlightDetail = ({ flight }) => {
                             </div>
 
                         </div>
-                        <div className='flight-details-right-inner '>
-                            <div className='flight-details-right-inne-1'>
+                        <div className='flight-details-right-inner2 '>
+                            <div className='flight-details-right-inne-1 detRightDetails'>
                                 <span>
                                     Trip time: {getTimeDifference(flight?.
                                         Segments?.[0]?.[0]?.Origin?.
@@ -145,63 +148,111 @@ const FlightDetail = ({ flight }) => {
                 </div> :
                 <>
                     {flight?.
-                        Segments?.[0]?.map((item) => {
-                            console.log(item, "item")
-                            return (<div className='flightDetail-box-1'>
-                                <div className='flightDetail-img'>
-                                    <img
-                                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline?.
-                                            AirlineCode}.png`}
-                                        alt="flight"
-                                        style={{ borderRadius: "8px" }}
-                                        width={58}
-                                        height={58}
-                                    />
-                                </div>
-                                <div className='flight-details-right'>
-                                    <div className='flight-details-right-img'>
-                                        {/* <img src={fromTo} height={"100%"} alt="" /> */}
-                                        <div className='roundSpan'></div>
-                                        <div className='dottedSpan'></div>
-                                        <div className='roundSpan'></div>
-                                    </div>
-                                    <div className='flight-details-right-inner flight-details-right-inner-border'>
-                                        <div className='flight-details-right-inne-1'>
-                                            <span>{formatDateTime(item?.Origin?.
-                                                DepTime)}</span>
-                                            <p>{item?.Origin?.Airport?.
+                        Segments?.[0]?.map((item, index) => {
+                            // console.log(item, "item")
+                            function calculateTimeDifferenceISO(departureTime, arrivalTime) {
+                                // Convert the ISO date-time strings to Date objects
+                                const departure = new Date(departureTime);
+                                const arrival = new Date(arrivalTime);
 
-                                                AirportName
+                                // Calculate the difference in milliseconds
+                                const difference = arrival - departure;
 
-                                            } ({item?.Origin?.Airport?.
+                                // Convert milliseconds to minutes
+                                const minutes = Math.floor(difference / 1000 / 60);
 
-                                                AirportCode})</p>
+                                // Calculate hours and minutes
+                                const hours = Math.floor(minutes / 60);
+                                const remainingMinutes = minutes % 60;
+
+                                return `${hours} hours ${remainingMinutes} minutes`;
+                            }
+                            console.log(item, "itemmmmmmmmm`")
+                            let isNext = index < flight?.
+                                Segments?.[0]?.length - 1;
+                            let layoverTime
+                            if (isNext) {
+                                let departureTime = item?.Destination?.ArrTime
+                                let arrivalTime = flight?.
+                                    Segments?.[0][index + 1]?.Origin?.DepTime
+                                console.log(departureTime, arrivalTime, flight?.
+                                    Segments?.[0][index + 1], "departureTime,arrivalTime")
+                                layoverTime = calculateTimeDifferenceISO(departureTime, arrivalTime)
+                                console.log(layoverTime, "layovertime")
+                            }
+                            return (
+                                <>
+                                    <div className='flightDetail-box-1'>
+                                        <div className='flightDetail-img'>
+                                            <img
+                                                src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.Airline?.
+                                                    AirlineCode}.png`}
+                                                alt="flight"
+                                                style={{ borderRadius: "8px" }}
+                                                width={58}
+                                                height={58}
+                                            />
                                         </div>
-                                        <div className='flight-details-right-inne-1'>
-                                            <span>{formatDateTime(item?.Destination?.
-                                                ArrTime)}</span>
-                                            <p>{item?.Destination?.Airport?.
-                                                AirportName
+                                        <div className='flight-details-right'>
+                                            <div className='flight-details-right-img'>
+                                                {/* <img src={fromTo} height={"100%"} alt="" /> */}
+                                                <div className='roundSpan'></div>
+                                                <div className='dottedSpan'></div>
+                                                <div className='roundSpan2'></div>
+                                            </div>
+                                            <div className='flight-details-right-inner flight-details-right-inner-border'>
+                                                <div className='flight-details-right-inne-1'>
+                                                    <span>{formatDateTime(item?.Origin?.
+                                                        DepTime)}</span>
+                                                    <p>{item?.Origin?.Airport?.
 
-                                            } ({item?.Destination?.Airport?.
+                                                        AirportName
 
-                                                AirportCode})</p>
+                                                    } ({item?.Origin?.Airport?.
+
+                                                        AirportCode})</p>
+                                                </div>
+                                                <div className='flight-details-right-inne-1'>
+                                                    <span>{formatDateTime(item?.Destination?.
+                                                        ArrTime)}</span>
+                                                    <p>{item?.Destination?.Airport?.
+                                                        AirportName
+
+                                                    } ({item?.Destination?.Airport?.
+
+                                                        AirportCode})</p>
+                                                </div>
+
+                                            </div>
+                                            <div className='flight-details-right-inner2'>
+                                                <div className='flight-details-right-inne-1 detRightDetails'>
+                                                    <span>
+                                                        Trip time: {getTimeDifference(item?.Origin?.
+                                                            DepTime, item?.Destination?.
+                                                            ArrTime)}</span>
+                                                    <span>{`ANA · ${bookingClassItem} class · ${item?.Airline?.AirlineCode}${item.Airline?.FlightNumber}`}</span>
+                                                </div>
+                                            </div>
                                         </div>
 
+
                                     </div>
-                                    <div className='flight-details-right-inner'>
-                                        <div className='flight-details-right-inne-1'>
-                                            <span>
-                                                Trip time: {getTimeDifference(item?.Origin?.
-                                                    DepTime, item?.Destination?.
-                                                    ArrTime)}</span>
-                                            <span>{`ANA · ${bookingClassItem} class · ${item?.Airline?.AirlineCode}${item.Airline?.FlightNumber}`}</span>
+                                    {isNext &&
+
+                                        <div className="layoverBox">
+                                            <p>Transit time: {layoverTime} -
+                                                {item?.
+                                                    Destination?.Airport?.CityName
+
+                                                }
+                                                {" "}({item?.
+                                                    Destination?.Airport?.AirportCode
+                                                })
+                                            </p>
                                         </div>
-                                    </div>
-                                </div>
-
-
-                            </div>)
+                                    }
+                                </>
+                            )
                         })}
                 </>
 

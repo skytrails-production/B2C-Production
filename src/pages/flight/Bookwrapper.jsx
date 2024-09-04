@@ -64,6 +64,9 @@ import secureLocalStorage from "react-secure-storage";
 import FlightLayoutTVO from "../../components/flightLayout/FlightLayoutTVO"
 import { clear_all_airline } from "../../Redux/AirlineSeatMap/actionAirlineSeatMap"
 import Cancellationpolicy from "./Cancellationpolicy";
+import { Modal as AntdModal, Button, Tabs } from 'antd';
+
+const { TabPane } = Tabs;
 
 const variants = {
   initial: {
@@ -234,9 +237,11 @@ export default function BookWrapper() {
   const [seatMapList, setSeatMapList] = useState([]);
   const [mellList, setMellList] = useState([]);
   const [baggageListNub, setBaggageListNub] = useState([]);
-  const [MellListNub, setMellListNub] = useState([]);
+  const mealListIndivisual = [];
+  const [MellListNub, setMellListNub] = useState(mealListIndivisual);
   const [baggageData, setBaggageData] = useState([]);
-  const [mellData, setMellData] = useState([]);
+  const mealDataIndivisual = [];
+  const [mellData, setMellData] = useState(mealDataIndivisual);
   const [baggageCountNub, setBaggageCountNub] = useState(0);
   const [baggageFare, setBaggageFare] = useState(0);
   const [mellFare, setMellFare] = useState(0);
@@ -244,6 +249,7 @@ export default function BookWrapper() {
   const [mellBool, setMellBool] = useState(true);
   const dropdownRef = useRef(null);
   const [isDropdown, setIsDropdown] = useState(false);
+
 
   const toggleDropdown = () => {
     setIsDropdown(pre => !pre);
@@ -296,39 +302,91 @@ export default function BookWrapper() {
     }
     // console.log(baggageData, "baggageDatadddddddddddd", baggageListNub)
   };
-  const mellFuncton = (type, bag, index) => {
-    if (
-      type == "+" &&
-      mellData?.length < Number(adultCount) + Number(childCount)
-    ) {
-      setMellData((pre) => [...mellData, bag]);
-      let arr = [...MellListNub];
-      arr[index] = arr[index] + 1;
-      setMellListNub(arr);
-      setMellFare((pre) => pre + bag?.Price);
-      // console.log("+++++++++++++++++", baggageData?.length, Number(adultCount) + Number(childCount))
-    }
-    if (type === "-" && mellData?.length && 0 < MellListNub[index]) {
-      let arr = [...MellListNub];
-      arr[index] = arr[index] - 1;
-      setMellListNub(arr);
-      setMellBool(true);
-      let chd = true;
-      let sub = mellData.filter((bagg) => {
-        // console.log(bagg?.Weight, bag?.Weight)
-        if (bagg?.AirlineDescription === bag?.AirlineDescription && chd) {
-          setMellBool(false);
-          chd = false;
-          return false;
-        } else {
-          return true;
-        }
-      });
-      setMellData(sub);
-      setMellFare((pre) => pre - bag?.Price);
-    }
-    // console.log(baggageData, "baggageDatadddddddddddd", baggageListNub)
-  };
+
+
+
+
+
+
+
+
+
+  // const mellFuncton = (type, bag, index) => {
+  //   console.log(bag.index == selectedIndex, 'bagggg');
+  //   if (
+  //     type === "+" &&
+  //     mellData[selectedIndex]?.length < Number(adultCount) + Number(childCount)&&
+  //     bag.index == selectedIndex
+  //   ) {
+  //     console.log('insidePlus');
+  //     let updatedMealData = [...mellData];
+  //     updatedMealData[selectedIndex] = [...mellData[selectedIndex], bag];
+  //     setMellData(updatedMealData);
+  //     let arr = MellListNub[selectedIndex];
+  //     if (bag.index == selectedIndex) {
+  //       arr[index] = arr[index] + 1;
+  //       console.log('meal data+++', arr, MellListNub, bag, bag?.Price);
+  //       let tempArr = [...MellListNub];
+  //       tempArr[selectedIndex] = arr;
+  //       setMellListNub(tempArr);
+  //       setMellFare(pre => pre + bag?.Price);
+  //       // dispatch(setAirlineMealMap(updatedMealData[selectedIndex]));
+  //     }
+
+  //     // setMellData((pre) => [...mellData, bag]);
+  //     // let arr = [...MellListNub];
+  //     // arr[index] = arr[index] + 1;
+  //     // setMellListNub(arr);
+  //     // setMellFare((pre) => pre + bag?.Price);
+  //     // console.log("+++++++++++++++++", baggageData?.length, Number(adultCount) + Number(childCount))
+  //   }
+  //   else if (type === "-" && mellData[selectedIndex]?.length && 0 < MellListNub[selectedIndex][index]&&
+  //     bag.index == selectedIndex) {
+  //       console.log('insideMinus');
+  //     let arr = MellListNub[selectedIndex];
+  //     if (bag.index == selectedIndex) {
+  //       arr[index] = arr[index] - 1;
+  //       let tempArr = [...MellListNub];
+  //       tempArr[selectedIndex] = arr;
+  //       setMellListNub(tempArr);
+  //       let chd = true;
+  //       let sub = mellData[selectedIndex].filter(bagg => {
+  //         if (bagg?.AirlineDescription === bag?.AirlineDescription && chd) {
+  //           chd = false;
+  //           return false;
+  //         } else {
+  //           return true;
+  //         }
+  //       });
+
+  //       let updatedMealData = [...mellData];
+  //       updatedMealData[selectedIndex] = sub;
+  //       console.log(updatedMealData, 'updatedMealData');
+  //       setMellData(updatedMealData);
+  //       setMellFare(pre => pre - bag?.Price);
+
+
+  //     // let arr = [...MellListNub];
+  //     // arr[index] = arr[index] - 1;
+  //     // setMellListNub(arr);
+  //     // setMellBool(true);
+  //     // let chd = true;
+  //     // let sub = mellData.filter((bagg) => {
+  //     //   // console.log(bagg?.Weight, bag?.Weight)
+  //     //   if (bagg?.AirlineDescription === bag?.AirlineDescription && chd) {
+  //     //     setMellBool(false);
+  //     //     chd = false;
+  //     //     return false;
+  //     //   } else {
+  //     //     return true;
+  //     //   }
+  //     // });
+  //     // setMellData(sub);
+  //     // setMellFare((pre) => pre - bag?.Price);
+  //   }
+  // }
+  //   // console.log(baggageData, "baggageDatadddddddddddd", baggageListNub)
+  // };
 
   const [errorMessage, setErrorMassage] = useState({
     error: false,
@@ -491,6 +549,7 @@ export default function BookWrapper() {
     FFNumber: "",
   };
 
+  const [isselected,setSelectedindex] = useState(0);
   // Initialize the passenger list with the required number of passengers
   let totalPassenger =
     Number(adultCount) + Number(childCount) + Number(infantCount);
@@ -896,7 +955,7 @@ export default function BookWrapper() {
       oneyWayDate: reducerState?.searchFlight?.flightDetails?.departureDate,
       returnDate: "",
       amount:
-        // //   (Number(finalAmount) && Number(finalAmount) + Number(baggageFare) + Number(mellFare)) ||
+      //   // //   (Number(finalAmount) && Number(finalAmount) + Number(baggageFare) + Number(mellFare)) ||
         (!isDummyTicketBooking
           ?
           Number(finalAmount) + Number(baggageFare) + Number(mellFare) + (Number(totalSeatAmount) || 0)
@@ -1016,7 +1075,7 @@ export default function BookWrapper() {
               ? convertDateFormat(item?.PassportExpiry)
               : "",
             Baggage: [baggageData[index]],
-            MealDynamic: [mellData[index]],
+            MealDynamic: mellData[index],
             // SeatDynamic:  allSeats
           };
         } else if (index < baggageData.length) {
@@ -1040,7 +1099,7 @@ export default function BookWrapper() {
             PassportExpiry: isPassportRequired
               ? convertDateFormat(item?.PassportExpiry)
               : "",
-            MealDynamic: [mellData[index]],
+            MealDynamic: mellData[index],
             // SeatDynamic:  allSeats
           };
         } else {
@@ -1132,7 +1191,7 @@ export default function BookWrapper() {
               ? convertDateFormat(item?.PassportExpiry)
               : "",
             Baggage: [baggageData[index]],
-            MealDynamic: [mellData[index]],
+            MealDynamic: mellData[index],
             // SeatDynamic:  allSeats
           };
         } else if (index < baggageData.length) {
@@ -1156,7 +1215,7 @@ export default function BookWrapper() {
             PassportExpiry: isPassportRequired
               ? convertDateFormat(item?.PassportExpiry)
               : "",
-            MealDynamic: [mellData[index]],
+            MealDynamic: mellData[index],
             // SeatDynamic:  allSeats
           };
         } else {
@@ -1205,7 +1264,7 @@ export default function BookWrapper() {
               ? convertDateFormat(item?.PassportExpiry)
               : "",
             Baggage: [baggageData[index]],
-            MealDynamic: [mellData[index]],
+            MealDynamic: mellData[index],
             // SeatDynamic:  allSeats
           };
         } else if (index < baggageData.length) {
@@ -1229,7 +1288,7 @@ export default function BookWrapper() {
             PassportExpiry: isPassportRequired
               ? convertDateFormat(item?.PassportExpiry)
               : "",
-            MealDynamic: [mellData[index]],
+            MealDynamic: mellData[index],
             // SeatDynamic:  allSeats
           };
         } else {
@@ -1437,7 +1496,7 @@ export default function BookWrapper() {
           }
         ),
         baggage: baggageData,
-        mealDynamic: mellData,
+        mealDynamic: mellData.flat(),
       };
       userApi.flightBookingDataSave(payloadLCC);
     } else {
@@ -1511,11 +1570,13 @@ export default function BookWrapper() {
           }
         ),
         baggage: baggageData,
-        mealDynamic: mellData,
+        mealDynamic: mellData[index],
       };
       userApi.flightBookingDataSave(payloadNonLcc);
     }
   };
+
+  // console.log(mellData,"mellData");
 
   // const Props = {
   //   transactionAmount: transactionAmount,
@@ -1594,7 +1655,164 @@ const addinfant = () => {
   }
 }
 
-// console.log("TicketDetails?.Segments[0]",TicketDetails?.Segments[0])
+// /////////////////////////meal///////////////////////////////////////////
+const [selectedIndex, setSelectedIndex] = useState(0);
+const [isModalVisible, setIsModalVisible] = useState(false);
+
+const showModal = () => {
+
+  setIsModalVisible(true);
+  // setMellListNub(mealListIndivisual)
+  // setMellData(mealDataIndivisual)
+
+  if (MellListNub.length === 0) {
+    setMellListNub(mealListIndivisual);
+  }
+  if (mellData.length === 0) {
+    setMellData(mealDataIndivisual);
+  }
+};
+
+const mealclose = () => {
+  // console.log("Selected meals:", mellData);
+  setIsModalVisible(false);
+};
+
+
+
+const handleCancel = () => {
+  // console.log("Selected meals:", mellData);
+  setIsModalVisible(false);
+};
+
+
+const filteredMeals = mellList?.data?.Response?.MealDynamic?.[0]?.filter(
+  item => item.Price !== 0 && item?.AirlineDescription !== '',
+);
+
+const filteredSegemets = TicketDetails?.Segments[0]?.filter((item, index) => {
+  return !(
+    TicketDetails?.Segments?.[0]?.[index].Airline?.FlightNumber ==
+    TicketDetails?.Segments?.[0]?.[index + 1]?.Airline?.FlightNumber &&
+    TicketDetails?.Segments?.[0]?.[index]?.Airline?.AirlineCode ==
+    TicketDetails?.Segments?.[0]?.[index + 1]?.Airline?.AirlineCode
+  );
+});
+
+// console.log(filteredSegemets,"filteredSegemets");
+
+const dataorgin = filteredSegemets?.[0]?.Origin?.Airport?.AirportCode;
+const destination = filteredSegemets?.[0]?.Destination?.Airport?.AirportCode
+
+let index = 0;
+const mealFlightNumberArr = [];
+
+const separatedByFlightNumber = Array.isArray(filteredMeals) 
+  ? filteredMeals.reduce((acc, item) => {
+      if (item.Price !== 0) {
+        if (!mealFlightNumberArr.includes(item.FlightNumber)) {
+          acc[index] = [];
+          mealFlightNumberArr.push(item.FlightNumber);
+          index = index + 1;
+        }
+        // Push the item to the corresponding array
+        acc[index - 1].push({ ...item, index: index - 1 });
+      }
+      return acc;
+    }, [])
+  : []; // If filteredMeals is not an array, return an empty array
+
+
+
+
+  for (let i = 0; i < filteredSegemets?.length; i++) {
+
+      mealListIndivisual?.push(
+        [...Array(separatedByFlightNumber[i]?.length)].fill(0)
+      );
+    // console.log("insideeMakingArray")
+    mealDataIndivisual.push([]);
+  }
+
+
+  
+  const mellFuncton = (type, bag, index, tabKey) => {
+   const selectedKey=tabKey;
+   if (!Array.isArray(MellListNub[selectedKey])) {
+    MellListNub[selectedKey] = [];
+  }
+
+  let arr = [...MellListNub[selectedKey]];
+    // console.log(MellListNub,"MellListNub");
+    if (
+        type == "+" &&
+        mellData[selectedKey]?.length < Number(adultCount) + Number(childCount)&&
+        bag.index == selectedKey
+    ) {
+        // console.log('insidePlus');
+        let updatedMealData = [...mellData];
+        updatedMealData[selectedKey] = [...mellData[selectedKey], bag];
+        setMellData(updatedMealData);
+        if (bag.index == selectedKey) {
+          let arr = MellListNub[selectedKey];
+          // console.log(arr,"arrr")
+          // arr[index] = arr[index] + 1;
+          arr[index] = (arr[index] || 0) + 1;
+          // console.log('meal data+++', arr, MellListNub, bag, bag?.Price);
+          let tempArr = [...MellListNub];
+          // console.log(tempArr,"tempArr")
+          tempArr[selectedKey] = arr;
+          setMellListNub(tempArr);
+          setMellFare(pre => pre + bag?.Price);
+        
+        }
+    } else if (
+        type == "-" &&
+        mellData[selectedKey]?.length &&
+       0 <  MellListNub[selectedKey][index]  && 
+        bag.index == selectedKey
+    ) {
+        // console.log('insideMinus');
+        let arr = MellListNub[selectedKey];
+        if (bag.index == selectedKey) {
+          arr[index] = arr[index] - 1;
+          let tempArr = [...MellListNub];
+          tempArr[selectedKey] = arr;
+          setMellListNub(tempArr);
+  
+          let chd = true;
+          let sub = mellData[selectedKey].filter(bagg => {
+            if (bagg?.AirlineDescription === bag?.AirlineDescription && chd) {
+              chd = false;
+              return false;
+            } else {
+              return true;
+            }
+          });
+
+        let updatedMealData = [...mellData];
+        updatedMealData[selectedKey] = sub;
+        // console.log(updatedMealData, 'updatedMealData');
+        setMellData(updatedMealData);
+        setMellFare((pre) => pre - bag?.Price);
+    }
+}
+  };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // //////////////////////////////////////////////////////////////////////////////////
 
@@ -3083,7 +3301,8 @@ const convertedTime = convertMinutes(item?.Duration);
                                 disabled={!isOptionSelected}
                                 style={{fontSize:"16px",cursor:"pointer",border:"none",background:"none"}}
                                 // style={isOptionSelected ? { fontSize: "15px" } : { , fontSize: "15px" }}
-                                onClick={() => setShowMell(true)}
+                                // onClick={() => setShowMell(true)}
+                                onClick={showModal}
                               >
                                 <i class="fa-solid fa-cheese"></i>  Add Meal +
                               </button>
@@ -3587,7 +3806,7 @@ const convertedTime = convertMinutes(item?.Duration);
                       }
                     </div>
                     <div>
-                      {mellData.length} of{" "}
+                      {mellData?.length} of{" "}
                       {Number(adultCount) + Number(childCount)} selected
                     </div>
                   </div>
@@ -3603,8 +3822,8 @@ const convertedTime = convertMinutes(item?.Duration);
                       let icon;
     let iconColor = "#000"; 
 
-    if (bag?.AirlineDescription) {
-    if (bag.AirlineDescription.toLowerCase().includes("non veg")|| bag.AirlineDescription.toLowerCase().includes("non-veg") || bag.AirlineDescription.toLowerCase().includes("nonveg")|| bag.AirlineDescription.toLowerCase().includes("chicken")) {
+    if (mellList?.data?.Response?.MealDynamic?.[0]?.AirlineDescription) {
+    if (mellList?.data?.Response?.MealDynamic?.[0].AirlineDescription.toLowerCase().includes("non veg")|| mellList?.data?.Response?.MealDynamic?.[0].AirlineDescription.toLowerCase().includes("non-veg") || mellList?.data?.Response?.MealDynamic?.[0].AirlineDescription.toLowerCase().includes("nonveg")|| mellList?.data?.Response?.MealDynamic?.[0].AirlineDescription.toLowerCase().includes("chicken")) {
     vegImage = <img src={nonveg} alt="Veg" style={{ marginTop: "14px", height: "15px" }} />;
   } else if (bag.AirlineDescription.toLowerCase().includes("veg")){
     vegImage =  <img src={veg} alt="nonveg" style={{ marginTop: "14px", height: "15px" }} />; 
@@ -3735,6 +3954,267 @@ if (bag?.AirlineDescription) {
             </div>
           </div>
         </Modal>
+
+
+
+
+
+{/* ////////////////////add meal/////////////////////////////////// */}
+      {/* <AntdModal
+        title="Add Meal"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+      >
+      
+       {mellList?.data?.Response?.Error?.ErrorCode === 0 ? (
+        <Tabs defaultActiveKey="0" onChange={(key) => setSelectedIndex(parseInt(key))}>
+  {Object.keys(separatedByFlightNumber).map((key) => (
+    <TabPane tab={`Flight Group ${parseInt(key) + 1}`} key={key}>
+      {separatedByFlightNumber[key]?.map((item, index) => (
+        
+
+      
+
+        
+        <div key={index} style={{ marginBottom: '16px',display:"flex",justifyContent:"space-between" }}>
+         
+                            <div>
+                            <div><p>{item.AirlineDescription}</p></div>
+                           
+                            </div>
+        
+                          
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+          <div><p>{item?.Price}</p></div>
+            <Button onClick={() => mellFuncton("-", item, index, key)}>-</Button>
+            <div>{MellListNub[parseInt(key)]?.[index] || 0}</div>
+            <Button onClick={() => mellFuncton("+", item, index, key)}>+</Button>
+
+          </div>
+        </div>
+
+        
+      ))}
+    </TabPane>
+  ))}
+</Tabs>
+
+
+  ) : (
+    <div>No SSR details found.</div>
+  )
+       }
+       {0 < mellData?.length && (
+                <div className="bagPriceCon">
+                  <div>
+                    {" "}
+                    {mellData[selectedIndex]?.length} of{" "}
+                    {Number(adultCount) + Number(childCount)} Meal(s) Selected
+                  </div>
+                  <div
+                    className="bagPriceConRight"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      gap: "15px",
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontSize: "12px" }}>Added to fare</div>
+                      <div style={{ fontWeight: "700" }}>₹{mellFare}</div>
+                    </div>
+                    <div
+                    onClick={() => mealclose(false)}
+                      className="buttonBag"
+                    >
+                      Done
+                    </div>
+                  </div>
+                </div>
+              )}
+
+      </AntdModal> */}
+
+      <AntdModal
+  title="Add Meal"
+  visible={isModalVisible}
+  onCancel={handleCancel}
+  footer={null}
+  width={800}
+>
+  {mellList?.data?.Response?.Error?.ErrorCode === 0 ? (
+    <Tabs defaultActiveKey="0" onChange={(key) => setSelectedIndex(parseInt(key))} >
+      {Object.keys(separatedByFlightNumber).map((key,innerInnex) => {
+        const filteredSegment = filteredSegemets?.[innerInnex];
+        const dataOrigin = filteredSegment?.Origin?.Airport?.AirportCode;
+        const destination = filteredSegment?.Destination?.Airport?.AirportCode;
+        {/* console.log(destination,"destination"); */}
+         if(innerInnex==0){
+          return( <TabPane tab={`(${fareValue?.Segments?.[0]?.[0]?.Origin?.Airport
+                      ?.AirportCode} - ${destination})`} key={key} style={{height:"300px",overflow:"scroll"}}>
+            {separatedByFlightNumber[key]?.map((item, index) => {
+              const airlineDescription = item?.AirlineDescription?.toLowerCase();
+              let vegImage = null;
+              let icon;
+              let iconColor = "#000";
+
+              if (airlineDescription) {
+                // Determine the veg/non-veg image
+                if (airlineDescription.includes("non veg") || airlineDescription.includes("non-veg") || airlineDescription.includes("nonveg") || airlineDescription.includes("chicken")) {
+                  vegImage = <img src={nonveg} alt="Non-Veg" style={{ marginTop: "14px", height: "15px" }} />;
+                } else if (airlineDescription.includes("veg")) {
+                  vegImage = <img src={veg} alt="Veg" style={{ marginTop: "14px", height: "15px" }} />;
+                }
+
+                // Determine the appropriate icon
+                if (airlineDescription.includes("hotdog")) {
+                  icon = <i className="fa-solid fa-hotdog"></i>;
+                  iconColor = "#228B22";
+                } else if (airlineDescription.includes("fruit")) {
+                  icon = <i className="fa-solid fa-apple-whole"></i>;
+                  iconColor = "#FFA500";
+                } else if (airlineDescription.includes("rice")) {
+                  icon = <i className="fa-solid fa-bowl-rice"></i>;
+                  iconColor = "#FF0000";
+                } else if (airlineDescription.includes("chicken")) {
+                  icon = <i className="fa-solid fa-drumstick-bite"></i>;
+                  iconColor = "#FF0000";
+                } else if (airlineDescription.includes("sandwich")) {
+                  icon = <i className="fa-solid fa-hotdog"></i>;
+                  iconColor = "#FF0000";
+                } else if (airlineDescription.includes("beverage") || airlineDescription.includes("juice")) {
+                  icon = <i className="fa-solid fa-martini-glass-citrus"></i>;
+                } else if (airlineDescription.includes("tea") || airlineDescription.includes("coffee")) {
+                  icon = <i className="fa-solid fa-mug-hot"></i>;
+                } else {
+                  icon = <i className="fa-solid fa-bowl-food"></i>;
+                }
+              }
+
+              return (
+                <div key={index} style={{ marginBottom: '16px', display: "flex", justifyContent: "space-between" }}>
+                  <div className="bagListLeft">
+                    <div>
+                      {icon}
+                      {vegImage}
+                    </div>
+                    <div><p>{item.AirlineDescription}</p></div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div><p>{item?.Price}</p></div>
+                    <Button onClick={() => mellFuncton("-", item, index, key)}>-</Button>
+                    <div>{MellListNub[parseInt(key)]?.[index] || 0}</div>
+                    <Button onClick={() => mellFuncton("+", item, index, key)}>+</Button>
+                  </div>
+                </div>
+              );
+            })}
+          </TabPane>)
+         }
+         else{
+          return(
+            <TabPane tab={`(${dataOrigin} - ${destination})`} key={key} style={{height:"300px",overflow:"scroll"}}>
+            {separatedByFlightNumber[key]?.map((item, index) => {
+              const airlineDescription = item?.AirlineDescription?.toLowerCase();
+              let vegImage = null;
+              let icon;
+              let iconColor = "#000";
+
+              if (airlineDescription) {
+                // Determine the veg/non-veg image
+                if (airlineDescription.includes("non veg") || airlineDescription.includes("non-veg") || airlineDescription.includes("nonveg") || airlineDescription.includes("chicken")) {
+                  vegImage = <img src={nonveg} alt="Non-Veg" style={{ marginTop: "14px", height: "15px" }} />;
+                } else if (airlineDescription.includes("veg")) {
+                  vegImage = <img src={veg} alt="Veg" style={{ marginTop: "14px", height: "15px" }} />;
+                }
+
+                // Determine the appropriate icon
+                if (airlineDescription.includes("hotdog")) {
+                  icon = <i className="fa-solid fa-hotdog"></i>;
+                  iconColor = "#228B22";
+                } else if (airlineDescription.includes("fruit")) {
+                  icon = <i className="fa-solid fa-apple-whole"></i>;
+                  iconColor = "#FFA500";
+                } else if (airlineDescription.includes("rice")) {
+                  icon = <i className="fa-solid fa-bowl-rice"></i>;
+                  iconColor = "#FF0000";
+                } else if (airlineDescription.includes("chicken")) {
+                  icon = <i className="fa-solid fa-drumstick-bite"></i>;
+                  iconColor = "#FF0000";
+                } else if (airlineDescription.includes("sandwich")) {
+                  icon = <i className="fa-solid fa-hotdog"></i>;
+                  iconColor = "#FF0000";
+                } else if (airlineDescription.includes("beverage") || airlineDescription.includes("juice")) {
+                  icon = <i className="fa-solid fa-martini-glass-citrus"></i>;
+                } else if (airlineDescription.includes("tea") || airlineDescription.includes("coffee")) {
+                  icon = <i className="fa-solid fa-mug-hot"></i>;
+                } else {
+                  icon = <i className="fa-solid fa-bowl-food"></i>;
+                }
+              }
+
+              return (
+                <div key={index} style={{ marginBottom: '16px', display: "flex", justifyContent: "space-between" }}>
+                  <div className="bagListLeft">
+                    <div>
+                      {icon}
+                      {vegImage}
+                    </div>
+                    <div><p>{item.AirlineDescription}</p></div>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div><p>{item?.Price}</p></div>
+                    <Button onClick={() => mellFuncton("-", item, index, key)}>-</Button>
+                    <div>{MellListNub[parseInt(key)]?.[index] || 0}</div>
+                    <Button onClick={() => mellFuncton("+", item, index, key)}>+</Button>
+                  </div>
+                </div>
+              );
+            })}
+          </TabPane>
+          )
+         }
+       
+      })}
+    </Tabs>
+  ) : (
+    <div>No SSR details found.</div>
+  )}
+  {0 < mellData?.length && (
+    <div className="bagPriceCon">
+      <div>
+        {" "}
+        {mellData[selectedIndex]?.length} of{" "}
+        {Number(adultCount) + Number(childCount)} Meal(s) Selected
+      </div>
+      <div
+        className="bagPriceConRight"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: "15px",
+        }}
+      >
+        <div>
+          <div style={{ fontSize: "12px" }}>Added to fare</div>
+          <div style={{ fontWeight: "700" }}>₹{mellFare}</div>
+        </div>
+        <div
+          onClick={() => mealclose(false)}
+          className="buttonBag"
+        >
+          Done
+        </div>
+      </div>
+    </div>
+  )}
+</AntdModal>
+
+
+
       </>
     );
   } else {

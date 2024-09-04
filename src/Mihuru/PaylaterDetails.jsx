@@ -13,6 +13,7 @@ import Modal from "@mui/material/Modal";
 import CloseIcon from "@mui/icons-material/Close";
 import { DatePicker } from "antd";
 import { Button } from "antd";
+import Authentic from '../pages/Auth/Authentic';
 
 const PaylaterDetails = () => {
 
@@ -360,7 +361,7 @@ const PaylaterDetails = () => {
                 </form>
             </div>
 
-            <Modal
+            {/* <Modal
                 open={isLoginModalOpen}
                 onClose={handleModalClose}
                 aria-labelledby="modal-modal-title"
@@ -417,7 +418,14 @@ const PaylaterDetails = () => {
                         </div>
                     </div>
                 </div>
-            </Modal>
+            </Modal> */}
+
+            <Authentic
+                isOpen={isLoginModalOpen}
+                onClose={handleModalClose}
+            // isLogoutOpen={logoutModalVisible}
+            // onLogoutClose={closeLogoutModal}
+            />
 
         </div>
     )

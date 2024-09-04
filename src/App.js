@@ -126,6 +126,7 @@ import BottomNavbar from "./pages/navbar/BottomNavbar";
 import Packageform from "./pages/NewPackagePages/Packageform/Packageform"
 import PhoneNumber from "./components/PhoneNumber";
 import Career from "./pages/skyTrailsCarrer/Career"
+import BusResultMain from "./pages/bus/BusResult/BusResultMain";
 
 
 
@@ -506,7 +507,7 @@ function App() {
           element={<BusBookingConfirmation />}
         ></Route>
         {/* <Route path="/SelectBusSeat" element={<SeatLayout />}></Route> */}
-        <Route path="/busresult" element={<BusResult />}></Route>
+        <Route path="/busresult" element={<BusResultMain />}></Route>
 
 
         {/* Taxi */}

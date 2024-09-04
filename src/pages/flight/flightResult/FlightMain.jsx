@@ -124,14 +124,7 @@ const FlightMain = () => {
       selectedTimes,
       selectedArrivalTimes
     ) => {
-      console.log(
-        selectedCodes,
-        selectedStops,
-        priceRange,
-        selectedTimes,
-        selectedArrivalTimes,
-        "(selectedCodes, selectedStops, selectedArrivalTimes"
-      );
+
       const filtered = flightData?.filter((flight) => {
         let airlineCodes = [];
         let stops = 0;
@@ -244,17 +237,7 @@ const FlightMain = () => {
               normalizedArrivalTime.split(":")[0],
               10
             );
-            console.log(
-              normalizedArrivalTime,
-              "===",
-              arrivalTime,
-              flight?.Segments?.[0]?.[0]?.Origin?.DepTime,
-              flightHour,
-              startHour,
-              endHour,
-              flightHour < endHour,
-              "normalizedDepartureTime"
-            );
+
             return flightHour >= startHour && flightHour < endHour;
           });
 
@@ -266,7 +249,6 @@ const FlightMain = () => {
           matchArrivalTime
         );
       });
-      console.log(filtered, "filtered");
 
       setFilteredFlights(filtered);
     },
@@ -277,9 +259,11 @@ const FlightMain = () => {
 
   return (
     <div>
-      <div className="flightMainOneWayDiv">
+      {/* <div className="flightMainOneWayDiv visibleBig "> */}
+      <div className='mainimgHotelSearchResult visibleBigHotel'>
         <Oneway2 />
       </div>
+      {/* </div> */}
       <div className=" visibleSmall stickyHotelDetails">
         <section
           style={{ borderTop: "1px solid lightgray", background: "white" }}
