@@ -53,6 +53,7 @@ import flightPaymentLoding from "../../images/loading/loading-ban.gif";
 import { Checkbox } from "antd";
 import AirSeatMap from "../../components/AirSeatMap/AirSeatMap";
 import { IoIosArrowForward } from "react-icons/io";
+import Authentic from "../Auth/Authentic";
 
 const variants = {
   initial: {
@@ -3333,6 +3334,16 @@ export default function BookWrapper() {
                           <h3>Passenger Details</h3>
                         </div>
 
+                        {sub && !V_aliation && (
+                          <p
+                            className="form-label"
+                            style={{ color: "red", textAlign: "center" }}
+                          >
+                            <i class="fa-solid fa-circle-info"></i> Please fill
+                            all the required fields.
+                          </p>
+                        )}
+
                         <div
                           onClick={addAdult}
                           style={{
@@ -3341,7 +3352,21 @@ export default function BookWrapper() {
                             fontWeight: 600,
                           }}
                         >
-                          <p> +Add the Adult</p>
+                          <p>
+                            {" "}
+                            +Add the Adult ({currentAdultCount}/{adultCount})
+                          </p>
+                          {sub &&
+                            !V_aliation &&
+                            currentAdultCount < adultCount && (
+                              <p
+                                className="form-label"
+                                style={{ color: "red" }}
+                              >
+                                Please add the remaining{" "}
+                                {adultCount - currentAdultCount} adult(s)
+                              </p>
+                            )}
                         </div>
                         {currentAdultCount > 0 &&
                           Array.from(
@@ -3559,7 +3584,22 @@ export default function BookWrapper() {
                               fontWeight: 600,
                             }}
                           >
-                            <p> +Add the Child</p>
+                            <p>
+                              {" "}
+                              +Add the child ({currentChildCount}/{childCount})
+                            </p>
+
+                            {sub &&
+                              !V_aliation &&
+                              currentChildCount < childCount && (
+                                <p
+                                  className="form-label"
+                                  style={{ color: "red" }}
+                                >
+                                  Please add the remaining{" "}
+                                  {childCount - currentChildCount} child(s)
+                                </p>
+                              )}
                           </div>
                         )}
 
@@ -3754,7 +3794,23 @@ export default function BookWrapper() {
                               fontWeight: 600,
                             }}
                           >
-                            <p> +Add the infant</p>
+                            <p>
+                              {" "}
+                              +Add the infant ({currentinfantCount}/
+                              {infantCount})
+                            </p>
+
+                            {sub &&
+                              !V_aliation &&
+                              currentinfantCount < infantCount && (
+                                <p
+                                  className="form-label"
+                                  style={{ color: "red" }}
+                                >
+                                  Please add the remaining{" "}
+                                  {infantCount - currentinfantCount} Infant(s)
+                                </p>
+                              )}
                           </div>
                         )}
 
@@ -4403,17 +4459,14 @@ export default function BookWrapper() {
           </div>
         )}
 
-        <Modal
+        {/* <Modal
           open={isLoginModalOpen}
           onClose={handleModalClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
           sx={{ zIndex: "999999" }}
         >
-          {/* <Box className="loginModalBox">
-          <p>Please Login to Continue</p>
-          <Login />
-        </Box> */}
+          
           <div class="login-page">
             <div class="container ">
               <div class="row d-flex justify-content-center">
@@ -4422,7 +4475,7 @@ export default function BookWrapper() {
                     <div class="">
                       <div class="col-md-12 ps-0  d-md-block">
                         <div class="form-right leftLogin h-100 text-white text-center ">
-                          {/* <h2 class="fs-1" >Send OTP</h2> */}
+                        
                           <CloseIcon
                             className="closeIncon"
                             onClick={handleModalClose}
@@ -4465,7 +4518,7 @@ export default function BookWrapper() {
               </div>
             </div>
           </div>
-        </Modal>
+        </Modal> */}
         <Modal open={loaderPayment1} onClose={loaderPayment1}>
           <div
             style={{
@@ -4480,6 +4533,12 @@ export default function BookWrapper() {
             {/* <h1>ghiiiii</h1> */}
           </div>
         </Modal>
+        <Authentic
+          isOpen={isLoginModalOpen}
+          onClose={handleModalClose}
+          // isLogoutOpen={logoutModalVisible}
+          // onLogoutClose={closeLogoutModal}
+        />
       </>
     );
   } else {

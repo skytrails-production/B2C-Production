@@ -65,6 +65,7 @@ import FlightLayoutTVO from "../../components/flightLayout/FlightLayoutTVO"
 import { clear_all_airline } from "../../Redux/AirlineSeatMap/actionAirlineSeatMap"
 import Cancellationpolicy from "./Cancellationpolicy";
 import { Modal as AntdModal, Button, Tabs } from 'antd';
+import Authentic from "../Auth/Authentic";
 
 const { TabPane } = Tabs;
 
@@ -2315,11 +2316,15 @@ const convertedTime = convertMinutes(item?.Duration);
                       <div className="headingBookFlight-new" style={{padding:"12px",color:"#E73C34",backgroundColor:"#FFFBFB"}}>
                           <h3>Passenger Details</h3>
                         </div>
-                        
+                        {sub && !V_aliation && <p className="form-label" style={{color:"red",textAlign:"center"}}><i class="fa-solid fa-circle-info"></i> Please fill all the required fields.</p>}
                
 
       <div onClick={addAdult} style={{ cursor: "pointer",padding:"12px",fontWeight:600 }}>
-        <p className="textcolor"> +Add the Adult</p>
+        <p className="textcolor"> +Add the Adult  ({currentAdultCount}/{adultCount})</p>
+
+        {sub && !V_aliation && currentAdultCount < adultCount && (
+    <p className="form-label" style={{color:"red"}}>Please add the remaining {adultCount - currentAdultCount} adult(s)</p>
+  )}
       </div>
 
       
@@ -2539,7 +2544,11 @@ const convertedTime = convertMinutes(item?.Duration);
                         {/* child details here  */}
 
 {childCount > 0 && <div onClick={addChild} style={{ cursor: "pointer" ,padding:"12px",fontWeight:600 }}>
-        <p className="textcolor"> +Add the Child</p>
+        <p className="textcolor"> +Add the Child  ({currentChildCount}/{childCount})</p>
+
+        {sub && !V_aliation && currentChildCount < childCount && (
+    <p className="form-label" style={{color:"red"}}>Please add the remaining {childCount - currentChildCount} child(s)</p>
+  )}
       </div> }
                         
 
@@ -2818,7 +2827,10 @@ const convertedTime = convertMinutes(item?.Duration);
                        
                         {/* infant details here  */}
 {infantCount >0 && <div onClick={addinfant} style={{ cursor: "pointer",padding:"12px", fontWeight:600 }}>
-        <p className="textcolor"> + Add the infant</p>
+        <p className="textcolor"> +Add the infant  ({currentinfantCount}/{infantCount})</p>
+        {sub && !V_aliation && currentinfantCount < infantCount && (
+    <p className="form-label" style={{color:"red"}}>Please add the remaining {infantCount - currentinfantCount} Infant(s)</p>
+  )}
       </div> }
                         {currentinfantCount > 0 &&
                           Array.from({ length: currentinfantCount }, (_, index) => (
@@ -3548,17 +3560,14 @@ const convertedTime = convertMinutes(item?.Duration);
           </div>
         )}
 
-        <Modal
+        {/* <Modal
           open={isLoginModalOpen}
           onClose={handleModalClose}
           aria-labelledby="modal-modal-title"
           aria-describedby="modal-modal-description"
           sx={{ zIndex: "999999" }}
         >
-          {/* <Box className="loginModalBox">
-          <p>Please Login to Continue</p>
-          <Login />
-        </Box> */}
+         
           <div class="login-page">
             <div class="container ">
               <div class="row d-flex justify-content-center">
@@ -3567,7 +3576,7 @@ const convertedTime = convertMinutes(item?.Duration);
                     <div class="">
                       <div class="col-md-12 ps-0  d-md-block">
                         <div class="form-right leftLogin h-100 text-white text-center ">
-                          {/* <h2 class="fs-1" >Send OTP</h2> */}
+                        
                           <CloseIcon
                             className="closeIncon"
                             onClick={handleModalClose}
@@ -3610,7 +3619,7 @@ const convertedTime = convertMinutes(item?.Duration);
               </div>
             </div>
           </div>
-        </Modal>
+        </Modal> */}
         <Modal open={loaderPayment1} onClose={loaderPayment1}>
           <div
             style={{
@@ -3955,88 +3964,6 @@ if (bag?.AirlineDescription) {
           </div>
         </Modal>
 
-
-
-
-
-{/* ////////////////////add meal/////////////////////////////////// */}
-      {/* <AntdModal
-        title="Add Meal"
-        visible={isModalVisible}
-        onCancel={handleCancel}
-        footer={null}
-      >
-      
-       {mellList?.data?.Response?.Error?.ErrorCode === 0 ? (
-        <Tabs defaultActiveKey="0" onChange={(key) => setSelectedIndex(parseInt(key))}>
-  {Object.keys(separatedByFlightNumber).map((key) => (
-    <TabPane tab={`Flight Group ${parseInt(key) + 1}`} key={key}>
-      {separatedByFlightNumber[key]?.map((item, index) => (
-        
-
-      
-
-        
-        <div key={index} style={{ marginBottom: '16px',display:"flex",justifyContent:"space-between" }}>
-         
-                            <div>
-                            <div><p>{item.AirlineDescription}</p></div>
-                           
-                            </div>
-        
-                          
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <div><p>{item?.Price}</p></div>
-            <Button onClick={() => mellFuncton("-", item, index, key)}>-</Button>
-            <div>{MellListNub[parseInt(key)]?.[index] || 0}</div>
-            <Button onClick={() => mellFuncton("+", item, index, key)}>+</Button>
-
-          </div>
-        </div>
-
-        
-      ))}
-    </TabPane>
-  ))}
-</Tabs>
-
-
-  ) : (
-    <div>No SSR details found.</div>
-  )
-       }
-       {0 < mellData?.length && (
-                <div className="bagPriceCon">
-                  <div>
-                    {" "}
-                    {mellData[selectedIndex]?.length} of{" "}
-                    {Number(adultCount) + Number(childCount)} Meal(s) Selected
-                  </div>
-                  <div
-                    className="bagPriceConRight"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: "15px",
-                    }}
-                  >
-                    <div>
-                      <div style={{ fontSize: "12px" }}>Added to fare</div>
-                      <div style={{ fontWeight: "700" }}>₹{mellFare}</div>
-                    </div>
-                    <div
-                    onClick={() => mealclose(false)}
-                      className="buttonBag"
-                    >
-                      Done
-                    </div>
-                  </div>
-                </div>
-              )}
-
-      </AntdModal> */}
-
       <AntdModal
   title="Add Meal"
   visible={isModalVisible}
@@ -4062,9 +3989,9 @@ if (bag?.AirlineDescription) {
 
               if (airlineDescription) {
                 // Determine the veg/non-veg image
-                if (airlineDescription.includes("non veg") || airlineDescription.includes("non-veg") || airlineDescription.includes("nonveg") || airlineDescription.includes("chicken")) {
+                if (airlineDescription.includes("non veg") || airlineDescription.includes("non-veg")||airlineDescription.includes("Non – Vegetarian") || airlineDescription.includes("nonveg") || airlineDescription.includes("chicken")) {
                   vegImage = <img src={nonveg} alt="Non-Veg" style={{ marginTop: "14px", height: "15px" }} />;
-                } else if (airlineDescription.includes("veg")) {
+                } else if (airlineDescription.includes("veg") ||airlineDescription.includes("Vegetarian") ) {
                   vegImage = <img src={veg} alt="Veg" style={{ marginTop: "14px", height: "15px" }} />;
                 }
 
@@ -4212,6 +4139,13 @@ if (bag?.AirlineDescription) {
     </div>
   )}
 </AntdModal>
+
+<Authentic
+                isOpen={isLoginModalOpen}
+                onClose={handleModalClose}
+            // isLogoutOpen={logoutModalVisible}
+            // onLogoutClose={closeLogoutModal}
+            />
 
 
 
