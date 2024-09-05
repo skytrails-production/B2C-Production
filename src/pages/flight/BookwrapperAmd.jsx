@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import { IoPersonSharp } from "react-icons/io5";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 import DialogContent from "@mui/material/DialogContent";
 import Login from "../../components/Login";
 import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
@@ -50,8 +50,8 @@ import {
   isValidPassportNumber,
 } from "../../utility/validationFunctions";
 import flightPaymentLoding from "../../images/loading/loading-ban.gif";
-import { Checkbox } from 'antd';
-import AirSeatMap from "../../components/AirSeatMap/AirSeatMap"
+import { Checkbox } from "antd";
+import AirSeatMap from "../../components/AirSeatMap/AirSeatMap";
 import { IoIosArrowForward } from "react-icons/io";
 
 const variants = {
@@ -70,15 +70,15 @@ const variants = {
 };
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 475,
   height: 400,
   borderRadius: "15px",
-  bgcolor: 'background.paper',
-  background: 'aliceblue',
+  bgcolor: "background.paper",
+  background: "aliceblue",
   // border: '2px solid #000',
   boxShadow: 24,
   p: 4,
@@ -124,8 +124,6 @@ export default function BookWrapper() {
   const [refundTxnId, setRefundTxnId] = useState(null);
   const arrivalMomentt = moment(`${"010724"} ${"0555"}`, "DDMMYYYY HHmm");
 
-
-
   const [finalAmount, setFinalAmount] = useState(0);
 
   const handleFinalAmountChange = (amount) => {
@@ -139,17 +137,13 @@ export default function BookWrapper() {
 
   const [discountvalue, setdiscountValue] = useState("");
 
-
   const handledisocuntChange = (amount) => {
     setdiscountValue(amount);
   };
 
   // console.log("couponvalue",couponvalue);
 
-
-
   // console.log("ResultIndex",ResultIndex);
-
 
   // console.log("amount",finalAmount);
   // '1800' '0555'
@@ -246,8 +240,6 @@ export default function BookWrapper() {
 
   // return <div>hiiii</div>;
 
-
-
   const convertXmlToJson = () => {
     const parser = new XMLParser();
     const result = parser.parse(xmlData);
@@ -255,7 +247,7 @@ export default function BookWrapper() {
     if (xmlData !== "") {
       convertData =
         result["soapenv:Envelope"]["soapenv:Body"][
-        "Air_SellFromRecommendationReply"
+          "Air_SellFromRecommendationReply"
         ];
       setJsonData(convertData);
     }
@@ -322,18 +314,16 @@ export default function BookWrapper() {
     if (authenticUser !== 200) {
       setIsLoginModalOpen(true);
     } else {
-      setOpen(true)
+      setOpen(true);
       // setOpenTravelModal(true);
     }
   };
-
 
   const couponconfirmation = async () => {
     try {
       const token = SecureStorage.getItem("jwtToken");
       const response = await axios.get(
-        `${apiURL.baseURL
-        }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
+        `${apiURL.baseURL}/skyTrails/api/coupons/couponApplied/${couponvalue}`,
 
         {
           headers: {
@@ -343,12 +333,8 @@ export default function BookWrapper() {
       );
     } catch (error) {
       console.log(error);
-
     }
   };
-
-
-
 
   const handleTravelClose = (event, reason) => {
     if (reason !== "backdropClick") {
@@ -412,71 +398,77 @@ export default function BookWrapper() {
               <traveller>
                   <surname>${passengerData[i]?.lastName}</surname>
                  
-                  <quantity>${passengerData[i]?.PaxType === 1 ? adultCount : childCount
-        }</quantity>
+                  <quantity>${
+                    passengerData[i]?.PaxType === 1 ? adultCount : childCount
+                  }</quantity>
               </traveller>
               <passenger>
                   <firstName>${passengerData[i]?.firstName}</firstName>
-                  <type>${passengerData[i]?.PaxType === 1 ? "ADT" : "CHD"
-        // : passengerData[i]?.PaxType === 2
-        // ? "CHD"
-        // :
-        }</type>
+                  <type>${
+                    passengerData[i]?.PaxType === 1 ? "ADT" : "CHD"
+                    // : passengerData[i]?.PaxType === 2
+                    // ? "CHD"
+                    // :
+                  }</type>
               </passenger>
               </travellerInformation>
-              ${passengerData[i]?.PaxType !== 1
-          ? `<dateOfBirth>
+              ${
+                passengerData[i]?.PaxType !== 1
+                  ? `<dateOfBirth>
                       <dateAndTimeDetails>
                           <qualifier>706</qualifier>
                           <date>${convertDateFormatAmd(
-            passengerData[i]?.DateOfBirth
-          )}</date>
+                            passengerData[i]?.DateOfBirth
+                          )}</date>
                       </dateAndTimeDetails>
                     </dateOfBirth>`
-          : ""
-        }
+                  : ""
+              }
       </passengerData>
-      ${i < infantCount
+      ${
+        i < infantCount
           ? ` <passengerData>
           <travellerInformation>
               <traveller>
                   <surname>${
-          //   ,
-          passengerData[Number(adultCount) + Number(childCount) + i]
-            ?.lastName
-          }</surname>
+                    //   ,
+                    passengerData[Number(adultCount) + Number(childCount) + i]
+                      ?.lastName
+                  }</surname>
                   <quantity>${infantCount}</quantity>
               </traveller>
               <passenger>
-                  <firstName>${passengerData[Number(adultCount) + Number(childCount) + i]
-            ?.firstName
-          }</firstName>
-                  <type>${"INF"
-          // passengerData[i]?.PaxType === 1 ? "ADT" : "CHD"
-          // : passengerData[i]?.PaxType === 2
-          // ? "CHD"
-          // :
-          }</type>
+                  <firstName>${
+                    passengerData[Number(adultCount) + Number(childCount) + i]
+                      ?.firstName
+                  }</firstName>
+                  <type>${
+                    "INF"
+                    // passengerData[i]?.PaxType === 1 ? "ADT" : "CHD"
+                    // : passengerData[i]?.PaxType === 2
+                    // ? "CHD"
+                    // :
+                  }</type>
               </passenger>
               </travellerInformation>
               ${
-          // passengerData[i]?.PaxType !== 1
-          // ?
-          `<dateOfBirth>
+                // passengerData[i]?.PaxType !== 1
+                // ?
+                `<dateOfBirth>
                       <dateAndTimeDetails>
                           <qualifier>706</qualifier>
                           <date>${convertDateFormatAmd(
-            passengerData[
-              Number(adultCount) + Number(childCount) + i
-            ]?.DateOfBirth
-          )}</date>
+                            passengerData[
+                              Number(adultCount) + Number(childCount) + i
+                            ]?.DateOfBirth
+                          )}</date>
                       </dateAndTimeDetails>
                     </dateOfBirth>`
-          // : ""
-          }
+                // : ""
+              }
       </passengerData>`
           : ""
-        }
+      }
   </travellerInfo>`;
       dataElementsMaster += `<dataElementsIndiv>
             <elementManagementData>
@@ -698,14 +690,16 @@ export default function BookWrapper() {
                 <freetextDetail>
                     <subjectQualifier>3</subjectQualifier>
                     <type>P27</type>
-                    <companyId>${sesstioResultIndex?.flightDetails?.flightInformation
-        ?.companyId?.marketingCarrier ||
-      sesstioResultIndex?.flightDetails[0]?.flightInformation
-        ?.companyId?.marketingCarrier
-      }</companyId>
+                    <companyId>${
+                      sesstioResultIndex?.flightDetails?.flightInformation
+                        ?.companyId?.marketingCarrier ||
+                      sesstioResultIndex?.flightDetails[0]?.flightInformation
+                        ?.companyId?.marketingCarrier
+                    }</companyId>
                 </freetextDetail>
-                <longFreetext>PAX CTCM ${passengerData[0]?.ContactNo
-      }</longFreetext>
+                <longFreetext>PAX CTCM ${
+                  passengerData[0]?.ContactNo
+                }</longFreetext>
             </freetextData>
         </dataElementsIndiv>
        
@@ -729,8 +723,6 @@ export default function BookWrapper() {
     setTransactionAmount(e);
   };
 
-
-
   const TicketDetails = reducerState?.flightFare?.flightQuoteData?.Results;
   const cancellationPolicy =
     reducerState?.flightFare?.flightQuoteData?.Results?.MiniFareRules?.[0];
@@ -744,7 +736,7 @@ export default function BookWrapper() {
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
   const isPassportRequired =
     reducerState?.searchFlight?.flightDetails?.from?.CountryCode !== "IN " ||
-      reducerState?.searchFlight?.flightDetails?.to?.CountryCode !== "IN "
+    reducerState?.searchFlight?.flightDetails?.to?.CountryCode !== "IN "
       ? true
       : false;
 
@@ -779,83 +771,90 @@ export default function BookWrapper() {
       text += ` <segmentInformation>
                         <travelProductInformation>
                             <flightDate>
-                                <departureDate>${isOther
-          ? sesstioResultIndex[0]?.flightDetails[i]
-            ?.flightInformation?.productDateTime
-            ?.dateOfDeparture
-          : sesstioResultIndex?.flightDetails[i]
-            ?.flightInformation?.productDateTime
-            ?.dateOfDeparture
-        }</departureDate>
+                                <departureDate>${
+                                  isOther
+                                    ? sesstioResultIndex[0]?.flightDetails[i]
+                                        ?.flightInformation?.productDateTime
+                                        ?.dateOfDeparture
+                                    : sesstioResultIndex?.flightDetails[i]
+                                        ?.flightInformation?.productDateTime
+                                        ?.dateOfDeparture
+                                }</departureDate>
                             </flightDate>
                             <boardPointDetails>
-                                <trueLocationId>${isOther
-          ? sesstioResultIndex[0]?.flightDetails[i]
-            ?.flightInformation?.location[0]
-            ?.locationId
-          : sesstioResultIndex?.flightDetails[i]
-            ?.flightInformation?.location[0]
-            ?.locationId
-        }</trueLocationId>
+                                <trueLocationId>${
+                                  isOther
+                                    ? sesstioResultIndex[0]?.flightDetails[i]
+                                        ?.flightInformation?.location[0]
+                                        ?.locationId
+                                    : sesstioResultIndex?.flightDetails[i]
+                                        ?.flightInformation?.location[0]
+                                        ?.locationId
+                                }</trueLocationId>
                             </boardPointDetails>
                             <offpointDetails>
-                                <trueLocationId>${isOther
-          ? sesstioResultIndex[0]?.flightDetails[i]
-            ?.flightInformation?.location[1]
-            ?.locationId
-          : sesstioResultIndex?.flightDetails[i]
-            ?.flightInformation?.location[1]
-            ?.locationId
-        }</trueLocationId>
+                                <trueLocationId>${
+                                  isOther
+                                    ? sesstioResultIndex[0]?.flightDetails[i]
+                                        ?.flightInformation?.location[1]
+                                        ?.locationId
+                                    : sesstioResultIndex?.flightDetails[i]
+                                        ?.flightInformation?.location[1]
+                                        ?.locationId
+                                }</trueLocationId>
                             </offpointDetails>
                             <companyDetails>
-                                <marketingCompany>${isOther
-          ? sesstioResultIndex[0]?.flightDetails[i]
-            ?.flightInformation?.companyId
-            ?.marketingCarrier
-          : sesstioResultIndex?.flightDetails[i]
-            ?.flightInformation?.companyId
-            ?.marketingCarrier
-        }</marketingCompany>
+                                <marketingCompany>${
+                                  isOther
+                                    ? sesstioResultIndex[0]?.flightDetails[i]
+                                        ?.flightInformation?.companyId
+                                        ?.marketingCarrier
+                                    : sesstioResultIndex?.flightDetails[i]
+                                        ?.flightInformation?.companyId
+                                        ?.marketingCarrier
+                                }</marketingCompany>
                             </companyDetails>
                             <flightIdentification>
-                                <flightNumber>${isOther
-          ? sesstioResultIndex[0]?.flightDetails[i]
-            ?.flightInformation?.flightOrtrainNumber
-          : sesstioResultIndex?.flightDetails[i]
-            ?.flightInformation?.flightOrtrainNumber
-        }</flightNumber>
-                                <bookingClass>${sesstioResultIndex[0]?.fareDetails
-          ?.groupOfFares?.productInformation
-          ?.cabinProduct?.rbd ||
-        sesstioResultIndex?.fareDetails?.groupOfFares
-          ?.productInformation?.cabinProduct?.rbd ||
-        sesstioResultIndex[0]?.fareDetails
-          ?.groupOfFares?.productInformation
-          ?.cabinProduct?.rbd ||
-        sesstioResultIndex?.fareDetails?.groupOfFares[
-          i
-        ]?.productInformation?.cabinProduct?.rbd ||
-        sesstioResultIndex?.fareDetails?.groupOfFares
-          ?.productInformation?.cabinProduct?.rbd ||
-        sesstioResultIndex?.fareDetails
-          ?.groupOfFares[0]?.productInformation
-          ?.cabinProduct?.rbd ||
-        sesstioResultIndex?.fareDetails
-          ?.groupOfFares[0]?.productInformation
-          ?.cabinProduct?.rbd ||
-        sesstioResultIndex[0]?.fareDetails
-          ?.groupOfFares[0]?.productInformation
-          ?.cabinProduct?.rbd ||
-        sesstioResultIndex?.fareDetails
-          ?.groupOfFares[0]?.productInformation
-          ?.cabinProduct[0]?.rbd
-        }</bookingClass>
+                                <flightNumber>${
+                                  isOther
+                                    ? sesstioResultIndex[0]?.flightDetails[i]
+                                        ?.flightInformation?.flightOrtrainNumber
+                                    : sesstioResultIndex?.flightDetails[i]
+                                        ?.flightInformation?.flightOrtrainNumber
+                                }</flightNumber>
+                                <bookingClass>${
+                                  sesstioResultIndex[0]?.fareDetails
+                                    ?.groupOfFares?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails?.groupOfFares
+                                    ?.productInformation?.cabinProduct?.rbd ||
+                                  sesstioResultIndex[0]?.fareDetails
+                                    ?.groupOfFares?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails?.groupOfFares[
+                                    i
+                                  ]?.productInformation?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails?.groupOfFares
+                                    ?.productInformation?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex[0]?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct[0]?.rbd
+                                }</bookingClass>
                             </flightIdentification>
                         </travelProductInformation>
                         <relatedproductInformation>
-                            <quantity>${Number(adultCount) + Number(childCount)
-        }</quantity>
+                            <quantity>${
+                              Number(adultCount) + Number(childCount)
+                            }</quantity>
                             <statusCode>NN</statusCode>
                         </relatedproductInformation>
                     </segmentInformation>
@@ -871,81 +870,87 @@ export default function BookWrapper() {
        <segmentInformation>
                         <travelProductInformation>
                             <flightDate>
-                                <departureDate>${sesstioResultIndex[0]?.flightDetails
-      ?.flightInformation?.productDateTime
-      ?.dateOfDeparture ||
-    sesstioResultIndex?.flightDetails[0]
-      ?.flightInformation?.productDateTime
-      ?.dateOfDeparture ||
-    sesstioResultIndex[0]?.flightDetails
-      ?.flightDetails?.flightInformation
-      ?.productDateTime?.dateOfDeparture ||
-    sesstioResultIndex?.flightDetails
-      ?.flightDetails?.flightInformation
-      ?.productDateTime?.dateOfDeparture ||
-    sesstioResultIndex?.flightDetails
-      ?.flightInformation?.productDateTime
-      ?.dateOfDeparture
-    }</departureDate>
+                                <departureDate>${
+                                  sesstioResultIndex[0]?.flightDetails
+                                    ?.flightInformation?.productDateTime
+                                    ?.dateOfDeparture ||
+                                  sesstioResultIndex?.flightDetails[0]
+                                    ?.flightInformation?.productDateTime
+                                    ?.dateOfDeparture ||
+                                  sesstioResultIndex[0]?.flightDetails
+                                    ?.flightDetails?.flightInformation
+                                    ?.productDateTime?.dateOfDeparture ||
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightDetails?.flightInformation
+                                    ?.productDateTime?.dateOfDeparture ||
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightInformation?.productDateTime
+                                    ?.dateOfDeparture
+                                }</departureDate>
                             </flightDate>
                             <boardPointDetails>
-                                <trueLocationId>${sesstioResultIndex?.flightDetails
-      ?.flightInformation?.location[0]?.locationId
-    }</trueLocationId>
+                                <trueLocationId>${
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightInformation?.location[0]?.locationId
+                                }</trueLocationId>
                             </boardPointDetails>
                             <offpointDetails>
-                                <trueLocationId>${sesstioResultIndex?.flightDetails
-      ?.flightInformation?.location[1]?.locationId
-    }</trueLocationId>
+                                <trueLocationId>${
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightInformation?.location[1]?.locationId
+                                }</trueLocationId>
                             </offpointDetails>
                             <companyDetails>
-                                <marketingCompany>${sesstioResultIndex?.flightDetails
-      ?.flightInformation?.companyId
-      ?.marketingCarrier
-    }</marketingCompany>
+                                <marketingCompany>${
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightInformation?.companyId
+                                    ?.marketingCarrier
+                                }</marketingCompany>
                             </companyDetails>
                             <flightIdentification>
-                                <flightNumber>${sesstioResultIndex?.flightDetails
-      ?.flightInformation?.flightOrtrainNumber
-    }</flightNumber>
+                                <flightNumber>${
+                                  sesstioResultIndex?.flightDetails
+                                    ?.flightInformation?.flightOrtrainNumber
+                                }</flightNumber>
                                 <bookingClass>${
-    // sesstioResultIndex?.fareDetails?.groupOfFares
-    //   ?.productInformation
-    //   ? sesstioResultIndex?.fareDetails
-    //       ?.groupOfFares?.productInformation
-    //       ?.cabinProduct?.rbd
-    //   : sesstioResultIndex[0]?.fareDetails
-    //       ?.groupOfFares[0]?.productInformation
-    //       ?.cabinProduct?.rbd
+                                  // sesstioResultIndex?.fareDetails?.groupOfFares
+                                  //   ?.productInformation
+                                  //   ? sesstioResultIndex?.fareDetails
+                                  //       ?.groupOfFares?.productInformation
+                                  //       ?.cabinProduct?.rbd
+                                  //   : sesstioResultIndex[0]?.fareDetails
+                                  //       ?.groupOfFares[0]?.productInformation
+                                  //       ?.cabinProduct?.rbd
 
-    sesstioResultIndex[0]?.fareDetails
-      ?.groupOfFares?.productInformation
-      ?.cabinProduct?.rbd ||
-    sesstioResultIndex?.fareDetails?.groupOfFares
-      ?.productInformation?.cabinProduct?.rbd ||
-    sesstioResultIndex[0]?.fareDetails
-      ?.groupOfFares?.productInformation
-      ?.cabinProduct?.rbd ||
-    sesstioResultIndex?.fareDetails
-      ?.groupOfFares[0]?.productInformation
-      ?.cabinProduct?.rbd ||
-    sesstioResultIndex?.fareDetails?.groupOfFares
-      ?.productInformation?.cabinProduct?.rbd ||
-    sesstioResultIndex?.fareDetails
-      ?.groupOfFares[0]?.productInformation
-      ?.cabinProduct?.rbd ||
-    sesstioResultIndex[0]?.fareDetails
-      ?.groupOfFares[0]?.productInformation
-      ?.cabinProduct?.rbd ||
-    sesstioResultIndex?.fareDetails
-      ?.groupOfFares[0]?.productInformation
-      ?.cabinProduct[0]?.rbd
-    }</bookingClass>
+                                  sesstioResultIndex[0]?.fareDetails
+                                    ?.groupOfFares?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails?.groupOfFares
+                                    ?.productInformation?.cabinProduct?.rbd ||
+                                  sesstioResultIndex[0]?.fareDetails
+                                    ?.groupOfFares?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails?.groupOfFares
+                                    ?.productInformation?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex[0]?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct?.rbd ||
+                                  sesstioResultIndex?.fareDetails
+                                    ?.groupOfFares[0]?.productInformation
+                                    ?.cabinProduct[0]?.rbd
+                                }</bookingClass>
                             </flightIdentification>
                         </travelProductInformation>
                         <relatedproductInformation>
-                            <quantity>${Number(adultCount) + Number(childCount)
-    }</quantity>
+                            <quantity>${
+                              Number(adultCount) + Number(childCount)
+                            }</quantity>
                             <statusCode>NN</statusCode>
                         </relatedproductInformation>
                     </segmentInformation>
@@ -1151,19 +1156,21 @@ export default function BookWrapper() {
                 </messageActionDetails>
                 <itineraryDetails>
                     <originDestinationDetails>
-                        <origin>${sesstioResultIndex?.flightDetails?.flightInformation
-            ? sesstioResultIndex?.flightDetails
-              ?.flightInformation?.location[0]?.locationId
-            : sesstioResultIndex?.flightDetails[0]
-              ?.flightInformation?.location[0]?.locationId
-          }</origin>
-                        <destination>${sesstioResultIndex?.flightDetails?.flightInformation
-            ? sesstioResultIndex?.flightDetails
-              ?.flightInformation?.location[1]?.locationId
-            : sesstioResultIndex?.flightDetails[
-              sesstioResultIndex?.flightDetails?.length - 1
-            ]?.flightInformation?.location[1]?.locationId
-          }</destination>
+                        <origin>${
+                          sesstioResultIndex?.flightDetails?.flightInformation
+                            ? sesstioResultIndex?.flightDetails
+                                ?.flightInformation?.location[0]?.locationId
+                            : sesstioResultIndex?.flightDetails[0]
+                                ?.flightInformation?.location[0]?.locationId
+                        }</origin>
+                        <destination>${
+                          sesstioResultIndex?.flightDetails?.flightInformation
+                            ? sesstioResultIndex?.flightDetails
+                                ?.flightInformation?.location[1]?.locationId
+                            : sesstioResultIndex?.flightDetails[
+                                sesstioResultIndex?.flightDetails?.length - 1
+                              ]?.flightInformation?.location[1]?.locationId
+                        }</destination>
                     </originDestinationDetails>
                     <message>
                         <messageFunctionDetails>
@@ -1266,7 +1273,12 @@ export default function BookWrapper() {
   };
 
   const fetchDataAmadesContinue = async (amadiesPayload) => {
-    console.log(airesellRes?.data?.headers?.MessageID, airesellRes?.data?.headers?.UniqueID, airesellRes?.data?.headers?.SessionId, airesellRes?.data?.headers?.SecurityToken)
+    console.log(
+      airesellRes?.data?.headers?.MessageID,
+      airesellRes?.data?.headers?.UniqueID,
+      airesellRes?.data?.headers?.SessionId,
+      airesellRes?.data?.headers?.SecurityToken
+    );
     const res = await axios({
       method: "POST",
       url: `${apiURL.baseURL}/skyTrails/amadeus/pnraddmultielements`,
@@ -1288,7 +1300,6 @@ export default function BookWrapper() {
       farepricepnrwithbookingclass(res?.data?.data?.headers);
     }
   };
-
 
   const refundAmount = async () => {
     try {
@@ -1317,7 +1328,6 @@ export default function BookWrapper() {
       console.warn(error);
     } finally {
       saveDb();
-
     }
 
     swalModal(
@@ -1328,8 +1338,6 @@ export default function BookWrapper() {
     );
     navigate("/");
   };
-
-
 
   for (let i = 0; i < adultCount; i++) {
     passengerLists.push({
@@ -1379,7 +1387,7 @@ export default function BookWrapper() {
     }
     list[i][name] = value;
     setPassengerData(list);
-    console.log("Passengerdatabookwraper",passengerData)
+    console.log("Passengerdatabookwraper", passengerData);
   };
 
   const authenticUser = reducerState?.logIn?.loginData?.status;
@@ -1393,7 +1401,7 @@ export default function BookWrapper() {
   const grandTotal =
     parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) +
     markUpamount *
-    parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0);
+      parseInt(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0);
   // console.log( parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) + markUpamount * parseInt(ResultIndex?.monetaryDetail?.[0]?.amount) ,"bhjsdgsdbfuydgbfuyfegbfuyfedyufbfedyfb")
   const handlePayment = async () => {
     // console.log(passengerData)
@@ -1576,91 +1584,95 @@ export default function BookWrapper() {
             ?.baggageDetails?.quantityCode ||
             sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
               ?.quantityCode) === "W"
-            ? `${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-              ?.baggageDetails?.freeAllowance ||
-            sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
-              ?.freeAllowance
-            } ${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-              ?.baggageDetails?.unitQualifier ||
-              sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
-                ?.unitQualifier === "K"
-              ? "KG"
-              : `${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-                ?.baggageDetails?.unitQualifier ||
-              sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-                ?.baggageDetails?.unitQualifier
+            ? `${
+                sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                  ?.baggageDetails?.freeAllowance ||
+                sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
+                  ?.freeAllowance
+              } ${
+                sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                  ?.baggageDetails?.unitQualifier ||
+                sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
+                  ?.unitQualifier === "K"
+                  ? "KG"
+                  : `${
+                      sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                        ?.baggageDetails?.unitQualifier ||
+                      sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                        ?.baggageDetails?.unitQualifier
+                    }`
               }`
-            }`
-            : `(${sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
-              ?.freeAllowance ||
-            sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-              ?.baggageDetails?.freeAllowance
-            } × 23KG)`,
+            : `(${
+                sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails
+                  ?.freeAllowance ||
+                sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                  ?.baggageDetails?.freeAllowance
+              } × 23KG)`,
       },
     ];
     const times = jsonSavePnrData?.originDestinationDetails?.itineraryInfo
       ?.elementManagementItinerary
       ? nonStop
       : jsonSavePnrData?.originDestinationDetails?.itineraryInfo.map(
-        (itinerary, index) => {
-          let depTime = String(itinerary?.travelProduct?.product?.depTime);
-          let depDate = String(itinerary?.travelProduct?.product?.depDate);
-          let arrTime = String(itinerary?.travelProduct?.product?.arrTime);
-          let arrDate = String(itinerary?.travelProduct?.product?.arrDate);
-          // console.log(itinerary,"itineraryitineraryitinerary")
+          (itinerary, index) => {
+            let depTime = String(itinerary?.travelProduct?.product?.depTime);
+            let depDate = String(itinerary?.travelProduct?.product?.depDate);
+            let arrTime = String(itinerary?.travelProduct?.product?.arrTime);
+            let arrDate = String(itinerary?.travelProduct?.product?.arrDate);
+            // console.log(itinerary,"itineraryitineraryitinerary")
 
-          // Ensure depTime and arrTime are properly formatted
-          if (depTime && depTime.length === 2) {
-            depTime = "00" + depTime;
-          }
-          if (arrTime && arrTime.length === 2) {
-            arrTime = "00" + arrTime;
-          }
-          if (depTime && depTime.length === 3) {
-            depTime = "0" + depTime;
-          }
-          if (arrTime && arrTime.length === 3) {
-            arrTime = "0" + arrTime;
-          }
-          if (depDate && depDate.length === 5) {
-            depDate = "0" + depDate;
-          }
-          if (depDate && depDate.length === 4) {
-            depDate = "00" + depDate;
-          }
-          if (arrDate && arrDate.length === 4) {
-            arrDate = "00" + arrDate;
-          }
-          if (arrDate && arrDate.length === 5) {
-            arrDate = "0" + arrDate;
-          }
+            // Ensure depTime and arrTime are properly formatted
+            if (depTime && depTime.length === 2) {
+              depTime = "00" + depTime;
+            }
+            if (arrTime && arrTime.length === 2) {
+              arrTime = "00" + arrTime;
+            }
+            if (depTime && depTime.length === 3) {
+              depTime = "0" + depTime;
+            }
+            if (arrTime && arrTime.length === 3) {
+              arrTime = "0" + arrTime;
+            }
+            if (depDate && depDate.length === 5) {
+              depDate = "0" + depDate;
+            }
+            if (depDate && depDate.length === 4) {
+              depDate = "00" + depDate;
+            }
+            if (arrDate && arrDate.length === 4) {
+              arrDate = "00" + arrDate;
+            }
+            if (arrDate && arrDate.length === 5) {
+              arrDate = "0" + arrDate;
+            }
 
-          // console.log(itinerary,"itineraryitineraryitinerary",depTime,arrTime)
+            // console.log(itinerary,"itineraryitineraryitinerary",depTime,arrTime)
 
-          // Parse depDate and depTime into ISO format for departure
-          const depDateTimeString = `${depDate}${depTime}`;
-          const departureMoment = moment(depDateTimeString, "YYMMDDHHmm");
-          const depTimeISO = departureMoment.isValid()
-            ? departureMoment.toISOString()
-            : null;
+            // Parse depDate and depTime into ISO format for departure
+            const depDateTimeString = `${depDate}${depTime}`;
+            const departureMoment = moment(depDateTimeString, "YYMMDDHHmm");
+            const depTimeISO = departureMoment.isValid()
+              ? departureMoment.toISOString()
+              : null;
 
-          // Parse arrDate and arrTime into ISO format for arrival
-          const arrDateTimeString = `${arrDate}${arrTime}`;
-          const arrivalMoment = moment(arrDateTimeString, "YYMMDDHHmm");
-          const arrTimeISO = arrivalMoment.isValid()
-            ? arrivalMoment.toISOString()
-            : null;
+            // Parse arrDate and arrTime into ISO format for arrival
+            const arrDateTimeString = `${arrDate}${arrTime}`;
+            const arrivalMoment = moment(arrDateTimeString, "YYMMDDHHmm");
+            const arrTimeISO = arrivalMoment.isValid()
+              ? arrivalMoment.toISOString()
+              : null;
 
-          // console.log(depDateTimeString,departureMoment,depTimeISO,arrDateTimeString,arrivalMoment,arrTimeISO,arrDate,depDate,"deppppppppppp")
+            // console.log(depDateTimeString,departureMoment,depTimeISO,arrDateTimeString,arrivalMoment,arrTimeISO,arrDate,depDate,"deppppppppppp")
 
-          return {
-            depTime: depTimeISO,
-            depDate,
-            arrTime: arrTimeISO,
-            arrDate,
-          };
-        }
-      );
+            return {
+              depTime: depTimeISO,
+              depDate,
+              arrTime: arrTimeISO,
+              arrDate,
+            };
+          }
+        );
 
     let depTimeString = String(
       jsonData?.itineraryDetails?.segmentInformation?.flightDetails?.flightDate
@@ -1740,79 +1752,83 @@ export default function BookWrapper() {
         ?.elementManagementItinerary
         ? nonStop
         : jsonSavePnrData?.originDestinationDetails?.itineraryInfo.map(
-          (stopss, index) => {
-            const depTimeISO = times[index]?.depTime;
-            const arrTimeISO = times[index]?.arrTime;
+            (stopss, index) => {
+              const depTimeISO = times[index]?.depTime;
+              const arrTimeISO = times[index]?.arrTime;
 
-            return {
-              Airline: {
-                AirlineCode:
-                  stopss?.travelProduct?.companyDetail?.identification,
-                AirlineName:
-                  stopss?.travelProduct?.companyDetail?.identification,
-                FlightNumber:
-                  stopss?.travelProduct?.productDetails?.identification,
-                FareClass:
-                  stopss?.travelProduct?.productDetails?.classOfService,
-              },
-              Origin: {
-                AirportCode:
-                  stopss?.travelProduct?.boardpointDetail?.cityCode,
-                // AirportName: reducerState?.searchReducer?.search?.[0]?.code,
-                // CityName: reducerState?.searchReducer?.search?.[0]?.name,
-                AirportName: findAirportByCode(
-                  stopss?.travelProduct?.boardpointDetail?.cityCode
-                )?.code,
-                CityName: findAirportByCode(
-                  stopss?.travelProduct?.boardpointDetail?.cityCode
-                )?.name,
-                Terminal: stopss?.flightDetail?.arrivalStationInfo?.terminal,
-                DepTime: depTimeISO,
-              },
-              Destination: {
-                AirportCode: stopss?.travelProduct?.offpointDetail?.cityCode,
-                // AirportName: reducerState?.searchReducer?.search?.[1]?.code,
-                // CityName: reducerState?.searchReducer?.search?.[1]?.name,
-                AirportName: findAirportByCode(
-                  stopss?.travelProduct?.offpointDetail?.cityCode
-                )?.code,
-                CityName: findAirportByCode(
-                  stopss?.travelProduct?.offpointDetail?.cityCode
-                )?.name,
-                Terminal:
-                  stopss?.flightDetail?.departureInformation?.departTerminal,
-                ArrTime: arrTimeISO,
-              },
-              Baggage:
-                (sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-                  ?.baggageDetails?.quantityCode ||
-                  sesstioResultIndex?.baggage?.freeBagAllownceInfo
-                    ?.baggageDetails?.quantityCode) === "W"
-                  ? `${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-                    ?.baggageDetails?.freeAllowance ||
-                  sesstioResultIndex?.baggage?.freeBagAllownceInfo
-                    ?.baggageDetails?.freeAllowance
-                  } ${sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
-                    ?.baggageDetails?.unitQualifier ||
+              return {
+                Airline: {
+                  AirlineCode:
+                    stopss?.travelProduct?.companyDetail?.identification,
+                  AirlineName:
+                    stopss?.travelProduct?.companyDetail?.identification,
+                  FlightNumber:
+                    stopss?.travelProduct?.productDetails?.identification,
+                  FareClass:
+                    stopss?.travelProduct?.productDetails?.classOfService,
+                },
+                Origin: {
+                  AirportCode:
+                    stopss?.travelProduct?.boardpointDetail?.cityCode,
+                  // AirportName: reducerState?.searchReducer?.search?.[0]?.code,
+                  // CityName: reducerState?.searchReducer?.search?.[0]?.name,
+                  AirportName: findAirportByCode(
+                    stopss?.travelProduct?.boardpointDetail?.cityCode
+                  )?.code,
+                  CityName: findAirportByCode(
+                    stopss?.travelProduct?.boardpointDetail?.cityCode
+                  )?.name,
+                  Terminal: stopss?.flightDetail?.arrivalStationInfo?.terminal,
+                  DepTime: depTimeISO,
+                },
+                Destination: {
+                  AirportCode: stopss?.travelProduct?.offpointDetail?.cityCode,
+                  // AirportName: reducerState?.searchReducer?.search?.[1]?.code,
+                  // CityName: reducerState?.searchReducer?.search?.[1]?.name,
+                  AirportName: findAirportByCode(
+                    stopss?.travelProduct?.offpointDetail?.cityCode
+                  )?.code,
+                  CityName: findAirportByCode(
+                    stopss?.travelProduct?.offpointDetail?.cityCode
+                  )?.name,
+                  Terminal:
+                    stopss?.flightDetail?.departureInformation?.departTerminal,
+                  ArrTime: arrTimeISO,
+                },
+                Baggage:
+                  (sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                    ?.baggageDetails?.quantityCode ||
                     sesstioResultIndex?.baggage?.freeBagAllownceInfo
-                      ?.baggageDetails?.unitQualifier === "K"
-                    ? "KG"
-                    : `${sesstioResultIndex?.flight?.baggage
-                      ?.freeBagAllownceInfo?.baggageDetails
-                      ?.unitQualifier ||
-                    sesstioResultIndex?.flight?.baggage
-                      ?.freeBagAllownceInfo?.baggageDetails
-                      ?.unitQualifier
-                    }`
-                  }`
-                  : `(${sesstioResultIndex?.baggage?.freeBagAllownceInfo
-                    ?.baggageDetails?.freeAllowance ||
-                  sesstioResultIndex?.sesstioResultIndex?.baggage
-                    ?.freeBagAllownceInfo?.baggageDetails?.freeAllowance
-                  } × 23KG)`,
-            };
-          }
-        ),
+                      ?.baggageDetails?.quantityCode) === "W"
+                    ? `${
+                        sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                          ?.baggageDetails?.freeAllowance ||
+                        sesstioResultIndex?.baggage?.freeBagAllownceInfo
+                          ?.baggageDetails?.freeAllowance
+                      } ${
+                        sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo
+                          ?.baggageDetails?.unitQualifier ||
+                        sesstioResultIndex?.baggage?.freeBagAllownceInfo
+                          ?.baggageDetails?.unitQualifier === "K"
+                          ? "KG"
+                          : `${
+                              sesstioResultIndex?.flight?.baggage
+                                ?.freeBagAllownceInfo?.baggageDetails
+                                ?.unitQualifier ||
+                              sesstioResultIndex?.flight?.baggage
+                                ?.freeBagAllownceInfo?.baggageDetails
+                                ?.unitQualifier
+                            }`
+                      }`
+                    : `(${
+                        sesstioResultIndex?.baggage?.freeBagAllownceInfo
+                          ?.baggageDetails?.freeAllowance ||
+                        sesstioResultIndex?.sesstioResultIndex?.baggage
+                          ?.freeBagAllownceInfo?.baggageDetails?.freeAllowance
+                      } × 23KG)`,
+              };
+            }
+          ),
 
       passengerDetails: reducerState?.passengers?.passengersData?.map(
         (item) => ({
@@ -1828,19 +1844,24 @@ export default function BookWrapper() {
       dateOfJourney: "dateOfJourney",
     };
     // console.log(payload, "saveDbbbbbbbbbbbbbbbbbbb")
-   
+
     const response = await userApi.flightBookingDB(payload);
     if (
       response?.data?.statusCode === 200 &&
       jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber
     ) {
       couponconfirmation();
-      navigate(`/bookedTicketSucess/${jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber}`, {
-        state: { PNR: jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber },
-      });
+      navigate(
+        `/bookedTicketSucess/${jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation?.controlNumber}`,
+        {
+          state: {
+            PNR: jsonSavePnrData?.pnrHeader?.reservationInfo?.reservation
+              ?.controlNumber,
+          },
+        }
+      );
     }
   };
-
 
   function convertDateFormat(inputDate) {
     // Split the input date string into year, month, and day
@@ -1858,7 +1879,6 @@ export default function BookWrapper() {
 
     return outputDate;
   }
-
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
@@ -1884,7 +1904,7 @@ export default function BookWrapper() {
         validateName(item?.firstName) &&
         validateName(item?.lastName) &&
         validateDate(item?.DateOfBirth) &&
-        validatetitle1(item.title)&&
+        validatetitle1(item.title) &&
         (isPassportRequired ? isValidPassportNumber(item?.passportNo) : true)
     );
     // console.warn("result", result);
@@ -1897,7 +1917,6 @@ export default function BookWrapper() {
     } else setValidation(false);
   };
 
-  
   useEffect(() => {
     validation();
   }, [passengerData]);
@@ -1970,49 +1989,60 @@ export default function BookWrapper() {
   // };
 
   // console.log(reducerState   ,"reducerState");
-  const [firstnamevalue, setfirstnamevalue] = useState('');
-  const [lastnamevalue, setlastnamevalue] = useState('');
-  const [numbervalue, setnumbervalue] = useState('');
+  const [firstnamevalue, setfirstnamevalue] = useState("");
+  const [lastnamevalue, setlastnamevalue] = useState("");
+  const [numbervalue, setnumbervalue] = useState("");
 
   const passengerdetail = (e) => {
     const isChecked = e.target.checked;
     // console.log(passengerData,"gasjdgajdgasjd");
     if (isChecked) {
       const fullName = reducerState?.logIn?.loginData?.data?.result?.username;
-      const lastName = fullName ? fullName.split(' ').slice(1).join(' ') : '';
-      const firstName = fullName ? fullName.split(' ')[0] : '';
-      const phonenumber = reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number
+      const lastName = fullName ? fullName.split(" ").slice(1).join(" ") : "";
+      const firstName = fullName ? fullName.split(" ")[0] : "";
+      const phonenumber =
+        reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number;
 
       // console.log(firstName,lastName,phonenumber);
       setnumbervalue(phonenumber);
       setfirstnamevalue(firstName);
       setlastnamevalue(lastName);
-      handleServiceChange({ target: { name: 'firstName', value: firstName } }, 0);
-      handleServiceChange({ target: { name: 'lastName', value: lastName } }, 0);
-      handleServiceChange({ target: { name: 'ContactNo', value: phonenumber } }, 0);
+      handleServiceChange(
+        { target: { name: "firstName", value: firstName } },
+        0
+      );
+      handleServiceChange({ target: { name: "lastName", value: lastName } }, 0);
+      handleServiceChange(
+        { target: { name: "ContactNo", value: phonenumber } },
+        0
+      );
       // handleServiceChange()
     } else {
-      setfirstnamevalue(' ');
-      setlastnamevalue(' ');
-      setnumbervalue('');
-      handleServiceChange({ target: { name: 'firstName', value: '' } }, 0);
-      handleServiceChange({ target: { name: 'lastName', value: '' } }, 0);
-      handleServiceChange({ target: { name: 'ContactNo', value: '' } }, 0);
+      setfirstnamevalue(" ");
+      setlastnamevalue(" ");
+      setnumbervalue("");
+      handleServiceChange({ target: { name: "firstName", value: "" } }, 0);
+      handleServiceChange({ target: { name: "lastName", value: "" } }, 0);
+      handleServiceChange({ target: { name: "ContactNo", value: "" } }, 0);
     }
-
   };
 
   // const markUpamount =
   //   reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
-  const finalamountvalue1 = Number(sesstioResultIndex?.monetaryDetail?.[0]?.amount) +
-    Number(markUpamount) * Number(sesstioResultIndex?.monetaryDetail?.[0]?.amount);
-  const taxvaluetotal = Number((Number(markUpamount) * Number(sesstioResultIndex?.monetaryDetail?.[0]?.amount)));
+  const finalamountvalue1 =
+    Number(sesstioResultIndex?.monetaryDetail?.[0]?.amount) +
+    Number(markUpamount) *
+      Number(sesstioResultIndex?.monetaryDetail?.[0]?.amount);
+  const taxvaluetotal = Number(
+    Number(markUpamount) *
+      Number(sesstioResultIndex?.monetaryDetail?.[0]?.amount)
+  );
 
   const bookticketamd = () => {
-    setOpenTravelModal(true)
-  }
+    setOpenTravelModal(true);
+  };
 
-  const [placement, setPlacement] = useState('left');
+  const [placement, setPlacement] = useState("left");
   const showDrawer = () => {
     setOpen(true);
   };
@@ -2026,43 +2056,39 @@ export default function BookWrapper() {
   const [isDropdown, setIsDropdown] = useState(false);
 
   const toggleDropdown = () => {
-    setIsDropdown(pre=>!pre);
+    setIsDropdown((pre) => !pre);
     if (dropdownRef.current) {
       const elementPosition = dropdownRef.current.getBoundingClientRect().top;
-      console.log(elementPosition, dropdownRef.current, "elementposition")
+      console.log(elementPosition, dropdownRef.current, "elementposition");
       window.scrollTo({
         top: isDropdown ? 0 : Number(elementPosition) + 470,
-        behavior: 'smooth'
+        behavior: "smooth",
       });
     }
   };
-// console.log(isDropdown,"dddddd")
+  // console.log(isDropdown,"dddddd")
 
+  const [currentAdultCount, setCurrentAdultCount] = useState(0);
 
-const [currentAdultCount, setCurrentAdultCount] = useState(0);
+  const addAdult = () => {
+    if (currentAdultCount < adultCount) {
+      setCurrentAdultCount((prevCount) => prevCount + 1);
+    }
+  };
 
-const addAdult = () => {
-  if (currentAdultCount < adultCount) {
-    setCurrentAdultCount((prevCount) => prevCount + 1);
-  }
-};
+  const [currentChildCount, setcurrentChildCount] = useState(0);
+  const addChild = () => {
+    if (currentChildCount < childCount) {
+      setcurrentChildCount((prevCount) => prevCount + 1);
+    }
+  };
 
-
-const [currentChildCount, setcurrentChildCount] = useState(0);
-const addChild = () => {
-if (currentChildCount < childCount) {
-  setcurrentChildCount((prevCount) => prevCount + 1);
-}
-}
-
-const [currentinfantCount, setcurrentinfantCount] = useState(0);
-const addinfant = () => {
-if (currentinfantCount < infantCount) {
-  setcurrentinfantCount((prevCount) => prevCount + 1);
-}
-}
-
-
+  const [currentinfantCount, setcurrentinfantCount] = useState(0);
+  const addinfant = () => {
+    if (currentinfantCount < infantCount) {
+      setcurrentinfantCount((prevCount) => prevCount + 1);
+    }
+  };
 
   if (errorMessage) {
     <Flighterror props={errorMessage.errorMessage} />;
@@ -2077,13 +2103,12 @@ if (currentinfantCount < infantCount) {
         </div> */}
 
         {!reducerState?.flightFare?.flightQuoteData?.Results === true &&
-          ResultIndex?.ResultIndex ? (
+        ResultIndex?.ResultIndex ? (
           <FlightLoader />
         ) : (
           <div className="">
             <div className="container px-0 pt-4">
-            
-              <div className="row" style={{width:"100%"}}>
+              <div className="row" style={{ width: "100%" }}>
                 <motion.div
                   variants={variants}
                   initial="initial"
@@ -2091,18 +2116,22 @@ if (currentinfantCount < infantCount) {
                   className="col-lg-8 "
                 >
                   <motion.div className="row">
-                    <motion.div
-                      variants={variants}
-                      className=" col-lg-12 "
-                    >
+                    <motion.div variants={variants} className=" col-lg-12 ">
                       {
                         // TicketDetails?.Segments[0].length == 2 ?
 
                         <div className="booknowFlight">
                           <div className="bookaboveBox">
-                          <div style={{width:"100%"}}>
-                            <div style={{display:"flex",flexDirection:"row",width:"100%",justifyContent:"space-between"}}>
-                              {/* {TicketDetails?.AirlineRemark !== null &&
+                            <div style={{ width: "100%" }}>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  width: "100%",
+                                  justifyContent: "space-between",
+                                }}
+                              >
+                                {/* {TicketDetails?.AirlineRemark !== null &&
                               TicketDetails?.AirlineRemark !== "--." ? (
                                 <p className="text-center w-100 mandaField">
                                   {TicketDetails?.AirlineRemark}
@@ -2111,43 +2140,40 @@ if (currentinfantCount < infantCount) {
                                 ""
                               )} */}
 
-                              <p className="flightdestination-right-para">
-                                {
-                                  //"sesstioResultIndex?.flightDetails"
-                                  sesstioResultIndex?.flightDetails
+                                <p className="flightdestination-right-para">
+                                  {
+                                    //"sesstioResultIndex?.flightDetails"
+                                    sesstioResultIndex?.flightDetails
+                                      ?.flightInformation
+                                      ? sesstioResultIndex?.flightDetails
+                                          ?.flightInformation?.location[0]
+                                          ?.locationId
+                                      : sesstioResultIndex?.flightDetails[0]
+                                          .flightInformation?.location[0]
+                                          ?.locationId
+                                  }
+                                  <FiArrowRight style={{ margin: "5px" }} />{" "}
+                                  {sesstioResultIndex?.flightDetails
                                     ?.flightInformation
                                     ? sesstioResultIndex?.flightDetails
-                                      ?.flightInformation?.location[0]
-                                      ?.locationId
-                                    : sesstioResultIndex?.flightDetails[0]
-                                      .flightInformation?.location[0]
-                                      ?.locationId
-                                }
-                                <FiArrowRight style={{ margin: "5px" }} />{" "}
-                                {sesstioResultIndex?.flightDetails
-                                  ?.flightInformation
-                                  ? sesstioResultIndex?.flightDetails
-                                    ?.flightInformation?.location[1]
-                                    ?.locationId
-                                  : sesstioResultIndex?.flightDetails[
-                                    sesstioResultIndex?.flightDetails.length -
-                                    1
-                                  ].flightInformation?.location[1]
-                                    ?.locationId}
-                              </p>
-                             
-                            </div>
-                            <div className="aboveSpan">
-                            <div>
-                              <p>
-                             
-                              {/* <img
+                                        ?.flightInformation?.location[1]
+                                        ?.locationId
+                                    : sesstioResultIndex?.flightDetails[
+                                        sesstioResultIndex?.flightDetails
+                                          .length - 1
+                                      ].flightInformation?.location[1]
+                                        ?.locationId}
+                                </p>
+                              </div>
+                              <div className="aboveSpan">
+                                <div>
+                                  <p>
+                                    {/* <img
                                       src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${sesstioResultIndex?.flightDetails
                                     ?.flightInformation?.companyId?.marketingCarrier}.png`} style={{height:"50px",width:"50px",borderRadius:"5px"}}
                                     /> */}
-
-                                    </p>
-                                    {/* <p style={{fontSize:"12px",textAlign:"center"}}>
+                                  </p>
+                                  {/* <p style={{fontSize:"12px",textAlign:"center"}}>
                                   {
                                     sesstioResultIndex?.flightDetails
                                       ?.flightInformation?.companyId
@@ -2185,32 +2211,44 @@ if (currentinfantCount < infantCount) {
                                     }`
                                     : "Non Stop"}
                                 </span>                       */}
-                              </div>                              
-                          </div>
+                              </div>
+                            </div>
                           </div>
                           {sesstioResultIndex?.flightDetails
                             ?.flightInformation ? (
                             <>
                               <div className="bookcenteredBox ">
                                 <div>
-                                <div>
-                                <img
-                                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${sesstioResultIndex?.flightDetails?.flightInformation?.companyId?.marketingCarrier}.png`}
-                                  />{" "}
-                                  <p style={{marginTop:"1px",color:"#E73C34"}}> {
-                                    sesstioResultIndex?.flightDetails
-                                      ?.flightInformation?.companyId
-                                      ?.marketingCarrier
-                                  }
-                                  {
-                                    sesstioResultIndex?.flightDetails
-                                      ?.flightInformation?.flightOrtrainNumber
-                                  }</p>
-
+                                  <div>
+                                    <img
+                                      src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${sesstioResultIndex?.flightDetails?.flightInformation?.companyId?.marketingCarrier}.png`}
+                                    />{" "}
+                                    <p
+                                      style={{
+                                        marginTop: "1px",
+                                        color: "#E73C34",
+                                      }}
+                                    >
+                                      {" "}
+                                      {
+                                        sesstioResultIndex?.flightDetails
+                                          ?.flightInformation?.companyId
+                                          ?.marketingCarrier
+                                      }
+                                      {
+                                        sesstioResultIndex?.flightDetails
+                                          ?.flightInformation
+                                          ?.flightOrtrainNumber
+                                      }
+                                    </p>
+                                  </div>
                                 </div>
-                                 
-                                </div>
-                                <p style={{color:"#E73C34",textAlign:"center"}}>
+                                <p
+                                  style={{
+                                    color: "#E73C34",
+                                    textAlign: "center",
+                                  }}
+                                >
                                   {/* {findAirlineByCode(
                                     sesstioResultIndex?.flightDetails
                                       ?.flightInformation?.companyId
@@ -2219,24 +2257,28 @@ if (currentinfantCount < infantCount) {
                                   {sesstioResultIndex?.flightDetails
                                     ?.flightInformation
                                     ? convertTime(
-                                      sesstioResultIndex?.flightDetails
-                                        ?.flightInformation?.productDateTime
-                                        ?.timeOfDeparture
-                                    )
+                                        sesstioResultIndex?.flightDetails
+                                          ?.flightInformation?.productDateTime
+                                          ?.timeOfDeparture
+                                      )
                                     : convertTime(
-                                      sesstioResultIndex?.flightDetails[0]
-                                        ?.flightInformation?.productDateTime
-                                        ?.timeOfDeparture
-                                    )}
+                                        sesstioResultIndex?.flightDetails[0]
+                                          ?.flightInformation?.productDateTime
+                                          ?.timeOfDeparture
+                                      )}
                                 </p>
-                                <p style={{color:"#E73C34",fontSize:"14px"}}>
-                                {sesstioResultIndex?.flightDetails.length < 1
-                                    ? `${sesstioResultIndex?.flightDetails
-                                      .length - 1
-                                    } stop via ${sesstioResultIndex?.flightDetails
-                                      ?.flightInformation[0]?.location[1]
-                                      ?.locationId
-                                    }`
+                                <p
+                                  style={{ color: "#E73C34", fontSize: "14px" }}
+                                >
+                                  {sesstioResultIndex?.flightDetails.length < 1
+                                    ? `${
+                                        sesstioResultIndex?.flightDetails
+                                          .length - 1
+                                      } stop via ${
+                                        sesstioResultIndex?.flightDetails
+                                          ?.flightInformation[0]?.location[1]
+                                          ?.locationId
+                                      }`
                                     : "Non Stop"}
                                   {/* {
                                     sesstioResultIndex?.flightDetails
@@ -2249,14 +2291,22 @@ if (currentinfantCount < infantCount) {
                                   } */}
                                 </p>
                               </div>
-                              <div style={{background: "rgb(247, 241, 255",
-    borderRadius: "10px",
-    padding:"8px"}}>
-                              <div className="container flightdestination mb-4" style={{
-  paddingTop:"13px"}}>
-                                <div>
-                                  <div className="row  w-100 flight-detailss">
-                                    {/* <p>
+                              <div
+                                style={{
+                                  background: "rgb(247, 241, 255",
+                                  borderRadius: "10px",
+                                  padding: "8px",
+                                }}
+                              >
+                                <div
+                                  className="container flightdestination mb-4"
+                                  style={{
+                                    paddingTop: "13px",
+                                  }}
+                                >
+                                  <div>
+                                    <div className="row  w-100 flight-detailss">
+                                      {/* <p>
                                       {convertTime(
                                         sesstioResultIndex?.flightDetails
                                           ?.flightInformation?.productDateTime
@@ -2270,113 +2320,150 @@ if (currentinfantCount < infantCount) {
                                           ?.timeOfArrival
                                       )}
                                     </p> */}
-                                 
-                                  {/* <div className="bookBottomTwo">
+
+                                      {/* <div className="bookBottomTwo">
                                     <img src={fromTo} alt="icon" />
                                   </div> */}
-                                  <div className="col-6 col-md-5 align-items-center mb-3 mb-md-0 flightdestination-right">
-                                    <p className="flightdestination-right-para">
-                                      
-                                      {/* {
+                                      <div className="col-6 col-md-5 align-items-center mb-3 mb-md-0 flightdestination-right">
+                                        <p className="flightdestination-right-para">
+                                          {/* {
                                         sesstioResultIndex?.flightDetails
                                           ?.flightInformation?.location[0]
                                           ?.locationId
                                       } */}
-                                      {
-                                          findAirportByCode(
+                                          {
+                                            findAirportByCode(
+                                              sesstioResultIndex?.flightDetails
+                                                ?.flightInformation?.location[0]
+                                                ?.locationId
+                                            )?.name
+                                          }
+                                        </p>
+                                        <p className="flightdestination-right-para">
+                                          {convertTime(
                                             sesstioResultIndex?.flightDetails
-                                              ?.flightInformation?.location[0]
-                                              ?.locationId
-                                          )?.name
-                                        }
-                                      </p>
-                                      <p className="flightdestination-right-para">
-                                      {convertTime(
-                                        sesstioResultIndex?.flightDetails
-                                          ?.flightInformation?.productDateTime
-                                          ?.timeOfDeparture
-                                      )}
-                                      </p>
-                                      <p className="flightdestination-right-para1">
-                                        {
-                                          findAirportByCode(
-                                            sesstioResultIndex?.flightDetails
-                                              ?.flightInformation?.location[0]
-                                              ?.locationId
-                                          )?.code
-                                        }
+                                              ?.flightInformation
+                                              ?.productDateTime?.timeOfDeparture
+                                          )}
+                                        </p>
+                                        <p className="flightdestination-right-para1">
+                                          {
+                                            findAirportByCode(
+                                              sesstioResultIndex?.flightDetails
+                                                ?.flightInformation?.location[0]
+                                                ?.locationId
+                                            )?.code
+                                          }
                                         </p>
                                         {/* {", "} */}
                                         <p className="flightdestination-right-para1">
-                                        Terminal-
-                                        {/* {item?.Origin?.Airport?.Terminal
+                                          Terminal-
+                                          {/* {item?.Origin?.Airport?.Terminal
                                                 ? item?.Origin?.Airport
                                                     ?.Terminal
                                                 : "X"} */}
-                                        {
-                                          sesstioResultIndex?.flightDetails
-                                            ?.flightInformation?.location[0]
-                                            ?.terminal
-                                        }
+                                          {
+                                            sesstioResultIndex?.flightDetails
+                                              ?.flightInformation?.location[0]
+                                              ?.terminal
+                                          }
                                         </p>
-                                      {/* </p> */}
+                                        {/* </p> */}
                                       </div>
-                                    {/* </p> */}
-                                    <div className="col-12 col-md-2  mb-3 mb-md-0" style={{display: "flex", flexDirection:"column", alignItems:"center",justifyContent:"center"}}>
-                                    <div style={{fontSize:"12px"}}>  {`${parseInt(sesstioResultIndex?.flightDetails?.flightInformation?.attributeDetails?.attributeDescription?.slice(0, 2), 10)}h
-                                     ${parseInt(sesstioResultIndex?.flightDetails?.flightInformation?.attributeDetails?.attributeDescription?.slice(2, 4), 10)}m`}</div>
-                                   <div className="d-flex flex-column align-items-center">
-                                    <img src={lineimg} alt="" style={{ width: "100%" }}/>
-                                   </div>
-                                    </div>
+                                      {/* </p> */}
+                                      <div
+                                        className="col-12 col-md-2  mb-3 mb-md-0"
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "column",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                        }}
+                                      >
+                                        <div style={{ fontSize: "12px" }}>
+                                          {" "}
+                                          {`${parseInt(
+                                            sesstioResultIndex?.flightDetails?.flightInformation?.attributeDetails?.attributeDescription?.slice(
+                                              0,
+                                              2
+                                            ),
+                                            10
+                                          )}h
+                                     ${parseInt(
+                                       sesstioResultIndex?.flightDetails?.flightInformation?.attributeDetails?.attributeDescription?.slice(
+                                         2,
+                                         4
+                                       ),
+                                       10
+                                     )}m`}
+                                        </div>
+                                        <div className="d-flex flex-column align-items-center">
+                                          <img
+                                            src={lineimg}
+                                            alt=""
+                                            style={{ width: "100%" }}
+                                          />
+                                        </div>
+                                      </div>
 
-                                    <div className="col-6 col-md-5 align-items-center flightdestination-right">
-                                    {/* <p className="flightdestination-right-para">{
+                                      <div className="col-6 col-md-5 align-items-center flightdestination-right">
+                                        {/* <p className="flightdestination-right-para">{
                                         sesstioResultIndex?.flightDetails
                                           ?.flightInformation?.location[1]
                                           ?.locationId
                                       }</p> */}
-                                    <p className="flightdestination-right-para"> {
-                                          findAirportByCode(
-                                            sesstioResultIndex?.flightDetails
-                                              ?.flightInformation?.location[1]
-                                              ?.locationId
-                                          )?.name
-                                        }</p>
-                                    {/* <p className="flightdestination-right-para1"> {
+                                        <p className="flightdestination-right-para">
+                                          {" "}
+                                          {
+                                            findAirportByCode(
+                                              sesstioResultIndex?.flightDetails
+                                                ?.flightInformation?.location[1]
+                                                ?.locationId
+                                            )?.name
+                                          }
+                                        </p>
+                                        {/* <p className="flightdestination-right-para1"> {
                                           findAirportByCode(
                                             sesstioResultIndex?.flightDetails
                                               ?.flightInformation?.location[1]
                                               ?.locationId
                                           )?.name
                                         }</p> */}
-                                        <p className="flightdestination-right-para"> {convertTime(
-                                        sesstioResultIndex?.flightDetails
-                                          ?.flightInformation?.productDateTime
-                                          ?.timeOfArrival
-                                      )}</p>
-                                        <p className="flightdestination-right-para1"> {
-                                          findAirportByCode(
+                                        <p className="flightdestination-right-para">
+                                          {" "}
+                                          {convertTime(
                                             sesstioResultIndex?.flightDetails
-                                              ?.flightInformation?.location[1]
-                                              ?.locationId
-                                          )?.code
-                                        }</p>
-                                      <p> Terminal-
-                                        {/* {item?.Destination?.Airport
+                                              ?.flightInformation
+                                              ?.productDateTime?.timeOfArrival
+                                          )}
+                                        </p>
+                                        <p className="flightdestination-right-para1">
+                                          {" "}
+                                          {
+                                            findAirportByCode(
+                                              sesstioResultIndex?.flightDetails
+                                                ?.flightInformation?.location[1]
+                                                ?.locationId
+                                            )?.code
+                                          }
+                                        </p>
+                                        <p>
+                                          {" "}
+                                          Terminal-
+                                          {/* {item?.Destination?.Airport
                                                 ?.Terminal
                                                 ? item?.Destination?.Airport
                                                     ?.Terminal
                                                 : "Y"} */}
-                                        {
-                                          sesstioResultIndex?.flightDetails
-                                            ?.flightInformation?.location[1]
-                                            ?.terminal
-                                        }</p>
-
-                                    </div>
-                                    <p>
-                                      {/* {
+                                          {
+                                            sesstioResultIndex?.flightDetails
+                                              ?.flightInformation?.location[1]
+                                              ?.terminal
+                                          }
+                                        </p>
+                                      </div>
+                                      <p>
+                                        {/* {
                                         // item?.Destination?.Airport
                                         //   ?.CityName
                                       }
@@ -2385,7 +2472,7 @@ if (currentinfantCount < infantCount) {
                                           ?.flightInformation?.location[1]
                                           ?.locationId
                                       }{" "} */}
-                                      {/* <span> */}
+                                        {/* <span> */}
                                         {/* {
                                           findAirportByCode(
                                             sesstioResultIndex?.flightDetails
@@ -2405,12 +2492,12 @@ if (currentinfantCount < infantCount) {
                                             ?.flightInformation?.location[1]
                                             ?.terminal
                                         } */}
-                                      {/* </span> */}
-                                    </p>
+                                        {/* </span> */}
+                                      </p>
+                                    </div>
                                   </div>
-                                </div>
-                              
-                                {/* <div className="bookBottomFour">
+
+                                  {/* <div className="bookBottomFour">
                                   <div>
                                     <p>Baggage</p>
                                     <span>ADULT</span>
@@ -2454,60 +2541,76 @@ if (currentinfantCount < infantCount) {
                                           ? "KG"
                                           : ""} */}
 
-                                      {/* {item?.Baggage?.split(" ")[0]} */}
-                                    {/* </span>
+                                  {/* {item?.Baggage?.split(" ")[0]} */}
+                                  {/* </span>
                                   </div>
                                   <div>
                                     <p>Cabin</p>
                                     <span> */}
-                                      {/* {sesstioResultIndex?.baggage
+                                  {/* {sesstioResultIndex?.baggage
                                         ?.freeBagAllownceInfo?.baggageDetails
                                         ?.quantityCode !== "N"
                                         ? "7KG"
                                         : "Included"} */}
-                                      {/* Included
+                                  {/* Included
                                     </span>
                                   </div>
                                 </div> */}
-                                {/* </div> */}
-                              </div>
-                              <hr style={{opacity:"0.3"}}/>
-                              <p style={{fontSize:"15px",color:"var(--black4)",fontWeight:500,fontFamily:"Montserrat",padding:"5px"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i> Baggage (ADULT) check-in <span> {sesstioResultIndex?.baggage
-                                        ?.freeBagAllownceInfo?.baggageDetails
-                                        ?.quantityCode === "N"
-                                        ? sesstioResultIndex?.baggage
-                                          ?.freeBagAllownceInfo
-                                          ?.baggageDetails?.freeAllowance * 23
-                                        : Number(
+                                  {/* </div> */}
+                                </div>
+                                <hr style={{ opacity: "0.3" }} />
+                                <p
+                                  style={{
+                                    fontSize: "15px",
+                                    color: "var(--black4)",
+                                    fontWeight: 500,
+                                    fontFamily: "Montserrat",
+                                    padding: "5px",
+                                  }}
+                                >
+                                  <i
+                                    class="fa-solid fa-bag-shopping"
+                                    style={{ color: "black" }}
+                                  ></i>{" "}
+                                  Baggage (ADULT) check-in{" "}
+                                  <span>
+                                    {" "}
+                                    {sesstioResultIndex?.baggage
+                                      ?.freeBagAllownceInfo?.baggageDetails
+                                      ?.quantityCode === "N"
+                                      ? sesstioResultIndex?.baggage
+                                          ?.freeBagAllownceInfo?.baggageDetails
+                                          ?.freeAllowance * 23
+                                      : Number(
                                           sesstioResultIndex?.baggage
                                             ?.freeBagAllownceInfo
                                             ?.baggageDetails?.freeAllowance
                                         ) === 0
-                                          ? "No baggage"
-                                          : sesstioResultIndex?.baggage
-                                            ?.freeBagAllownceInfo
-                                            ?.baggageDetails?.freeAllowance}
-                                      {sesstioResultIndex?.baggage
-                                        ?.freeBagAllownceInfo?.baggageDetails
-                                        ?.quantityCode === "N"
-                                        ? sesstioResultIndex?.baggage
-                                          ?.freeBagAllownceInfo
-                                          ?.baggageDetails?.unitQualifier ===
-                                          "K"
-                                          ? "KG"
-                                          : "LB"
-                                        : Number(
+                                      ? "No baggage"
+                                      : sesstioResultIndex?.baggage
+                                          ?.freeBagAllownceInfo?.baggageDetails
+                                          ?.freeAllowance}
+                                    {sesstioResultIndex?.baggage
+                                      ?.freeBagAllownceInfo?.baggageDetails
+                                      ?.quantityCode === "N"
+                                      ? sesstioResultIndex?.baggage
+                                          ?.freeBagAllownceInfo?.baggageDetails
+                                          ?.unitQualifier === "K"
+                                        ? "KG"
+                                        : "LB"
+                                      : Number(
                                           sesstioResultIndex?.baggage
                                             ?.freeBagAllownceInfo
                                             ?.baggageDetails?.freeAllowance
                                         ) !== 0 ||
-                                          sesstioResultIndex?.baggage
-                                            ?.freeBagAllownceInfo
-                                            ?.baggageDetails?.freeAllowance !==
-                                          "0"
-                                          ? "KG"
-                                          : ""}
-</span> cabin Included</p>
+                                        sesstioResultIndex?.baggage
+                                          ?.freeBagAllownceInfo?.baggageDetails
+                                          ?.freeAllowance !== "0"
+                                      ? "KG"
+                                      : ""}
+                                  </span>{" "}
+                                  cabin Included
+                                </p>
                               </div>
                               {/* <div>
                                       {layoverDuration !== 0 && (
@@ -2564,129 +2667,146 @@ if (currentinfantCount < infantCount) {
                           ) : (
                             sesstioResultIndex?.flightDetails?.map(
                               (item, index) => {
-                                console.log(item,"itemmmmmmm")
+                                console.log(item, "itemmmmmmm");
 
-                                const timeString = sesstioResultIndex?.flightDetails[index]?.flightInformation?.attributeDetails?.attributeDescription;
-const hours = timeString ? parseInt(timeString.slice(0, 2), 10) : 0;
-const minutes = timeString ? parseInt(timeString.slice(2, 4), 10) : 0;
+                                const timeString =
+                                  sesstioResultIndex?.flightDetails[index]
+                                    ?.flightInformation?.attributeDetails
+                                    ?.attributeDescription;
+                                const hours = timeString
+                                  ? parseInt(timeString.slice(0, 2), 10)
+                                  : 0;
+                                const minutes = timeString
+                                  ? parseInt(timeString.slice(2, 4), 10)
+                                  : 0;
 
-const timetravel = `${hours}h : ${minutes}m`;
-let layover;
-                              if (
-                                index <
-                                sesstioResultIndex?.flightDetails?.length - 1
-                              ) {
-                                const prevDateOfArrival =
-                                  sesstioResultIndex?.flightDetails?.[index]
-                                    ?.flightInformation?.productDateTime
-                                    ?.dateOfArrival;
-                                const nextDateOfDeparture =
-                                  sesstioResultIndex?.flightDetails?.[index + 1]
-                                    ?.flightInformation?.productDateTime
-                                    ?.dateOfDeparture;
-                                const prevTimeOfArrival =
-                                  sesstioResultIndex?.flightDetails?.[index]
-                                    ?.flightInformation?.productDateTime
-                                    ?.timeOfArrival;
-                                const nextTimeOfDeparture =
-                                  sesstioResultIndex?.flightDetails?.[index + 1]
-                                    ?.flightInformation?.productDateTime
-                                    ?.timeOfDeparture;
-
-                             
-                                function calculateLayoverTime(
-                                  prevDateOfArrival,
-                                  prevTimeOfArrival,
-                                  nextDateOfDeparture,
-                                  nextTimeOfDeparture
+                                const timetravel = `${hours}h : ${minutes}m`;
+                                let layover;
+                                if (
+                                  index <
+                                  sesstioResultIndex?.flightDetails?.length - 1
                                 ) {
-                                  // Parse the previous arrival datetime
-                                  const prevArrivalDateTime = new Date(
-                                    `20${prevDateOfArrival.slice(
-                                      4,
-                                      6
-                                    )}-${prevDateOfArrival.slice(
-                                      2,
-                                      4
-                                    )}-${prevDateOfArrival.slice(
-                                      0,
-                                      2
-                                    )}T${prevTimeOfArrival.slice(
-                                      0,
-                                      2
-                                    )}:${prevTimeOfArrival.slice(2, 4)}:00`
+                                  const prevDateOfArrival =
+                                    sesstioResultIndex?.flightDetails?.[index]
+                                      ?.flightInformation?.productDateTime
+                                      ?.dateOfArrival;
+                                  const nextDateOfDeparture =
+                                    sesstioResultIndex?.flightDetails?.[
+                                      index + 1
+                                    ]?.flightInformation?.productDateTime
+                                      ?.dateOfDeparture;
+                                  const prevTimeOfArrival =
+                                    sesstioResultIndex?.flightDetails?.[index]
+                                      ?.flightInformation?.productDateTime
+                                      ?.timeOfArrival;
+                                  const nextTimeOfDeparture =
+                                    sesstioResultIndex?.flightDetails?.[
+                                      index + 1
+                                    ]?.flightInformation?.productDateTime
+                                      ?.timeOfDeparture;
+
+                                  function calculateLayoverTime(
+                                    prevDateOfArrival,
+                                    prevTimeOfArrival,
+                                    nextDateOfDeparture,
+                                    nextTimeOfDeparture
+                                  ) {
+                                    // Parse the previous arrival datetime
+                                    const prevArrivalDateTime = new Date(
+                                      `20${prevDateOfArrival.slice(
+                                        4,
+                                        6
+                                      )}-${prevDateOfArrival.slice(
+                                        2,
+                                        4
+                                      )}-${prevDateOfArrival.slice(
+                                        0,
+                                        2
+                                      )}T${prevTimeOfArrival.slice(
+                                        0,
+                                        2
+                                      )}:${prevTimeOfArrival.slice(2, 4)}:00`
+                                    );
+
+                                    // Parse the next departure datetime
+                                    const nextDepartureDateTime = new Date(
+                                      `20${nextDateOfDeparture.slice(
+                                        4,
+                                        6
+                                      )}-${nextDateOfDeparture.slice(
+                                        2,
+                                        4
+                                      )}-${nextDateOfDeparture.slice(
+                                        0,
+                                        2
+                                      )}T${nextTimeOfDeparture.slice(
+                                        0,
+                                        2
+                                      )}:${nextTimeOfDeparture.slice(2, 4)}:00`
+                                    );
+
+                                    // Calculate the difference in milliseconds
+                                    const layoverDuration =
+                                      nextDepartureDateTime -
+                                      prevArrivalDateTime;
+
+                                    // Convert the duration to total minutes
+                                    const totalMinutes = Math.floor(
+                                      layoverDuration / (1000 * 60)
+                                    );
+
+                                    // Calculate the hours and minutes from total minutes
+                                    const layoverHours = Math.floor(
+                                      totalMinutes / 60
+                                    );
+                                    const layoverMinutes = totalMinutes % 60;
+
+                                    return `${layoverHours} hours and ${layoverMinutes} minutes`;
+                                  }
+                                  layover = calculateLayoverTime(
+                                    prevDateOfArrival,
+                                    prevTimeOfArrival,
+                                    nextDateOfDeparture,
+                                    nextTimeOfDeparture
                                   );
-
-                                  // Parse the next departure datetime
-                                  const nextDepartureDateTime = new Date(
-                                    `20${nextDateOfDeparture.slice(
-                                      4,
-                                      6
-                                    )}-${nextDateOfDeparture.slice(
-                                      2,
-                                      4
-                                    )}-${nextDateOfDeparture.slice(
-                                      0,
-                                      2
-                                    )}T${nextTimeOfDeparture.slice(
-                                      0,
-                                      2
-                                    )}:${nextTimeOfDeparture.slice(2, 4)}:00`
-                                  );
-
-                                  // Calculate the difference in milliseconds
-                                  const layoverDuration =
-                                    nextDepartureDateTime - prevArrivalDateTime;
-
-                                  // Convert the duration to total minutes
-                                  const totalMinutes = Math.floor(
-                                    layoverDuration / (1000 * 60)
-                                  );
-
-                                  // Calculate the hours and minutes from total minutes
-                                  const layoverHours = Math.floor(
-                                    totalMinutes / 60
-                                  );
-                                  const layoverMinutes = totalMinutes % 60;
-
-                                  return `${layoverHours} hours and ${layoverMinutes} minutes`;
                                 }
-                                layover = calculateLayoverTime(
-                                  prevDateOfArrival,
-                                  prevTimeOfArrival,
-                                  nextDateOfDeparture,
-                                  nextTimeOfDeparture
-                                );
-                              }
-
 
                                 return (
-
                                   <>
                                     <div className="bookcenteredBox">
                                       <div>
-                                      <div>
-                                       <img
-                                          src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${sesstioResultIndex?.flightDetails[index]?.flightInformation?.companyId?.marketingCarrier}.png`}
-                                        />{" "}
-                                           <p style={{marginTop:"1px", color:"#E73C34"}}>
-                                        {
-                                          sesstioResultIndex?.flightDetails[
-                                            index
-                                          ]?.flightInformation?.companyId
-                                            ?.marketingCarrier
-                                        }
-                                        {
-                                          sesstioResultIndex?.flightDetails[
-                                            index
-                                          ]?.flightInformation
-                                            ?.flightOrtrainNumber
-                                        }
-                                      </p>
+                                        <div>
+                                          <img
+                                            src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${sesstioResultIndex?.flightDetails[index]?.flightInformation?.companyId?.marketingCarrier}.png`}
+                                          />{" "}
+                                          <p
+                                            style={{
+                                              marginTop: "1px",
+                                              color: "#E73C34",
+                                            }}
+                                          >
+                                            {
+                                              sesstioResultIndex?.flightDetails[
+                                                index
+                                              ]?.flightInformation?.companyId
+                                                ?.marketingCarrier
+                                            }
+                                            {
+                                              sesstioResultIndex?.flightDetails[
+                                                index
+                                              ]?.flightInformation
+                                                ?.flightOrtrainNumber
+                                            }
+                                          </p>
+                                        </div>
                                       </div>
-                                       
-                                      </div>
-                                      <p style={{textAlign:"center",fontSize:"14px",color:"#E73C34"}}>
+                                      <p
+                                        style={{
+                                          textAlign: "center",
+                                          fontSize: "14px",
+                                          color: "#E73C34",
+                                        }}
+                                      >
                                         {/* {findAirlineByCode(
                                           sesstioResultIndex?.flightDetails[
                                             index
@@ -2694,11 +2814,11 @@ let layover;
                                             ?.marketingCarrier
                                         )} */}
                                         {convertTime(
-                                              sesstioResultIndex?.flightDetails[
-                                                index
-                                              ]?.flightInformation
-                                                ?.productDateTime?.timeOfArrival
-                                            )}
+                                          sesstioResultIndex?.flightDetails[
+                                            index
+                                          ]?.flightInformation?.productDateTime
+                                            ?.timeOfArrival
+                                        )}
                                       </p>
                                       {/* <p>
                                         {
@@ -2715,110 +2835,156 @@ let layover;
                                         }
                                       </p> */}
                                     </div>
-                                    <div style={{display:"flex",flexDirection:"column"}}>
-                                    <div style={{background: "rgb(247, 241, 255)",
-    borderRadius: "10px",
-    padding:"8px"}}>
-                                    <div className="container flightdestination mb-4" style={{
-    padding:" 13px"}}>
-                                     
-                                        <div className="row  w-100">
-                                        <div className="col-6 col-md-5 align-items-center mb-3 mb-md-0 flightdestination-right">
-                                        <p className="flightdestination-right-para"> {
-                                                findAirportByCode(
-                                                  sesstioResultIndex
-                                                    ?.flightDetails[index]
-                                                    ?.flightInformation
-                                                    ?.location[0]?.locationId
-                                                )?.name
-                                              }</p>
-                                               <p className="flightdestination-right-para">
-                                            {/* {convertTime(
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        flexDirection: "column",
+                                      }}
+                                    >
+                                      <div
+                                        style={{
+                                          background: "rgb(247, 241, 255)",
+                                          borderRadius: "10px",
+                                          padding: "8px",
+                                        }}
+                                      >
+                                        <div
+                                          className="container flightdestination mb-4"
+                                          style={{
+                                            padding: " 13px",
+                                          }}
+                                        >
+                                          <div className="row  w-100">
+                                            <div className="col-6 col-md-5 align-items-center mb-3 mb-md-0 flightdestination-right">
+                                              <p className="flightdestination-right-para">
+                                                {" "}
+                                                {
+                                                  findAirportByCode(
+                                                    sesstioResultIndex
+                                                      ?.flightDetails[index]
+                                                      ?.flightInformation
+                                                      ?.location[0]?.locationId
+                                                  )?.name
+                                                }
+                                              </p>
+                                              <p className="flightdestination-right-para">
+                                                {/* {convertTime(
                                               sesstioResultIndex?.flightDetails[
                                                 index
                                               ]?.flightInformation
                                                 ?.productDateTime?.timeOfArrival
                                             )} */}
-                                            {convertTime(
-                                              sesstioResultIndex?.flightDetails[
-                                                index
-                                              ]?.flightInformation
-                                                ?.productDateTime
-                                                ?.timeOfDeparture
-                                            )}
-                                          </p>
-                                          <p className="flightdestination-right-para1"> {
-                                          findAirportByCode(
-                                            sesstioResultIndex?.flightDetails[index]
-                                              ?.flightInformation?.location[0]
-                                              ?.locationId
-                                          )?.code
-                                        }</p>
-                                          <p className="flightdestination-right-para1">  Terminal-
-                                              {/* {item?.Origin?.Airport?.Terminal
+                                                {convertTime(
+                                                  sesstioResultIndex
+                                                    ?.flightDetails[index]
+                                                    ?.flightInformation
+                                                    ?.productDateTime
+                                                    ?.timeOfDeparture
+                                                )}
+                                              </p>
+                                              <p className="flightdestination-right-para1">
+                                                {" "}
+                                                {
+                                                  findAirportByCode(
+                                                    sesstioResultIndex
+                                                      ?.flightDetails[index]
+                                                      ?.flightInformation
+                                                      ?.location[0]?.locationId
+                                                  )?.code
+                                                }
+                                              </p>
+                                              <p className="flightdestination-right-para1">
+                                                {" "}
+                                                Terminal-
+                                                {/* {item?.Origin?.Airport?.Terminal
                                                 ? item?.Origin?.Airport
                                                     ?.Terminal
                                                 : "X"} */}
-                                              {
-                                                sesstioResultIndex
-                                                  ?.flightDetails[index]
-                                                  ?.flightInformation
-                                                  ?.location[0]?.terminal
-                                              }</p>
+                                                {
+                                                  sesstioResultIndex
+                                                    ?.flightDetails[index]
+                                                    ?.flightInformation
+                                                    ?.location[0]?.terminal
+                                                }
+                                              </p>
+                                            </div>
+                                            <div
+                                              className="col-12 col-md-2  mb-3 mb-md-0"
+                                              style={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                              }}
+                                            >
+                                              <div style={{ fontSize: "12px" }}>
+                                                {timetravel}
+                                              </div>
+                                              <div className="d-flex flex-column align-items-center">
+                                                <img
+                                                  src={lineimg}
+                                                  alt=""
+                                                  style={{ width: "100%" }}
+                                                />
+                                              </div>
+                                            </div>
+                                            <div className="col-6 col-md-5 align-items-center flightdestination-right">
+                                              <p className="flightdestination-right-para">
+                                                {" "}
+                                                {
+                                                  findAirportByCode(
+                                                    sesstioResultIndex
+                                                      ?.flightDetails[index]
+                                                      ?.flightInformation
+                                                      ?.location[1]?.locationId
+                                                  )?.name
+                                                }
+                                              </p>
 
-                                        </div>
-                                        <div className="col-12 col-md-2  mb-3 mb-md-0" style={{display: "flex", flexDirection:"column", alignItems:"center",justifyContent:"center"}}>
-                                        <div style={{fontSize:"12px"}}>{timetravel}</div>
-                                   <div className="d-flex flex-column align-items-center">
-                                    <img src={lineimg} alt="" style={{ width: "100%" }}/>
-                                   </div>
-                                    </div>
-                                     <div className="col-6 col-md-5 align-items-center flightdestination-right">
-                                     <p className="flightdestination-right-para"> {
-                                                findAirportByCode(
-                                                  sesstioResultIndex
-                                                    ?.flightDetails[index]
-                                                    ?.flightInformation
-                                                    ?.location[1]?.locationId
-                                                )?.name
-                                              }</p>
-                                             
-                                      <p className="flightdestination-right-para">
-                                       {/* {convertTime(
+                                              <p className="flightdestination-right-para">
+                                                {/* {convertTime(
                                               sesstioResultIndex?.flightDetails[
                                                 index
                                               ]?.flightInformation
                                                 ?.productDateTime
                                                 ?.timeOfDeparture
                                             )} */}
-                                            {convertTime(
-                                              sesstioResultIndex?.flightDetails[
-                                                index
-                                              ]?.flightInformation
-                                                ?.productDateTime?.timeOfArrival
-                                            )}
-                                            </p>
-                                           
-                                            <p className="flightdestination-right-para1"> {
-                                          findAirportByCode(
-                                            sesstioResultIndex?.flightDetails[index]
-                                              ?.flightInformation?.location[1]
-                                              ?.locationId
-                                          )?.code
-                                        }</p>
-                                            <p className="flightdestination-right-para1">  Terminal-
-                                              {/* {item?.Origin?.Airport?.Terminal
+                                                {convertTime(
+                                                  sesstioResultIndex
+                                                    ?.flightDetails[index]
+                                                    ?.flightInformation
+                                                    ?.productDateTime
+                                                    ?.timeOfArrival
+                                                )}
+                                              </p>
+
+                                              <p className="flightdestination-right-para1">
+                                                {" "}
+                                                {
+                                                  findAirportByCode(
+                                                    sesstioResultIndex
+                                                      ?.flightDetails[index]
+                                                      ?.flightInformation
+                                                      ?.location[1]?.locationId
+                                                  )?.code
+                                                }
+                                              </p>
+                                              <p className="flightdestination-right-para1">
+                                                {" "}
+                                                Terminal-
+                                                {/* {item?.Origin?.Airport?.Terminal
                                                 ? item?.Origin?.Airport
                                                     ?.Terminal
                                                 : "X"} */}
-                                              {
-                                                sesstioResultIndex
-                                                  ?.flightDetails[index]
-                                                  ?.flightInformation
-                                                  ?.location[1]?.terminal
-                                              }</p>
-                                     </div>
-                                          {/* <p>
+                                                {
+                                                  sesstioResultIndex
+                                                    ?.flightDetails[index]
+                                                    ?.flightInformation
+                                                    ?.location[1]?.terminal
+                                                }
+                                              </p>
+                                            </div>
+                                            {/* <p>
                                             {convertTime(
                                               sesstioResultIndex?.flightDetails[
                                                 index
@@ -2826,7 +2992,7 @@ let layover;
                                                 ?.productDateTime?.timeOfArrival
                                             )}
                                           </p> */}
-                                          {/* <p>
+                                            {/* <p>
                                             {convertTime(
                                               sesstioResultIndex?.flightDetails[
                                                 index
@@ -2835,48 +3001,66 @@ let layover;
                                                 ?.timeOfDeparture
                                             )}
                                           </p> */}
-                                          {/* <p> Terminal- */}
-                                              {/* {item?.Origin?.Airport?.Terminal
+                                            {/* <p> Terminal- */}
+                                            {/* {item?.Origin?.Airport?.Terminal
                                                 ? item?.Origin?.Airport
                                                     ?.Terminal
                                                 : "X"} */}
-                                              {/* {
+                                            {/* {
                                                 sesstioResultIndex
                                                   ?.flightDetails[index]
                                                   ?.flightInformation
                                                   ?.location[0]?.terminal
                                               }</p> */}
+                                          </div>
                                         </div>
-                                        </div>
-                                        <hr style={{opacity:"0.3"}}/>
-                                        <p style={{fontSize:"15px",color:"var(--black4)",fontWeight:500,fontFamily:"Montserrat",padding:"5px"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i>  Baggage (ADULT) check-in <span>{sesstioResultIndex?.baggage
+                                        <hr style={{ opacity: "0.3" }} />
+                                        <p
+                                          style={{
+                                            fontSize: "15px",
+                                            color: "var(--black4)",
+                                            fontWeight: 500,
+                                            fontFamily: "Montserrat",
+                                            padding: "5px",
+                                          }}
+                                        >
+                                          <i
+                                            class="fa-solid fa-bag-shopping"
+                                            style={{ color: "black" }}
+                                          ></i>{" "}
+                                          Baggage (ADULT) check-in{" "}
+                                          <span>
+                                            {sesstioResultIndex?.baggage
                                               ?.freeBagAllownceInfo
                                               ?.baggageDetails?.quantityCode ===
-                                              "N"
+                                            "N"
                                               ? sesstioResultIndex?.baggage
-                                                ?.freeBagAllownceInfo
-                                                ?.baggageDetails
-                                                ?.freeAllowance * 23
+                                                  ?.freeBagAllownceInfo
+                                                  ?.baggageDetails
+                                                  ?.freeAllowance * 23
                                               : sesstioResultIndex?.baggage
-                                                ?.freeBagAllownceInfo
-                                                ?.baggageDetails
-                                                ?.freeAllowance}</span> cabin Included</p>
-                                        </div>
-
-
-                                        {index <
-                                    sesstioResultIndex?.flightDetails?.length -
-                                      1 && (
-                                    <div className="flightLayoverOuter">
-                                      <div className="flightLayover">
-                                        <p className="text-bold">
-                                          Layover Time: {layover}
+                                                  ?.freeBagAllownceInfo
+                                                  ?.baggageDetails
+                                                  ?.freeAllowance}
+                                          </span>{" "}
+                                          cabin Included
                                         </p>
                                       </div>
-                                    </div>
-                                  )}
-                                        
-                                        {/* <div>
+
+                                      {index <
+                                        sesstioResultIndex?.flightDetails
+                                          ?.length -
+                                          1 && (
+                                        <div className="flightLayoverOuter">
+                                          <div className="flightLayover">
+                                            <p className="text-bold">
+                                              Layover Time: {layover}
+                                            </p>
+                                          </div>
+                                        </div>
+                                      )}
+
+                                      {/* <div>
                                         <div>
                                           <p>Baggage</p>
                                           <span>ADULT</span>
@@ -2897,7 +3081,7 @@ let layover;
                                                 ?.baggageDetails
                                                 ?.freeAllowance}
                                            */}
-                                              {/* sesstioResultIndex?.baggage
+                                      {/* sesstioResultIndex?.baggage
                                                 ?.freeBagAllownceInfo
                                                 ?.baggageDetails
                                                 ?.unitQualifier === "L"
@@ -2914,8 +3098,8 @@ let layover;
                                                     ?.freeAllowance !== "0"
                                                   ? "KG"
                                                   : "" */}
-                                              
-                                          {/* </span>
+
+                                      {/* </span>
                                         </div>
                                         <div>
                                           <p>Cabin</p>
@@ -2926,21 +3110,21 @@ let layover;
                                         </div>
                                         </div> */}
 
-                                    {/* <div className="col-6 col-md-5 align-items-center flightdestination-right">
+                                      {/* <div className="col-6 col-md-5 align-items-center flightdestination-right">
 
                                     </div>
                                          */}
-                                        {/* <div className="bookBottomThree">
+                                      {/* <div className="bookBottomThree">
                                           <p> */}
-                                            {/* {item?.Origin?.Airport?.CityName}{" "} */}
-                                            {/* {
+                                      {/* {item?.Origin?.Airport?.CityName}{" "} */}
+                                      {/* {
                                               sesstioResultIndex?.flightDetails[
                                                 index
                                               ]?.flightInformation?.location[0]
                                                 ?.locationId
                                             } */}
-                                            {/* <span> */}
-                                              {/* {
+                                      {/* <span> */}
+                                      {/* {
                                                 findAirportByCode(
                                                   sesstioResultIndex
                                                     ?.flightDetails[index]
@@ -2950,23 +3134,23 @@ let layover;
                                               }
                                               {", "}
                                               Terminal- */}
-                                              {/* {item?.Origin?.Airport?.Terminal
+                                      {/* {item?.Origin?.Airport?.Terminal
                                                 ? item?.Origin?.Airport
                                                     ?.Terminal
                                                 : "X"} */}
-                                              {/* {
+                                      {/* {
                                                 sesstioResultIndex
                                                   ?.flightDetails[index]
                                                   ?.flightInformation
                                                   ?.location[0]?.terminal
                                               }
                                             </span> */}
-                                          {/* </p>
+                                      {/* </p>
                                           <p>
                                             { */}
-                                              {/* // item?.Destination?.Airport
+                                      {/* // item?.Destination?.Airport
                                               //   ?.CityName */}
-                                            {/* }
+                                      {/* }
                                             {
                                               sesstioResultIndex?.flightDetails[
                                                 index
@@ -2975,9 +3159,9 @@ let layover;
                                             }{" "}
                                             <span>
                                               { */}
-                                                {/* // item?.Destination?.Airport
+                                      {/* // item?.Destination?.Airport
                                                 //   ?.AirportName */}
-                                                {/* findAirportByCode(
+                                      {/* findAirportByCode(
                                                   sesstioResultIndex
                                                     ?.flightDetails[index]
                                                     ?.flightInformation
@@ -2986,22 +3170,22 @@ let layover;
                                               }
                                               {", "}
                                               Terminal- */}
-                                              {/* {item?.Destination?.Airport
+                                      {/* {item?.Destination?.Airport
                                                 ?.Terminal
                                                 ? item?.Destination?.Airport
                                                     ?.Terminal
                                                 : "Y"} */}
-                                              {/* {
+                                      {/* {
                                                 sesstioResultIndex
                                                   ?.flightDetails[index]
                                                   ?.flightInformation
                                                   ?.location[0]?.terminal
                                               } */}
-                                            {/* </span> */}
-                                          {/* </p>
+                                      {/* </span> */}
+                                      {/* </p>
                                         </div> */}
-                                      </div>
-                                      {/* <div className="bookBottomFour">
+                                    </div>
+                                    {/* <div className="bookBottomFour">
                                         <div>
                                           <p>Baggage</p>
                                           <span>ADULT</span>
@@ -3022,11 +3206,11 @@ let layover;
                                                 ?.baggageDetails
                                                 ?.freeAllowance}
                                             { */}
-                                              {/* // sesstioResultIndex?.baggage
+                                    {/* // sesstioResultIndex?.baggage
                                               // ?.freeBagAllownceInfo?.baggageDetails
                                               // ?.quantityCode === "N"
                                               // ? */}
-                                              {/* sesstioResultIndex?.baggage
+                                    {/* sesstioResultIndex?.baggage
                                                 ?.freeBagAllownceInfo
                                                 ?.baggageDetails
                                                 ?.unitQualifier === "L"
@@ -3044,24 +3228,24 @@ let layover;
                                                   ? "KG"
                                                   : ""
                                               // :"KG" */}
-                                            {/* } */}
-                                            {/* {item?.Baggage?.split(" ")[0]} */}
-                                          {/* </span>
+                                    {/* } */}
+                                    {/* {item?.Baggage?.split(" ")[0]} */}
+                                    {/* </span>
                                         </div>
                                         <div>
                                           <p>Cabin</p>
                                           <span> */}
-                                            {
-                                              // sesstioResultIndex?.baggage
-                                              //   ?.freeBagAllownceInfo?.baggageDetails
-                                              //   ?.quantityCode !== "N"
-                                              //   ? "7KG"
-                                              //   : "Included"
-                                              // item?.CabinBaggage?.split(
-                                              //   " "
-                                              // )[0]
-                                            }
-                                            {/* Included
+                                    {
+                                      // sesstioResultIndex?.baggage
+                                      //   ?.freeBagAllownceInfo?.baggageDetails
+                                      //   ?.quantityCode !== "N"
+                                      //   ? "7KG"
+                                      //   : "Included"
+                                      // item?.CabinBaggage?.split(
+                                      //   " "
+                                      // )[0]
+                                    }
+                                    {/* Included
                                           </span>
                                         </div>
                                       </div> */}
@@ -3077,8 +3261,7 @@ let layover;
                                         </p>
                                       )}
                                     </div> */}
-                                   
-                                      
+
                                     {/* klkkk */}
                                     {/* <div style={{backgroundColor:"#ffdeff",padding:"9px",borderRadius:"5px",fontSize:"14px"}}>
      
@@ -3095,7 +3278,7 @@ let layover;
                                                 ?.baggageDetails
                                                 ?.freeAllowance}</span> cabin Included</p>
       </div> */}
-      {/* <div>
+                                    {/* <div>
                                       {layoverDuration !== 0 && (
                                         <p className="text-bold">
                                           Layover Time:{" "}
@@ -3106,10 +3289,7 @@ let layover;
                                         </p>
                                       )}
                                     </div> */}
-
-     
                                   </>
-                                  
                                 );
                               }
                             )
@@ -3117,8 +3297,6 @@ let layover;
                         </div>
                       }
                     </motion.div>
-
-
 
                     <div className="col-lg-12 accor_dian mt-4">
                       {fareRule && (
@@ -3144,54 +3322,77 @@ let layover;
 
                     <motion.div variants={variants} className="col-lg-12 mt-3">
                       <div className="bookflightPassenger">
-                        <div className="headingBookFlight-new"  style={{padding:"12px",color:"#E73C34",backgroundColor:"#FFFBFB"}}>
-                        <h3>Passenger Details</h3>
+                        <div
+                          className="headingBookFlight-new"
+                          style={{
+                            padding: "12px",
+                            color: "#E73C34",
+                            backgroundColor: "#FFFBFB",
+                          }}
+                        >
+                          <h3>Passenger Details</h3>
                         </div>
 
-                        <div onClick={addAdult} style={{ cursor: "pointer",padding:"12px" , fontWeight:600}}>
-        <p> +Add the Adult</p>
-      </div>
+                        <div
+                          onClick={addAdult}
+                          style={{
+                            cursor: "pointer",
+                            padding: "12px",
+                            fontWeight: 600,
+                          }}
+                        >
+                          <p> +Add the Adult</p>
+                        </div>
                         {currentAdultCount > 0 &&
-                          Array.from({ length: currentAdultCount }, (_, index) => (
-                            <div className="bookFlightPassInner" key={index}>
-                              <div className="bookAdultIndex" style={{display:"flex",gap:"12px"}}>
-                              <IoPersonSharp/>
-                                <p>Adult {index + 1}</p>
-                              </div>
-                              <div className="row g-3 mb-3">
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Title
-                                  </label>
-                                  <select
-                                    className="form-select "
-                                    value={passengerData[index].title || ""} 
-                                    name="title"
-                                    onChange={(e) =>
-                                      handleServiceChange(e, index)
-                                    }
-                                  >
-                                  <option value="">Select Title</option>
-                                    <option value="Mr">Mr.</option>
-                                    <option value="Mrs">Mrs.</option>
-                                    <option value="Miss">Miss</option>
-                                  </select>
-                                  {sub &&
-                                    !validatetitle1(
-                                      passengerData[index].title
-                                    ) && <span className="error10">Select Title</span>}
+                          Array.from(
+                            { length: currentAdultCount },
+                            (_, index) => (
+                              <div className="bookFlightPassInner" key={index}>
+                                <div
+                                  className="bookAdultIndex"
+                                  style={{ display: "flex", gap: "12px" }}
+                                >
+                                  <IoPersonSharp />
+                                  <p>Adult {index + 1}</p>
                                 </div>
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    First Name
-                                  </label>
-                                  {/* <input
+                                <div className="row g-3 mb-3">
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Title
+                                    </label>
+                                    <select
+                                      className="form-select "
+                                      value={passengerData[index].title || ""}
+                                      name="title"
+                                      onChange={(e) =>
+                                        handleServiceChange(e, index)
+                                      }
+                                    >
+                                      <option value="">Select Title</option>
+                                      <option value="Mr">Mr.</option>
+                                      <option value="Mrs">Mrs.</option>
+                                      <option value="Miss">Miss</option>
+                                    </select>
+                                    {sub &&
+                                      !validatetitle1(
+                                        passengerData[index].title
+                                      ) && (
+                                        <span className="error10">
+                                          Select Title
+                                        </span>
+                                      )}
+                                  </div>
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      First Name
+                                    </label>
+                                    {/* <input
                                     type="text"
                                     name="firstName"
                                     id="floatingInput"
@@ -3201,535 +3402,562 @@ let layover;
                                     }
                                     class="form-control"
                                   ></input> */}
-                                  <input
-                                    type="text"
-                                    name="firstName"
-                                    value={index === 0 ? firstnamevalue : passengerData[index]?.firstName || ''}
-                                    id="floatingInput"
-                                    className="form-control"
-                                    onChange={(e) => {
-                                      if (index === 0) {
-                                        setfirstnamevalue(e.target.value);
+                                    <input
+                                      type="text"
+                                      name="firstName"
+                                      value={
+                                        index === 0
+                                          ? firstnamevalue
+                                          : passengerData[index]?.firstName ||
+                                            ""
                                       }
-                                      handleServiceChange(e, index);
-                                    }}
-                                  // placeholder="First Name"
-                                  />
-                                  {sub &&
-                                    !validateName(
-                                      passengerData[index]?.firstName
-                                    ) && (
-                                      <span className="error10">
-                                        First name{" "}
-                                      </span>
-                                    )}
-                                </div>
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Last Name
-                                  </label>
+                                      id="floatingInput"
+                                      className="form-control"
+                                      onChange={(e) => {
+                                        if (index === 0) {
+                                          setfirstnamevalue(e.target.value);
+                                        }
+                                        handleServiceChange(e, index);
+                                      }}
+                                      // placeholder="First Name"
+                                    />
+                                    {sub &&
+                                      !validateName(
+                                        passengerData[index]?.firstName
+                                      ) && (
+                                        <span className="error10">
+                                          First name{" "}
+                                        </span>
+                                      )}
+                                  </div>
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Last Name
+                                    </label>
 
-                                  <input
-                                    type="text"
-                                    name="lastName"
-                                    id="floatingInput"
-                                    value={index === 0 ? lastnamevalue : passengerData[index]?.lastName || ''}
-                                    class="form-control"
-                                    onChange={(e) => {
-                                      if (index === 0) {
-                                        setlastnamevalue(e.target.value);
+                                    <input
+                                      type="text"
+                                      name="lastName"
+                                      id="floatingInput"
+                                      value={
+                                        index === 0
+                                          ? lastnamevalue
+                                          : passengerData[index]?.lastName || ""
                                       }
-                                      handleServiceChange(e, index);
-                                    }}
-                                  ></input>
-                                  {sub &&
-                                    !validateName(
-                                      passengerData[index]?.lastName
-                                    ) && (
-                                      <span className="error10">
-                                        Last name{" "}
-                                      </span>
-                                    )}
+                                      class="form-control"
+                                      onChange={(e) => {
+                                        if (index === 0) {
+                                          setlastnamevalue(e.target.value);
+                                        }
+                                        handleServiceChange(e, index);
+                                      }}
+                                    ></input>
+                                    {sub &&
+                                      !validateName(
+                                        passengerData[index]?.lastName
+                                      ) && (
+                                        <span className="error10">
+                                          Last name{" "}
+                                        </span>
+                                      )}
+                                  </div>
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Date of Birth
+                                    </label>
+                                    <input
+                                      type="date"
+                                      name="DateOfBirth"
+                                      id="floatingInput"
+                                      class="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(e, index)
+                                      }
+                                      max={maxDate}
+                                    ></input>
+                                    {sub &&
+                                      !validateDate(
+                                        passengerData[index]?.DateOfBirth
+                                      ) && (
+                                        <span className="error10">DOB </span>
+                                      )}
+                                  </div>
                                 </div>
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Date of Birth
-                                  </label>
-                                  <input
-                                    type="date"
-                                    name="DateOfBirth"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(e, index)
-                                    }
-                                    max={maxDate}
-                                  ></input>
-                                  {sub &&
-                                    !validateDate(
-                                      passengerData[index]?.DateOfBirth
-                                    ) && <span className="error10">DOB </span>}
-                                </div>
+
+                                {/* passport details here */}
+                                {isPassportRequired == true ? (
+                                  <>
+                                    <div className="bookAdultIndex">
+                                      <p>Passport Details</p>
+                                    </div>
+                                    <div className="row g-3 mb-3">
+                                      <div className="col-lg-6 col-md-6">
+                                        <label
+                                          for="exampleInputEmail1"
+                                          class="form-label"
+                                        >
+                                          Passport Number
+                                        </label>
+                                        <input
+                                          type="text"
+                                          name="passportNo"
+                                          id="floatingInput"
+                                          class="form-control"
+                                          onChange={(e) => {
+                                            handleServiceChange(e, index);
+                                          }}
+                                        ></input>
+                                        {sub &&
+                                          !isValidPassportNumber(
+                                            passengerData[index]?.passportNo
+                                          ) && (
+                                            <span className="error10">
+                                              Enter a Valid Passport Number{" "}
+                                            </span>
+                                          )}
+                                      </div>
+                                      <div className="col-lg-6 col-md-6">
+                                        <label
+                                          for="exampleInputEmail1"
+                                          class="form-label"
+                                        >
+                                          Passport Expiry
+                                        </label>
+                                        <input
+                                          type="date"
+                                          name="passportExpiry"
+                                          id="floatingInput"
+                                          class="form-control"
+                                          onChange={(e) => {
+                                            handleServiceChange(e, index);
+                                          }}
+                                          min={currentDate}
+                                        ></input>
+                                      </div>
+                                    </div>
+                                  </>
+                                ) : (
+                                  ""
+                                )}
                               </div>
-
-                              {/* passport details here */}
-                              {isPassportRequired == true ? (
-                                <>
-                                  <div className="bookAdultIndex">
-                                    <p>Passport Details</p>
-                                  </div>
-                                  <div className="row g-3 mb-3">
-                                    <div className="col-lg-6 col-md-6">
-                                      <label
-                                        for="exampleInputEmail1"
-                                        class="form-label"
-                                      >
-                                        Passport Number
-                                      </label>
-                                      <input
-                                        type="text"
-                                        name="passportNo"
-                                        id="floatingInput"
-                                        class="form-control"
-                                        onChange={(e) => {
-                                          handleServiceChange(e, index);
-                                        }}
-                                      ></input>
-                                      {sub &&
-                                        !isValidPassportNumber(
-                                          passengerData[index]?.passportNo
-                                        ) && (
-                                          <span className="error10">
-                                            Enter a Valid Passport Number{" "}
-                                          </span>
-                                        )}
-                                    </div>
-                                    <div className="col-lg-6 col-md-6">
-                                      <label
-                                        for="exampleInputEmail1"
-                                        class="form-label"
-                                      >
-                                        Passport Expiry
-                                      </label>
-                                      <input
-                                        type="date"
-                                        name="passportExpiry"
-                                        id="floatingInput"
-                                        class="form-control"
-                                        onChange={(e) => {
-                                          handleServiceChange(e, index);
-                                        }}
-                                        min={currentDate}
-                                      ></input>
-                                    </div>
-                                  </div>
-                                </>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          ))}
+                            )
+                          )}
 
                         {/* child details here  */}
-                        {childCount > 0 && <div onClick={addChild} style={{ cursor: "pointer" ,padding:"12px",fontWeight:600}}>
-        <p> +Add the Child</p>
-      </div> }
+                        {childCount > 0 && (
+                          <div
+                            onClick={addChild}
+                            style={{
+                              cursor: "pointer",
+                              padding: "12px",
+                              fontWeight: 600,
+                            }}
+                          >
+                            <p> +Add the Child</p>
+                          </div>
+                        )}
 
                         {currentChildCount > 0 &&
-                          Array.from({ length: currentChildCount }, (_, index) => (
-                            <div className="bookFlightPassInner" key={index}>
-                              <div className="bookAdultIndex">
-                                <p>Child {index + 1}</p>
-                              </div>
-                              <div className="row g-3 mb-3">
-                                <div className="col-lg-6 col-md-6">
-
-
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    First Name
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name="firstName"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index + Number(adultCount)
-                                      )
-                                    }
-                                  ></input>
-                                  {sub &&
-                                    !validateName(
-                                      passengerData[index + Number(adultCount)]
-                                        ?.firstName
-                                    ) && (
-                                      <span className="error10">
-                                        First name{" "}
-                                      </span>
-                                    )}
+                          Array.from(
+                            { length: currentChildCount },
+                            (_, index) => (
+                              <div className="bookFlightPassInner" key={index}>
+                                <div className="bookAdultIndex">
+                                  <p>Child {index + 1}</p>
                                 </div>
-                                <div className="col-lg-6 col-md-6">
-
-
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Last Name
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name="lastName"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index + Number(adultCount)
-                                      )
-                                    }
-                                  ></input>
-                                </div>
-
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Gender
-                                  </label>
-                                  <select
-                                    className="form-select"
-                                    name="gender"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index + Number(adultCount)
-                                      )
-                                    }
-                                  >
-                                    <option value="1">Male</option>
-                                    <option value="2">Female</option>
-                                  </select>
-                                </div>
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Date of Birth
-                                  </label>
-                                  <input
-                                    type="date"
-                                    name="DateOfBirth"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index + Number(adultCount)
-                                      )
-                                    }
-                                    max={maxDateChild}
-                                    min={minDateChild}
-                                  ></input>
-                                  {sub &&
-                                    !validateDate(
-                                      passengerData[index + Number(adultCount)]
-                                        .DateOfBirth
-                                    ) && <span className="error10">DOB </span>}
-
-                                </div>
-                              </div>
-                              {/* passport details here */}
-                              {isPassportRequired == true ? (
-                                <>
-                                  <div className="bookAdultIndex">
-                                    <p>Passport Details</p>
+                                <div className="row g-3 mb-3">
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      First Name
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="firstName"
+                                      id="floatingInput"
+                                      class="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index + Number(adultCount)
+                                        )
+                                      }
+                                    ></input>
+                                    {sub &&
+                                      !validateName(
+                                        passengerData[
+                                          index + Number(adultCount)
+                                        ]?.firstName
+                                      ) && (
+                                        <span className="error10">
+                                          First name{" "}
+                                        </span>
+                                      )}
                                   </div>
-                                  <div className="row g-3 mb-3">
-                                    <div className="col-lg-6 col-md-6">
-
-
-                                      <label
-                                        for="exampleInputEmail1"
-                                        class="form-label"
-                                      >
-                                        Passport Number
-                                      </label>
-                                      <input
-                                        type="text"
-                                        name="passportNo"
-                                        id="floatingInput"
-                                        class="form-control"
-                                        onChange={(e) =>
-                                          handleServiceChange(
-                                            e,
-                                            index + Number(adultCount)
-                                          )
-                                        }
-                                      ></input>
-                                      {sub &&
-                                        !isValidPassportNumber(
-                                          passengerData[
-                                            index + Number(adultCount)
-                                          ]?.passportNo
-                                        ) && (
-                                          <span className="error10">
-                                            Enter a valid Passport Number{" "}
-                                          </span>
-                                        )}
-                                    </div>
-                                    <div className="col-lg-6 col-md-6">
-
-                                      <label
-                                        for="exampleInputEmail1"
-                                        class="form-label"
-                                      >
-                                        Passport Expiry
-                                      </label>
-                                      <input
-                                        type="date"
-                                        name="passportExpiry"
-                                        id="floatingInput"
-                                        class="form-control"
-                                        min={currentDate}
-                                        onChange={(e) =>
-                                          handleServiceChange(
-                                            e,
-                                            index + Number(adultCount)
-                                          )
-                                        }
-                                      ></input>
-                                    </div>
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Last Name
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="lastName"
+                                      id="floatingInput"
+                                      class="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index + Number(adultCount)
+                                        )
+                                      }
+                                    ></input>
                                   </div>
-                                </>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          ))}
+
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Gender
+                                    </label>
+                                    <select
+                                      className="form-select"
+                                      name="gender"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index + Number(adultCount)
+                                        )
+                                      }
+                                    >
+                                      <option value="1">Male</option>
+                                      <option value="2">Female</option>
+                                    </select>
+                                  </div>
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Date of Birth
+                                    </label>
+                                    <input
+                                      type="date"
+                                      name="DateOfBirth"
+                                      id="floatingInput"
+                                      class="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index + Number(adultCount)
+                                        )
+                                      }
+                                      max={maxDateChild}
+                                      min={minDateChild}
+                                    ></input>
+                                    {sub &&
+                                      !validateDate(
+                                        passengerData[
+                                          index + Number(adultCount)
+                                        ].DateOfBirth
+                                      ) && (
+                                        <span className="error10">DOB </span>
+                                      )}
+                                  </div>
+                                </div>
+                                {/* passport details here */}
+                                {isPassportRequired == true ? (
+                                  <>
+                                    <div className="bookAdultIndex">
+                                      <p>Passport Details</p>
+                                    </div>
+                                    <div className="row g-3 mb-3">
+                                      <div className="col-lg-6 col-md-6">
+                                        <label
+                                          for="exampleInputEmail1"
+                                          class="form-label"
+                                        >
+                                          Passport Number
+                                        </label>
+                                        <input
+                                          type="text"
+                                          name="passportNo"
+                                          id="floatingInput"
+                                          class="form-control"
+                                          onChange={(e) =>
+                                            handleServiceChange(
+                                              e,
+                                              index + Number(adultCount)
+                                            )
+                                          }
+                                        ></input>
+                                        {sub &&
+                                          !isValidPassportNumber(
+                                            passengerData[
+                                              index + Number(adultCount)
+                                            ]?.passportNo
+                                          ) && (
+                                            <span className="error10">
+                                              Enter a valid Passport Number{" "}
+                                            </span>
+                                          )}
+                                      </div>
+                                      <div className="col-lg-6 col-md-6">
+                                        <label
+                                          for="exampleInputEmail1"
+                                          class="form-label"
+                                        >
+                                          Passport Expiry
+                                        </label>
+                                        <input
+                                          type="date"
+                                          name="passportExpiry"
+                                          id="floatingInput"
+                                          class="form-control"
+                                          min={currentDate}
+                                          onChange={(e) =>
+                                            handleServiceChange(
+                                              e,
+                                              index + Number(adultCount)
+                                            )
+                                          }
+                                        ></input>
+                                      </div>
+                                    </div>
+                                  </>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                            )
+                          )}
 
                         {/* child details here  */}
 
                         {/* infant details here  */}
-                        {infantCount > 0 && <div onClick={addinfant} style={{ cursor: "pointer",padding:"12px" , fontWeight:600}}>
-        <p> +Add the infant</p>
-      </div> }
+                        {infantCount > 0 && (
+                          <div
+                            onClick={addinfant}
+                            style={{
+                              cursor: "pointer",
+                              padding: "12px",
+                              fontWeight: 600,
+                            }}
+                          >
+                            <p> +Add the infant</p>
+                          </div>
+                        )}
 
                         {currentinfantCount > 0 &&
-                          Array.from({ length: currentinfantCount }, (_, index) => (
-                            <div className="bookFlightPassInner" key={index}>
-                              <div className="bookAdultIndex">
-                                <p>Infant {index + 1}</p>
-                              </div>
-                              <div className="row g-3 mb-3">
-                                <div className="col-lg-6 col-md-6">
-
-
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    First Name
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name="firstName"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      )
-                                    }
-                                  ></input>
-                                  {sub &&
-                                    !validateName(
-                                      passengerData[
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      ]?.firstName
-                                    ) && (
-                                      <span className="error10">
-                                        First name{" "}
-                                      </span>
-                                    )}
+                          Array.from(
+                            { length: currentinfantCount },
+                            (_, index) => (
+                              <div className="bookFlightPassInner" key={index}>
+                                <div className="bookAdultIndex">
+                                  <p>Infant {index + 1}</p>
                                 </div>
-                                <div className="col-lg-6 col-md-6">
-
-
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Last Name
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name="lastName"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      )
-                                    }
-                                  ></input>
-                                  {sub &&
-                                    !validateName(
-                                      passengerData[
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      ]?.lastName
-                                    ) && (
-                                      <span className="error10">
-                                        Last name{" "}
-                                      </span>
-                                    )}
-                                </div>
-
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Gender
-                                  </label>
-                                  <select
-                                    className="form-select"
-                                    name="gender"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      )
-                                    }
-                                  >
-                                    <option value="1">Male</option>
-                                    <option value="2">Female</option>
-                                  </select>
-                                </div>
-                                <div className="col-lg-6 col-md-6">
-
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Date of Birth
-                                  </label>
-                                  <input
-                                    type="date"
-                                    name="DateOfBirth"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      )
-                                    }
-                                    min={minDateInfer}
-                                    max={currentDate}
-                                  ></input>
-                                  {sub &&
-                                    !validateDate(
-                                      passengerData[
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      ]?.DateOfBirth
-                                    ) && <span className="error10">DOB </span>}
-                                </div>
-                              </div>
-                              {/* passport details here */}
-                              {isPassportRequired == true ? (
-                                <>
-                                  <div className="bookAdultIndex">
-                                    <p>Passport Details</p>
-                                  </div>
-                                  <div className="row g-3 mb-3">
-                                    <div className="col-lg-6 col-md-6">
-
-                                      <label
-                                        for="exampleInputEmail1"
-                                        class="form-label"
-                                      >
-                                        Passport Number
-                                      </label>
-                                      <input
-                                        type="text"
-                                        name="passportNo"
-                                        id="floatingInput"
-                                        class="form-control"
-                                        onChange={(e) =>
-                                          handleServiceChange(
-                                            e,
-                                            index +
+                                <div className="row g-3 mb-3">
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      First Name
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="firstName"
+                                      id="floatingInput"
+                                      class="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index +
                                             Number(adultCount) +
                                             Number(childCount)
-                                          )
-                                        }
-                                      ></input>
-                                    </div>
-                                    <div className="col-lg-6 col-md-6">
-
-                                      <label
-                                        for="exampleInputEmail1"
-                                        class="form-label"
-                                      >
-                                        Passport Expiry
-                                      </label>
-                                      <input
-                                        type="date"
-                                        name="passportExpiry"
-                                        id="floatingInput"
-                                        class="form-control"
-                                        min={currentDate}
-                                        onChange={(e) => {
-                                          handleServiceChange(
-                                            e,
-                                            index +
+                                        )
+                                      }
+                                    ></input>
+                                    {sub &&
+                                      !validateName(
+                                        passengerData[
+                                          index +
                                             Number(adultCount) +
                                             Number(childCount)
-                                          );
-                                          // console.log(
-                                          //   e.target.value,
-                                          //   "e.target.value="
-                                          // );
-                                        }}
-                                      ></input>
-                                    </div>
+                                        ]?.firstName
+                                      ) && (
+                                        <span className="error10">
+                                          First name{" "}
+                                        </span>
+                                      )}
                                   </div>
-                                </>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          ))}
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Last Name
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="lastName"
+                                      id="floatingInput"
+                                      class="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                        )
+                                      }
+                                    ></input>
+                                    {sub &&
+                                      !validateName(
+                                        passengerData[
+                                          index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                        ]?.lastName
+                                      ) && (
+                                        <span className="error10">
+                                          Last name{" "}
+                                        </span>
+                                      )}
+                                  </div>
+
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Gender
+                                    </label>
+                                    <select
+                                      className="form-select"
+                                      name="gender"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                        )
+                                      }
+                                    >
+                                      <option value="1">Male</option>
+                                      <option value="2">Female</option>
+                                    </select>
+                                  </div>
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Date of Birth
+                                    </label>
+                                    <input
+                                      type="date"
+                                      name="DateOfBirth"
+                                      id="floatingInput"
+                                      class="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                        )
+                                      }
+                                      min={minDateInfer}
+                                      max={currentDate}
+                                    ></input>
+                                    {sub &&
+                                      !validateDate(
+                                        passengerData[
+                                          index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                        ]?.DateOfBirth
+                                      ) && (
+                                        <span className="error10">DOB </span>
+                                      )}
+                                  </div>
+                                </div>
+                                {/* passport details here */}
+                                {isPassportRequired == true ? (
+                                  <>
+                                    <div className="bookAdultIndex">
+                                      <p>Passport Details</p>
+                                    </div>
+                                    <div className="row g-3 mb-3">
+                                      <div className="col-lg-6 col-md-6">
+                                        <label
+                                          for="exampleInputEmail1"
+                                          class="form-label"
+                                        >
+                                          Passport Number
+                                        </label>
+                                        <input
+                                          type="text"
+                                          name="passportNo"
+                                          id="floatingInput"
+                                          class="form-control"
+                                          onChange={(e) =>
+                                            handleServiceChange(
+                                              e,
+                                              index +
+                                                Number(adultCount) +
+                                                Number(childCount)
+                                            )
+                                          }
+                                        ></input>
+                                      </div>
+                                      <div className="col-lg-6 col-md-6">
+                                        <label
+                                          for="exampleInputEmail1"
+                                          class="form-label"
+                                        >
+                                          Passport Expiry
+                                        </label>
+                                        <input
+                                          type="date"
+                                          name="passportExpiry"
+                                          id="floatingInput"
+                                          class="form-control"
+                                          min={currentDate}
+                                          onChange={(e) => {
+                                            handleServiceChange(
+                                              e,
+                                              index +
+                                                Number(adultCount) +
+                                                Number(childCount)
+                                            );
+                                            // console.log(
+                                            //   e.target.value,
+                                            //   "e.target.value="
+                                            // );
+                                          }}
+                                        ></input>
+                                      </div>
+                                    </div>
+                                  </>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                            )
+                          )}
 
                         {/* {authenticUser == 200 ? <Checkbox onChange={passengerdetail}>Booking flight for yourself</Checkbox> : " "} */}
                         {/* infant details here  */}
@@ -3737,14 +3965,26 @@ let layover;
                     </motion.div>
 
                     {authenticUser == 200 ? (
-                      <div style={{padding:"15px",display:"flex",justifyContent:"flex-end",marginTop:"12px",marginBottom:"12px",backgroundColor:"#FFFBFB"}}>
-                          <Checkbox onChange={passengerdetail} style={{color:"#E73C34",fontWeight:"bold"}}>
-                            Booking flight for yourself
-                          </Checkbox>
-                          </div>
-                        ) : (
-                          " "
-                        )}
+                      <div
+                        style={{
+                          padding: "15px",
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          marginTop: "12px",
+                          marginBottom: "12px",
+                          backgroundColor: "#FFFBFB",
+                        }}
+                      >
+                        <Checkbox
+                          onChange={passengerdetail}
+                          style={{ color: "#E73C34", fontWeight: "bold" }}
+                        >
+                          Booking flight for yourself
+                        </Checkbox>
+                      </div>
+                    ) : (
+                      " "
+                    )}
 
                     <motion.div variants={variants} className="col-lg-12 mt-3">
                       <div className="bookflightPassenger">
@@ -3811,8 +4051,8 @@ let layover;
                         </form>
                       </div>
                     </motion.div>
-                   
-                    {!isDropdown && 
+
+                    {/* {!isDropdown && 
                       < div ref={dropdownRef}  className="col-lg-12 mt-3">
                     {V_aliation ? (
                       <button
@@ -3835,73 +4075,83 @@ let layover;
                         Continue
                       </button>
                     )}
-                  </div>} 
+                  </div>}  */}
+                    {/* 
+                    <motion.div
+                      ref={dropdownRef}
+                      variants={variants}
+                      className="col-lg-12 mt-3"
+                    >
+                      <div
+                        className={`bookflightPassenger ${
+                          isDropdown ? "" : "cnt-dis"
+                        }`}
+                      >
+                        <>
+                          <div>
+                            <div
+                              style={{
+                                // height: "50px",
 
-                   <motion.div ref={dropdownRef} variants={variants} className="col-lg-12 mt-3">
-                    <div className={`bookflightPassenger ${isDropdown?"": "cnt-dis"}`}>
-
-                      <>
-                        <div
-
-
-                        >
-                          <div
-                            style={{
-                              // height: "50px",
-
-                              display: "flex",
-                              // justifyContent: "center",
-                              alignItems: "start",
-                              gap: "5px"
-                            }}
-
-                            className="toggle-bar-seat"
-                            onClick={() => {isDropdown &&  toggleDropdown()}}
-                          >
-                            <p>
-
-                              Selecting the Ideal Plane Seat
-                            </p>  <span className={`arrow-dropdown ${isDropdown ? "open" : ""}`}><IoIosArrowForward /></span>
-
+                                display: "flex",
+                                // justifyContent: "center",
+                                alignItems: "start",
+                                gap: "5px",
+                              }}
+                              className="toggle-bar-seat"
+                              onClick={() => {
+                                isDropdown && toggleDropdown();
+                              }}
+                            >
+                              <p>Selecting the Ideal Plane Seat</p>{" "}
+                              <span
+                                className={`arrow-dropdown ${
+                                  isDropdown ? "open" : ""
+                                }`}
+                              >
+                                <IoIosArrowForward />
+                              </span>
+                            </div>
+                            {
+                              <AirSeatMap
+                                isDropdown={isDropdown}
+                                state={ResultIndex}
+                                passengerData={passengerData}
+                              />
+                            }
                           </div>
-                          {
-                            
-                            <AirSeatMap isDropdown={isDropdown} state={ResultIndex} passengerData={passengerData} />}
-                        </div>
+                        </>
+                      </div>
+                    </motion.div> */}
 
-
-                      </>
-                    </div>
-                  </motion.div> 
-
-                  {/* trip security  */}
-                  {/* <motion.div variants={variants} className="col-lg-12">
+                    {/* trip security  */}
+                    {/* <motion.div variants={variants} className="col-lg-12">
                       <TripSecureComponent />
                     </motion.div> */}
 
-                  {/* trip security  */}
+                    {/* trip security  */}
 
-                  <div className="d-block mt-3 d-sm-none col-lg-4 ">
-                    <BookNowLeft
-                      toggle={toggle}
-                      toggleState={toggleState}
-                      oncouponselect={handlecouponChange}
-                      disountdata={handledisocuntChange}
-                      onFinalAmountChange={handleFinalAmountChange}
-                      transactionAmount={setTransactionAmountState}
-                      Amount={transactionAmount}
-                    />
-                  </div>
-                  {/* {isDropdown && */}
+                    <div className="d-block mt-3 d-sm-none col-lg-4 ">
+                      <BookNowLeft
+                        toggle={toggle}
+                        toggleState={toggleState}
+                        oncouponselect={handlecouponChange}
+                        disountdata={handledisocuntChange}
+                        onFinalAmountChange={handleFinalAmountChange}
+                        transactionAmount={setTransactionAmountState}
+                        Amount={transactionAmount}
+                      />
+                    </div>
+                    {/* {isDropdown && */}
                     <div className="col-lg-12 my-4 smallButtMobile">
                       {V_aliation ? (
                         <button
                           className="bookWrapperButton"
                           type="submit"
                           onClick={() => handleTravelClickOpen()}
-                        // onClick={() => xmlpassengerData()}
-                        // onClick={() => handleTravelClickOpen()}
-                        // onClick={() => skip()}
+                          // onClick={() => xmlpassengerData()}
+                          // onClick={() => handleTravelClickOpen()}
+                          // onClick={() => skip()}
                         >
                           Continue
                         </button>
@@ -3910,7 +4160,7 @@ let layover;
                           className="bookWrapperButton validationFalse"
                           // type="submit"
                           onClick={() => setSub(true)}
-                        // onClick={() => handleTravelClickOpen()}
+                          // onClick={() => handleTravelClickOpen()}
                         >
                           Continue
                         </button>
@@ -3925,14 +4175,19 @@ let layover;
                           aria-describedby="modal-modal-description"
                         >
                           <Box sx={style}>
-                            <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                              }}
+                            >
                               <button
                                 style={{
-                                  background: 'none',
-                                  border: 'none',
-                                  cursor: 'pointer',
-                                  fontSize: '24px',
-                                  fontWeight: 'bold',
+                                  background: "none",
+                                  border: "none",
+                                  cursor: "pointer",
+                                  fontSize: "24px",
+                                  fontWeight: "bold",
                                 }}
                                 onClick={handleClose}
                                 aria-label="Close"
@@ -3940,66 +4195,167 @@ let layover;
                                 &times;
                               </button>
                             </div>
-                            <div style={{ display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-evenly" }}>
-                              <h1 style={{ textAlign: "center", color: "black", fontWeight: "bold" }}>
+                            <div
+                              style={{
+                                display: "flex",
+                                flexDirection: "column",
+                                height: "100%",
+                                justifyContent: "space-evenly",
+                              }}
+                            >
+                              <h1
+                                style={{
+                                  textAlign: "center",
+                                  color: "black",
+                                  fontWeight: "bold",
+                                }}
+                              >
                                 Total Fare
                               </h1>
-                              <div className="TotGstFlight" style={{ borderRadius: "9px", backgroundColor: "aliceblue" }}>
-                                <div style={{ display: "flex", color: "black" }}>
-                                  <div style={{ display: "flex", gap: "12px", color: "black" }}>
-
-
-                                    <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Base Fare: </span>
-
-
+                              <div
+                                className="TotGstFlight"
+                                style={{
+                                  borderRadius: "9px",
+                                  backgroundColor: "aliceblue",
+                                }}
+                              >
+                                <div
+                                  style={{ display: "flex", color: "black" }}
+                                >
+                                  <div
+                                    style={{
+                                      display: "flex",
+                                      gap: "12px",
+                                      color: "black",
+                                    }}
+                                  >
+                                    <span
+                                      style={{
+                                        color: "black",
+                                        fontSize: "18px",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Base Fare:{" "}
+                                    </span>
                                   </div>
-                                  <p style={{ color: "black", fontSize: "15px" }}>
+                                  <p
+                                    style={{ color: "black", fontSize: "15px" }}
+                                  >
                                     {"₹"}
-                                    {
-                                      Number(sesstioResultIndex?.monetaryDetail?.[0]?.amount) -
-                                      Number(sesstioResultIndex?.monetaryDetail?.[1]?.amount)}
-
-                                  </p>
-
-
-                                </div>
-
-                                <div style={{ display: "flex", color: "black" }}>
-                                  <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Surcharges: </span>
-                                  <p style={{ color: "black", fontSize: "15px" }}>
-                                    {"₹"}
-                                    {Number(sesstioResultIndex?.monetaryDetail?.[1]?.amount).toFixed(0)}
+                                    {Number(
+                                      sesstioResultIndex?.monetaryDetail?.[0]
+                                        ?.amount
+                                    ) -
+                                      Number(
+                                        sesstioResultIndex?.monetaryDetail?.[1]
+                                          ?.amount
+                                      )}
                                   </p>
                                 </div>
 
-                                <div style={{ display: "flex", color: "black" }}>
-                                  <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Other Fare: </span>
-                                  <p style={{ color: "black", fontSize: "15px" }}>
+                                <div
+                                  style={{ display: "flex", color: "black" }}
+                                >
+                                  <span
+                                    style={{
+                                      color: "black",
+                                      fontSize: "18px",
+                                      fontWeight: "600",
+                                    }}
+                                  >
+                                    Surcharges:{" "}
+                                  </span>
+                                  <p
+                                    style={{ color: "black", fontSize: "15px" }}
+                                  >
+                                    {"₹"}
+                                    {Number(
+                                      sesstioResultIndex?.monetaryDetail?.[1]
+                                        ?.amount
+                                    ).toFixed(0)}
+                                  </p>
+                                </div>
+
+                                <div
+                                  style={{ display: "flex", color: "black" }}
+                                >
+                                  <span
+                                    style={{
+                                      color: "black",
+                                      fontSize: "18px",
+                                      fontWeight: "600",
+                                    }}
+                                  >
+                                    Other Fare:{" "}
+                                  </span>
+                                  <p
+                                    style={{ color: "black", fontSize: "15px" }}
+                                  >
                                     {"₹"}
                                     {Number(taxvaluetotal).toFixed(2)}
                                   </p>
                                 </div>
 
                                 {discountvalue > 0 && (
-                                  <div style={{ display: "flex", color: "black" }}>
-                                    <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Discount Amount:</span>
-                                    <p style={{ color: "black", fontSize: "15px" }}>
+                                  <div
+                                    style={{ display: "flex", color: "black" }}
+                                  >
+                                    <span
+                                      style={{
+                                        color: "black",
+                                        fontSize: "18px",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Discount Amount:
+                                    </span>
+                                    <p
+                                      style={{
+                                        color: "black",
+                                        fontSize: "15px",
+                                      }}
+                                    >
                                       {"₹"}
                                       {Number(discountvalue).toFixed(2)}
                                     </p>
                                   </div>
                                 )}
 
-                                <div style={{ display: "flex", color: "black" }}>
-                                  <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Grand Total:</span>
-                                  <p style={{ color: "black", fontSize: "15px" }}>
+                                <div
+                                  style={{ display: "flex", color: "black" }}
+                                >
+                                  <span
+                                    style={{
+                                      color: "black",
+                                      fontSize: "18px",
+                                      fontWeight: "600",
+                                    }}
+                                  >
+                                    Grand Total:
+                                  </span>
+                                  <p
+                                    style={{ color: "black", fontSize: "15px" }}
+                                  >
                                     {"₹"}
                                     {Number(finalAmount).toFixed(2)}
                                   </p>
                                 </div>
                               </div>
-                              <div className=" mt-4 smallButtMobile" style={{ display: "flex", flexDirection: "row-reverse" }}>
-                                <button onClick={bookticketamd} style={{padding:"10px 13px"}} className="bookWrapperButton">Continue</button>
+                              <div
+                                className=" mt-4 smallButtMobile"
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row-reverse",
+                                }}
+                              >
+                                <button
+                                  onClick={bookticketamd}
+                                  style={{ padding: "10px 13px" }}
+                                  className="bookWrapperButton"
+                                >
+                                  Continue
+                                </button>
                               </div>
                             </div>
                           </Box>
@@ -4031,16 +4387,21 @@ let layover;
                       </Dialog>
                     </div>
                     {/* } */}
+                  </motion.div>
                 </motion.div>
-              </motion.div>
-              <div className="d-none d-sm-block col-lg-4 ">
-                {<BookNowLeftAmd onFinalAmountChange={handleFinalAmountChange} disountdata={handledisocuntChange} oncouponselect={handlecouponChange} />}
+                <div className="d-none d-sm-block col-lg-4 ">
+                  {
+                    <BookNowLeftAmd
+                      onFinalAmountChange={handleFinalAmountChange}
+                      disountdata={handledisocuntChange}
+                      oncouponselect={handlecouponChange}
+                    />
+                  }
+                </div>
               </div>
             </div>
           </div>
-          </div >
-        )
-  }
+        )}
 
         <Modal
           open={isLoginModalOpen}
@@ -4121,7 +4482,7 @@ let layover;
         </Modal>
       </>
     );
-} else {
-  return <PaymentLoader />;
-}
+  } else {
+    return <PaymentLoader />;
+  }
 }
