@@ -678,7 +678,6 @@ const FlightETicket = () => {
                                             >
                                                 ₹{" "}
                                                 {data?.result?.totalAmount}
-                                                .00
                                             </div>
                                         </div>
                                     </div>
