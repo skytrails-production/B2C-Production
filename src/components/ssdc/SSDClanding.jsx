@@ -4,7 +4,7 @@ import Ssdcform from "./Ssdcform";
 import img1 from "../../images/image 1212.png";
 import img2 from "../../images/image 1211.png";
 import axios from 'axios';
-import imglogo from "../../images/whiteLogo.png"
+
 import SSDCtable from './SSDCtable';
 import SSDCCard from './SSDCCard';
 import { apiURL } from "../../Constants/constant";
@@ -51,7 +51,7 @@ function SSDClanding() {
 
       <div className="ssdc-header">
         <div className="img-header-logo">
-          <img src={imglogo} alt="" className='imglogo' />
+          {/* <img src={imglogo} alt="" className='imglogo' /> */}
         </div>
       </div>
 

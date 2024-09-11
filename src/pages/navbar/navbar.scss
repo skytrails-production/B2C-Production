@@ -11,6 +11,12 @@
   align-items: center;
   transition: all ease 0.5s;
   z-index: 100;
+  padding-right: 10px;
+  border-bottom: 1px solid lightgray;
+
+  @include md {
+    padding: unset;
+  }
 
   &.top {
     background: rgba(255, 255, 255, 0.55);

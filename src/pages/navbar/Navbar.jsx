@@ -94,9 +94,27 @@ const Navbar = () => {
         setMobileMenu(false);
     };
 
+    // const isActive = (path) => {
+    //     if (path === "/") {
+    //         return location.pathname === path;
+    //     }
+    //     return location.pathname.startsWith(path);
+    // };
+
     const isActive = (path) => {
-        return location.pathname === path;
+        const currentPath = location.pathname;
+
+        if (path === "/") {
+            return currentPath === "/" || currentPath === "/Searchresult" || currentPath === "/Searchresult/booknow";
+        }
+
+        return currentPath.startsWith(path);
     };
+
+
+
+
+
 
 
     const items = [
@@ -163,6 +181,10 @@ const Navbar = () => {
                                     </Link>
                                 </li>
                             </ul>
+
+
+
+
                             <div className="menuItemLogin">
                                 {/* <Countrypicker /> */}
 

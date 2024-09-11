@@ -139,7 +139,7 @@
 .svgBOx {
   display: flex;
   justify-content: center;
-  border: 1px solid transparent;
+  border: 1px solid lightgray;
   background-color: white;
   border-radius: 5px;
   padding: 6px;
@@ -168,7 +168,7 @@
 .svgBOx span {
   font-size: 13px;
   display: block;
-  max-width: 85px;
+  max-width: 92px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

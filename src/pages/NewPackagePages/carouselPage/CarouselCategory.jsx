@@ -55,6 +55,8 @@ const CarouselCategory = ({ data }) => {
     };
 
 
+
+
     return (
         <div className="carouselPackage">
 

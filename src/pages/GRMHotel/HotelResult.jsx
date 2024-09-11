@@ -105,7 +105,7 @@ export default function HotelResult({
         return false;
     });
 
-    console.log(filteredHotels, "filtered hotels")
+    // console.log(filteredHotels, "filtered hotels")
 
 
 

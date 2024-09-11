@@ -37,6 +37,18 @@ const Authentic = ({ isOpen, onClose, isLogoutOpen, onLogoutClose }) => {
     const [openOnlyMobileVerify, setOpenOnlyMobile] = useState(false);
     const [invokedSocialLogin, setInvokedSocialLogin] = useState(false);
     const [socialLoginOTPVisible, setSocialLoginOTPVisible] = useState(false);
+    const [timeLeft, setTimeLeft] = useState(90);
+
+    const [errors, setErrors] = useState({
+        fname: '',
+        phone: '',
+        referral: '',
+    });
+    const [formData, setFormData] = useState({
+        fname: '',
+        phone: '',
+        referral: '',
+    });
 
     const handleChange = (e) => {
         const value = e.target.value.trim();
@@ -149,16 +161,7 @@ const Authentic = ({ isOpen, onClose, isLogoutOpen, onLogoutClose }) => {
     };
 
 
-    const [errors, setErrors] = useState({
-        fname: '',
-        phone: '',
-        referral: '',
-    });
-    const [formData, setFormData] = useState({
-        fname: '',
-        phone: '',
-        referral: '',
-    });
+
 
     const onInputChangeHandler = (e) => {
         setAlreadyExist(false)
@@ -236,12 +239,9 @@ const Authentic = ({ isOpen, onClose, isLogoutOpen, onLogoutClose }) => {
 
 
 
-
-
-
     // resend logic
 
-    const [timeLeft, setTimeLeft] = useState(90); // 90 seconds
+
 
     useEffect(() => {
         let timer;
@@ -352,7 +352,6 @@ const Authentic = ({ isOpen, onClose, isLogoutOpen, onLogoutClose }) => {
         signInWithPopup(auth, provider).then(async (result) => {
             setInvokedSocialLogin(true)
             if (result.user) {
-
                 const payload = {
                     "username": result?.user?.displayName,
                     "email": result?.user?.email,
@@ -365,20 +364,19 @@ const Authentic = ({ isOpen, onClose, isLogoutOpen, onLogoutClose }) => {
 
                 dispatch(loginActionSocial(payload));
 
-
             }
         });
     };
 
 
-    useEffect(() => {
-        if (reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number == "") {
-            setInvokedSocialLogin(true)
-        }
+    // useEffect(() => {
+    //     if (reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number == "") {
+    //         setInvokedSocialLogin(true)
 
-    }, [reducerState?.logIn?.loginData, reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number])
+    //     }
 
-    // console.log(reducerState, "reducer state in authentic")
+    // }, [reducerState?.logIn?.loginData, reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number])
+
 
 
     useEffect(() => {
@@ -388,12 +386,15 @@ const Authentic = ({ isOpen, onClose, isLogoutOpen, onLogoutClose }) => {
     }, [reducerState?.logIn?.loginData, reducerState?.logIn?.loginData?.data?.result?.token])
 
 
+
     useEffect(() => {
-        if ((isNumberPresent == undefined || isNumberPresent == "") && invokedSocialLogin) {
+
+        if ((reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number == "" || reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number == undefined) && invokedSocialLogin) {
             setOpenOnlyMobile(true);
         }
-        else {
+        if (!reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number == "" && invokedSocialLogin) {
             handleCancel()
+
         }
     }, [reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number, invokedSocialLogin])
 
@@ -420,11 +421,17 @@ const Authentic = ({ isOpen, onClose, isLogoutOpen, onLogoutClose }) => {
                 },
             });
 
-            if (res.status == 200) {
+            if (res.data.statusCode == "200") {
                 setOtpLoader(false);
                 setSocialLoginOTPVisible(true);
 
-            } else {
+            }
+            else if (res.data.statusCode == "409") {
+                setAlreadyExist(true);
+                setOtpLoader(false);
+                // console.log(res, "inside else if");
+            }
+            else {
                 setOtpLoader(false);
                 setLoginPage(true);
             }
@@ -441,10 +448,11 @@ const Authentic = ({ isOpen, onClose, isLogoutOpen, onLogoutClose }) => {
 
     useEffect(() => {
         if (status === 200 && !invokedSocialLogin) {
-            // console.log("hello", invokedSocialLogin)
             onClose()
         }
     }, [status]);
+
+
 
 
     return (
@@ -452,10 +460,11 @@ const Authentic = ({ isOpen, onClose, isLogoutOpen, onLogoutClose }) => {
             <Modal
                 centered
                 maskClosable={false}
-                width={400}
+                width={500}
                 open={isOpen}
                 onCancel={handleCancel}
                 footer={null}
+                className="authenticModal"
             >
 
                 {openOnlyMobileVerify ?
@@ -482,7 +491,15 @@ const Authentic = ({ isOpen, onClose, isLogoutOpen, onLogoutClose }) => {
                                     </>
                                 ) : (
                                     <>
-                                        <label htmlFor="">Enter Mobile Number</label>
+                                        {
+                                            alreadyExist ?
+                                                <label style={{ color: "red" }} for='inputEmail4' >
+                                                    This Phone is already Registered
+                                                </label> :
+                                                <label for='inputEmail4' >
+                                                    Enter Mobile Number
+                                                </label>
+                                        }
                                         <input
                                             type="text"
                                             value={mobileEmail}

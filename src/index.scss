@@ -11,6 +11,7 @@
   -webkit-text-size-adjust: 100%;
   --primary: #e73c34;
   --primaryHover: #bd251e;
+
   --primaryBlue: #071c2c;
   --black: #04152d;
   --black2: #111111;
@@ -23,11 +24,15 @@
   --white2: #f1f1f1;
   --black-lighter: #1c4b91;
   --black-light: #173d77;
-  --pink: #da2f68;
-  --orange: #f89e00;
-  --gradient: linear-gradient(98.37deg, #f89e00 0.99%, #da2f68 100%);
 
+  --lightPink: rgb(255, 236, 229);
+  --lightGreen: rgb(220, 255, 232);
+  --lightPurple: rgb(247, 227, 255);
+  --darkPurple: rgb(236, 195, 252);
+  --lightOrange: rgb(255, 251, 231);
   --border-radius: 10px;
+  // --formGradient: linear-gradient(to top, #b0cefd 0.99%, #c2e9fb 100%);
+  --formGradient: linear-gradient(to top, #fff 17%, #c2e9fb 100%);
 }
 
 * {

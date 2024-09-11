@@ -5,15 +5,6 @@ import { getFirestore } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// const firebaseConfig = {
-//     apiKey: "AIzaSyBhZPp-8n9EvPIwEQu6NFSyDgmw95ri4jk",
-//     authDomain: "skytrailssociallogin.firebaseapp.com",
-//     projectId: "skytrailssociallogin",
-//     storageBucket: "skytrailssociallogin.appspot.com",
-//     messagingSenderId: "173172419203",
-//     appId: "1:173172419203:web:a7c69cf25517a1db7909b6",
-// };
 
 const firebaseConfig = {
     apiKey: "AIzaSyCekI6G6OFD2d0RAz_Q3hBtjPNMiiJPmYI",

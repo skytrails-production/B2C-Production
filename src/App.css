@@ -58,6 +58,18 @@ body {
 }
 
 
+.mainimgHotelSearchResult {
+  /* background-image: url(http://localhost:3000/static/media/hotelNavBg.46afce9….jpg); */
+  background-size: cover;
+  background-color: #f9eded;
+  background-repeat: no-repeat !important;
+  height: 150px;
+  position: relative;
+  z-index: 3;
+  /* background-image: linear-gradient(to right, #84C2C8 0%, #ADE6E8 51%, #84C2C8 100%); */
+  /* background-image: linear-gradient(to right, rgb(128, 76, 128) 0%, var(--darkPurple) 51%, rgb(128, 76, 128) 100%); */
+  background-image: linear-gradient(to right, #4b556d 0%, #636979 51%, #4b556d 100%);
+}
 
 
 .to_Search_Container {

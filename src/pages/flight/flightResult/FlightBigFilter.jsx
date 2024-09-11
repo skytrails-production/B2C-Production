@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Slider, Checkbox, Flex } from "antd"; // Assuming you're using Ant Design
 import "./flightBigFilter.scss";
-import "../../NewPackagePages/HolidayPackageSearchResult/packageResultFilter.scss"
+import "../../NewPackagePages/HolidayPackageSearchResult/packageResultFilter.scss";
 import { useSelector } from "react-redux";
-
 
 const FlightBigFilter = ({
   airlineCodes,
@@ -12,7 +11,6 @@ const FlightBigFilter = ({
   priceRange,
   onFilter,
 }) => {
-
   const [selectedCodes, setSelectedCodes] = useState([]);
   const [selectedStops, setSelectedStops] = useState([]);
   const [currentPriceRange, setCurrentPriceRange] = useState(priceRange);
@@ -24,10 +22,7 @@ const FlightBigFilter = ({
   useEffect(() => {
     setAirlines(flightList?.flightDetails);
     setAirports(flightList?.aireportList);
-  }, [
-    flightList?.flightDetails,
-    flightList?.aireportList,
-  ]);
+  }, [flightList?.flightDetails, flightList?.aireportList]);
 
   useEffect(() => {
     setCurrentPriceRange(priceRange); // Update currentPriceRange when priceRange changes
@@ -38,7 +33,7 @@ const FlightBigFilter = ({
     setSelectedCodes((prev) =>
       checked ? [...prev, value] : prev.filter((code) => code !== value)
     );
-    console.log(selectedCodes, "selected codes big")
+    // console.log(selectedCodes, "selected codes big")
   };
 
   const handleStopChange = (event) => {
@@ -81,7 +76,7 @@ const FlightBigFilter = ({
   };
 
   useEffect(() => {
-    console.log(currentPriceRange, "currentPriceRange")
+    // console.log(currentPriceRange, "currentPriceRange")
     onFilter(
       selectedCodes,
       selectedStops,
@@ -112,8 +107,9 @@ const FlightBigFilter = ({
   return (
     <div className="flightFilterMainBox ">
       <div className="holidayFilterClear">
-        <h5 style={{ cursor: "pointer", fontSize: "15px", fontWeight: "700" }}
-        // onClick={handleClearFilters}
+        <h5
+          style={{ cursor: "pointer", fontSize: "15px", fontWeight: "700" }}
+          // onClick={handleClearFilters}
         >
           Clear Filters
         </h5>
@@ -159,9 +155,8 @@ const FlightBigFilter = ({
         >
           2 Stop
         </Checkbox>
-
       </div>
-      <div className="holidayFilterSlider flight-filter-aireline mt-3" >
+      <div className="holidayFilterSlider flight-filter-aireline mt-3">
         <p>Filter By Price</p>
         <Slider
           range
@@ -173,12 +168,14 @@ const FlightBigFilter = ({
         />
 
         <div className="d-flex flex-row justify-content-between align-items-center ">
-          <span style={{ fontWeight: "600", fontSize: "13px" }}>₹ {minPrice}</span>
-          <span style={{ fontWeight: "600", fontSize: "13px" }}>₹ {maxPrice}</span>
+          <span style={{ fontWeight: "600", fontSize: "13px" }}>
+            ₹ {minPrice}
+          </span>
+          <span style={{ fontWeight: "600", fontSize: "13px" }}>
+            ₹ {maxPrice}
+          </span>
         </div>
       </div>
-
-
 
       {/* <h3>Departure Time</h3>
       <label>
@@ -210,9 +207,9 @@ const FlightBigFilter = ({
                 onChange={handleTimeChange}
                 value="0-6"
                 name="departTime"
-              // checked={selectedCategory.includes(
-              //   "departTime:before6AM"
-              // )}
+                // checked={selectedCategory.includes(
+                //   "departTime:before6AM"
+                // )}
               />
               <div>
                 <span className="checkedSVG pe-2">
@@ -249,9 +246,9 @@ const FlightBigFilter = ({
                 onChange={handleTimeChange}
                 value="6-12"
                 name="departTime"
-              // checked={selectedCategory.includes(
-              //   "departTime:6AMto12PM"
-              // )}
+                // checked={selectedCategory.includes(
+                //   "departTime:6AMto12PM"
+                // )}
               />
               <div>
                 <span className="checkedSVG pe-2">
@@ -288,9 +285,9 @@ const FlightBigFilter = ({
                 onChange={handleTimeChange}
                 value="12-18"
                 name="departTime"
-              // checked={selectedCategory.includes(
-              //   "departTime:12PMto6PM"
-              // )}
+                // checked={selectedCategory.includes(
+                //   "departTime:12PMto6PM"
+                // )}
               />
               <div>
                 <span className="checkedSVG pe-2">
@@ -325,9 +322,9 @@ const FlightBigFilter = ({
                 onChange={handleTimeChange}
                 value="18-24"
                 name="departTime"
-              // checked={selectedCategory.includes(
-              //   "departTime:after6PM"
-              // )}
+                // checked={selectedCategory.includes(
+                //   "departTime:after6PM"
+                // )}
               />
               <div>
                 <span className="checkedSVG pe-2">
@@ -365,9 +362,9 @@ const FlightBigFilter = ({
                 onChange={handleLandingTimeChange}
                 value="0-6"
                 name="departTime"
-              // checked={selectedCategory.includes(
-              //   "departTime:before6AM"
-              // )}
+                // checked={selectedCategory.includes(
+                //   "departTime:before6AM"
+                // )}
               />
               <div>
                 <span className="checkedSVG pe-2">
@@ -404,9 +401,9 @@ const FlightBigFilter = ({
                 onChange={handleLandingTimeChange}
                 value="6-12"
                 name="departTime"
-              // checked={selectedCategory.includes(
-              //   "departTime:6AMto12PM"
-              // )}
+                // checked={selectedCategory.includes(
+                //   "departTime:6AMto12PM"
+                // )}
               />
               <div>
                 <span className="checkedSVG pe-2">
@@ -443,9 +440,9 @@ const FlightBigFilter = ({
                 onChange={handleLandingTimeChange}
                 value="12-18"
                 name="departTime"
-              // checked={selectedCategory.includes(
-              //   "departTime:12PMto6PM"
-              // )}
+                // checked={selectedCategory.includes(
+                //   "departTime:12PMto6PM"
+                // )}
               />
               <div>
                 <span className="checkedSVG pe-2">
@@ -480,9 +477,9 @@ const FlightBigFilter = ({
                 onChange={handleLandingTimeChange}
                 value="18-24"
                 name="departTime"
-              // checked={selectedCategory.includes(
-              //   "departTime:after6PM"
-              // )}
+                // checked={selectedCategory.includes(
+                //   "departTime:after6PM"
+                // )}
               />
               <div>
                 <span className="checkedSVG pe-2">
@@ -510,8 +507,6 @@ const FlightBigFilter = ({
       <div className="flight-filter-aireline">
         <p>Filter By Airlines</p>
         <div className="flight-filter-aireline-item">
-
-
           {airlineCodes.map((code) => (
             // <label key={code}>
             //   <input type="checkbox" value={code} onChange={handleCheckboxChange} />
@@ -522,35 +517,33 @@ const FlightBigFilter = ({
               // checked={selectedDays.includes("0-5")}
               onChange={handleCheckboxChange}
             >
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-                margin: "0px",
-                padding: "0px",
-                gap: "5px"
-              }}>
-
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  margin: "0px",
+                  padding: "0px",
+                  gap: "5px",
+                }}
+              >
                 <img
                   src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${code}.png`}
                   alt="flight"
                   style={{ borderRadius: "8px" }}
                   width={22}
                   height={22}
-
                 />
-                <p style={{
-                  margin: "0px !important",
-                  fontSize: "14px",
-                  fontWeight: "500"
-
-                }}>
+                <p
+                  style={{
+                    margin: "0px !important",
+                    fontSize: "14px",
+                    fontWeight: "500",
+                  }}
+                >
                   {findAirlineByCode(code)}
                 </p>
-
               </div>
-
             </Checkbox>
-
           ))}
         </div>
       </div>
@@ -624,8 +617,6 @@ const FlightBigFilter = ({
         value={currentPriceRange}
         onChange={handlePriceChange}
       /> */}
-
-
     </div>
   );
 };

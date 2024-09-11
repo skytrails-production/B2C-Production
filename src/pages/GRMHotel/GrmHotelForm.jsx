@@ -18,6 +18,7 @@ import {
 import { Select } from "antd";
 import { DatePicker, Button } from "antd";
 import dayjs from "dayjs";
+import { swalModal } from "../../utility/swal";
 const { RangePicker } = DatePicker;
 
 
@@ -139,29 +140,7 @@ const FromSearchInput = (props) => {
   };
 
 
-  // const renderFromOption = (option) => {
 
-  //   console.log(option, "option in redner option")
-  //   if (option.type === 'city') {
-  //     return (
-  //       <div>
-  //         <div>
-  //           {option.name} ({option.code})
-  //         </div>
-  //         <div style={{ color: "gray" }}>{option.cityCode}</div>
-  //       </div>
-  //     );
-  //   } else if (option.type === 'hotel') {
-  //     return (
-  //       <div>
-  //         <div>
-  //           {option.name} ({option.countryName})
-  //         </div>
-  //         <div style={{ color: "gray" }}>  {option.address}</div>
-  //       </div>
-  //     );
-  //   }
-  // };
 
 
   const renderFromOption = (option) => {
@@ -369,7 +348,6 @@ const GrmHotelForm = () => {
   const [isSingleHotelSearched, setIsSIngleHotelSerched] = useState(false)
 
 
-  console.log(selectedFrom, "selected from")
 
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
@@ -470,9 +448,7 @@ const GrmHotelForm = () => {
   const [newReturnDate, setNewReturnDate] = useState(today.add(1, 'day'));
 
 
-  // console.log(newDepartDate, newReturnDate, "dep ret")
 
-  // const [mobileDepartDate, setMobileDepartDate] = useState()
 
 
   const handleOpenModal = () => {
@@ -514,12 +490,10 @@ const GrmHotelForm = () => {
 
   // date selection logic here 
 
-  // console.log(reducerState, "reducer Stae")
 
 
   const selectedSingleHotel = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels?.filter(item => item.hotel_code == selectedFrom?.hotelCode)
 
-  // console.log(selectedSingleHotel, "selectedSingleHotel")
 
 
 
@@ -545,13 +519,24 @@ const GrmHotelForm = () => {
   };
 
 
+  console.log(reducerState, "reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels")
+  console.log(reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.errors?.[0]?.code, "reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels")
 
   useEffect(() => {
 
     if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels && isSingleHotelSearched) {
       handleClick()
     }
+
   }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels])
+
+
+  useEffect(() => {
+    if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.errors?.[0]?.code == "1501") {
+      swalModal("hotel", "No Result Found !")
+      setLoader(false);
+    }
+  }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.errors])
 
 
   // navigate by single hotel 

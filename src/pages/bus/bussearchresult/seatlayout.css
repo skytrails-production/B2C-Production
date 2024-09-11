@@ -16,7 +16,7 @@
   position: relative;
   /* height: 400px; */
   min-height: 300px;
-  margin-top: -15px;
+  margin-top: -11px;
   margin-bottom: 10px;
 }
 
@@ -216,7 +216,7 @@
 }
 
 .mainimgBusSearch {
-  background-image: url(../../../images/busBg.png);
+  /* background-image: url(../../../images/busBg.png); */
   background-size: cover;
   background-repeat: no-repeat !important;
   height: 220px;

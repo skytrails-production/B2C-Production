@@ -17,7 +17,6 @@ import Payment from "./pages/flight/Payment";
 // Bus
 import Bus from "./pages/bus/Bus";
 import BusReviewBooking from "./pages/bus/busreviewbooking/BusReviewBooking";
-import BusPassengerDetail from "./pages/bus/bussearchresult/BusPassengerDetails";
 import BusBookingConfirmation from "./pages/bus/busbookingconfirmation/BusBookingConfirmation";
 // import BusSearchresult from "./pages/bus/bussearchresult/BusSearchresult";
 // Taxi
@@ -127,6 +126,8 @@ import Packageform from "./pages/NewPackagePages/Packageform/Packageform"
 import PhoneNumber from "./components/PhoneNumber";
 import Career from "./pages/skyTrailsCarrer/Career"
 import BusResultMain from "./pages/bus/BusResult/BusResultMain";
+import BusPassengerDetail from "./pages/bus/busPassengerDetails/BusPassengerDetails";
+import BusFinalReview from "./pages/bus/busFinalReview/BusFinalReview";
 
 
 
@@ -501,12 +502,13 @@ function App() {
           path="/BusPassengerDetail"
           element={<BusPassengerDetail />}
         />
-        <Route path="/BusReviewBooking" element={<BusReviewBooking />}></Route>
+        <Route path="/BusReviewBooking" element={<BusFinalReview />}></Route>
         <Route
           path="/BusBookingConfirmation"
           element={<BusBookingConfirmation />}
         ></Route>
         {/* <Route path="/SelectBusSeat" element={<SeatLayout />}></Route> */}
+        {/* <Route path="/busresult" element={<BusResult />}></Route> */}
         <Route path="/busresult" element={<BusResultMain />}></Route>
 
 

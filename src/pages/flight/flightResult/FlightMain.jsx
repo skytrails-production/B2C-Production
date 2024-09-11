@@ -29,7 +29,7 @@ const FlightMain = () => {
   const reducerState = useSelector((state) => state);
   const flightData = reducerState?.oneWay?.oneWayData?.data?.result;
   const flightDetails = reducerState?.searchFlight?.flightDetails;
-  console.log(reducerState, flightData, flightDetails, "flightData");
+  // console.log(reducerState, flightData, flightDetails, "flightData");
   const dateStr = flightDetails?.departureDate;
 
   // Parse the date string using Day.js
@@ -51,10 +51,10 @@ const FlightMain = () => {
     reducerState?.flightList?.aireportList,
   ]);
   useEffect(() => {
-    console.log(
-      reducerState?.oneWay,
-      "reducerState?.oneWay?.isLoadingmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
-    );
+    // console.log(
+    //   reducerState?.oneWay,
+    //   "reducerState?.oneWay?.isLoadingmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm"
+    // );
     if (reducerState?.oneWay?.isLoading) {
       setLoader(true);
     } else {
@@ -124,7 +124,6 @@ const FlightMain = () => {
       selectedTimes,
       selectedArrivalTimes
     ) => {
-
       const filtered = flightData?.filter((flight) => {
         let airlineCodes = [];
         let stops = 0;
@@ -260,7 +259,7 @@ const FlightMain = () => {
   return (
     <div>
       {/* <div className="flightMainOneWayDiv visibleBig "> */}
-      <div className='mainimgHotelSearchResult visibleBigHotel'>
+      <div className="mainimgHotelSearchResult visibleBigHotel">
         <Oneway2 />
       </div>
       {/* </div> */}

@@ -1170,9 +1170,12 @@ export default function BookWrapper() {
     return outputDate;
   }
 
+  // console.log(baggageData,mellData,seatList);
+
+  const mealvalue = mellData?.flat();
+
   const getTicketForLCC = () => {
     const allSeats = Object.values(seatList).flat();
-    passengerData[0] = { ...passengerData[0], SeatDynamic: allSeats }
     const payloadLcc = {
       ResultIndex: ResultIndex?.ResultIndex,
       EndUserIp: reducerState?.ip?.ipData,
@@ -1182,62 +1185,64 @@ export default function BookWrapper() {
         reducerState?.oneWay?.oneWayData?.data?.tvoTraceId ||
         reducerState?.return?.returnData?.data?.data?.tvoTraceId,
       Passengers: passengerData.map((item, index) => {
-        if (index < baggageData.length && index < mellData.length) {
+   
           return {
             ...item,
             Email: apiURL.flightEmail,
-            // ContactNo: apiURL.phoneNo,
+            
             ContactNo: passengerData[0]?.ContactNo,
             PassportExpiry: isPassportRequired
               ? convertDateFormat(item?.PassportExpiry)
               : "",
-            Baggage: [baggageData[index]],
-            MealDynamic: mellData[index],
-            // SeatDynamic:  allSeats
-          };
-        } else if (index < baggageData.length) {
-          return {
-            ...item,
-            Email: apiURL.flightEmail,
-            // ContactNo: apiURL.phoneNo,
-            ContactNo: passengerData[0]?.ContactNo,
-            PassportExpiry: isPassportRequired
-              ? convertDateFormat(item?.PassportExpiry)
-              : "",
-            Baggage: [baggageData[index]],
-            // SeatDynamic:  allSeats
-          };
-        } else if (index < mellData.length) {
-          return {
-            ...item,
-            Email: apiURL.flightEmail,
-            // ContactNo: apiURL.phoneNo,
-            ContactNo: passengerData[0]?.ContactNo,
-            PassportExpiry: isPassportRequired
-              ? convertDateFormat(item?.PassportExpiry)
-              : "",
-            MealDynamic: mellData[index],
-            // SeatDynamic:  allSeats
-          };
-        } else {
-          return {
-            ...item,
-            Email: apiURL.flightEmail,
-            // SeatDynamic:  allSeats,
-            // ContactNo: apiURL.phoneNo,
-            ContactNo: passengerData[0]?.ContactNo,
-            PassportExpiry: isPassportRequired
-              ? convertDateFormat(item?.PassportExpiry)
-              : "",
-          };
-        }
+              Baggage: baggageData?.[index] == undefined ? [] : [baggageData?.[index]] ,
+              MealDynamic: mellData?.flat()?.[index] == undefined ? [] : [mellData?.flat()?.[index]],
+              SeatDynamic: seatList?.[0].flat()?.[index] == undefined ? [] : [seatList?.[0].flat()?.[index]],
+            };
+      
+          
+        // else if (index < baggageData.length) {
+        //   return {
+        //     ...item,
+        //     Email: apiURL.flightEmail,
+        //     ContactNo: passengerData[0]?.ContactNo,
+        //     PassportExpiry: isPassportRequired
+        //       ? convertDateFormat(item?.PassportExpiry)
+        //       : "",
+        //     Baggage: [baggageData[index]],
+        //   };
+        // } else if (index < mellData.length) {
+        //   return {
+        //     ...item,
+        //     Email: apiURL.flightEmail,
+        //     ContactNo: passengerData[0]?.ContactNo,
+        //     PassportExpiry: isPassportRequired
+        //       ? convertDateFormat(item?.PassportExpiry)
+        //       : "",
+        //     MealDynamic: mellData[index],
+
+        
+        //   };
+        // } else {
+        //   return {
+        //     ...item,
+        //     Email: apiURL.flightEmail,
+        //     ContactNo: passengerData[0]?.ContactNo,
+        //     PassportExpiry: isPassportRequired
+        //       ? convertDateFormat(item?.PassportExpiry)
+        //       : "",
+        //   };
+        // }
       }),
+
     };
+    // console.log(payloadLcc,"payloadLcc");
+    
     dispatch(bookAction(payloadLcc));
   };
 
+  const allSeats = Object.values(seatList).flat();
   const getTicketForNonLCC = () => {
-    const allSeats = Object.values(seatList).flat();
+  
     passengerData[0] = { ...passengerData[0], SeatDynamic: allSeats }
     const payLoadDomestic = {
       EndUserIp: reducerState?.ip?.ipData,
@@ -1445,7 +1450,7 @@ export default function BookWrapper() {
         //     subBag -
         //     subMel,
         // totalAmount:finalAmount - subBag - subMel,
-        totalAmount: Number(finalAmount),
+        totalAmount: Number(finalAmount).toFixed(2),
         airlineDetails: bookingDataLcc?.FlightItinerary?.Segments.map(
           (item, index) => {
             return {
@@ -1498,6 +1503,7 @@ export default function BookWrapper() {
         ),
         baggage: baggageData,
         mealDynamic: mellData.flat(),
+        seatDynamic:allSeats,
       };
       userApi.flightBookingDataSave(payloadLCC);
     } else {
@@ -1544,6 +1550,8 @@ export default function BookWrapper() {
                 ArrTime: item.Destination.ArrTime,
               },
               Baggage: item.Baggage,
+              mealDynamic: mellData.flat(),
+              seatDynamic:allSeats,
             };
           }
         ),
@@ -1572,6 +1580,7 @@ export default function BookWrapper() {
         ),
         baggage: baggageData,
         mealDynamic: mellData[index],
+        
       };
       userApi.flightBookingDataSave(payloadNonLcc);
     }
@@ -1700,7 +1709,6 @@ const filteredSegemets = TicketDetails?.Segments[0]?.filter((item, index) => {
   );
 });
 
-// console.log(filteredSegemets,"filteredSegemets");
 
 const dataorgin = filteredSegemets?.[0]?.Origin?.Airport?.AirportCode;
 const destination = filteredSegemets?.[0]?.Destination?.Airport?.AirportCode
@@ -1716,12 +1724,12 @@ const separatedByFlightNumber = Array.isArray(filteredMeals)
           mealFlightNumberArr.push(item.FlightNumber);
           index = index + 1;
         }
-        // Push the item to the corresponding array
+      
         acc[index - 1].push({ ...item, index: index - 1 });
       }
       return acc;
     }, [])
-  : []; // If filteredMeals is not an array, return an empty array
+  : []; 
 
 
 

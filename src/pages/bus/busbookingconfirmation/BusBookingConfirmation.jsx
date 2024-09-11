@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import "./busbookingdetails.css";
+import "react-phone-input-2/lib/bootstrap.css";
 import { apiURL } from "../../../Constants/constant";
 import userApi from "../../../Redux/API/api";
 import { Mode } from "@mui/icons-material";
@@ -21,8 +23,7 @@ const BusBookingConfirmation = () => {
     try {
       const token = SecureStorage.getItem("jwtToken");
       const response = await axios.get(
-        `${
-          apiURL.baseURL
+        `${apiURL.baseURL
         }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
 
         {
@@ -53,9 +54,9 @@ const BusBookingConfirmation = () => {
         reducerState?.getBusResult?.busDetails?.data?.data
           ?.GetBookingDetailResult?.Itinerary?.Price?.OfferedPriceRoundedOff +
         markUpamount *
-          reducerState?.getBusResult?.busDetails?.data?.data
-            ?.GetBookingDetailResult?.Itinerary?.Price
-            ?.PublishedPriceRoundedOff;
+        reducerState?.getBusResult?.busDetails?.data?.data
+          ?.GetBookingDetailResult?.Itinerary?.Price
+          ?.PublishedPriceRoundedOff;
 
       const payloadSavedata = {
         userId: reducerState?.logIn?.loginData?.data?.data?.id,
@@ -69,7 +70,7 @@ const BusBookingConfirmation = () => {
         busId: getDetails?.BusId,
         noOfSeats: getDetails?.NoOfSeats,
         // amount: buscouponamountcode ? buscouponamount : grandtotal,
-        amount:Number(finalamount).toFixed(2),
+        amount: Number(finalamount).toFixed(2),
         passenger: getDetails?.Passenger.map((item, index) => {
           return {
             title: item?.Title,
@@ -96,7 +97,7 @@ const BusBookingConfirmation = () => {
       couponconfirmation();
     };
     // if (sessionStorage.getItem("couponCode")) {
-      // couponconfirmation();
+    // couponconfirmation();
     // }
     busBookSave();
   }, []);

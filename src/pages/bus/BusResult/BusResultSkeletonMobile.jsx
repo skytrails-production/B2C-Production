@@ -2,7 +2,7 @@ import React from 'react'
 import { Divider, Form, Radio, Skeleton, Space, Switch } from 'antd';
 
 
-const HoliResFilterSmall = () => {
+const BusResultSkeletonMobile = () => {
 
 
 
@@ -19,4 +19,4 @@ const HoliResFilterSmall = () => {
     )
 }
 
-export default HoliResFilterSmall
+export default BusResultSkeletonMobile

@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import "./seatlayout.css";
 import { motion } from "framer-motion";
-import busGif from "../../../images/busGif.gif";
+// import busGif from "../../../images/busGif.gif";
 import busFilter from "../../../images/busFilter.png";
 import dayjs from "dayjs";
 import { ToastContainer, toast } from 'react-toastify';
@@ -55,10 +55,9 @@ const variants2 = {
 };
 
 function BusResult() {
-  const [open, setOpen] = useState(false);
-  const navigate = useNavigate("");
+
+  const navigate = useNavigate();
   const reducerState = useSelector((state) => state);
-  // const [openAccordian, setOpenAccordian] = useState(false);
   const [resultIndex, setResultIndex] = useState("");
   const [origin, setOrigin] = useState([]);
   const [destination, setDestination] = useState([]);
@@ -73,7 +72,6 @@ function BusResult() {
   const lowerArray = [];
   const [blockedSeatArray, setBlockedSeatArray] = useState([]);
   const [flatArray, setFlatArray] = useState([]);
-  // const [seatLayoutData, setSeatLayoutData] = useState({});
   const [layout, setLayout] = useState([]);
   const [loadingLayout, setLoadingLayout] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState([]);
@@ -81,14 +79,14 @@ function BusResult() {
 
   const busFullData =
     reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult;
-  // const busDetailsData =
-  //   reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult
-  //     ?.BusResults;
   const busDataResult =
     reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult
       ?.BusResults;
+
+  console.log(reducerState, "reducer State")
+
+
   useEffect(() => {
-    // console.warn(origin, destination, "origin destanition :::::::::::::::::")
     if (origin.length > 0) {
       setSelectedOrigin(origin[0]);
       setSelectedDropPoint(destination[0]);
@@ -96,23 +94,7 @@ function BusResult() {
   }, [origin]);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (
-  //     reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error
-  //       ?.ErrorCode !== 0 ||
-  //     reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.Error
-  //       ?.ErrorCode === undefined
-  //   ) {
-  //     navigate("/bus");
-  //   }
-  // }, []);
 
-  // console.log(origin, "origin");
-  // console.log(destination, "destination");
-
-  // setSelectedOrigin(origin?.[0]?.CityPointIndex)
-  // setSelectedDropPoint()
-  // console.log(selectedOrigin)
 
   function handleclick(resultIndexPara) {
     setBlockedSeatArray([]);
@@ -1642,7 +1624,7 @@ function BusResult() {
                                     </div>
                                   ) : (
                                     <div className="loadBusGif">
-                                      <img src={busGif} alt="busgif" />
+                                      {/* <img src={busGif} alt="busgif" /> */}
                                     </div>
                                   )}
                                 </motion.div>

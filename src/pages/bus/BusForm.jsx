@@ -96,7 +96,7 @@ const FromSearchInput = (props) => {
     const handleFromChange = (newValue) => {
         const selected = fromData.find((d) => d.value === newValue);
 
-        console.log(selected, "selected from ")
+        // console.log(selected, "selected from ")
         setFromValue(selected ? selected.CityName : newValue);
         setFromDisplayValue(selected ? selected.CityName : newValue);
         setSelectedItem(selected ? selected.item : null);
@@ -127,7 +127,7 @@ const FromSearchInput = (props) => {
         </div>
     );
 
-    console.log(FromPlaceholder, props.placeholder, "placeholder")
+    // console.log(FromPlaceholder, props.placeholder, "placeholder")
 
     return (
         <Select
@@ -235,7 +235,7 @@ const ToSearchInput = (props) => {
     const handleToChange = (newValue) => {
         const selected = toData.find((d) => d.value === newValue);
 
-        console.log(selected, "selected to")
+        // console.log(selected, "selected to")
         setToValue(selected ? selected.CityName : newValue);
         setToDisplayValue(selected ? selected.CityName : newValue);
         setSelectedItem(selected ? selected.item : null);
@@ -359,7 +359,7 @@ function BusForm() {
     // ////////////////////submit logic///////////////
 
 
-    console.log(selectedFrom, "selected from")
+    // console.log(selectedFrom, "selected from")
 
     function handleOnewaySubmit(event) {
         sessionStorage.setItem("SessionExpireTime", new Date());
@@ -397,6 +397,7 @@ function BusForm() {
         );
         // createSearchHistory()
         navigate("/busresult");
+        // navigate("/busresult");
         dispatch(busSearchAction(payload));
 
     }

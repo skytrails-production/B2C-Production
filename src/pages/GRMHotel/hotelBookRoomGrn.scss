@@ -4,153 +4,174 @@
   color: var(--black4) !important;
   font-family: "Montserrat";
 
-  .roomNameAndCategory {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 15px;
-    padding: 10px;
+  .roomNameAndCategoryOuter {
     border: 1px solid lightgray;
-    border-radius: 5px;
-
-    > div {
-      width: 100%;
-    }
+    border-radius: 8px;
+    // padding: 10px 0px 10px 16px;
 
     @include md {
+      border-radius: 12px;
+      // padding: 20px 0px 20px 20px;
+    }
+    .hotelNameHeading {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 0;
+      padding: 10px 0px 10px 16px;
+      border-radius: 10px 10px 0px 0px;
+      background-image: linear-gradient(to right, var(--lightPurple), white);
+
+      @include md {
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+
+    .roomNameAndCategory {
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: flex-start;
-      gap: 22px;
-      border-radius: 12px;
-      padding: 30px;
-      // margin-top: 1.5rem;
-    }
+      gap: 14px;
+      padding: 10px;
 
-    h5 {
-      font-size: 1.1rem;
-      font-family: "Montserrat";
-      font-weight: 600;
-      margin-bottom: 0;
-
-      @include md {
-        font-size: 1.45rem;
-      }
-    }
-
-    p {
-      font-size: 14px;
-      font-family: "Montserrat";
-
-      @include md {
-        font-size: 15px;
-      }
-    }
-
-    .roomTitle {
-      .HotelRoomHeadings1 {
-        font-weight: 600;
-        font-size: 0.9rem;
-        position: relative;
-        margin-bottom: 15px;
-        width: 94%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        @include md {
-          font-size: 1.2rem;
-          width: 100%;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-      .HotelRoomHeadings2 {
-        font-weight: 600;
-        font-size: 0.9rem;
-        padding-bottom: 15px;
-        position: relative;
-        margin-bottom: 15px;
+      > div {
         width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+      }
+
+      @include md {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 17px;
+        padding: 20px;
+        // margin-top: 1.5rem;
+      }
+
+      h5 {
+        font-size: 1.1rem;
+        font-family: "Montserrat";
+        font-weight: 600;
+        margin-bottom: 0;
+
         @include md {
-          font-size: 1.2rem;
+          font-size: 1.45rem;
+        }
+      }
+
+      p {
+        font-size: 14px;
+        font-family: "Montserrat";
+
+        @include md {
+          font-size: 15px;
+        }
+      }
+
+      .roomTitle {
+        .HotelRoomHeadings1 {
+          font-weight: 600;
+          font-size: 0.9rem;
+          position: relative;
+          margin-bottom: 15px;
+          width: 94%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          @include md {
+            font-size: 1.2rem;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+        .HotelRoomHeadings2 {
+          font-weight: 600;
+          font-size: 0.9rem;
+          padding-bottom: 15px;
+          position: relative;
+          margin-bottom: 15px;
           width: 100%;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-        }
+          @include md {
+            font-size: 1.2rem;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
 
-        &::before {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          width: 80px;
-          height: 2px;
-          background-color: #ddd;
+          &::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            width: 80px;
+            height: 2px;
+            background-color: #ddd;
+          }
         }
       }
-    }
 
-    .showMoore {
-      color: var(--primary);
-      cursor: pointer;
-      font-weight: 600;
-    }
+      .showMoore {
+        color: var(--primary);
+        cursor: pointer;
+        font-weight: 600;
+      }
 
-    .hotelBookDesignFirst {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      width: 100%;
-      gap: 30px;
-      align-items: center;
-
-      @include md {
+      .hotelBookDesignFirst {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         width: 100%;
         gap: 30px;
         align-items: center;
-      }
 
-      > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 4px;
+        @include md {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          width: 100%;
+          gap: 30px;
+          align-items: center;
+        }
 
-        a {
-          color: var(--black4);
-          font-size: 14px;
-          font-family: "Montserrat";
-          text-decoration: none;
+        > div {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 4px;
+
+          a {
+            color: var(--black4);
+            font-size: 14px;
+            font-family: "Montserrat";
+            text-decoration: none;
+          }
         }
       }
-    }
 
-    .roomDetailsIconBox {
-      display: flex;
-      flex-direction: row;
-      gap: 15px;
-      align-items: center;
-      justify-content: flex-start;
-
-      > div {
+      .roomDetailsIconBox {
         display: flex;
         flex-direction: row;
-        justify-content: flex-start;
+        gap: 15px;
         align-items: center;
-        gap: 5px;
+        justify-content: flex-start;
 
-        &:not(:last-child) {
-          content: "|";
-          padding-right: 12px;
+        > div {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+          gap: 5px;
+
+          &:not(:last-child) {
+            content: "|";
+            padding-right: 12px;
+          }
         }
       }
     }
@@ -181,52 +202,69 @@
       }
     }
   }
-
-  .roomDetailsDangerousHtml {
-    // padding: 16px;
-    // border-radius: 8px;
-    background: #fff;
-    // box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-
-    gap: 15px;
-    padding: 10px;
+  .roomDetailsOuter {
     border: 1px solid lightgray;
-    border-radius: 5px;
+    border-radius: 8px;
+    // padding: 10px 0px 10px 16px;
 
     @include md {
-      // display: flex;
-      // flex-direction: column;
-      // justify-content: flex-start;
-      // align-items: flex-start;
-      gap: 22px;
       border-radius: 12px;
-      padding: 30px;
-      // margin-top: 1.5rem;
+      // padding: 20px 0px 20px 20px;
+    }
+    .hotelNameHeading {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 0;
+      padding: 10px 0px 10px 16px;
+      border-radius: 10px 10px 0px 0px;
+      background-image: linear-gradient(to right, var(--lightPurple), white);
+
+      @include md {
+        font-size: 16px;
+        font-weight: 600;
+      }
     }
 
-    .dangerousHTMLhotelDetails {
-      font-size: 14px;
-      color: var(--black4) !important;
+    .roomDetailsDangerousHtml {
+      // padding: 16px;
+      // border-radius: 8px;
+      background: #fff;
+      // box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 
-      p {
-        margin-bottom: 10px !important;
-        font-size: 14px !important;
-        font-weight: 500 !important;
-        line-height: 1.9 !important;
+      gap: 15px;
+      padding: 10px;
+      // border: 1px solid lightgray;
+      border-radius: 10px;
 
-        @include md {
-          font-size: 15px !important;
+      @include md {
+        gap: 22px;
+        padding: 20px;
+      }
+
+      .dangerousHTMLhotelDetails {
+        font-size: 14px;
+        color: var(--black4) !important;
+
+        p {
+          margin-bottom: 10px !important;
+          font-size: 14px !important;
+          font-weight: 500 !important;
+          line-height: 1.9 !important;
+
+          @include md {
+            font-size: 15px !important;
+          }
         }
-      }
 
-      b {
-        display: block !important;
-        font-weight: 600 !important;
-        margin-bottom: 10px;
-      }
+        b {
+          display: block !important;
+          font-weight: 600 !important;
+          margin-bottom: 10px;
+        }
 
-      br {
-        display: none !important;
+        br {
+          display: none !important;
+        }
       }
     }
   }

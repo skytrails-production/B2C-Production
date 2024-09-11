@@ -311,7 +311,7 @@ const ToSearchInput = (props) => {
 
 // to data logic
 
-function BusFormInner() {
+function BusFormInner({ setLoader, loader }) {
 
 
     let value2 = JSON.parse(sessionStorage.getItem("busOnewayData"));
@@ -332,7 +332,6 @@ function BusFormInner() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const reducerState = useSelector((state) => state);
-    const [loader, setLoader] = useState(false);
     const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData);
     const [selectedTo, setSelectedTo] = useState(initialSelectedToData);
 
@@ -397,6 +396,8 @@ function BusFormInner() {
     // ////////////////////submit logic///////////////
 
     function handleOnewaySubmit(event) {
+
+        setLoader(true);
         sessionStorage.setItem("SessionExpireTime", new Date());
 
         if (selectedFrom.CityId == selectedTo.CityId) {
@@ -435,6 +436,14 @@ function BusFormInner() {
         dispatch(busSearchAction(payload));
 
     }
+
+
+
+    useEffect(() => {
+        if (reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.BusResults?.length > 0) {
+            setLoader(false)
+        }
+    }, [reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult?.BusResults])
 
 
     const handleRoundLogoClick = () => {
@@ -622,13 +631,6 @@ function BusFormInner() {
                     </div>
 
                 </div>
-
-                {/* <div
-                    className="flightSearchButtonBox">
-                    <Button onClick={handleOnewaySubmit} loading={loader}>
-                        Search
-                    </Button>
-                </div> */}
             </div>
         </>
     );

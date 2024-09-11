@@ -4,195 +4,219 @@
   color: var(--black4) !important;
   font-family: "Montserrat";
 
-  .roomNameAndCategory {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 15px;
-    padding: 10px;
+  .roomNameAndCategoryOuter {
     border: 1px solid lightgray;
-    border-radius: 5px;
-
-    > div {
-      width: 100%;
-    }
-
-    .hotelReviewAmenity {
-      > div {
-        display: grid;
-        grid-template-columns: 50% 50%;
-        justify-content: space-between;
-        row-gap: 21px;
-
-        p {
-          font-size: 15px;
-          font-family: "Montserrat";
-          font-weight: 500;
-
-          @include md {
-            font-size: 16px;
-          }
-
-          i {
-            margin-right: 5px;
-          }
-          svg {
-            margin-right: 5px;
-          }
-        }
-      }
-    }
+    border-radius: 8px;
+    // padding: 10px 0px 10px 16px;
 
     @include md {
+      border-radius: 12px;
+      // padding: 20px 0px 20px 20px;
+    }
+    .hotelNameHeading {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 0;
+      padding: 10px 0px 10px 16px;
+      border-radius: 10px 10px 0px 0px;
+      background-image: linear-gradient(to right, var(--lightPurple), white);
+
+      @include md {
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+
+    .roomNameAndCategory {
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
+      justify-content: space-between;
       align-items: flex-start;
-      gap: 22px;
-      border-radius: 12px;
-      padding: 30px;
-      // margin-top: 1.5rem;
-    }
+      gap: 14px;
+      // border: 1px solid lightgray;
+      padding: 10px;
+      border-radius: 5px;
 
-    .roomTitle {
-      .HotelRoomHeadings1 {
-        font-weight: 600;
-        font-size: 0.9rem;
-        position: relative;
-        margin-bottom: 15px;
-        width: 94%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        @include md {
-          font-size: 1.2rem;
-          width: 100%;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
-      .HotelRoomHeadings2 {
-        font-weight: 600;
-        font-size: 0.9rem;
-        padding-bottom: 15px;
-        position: relative;
-        margin-bottom: 15px;
+      > div {
         width: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        @include md {
-          font-size: 1.2rem;
+      }
+
+      .hotelReviewAmenity {
+        > div {
+          display: grid;
+          grid-template-columns: 50% 50%;
+          justify-content: space-between;
+          row-gap: 21px;
+
+          p {
+            font-size: 15px;
+            font-family: "Montserrat";
+            font-weight: 500;
+
+            @include md {
+              font-size: 16px;
+            }
+
+            i {
+              margin-right: 5px;
+            }
+            svg {
+              margin-right: 5px;
+            }
+          }
+        }
+      }
+
+      @include md {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 17px;
+        border-radius: 12px;
+        padding: 20px;
+        // margin-top: 1.5rem;
+      }
+
+      .roomTitle {
+        .HotelRoomHeadings1 {
+          font-weight: 600;
+          font-size: 0.9rem;
+          position: relative;
+          margin-bottom: 15px;
+          width: 94%;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          @include md {
+            font-size: 1.2rem;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+        .HotelRoomHeadings2 {
+          font-weight: 600;
+          font-size: 0.9rem;
+          padding-bottom: 15px;
+          position: relative;
+          margin-bottom: 15px;
           width: 100%;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          @include md {
+            font-size: 1.2rem;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+
+          &::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            width: 80px;
+            height: 2px;
+            background-color: #ddd;
+          }
         }
+      }
 
-        &::before {
-          content: "";
-          position: absolute;
-          bottom: 0;
-          width: 80px;
-          height: 2px;
-          background-color: #ddd;
+      h5 {
+        font-size: 1.1rem;
+        font-family: "Montserrat";
+        font-weight: 600;
+        margin-bottom: 0;
+
+        @include md {
+          font-size: 1.45rem;
         }
       }
-    }
 
-    h5 {
-      font-size: 1.1rem;
-      font-family: "Montserrat";
-      font-weight: 600;
-      margin-bottom: 0;
+      p {
+        font-size: 14px;
+        font-family: "Montserrat";
 
-      @include md {
-        font-size: 1.45rem;
+        @include md {
+          font-size: 15px;
+        }
       }
-    }
 
-    p {
-      font-size: 14px;
-      font-family: "Montserrat";
-
-      @include md {
-        font-size: 15px;
-      }
-    }
-
-    .hotelBookDesignFirst {
-      display: flex;
-      flex-direction: row;
-      justify-content: flex-start;
-      width: 100%;
-      gap: 30px;
-      align-items: center;
-
-      @include md {
+      .hotelBookDesignFirst {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         width: 100%;
         gap: 30px;
         align-items: center;
-      }
 
-      > div {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 4px;
+        @include md {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          width: 100%;
+          gap: 30px;
+          align-items: center;
+        }
 
-        a {
-          color: var(--black4);
-          font-size: 14px;
-          font-family: "Montserrat";
-          text-decoration: none;
+        > div {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          gap: 4px;
+
+          a {
+            color: var(--black4);
+            font-size: 14px;
+            font-family: "Montserrat";
+            text-decoration: none;
+          }
         }
       }
-    }
 
-    .roomDetailsIconBox {
-      display: flex;
-      flex-direction: row;
-      gap: 15px;
-      align-items: center;
-      justify-content: flex-start;
-
-      > div {
+      .roomDetailsIconBox {
         display: flex;
         flex-direction: row;
-        justify-content: flex-start;
+        gap: 15px;
         align-items: center;
-        gap: 5px;
+        justify-content: flex-start;
 
-        &:not(:last-child) {
-          content: "|";
-          padding-right: 12px;
+        > div {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+          gap: 5px;
+
+          &:not(:last-child) {
+            content: "|";
+            padding-right: 12px;
+          }
         }
       }
-    }
 
-    .showMoore {
-      color: var(--primary);
-      cursor: pointer;
-      font-weight: 600;
-    }
+      .showMoore {
+        color: var(--primary);
+        cursor: pointer;
+        font-weight: 600;
+      }
 
-    .error-text {
-      font-size: 13px;
-    }
+      .error-text {
+        font-size: 13px;
+      }
 
-    .propertyRulesBox {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+      .propertyRulesBox {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
 
-      p {
-        // font-size: 15px;
-        font-weight: 500;
+        p {
+          // font-size: 15px;
+          font-weight: 500;
+        }
       }
     }
   }

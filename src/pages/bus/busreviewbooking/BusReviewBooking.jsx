@@ -1,27 +1,6 @@
-// import React from 'react';
-// import Footer from '../../../layouts/Footer';
-// import Blankdiv from '../../home/searchresult/Blankdiv';
-// import Searchnavbar from '../../home/searchresult/Searchnavbar';
-// import BusReasultForm from '../bussearchresult/BusReasultForm';
-// import BusSearchReview from './BusSearchReview';
-// // import "./bussearchresult.css";
 
-// const BusReviewBooking = () => {
-//   return (
-//    <div className='bus_banner'>
-
-//             <BusReasultForm/>
-
-//         </div>
-//   )
-// }
-
-// export default BusReviewBooking
 
 import React, { useState } from "react";
-
-// import { Box, Grid, Typography, Link, Button } from "@mui/material";
-// import BusSaleSummary from "../busPassengerDetail/BusSaleSummary";
 import BusSaleSummary from "../bussearchresult/BusSaleSummary";
 import Busalesummarycoupon from "../bussearchresult/Busalesummarycoupon";
 
@@ -75,18 +54,11 @@ const BusReviewBooking = () => {
   const navigate = useNavigate();
   const reducerState = useSelector((state) => state);
   const [transactionAmount, setTransactionAmount] = useState(null);
-  const [SessionTImeLeft, setSessionTimeLeft] = useState(0);
-  const [timer_11, setTimer11] = useState(false);
   const [sub, setSub] = useState(false);
   const [loaderPayment, setLoaderPayment] = useState(false);
   const [publishedPrice, setPublishedPrice] = useState(0);
   const [loaderPayment1, setLoaderPayment1] = useState(false);
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
-  // const [offerPrice, setOfferedPrice] = useState(0);
-  // const [tds, setTds] = useState(0);
-  // const [userData, setUserData] = useState(null);
-  // const [busId, setBusId] = useState(0);
-  // const isNavigate = reducerState?.getBusResult?.isLoadingBook || true;
 
   // console.log("======================", reducerState);
   const [finalAmount, setFinalAmount] = useState(0);
@@ -129,21 +101,12 @@ const BusReviewBooking = () => {
   ) {
     return accumulator + currentValue?.Price?.PublishedPriceRoundedOff;
   },
-  0);
-
-  // const tdsTotal = markUpamount + seatObject.reduce((accumulator, currentValue) => {
-  //     return accumulator + currentValue?.Price?.TDS;
-  // }, 0);
-
-  // console.log(seatObject);
-  // console.log(reducerState);
+    0);
 
   useEffect(() => {
     if (seatData === undefined) {
       navigate("/BusPassengerDetail");
     }
-    // sessionStorage.removeItem("totalaftercoupon");
-    // sessionStorage.removeItem("couponCode")
   }, []);
 
   useEffect(() => {
@@ -152,26 +115,6 @@ const BusReviewBooking = () => {
       busBlockData?.Error?.ErrorCode !== undefined
     ) {
       swalModal("bus", busBlockData?.Error?.ErrorMessage, false);
-      // Swal.fire({
-      //   icon: "error",
-      //   title: "Oops",
-      //   text: busBlockData?.Error?.ErrorMessage,
-
-      //   showClass: {
-      //     popup: `
-      //       animate__animated
-      //       animate__fadeInUp
-      //       animate__faster
-      //     `,
-      //   },
-      //   hideClass: {
-      //     popup: `
-      //       animate__animated
-      //       animate__fadeOutDown
-      //       animate__faster
-      //     `,
-      //   },
-      // });
       navigate("/");
     } else if (sessionStorage.getItem("storedPassengerData") === undefined) {
       navigate("/");
@@ -189,11 +132,7 @@ const BusReviewBooking = () => {
     seatObject.reduce((accumulator, currentValue) => {
       return accumulator + currentValue?.Price?.TDS;
     }, 0);
-  // useEffect(() => {
-  //   setOfferedPrice(offeredPrice);
-  //   setPublishedPrice(published);
-  //   setTds(tdsTotal);
-  // }, []);
+
 
   useEffect(() => {
     if (loaderPayment == true) {
@@ -221,55 +160,10 @@ const BusReviewBooking = () => {
         ?.Error?.ErrorMessage == ""
     ) {
       setLoaderPayment(false);
-      navigate("/Busbookingconfirmation",{ state: { finalamount: finalAmount, couponvalue:couponvalue } });
+      navigate("/Busbookingconfirmation", { state: { finalamount: finalAmount, couponvalue: couponvalue } });
     }
   }, [reducerState?.getBusResult?.busDetails?.data?.data]);
 
-  // const userId = reducerState?.logIn?.loginData?.data?.data?.id;
-  // const userBalance = reducerState?.userData?.userData?.data?.data?.balance;
-
-  const [Razorpay, isLoaded] = useRazorpay();
-
-  // const handlePayment = useCallback(async () => {
-
-  //   try {
-  //     const options = {
-  //       key: "rzp_test_rSxJ8wZCLzTJck",
-  //       amount: "300" * 100,
-  //       currency: "INR",
-  //       name: "The Skytrails",
-  //       description: "Test Transaction",
-  //       image: "https://travvolt.s3.amazonaws.com/Brand.png",
-  //       // order_id: order.id,
-  //       handler: (response) => {
-  //         console.log(response);
-
-  //         if (response.razorpay_payment_id) {
-  //           setLoaderPayment(true);
-  //         } else {
-  //           // Handle payment failure
-  //           console.log("Payment failed");
-  //         }
-  //       },
-  //       // prefill: {
-  //       //   name: "Piyush Garg",
-  //       //   email: "youremail@example.com",
-  //       //   contact: "9999999999"
-  //       // },
-  //       notes: {
-  //         address: "Razorpay Corporate Office",
-  //       },
-  //       theme: {
-  //         color: "#e73c34",
-  //       },
-  //     };
-
-  //     const rzpay = new Razorpay(options);
-  //     rzpay.open();
-  //   } catch (error) {
-  //     console.error("Error creating order:", error);
-  //   }
-  // }, [Razorpay]);
 
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isDisableScroll, setIsDisableScroll] = useState(false);
@@ -303,7 +197,7 @@ const BusReviewBooking = () => {
   // console.log(token, "token //////////////////")
   const totalAfterCoupon = sessionStorage?.getItem("totalaftercoupon");
 
- 
+
   const handlePayment = async () => {
     if (authenticUser !== 200) {
       setSub(false);
@@ -454,26 +348,7 @@ const BusReviewBooking = () => {
       busFullData?.Error?.ErrorCode !== undefined
     ) {
       swalModal("bus", busBook?.ErrorMessage, false);
-      //   Swal.fire({
-      //     icon: "error",
-      //     title: "Oops",
-      //     text: busBook?.ErrorMessage,
 
-      //     showClass: {
-      //       popup: `
-      //       animate__animated
-      //       animate__fadeInUp
-      //       animate__faster
-      //     `,
-      //     },
-      //     hideClass: {
-      //       popup: `
-      //       animate__animated
-      //       animate__fadeOutDown
-      //       animate__faster
-      //     `,
-      //     },
-      //   });
     }
   }, [busBook]);
 
@@ -520,51 +395,7 @@ const BusReviewBooking = () => {
     setTransactionAmount(e);
     // console.log("setTransactionAmountState");
   };
-  // const cancelFromDateFormatted = cancelFromDate.format("DD MMM, YY");
-  // const cancelToDateTimeFormatted = cancelToDateTime.format("DD MMM, YY");
-  // function convertMillisecondsToMinutesAndSeconds(milliseconds) {
-  //   // Convert milliseconds to seconds
-  //   const totalSeconds = Math.floor(milliseconds / 1000);
 
-  //   // Calculate minutes and remaining seconds
-  //   const minutes = Math.floor(totalSeconds / 60);
-  //   const seconds = totalSeconds % 60;
-  //   const timeleft = `${minutes}:${seconds}`
-  //   console.log(timeleft, "time left")
-  //   return timeleft;
-  // }
-  // useEffect(() => {
-  //   if (sub) {
-  //     const checkSearchTime = () => {
-  //       const lastSearchTime = new Date(sessionStorage.getItem('SessionExpireTime'));
-  //       if (lastSearchTime) {
-  //         const currentTime = new Date();
-  //         const differenceInMinutes = Math.floor((currentTime.getTime() - lastSearchTime.getTime()) / (1000 * 60));
-  //         // const differenceInMinutes = currentTime - lastSearchTime;
-  //         if (differenceInMinutes < 11 && !timer_11) {
-  //           console.log('Search time is less than 15 minutes ago.');
-  //           setSessionTimeLeft(convertMillisecondsToMinutesAndSeconds(currentTime.getTime() - lastSearchTime.getTime()));
-  //           setTimer11(true);
-
-  //         }
-  //         // else if (differenceInMinutes <= 15) {
-  //         //   // console.log('Search time is more than 15 minutes ago.');
-  //         //   swalModal("flight", "Session is Expired", false);
-  //         //   navigate("/");
-  //         //   sessionStorage.removeItem("SessionExpireTime");
-  //         // }
-  //         // else {
-
-  //         //   console.log(differenceInMinutes, lastSearchTime, currentTime, SessionTImeLeft, "timeleft......")
-  //         // }
-  //       }
-  //     };
-
-  //     const interval = setInterval(checkSearchTime, 5000); // Check every second
-
-  //     return () => clearInterval(interval); // Clean up the interval
-  //   }
-  // }, [sub]);
 
   const storedPassengerData = JSON.parse(sessionStorage.getItem("busPassName"));
   // console.log("passengerdetails", storedPassengerData);
@@ -621,58 +452,8 @@ const BusReviewBooking = () => {
                     </div>
                   </div>
 
-                  {/* <div className="busAllDetail">
-                  <div>
-                    <p>
-                      Bus Name
-                    </p>
-                    <span>
-                      {selectedBus?.TravelName}
-                    </span>
-                  </div>
-                  <div>
-                    <p>
-                      Origin
-                    </p>
-                    <span>
-                      {selectedBus?.BoardingPointsDetails &&
-                        selectedBus.BoardingPointsDetails.length > 0 &&
-                        selectedBus.BoardingPointsDetails[0].CityPointLocation}
-                    </span>
-                  </div>
-                  <div>
-                    <p>
-                      Destination
-                    </p>
-                    <span>
-                      {selectedBus?.DroppingPointsDetails &&
-                        selectedBus.DroppingPointsDetails.length > 0 &&
-                        selectedBus.DroppingPointsDetails[0].CityPointLocation}
-                    </span>
-                  </div>
-                  <div>
-                    <p>
-                      Departure Date Time
-                    </p>
-                    <span>
-                      {desiredFormat}
-                    </span>
-                  </div>
-                  <div>
-                    <p>
-                      Arrival Date Time
-                    </p>
-                    <span>
-                      <span>{desiredFormat1}</span>
-                    </span>
-                  </div>
-                </div> */}
+
                 </motion.div>
-
-                {/* <motion.div variants={variants} className="col-lg-12 my-3">
-                
-              </motion.div> */}
-
                 <motion.div variants={variants} className="col-lg-12 my-3">
                   <div className="passengerDetBox">
                     <p>Passenger Details</p>
@@ -698,8 +479,8 @@ const BusReviewBooking = () => {
                         {passenger.Gender == "1"
                           ? "Male"
                           : passenger.Gender == "2"
-                          ? "Female"
-                          : ""}
+                            ? "Female"
+                            : ""}
                         <span>{passenger.Age}</span>
                       </div>
                     </div>
@@ -783,10 +564,6 @@ const BusReviewBooking = () => {
           aria-describedby="modal-modal-description"
           sx={{ zIndex: "999999" }}
         >
-          {/* <Box className="loginModalBox">
-          <p>Please Login to Continue</p>
-          <Login />
-        </Box> */}
           <div class="login-page">
             <div class="container ">
               <div class="row d-flex justify-content-center">

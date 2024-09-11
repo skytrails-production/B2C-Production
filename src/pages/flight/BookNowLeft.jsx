@@ -544,7 +544,7 @@ const BookNowLeft = (props) => {
             {childCount > 0 && (
               <>
                 <p className="textcolor1">Child(s) ({childCount} × {chilsamount})</p>
-                <p>{"₹"}{childmultiply}</p>
+                <p className="textcolor1">{"₹"}{childmultiply}</p>
               </>
             )}
           </div>
