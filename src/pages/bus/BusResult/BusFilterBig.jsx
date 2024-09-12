@@ -39,7 +39,6 @@ const BusFilterBig = ({ onFilter, busData }) => {
     }, [])
 
     const handleBusTypeChange = (e) => {
-        // console.log(e, "e ifjdkhfjhklj");
         const value = e.target.value;
         setBusType((prev) =>
             prev.includes(value)

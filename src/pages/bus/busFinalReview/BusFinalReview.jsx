@@ -1,8 +1,6 @@
 
 
 import React, { useState } from "react";
-import BusSaleSummary from "../bussearchresult/BusSaleSummary";
-import Busalesummarycoupon from "../bussearchresult/Busalesummarycoupon";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,37 +10,21 @@ import {
 import { useEffect } from "react";
 import dayjs from "dayjs";
 import axios from "axios";
-import Swal from "sweetalert2";
+
 import { swalModal } from "../../../utility/swal";
-import { motion } from "framer-motion";
-import useRazorpay from "react-razorpay";
 import PaymentLoader from "../../flight/FlightLoader/paymentLoader";
 import { apiURL } from "../../../Constants/constant";
-import Login from "../../../components/Login";
+
 import Modal from "@mui/material/Modal";
 import flightPaymentLoding from "../../../images/loading/loading-ban.gif";
-import loginnew from "../../../images/login-01.jpg";
-import CloseIcon from "@mui/icons-material/Close";
+
 import { checkSearchTime } from "../../../utility/utils";
 import secureLocalStorage from "react-secure-storage";
 import { Button } from "antd";
 import BusSummaryWithCoupon from "../busSummary/BusSummaryWithCoupon";
 import Authentic from "../../Auth/Authentic";
 
-const variants = {
-    initial: {
-        y: 50,
-        opacity: 0,
-    },
-    animate: {
-        y: 0,
-        opacity: 1,
-        transition: {
-            duration: 0.5,
-            staggerChildren: 0.1,
-        },
-    },
-};
+
 
 const BusFinalReview = () => {
     const dispatch = useDispatch();
@@ -213,7 +195,7 @@ const BusFinalReview = () => {
                 const payload = {
                     firstname: passengerSessionStorageParsed[0].FirstName,
                     phone: passengerSessionStorageParsed[0].Phoneno,
-                    amount: Number(finalAmount).toFixed(2),
+                    amount: Number(finalAmount).toFixed(0),
                     // amount: 1,
                     email: passengerSessionStorageParsed[0].Email,
                     productinfo: "ticket",

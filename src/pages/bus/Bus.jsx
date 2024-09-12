@@ -1,7 +1,7 @@
 
 import Download from "../../pages/home/Download";
 // import Bussearch from "./Bussearch";
-import "./bus.css";
+// import "./bus.css";
 import Advertise from "../home/Advertise";
 // import FLightOffer from "../flight/FLightOffer";
 // import hotelBanner from "../../images/hotelBanner.jpg"

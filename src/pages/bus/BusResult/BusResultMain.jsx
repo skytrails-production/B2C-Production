@@ -22,7 +22,6 @@ const BusResultMain = () => {
     const [errors, setErrors] = useState(false)
     const busSessionData = JSON.parse(sessionStorage.getItem('busOnewayData'));
 
-    console.log(busSessionData, "busSessionData")
 
 
     useEffect(() => {
@@ -152,8 +151,6 @@ const BusResultMain = () => {
         return <BusResultSkeleton />
     }
 
-
-    console.log(loader, "loader in result main")
 
     return (
 

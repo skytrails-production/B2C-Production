@@ -88,7 +88,7 @@ function BusResult({ filteredData }) {
         reducerState?.getBusResult?.busResult?.data?.data?.BusSearchResult
             ?.BusResults;
 
-    console.log(reducerState, "reducer State")
+
 
     useEffect(() => {
         if (busDataResult?.length !== 0 && filteredData?.length === 0) {
@@ -168,8 +168,6 @@ function BusResult({ filteredData }) {
 
 
 
-    // console.log(filteredData, "filtered data ")
-
 
 
     useEffect(() => {
@@ -211,7 +209,6 @@ function BusResult({ filteredData }) {
         let seatDivs = tempDiv.querySelectorAll(
             ".hseat, .bhseat, .vhseat, .bhseat, .bseat, .vseat, .nseat, .rhseat"
         );
-        // console.log(seatDivs);
 
         seatDivs.forEach((seatDiv) => {
             // Check if the seat div is inside the upper part of the bus
@@ -262,7 +259,7 @@ function BusResult({ filteredData }) {
         if (object.SeatStatus === false) {
             return;
         }
-        // console.log(object, "onbj")
+
         const isSeatSelected = blockedSeatArray.includes(object);
         if (isSeatSelected) {
             const updatedBlockedSeatArray = blockedSeatArray.filter(
@@ -274,7 +271,6 @@ function BusResult({ filteredData }) {
         }
     }
 
-    // console.log(blockedSeatArray, "blocked seat array")
 
     function handleClose() {
         setBlockedSeatArray([]);
@@ -286,7 +282,7 @@ function BusResult({ filteredData }) {
         //  setModal((prev) => !prev);
     }
     function handleContinue() {
-        // console.warn(selectedOrigin, selectedDropPoint, "selectedOrigin,selectedDropPoint,")
+
         if (
             blockedSeatArray.length === 0 ||
             selectedOrigin === "" ||
@@ -613,7 +609,7 @@ function BusResult({ filteredData }) {
                                                                                                                                     top: item?.top || 0,
                                                                                                                                     left: item?.left || 0,
                                                                                                                                 };
-                                                                                                                                // console.log()
+
                                                                                                                                 return (
                                                                                                                                     <Box
                                                                                                                                         class={item?.class}

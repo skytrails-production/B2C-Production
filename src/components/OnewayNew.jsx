@@ -3,6 +3,7 @@ import "./Onewaynew.css";
 import { useDispatch, useSelector } from "react-redux";
 import { apiURL } from "../Constants/constant";
 // import FlightTakeoffTwoToneIcon from "@mui/icons-material/FlightTakeoffTwoTone";
+import './card.css';
 import axios from "axios";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import "react-datepicker/dist/react-datepicker.css";

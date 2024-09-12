@@ -76,7 +76,6 @@ const BusPassengerDetail = () => {
 
     const handleServiceChange = (e, index) => {
         const { name, value } = e.target;
-        // console.log(name, value, "");
         const updatedPassenger = [...passengerData];
         updatedPassenger[index] = {
             ...updatedPassenger[index],
@@ -90,7 +89,6 @@ const BusPassengerDetail = () => {
     function handleSeatBlock() {
         const payload = {
             Passenger: passengerData?.map((item, index) => {
-                // console.log(item?.Gender, "cjjjd");
                 return {
                     ...item,
                     Seat: parsedSeatData?.blockedSeatArray[index],
@@ -476,7 +474,6 @@ const BusPassengerDetail = () => {
 
         </>
     );
-    // console.log(reducerState, "reducer state")
 };
 
 export default BusPassengerDetail;

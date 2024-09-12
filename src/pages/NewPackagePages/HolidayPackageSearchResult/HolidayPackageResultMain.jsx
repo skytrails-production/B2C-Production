@@ -51,8 +51,6 @@ const HolidayPackageResultMain = () => {
     const Package = reducerState?.searchResult?.packageSearchResult?.data?.data?.pakage || reducerState?.searchResult?.packageSearchResult?.data?.results || reducerState?.searchResult?.packageSearchResult?.data?.data || [];
 
 
-
-
     useEffect(() => {
         if (Package.length > 0) {
             setLoading(false);

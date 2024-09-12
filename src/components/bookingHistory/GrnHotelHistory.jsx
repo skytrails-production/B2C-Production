@@ -157,7 +157,7 @@ const GrnHotelHistory = () => {
 
 
 
-    if (hotelBookingData.length == 0)
+    if (hotelBookingData?.length == 0)
 
         return (
             <>

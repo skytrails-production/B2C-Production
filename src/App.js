@@ -9,19 +9,15 @@ import "./App.css";
 import './index.scss'
 import LoginForm from "./components/Login";
 import DummyTicketBookingForm from "./components/DummyTicketBookingForm";
-import SignUp from "./components/Signup";
+// import SignUp from "./components/Signup";
 import BookedTicketAmd from "./pages/flight/BookedTicketAmd";
 import Hotel from "./pages/Hotel/HotelHome";
 import Payment from "./pages/flight/Payment";
 
 // Bus
 import Bus from "./pages/bus/Bus";
-import BusReviewBooking from "./pages/bus/busreviewbooking/BusReviewBooking";
 import BusBookingConfirmation from "./pages/bus/busbookingconfirmation/BusBookingConfirmation";
-// import BusSearchresult from "./pages/bus/bussearchresult/BusSearchresult";
-// Taxi
-import Taxi from "./pages/taxi/Taxi";
-// import SeatLayout from "./pages/bus/bussearchresult/SeatLayout";
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 import Footer from "./layouts/Footer";
 import TermandCondition from "./layouts/TermandCondition";
 import PrivacyPolicy from "./layouts/PrivacyPolicy";
@@ -30,7 +26,6 @@ import PrivacyPolicy from "./layouts/PrivacyPolicy";
 // import PaymentReturn from "./pages/Return/PaymentReturn";
 // import Conformation from "./pages/Return/Conformation";
 // import NonStopFlight from "./pages/Return/NonStopFlight";
-import BusResult from "./pages/bus/bussearchresult/BusResult";
 import Download from "./pages/home/Download";
 
 import SsdcForm from "./components/ssdc/SSDClanding";
@@ -408,7 +403,7 @@ function App() {
           element={<ReturnReviewBooking />}
         />
         <Route path="login" element={<LoginForm />}></Route>
-        <Route path="signup" element={<SignUp />}></Route>
+        {/* <Route path="signup" element={<SignUp />}></Route> */}
         <Route path="flighterror" element={<Flighterror />}></Route>
         <Route path="Searchresult/booknow" element={<BookWrapper />}>
           {" "}
@@ -507,13 +502,9 @@ function App() {
           path="/BusBookingConfirmation"
           element={<BusBookingConfirmation />}
         ></Route>
-        {/* <Route path="/SelectBusSeat" element={<SeatLayout />}></Route> */}
-        {/* <Route path="/busresult" element={<BusResult />}></Route> */}
         <Route path="/busresult" element={<BusResultMain />}></Route>
 
 
-        {/* Taxi */}
-        <Route path="taxi" element={<Taxi />}></Route>
         <Route path="termAndCondition" element={<TermandCondition />}></Route>
         <Route path="refundPolicy" element={<RefundPolicy />}></Route>
         <Route path="privacypolicy" element={<PrivacyPolicy />}></Route>

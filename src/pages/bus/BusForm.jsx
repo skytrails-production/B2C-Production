@@ -340,7 +340,7 @@ function BusForm() {
             setNewDepartDate(dayjs(date).format(dateFormat));
             setNewDepartDateCld(date);
         } else {
-            console.log("Selection cleared");
+            console.log("");
         }
     };
 

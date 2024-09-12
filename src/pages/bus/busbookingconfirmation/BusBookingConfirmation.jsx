@@ -44,11 +44,9 @@ const BusBookingConfirmation = () => {
       const getDetails =
         reducerState?.getBusResult?.busDetails?.data?.data
           ?.GetBookingDetailResult?.Itinerary;
-      // console.log(getDetails, "getDetails");
       const totalAmount =
         reducerState?.getBusResult?.busDetails?.data?.data
           ?.GetBookingDetailResult?.Itinerary?.Price?.PublishedPriceRoundedOff;
-      //  console.log(totalAmount, "totalAmount");
       // const grandtotal = totalAmount + markUpamount * totalAmount;
       const buscouponamount =
         reducerState?.getBusResult?.busDetails?.data?.data
@@ -92,7 +90,6 @@ const BusBookingConfirmation = () => {
         },
         CancelPolicy: getDetails?.CancelPolicy,
       };
-      // console.log(payloadSavedata, "payload Saved Data");
       userApi.busBookingDataSave(payloadSavedata);
       couponconfirmation();
     };
