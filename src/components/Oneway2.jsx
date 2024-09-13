@@ -344,7 +344,7 @@ function OnewayNew() {
   // console.log("total coutn",totalcount,adultcount,childcout,infantcount,flightclassvalue);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  sessionStorage.removeItem("apiCalled");
   const revertDate = dayjs(value2?.[0]?.newDepartDate).format("DD MMM, YY")
   const passedDate = new Date(revertDate);
   const [startDate, setStartDate] = useState(passedDate);
@@ -504,12 +504,16 @@ function OnewayNew() {
     // Convert to ISO 8601 format with UTC
     const formattedDate = parsedDate.toISOString();
     // console.log(formattedDate,"formattedDate")
+    const localOffset = parsedDate.getTimezoneOffset() * 60000; 
+    const adjustedDate = new Date(parsedDate.getTime() - localOffset);
+    const formattedDate1 = adjustedDate.toISOString().split('T')[0];
     dispatch(oneWayAction(payload));
     dispatch(oneWayActionCombined(payload));
     const searchpy = {
       from: { ...selectedFrom },
       to: { ...selectedTo },
       departureDate: formattedDate,
+      parsedDate:formattedDate1,
     };
     dispatch(searchFlight(searchpy));
     navigate(

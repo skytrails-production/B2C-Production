@@ -258,6 +258,9 @@ const ToSearchInput = (props) => {
     initialSelectedToData.name
   );
   const [inputStyle, setInputStyle] = useState({});
+  sessionStorage.removeItem("apiCalled");
+  
+
 
   useEffect(() => {
     setToData([
@@ -524,7 +527,12 @@ function OnewayNew() {
       ])
     );
     const parsedDate = new Date(newDepartDate);
+    // console.log(parsedDate);
     const formattedDate = parsedDate.toISOString();
+    const localOffset = parsedDate.getTimezoneOffset() * 60000; // Offset in milliseconds
+const adjustedDate = new Date(parsedDate.getTime() - localOffset);
+
+const formattedDate1 = adjustedDate.toISOString().split('T')[0]; // Keep 
     dispatch(oneWayAction(payload));
     dispatch(oneWayActionCombined(payload));
 
@@ -535,6 +543,7 @@ function OnewayNew() {
       from: { ...selectedFrom },
       to: { ...selectedTo },
       departureDate: formattedDate,
+      parsedDate:formattedDate1,
     };
     dispatch(searchFlight(searchpy));
     navigate(

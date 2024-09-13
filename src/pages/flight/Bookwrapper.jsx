@@ -65,6 +65,7 @@ import FlightLayoutTVO from "../../components/flightLayout/FlightLayoutTVO"
 import { clear_all_airline } from "../../Redux/AirlineSeatMap/actionAirlineSeatMap"
 import Cancellationpolicy from "./Cancellationpolicy";
 import { Modal as AntdModal, Button, Tabs } from 'antd';
+import Bookingloader from "./Bookingloader";
 import Authentic from "../Auth/Authentic";
 
 const { TabPane } = Tabs;
@@ -221,6 +222,7 @@ export default function BookWrapper() {
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
   // const couponvalue1 = sessionStorage.getItem("couponCode");
   const [email, setEmail] = useState("");
+  const [bookingloader, setbookingloader] = useState(false);
   const [cNumber, setCnumber] = useState("");
   const [farePrice, setFarePrice] = useState("");
   const [toggle, setToggle] = useState(false);
@@ -631,15 +633,29 @@ export default function BookWrapper() {
   // }, [reducerState?.flightBook?.flightBookData?.Response]);
 
   // console.log(reducerState, "reducerState");
+  const mealvaluenavigate = mellData.flat();
+  
   useEffect(() => {
     const fetchData = async () => {
       if (
         reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === ""
       ) {
-        // setLoaderPayment(false);
         // SecureStorage.setItem("baggageData", baggageData)
-        addBookingDetails();
-        // navigate("/bookedTicket");
+        // addBookingDetails();
+        couponconfirmation();
+        setLoaderPayment1(false);
+        navigate("/bookedTicket", {
+          state: {
+            baggage: baggageFare,
+            meal: mellFare,
+            totalSeatAmount:totalSeatAmount,
+            finalvalue: finalAmount,
+            baggagedata: baggageData,
+            seats: allSeats,
+            mealDynamic: mealvalue,
+            discount : discountvalue,
+          }
+        });
       } else if (
         reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
         reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== undefined
@@ -656,7 +672,7 @@ export default function BookWrapper() {
                 //     Number(markUpamount) *
                 //       Number(fareValue?.Fare?.PublishedFare)
                 //   ).toFixed(0)
-                Number(finalAmount).toFixed(2)
+                (Number(finalAmount) + Number(baggageFare) + Number(mellFare) + (Number(totalSeatAmount) || 0)).toFixed(2)
                 : 99),
             // "refund_amount": 1,
             txnId: refundTxnId,
@@ -703,10 +719,22 @@ export default function BookWrapper() {
         reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage === ""
       ) {
         setLoaderPayment(false);
-        addBookingDetails();
+        // addBookingDetails();
         // SecureStorage.setItem("baggageData", baggageData)
         couponconfirmation();
-        navigate("/bookedTicket");
+        navigate("/bookedTicket", {
+          state: {
+            baggage: baggageFare,
+            meal: mellFare,
+            totalSeatAmount:totalSeatAmount,
+            finalvalue: finalAmount,
+            baggagedata: baggageData,
+            seats: allSeats,
+            mealDynamic: mealvalue,
+            discount : discountvalue,
+           
+          }
+        });
       } else if (
         reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
         reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !==
@@ -749,7 +777,7 @@ export default function BookWrapper() {
           "Booking failed, your amount will be refunded within 72 hours.",
           false
         );
-        navigate("/"); // Abhi k liye comment kiya hai
+        navigate("/"); 
       }
     };
 
@@ -775,7 +803,7 @@ export default function BookWrapper() {
         reducerState?.flightFare?.flightQuoteData?.Error?.ErrorMessage,
         false
       );
-      navigate("/"); // Abhi k liye comment kiya hai
+      navigate("/"); 
     }
   }, [reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode]);
 
@@ -791,8 +819,20 @@ export default function BookWrapper() {
     ) {
       // SecureStorage.setItem("baggageData", baggageData)
       setLoaderPayment(false);
-      addBookingDetails();
-      navigate("/bookedTicket");
+      // addBookingDetails();
+      couponconfirmation();
+      navigate("/bookedTicket", {
+        state: {
+         baggage: baggageFare,
+            meal: mellFare,
+            totalSeatAmount:totalSeatAmount,
+            finalvalue: finalAmount,
+            baggagedata: baggageData,
+            seats: allSeats,
+            mealDynamic: mealvalue,
+            discount : discountvalue,
+        }
+      });
     } else if (
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !==
@@ -817,9 +857,21 @@ export default function BookWrapper() {
           ?.Error?.ErrorCode !== undefined)
     ) {
       setLoaderPayment(false);
-      addBookingDetails();
+      // addBookingDetails();
       // SecureStorage.setItem("baggageData", baggageData)
-      navigate("/bookedTicket");
+      couponconfirmation();
+      navigate("/bookedTicket", {
+        state: {
+         baggage: baggageFare,
+            meal: mellFare,
+            totalSeatAmount:totalSeatAmount,
+            finalvalue: finalAmount,
+            baggagedata: baggageData,
+            seats: allSeats,
+            mealDynamic: mealvalue,
+            discount : discountvalue,
+        }
+      });
     }
   }, [reducerState?.flightBook?.flightTicketDataGDS?.data?.data?.Response]);
 
@@ -1175,7 +1227,7 @@ export default function BookWrapper() {
   const mealvalue = mellData?.flat();
 
   const getTicketForLCC = () => {
-    const allSeats = Object.values(seatList).flat();
+    const allSeats = Object.values(seatList)?.flat();
     const payloadLcc = {
       ResultIndex: ResultIndex?.ResultIndex,
       EndUserIp: reducerState?.ip?.ipData,
@@ -1184,7 +1236,7 @@ export default function BookWrapper() {
       TraceId:
         reducerState?.oneWay?.oneWayData?.data?.tvoTraceId ||
         reducerState?.return?.returnData?.data?.data?.tvoTraceId,
-      Passengers: passengerData.map((item, index) => {
+      Passengers: passengerData?.map((item, index) => {
    
           return {
             ...item,
@@ -1196,7 +1248,7 @@ export default function BookWrapper() {
               : "",
               Baggage: baggageData?.[index] == undefined ? [] : [baggageData?.[index]] ,
               MealDynamic: mellData?.flat()?.[index] == undefined ? [] : [mellData?.flat()?.[index]],
-              SeatDynamic: seatList?.[0].flat()?.[index] == undefined ? [] : [seatList?.[0].flat()?.[index]],
+              SeatDynamic: seatList?.[0]?.flat()?.[index] == undefined ? [] : [seatList?.[0]?.flat()?.[index]],
             };
       
           
@@ -2007,21 +2059,7 @@ const separatedByFlightNumber = Array.isArray(filteredMeals)
                                   </div> */}
                                 {/* </div>
 
-                                <div>
-                                  {layoverDuration !== 0 && (
-                                    <p className="text-bold">
-                                      Layover Time:{" "}
-                                      {layoverHours !== 0 &&
-                                        `${layoverHours} hours`}{" "}
-                                      {layoverMinutes !== 0 &&
-                                        `${layoverMinutes} minutes`}
-                                    </p>
-                                  )}
-                                </div>
-                              </>
-                            ); */}
-                          {/* })} */} 
-
+                               
                           {/* //////////////////////////////////////////////////////////////////// */}
 
                           {TicketDetails?.Segments[0]?.map((item, index) => {
