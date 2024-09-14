@@ -16,7 +16,7 @@ import ConfirmationModal from './ConfirmationModal';
 const HolidayEnquiryForm = ({ onePackage }) => {
     const reducerState = useSelector((state) => state);
     const authenticUser = reducerState?.logIn?.loginData?.status;
-    const [adults, setAdults] = useState(2);
+    const [adults, setAdults] = useState(1);
     const [children, setChildren] = useState(0);
     const token = SecureStorage.getItem('jwtToken');
 
@@ -92,7 +92,7 @@ const HolidayEnquiryForm = ({ onePackage }) => {
         if (date) {
             setNewDepartDate(dayjs(date).format(dateFormat));
         } else {
-            console.log('Selection cleared');
+            console.log('');
         }
     };
 
@@ -135,10 +135,10 @@ const HolidayEnquiryForm = ({ onePackage }) => {
             return;
         }
 
-        console.log(formData, 'formData');
+        // console.log(formData, 'formData');
 
         const validationResult = validateForm(formData);
-        console.log(validationResult, 'validationResult');
+        // console.log(validationResult, 'validationResult');
         if (Object.keys(validationResult).length > 0) {
             setErrors(validationResult);
             setLoader(false);
@@ -173,7 +173,7 @@ const HolidayEnquiryForm = ({ onePackage }) => {
                     depCity: '',
                 });
                 setChildren(0);
-                setAdults(2);
+                setAdults(1);
                 setNewDepartDate(today);
                 showConfirmationModal();
                 setLoader(false);

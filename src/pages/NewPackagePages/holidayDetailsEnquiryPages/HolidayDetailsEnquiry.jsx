@@ -64,9 +64,9 @@ const HolidayDetailsEnquiry = () => {
         )
     }
 
-    console.log(reducerState, "reducer state")
+    // console.log(reducerState, "reducer state")
     return (
-        <section className='pt-4' style={{ backgroundColor: "white" }}>
+        <section className='pt-4' >
             <div className="container " >
                 <div className="row">
                     <div className="col-lg-6">

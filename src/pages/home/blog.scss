@@ -302,12 +302,16 @@
       margin: 31px 0px 15px 0px;
     }
     button {
-      background-color: #e73c34 !important;
-      border-radius: 25px !important;
+      background-color: var(--primary) !important;
+      border-radius: 10px !important;
       border: none !important;
       color: white;
       height: unset !important;
       padding: 12px 24px !important;
+
+      &:hover {
+        background-color: var(--primaryHover) !important;
+      }
     }
   }
 }

@@ -10,6 +10,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { swalModal } from "../../../utility/swal";
 import BusResultSkeleton from "./BusResultSkeleton";
+import BusFilterSmall from "./BusFilterSmall";
 
 const BusResultMain = () => {
     const reducerState = useSelector((state) => state);
@@ -164,8 +165,8 @@ const BusResultMain = () => {
                     <div className="container ">
                         <div className='smallHotelEditBox'>
                             <div className='smallHotelEditDetails'>
-                                <p>{busSessionData?.[0]?.CityName}-{busSessionData?.[1]?.CityName}  | {busSessionData?.[2]}</p>
-                                {/* <p>{grnPayload?.[0]?.cityName}</p> */}
+                                <p>{busSessionData?.[0]?.CityName}-{busSessionData?.[1]?.CityName}  </p>
+                                <p>{busSessionData?.[2]}</p>
                             </div>
                             <div onClick={() => { navigate("/bus") }}>
                                 <EditOutlined />
@@ -185,7 +186,7 @@ const BusResultMain = () => {
                             </div>
                         </div>
                         :
-                        <div className="row pt-4">
+                        <div className="row paddingCustom">
                             <div className=" col-lg-3 visibleBig p-0">
                                 <BusFilterBig
                                     onFilter={handleFilter}
@@ -195,9 +196,14 @@ const BusResultMain = () => {
                                 />
 
                             </div>
-                            {/* <div className="col-lg-12 visibleSmall stikcyHotelFilter">
-                                        
-                                    </div> */}
+                            <div className="col-lg-12 visibleSmall stikcyHotelFilter">
+                                <BusFilterSmall
+                                    onFilter={handleFilter}
+                                    busData={busData}
+                                // minPrice={minPrice}
+                                // maxPrice={maxPrice}
+                                />
+                            </div>
                             <div className=" col-lg-9 col-md-12 ">
                                 <BusResult filteredData={filteredData} />
                             </div>

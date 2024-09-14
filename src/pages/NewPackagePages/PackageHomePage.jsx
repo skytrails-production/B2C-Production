@@ -22,7 +22,7 @@ const PackageHomePage = () => {
     }, [])
 
     return (
-        <div style={{ backgroundColor: "white" }}>
+        <div >
             <React.Fragment>
                 <Helmet>
                     <title>

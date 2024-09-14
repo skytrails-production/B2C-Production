@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { Checkbox, Slider, Radio, Input } from "antd";
 
 import { before6Am, sixamto12pm, twelvePmto6pm, after6Pm, ac, nonac, sleeper, seater } from "./busFilterIcons"
@@ -19,7 +19,7 @@ const BusFilterBig = ({ onFilter, busData }) => {
     const [searchDropping, setSearchDropping] = useState("");
     const [minPrice, setMinPrice] = useState(0);
     const [maxPrice, setMaxPrice] = useState(5000);
-
+    const [debouncedSearchTravel, setDebouncedSearchTravel] = useState(searchTravel);
 
 
     const calculatePriceRange = () => {
@@ -171,29 +171,83 @@ const BusFilterBig = ({ onFilter, busData }) => {
         onFilter(filters);
     };
 
-    const uniqueTravelNames = [
-        ...new Set(busData?.map((bus) => bus.TravelName)),
-    ]?.filter((name) => name?.toLowerCase()?.includes(searchTravel?.toLowerCase()));
+    // const uniqueTravelNames = [
+    //     ...new Set(busData?.map((bus) => bus.TravelName)),
+    // ]?.filter((name) => name?.toLowerCase()?.includes(searchTravel?.toLowerCase()));
 
-    const uniqueBoardingLocations = [
-        ...new Set(
-            busData?.flatMap((bus) =>
-                bus?.BoardingPointsDetails?.map((point) => point?.CityPointLocation)
-            )
-        ),
-    ]?.filter((location) =>
-        location?.toLowerCase()?.includes(searchBoarding?.toLowerCase())
+    // const uniqueBoardingLocations = [
+    //     ...new Set(
+    //         busData?.flatMap((bus) =>
+    //             bus?.BoardingPointsDetails?.map((point) => point?.CityPointLocation)
+    //         )
+    //     ),
+    // ]?.filter((location) =>
+    //     location?.toLowerCase()?.includes(searchBoarding?.toLowerCase())
+    // );
+
+    // const uniqueDroppingLocations = [
+    //     ...new Set(
+    //         busData?.flatMap((bus) =>
+    //             bus?.DroppingPointsDetails?.map((point) => point?.CityPointLocation)
+    //         )
+    //     ),
+    // ]?.filter((location) =>
+    //     location?.toLowerCase()?.includes(searchDropping?.toLowerCase())
+    // );
+
+
+    // const uniqueTravelNames = useMemo(
+    //     () =>
+    //         [...new Set(busData?.map((bus) => bus.TravelName))]?.filter((name) =>
+    //             name?.toLowerCase()?.includes(searchTravel?.toLowerCase())
+    //         ),
+    //     [busData, searchTravel]
+    // );
+
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedSearchTravel(searchTravel);
+        }, 200);
+
+        // Clean up the timeout if searchTravel changes before the 200ms
+        return () => {
+            clearTimeout(handler);
+        };
+    }, [searchTravel]);
+
+    const uniqueTravelNames = useMemo(
+        () =>
+            [...new Set(busData?.map((bus) => bus.TravelName))]?.filter((name) =>
+                name?.toLowerCase()?.includes(debouncedSearchTravel?.toLowerCase())
+            ),
+        [busData, debouncedSearchTravel]
     );
 
-    const uniqueDroppingLocations = [
-        ...new Set(
-            busData?.flatMap((bus) =>
-                bus?.DroppingPointsDetails?.map((point) => point?.CityPointLocation)
-            )
-        ),
-    ]?.filter((location) =>
-        location?.toLowerCase()?.includes(searchDropping?.toLowerCase())
+    const uniqueBoardingLocations = useMemo(
+        () =>
+            [...new Set(
+                busData?.flatMap((bus) =>
+                    bus?.BoardingPointsDetails?.map((point) => point?.CityPointLocation)
+                )
+            )]?.filter((location) =>
+                location?.toLowerCase()?.includes(searchBoarding?.toLowerCase())
+            ),
+        [busData, searchBoarding]
     );
+
+    const uniqueDroppingLocations = useMemo(
+        () =>
+            [...new Set(
+                busData?.flatMap((bus) =>
+                    bus?.DroppingPointsDetails?.map((point) => point?.CityPointLocation)
+                )
+            )]?.filter((location) =>
+                location?.toLowerCase()?.includes(searchDropping?.toLowerCase())
+            ),
+        [busData, searchDropping]
+    );
+
 
     const clearFilters = () => {
         setBusType([]);
@@ -454,16 +508,6 @@ const BusFilterBig = ({ onFilter, busData }) => {
 
             {/* Price Range Filter */}
 
-
-            {/* <h3>Price Range</h3>
-            <Slider
-                range
-                defaultValue={[minPrice, maxPrice]}
-                min={minPrice}
-                max={maxPrice}
-                onChange={handlePriceChange}
-            /> */}
-
             <div className="holidayFilterSlider" >
                 <p>Filter By Price</p>
                 <Slider
@@ -481,52 +525,6 @@ const BusFilterBig = ({ onFilter, busData }) => {
             </div>
 
 
-
-            {/* Sort by Price */}
-            {/* <h3>Sort by Price</h3> */}
-            {/* <Radio.Group onChange={handleSortChange}>
-                <Radio value="lowToHigh">Low to High</Radio>
-                <Radio value="highToLow">High to Low</Radio>
-            </Radio.Group> */}
-
-            {/* <div className="busDepartureMain" style={{ background: "#fff" }}>
-                <p className="">Sort By Price</p>
-                <div>
-                    <label className="sidebar-label-container ps-0">
-                        <div className="svgBOx">
-                            <input
-                                type="radio"
-                                value="highToLow"
-                                name="sortprice"
-                                onChange={handleSortChange}
-                            />
-                            <div>
-                                <span className="checkedSVG pe-2">
-                                    <svg id="fi_13132493" enable-background="new 0 0 110 110" height="21" viewBox="0 0 110 110" width="21" xmlns="http://www.w3.org/2000/svg"><g><path d="m39.979 70.564v-40.564c0-2.209-1.791-4-4-4s-4 1.791-4 4v40.564c-1.528-.873-3.503-.675-4.807.63-1.562 1.563-1.562 4.095 0 5.657l5.979 5.978c.78.78 1.804 1.171 2.828 1.171s2.047-.391 2.829-1.172l5.978-5.978c1.562-1.562 1.562-4.095 0-5.656-1.306-1.304-3.28-1.504-4.807-.63z"></path><path d="m80 30.348h-32c-2.209 0-4 1.791-4 4s1.791 4 4 4h32c2.209 0 4-1.791 4-4s-1.791-4-4-4z"></path><path d="m74.565 40.674h-26.565c-2.209 0-4 1.791-4 4s1.791 4 4 4h26.565c2.209 0 4-1.791 4-4s-1.791-4-4-4z"></path><path d="m69.13 51h-21.13c-2.209 0-4 1.791-4 4s1.791 4 4 4h21.13c2.209 0 4-1.791 4-4s-1.791-4-4-4z"></path><path d="m63.695 61.326h-15.695c-2.209 0-4 1.791-4 4s1.791 4 4 4h15.695c2.209 0 4-1.791 4-4s-1.791-4-4-4z"></path><path d="m55 5c-27.614 0-50 22.386-50 50s22.386 50 50 50 50-22.386 50-50-22.386-50-50-50zm0 92c-23.159 0-42-18.841-42-42s18.841-42 42-42 42 18.841 42 42-18.841 42-42 42z"></path></g></svg>
-                                </span>
-                                <span>High to Low</span>
-                            </div>
-                        </div>
-                    </label>
-
-                    <label className="sidebar-label-container ps-0">
-                        <div className="svgBOx">
-                            <input
-                                type="radio"
-                                value="lowToHigh"
-                                name="sortprice"
-                                onChange={handleSortChange}
-                            />
-                            <div>
-                                <span className="checkedSVG pe-2">
-                                    <svg style={{ transform: "rotate(180deg)" }} id="fi_13132493" enable-background="new 0 0 110 110" height="21" viewBox="0 0 110 110" width="21" xmlns="http://www.w3.org/2000/svg"><g><path d="m39.979 70.564v-40.564c0-2.209-1.791-4-4-4s-4 1.791-4 4v40.564c-1.528-.873-3.503-.675-4.807.63-1.562 1.563-1.562 4.095 0 5.657l5.979 5.978c.78.78 1.804 1.171 2.828 1.171s2.047-.391 2.829-1.172l5.978-5.978c1.562-1.562 1.562-4.095 0-5.656-1.306-1.304-3.28-1.504-4.807-.63z"></path><path d="m80 30.348h-32c-2.209 0-4 1.791-4 4s1.791 4 4 4h32c2.209 0 4-1.791 4-4s-1.791-4-4-4z"></path><path d="m74.565 40.674h-26.565c-2.209 0-4 1.791-4 4s1.791 4 4 4h26.565c2.209 0 4-1.791 4-4s-1.791-4-4-4z"></path><path d="m69.13 51h-21.13c-2.209 0-4 1.791-4 4s1.791 4 4 4h21.13c2.209 0 4-1.791 4-4s-1.791-4-4-4z"></path><path d="m63.695 61.326h-15.695c-2.209 0-4 1.791-4 4s1.791 4 4 4h15.695c2.209 0 4-1.791 4-4s-1.791-4-4-4z"></path><path d="m55 5c-27.614 0-50 22.386-50 50s22.386 50 50 50 50-22.386 50-50-22.386-50-50-50zm0 92c-23.159 0-42-18.841-42-42s18.841-42 42-42 42 18.841 42 42-18.841 42-42 42z"></path></g></svg>
-                                </span>
-                                <span>Low to High</span>
-                            </div>
-                        </div>
-                    </label>
-                </div>
-            </div> */}
 
             {/* Travel Name Filter */}
 

@@ -174,7 +174,7 @@ const HolidayPackageResultMain = () => {
 
 
     return (
-        <div className="pt-4" style={{ backgroundColor: "white" }}>
+        <div className="paddingCustom" >
             <div className="container ">
                 <div className="row">
                     <div className="col-lg-3 visibleBig p-0">

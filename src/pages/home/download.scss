@@ -61,12 +61,12 @@
       }
 
       button {
-        background-color: #e73c34 !important;
+        background-color: var(--primary) !important;
         color: white !important;
         height: 44px;
 
         &:hover {
-          border-color: #e73c34 !important;
+          border-color: var(--primaryHover) !important;
           background-color: var(--primaryHover);
         }
       }

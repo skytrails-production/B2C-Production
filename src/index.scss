@@ -79,6 +79,16 @@ body {
   }
 }
 
+.paddingCustom {
+  padding-top: 0rem !important;
+}
+
+@media (min-width: 600px) {
+  .paddingCustom {
+    padding-top: 1.5rem !important;
+  }
+}
+
 .holiBot {
   img {
     width: 100% !important;

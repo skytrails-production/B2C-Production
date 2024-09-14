@@ -519,8 +519,6 @@ const GrmHotelForm = () => {
   };
 
 
-  console.log(reducerState, "reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels")
-  console.log(reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.errors?.[0]?.code, "reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels")
 
   useEffect(() => {
 

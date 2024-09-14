@@ -40,7 +40,7 @@ const Home = () => {
   // };
 
   return (
-    <div className="" style={{ background: "white" }}>
+    <div className="" >
       <Helmet>
         <title>The Skytrails</title>
         <link rel="canonical" href="/" />

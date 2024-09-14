@@ -19,6 +19,7 @@ import Loadingbus from "../Busloading/Loadingbus";
 import HotelResultSkeleton from "../../GRMHotel/HotelResultSkeleton";
 import "./seatLayout.css"
 import { Button, Select } from "antd";
+import BusResultSke from "./BusResultSke";
 const { Option } = Select;
 
 
@@ -324,7 +325,7 @@ function BusResult({ filteredData }) {
             {
                 loader ?
                     (
-                        <HotelResultSkeleton />
+                        <BusResultSke />
                     ) :
 
                     (

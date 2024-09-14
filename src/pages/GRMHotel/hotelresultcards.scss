@@ -3,6 +3,8 @@
 .hotelCard {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   border-radius: 10px;
+  background: #fff;
+  border: 1px solid lightgray;
 
   .packCardImg {
     height: 220px;
@@ -22,7 +24,7 @@
 
   .packCardContent {
     padding: 10px;
-    background-color: white;
+    // background-color: white;
 
     .packCardTitle {
       display: flex;
@@ -63,10 +65,14 @@
     }
 
     .roomInclusion {
+      margin: 6px 0px;
       span {
         font-size: 14px;
-        margin: 10px 0px;
         font-weight: 500;
+        color: white;
+        padding: 4px 5px;
+        border-radius: 5px;
+        background-color: rgb(91, 182, 91);
       }
     }
     .packCardPrice {

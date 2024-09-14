@@ -505,7 +505,7 @@ function GrmHotelform2() {
 
   useEffect(() => {
 
-    if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels && isSingleHotelSearched) {
+    if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels && isSingleHotelSearched && selectedFrom?.hotelName) {
       handleClick()
     }
   }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels])
@@ -543,24 +543,64 @@ function GrmHotelform2() {
       ])
     );
 
-    const payload = {
-      "rooms": [...dynamicFormData],
-      "rates": "concise",
-      "cityCode": selectedFrom.cityCode,
-      "currency": "INR",
-      "client_nationality": selectNationality?.countryCode,
-      // "client_nationality": "In",
-      "checkin": dayjs(newDepartDate).format("YYYY-MM-DD"),
-      "checkout": dayjs(newReturnDate).format("YYYY-MM-DD"),
-      "cutoff_time": 30000,
-      "version": "2.0",
-    };
+    // const payload = {
+    //   "rooms": [...dynamicFormData],
+    //   "rates": "concise",
+    //   "cityCode": selectedFrom.cityCode,
+    //   "currency": "INR",
+    //   "client_nationality": selectNationality?.countryCode,
+    //   "checkin": dayjs(newDepartDate).format("YYYY-MM-DD"),
+    //   "checkout": dayjs(newReturnDate).format("YYYY-MM-DD"),
+    //   "cutoff_time": 30000,
+    //   "version": "2.0",
+    // };
 
-    const pageNumber = 1;
-    sessionStorage.setItem("grnPayload", JSON.stringify(payload));
-    dispatch(clearonlyHotelsGRN());
-    dispatch(hotelActionGRN(payload, pageNumber));
-    navigate("/st-hotel/hotelresult");
+    // const pageNumber = 1;
+    // sessionStorage.setItem("grnPayload", JSON.stringify(payload));
+    // dispatch(clearonlyHotelsGRN());
+    // dispatch(hotelActionGRN(payload, pageNumber));
+    // navigate("/st-hotel/hotelresult");
+
+
+    if (selectedFrom.hotelName) {
+      const payload = {
+        "rooms": [...dynamicFormData],
+        "rates": "concise",
+        "hotel_codes": [`${selectedFrom.hotelCode}`],
+        "currency": "INR",
+        "client_nationality": selectNationality?.countryCode || "In",
+        "checkin": dayjs(newDepartDate).format("YYYY-MM-DD"),
+        "checkout": dayjs(newReturnDate).format("YYYY-MM-DD"),
+        "cutoff_time": 30000,
+        "version": "2.0",
+      };
+
+      sessionStorage.setItem("grnPayload", JSON.stringify(payload));
+      dispatch(hotelActionGRN(payload));
+      // navigate("/st-hotel/hotelresult");
+
+
+    } else {
+      const payload = {
+        "rooms": [...dynamicFormData],
+        "rates": "concise",
+        "cityCode": selectedFrom.cityCode,
+        "currency": "INR",
+        "client_nationality": selectNationality?.countryCode || "In",
+        "checkin": dayjs(newDepartDate).format("YYYY-MM-DD"),
+        "checkout": dayjs(newReturnDate).format("YYYY-MM-DD"),
+        "cutoff_time": 30000,
+        "version": "2.0",
+      };
+
+
+      sessionStorage.setItem("grnPayload", JSON.stringify(payload));
+      dispatch(hotelActionGRN(payload));
+      navigate("/st-hotel/hotelresult");
+    }
+
+
+
     if (
       reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels
     ) {

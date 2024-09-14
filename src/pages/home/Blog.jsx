@@ -234,7 +234,7 @@ const Blog = () => {
                         {
                             !loading && (
                                 <div className='blogSeeALlBox'>
-                                    <Button type='primary'>See All Blogs</Button>
+                                    <Button type='primary' onClick={() => navigate("/skytrailsblogs")}>See All Blogs</Button>
                                 </div>
 
                             )

@@ -48,7 +48,7 @@ const HotelResultCard = ({ result }) => {
     // console.log(result)
 
     return (
-        <div className='hotelCard'>
+        <div className='hotelCard h-100'>
             <div className="packCardImg">
                 <Img className="posterImg" src={result?.images?.url} />
             </div>

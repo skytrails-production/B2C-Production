@@ -21,6 +21,8 @@
   .singleBusResultBox {
     display: flex;
     flex-direction: column;
+    background-color: white;
+    border-radius: 0px 0px 10px 10px;
     gap: 10px;
     justify-content: center;
     align-items: flex-start;
@@ -350,6 +352,7 @@
   border-radius: 8px;
   // border: 1px solid lightgray;
   border: 1px solid lightgray;
+  background-color: white;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 
   @include md {
@@ -499,6 +502,7 @@
 .passengerDetailsMainOuter {
   border: 1px solid lightgray;
   border-radius: 10px;
+  background-color: white;
   h3 {
     font-size: 14px;
     font-weight: 500;
@@ -515,6 +519,8 @@
   }
   .passengerDetailsMain {
     padding: 5px 15px 15px 15px;
+
+    border-radius: 10px;
     .bookFlightPassInner {
       input {
         border: 1px solid lightgray !important;
@@ -588,6 +594,7 @@
   border-left: 1px solid lightgray;
   border-right: 1px solid lightgray;
   border-radius: 0 0 10px 10px;
+  background-color: white;
 
   .selectedPassInside {
     display: flex;
@@ -630,7 +637,7 @@
 .busCancellation {
   border: 1px solid lightgray;
   border-radius: 10px;
-
+  background-color: white;
   table {
     width: 100%;
     text-align: center;
