@@ -523,6 +523,9 @@
     padding: 10px;
     border-radius: 7px;
     width: 100%;
+    overflow: hidden;
+      overflow-x: scroll;
+    
   }
   .plane-type-container{
     display: flex;

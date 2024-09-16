@@ -2,19 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import "./Onewaynew.css";
 import { useDispatch, useSelector } from "react-redux";
 import { apiURL } from "../Constants/constant";
-// import FlightTakeoffTwoToneIcon from "@mui/icons-material/FlightTakeoffTwoTone";
 import './card.css';
 import axios from "axios";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 import "react-datepicker/dist/react-datepicker.css";
-// import { ipAction, tokenAction } from "../Redux/IP/actionIp";
 import { oneWayAction, resetOneWay, oneWayActionCombined } from "../Redux/FlightSearch/oneWay";
 import { Dropdown, Menu, Button } from 'antd';
 import {
-  searchFlightList,
-  clearFlightList,
-  searchaAirportList,
-  clearAirportList,
   searchaAirportListReq,
   searchFlightListReq,
 } from "../Redux/FlightList/actionFlightList";
@@ -26,16 +20,11 @@ import { useNavigate } from "react-router-dom";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import "./onewaynew.scss";
-// import Dialog from "@mui/material/Dialog";
-// import DialogActions from "@mui/material/DialogActions";
-// import DialogContent from "@mui/material/DialogContent";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import TravelerCounter from "./TravelerCounter";
 import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
-// import SecureStorage from "react-secure-storage";
 import { returnActionClear } from "../Redux/FlightSearch/Return/return";
-
 import { Modal, Select } from "antd";
 import { DatePicker } from "antd";
 import { useMediaQuery } from 'react-responsive';
@@ -47,18 +36,6 @@ import CustomCalenderSingle from "../pages/GRMHotel/CustomCalenderSingle";
 let FromTimeout;
 let FromCurrentValue;
 
-const initialSelectedFromData = {
-  AirportCode: "DEL",
-  CityCode: "DEL",
-  CountryCode: "IN ",
-  code: "Indira Gandhi Airport",
-  createdAt: "2023-01-30T14:58:34.428Z",
-  id: "DEL",
-  name: "Delhi",
-  updatedAt: "2023-01-30T14:58:34.428Z",
-  __v: 0,
-  _id: "63d7db1a64266cbf450e07c1",
-};
 const fetchFromCity = (value, callback) => {
   if (FromTimeout) {
     clearTimeout(FromTimeout);
@@ -76,7 +53,7 @@ const fetchFromCity = (value, callback) => {
             name: item.name,
             code: item.code,
             cityCode: item.CityCode,
-            item, // Store the entire item for later use
+            item,
           }));
           callback(result);
         }
@@ -92,68 +69,189 @@ const fetchFromCity = (value, callback) => {
   }
 };
 
+// const FromSearchInput = (props) => {
+//   const { onItemSelect } = props;
+//   const { data } = props;
+//   const lastSearch = JSON.parse(localStorage.getItem("lastSearch"));
+
+
+//   const initialSelectedFromData = {
+//     AirportCode: lastSearch?.from?.AirportCode || "DEL",
+//     CityCode: lastSearch?.from?.CityCode || "DEL",
+//     CountryCode: lastSearch?.from?.CountryCode || "IN ",
+//     code: lastSearch?.from?.code || "Indira Gandhi Airport",
+//     createdAt: lastSearch?.from?.createdAt || "2023-01-30T14:58:34.428Z",
+//     id: lastSearch?.from?.id || "DEL",
+//     name: lastSearch?.from?.name || "Delhi",
+//     updatedAt: lastSearch?.from?.updatedAt || "2023-01-30T14:58:34.428Z",
+//     __v: lastSearch?.from?.__v || 0,
+//     _id: lastSearch?.from?._id || "63d7db1a64266cbf450e07c1",
+//   };
+
+//   useEffect(() => {
+//     setFromDisplayValue(data.name);
+//   }, [data])
+//   const [fromData, setFromData] = useState([]);
+//   const [fromValue, setFromValue] = useState(initialSelectedFromData.name);
+//   const [selectedItem, setSelectedItem] = useState(initialSelectedFromData);
+
+//   const [FromPlaceholder, setFromPlaceholder] = useState("");
+//   const [FromDisplayValue, setFromDisplayValue] = useState(
+//     initialSelectedFromData.name
+//   );
+//   const [inputStyle, setInputStyle] = useState({});
+
+//   useEffect(() => {
+//     setFromData([
+//       {
+//         value: initialSelectedFromData._id,
+//         name: initialSelectedFromData.name,
+//         code: initialSelectedFromData.code,
+//         cityCode: initialSelectedFromData.CityCode,
+//         item: initialSelectedFromData,
+//       },
+//     ]);
+//   }, []);
+
+//   const handleFromSearch = (newValue) => {
+//     fetchFromCity(newValue, setFromData);
+//   };
+
+//   const handleFromChange = (newValue) => {
+//     const selected = fromData.find((d) => d.value === newValue);
+//     setFromValue(selected ? selected.name : newValue);
+//     setFromDisplayValue(selected ? selected.name : newValue);
+//     setSelectedItem(selected ? selected.item : null);
+//     setInputStyle({ caretColor: "transparent" });
+//     if (selected) {
+//       onItemSelect(selected.item);
+//     }
+//   };
+
+//   const handleFromFocus = () => {
+//     setFromPlaceholder("From");
+//     setFromDisplayValue("");
+//     setInputStyle({});
+//   };
+
+//   const handleFromBlur = () => {
+//     setFromPlaceholder("");
+//     setFromDisplayValue(fromValue);
+//     setInputStyle({ caretColor: "transparent" });
+//   };
+//   const renderFromOption = (option) => (
+//     <div>
+//       <div>
+//         {option.name} ({option.cityCode})
+//       </div>
+//       <div style={{ color: "gray" }}>{option.code}</div>
+//     </div>
+//   );
+
+//   return (
+//     <Select
+//       showSearch
+//       style={inputStyle}
+//       // value={fromValue}
+//       value={FromDisplayValue}
+//       // placeholder={props.placeholder}
+//       placeholder={FromPlaceholder || props.placeholder}
+//       // style={props.style}
+//       defaultActiveFirstOption={false}
+//       suffixIcon={null}
+//       filterOption={false}
+//       onSearch={handleFromSearch}
+//       onChange={handleFromChange}
+//       onFocus={handleFromFocus} // Set placeholder on focus
+//       onBlur={handleFromBlur}
+//       notFoundContent={null}
+//       options={fromData.map((d) => ({
+//         value: d.value,
+//         label: renderFromOption(d),
+//       }))}
+//     />
+//   );
+// };
+
+
+
 const FromSearchInput = (props) => {
-  const { onItemSelect } = props;
-  const { data } = props;
+  const { onItemSelect, data } = props;
 
 
-  // useEffect(() => {
-  //   setFromDisplayValue(selectedFrom.name);
-  //   ),[]  }
-  useEffect(() => {
-    setFromDisplayValue(data.name);
-  }, [data])
+  const lastSearch = JSON.parse(localStorage.getItem("lastSearch"));
+
+  const initialSelectedFromData = lastSearch?.from?.slice?.(0, 4) || [{
+    AirportCode: "DEL",
+    CityCode: "DEL",
+    CountryCode: "IN",
+    code: "Indira Gandhi Airport",
+    createdAt: "2023-01-30T14:58:34.428Z",
+    id: "DEL",
+    name: "Delhi",
+    updatedAt: "2023-01-30T14:58:34.428Z",
+    __v: 0,
+    _id: "63d7db1a64266cbf450e07c1",
+  }];
+
+
   const [fromData, setFromData] = useState([]);
-  const [fromValue, setFromValue] = useState(initialSelectedFromData.name);
-  const [selectedItem, setSelectedItem] = useState(initialSelectedFromData);
-
-
-
-
+  const [fromValue, setFromValue] = useState(initialSelectedFromData.map(item => item.name));
+  const [selectedItems, setSelectedItems] = useState(initialSelectedFromData);
   const [FromPlaceholder, setFromPlaceholder] = useState("");
-  const [FromDisplayValue, setFromDisplayValue] = useState(
-    initialSelectedFromData.name
-  );
+  const [FromDisplayValue, setFromDisplayValue] = useState(fromValue.join(", "));
   const [inputStyle, setInputStyle] = useState({});
 
+
   useEffect(() => {
-    setFromData([
-      {
-        value: initialSelectedFromData._id,
-        name: initialSelectedFromData.name,
-        code: initialSelectedFromData.code,
-        cityCode: initialSelectedFromData.CityCode,
-        item: initialSelectedFromData,
-      },
-    ]);
+    setFromData(
+      initialSelectedFromData.map((item) => ({
+        value: item._id,
+        name: item.name,
+        code: item.code,
+        cityCode: item.CityCode,
+        item: item,
+      }))
+    );
   }, []);
 
   const handleFromSearch = (newValue) => {
     fetchFromCity(newValue, setFromData);
   };
 
+  // console.log(data, "data in from")
+
+  useEffect(() => {
+    if (data) {
+      setSelectedItems([data]);
+      setFromValue([data.name]);
+      setFromDisplayValue(data.name);
+    }
+  }, [data]);
+
   const handleFromChange = (newValue) => {
     const selected = fromData.find((d) => d.value === newValue);
-    setFromValue(selected ? selected.name : newValue);
-    setFromDisplayValue(selected ? selected.name : newValue);
-    setSelectedItem(selected ? selected.item : null);
-    setInputStyle({ caretColor: "transparent" });
     if (selected) {
+      setSelectedItems([selected.item, ...selectedItems]?.slice(0, 4));
+      setFromValue(selectedItems.map((item) => item.name));
+      setFromDisplayValue(selectedItems.map((item) => item.name).join(", "));
+      setInputStyle({ caretColor: "transparent" });
       onItemSelect(selected.item);
     }
   };
 
   const handleFromFocus = () => {
     setFromPlaceholder("From");
-    setFromDisplayValue(""); // Clear display value to show placeholder
+    setFromDisplayValue("");
     setInputStyle({});
   };
 
   const handleFromBlur = () => {
     setFromPlaceholder("");
-    setFromDisplayValue(fromValue); // Reset display value to selected value
+    setFromDisplayValue(fromValue.join(", "));
     setInputStyle({ caretColor: "transparent" });
   };
+
   const renderFromOption = (option) => (
     <div>
       <div>
@@ -167,17 +265,15 @@ const FromSearchInput = (props) => {
     <Select
       showSearch
       style={inputStyle}
-      // value={fromValue}
-      value={FromDisplayValue}
-      // placeholder={props.placeholder}
+      // value={FromDisplayValue}
+      value={selectedItems.length > 0 ? selectedItems[0].name : FromDisplayValue}
       placeholder={FromPlaceholder || props.placeholder}
-      // style={props.style}
       defaultActiveFirstOption={false}
       suffixIcon={null}
       filterOption={false}
       onSearch={handleFromSearch}
       onChange={handleFromChange}
-      onFocus={handleFromFocus} // Set placeholder on focus
+      onFocus={handleFromFocus}
       onBlur={handleFromBlur}
       notFoundContent={null}
       options={fromData.map((d) => ({
@@ -188,25 +284,13 @@ const FromSearchInput = (props) => {
   );
 };
 
+
 // from data logic
 
 // to data logic
 
 let ToTimeout;
 let ToCurrentValue;
-
-const initialSelectedToData = {
-  AirportCode: "BOM",
-  CityCode: "BOM",
-  CountryCode: "IN ",
-  code: "Chhatrapati Shivaji Maharaj International Airport",
-  createdAt: "2023-01-30T14:58:34.428Z",
-  id: "BOM",
-  name: "Mumbai",
-  updatedAt: "2023-01-30T14:58:34.428Z",
-  __v: 0,
-  _id: "63d7db1a64266cbf450e07c2",
-};
 
 const fetchToCity = (value, callback) => {
   if (ToTimeout) {
@@ -241,71 +325,198 @@ const fetchToCity = (value, callback) => {
   }
 };
 
-const ToSearchInput = (props) => {
-  const { onItemSelect } = props;
-  const { data } = props
+// const ToSearchInput = (props) => {
+//   const { onItemSelect } = props;
+//   const { data } = props
 
-  useEffect(() => {
-    setToDisplayValue(data.name);
-  }, [data])
+//   const lastSearch = JSON.parse(localStorage.getItem("lastSearch"));
+
+//   const initialSelectedToData = {
+//     AirportCode: lastSearch?.to?.AirportCode || "BOM",
+//     CityCode: lastSearch?.to?.CityCode || "BOM",
+//     CountryCode: lastSearch?.to?.CountryCode || "IN ",
+//     code: lastSearch?.to?.code || "Chhatrapati Shivaji Maharaj International Airport",
+//     createdAt: lastSearch?.to?.createdAt || "2023-01-30T14:58:34.428Z",
+//     id: lastSearch?.to?.id || "BOM",
+//     name: lastSearch?.to?.name || "Mumbai",
+//     updatedAt: lastSearch?.to?.updatedAt || "2023-01-30T14:58:34.428Z",
+//     __v: lastSearch?.to?.__v || 0,
+//     _id: lastSearch?.to?._id || "63d7db1a64266cbf450e07c2",
+//   };
+
+//   useEffect(() => {
+//     setToDisplayValue(data.name);
+//   }, [data])
+
+//   const [toData, setToData] = useState([]);
+//   const [toValue, setToValue] = useState(initialSelectedToData.name);
+//   const [selectedItem, setSelectedItem] = useState(initialSelectedToData);
+
+//   const [ToPlaceholder, setToPlaceholder] = useState("");
+//   const [ToDisplayValue, setToDisplayValue] = useState(
+//     initialSelectedToData.name
+//   );
+//   const [inputStyle, setInputStyle] = useState({});
+//   sessionStorage.removeItem("apiCalled");
+
+
+
+//   useEffect(() => {
+//     setToData([
+//       {
+//         value: initialSelectedToData._id,
+//         name: initialSelectedToData.name,
+//         code: initialSelectedToData.code,
+//         cityCode: initialSelectedToData.CityCode,
+//         item: initialSelectedToData,
+//       },
+//     ]);
+//   }, []);
+
+//   const handleToSearch = (newValue) => {
+//     fetchToCity(newValue, setToData);
+//   };
+
+//   const handleToChange = (newValue) => {
+//     const selected = toData.find((d) => d.value === newValue);
+//     setToValue(selected ? selected.name : newValue);
+//     setToDisplayValue(selected ? selected.name : newValue);
+//     setSelectedItem(selected ? selected.item : null);
+//     setInputStyle({ caretColor: "transparent" });
+//     if (selected) {
+//       onItemSelect(selected.item);
+//     }
+//   };
+
+//   const handleToFocus = () => {
+//     setToPlaceholder("To");
+//     setToDisplayValue("");
+//     setInputStyle({});
+//   };
+
+//   const handleTOBlur = () => {
+//     setToPlaceholder("");
+//     setToDisplayValue(toValue);
+//     setInputStyle({ caretColor: "transparent" });
+//   };
+
+//   const renderToOption = (option) => (
+//     <div>
+//       <div>
+//         {option.name} ({option.cityCode})
+//       </div>
+//       <div style={{ color: "gray" }}>{option.code}</div>
+//     </div>
+//   );
+
+//   return (
+//     <Select
+//       showSearch
+//       value={ToDisplayValue}
+//       placeholder={ToPlaceholder || props.placeholder}
+//       style={inputStyle}
+//       defaultActiveFirstOption={false}
+//       suffixIcon={null}
+//       filterOption={false}
+//       onSearch={handleToSearch}
+//       onChange={handleToChange}
+//       onFocus={handleToFocus}
+//       onBlur={handleTOBlur}
+//       notFoundContent={null}
+//       options={toData.map((d) => ({
+//         value: d.value,
+//         label: renderToOption(d),
+//       }))}
+//     />
+//   );
+// };
+
+// to data logic
+
+
+const ToSearchInput = (props) => {
+  const { onItemSelect, data } = props;
+
+  const lastSearch = JSON.parse(localStorage.getItem("lastSearch"));
+
+  // Keep the latest 4 selected 'to' cities or set a default
+  const initialSelectedToData = lastSearch?.to?.slice?.(0, 4) || [{
+    AirportCode: "BOM",
+    CityCode: "BOM",
+    CountryCode: "IN",
+    code: "Chhatrapati Shivaji Maharaj International Airport",
+    createdAt: "2023-01-30T14:58:34.428Z",
+    id: "BOM",
+    name: "Mumbai",
+    updatedAt: "2023-01-30T14:58:34.428Z",
+    __v: 0,
+    _id: "63d7db1a64266cbf450e07c2",
+  },];
+
+  // useEffect(() => {
+  //   setToDisplayValue(data.name);
+  // }, [data]);
 
   const [toData, setToData] = useState([]);
-  const [toValue, setToValue] = useState(initialSelectedToData.name);
-  const [selectedItem, setSelectedItem] = useState(initialSelectedToData);
-
+  const [toValue, setToValue] = useState(initialSelectedToData.map(item => item.name));
+  const [selectedItems, setSelectedItems] = useState(initialSelectedToData);
   const [ToPlaceholder, setToPlaceholder] = useState("");
-  const [ToDisplayValue, setToDisplayValue] = useState(
-    initialSelectedToData.name
-  );
+  const [ToDisplayValue, setToDisplayValue] = useState(toValue.join(", "))
   const [inputStyle, setInputStyle] = useState({});
-  sessionStorage.removeItem("apiCalled");
-  
-
 
   useEffect(() => {
-    setToData([
-      {
-        value: initialSelectedToData._id,
-        name: initialSelectedToData.name,
-        code: initialSelectedToData.code,
-        cityCode: initialSelectedToData.CityCode,
-        item: initialSelectedToData,
-      },
-    ]);
+    setToData(
+      initialSelectedToData.map((item) => ({
+        value: item._id,
+        name: item.name,
+        code: item.code,
+        cityCode: item.CityCode,
+        item: item,
+      }))
+    );
   }, []);
 
   const handleToSearch = (newValue) => {
     fetchToCity(newValue, setToData);
   };
 
+
+  useEffect(() => {
+    if (data) {
+      setSelectedItems([data]);
+      setToValue([data.name]);
+      setToDisplayValue(data.name);
+    }
+  }, [data]);
+
+  // console.log(data, "data in to")
+
   const handleToChange = (newValue) => {
     const selected = toData.find((d) => d.value === newValue);
-    setToValue(selected ? selected.name : newValue);
-    setToDisplayValue(selected ? selected.name : newValue);
-    setSelectedItem(selected ? selected.item : null);
-    setInputStyle({ caretColor: "transparent" });
     if (selected) {
+      setToValue(selectedItems.map((item) => item.name));
+      setToDisplayValue(selectedItems.map((item) => item.name).join(", "));
+      setSelectedItems([selected.item, ...selectedItems].slice(0, 4)); // Keep latest 4
+      setInputStyle({ caretColor: "transparent" });
       onItemSelect(selected.item);
     }
   };
 
   const handleToFocus = () => {
     setToPlaceholder("To");
-    setToDisplayValue(""); // Clear display value to show placeholder
+    setToDisplayValue("");
     setInputStyle({});
   };
 
-  const handleTOBlur = () => {
+  const handleToBlur = () => {
     setToPlaceholder("");
-    setToDisplayValue(toValue); // Reset display value to selected value
+    setToDisplayValue(toValue.join(", "));
     setInputStyle({ caretColor: "transparent" });
   };
 
   const renderToOption = (option) => (
     <div>
-      <div>
-        {option.name} ({option.cityCode})
-      </div>
+      <div>{option.name} ({option.cityCode})</div>
       <div style={{ color: "gray" }}>{option.code}</div>
     </div>
   );
@@ -313,20 +524,16 @@ const ToSearchInput = (props) => {
   return (
     <Select
       showSearch
-      // value={toValue}
-      value={ToDisplayValue}
-      // placeholder={props.placeholder}
-      placeholder={ToPlaceholder || props.placeholder}
-      // placeholder={props.placeholder}
-      // style={props.style}
       style={inputStyle}
+      value={selectedItems.length > 0 ? selectedItems[0].name : ToDisplayValue}
+      placeholder={ToPlaceholder || props.placeholder}
       defaultActiveFirstOption={false}
       suffixIcon={null}
       filterOption={false}
       onSearch={handleToSearch}
       onChange={handleToChange}
-      onFocus={handleToFocus} // Set placeholder on focus
-      onBlur={handleTOBlur}
+      onFocus={handleToFocus}
+      onBlur={handleToBlur}
       notFoundContent={null}
       options={toData.map((d) => ({
         value: d.value,
@@ -336,22 +543,55 @@ const ToSearchInput = (props) => {
   );
 };
 
-// to data logic
 
 function OnewayNew() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const reducerState = useSelector((state) => state);
   const [loader, setLoader] = useState(false);
+  const lastSearch = JSON.parse(localStorage.getItem("lastSearch"));
+
+  const initialSelectedFromData = lastSearch?.from?.slice?.(0, 4) || [{
+    AirportCode: "DEL",
+    CityCode: "DEL",
+    CountryCode: "IN",
+    code: "Indira Gandhi Airport",
+    createdAt: "2023-01-30T14:58:34.428Z",
+    id: "DEL",
+    name: "Delhi",
+    updatedAt: "2023-01-30T14:58:34.428Z",
+    __v: 0,
+    _id: "63d7db1a64266cbf450e07c1",
+  }];
+
+
+  const initialSelectedToData = lastSearch?.to?.slice?.(0, 4) || [
+    {
+      AirportCode: "BOM",
+      CityCode: "BOM",
+      CountryCode: "IN",
+      code: "Chhatrapati Shivaji Maharaj International Airport",
+      createdAt: "2023-01-30T14:58:34.428Z",
+      id: "BOM",
+      name: "Mumbai",
+      updatedAt: "2023-01-30T14:58:34.428Z",
+      __v: 0,
+      _id: "63d7db1a64266cbf450e07c2",
+    },
+  ];
+
+
+
   const [openTravelModal, setOpenTravelModal] = useState(false);
   const [activeIdClass, setActiveIdClass] = useState(2);
   const [flightclassName, setflightClassName] = useState("Y");
-  const [activeIdChild, setActiveIdChild] = useState(0);
-  const [activeIdInfant, setActiveIdInfant] = useState(0);
-  const [activeIdAdult, setActiveIdAdult] = useState(1);
-  const [totalCount, setCountPassanger] = useState(0);
-  const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData);
-  const [selectedTo, setSelectedTo] = useState(initialSelectedToData);
+  const [activeIdChild, setActiveIdChild] = useState(lastSearch?.ChildCount || 0);
+  const [activeIdInfant, setActiveIdInfant] = useState(lastSearch?.InfantCount || 0);
+  const [activeIdAdult, setActiveIdAdult] = useState(lastSearch?.AdultCount || 1);
+  const [totalCount, setCountPassanger] = useState(lastSearch?.totalCount || 0);
+  const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData?.[0]);
+  const [selectedTo, setSelectedTo] = useState(initialSelectedToData?.[0]);
+
 
 
   const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -372,8 +612,8 @@ function OnewayNew() {
   };
 
   const dateFormat = "DD MMM, YY";
-  const today = dayjs().format(dateFormat);
-  const [newDepartDate, setNewDepartDate] = useState(today);
+  const today = dayjs(lastSearch?.date).format(dateFormat);
+  const [newDepartDate, setNewDepartDate] = useState(lastSearch?.date || today);
   const [modalVisible, setModalVisible] = useState(false);
   const [newDepartDateCld, setNewDepartDateCld] = useState("");
 
@@ -476,6 +716,32 @@ function OnewayNew() {
     event.preventDefault();
 
     sessionStorage.setItem("SessionExpireTime", new Date());
+    // localStorage.setItem("lastSearch", JSON.stringify({
+    //   from: selectedFrom,
+    //   to: selectedTo,
+    //   date: newDepartDate,
+    //   AdultCount: activeIdAdult,
+    //   ChildCount: activeIdChild,
+    //   InfantCount: activeIdInfant,
+    //   totalCount
+    // }))
+
+
+    const lastSearch = JSON.parse(localStorage.getItem("lastSearch")) || {};
+    let storedFromData = lastSearch.from || [];
+    const updatedFromData = [selectedFrom, ...storedFromData].slice(0, 4);
+    let storedToData = lastSearch.to || [];
+    const updatedToData = [selectedTo, ...storedToData].slice(0, 4);
+    localStorage.setItem("lastSearch", JSON.stringify({
+      from: updatedFromData,
+      to: updatedToData,
+      date: newDepartDate,
+      AdultCount: activeIdAdult,
+      ChildCount: activeIdChild,
+      InfantCount: activeIdInfant,
+      totalCount
+    }));
+
 
     const payload = {
       EndUserIp: reducerState?.ip?.ipData,
@@ -501,7 +767,6 @@ function OnewayNew() {
       from: selectedFrom.AirportCode,
       date: newDepartDate,
       cabinClass: flightclassName,
-      // px: activeIdAdult + activeIdChild + activeIdInfant,
       px: activeIdAdult,
     };
 
@@ -527,12 +792,11 @@ function OnewayNew() {
       ])
     );
     const parsedDate = new Date(newDepartDate);
-    // console.log(parsedDate);
     const formattedDate = parsedDate.toISOString();
-    const localOffset = parsedDate.getTimezoneOffset() * 60000; // Offset in milliseconds
-const adjustedDate = new Date(parsedDate.getTime() - localOffset);
+    const localOffset = parsedDate.getTimezoneOffset() * 60000;
+    const adjustedDate = new Date(parsedDate.getTime() - localOffset);
 
-const formattedDate1 = adjustedDate.toISOString().split('T')[0]; // Keep 
+    const formattedDate1 = adjustedDate.toISOString().split('T')[0]; // Keep 
     dispatch(oneWayAction(payload));
     dispatch(oneWayActionCombined(payload));
 
@@ -543,7 +807,7 @@ const formattedDate1 = adjustedDate.toISOString().split('T')[0]; // Keep
       from: { ...selectedFrom },
       to: { ...selectedTo },
       departureDate: formattedDate,
-      parsedDate:formattedDate1,
+      parsedDate: formattedDate1,
     };
     dispatch(searchFlight(searchpy));
     navigate(
@@ -652,26 +916,19 @@ const formattedDate1 = adjustedDate.toISOString().split('T')[0]; // Keep
                 <div className="col-lg-3">
                   <div className="newOnewaySingle">
 
-                    <span>Depart</span>
+                    <span>Date</span>
 
                     <DatePicker
                       onChange={handleRangeChange}
-                      defaultValue={[dayjs()]}
+                      defaultValue={[newDepartDate ? dayjs(newDepartDate) : dayjs()]}
                       format={dateFormat}
                       disabledDate={disablePastDates}
                       onFocus={handleFocusDatePicker}
                     />
-                    {/* <div className="d-flex justify-content-evenly">
-                <span className="nrsb">
-                  {dayjs(newDepartDate).format("dddd")}
-                </span>
-              </div> */}
                   </div>
                 </div>
               )
           }
-
-
 
 
           <div className="col-lg-3">
@@ -748,14 +1005,6 @@ const formattedDate1 = adjustedDate.toISOString().split('T')[0]; // Keep
                         </Dropdown>
                       </div>
                     </div>
-                    {/* <div>
-                      <h3 className="d-none d-md-block">
-                        Choose Travel Class
-                      </h3>
-                    </div>
-                    <div>
-                      
-                    </div> */}
                   </div>
                 </>
                 <div className="calenderButton">
@@ -763,104 +1012,7 @@ const formattedDate1 = adjustedDate.toISOString().split('T')[0]; // Keep
                   <Button onClick={handleTravelClose} >Continue</Button>
                 </div>
               </Modal>
-              {/* <Dialog
-                sx={{ zIndex: "99999" }}
-                disableEscapeKeyDown
-                open={openTravelModal}
-                onClose={handleTravelClose}
-              >
-                <DialogContent>
-                  <>
-                    <div className="travellerModal">
-                      <div>
-                        <h3>TRAVELLERS & CLASS</h3>
-                      </div>
-                      <div className="travellerPeople">
-                        <TravelerCounter
-                          label="Adults (Age 12+ Years)"
-                          count={activeIdAdult}
-                          onIncrement={() =>
-                            handleTravelerCountChange("adult", 1)
-                          }
-                          onDecrement={() =>
-                            handleTravelerCountChange("adult", -1)
-                          }
-                        />
-                        <TravelerCounter
-                          label="Children (Age 2-12 Years)"
-                          count={activeIdChild}
-                          onIncrement={() =>
-                            handleTravelerCountChange("child", 1)
-                          }
-                          onDecrement={() =>
-                            handleTravelerCountChange("child", -1)
-                          }
-                        />
-                        <TravelerCounter
-                          label="Infants (Age 0-2 Years)"
-                          count={activeIdInfant}
-                          onIncrement={() =>
-                            handleTravelerCountChange("infant", 1)
-                          }
-                          onDecrement={() =>
-                            handleTravelerCountChange("infant", -1)
-                          }
-                        />
-                      </div>
-                      <div>
-                        <h3 className="d-none d-md-block">
-                          Choose Travel Class
-                        </h3>
-                      </div>
-                      <div>
-                        <ul className="classButtonTravel">
-                          {ClassItems.map((ele) => (
-                            <li
-                              key={ele.id}
-                              style={{
-                                backgroundColor:
-                                  ele.id === activeIdClass ? "#d90429" : "#fff",
-                                color:
-                                  ele.id === activeIdClass ? "#fff" : "#d90429",
-                              }}
-                              onClick={() => {
-                                setActiveIdClass(ele.id);
-                                setflightClassName(ele.value);
-                              }}
-                            >
-                              {ele.label}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  </>
-                </DialogContent>
-                <DialogActions
-                  style={{
-                    justifyContent: "center",
-                  }}
-                >
-                  <Button
-                    style={{
-                      backgroundColor: "#21325d",
-                      color: "white",
-                    }}
-                    onClick={handleTravelClose}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    style={{
-                      backgroundColor: "#21325d",
-                      color: "white",
-                    }}
-                    onClick={handleTravelClose}
-                  >
-                    Ok
-                  </Button>
-                </DialogActions>
-              </Dialog> */}
+
             </div>
           </div>
         </div>
