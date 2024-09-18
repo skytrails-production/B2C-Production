@@ -12,7 +12,8 @@ import {
 } from "react-icons/bs"
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
-import cheerio from "cheerio";
+// import cheerio from "cheerio";
+// import * as cheerio from 'cheerio';
 import Img from '../../LazyLoading/Img';
 import { Button } from 'antd';
 
@@ -79,10 +80,7 @@ const Blog = () => {
         return daysDifference <= 4;
     };
 
-    // const stripHtmlWithCheerio = (html) => {
-    //     const $ = cheerio.load(html);
-    //     return $.text();
-    // };
+   
 
 
     const skItem = () => {

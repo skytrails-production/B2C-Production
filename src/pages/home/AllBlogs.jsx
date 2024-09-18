@@ -10,7 +10,8 @@ import "./blog.css"
 import { Skeleton } from "@mui/material";
 import { useDispatch, useSelector } from 'react-redux';
 import dayjs from 'dayjs';
-import cheerio from "cheerio";
+// import cheerio from "cheerio";
+import * as cheerio from 'cheerio';
 
 const AllBlogs = () => {
 
