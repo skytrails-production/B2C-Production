@@ -1,6 +1,6 @@
 import React from 'react'
-import Glider from 'react-glider';
-import 'glider-js/glider.min.css';
+
+
 import "./FlightOffer.css"
 // import offer1 from '../../images/offer/offer1.jpg'
 // import offer2 from '../../images/offer/offer2.jpg'
@@ -18,7 +18,7 @@ const FLightOffer = () => {
                     <div className='offerText'>
                         <p>Flight Booking Discount Offers</p>
                     </div>
-                    <Glider
+                    <div
                         className="glider-container"
                         draggable
                         hasDots
@@ -48,7 +48,7 @@ const FLightOffer = () => {
                         <div>
                             {/* <img src={offer7} alt="offer7" /> */}
                         </div>
-                    </Glider>
+                    </div>
                 </div>
             </div>
         </div>

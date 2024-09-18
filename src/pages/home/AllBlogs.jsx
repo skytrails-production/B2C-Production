@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+// import Slider from 'react-slick';
+// import 'slick-carousel/slick/slick.css';
+// import 'slick-carousel/slick/slick-theme.css';
 import './advertise.css';
 import { apiURL } from '../../Constants/constant';
 import { useNavigate } from 'react-router-dom';
 import "./blog.css"
 import { Skeleton } from "@mui/material";
-import { useDispatch, useSelector } from 'react-redux';
+
 import dayjs from 'dayjs';
 // import cheerio from "cheerio";
 import * as cheerio from 'cheerio';

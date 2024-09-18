@@ -562,13 +562,13 @@ const InventoryHotelForm = () => {
     }));
   };
 
-  const disabledStartFromDate = (current) => {
-    return current && current < moment().startOf("day"); // Disable all dates before today
-  };
+  // const disabledStartFromDate = (current) => {
+  //   return current && current < moment().startOf("day"); // Disable all dates before today
+  // };
 
   // Disable dates before startFrom date for availableDate
   const disabledAvailableDate = (current) => {
-    return current && current < formData.startFrom;
+    return current && current < moment().startOf("day");
   };
 
   const buttonStyle = {
@@ -926,7 +926,7 @@ const InventoryHotelForm = () => {
                       <DatePicker
                         value={formData.startFrom}
                         onChange={handleStartDateChange}
-                        disabledDate={disabledStartFromDate}
+                        //disabledDate={disabledStartFromDate}
                       />
                     </Form.Item>
                   </Col>
@@ -945,7 +945,7 @@ const InventoryHotelForm = () => {
                       <DatePicker
                         value={formData.availableDate}
                         onChange={handleEndDateChange}
-                        // disabledDate={disabledDate}
+                        disabledDate={disabledAvailableDate}
                       />
                     </Form.Item>
                   </Col>
@@ -1223,6 +1223,7 @@ const InventoryHotelForm = () => {
 
             {currentStep === 1 && (
               <div>
+                
                 <Form.Item
                   label="Amenities"
                   name="amenities"
@@ -1241,6 +1242,7 @@ const InventoryHotelForm = () => {
                     placeholder="Enter amenities, each on a new line"
                   />
                 </Form.Item>
+
                 <Form.Item label="Hotel Facilities" className="form-item">
                   <Input.TextArea
                     value={hotelFacilities.join(", ")}

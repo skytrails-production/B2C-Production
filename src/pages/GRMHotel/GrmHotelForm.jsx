@@ -921,7 +921,7 @@ const GrmHotelForm = () => {
                   <>
                     <div className="travellerModal">
                       <div className="roomModal">
-                        <div className="hotel_modal_form_input px-0">
+                        <div className="px-0 hotel_modal_form_input">
                           <label className="form_label">Room*</label>
                           <select
                             name="room"
