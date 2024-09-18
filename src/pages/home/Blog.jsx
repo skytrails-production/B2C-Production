@@ -18,7 +18,7 @@ import Img from '../../LazyLoading/Img';
 import { Button } from 'antd';
 
 const Blog = () => {
-    // const reducerState = useSelector((state) => state);
+  
     const navigate = useNavigate();
     // const dispatch = useDispatch();
     const [blogs, setBlogs] = useState([]);
