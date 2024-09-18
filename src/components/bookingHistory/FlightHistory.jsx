@@ -46,6 +46,21 @@ const FlightHistory = () => {
   const [reason, setReason] = useState("");
   const [selectedFlight, setSelectedFlight] = useState(null);
 
+  const [airports, setAireport] = useState(
+    reducerState?.flightList?.aireportList
+  );
+
+  function findAirportByCode(code) {
+    if (airports) {
+      const data = airports?.find((airport) => airport?.AirportCode === code);
+      return data;
+    }
+    else {
+      return;
+    }
+
+  }
+
   const handleReasonChange = (event) => {
     setReason(event.target.value);
   };
@@ -76,19 +91,20 @@ const FlightHistory = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: `${apiURL.baseURL}/skytrails/api/user/getUserflightBooking`,
+        url: `${apiURL.baseURL}/skyTrails/api/amadeus/user/getCombineBookingHistory
+`,
         headers: {
           token: token,
         },
       });
 
       if (response.status === 200) {
-        const sortedData = response.data.result.docs.sort((a, b) => {
+        const sortedData = response?.data?.result?.docs.sort((a, b) => {
           const departureA = new Date(
-            a.airlineDetails[0].Origin.DepTime
+            a.airlineDetails[0]?.Origin?.DepTime
           ).getTime();
           const departureB = new Date(
-            b.airlineDetails[0].Origin.DepTime
+            b.airlineDetails[0]?.Origin?.DepTime
           ).getTime();
           const currentDate = new Date().getTime();
 
@@ -155,6 +171,7 @@ const FlightHistory = () => {
         },
       });
       setOpenModalChange(false);
+      setResponseMessage(response.data.responseMessage);
       setTimeout(() => {
         handleModalOpenConfirmation();
       }, 1000);
@@ -165,9 +182,54 @@ const FlightHistory = () => {
     }
   };
 
+
+  const handleSubmitamdFlightChange = async (event) => {
+    event.preventDefault();
+
+    if (!selectedFlight || loadingCancelRequest) {
+      return;
+    }
+
+    const selectedReason = document.querySelector("input[type=radio]:checked");
+    const selectedCheckboxValue = selectedReason ? selectedReason.value : null;
+
+    const formData = {
+      reason: reason,
+      bookingId: selectedFlight?.bookingId,
+      flightBookingId: selectedFlight?._id,
+      contactNumber: selectedFlight?.passengerDetails[0]?.ContactNo,
+      changerequest: selectedCheckboxValue,
+      // amount: Number(selectedFlight?.totalAmount),
+      pnr: selectedFlight?.pnr,
+    };
+
+    try {
+      setLoadingCancelRequest(true);
+
+      const response = await axios({
+        method: "post",
+        url: `${apiURL.baseURL}/skyTrails/api/amadeus/user/changeUserFlightBooking`,
+        data: formData,
+        headers: {
+          token: token,
+        },
+      });
+      setOpenModalChange(false);
+      setResponseMessage(response.data.responseMessage);
+      setTimeout(() => {
+        handleModalOpenConfirmation();
+      }, 1000);
+    } catch (error) {
+      console.error("Error sending data to the server:", error);
+    } finally {
+      setLoadingCancelRequest(false); // Reset loading state regardless of success or failure
+    }
+  };
+
+
   // change request flight
 
-  // cancel flight request
+  // cancel flight request33333333333333333333333
 
   const handleSubmitFlightCancelRequest = async (event) => {
     event.preventDefault();
@@ -181,6 +243,7 @@ const FlightHistory = () => {
       bookingId: selectedFlight?.bookingId,
       flightBookingId: selectedFlight?._id,
       pnr: selectedFlight?.pnr,
+      cancellationPartyType: 'TBO',
     };
 
     try {
@@ -201,10 +264,51 @@ const FlightHistory = () => {
       }, 1000);
     } catch (error) {
       console.error("Error sending data to the server:", error);
+      
     } finally {
       setLoadingCancelRequest(false); // Reset loading state regardless of success or failure
     }
   };
+
+
+  const handleSubmitFlightAmdCancelRequest = async (event) => {
+    event.preventDefault();
+
+    if (!selectedFlight || loadingCancelRequest) {
+      return;
+    }
+
+    const formData = {
+      reason: reason,
+      bookingId: selectedFlight?.bookingId,
+      flightBookingId: selectedFlight?._id,
+      pnr: selectedFlight?.pnr,
+      cancellationPartyType: 'AMADEUS',
+    };
+
+    try {
+      setLoadingCancelRequest(true);
+
+      const response = await axios({
+        method: "post",
+        url: `${apiURL.baseURL}/skyTrails/api/amadeus/user/amadeusCancelUserFlightBooking`,
+        data: formData,
+        headers: {
+          token: token,
+        },
+      });
+      setOpenModalCancelRequest(false);
+      setResponseMessage(response.data.responseMessage);
+      setTimeout(() => {
+        handleModalOpenConfirmation();
+      }, 1000);
+    } catch (error) {
+      console.error("Error sending data to the server:", error);
+    } finally {
+      setLoadingCancelRequest(false);
+    }
+  };
+
 
   const currentDate = new Date();
 
@@ -220,7 +324,8 @@ const FlightHistory = () => {
     );
   }
 
-  //cancelFlight
+
+  //cancelFlight22222222222222222222222
   const getCancellationCharges = async (item) => {
     try {
       // setCancelLoading(true);
@@ -259,6 +364,14 @@ const FlightHistory = () => {
       console.error("Error fetching cancellation charges:", error);
     }
   };
+
+
+
+
+
+
+
+
   return (
     <>
       {flightBookingData.length == 0 && !loading ? (
@@ -296,16 +409,19 @@ const FlightHistory = () => {
             return (
               <>
                 <div className="p-0 row flightHisOuter">
-                  <div className="historyTop">
-                    <div>
+                  <div className="historyTop row">
+                    <div className="col-lg-6">
                       <div className="historyTopLeft">
-                        <span>{item?.airlineDetails[0]?.Origin?.CityName}</span>
+                        <span>{item?.airlineDetails[0]?.Origin?.CityName || findAirportByCode(item?.airlineDetails[0]?.Origin?.AirportCode)?.name}</span>
+
                         <FaLongArrowAltRight />
                         <span>
                           {
                             item?.airlineDetails[
                               item?.airlineDetails.length - 1
-                            ]?.Destination?.CityName
+                            ]?.Destination?.CityName || findAirportByCode(item?.airlineDetails[
+                              item?.airlineDetails.length - 1
+                            ]?.Destination?.AirportCode)?.name
                           }
                         </span>
                       </div>
@@ -321,7 +437,7 @@ const FlightHistory = () => {
                         )}
                       </div>
                     </div>
-                    <div className="historyTopRight">
+                    <div className="historyTopRight col-lg-6">
                       <p>
                         Booking ID : {"  "} {item?.bookingId}
                       </p>
@@ -331,10 +447,10 @@ const FlightHistory = () => {
                     </div>
                   </div>
 
-                  <div className="historyBottom">
-                    <div className="historyBottomOne">
+                  <div className="historyBottom row">
+                    <div className="historyBottomOne col-lg-3">
                       <span>From</span>
-                      {/* <span>15 Jan, 23{"  "} 08:30 AM</span> */}
+
                       <span>
                         {dayjs(item?.airlineDetails[0]?.Origin?.DepTime).format(
                           "DD MMM, YY"
@@ -346,10 +462,10 @@ const FlightHistory = () => {
                       </span>
                       <h3>
                         {item?.airlineDetails[0]?.Origin?.AirportCode}-
-                        {item?.airlineDetails[0]?.Origin?.CityName}
+                        {item?.airlineDetails[0]?.Origin?.CityName || findAirportByCode(item?.airlineDetails[0]?.Origin?.AirportCode)?.name}
                       </h3>
                     </div>
-                    <div className="historyBottomOne">
+                    <div className="historyBottomOne col-lg-3">
                       <span>To</span>
                       <span>
                         {dayjs(
@@ -370,18 +486,19 @@ const FlightHistory = () => {
                         -
                         {
                           item?.airlineDetails[item?.airlineDetails.length - 1]
-                            ?.Destination?.CityName
+                            ?.Destination?.CityName || findAirportByCode(item?.airlineDetails[item?.airlineDetails.length - 1]
+                              ?.Destination?.AirportCode)?.name
                         }
                       </h3>
                     </div>
-                    <div className="historyBottomTwo">
+                    <div className="historyBottomTwo col-lg-3">
                       <span>
                         <FaPlaneDeparture /> {"  "}
                         {item?.airlineDetails[0]?.Airline?.AirlineName}{" "}
                         {item?.airlineDetails[0]?.Airline?.AirlineCode}{" "}
                         {item?.airlineDetails[0]?.Airline?.FlightNumber}{" "}
                       </span>
-                      {/* <span><FaUserFriends /> {"  "} Shaan</span> */}
+
                       {item?.passengerDetails?.map((passenger, index) => {
                         return (
                           <span key={index}>
@@ -392,12 +509,12 @@ const FlightHistory = () => {
                     </div>
 
                     {isWithin24Hours ? (
-                      <div className="historyBottomThreeDisabled">
+                      <div className="historyBottomThreeDisabled col-lg-3" style={{ flexDirection: "row" }} >
                         <button>Change Request</button>
                         <button>Cancel Request</button>
                       </div>
                     ) : (
-                      <div className="historyBottomThree">
+                      <div className="historyBottomThree col-lg-3" style={{ flexDirection: "row" }}>
                         <button
                           onClick={() => {
                             handleModalOpenChange();
@@ -409,7 +526,11 @@ const FlightHistory = () => {
                         <button
                           onClick={() => {
                             setSelectedFlight(item);
-                            getCancellationCharges(item);
+                            if (!item?.isAmadeusBooking) {
+                              getCancellationCharges(item);
+                            } else {
+                              handleModalOpenCancelRequest();
+                            }
                           }}
                         >
                           {cancelLoading[item._id] ? (
@@ -421,6 +542,14 @@ const FlightHistory = () => {
                       </div>
                     )}
                   </div>
+
+
+
+
+
+
+
+
                 </div>
 
                 {/* change request  */}
@@ -516,7 +645,14 @@ const FlightHistory = () => {
                           <button
                             className="second"
                             type="submit"
-                            onClick={handleSubmitFlightChange}
+                            // onClick={handleSubmitFlightChange}
+                            onClick={(event) => {
+                              if (selectedFlight?.isAmadeusBooking) {
+                                handleSubmitamdFlightChange(event);
+                              } else {
+                                handleSubmitFlightChange(event);
+                              }
+                            }}
                           >
                             {loadingCancelRequest ? (
                               <SpinnerCircular size={30} сolor="#ffffff" />
@@ -595,16 +731,16 @@ const FlightHistory = () => {
                         )}
                       </div> */}
 
-                      <div
+                      {/* <div
                         className="modal-header-cancel"
                         style={{ display: "flex", flexDirection: "column" }}
                       >
                         {cancellationCharges &&
-                        cancellationCharges.data &&
-                        cancellationCharges.data.Response &&
-                        cancellationCharges.data.Response.CancelChargeDetails &&
-                        cancellationCharges.data.Response.CancelChargeDetails
-                          .length > 0 ? (
+                          cancellationCharges.data &&
+                          cancellationCharges.data.Response &&
+                          cancellationCharges.data.Response.CancelChargeDetails &&
+                          cancellationCharges.data.Response.CancelChargeDetails
+                            .length > 0 ? (
                           <div className="cancel-div">
                             <div className="div1">
                               <div>
@@ -612,7 +748,7 @@ const FlightHistory = () => {
                                 <span className="bold-font">Name</span>{" "}
                               </div>
                               <div
-                              
+
                                 className="div2"
                               >
                                 {" "}
@@ -627,7 +763,7 @@ const FlightHistory = () => {
                               </div>
                             </div>
                             <div
-                             
+
                               className="div3"
                             >
                               <div>
@@ -645,7 +781,7 @@ const FlightHistory = () => {
                               </div>
                             </div>
                             <div
-                             className="div3"
+                              className="div3"
                             >
                               <div>
                                 {" "}
@@ -664,6 +800,51 @@ const FlightHistory = () => {
                           </div>
                         ) : (
                           "Unable to Fetch Record"
+                        )}
+                      </div> */}
+                      <div
+                        className="modal-header-cancel"
+                        style={{ display: "flex", flexDirection: "column" }}
+                      >
+                        {selectedFlight?.isAmadeusBooking ? (
+                          // Show nothing or alternative content here when isAmadeusBooking is present
+                          null
+                        ) : (
+                          cancellationCharges &&
+                            cancellationCharges.data &&
+                            cancellationCharges.data.Response &&
+                            cancellationCharges.data.Response.CancelChargeDetails &&
+                            cancellationCharges.data.Response.CancelChargeDetails.length > 0 ? (
+                            <div className="cancel-div">
+                              <div className="div1">
+                                <div>
+                                  <span className="bold-font">Name</span>
+                                </div>
+                                <div className="div2">
+                                  {cancellationCharges.data.Response.CancelChargeDetails[0].FirstName}{" "}
+                                  {cancellationCharges.data.Response.CancelChargeDetails[0].LastName}{" "}
+                                </div>
+                              </div>
+                              <div className="div3">
+                                <div>
+                                  <span className="bold-font">Cancellation Charge</span>
+                                </div>
+                                <div style={{ textAlign: "center" }}>
+                                  {cancellationCharges.data.Response.CancellationCharge}
+                                </div>
+                              </div>
+                              <div className="div3">
+                                <div>
+                                  <span className="bold-font">Refund Amount</span>
+                                </div>
+                                <div style={{ textAlign: "center" }}>
+                                  {cancellationCharges.data.Response.CancelChargeDetails[0].RefundAmount}
+                                </div>
+                              </div>
+                            </div>
+                          ) : (
+                            "Unable to Fetch Record"
+                          )
                         )}
                       </div>
 
@@ -689,7 +870,14 @@ const FlightHistory = () => {
                           <button
                             className="second"
                             type="submit"
-                            onClick={handleSubmitFlightCancelRequest}
+                            // onClick={handleSubmitFlightCancelRequest}
+                            onClick={(event) => {
+                              if (selectedFlight?.isAmadeusBooking) {
+                                handleSubmitFlightAmdCancelRequest(event); // Call Amadeus API if key is present
+                              } else {
+                                handleSubmitFlightCancelRequest(event); // Call the TBO API otherwise
+                              }
+                            }}
                           >
                             {loadingCancelRequest ? (
                               <SpinnerCircular size={30} сolor="#ffffff" />

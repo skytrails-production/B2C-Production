@@ -896,7 +896,7 @@ function GrmHotelform2() {
               Search
             </Button> */}
 
-            <div className="hotelFormInnerBtton">
+            <div className="hotelFormInnerBtton hotelColor">
               <Button onClick={handleSubmit} loading={loader} type="primary" icon={<SearchOutlined />} />
             </div>
           </div>

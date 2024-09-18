@@ -255,6 +255,16 @@
       color: var(--pureWhite);
     }
   }
+
+  .hotelColor button {
+    background-color: var(--primaryHotel) !important;
+    color: var(--pureWhite);
+
+    &:hover {
+      background-color: var(--primaryHoverHotel) !important;
+      color: var(--pureWhite);
+    }
+  }
 }
 
 .newBusFormInner {

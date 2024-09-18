@@ -69,118 +69,11 @@ const fetchFromCity = (value, callback) => {
   }
 };
 
-// const FromSearchInput = (props) => {
-//   const { onItemSelect } = props;
-//   const { data } = props;
-//   const lastSearch = JSON.parse(localStorage.getItem("lastSearch"));
-
-
-//   const initialSelectedFromData = {
-//     AirportCode: lastSearch?.from?.AirportCode || "DEL",
-//     CityCode: lastSearch?.from?.CityCode || "DEL",
-//     CountryCode: lastSearch?.from?.CountryCode || "IN ",
-//     code: lastSearch?.from?.code || "Indira Gandhi Airport",
-//     createdAt: lastSearch?.from?.createdAt || "2023-01-30T14:58:34.428Z",
-//     id: lastSearch?.from?.id || "DEL",
-//     name: lastSearch?.from?.name || "Delhi",
-//     updatedAt: lastSearch?.from?.updatedAt || "2023-01-30T14:58:34.428Z",
-//     __v: lastSearch?.from?.__v || 0,
-//     _id: lastSearch?.from?._id || "63d7db1a64266cbf450e07c1",
-//   };
-
-//   useEffect(() => {
-//     setFromDisplayValue(data.name);
-//   }, [data])
-//   const [fromData, setFromData] = useState([]);
-//   const [fromValue, setFromValue] = useState(initialSelectedFromData.name);
-//   const [selectedItem, setSelectedItem] = useState(initialSelectedFromData);
-
-//   const [FromPlaceholder, setFromPlaceholder] = useState("");
-//   const [FromDisplayValue, setFromDisplayValue] = useState(
-//     initialSelectedFromData.name
-//   );
-//   const [inputStyle, setInputStyle] = useState({});
-
-//   useEffect(() => {
-//     setFromData([
-//       {
-//         value: initialSelectedFromData._id,
-//         name: initialSelectedFromData.name,
-//         code: initialSelectedFromData.code,
-//         cityCode: initialSelectedFromData.CityCode,
-//         item: initialSelectedFromData,
-//       },
-//     ]);
-//   }, []);
-
-//   const handleFromSearch = (newValue) => {
-//     fetchFromCity(newValue, setFromData);
-//   };
-
-//   const handleFromChange = (newValue) => {
-//     const selected = fromData.find((d) => d.value === newValue);
-//     setFromValue(selected ? selected.name : newValue);
-//     setFromDisplayValue(selected ? selected.name : newValue);
-//     setSelectedItem(selected ? selected.item : null);
-//     setInputStyle({ caretColor: "transparent" });
-//     if (selected) {
-//       onItemSelect(selected.item);
-//     }
-//   };
-
-//   const handleFromFocus = () => {
-//     setFromPlaceholder("From");
-//     setFromDisplayValue("");
-//     setInputStyle({});
-//   };
-
-//   const handleFromBlur = () => {
-//     setFromPlaceholder("");
-//     setFromDisplayValue(fromValue);
-//     setInputStyle({ caretColor: "transparent" });
-//   };
-//   const renderFromOption = (option) => (
-//     <div>
-//       <div>
-//         {option.name} ({option.cityCode})
-//       </div>
-//       <div style={{ color: "gray" }}>{option.code}</div>
-//     </div>
-//   );
-
-//   return (
-//     <Select
-//       showSearch
-//       style={inputStyle}
-//       // value={fromValue}
-//       value={FromDisplayValue}
-//       // placeholder={props.placeholder}
-//       placeholder={FromPlaceholder || props.placeholder}
-//       // style={props.style}
-//       defaultActiveFirstOption={false}
-//       suffixIcon={null}
-//       filterOption={false}
-//       onSearch={handleFromSearch}
-//       onChange={handleFromChange}
-//       onFocus={handleFromFocus} // Set placeholder on focus
-//       onBlur={handleFromBlur}
-//       notFoundContent={null}
-//       options={fromData.map((d) => ({
-//         value: d.value,
-//         label: renderFromOption(d),
-//       }))}
-//     />
-//   );
-// };
-
 
 
 const FromSearchInput = (props) => {
   const { onItemSelect, data } = props;
-
-
   const lastSearch = JSON.parse(localStorage.getItem("lastSearch"));
-
   const initialSelectedFromData = lastSearch?.from?.slice?.(0, 4) || [{
     AirportCode: "DEL",
     CityCode: "DEL",
@@ -194,14 +87,13 @@ const FromSearchInput = (props) => {
     _id: "63d7db1a64266cbf450e07c1",
   }];
 
-
   const [fromData, setFromData] = useState([]);
   const [fromValue, setFromValue] = useState(initialSelectedFromData.map(item => item.name));
   const [selectedItems, setSelectedItems] = useState(initialSelectedFromData);
   const [FromPlaceholder, setFromPlaceholder] = useState("");
   const [FromDisplayValue, setFromDisplayValue] = useState(fromValue.join(", "));
   const [inputStyle, setInputStyle] = useState({});
-
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     setFromData(
@@ -216,10 +108,10 @@ const FromSearchInput = (props) => {
   }, []);
 
   const handleFromSearch = (newValue) => {
+    setIsSearching(!!newValue);
     fetchFromCity(newValue, setFromData);
   };
 
-  // console.log(data, "data in from")
 
   useEffect(() => {
     if (data) {
@@ -232,7 +124,7 @@ const FromSearchInput = (props) => {
   const handleFromChange = (newValue) => {
     const selected = fromData.find((d) => d.value === newValue);
     if (selected) {
-      setSelectedItems([selected.item, ...selectedItems]?.slice(0, 4));
+      setSelectedItems([selected.item, ...selectedItems].slice(0, 4));
       setFromValue(selectedItems.map((item) => item.name));
       setFromDisplayValue(selectedItems.map((item) => item.name).join(", "));
       setInputStyle({ caretColor: "transparent" });
@@ -254,18 +146,35 @@ const FromSearchInput = (props) => {
 
   const renderFromOption = (option) => (
     <div>
-      <div>
-        {option.name} ({option.cityCode})
-      </div>
-      <div style={{ color: "gray" }}>{option.code}</div>
+      <div>{option.name} ({option.cityCode})</div>
+      <div style={{ color: 'gray' }}>{option.code}</div>
     </div>
   );
+
+  // Filter out recent searches from search results
+  const filteredFromData = fromData.filter(
+    (d) => !selectedItems.some((item) => item._id === d.value)
+  );
+
+  const recentSearchesOptions = !isSearching && selectedItems.length > 0
+    ? [
+      {
+        label: 'Recent Searches',
+        options: selectedItems.map((item) => ({
+          value: item._id,
+          label: `${item.name} (${item.CityCode})`,
+        })),
+      },
+    ]
+    : [];
+
+
+  console.log(selectedItems, "selectedItems selectedItems option")
 
   return (
     <Select
       showSearch
       style={inputStyle}
-      // value={FromDisplayValue}
       value={selectedItems.length > 0 ? selectedItems[0].name : FromDisplayValue}
       placeholder={FromPlaceholder || props.placeholder}
       defaultActiveFirstOption={false}
@@ -276,13 +185,21 @@ const FromSearchInput = (props) => {
       onFocus={handleFromFocus}
       onBlur={handleFromBlur}
       notFoundContent={null}
-      options={fromData.map((d) => ({
-        value: d.value,
-        label: renderFromOption(d),
-      }))}
+      options={[
+        ...recentSearchesOptions, // Add recent searches if available
+        {
+          label: 'Search Results',
+          options: filteredFromData.map((d) => ({
+            value: d.value,
+            label: renderFromOption(d),
+          })),
+        },
+      ]}
     />
   );
 };
+
+
 
 
 // from data logic
@@ -437,9 +354,10 @@ const fetchToCity = (value, callback) => {
 const ToSearchInput = (props) => {
   const { onItemSelect, data } = props;
 
+  // Get the last searches from localStorage
   const lastSearch = JSON.parse(localStorage.getItem("lastSearch"));
 
-  // Keep the latest 4 selected 'to' cities or set a default
+  // Default initial selection if no last search is available
   const initialSelectedToData = lastSearch?.to?.slice?.(0, 4) || [{
     AirportCode: "BOM",
     CityCode: "BOM",
@@ -451,19 +369,17 @@ const ToSearchInput = (props) => {
     updatedAt: "2023-01-30T14:58:34.428Z",
     __v: 0,
     _id: "63d7db1a64266cbf450e07c2",
-  },];
-
-  // useEffect(() => {
-  //   setToDisplayValue(data.name);
-  // }, [data]);
+  }];
 
   const [toData, setToData] = useState([]);
   const [toValue, setToValue] = useState(initialSelectedToData.map(item => item.name));
   const [selectedItems, setSelectedItems] = useState(initialSelectedToData);
   const [ToPlaceholder, setToPlaceholder] = useState("");
-  const [ToDisplayValue, setToDisplayValue] = useState(toValue.join(", "))
+  const [ToDisplayValue, setToDisplayValue] = useState(toValue.join(", "));
   const [inputStyle, setInputStyle] = useState({});
+  const [isSearching, setIsSearching] = useState(false); // New state to track if user is typing
 
+  // Populate the initial To data from recent searches
   useEffect(() => {
     setToData(
       initialSelectedToData.map((item) => ({
@@ -476,11 +392,13 @@ const ToSearchInput = (props) => {
     );
   }, []);
 
+  // Handle the search input and track the search status
   const handleToSearch = (newValue) => {
+    setIsSearching(!!newValue); // Set isSearching to true if there is a search value
     fetchToCity(newValue, setToData);
   };
 
-
+  // Handle updates to the selected items when new data comes in through props
   useEffect(() => {
     if (data) {
       setSelectedItems([data]);
@@ -489,14 +407,12 @@ const ToSearchInput = (props) => {
     }
   }, [data]);
 
-  // console.log(data, "data in to")
-
   const handleToChange = (newValue) => {
     const selected = toData.find((d) => d.value === newValue);
     if (selected) {
+      setSelectedItems([selected.item, ...selectedItems].slice(0, 4)); // Keep latest 4
       setToValue(selectedItems.map((item) => item.name));
       setToDisplayValue(selectedItems.map((item) => item.name).join(", "));
-      setSelectedItems([selected.item, ...selectedItems].slice(0, 4)); // Keep latest 4
       setInputStyle({ caretColor: "transparent" });
       onItemSelect(selected.item);
     }
@@ -521,6 +437,24 @@ const ToSearchInput = (props) => {
     </div>
   );
 
+  // Filter out recent searches from search results
+  const filteredToData = toData.filter(
+    (d) => !selectedItems.some((item) => item._id === d.value)
+  );
+
+  // Add "Recent Searches" label if there are recent searches and the user is not actively searching
+  const recentSearchesOptions = !isSearching && selectedItems.length > 0
+    ? [
+      {
+        label: 'Recent Searches',
+        options: selectedItems.slice(0, 4).map((item) => ({
+          value: item._id,
+          label: `${item.name} (${item.CityCode})`,
+        })),
+      },
+    ]
+    : [];
+
   return (
     <Select
       showSearch
@@ -535,14 +469,19 @@ const ToSearchInput = (props) => {
       onFocus={handleToFocus}
       onBlur={handleToBlur}
       notFoundContent={null}
-      options={toData.map((d) => ({
-        value: d.value,
-        label: renderToOption(d),
-      }))}
+      options={[
+        ...recentSearchesOptions, // Add recent searches if available
+        {
+          label: 'Search Results',
+          options: filteredToData.map((d) => ({
+            value: d.value,
+            label: renderToOption(d),
+          })),
+        },
+      ]}
     />
   );
 };
-
 
 function OnewayNew() {
   const dispatch = useDispatch();
@@ -681,6 +620,11 @@ function OnewayNew() {
     dispatch(resetAllFareData());
   }, []);
 
+  useEffect(() => {
+    dispatch(searchFlightListReq());
+    dispatch(searchaAirportListReq());
+  },[])
+
 
 
   const ClassItems = [
@@ -716,21 +660,14 @@ function OnewayNew() {
     event.preventDefault();
 
     sessionStorage.setItem("SessionExpireTime", new Date());
-    // localStorage.setItem("lastSearch", JSON.stringify({
-    //   from: selectedFrom,
-    //   to: selectedTo,
-    //   date: newDepartDate,
-    //   AdultCount: activeIdAdult,
-    //   ChildCount: activeIdChild,
-    //   InfantCount: activeIdInfant,
-    //   totalCount
-    // }))
-
-
     const lastSearch = JSON.parse(localStorage.getItem("lastSearch")) || {};
+
     let storedFromData = lastSearch.from || [];
-    const updatedFromData = [selectedFrom, ...storedFromData].slice(0, 4);
     let storedToData = lastSearch.to || [];
+
+    storedFromData = storedFromData.filter(city => city.id !== selectedFrom.id);
+    storedToData = storedToData.filter(city => city.id !== selectedTo.id);
+    const updatedFromData = [selectedFrom, ...storedFromData].slice(0, 4);
     const updatedToData = [selectedTo, ...storedToData].slice(0, 4);
     localStorage.setItem("lastSearch", JSON.stringify({
       from: updatedFromData,
@@ -741,6 +678,7 @@ function OnewayNew() {
       InfantCount: activeIdInfant,
       totalCount
     }));
+
 
 
     const payload = {
@@ -800,8 +738,8 @@ function OnewayNew() {
     dispatch(oneWayAction(payload));
     dispatch(oneWayActionCombined(payload));
 
-    dispatch(searchFlightListReq());
-    dispatch(searchaAirportListReq());
+    // dispatch(searchFlightListReq());
+    // dispatch(searchaAirportListReq());
 
     const searchpy = {
       from: { ...selectedFrom },

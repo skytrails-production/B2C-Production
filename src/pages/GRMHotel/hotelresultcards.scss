@@ -66,13 +66,24 @@
 
     .roomInclusion {
       margin: 6px 0px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
       span {
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 500;
-        color: white;
-        padding: 4px 5px;
+        // color: white;
+        padding: 2px 5px;
         border-radius: 5px;
-        background-color: rgb(91, 182, 91);
+        .cancel {
+          color: rgb(91, 182, 91);
+          border: 1px solid rgb(91, 182, 91);
+        }
+        .breakinclude {
+          color: var(--primary);
+          border: 1px solid var(--primary);
+        }
       }
     }
     .packCardPrice {
@@ -110,8 +121,8 @@
         padding: 7px 14px;
         word-wrap: nowrap;
         color: #fff;
-        background-color: #e73c34;
-        border: 1px solid #e73c34;
+        background-color: var(--primaryHotel);
+        border: 1px solid var(--primaryHotel);
         border-radius: 4px;
         white-space: nowrap;
       }

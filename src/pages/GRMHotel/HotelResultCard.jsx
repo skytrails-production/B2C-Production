@@ -66,118 +66,19 @@ const HotelResultCard = ({ result }) => {
 
                 <div className='roomInclusion'>
                     {result?.min_rate?.boarding_details?.[0] !== "Room Only" &&
-                        <span className="">
+                        <span className="breakinclude">
                             <MdOutlineFreeBreakfast />   Breakfast Included
                         </span>
                     }
                     {result?.min_rate?.cancellation_policy?.cancel_by_date &&
-                        <span className="">
+                        <span className="cancel">
                             <MdCancel />
                             {`cancellation till ${dayjs(result?.min_rate?.cancellation_policy?.cancel_by_date).format("DD MMM, YY")}`}
                         </span>
                     }
                 </div>
 
-                {/* <div className='packCardInclusions'>
-                    <p>Inclusion Highlights</p>
 
-                    <div className='inclusionMainBox'>
-                        <div className="inclusionIcons">
-                            {result?.min_rate?.other_inclusions?.map((inclusion, e) => {
-                                return (
-                                    <div key={e} className="">
-                                        {inclusion.toLowerCase() == "free wifi" &&
-                                            <>
-                                                <img src={freeWifi} alt="wifi" />
-                                                <p className="panDesign3">Free WiFi</p>
-                                            </>
-
-                                        }
-                                        {inclusion.toLowerCase() == "free internet" &&
-                                            <>
-                                                <img src={freeWifi} alt="wifi" />
-                                                <p className="panDesign3">Free internet</p>
-                                            </>
-
-                                        }
-                                        {inclusion.toLowerCase() == "free breakfast" &&
-                                            <>
-                                                <img src={freeBreakfast} alt="wifi" />
-                                                <p className="panDesign3">Free Breakfast</p>
-                                            </>
-                                        }
-                                        {inclusion.toLowerCase() == "breakfast" &&
-                                            <>
-                                                <img src={freeBreakfast} alt="wifi" />
-                                                <p className="panDesign3">Breakfast</p>
-                                            </>
-                                        }
-                                        {inclusion.toLowerCase() == "continental breakfast" &&
-                                            <>
-                                                <img src={freeBreakfast} alt="wifi" />
-
-                                                <p className="panDesign3">Continental breakfast</p>
-                                            </>
-                                        }
-                                        {inclusion.toLowerCase() == "free self parking" &&
-                                            <>
-                                                <img src={freeParking} alt="wifi" />
-                                                <p className="panDesign3"> Free self parking</p>
-                                            </>
-                                        }
-                                        {inclusion.toLowerCase() == "parking" &&
-                                            <>
-                                                <img src={freeParking} alt="wifi" />
-                                                <p className="panDesign3"> Free Parking</p>
-                                            </>
-                                        }
-                                        {inclusion.toLowerCase() == "free parking" &&
-                                            <>
-                                                <img src={freeParking} alt="wifi" />
-                                                <p className="panDesign3"> Free Parking</p>
-                                            </>
-                                        }
-                                        {inclusion.toLowerCase() == "free valet parking" &&
-                                            <>
-                                                <img src={freeParking} alt="wifi" />
-
-                                                <p className="panDesign3"> Free Valet Parking</p>
-                                            </>
-                                        }
-                                        {inclusion.toLowerCase() == "drinking water" &&
-                                            <>
-                                                <img src={drinkingWater} alt="wifi" />
-                                                <p className="panDesign3"> Drinking water</p>
-                                            </>
-                                        }
-                                        {inclusion.toLowerCase() == "express check-in" &&
-                                            <>
-                                                <img src={expressCheckin} alt="wifi" />
-                                                <p className="panDesign3"> Express check-in</p>
-                                            </>
-                                        }
-                                        {inclusion.toLowerCase() == "welcome drink" &&
-                                            <>
-
-                                                <img src={welcomeDrink} alt="wifi" />
-                                                <p className="panDesign3">Welcome drink</p>
-                                            </>
-                                        }
-                                        {inclusion.toLowerCase() == "free fitness center access" &&
-                                            <>
-                                                <img src={freeGym} alt="wifi" />
-                                                <p className="panDesign3">Free Gym</p>
-                                            </>
-                                        }
-
-                                    </div>
-                                );
-                            })}
-                        </div>
-                    </div>
-
-
-                </div> */}
 
 
                 <div className='packCardPrice'>

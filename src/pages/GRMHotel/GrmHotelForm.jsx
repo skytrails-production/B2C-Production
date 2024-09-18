@@ -90,40 +90,176 @@ const fetchFromCity = (value, callback) => {
 };
 
 
+// const FromSearchInput = (props) => {
+//   const { onItemSelect } = props;
+//   const [fromData, setFromData] = useState([]);
+//   const [fromValue, setFromValue] = useState(initialSelectedFromData.cityName);
+//   const [selectedItem, setSelectedItem] = useState(initialSelectedFromData);
+//   const [FromPlaceholder, setFromPlaceholder] = useState('');
+//   const [FromDisplayValue, setFromDisplayValue] = useState(initialSelectedFromData.cityName);
+//   const [inputStyle, setInputStyle] = useState({});
+
+//   useEffect(() => {
+//     setFromData([
+//       {
+//         value: `city-${initialSelectedFromData.cityCode}`,
+//         name: initialSelectedFromData.cityName,
+//         code: initialSelectedFromData.countryCode,
+//         cityCode: initialSelectedFromData.countryName,
+//         item: initialSelectedFromData,
+//         type: 'city',
+//       },
+//     ]);
+//   }, []);
+
+//   const handleFromSearch = (newValue) => {
+//     fetchFromCity(newValue, setFromData);
+//   };
+
+//   const handleFromChange = (newValue) => {
+//     const selected = fromData.find((d) => d.value === newValue);
+//     setFromValue(selected ? selected.name : newValue);
+//     setFromDisplayValue(selected ? selected.name : newValue);
+//     setSelectedItem(selected ? selected.item : null);
+//     setInputStyle({ caretColor: 'transparent' });
+//     if (selected) {
+//       onItemSelect(selected.item);
+//     }
+//   };
+
+//   const handleFromFocus = () => {
+//     setFromPlaceholder('From');
+//     setFromDisplayValue('');
+//     setInputStyle({});
+//   };
+
+//   const handleFromBlur = () => {
+//     setFromPlaceholder('');
+//     setFromDisplayValue(fromValue);
+//     setInputStyle({ caretColor: 'transparent' });
+//   };
+
+
+
+
+
+//   const renderFromOption = (option) => {
+//     return (
+//       <div style={{ display: 'flex', alignItems: 'center', gap: "8px" }}>
+
+//         {
+//           option.type === 'city' ?
+//             <i class="fa-solid fa-city"></i> :
+//             <i class="fa-solid fa-bed"></i>
+//         }
+//         <div>
+//           {option.type === 'city' ? (
+//             <>
+//               <div className="ellipsisHotelDropdown">
+//                 {option.name} ({option.code})
+//               </div>
+//               <div style={{ color: "gray" }}>{option.cityCode}</div>
+//             </>
+//           ) : (
+//             <>
+//               <div className="ellipsisHotelDropdown">
+//                 {option.name} - ({option.countryName})
+//               </div>
+//               <div className="ellipsisHotelDropdown" style={{ color: "gray" }}>{option.address}</div>
+//             </>
+//           )}
+//         </div>
+//       </div>
+//     );
+//   };
+
+
+//   return (
+//     <Select
+//       showSearch
+//       className="hotelDropdown"
+//       style={inputStyle}
+//       value={FromDisplayValue}
+//       placeholder={FromPlaceholder || props.placeholder}
+//       defaultActiveFirstOption={false}
+//       suffixIcon={null}
+//       filterOption={false}
+//       onSearch={handleFromSearch}
+//       onChange={handleFromChange}
+//       onFocus={handleFromFocus}
+//       onBlur={handleFromBlur}
+//       notFoundContent={null}
+//       options={fromData.map((d) => ({
+//         value: d.value,
+//         label: renderFromOption(d),
+//       }))}
+//     />
+//   );
+// };
+
+
+
+
+
+
+
 const FromSearchInput = (props) => {
   const { onItemSelect } = props;
-  const [fromData, setFromData] = useState([]);
-  const [fromValue, setFromValue] = useState(initialSelectedFromData.cityName);
-  const [selectedItem, setSelectedItem] = useState(initialSelectedFromData);
-  const [FromPlaceholder, setFromPlaceholder] = useState('');
-  const [FromDisplayValue, setFromDisplayValue] = useState(initialSelectedFromData.cityName);
-  const [inputStyle, setInputStyle] = useState({});
 
+  // Get recent cities from localStorage (at most 4)
+  const lastSearchHotel = JSON.parse(localStorage.getItem("lastSearchHotel")) || [];
+
+  // Fallback data if no recent searches are available
+  const defaultCity = {
+    cityCode: "124054",
+    cityName: "New Delhi",
+    countryCode: "IN",
+    countryName: "India",
+  };
+
+  // Limit recent searches to 4, or use default if no searches
+  const initialSelectedFromData = lastSearchHotel.length > 0 ? lastSearchHotel.slice(0, 4) : [defaultCity];
+
+  const [fromData, setFromData] = useState([]);
+  const [fromValue, setFromValue] = useState(initialSelectedFromData.map(item => item.cityName).join(", "));
+  const [selectedItems, setSelectedItems] = useState(initialSelectedFromData);
+  const [FromPlaceholder, setFromPlaceholder] = useState('');
+  const [FromDisplayValue, setFromDisplayValue] = useState(fromValue);
+  const [inputStyle, setInputStyle] = useState({});
+  const [isSearching, setIsSearching] = useState(false);
+
+  // Load recent cities or default into the dropdown
   useEffect(() => {
-    setFromData([
-      {
-        value: `city-${initialSelectedFromData.cityCode}`,
-        name: initialSelectedFromData.cityName,
-        code: initialSelectedFromData.countryCode,
-        cityCode: initialSelectedFromData.countryName,
-        item: initialSelectedFromData,
+    setFromData(
+      initialSelectedFromData.map((item) => ({
+        value: `city-${item.cityCode}`,
+        name: item.cityName,
+        code: item.countryCode,
+        cityCode: item.cityCode,
+        item: item,
         type: 'city',
-      },
-    ]);
+      }))
+    );
   }, []);
 
   const handleFromSearch = (newValue) => {
-    fetchFromCity(newValue, setFromData);
+    setIsSearching(!!newValue); // Set isSearching to true if there is a search value
+    fetchFromCity(newValue, (data) => {
+      // Filter out already selected items (from recent searches)
+      const filteredData = data.filter(d => !selectedItems.some(item => item.cityCode === d.cityCode));
+      setFromData(filteredData);
+    }); // Assume fetchFromCity fetches search results from an API
   };
 
   const handleFromChange = (newValue) => {
     const selected = fromData.find((d) => d.value === newValue);
-    setFromValue(selected ? selected.name : newValue);
-    setFromDisplayValue(selected ? selected.name : newValue);
-    setSelectedItem(selected ? selected.item : null);
-    setInputStyle({ caretColor: 'transparent' });
     if (selected) {
-      onItemSelect(selected.item);
+      const updatedItems = [selected.item, ...selectedItems].slice(0, 4); // Keep the latest 4 unique items
+      setSelectedItems(updatedItems);
+      setFromValue(updatedItems.map(item => item.cityName).join(", "));
+      setFromDisplayValue(updatedItems.map(item => item.cityName).join(", "));
+      setInputStyle({ caretColor: 'transparent' });
+      onItemSelect(selected.item); // Pass the selected item to parent
     }
   };
 
@@ -139,47 +275,58 @@ const FromSearchInput = (props) => {
     setInputStyle({ caretColor: 'transparent' });
   };
 
-
-
-
-
-  const renderFromOption = (option) => {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: "8px" }}>
-
-        {
-          option.type === 'city' ?
-            <i class="fa-solid fa-city"></i> :
-            <i class="fa-solid fa-bed"></i>
-        }
-        <div>
-          {option.type === 'city' ? (
-            <>
-              <div className="ellipsisHotelDropdown">
-                {option.name} ({option.code})
-              </div>
-              <div style={{ color: "gray" }}>{option.cityCode}</div>
-            </>
-          ) : (
-            <>
-              <div className="ellipsisHotelDropdown">
-                {option.name} - ({option.countryName})
-              </div>
-              <div className="ellipsisHotelDropdown" style={{ color: "gray" }}>{option.address}</div>
-            </>
-          )}
+  const renderFromOption = (option) => (
+    <div style={{ display: 'flex', alignItems: 'center', gap: "8px" }}>
+      <i className="fa-solid fa-city"></i>
+      <div>
+        <div className="ellipsisHotelDropdown">
+          {option.name} ({option.code})
         </div>
+        <div style={{ color: "gray" }}>{option.cityCode}</div>
       </div>
-    );
-  };
+    </div>
+  );
 
+  // Filter out recent searches from search results
+  const filteredFromData = fromData.filter(
+    (d) => !selectedItems.some((item) => item.cityCode === d.cityCode)
+  );
+
+  // Add "Recent Searches" label if there are recent searches and the user is not actively searching
+  // const recentSearchesOptions = !isSearching && selectedItems.length > 0
+  //   ? [
+  //     {
+  //       label: 'Recent Searches',
+  //       options: selectedItems.map((item) => ({
+  //         value: `city-${item.cityCode}`,
+  //         label: `${item.cityName} (${item.countryCode})`,
+  //       })),
+  //     },
+  //   ]
+  //   : [];
+
+  const recentSearchesOptions = !isSearching && selectedItems.length > 0
+    ? [
+      {
+        label: 'Recent Searches',
+        options: selectedItems.map((item) => ({
+          value: `city-${item.cityCode}`,
+          label: renderFromOption({
+            name: item.cityName,
+            code: item.countryCode,
+            cityCode: item.cityCode,
+          }), // Use the same render function for recent searches
+        })),
+      },
+    ]
+    : [];
 
   return (
     <Select
       showSearch
       className="hotelDropdown"
       style={inputStyle}
-      value={FromDisplayValue}
+      value={selectedItems.length > 0 ? selectedItems[0].cityName : FromDisplayValue}
       placeholder={FromPlaceholder || props.placeholder}
       defaultActiveFirstOption={false}
       suffixIcon={null}
@@ -189,13 +336,22 @@ const FromSearchInput = (props) => {
       onFocus={handleFromFocus}
       onBlur={handleFromBlur}
       notFoundContent={null}
-      options={fromData.map((d) => ({
-        value: d.value,
-        label: renderFromOption(d),
-      }))}
+      options={[
+        ...recentSearchesOptions, // Add recent searches if available
+        {
+          label: 'Search Results',
+          options: filteredFromData.map((d) => ({
+            value: d.value,
+            label: renderFromOption(d),
+          })),
+        },
+      ]}
     />
   );
 };
+
+
+
 
 
 // select city data logic
@@ -555,6 +711,18 @@ const GrmHotelForm = () => {
       adults: data.NoOfAdults || 0,
       children_ages: data.ChildAge || [],
     }));
+
+
+    const lastSearchHotel = JSON.parse(localStorage.getItem("lastSearchHotel")) || [];
+    const newCity = {
+      cityCode: selectedFrom.cityCode,
+      cityName: selectedFrom.cityName,
+      countryCode: selectedFrom.countryCode,
+      countryName: selectedFrom.countryName,
+    };
+    const updatedSearches = lastSearchHotel.filter(city => city.cityCode !== newCity.cityCode);
+    const finalSearches = [newCity, ...updatedSearches].slice(0, 4);
+    localStorage.setItem("lastSearchHotel", JSON.stringify(finalSearches));
 
     sessionStorage.setItem("clientNationality", JSON.stringify(selectNationality?.countryCode));
     sessionStorage.setItem(

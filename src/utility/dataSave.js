@@ -18,6 +18,9 @@ const findAirlineByCode = (code, airlines) => {
 export const datasaveTodb = async ({jsonSavePnrData, sesstioResultIndex, reducerState ,finalAmount, arrTimeISO1,ResultIndex, depTimeISO1,jsonData}) => {
     //   const navigate = useNavigate(); 
 
+
+    const formatDepTime = (dateString) => moment(dateString).format('YYYY-MM-DDTHH:mm:ss');
+
     const nonStop = [{
         Airline: {
             AirlineCode: jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct?.companyDetail?.identification,
@@ -30,14 +33,14 @@ export const datasaveTodb = async ({jsonSavePnrData, sesstioResultIndex, reducer
             AirportName: findAirportByCode(jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct?.boardpointDetail?.cityCode, reducerState?.airports)?.code,
             CityName: findAirportByCode(jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct?.boardpointDetail?.cityCode, reducerState?.airports)?.name,
             Terminal: jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.flightDetail?.arrivalStationInfo?.terminal,
-            DepTime: depTimeISO1,
+            DepTime: formatDepTime(depTimeISO1),
         },
         Destination: {
             AirportCode: jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct?.offpointDetail?.cityCode,
             AirportName: findAirportByCode(jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct?.offpointDetail?.cityCode, reducerState?.airports)?.code,
             CityName: findAirportByCode(jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.travelProduct?.offpointDetail?.cityCode, reducerState?.airports)?.name,
             Terminal: jsonSavePnrData?.originDestinationDetails?.itineraryInfo?.flightDetail?.departureInformation?.departTerminal,
-            ArrTime: arrTimeISO1,
+            ArrTime: formatDepTime(arrTimeISO1),
         },
         Baggage: (sesstioResultIndex?.flight?.baggage?.freeBagAllownceInfo?.baggageDetails?.quantityCode ||
             sesstioResultIndex?.baggage?.freeBagAllownceInfo?.baggageDetails?.quantityCode) === "W"
@@ -87,20 +90,22 @@ export const datasaveTodb = async ({jsonSavePnrData, sesstioResultIndex, reducer
             arrDate = "0" + arrDate;
           }
 
-          // console.log(itinerary,"itineraryitineraryitinerary",depTime,arrTime)
+          
+// console.log(itinerary,"itineraryitineraryitinerary",depTime,arrTime)
 
           // Parse depDate and depTime into ISO format for departure
           const depDateTimeString = `${depDate}${depTime}`;
           const departureMoment = moment(depDateTimeString, "YYMMDDHHmm");
           const depTimeISO = departureMoment.isValid()
-            ? departureMoment.toISOString()
+            ? formatDepTime( departureMoment)
             : null;
 
+           
           // Parse arrDate and arrTime into ISO format for arrival
           const arrDateTimeString = `${arrDate}${arrTime}`;
           const arrivalMoment = moment(arrDateTimeString, "YYMMDDHHmm");
           const arrTimeISO = arrivalMoment.isValid()
-            ? arrivalMoment.toISOString()
+            ? formatDepTime(arrivalMoment)
             : null;
 
           // console.log(depDateTimeString,departureMoment,depTimeISO,arrDateTimeString,arrivalMoment,arrTimeISO,arrDate,depDate,"deppppppppppp")
@@ -189,8 +194,8 @@ export const datasaveTodb = async ({jsonSavePnrData, sesstioResultIndex, reducer
             : 
             jsonSavePnrData?.originDestinationDetails?.itineraryInfo.map(
                 (stopss, index) => {
-                  const depTimeISO = times[index]?.depTime;
-                  const arrTimeISO = times[index]?.arrTime;
+                  const depTimeISO = formatDepTime(times[index]?.depTime);
+                  const arrTimeISO = formatDepTime(times[index]?.arrTime);
   
                   return {
                     Airline: {
