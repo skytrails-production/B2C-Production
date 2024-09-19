@@ -106,6 +106,5 @@
     "@babel/core": "^7.21.4",
     "@babel/preset-env": "^7.21.4",
     "tailwindcss": "^3.4.1"
-    
   }
 }
