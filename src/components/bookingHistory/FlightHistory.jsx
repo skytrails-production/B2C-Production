@@ -368,22 +368,23 @@ const FlightHistory = () => {
 
 
 
+ 
 
 
 
 
   return (
     <>
-      {flightBookingData.length == 0 && !loading ? (
+      {flightBookingData?.length == 0 && !loading ? (
         <>
           <div className="filteredNotFound">
-            <img src={flightFilter} alt="filter image" />
+            <img src={flightFilter} alt="filter" />
             <h1>No Booking yet</h1>
           </div>
         </>
       ) : (
         <>
-          {flightBookingData.map((item, index) => {
+          {flightBookingData?.map((item, index) => {
             const departureTime = new Date(
               item?.airlineDetails[0]?.Origin?.DepTime
             );
@@ -418,9 +419,9 @@ const FlightHistory = () => {
                         <span>
                           {
                             item?.airlineDetails[
-                              item?.airlineDetails.length - 1
+                              item?.airlineDetails?.length - 1
                             ]?.Destination?.CityName || findAirportByCode(item?.airlineDetails[
-                              item?.airlineDetails.length - 1
+                              item?.airlineDetails?.length - 1
                             ]?.Destination?.AirportCode)?.name
                           }
                         </span>
@@ -469,24 +470,24 @@ const FlightHistory = () => {
                       <span>To</span>
                       <span>
                         {dayjs(
-                          item?.airlineDetails[item?.airlineDetails.length - 1]
+                          item?.airlineDetails[item?.airlineDetails?.length - 1]
                             ?.Destination?.ArrTime
                         ).format("DD MMM, YY")}
                         {"  "}
                         {dayjs(
-                          item?.airlineDetails[item?.airlineDetails.length - 1]
+                          item?.airlineDetails[item?.airlineDetails?.length - 1]
                             ?.Destination?.ArrTime
                         ).format("hh:mm A")}
                       </span>
                       <h3>
                         {
-                          item?.airlineDetails[item?.airlineDetails.length - 1]
+                          item?.airlineDetails[item?.airlineDetails?.length - 1]
                             ?.Destination?.AirportCode
                         }
                         -
                         {
-                          item?.airlineDetails[item?.airlineDetails.length - 1]
-                            ?.Destination?.CityName || findAirportByCode(item?.airlineDetails[item?.airlineDetails.length - 1]
+                          item?.airlineDetails[item?.airlineDetails?.length - 1]
+                            ?.Destination?.CityName || findAirportByCode(item?.airlineDetails[item?.airlineDetails?.length - 1]
                               ?.Destination?.AirportCode)?.name
                         }
                       </h3>
@@ -814,7 +815,7 @@ const FlightHistory = () => {
                             cancellationCharges.data &&
                             cancellationCharges.data.Response &&
                             cancellationCharges.data.Response.CancelChargeDetails &&
-                            cancellationCharges.data.Response.CancelChargeDetails.length > 0 ? (
+                            cancellationCharges.data.Response.CancelChargeDetails?.length > 0 ? (
                             <div className="cancel-div">
                               <div className="div1">
                                 <div>

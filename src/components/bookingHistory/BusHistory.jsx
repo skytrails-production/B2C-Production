@@ -194,11 +194,11 @@ const BusHistory = () => {
         <>
 
             {
-                busBookingData.length == 0 && !loading ?
+                busBookingData?.length == 0 && !loading ?
                     (
                         <>
                             <div className="filteredNotFound">
-                                <img src={busFilter} alt="filter image" />
+                                <img src={busFilter} alt="filter" />
                                 <h1>No Booking yet</h1>
                             </div>
                         </>
@@ -207,7 +207,7 @@ const BusHistory = () => {
                     (
                         <>
                             {
-                                busBookingData.map((item, index) => {
+                                busBookingData?.map((item, index) => {
 
                                     const departureTime = new Date(item?.departureTime);
                                     const timeDifference = departureTime.getTime() - currentDate.getTime();

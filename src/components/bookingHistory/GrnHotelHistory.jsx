@@ -163,7 +163,7 @@ const GrnHotelHistory = () => {
             <>
 
                 <div className="filteredNotFound">
-                    <img src={hotelFilter} alt="filter image" />
+                    <img src={hotelFilter} alt="filter" />
                     <h1>No Booking yet</h1>
                 </div>
             </>
@@ -172,7 +172,7 @@ const GrnHotelHistory = () => {
     return (
         <>
             {
-                hotelBookingData.length == 0 && !loading ?
+                hotelBookingData?.length == 0 && !loading ?
                     (
                         <>
                             <div className="filteredNotFound">
@@ -186,7 +186,7 @@ const GrnHotelHistory = () => {
                         <>
 
                             {
-                                hotelBookingData.map((item, index) => {
+                                hotelBookingData?.map((item, index) => {
 
                                     const departureTime = new Date(item?.checkin);
                                     const timeDifference = departureTime.getTime() - currentDate.getTime();

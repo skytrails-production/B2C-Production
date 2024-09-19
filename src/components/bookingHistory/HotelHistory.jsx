@@ -163,13 +163,13 @@ const HotelHistory = () => {
 
 
 
-    if (hotelBookingData.length == 0)
+    if (hotelBookingData?.length == 0)
 
         return (
             <>
 
                 <div className="filteredNotFound">
-                    <img src={hotelFilter} alt="filter image" />
+                    <img src={hotelFilter} alt="filter" />
                     <h1>No Booking yet</h1>
                 </div>
             </>
@@ -178,11 +178,11 @@ const HotelHistory = () => {
     return (
         <>
             {
-                hotelBookingData.length == 0 && !loading ?
+                hotelBookingData?.length == 0 && !loading ?
                     (
                         <>
                             <div className="filteredNotFound">
-                                <img src={hotelFilter} alt="filter image" />
+                                <img src={hotelFilter} alt="filter" />
                                 <h1>No Booking yet</h1>
                             </div>
                         </>
