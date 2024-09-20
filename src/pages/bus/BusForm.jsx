@@ -369,6 +369,26 @@ function BusForm() {
         }
 
 
+
+
+        const BusRecentSearch = JSON.parse(localStorage.getItem("BusRecentSearch")) || {};
+
+        let storedFromData = BusRecentSearch.from || [];
+        let storedToData = BusRecentSearch.to || [];
+
+        storedFromData = storedFromData.filter(city => city.CityId !== selectedFrom.CityId);
+        storedToData = storedToData.filter(city => city.CityId !== selectedTo.CityId);
+        const updatedFromData = [selectedFrom, ...storedFromData].slice(0, 4);
+        const updatedToData = [selectedTo, ...storedToData].slice(0, 4);
+        localStorage.setItem("BusRecentSearch", JSON.stringify({
+            from: updatedFromData,
+            to: updatedToData,
+            // date: newDepartDate,
+
+        }));
+
+
+
         const payload = {
             EndUserIp: reducerState?.ip?.ipData,
             TokenId: reducerState?.ip?.tokenData,

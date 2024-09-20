@@ -59,7 +59,7 @@ const VerifyPayLater = () => {
         const payload = {
             "mobileNo": reducerState?.TNPL?.tnplUserData?.phone,
             "email": reducerState?.TNPL?.tnplUserData?.email,
-            "mobileOTP": formData.phoneOTP,
+            "mobileOTP": Number(formData.phoneOTP),
             // "emailOTP": formData.emailOTP
         }
 

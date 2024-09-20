@@ -95,6 +95,8 @@ const FromSearchInput = (props) => {
   const [inputStyle, setInputStyle] = useState({});
   const [isSearching, setIsSearching] = useState(false);
 
+  console.log(initialSelectedFromData, "initialSelectedFromData in")
+
   useEffect(() => {
     setFromData(
       initialSelectedFromData.map((item) => ({
@@ -168,8 +170,8 @@ const FromSearchInput = (props) => {
     ]
     : [];
 
-
-  console.log(selectedItems, "selectedItems selectedItems option")
+  console.log(recentSearchesOptions, "recentSearchesOptions")
+  console.log(selectedItems, "selectedItems flight option")
 
   return (
     <Select
@@ -623,7 +625,7 @@ function OnewayNew() {
   useEffect(() => {
     dispatch(searchFlightListReq());
     dispatch(searchaAirportListReq());
-  },[])
+  }, [])
 
 
 
