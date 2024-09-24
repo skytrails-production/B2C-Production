@@ -746,7 +746,7 @@ const InventoryHotelForm = () => {
   return (
     <Spin spinning={loading}>
       <div className="inventoryForm">
-        <div className="form-container">
+        <div className="form-container-inventory">
           <Title level={2} className="form-heading">
             Inventory Hotel Form
           </Title>
@@ -1223,7 +1223,6 @@ const InventoryHotelForm = () => {
 
             {currentStep === 1 && (
               <div>
-                
                 <Form.Item
                   label="Amenities"
                   name="amenities"

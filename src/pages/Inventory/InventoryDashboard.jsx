@@ -318,7 +318,7 @@ const InventoryDashboard = () => {
   };
 
   return (
-    <Layout style={{ minHeight: "100vh" }}>
+    <Layout style={{ minHeight: "100vh" }} className="inventoryDashboard">
       <Sider
         collapsible
         collapsed={collapsed}

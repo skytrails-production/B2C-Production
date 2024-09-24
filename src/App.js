@@ -6,7 +6,7 @@ import BookWrapperAmd from "./pages/flight/BookwrapperAmd";
 // import Searchresult from "./pages/flight/Searchresult";
 import Searchresult from "./pages/flight/flightResult/FlightMain";
 import "./App.css";
-import './index.scss'
+import "./index.scss";
 import LoginForm from "./components/Login";
 import DummyTicketBookingForm from "./components/DummyTicketBookingForm";
 // import SignUp from "./components/Signup";
@@ -17,7 +17,7 @@ import Payment from "./pages/flight/Payment";
 // Bus
 import Bus from "./pages/bus/Bus";
 import BusBookingConfirmation from "./pages/bus/busbookingconfirmation/BusBookingConfirmation";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Footer from "./layouts/Footer";
 import TermandCondition from "./layouts/TermandCondition";
 import PrivacyPolicy from "./layouts/PrivacyPolicy";
@@ -117,14 +117,12 @@ import PackageHomePage from "./pages/NewPackagePages/PackageHomePage";
 import Navbar from "./pages/navbar/Navbar";
 import BottomNavbar from "./pages/navbar/BottomNavbar";
 
-import Packageform from "./pages/NewPackagePages/Packageform/Packageform"
+import Packageform from "./pages/NewPackagePages/Packageform/Packageform";
 import PhoneNumber from "./components/PhoneNumber";
-import Career from "./pages/skyTrailsCarrer/Career"
+import Career from "./pages/skyTrailsCarrer/Career";
 import BusResultMain from "./pages/bus/BusResult/BusResultMain";
 import BusPassengerDetail from "./pages/bus/busPassengerDetails/BusPassengerDetails";
 import BusFinalReview from "./pages/bus/busFinalReview/BusFinalReview";
-
-
 
 function App() {
   // const location = useLocation();
@@ -187,19 +185,17 @@ function App() {
       //     link.setAttribute('href', `${href}?v=${cacheBuster}`);
       //   }
       // });
-      const scripts = document.querySelectorAll('script[src]');
-      scripts.forEach(script => {
-        const src = script.getAttribute('src');
+      const scripts = document.querySelectorAll("script[src]");
+      scripts.forEach((script) => {
+        const src = script.getAttribute("src");
         if (src) {
-          script.setAttribute('src', `${src}?v=${cacheBuster}`);
+          script.setAttribute("src", `${src}?v=${cacheBuster}`);
         }
       });
     };
 
     updateAssetURLs();
-    setCacheLoader(false)
-
-
+    setCacheLoader(false);
   }, []); // Empty dependency array ensures this runs only on initial load
 
   // const isSearchResult = location.pathname.includes("/Searchresult");
@@ -278,38 +274,42 @@ function App() {
     );
   }
 
-
   // console.log(location.pathname, "location of pathname")
   if (cacheLoader) {
     return (
-      <div style={{ width: "100%", height: "100vh", display: "flex", justifyContent: "center", alignItems: "center" }}>
-
-        <div style={{
-          border: "8px solid #f3f3f3", borderTop: "8px solid #e73c34", borderRadius: "50%",
-          width: "50px",
-          height: "50px",
-          animation: "rotate 1s linear infinite",
-          margin: "0 auto"
-        }}>
-
-        </div>
+      <div
+        style={{
+          width: "100%",
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            border: "8px solid #f3f3f3",
+            borderTop: "8px solid #e73c34",
+            borderRadius: "50%",
+            width: "50px",
+            height: "50px",
+            animation: "rotate 1s linear infinite",
+            margin: "0 auto",
+          }}
+        ></div>
       </div>
     );
   }
 
   return (
     <div className="background_gradient">
-
-
       {/* <div className="triColorBox">
         
       </div> */}
 
-
       {/* <div class="triColorBox">
         <h3>This Independence day get upto 500/- discount !</h3>
       </div> */}
-
 
       {/* {location.pathname == "/" &&
         <SmallDevice />} */}
@@ -323,7 +323,6 @@ function App() {
         location.pathname !== "/inventoryhotelform" && <Navbar />}
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
-
         location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
         // location.pathname !== "/inventoryhotelform" && <InsideNavbar />}
@@ -333,10 +332,6 @@ function App() {
         location.pathname == "/st-hotel" ||
         location.pathname == "/holidaypackages" ||
         location.pathname == "/bus" || <BottomNavbar />} */}
-
-
-
-
 
       {/* /Searchresult */}
 
@@ -354,8 +349,6 @@ function App() {
       {/* <InsideNavbar /> */}
 
       {/* <SmallDevice /> */}
-
-
 
       {/* <BottomNavbar /> */}
 
@@ -470,9 +463,7 @@ function App() {
         <Route exact path="/FlightEticket/:id" element={<FlightETicket />} />
         <Route exact path="/busEticket/:id" element={<BusETicket />} />
 
-
         {/* new package links  */}
-
 
         <Route path="holidaypackages" element={<PackageHomePage />}></Route>
 
@@ -503,7 +494,6 @@ function App() {
           element={<BusBookingConfirmation />}
         ></Route>
         <Route path="/busresult" element={<BusResultMain />}></Route>
-
 
         <Route path="termAndCondition" element={<TermandCondition />}></Route>
         <Route path="refundPolicy" element={<RefundPolicy />}></Route>
@@ -562,7 +552,23 @@ function App() {
 
       {/* inventory */}
       <Routes>
-        <Route path="/inventoryLogin" element={<Logininventory />}></Route>
+        {/* <Route path="/inventoryLogin" element={<Logininventory />}></Route> */}
+        <Route
+          path="/inventoryLogin"
+          element={
+            <div
+            style={{
+              backgroundImage: 'url("/bg.png")',  // Assuming your image is in the public folder
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              height: "100vh",  // Full screen height
+              width: "100vw"    // Optional: Full screen width
+            }}
+            >
+              <Logininventory />
+            </div>
+          }
+        />
         <Route
           path="/inventoryRegister"
           element={<Registerinventory />}
@@ -580,7 +586,6 @@ function App() {
           path="/inventoryDashboard"
           element={<InventoryDashboard />}
         ></Route>
-
 
         {/* <Route path="/inventoryDashboard" element={<InventoryDashboard /></Route>} */}
         {/* inventory */}
@@ -609,7 +614,6 @@ function App() {
       {/* complete inventory */}
 
       {/* <Whatsapp /> */}
-
 
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&

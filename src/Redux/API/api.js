@@ -472,7 +472,7 @@ function api() {
 
     return axios({
       method: "POST",
-      url: `/skyTrails/tboandgrn/searchresults`,
+      url: `/skyTrails/grnconnect/searchmultihotel`,
       baseURL: `${apiURL.baseURL}`,
       data: payload.data,
       headers: {

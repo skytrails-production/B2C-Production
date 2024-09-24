@@ -38,7 +38,9 @@ const Logininventory = () => {
       );
 
       const result = await response.json();
-      setMessage(result.responseMessage || "Incorrect login credential provided");
+      setMessage(
+        result.responseMessage || "Incorrect login credential provided"
+      );
       setMessageType(response.ok ? "success" : "error");
 
       if (response.ok) {
@@ -82,7 +84,9 @@ const Logininventory = () => {
         }
       );
       const result = await response.json();
-      setMessage(result.responseMessage || "An error occurred during password reset.");
+      setMessage(
+        result.responseMessage || "An error occurred during password reset."
+      );
       setMessageType(response.ok ? "success" : "error");
 
       if (response.ok) {
@@ -97,12 +101,17 @@ const Logininventory = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container-inventory">
       <div className="login-form-wrapper">
-        <Title level={2} className="login-heading">
+        <h3 level={2} className="login-heading-inventory">
           Inventory Login
-        </Title>
-        {loading && <Spin size="large" style={{ margin: '20px auto', display: 'block' }} />}
+        </h3>
+        {loading && (
+          <Spin
+            size="large"
+            style={{ margin: "20px auto", display: "block" }}
+          />
+        )}
         <Form
           name="basic"
           layout="vertical"
@@ -110,6 +119,7 @@ const Logininventory = () => {
           onFinish={handleSubmit}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
+          className="custom-form"
         >
           <Form.Item
             label="Email"
@@ -128,11 +138,11 @@ const Logininventory = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button 
-              type="primary" 
-              htmlType="submit" 
-              className="login-button"
-              loading={loading}  // Button loading spinner
+            <Button
+              
+              htmlType="submit"
+              className="login-button-inventory"
+              loading={loading} // Button loading spinner
               disabled={loading} // Disable button during loading
             >
               Submit
@@ -175,8 +185,8 @@ const Logininventory = () => {
             <Input value={email} onChange={(e) => setEmail(e.target.value)} />
           </Form.Item>
           <Form.Item>
-            <Button 
-              type="primary" 
+            <Button
+              type="primary"
               htmlType="submit"
               loading={loading} // Button loading spinner
               disabled={loading} // Disable button during loading

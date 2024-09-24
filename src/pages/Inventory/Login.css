@@ -1,36 +1,138 @@
 /* src/Login.css */
-.login-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* height: 100vh; */
-    background-color: #f0f2f5;
-    padding: 20px;
+.login-container-inventory {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-size: cover;
+  padding: 20px;
+  background-image: url(./bg3.jpg);
+  background-position: center;
+}
+
+.login-form-wrapper {
+  background: transparent;
+  padding: 40px;
+  border-radius: 10px;
+
+  /* Box-shadow: balanced shadow on all sides */
+
+  /* Add a nice border color */
+
+  text-align: center;
+
+  /* box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18); */
+
+  background: rgba(255, 255, 255, 0.45);
+  /* box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 ); */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* .login-heading-inventory {
+  margin-bottom: 24px;
+  font-size: 24px;
+  color: white;
+} */
+
+.ant-form-item {
+  margin-bottom: 16px;
+}
+
+.login-button-inventory-inventory {
+  width: 100%;
+  background-color: #1890ff;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease; /* Smooth transition for hover effects */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* 3D shadow effect */
+}
+
+.login-button-inventory-inventory:hover {
+  background-color: #40a9ff; /* Lighter shade on hover */
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2); /* Deepen shadow on hover */
+  transform: translateY(-3px); /* Raise the button on hover */
+}
+
+.login-button-inventory-inventory:active {
+  background-color: #096dd9; /* Darker color on click */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Reduce shadow on click */
+  transform: translateY(2px); /* Lower the button when clicked */
+}
+
+.login-button-inventory {
+  width: 100%;
+  background-color: #1890ff;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+
+  /* Adding animation for the button on load */
+  animation: popIn 0.6s ease-in-out;
+}
+
+@keyframes popIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
   }
-  
-  .login-form-wrapper {
-    background: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    /* width: 100%; */
-    /* //max-width: 400px; */
-    text-align: center;
+  100% {
+    transform: scale(1);
+    opacity: 1;
   }
-  
-  .login-heading {
-    margin-bottom: 24px;
-    font-size: 24px;
-    color: #1890ff;
+}
+
+.login-button-inventory:hover {
+  background-color: #40a9ff;
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px) scale(1.05); /* Adds a slight scaling on hover */
+}
+
+.login-button-inventory:active {
+  background-color: #096dd9;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transform: translateY(2px) scale(0.98); /* Slight shrinking when pressed */
+}
+
+/* Adding a pulsing animation when the button is in a loading state */
+.loading-button {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   }
-  
-  .ant-form-item {
-    margin-bottom: 16px;
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
   }
-  
-  .login-button {
-    width: 100%;
-    background-color: #1890ff;
-    border-color: #1890ff;
+  100% {
+    transform: scale(1);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
   }
-  
+}
+
+/* .custom-form .ant-form-item-label > label {
+  color: white;
+} */
+
+/* .register-link p>link {
+  color: #E73C34;
+} */

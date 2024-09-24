@@ -64,7 +64,7 @@ const Registerinventory = () => {
   };
 
   return (
-    <div className="login-container">
+    <div className="login-container-inventory">
       <div className="login-form-wrapper">
         <Title level={2} className="login-heading">
           Inventory Register
@@ -153,7 +153,7 @@ const Registerinventory = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-button">
+            <Button type="primary" htmlType="submit" className="login-button-inventory">
               Register
             </Button>
           </Form.Item>
