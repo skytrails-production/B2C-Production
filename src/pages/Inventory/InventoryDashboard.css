@@ -29,6 +29,7 @@
   /* //padding: 24px; */
   overflow-y: auto;
   height: calc(100vh - 64px); /* Height minus the Header */
+  background-color: #EDF2F9;
 }
 
 .site-layout {
@@ -38,4 +39,3 @@
 .upperheader {
   background-color: #080808;
 }
-

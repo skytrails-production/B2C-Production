@@ -1,0 +1,11 @@
+.image-slide {
+    padding: 0 10px; /* Space between images */
+  }
+  
+  .slider-image {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+    object-fit: cover;
+  }
+  

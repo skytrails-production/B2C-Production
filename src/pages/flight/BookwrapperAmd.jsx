@@ -737,8 +737,8 @@ export default function BookWrapper() {
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
   const isPassportRequired =
-    reducerState?.searchFlight?.flightDetails?.from?.CountryCode !== "IN " ||
-      reducerState?.searchFlight?.flightDetails?.to?.CountryCode !== "IN "
+    reducerState?.searchFlight?.flightDetails?.from?.CountryCode !== "IN" ||
+      reducerState?.searchFlight?.flightDetails?.to?.CountryCode !== "IN"
       ? true
       : false;
 

@@ -1,8 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { apiURL } from "../../Constants/constant";
-import { Table, message, Button, Modal, Upload, Select, Spin } from "antd";
+import {
+  Table,
+  message,
+  Button,
+  Modal,
+  Upload,
+  Select,
+  Spin,
+  Card,
+  Image,
+} from "antd";
+import { Row, Col, Divider } from "antd";
+import { Carousel } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import axios from "axios";
+import "./Imageslider.css";
 const { Option } = Select;
 
 const AllInventory = () => {
@@ -14,8 +27,6 @@ const AllInventory = () => {
     useState(false);
   const [selectedDescription, setSelectedDescription] = useState("");
   const [imageCounts, setImageCounts] = useState({}); // State to manage image counts
-
- 
 
   const showDescriptionModal = (description) => {
     setSelectedDescription(description);
@@ -278,139 +289,224 @@ const AllInventory = () => {
         />
       </div>
 
-      {/* Modal for viewing all details */}
-      {isModalVisible && selectedInventory && (
-        <Modal
-          title="Inventory Details"
-          visible={isModalVisible}
-          onCancel={handleCancel}
-          footer={[
-            <Button key="close" onClick={handleCancel}>
-              Close
-            </Button>,
-          ]}
-        >
-          {/* Details of selected inventory */}
-          <div>
-            <p>
-              <strong>Hotel Name:</strong> {selectedInventory.hotelName}
-            </p>
-            <p>
-              <strong>Description:</strong> {selectedInventory.description}
-            </p>
-            <p>
-              <strong>Locality:</strong> {selectedInventory.locality}
-            </p>
-            <p>
-              <strong>Hotel City:</strong> {selectedInventory.hotelCity}
-            </p>
-            <p>
-              <strong>Hotel Country:</strong> {selectedInventory.hotelCountry}
-            </p>
-            <p>
-              <strong>Hotel State:</strong> {selectedInventory.hotelState}
-            </p>
-            <p>
-              <strong>Rating:</strong> {selectedInventory.rating}
-            </p>
-            <p>
-              <strong>City Code:</strong> {selectedInventory.cityCode}
-            </p>
-            <p>
-              <strong>Hotel Address:</strong> {selectedInventory.hotelAddress}
-            </p>
-            <p>
-              <strong>Hotel Code:</strong> {selectedInventory.hotelCode}
-            </p>
-            <p>
-              <strong>Start Date:</strong> {selectedInventory.startFrom}
-            </p>
-            <p>
-              <strong>End Date:</strong> {selectedInventory.availableDate}
-            </p>
-            <p>
-              <strong>Total Rooms:</strong> {selectedInventory.totalRooms}
-            </p>
-            <p>
-              <strong>Available Rooms:</strong>{" "}
-              {selectedInventory.availableRooms}
-            </p>
-            <p>
-              <strong>Location:</strong>{" "}
-              {selectedInventory.location.coordinates.join(", ")}
-            </p>
-            <div>
-              <strong>Hotel Images:</strong>
-              <div
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "10px",
-                  marginTop: "10px",
-                }}
-              >
-                {selectedInventory.hotelImages.map((image, index) => (
-                  <img
-                    key={index}
-                    src={image}
-                    alt={`Hotel Image ${index + 1}`}
-                    style={{
-                      width: "100px",
-                      height: "auto",
-                      borderRadius: "5px",
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-            <div>
-              {/* Other room details */}
-              {selectedInventory.rooms.map((room, roomIndex) => (
-                <div key={roomIndex}>
-                  {/* Display Room Images */}
-                  {selectedInventory.rooms.map((room, roomIndex) => (
-                    <div key={roomIndex}>
-                      <p>
-                        <strong>Room Type:</strong> {room.room_type}
-                      </p>
-                      <p>
-                        <strong>Room Description:</strong> {room.description}
-                      </p>
-                      <p>
-                        <strong>Total Rooms:</strong> {room.totalRooms}
-                      </p>
-                      <p>
-                        <strong>Available Rooms:</strong> {room.availableRooms}
-                      </p>
+      <div>
+        {/* Existing table code */}
 
-                      {/* Displaying Room Images */}
-                      <div>
-                        <strong>Room Images:</strong>
-                        {room.roomsImages.map((image, index) => (
-                          <img
-                            key={index}
+        {isModalVisible && selectedInventory && (
+          <Modal
+            visible={isModalVisible}
+            onCancel={handleCancel}
+            footer={[
+              <Button key="close" onClick={handleCancel}>
+                Close
+              </Button>,
+            ]}
+            width={800} // Set a custom width for a better layout
+          >
+            {/* Centered Hotel Name */}
+            <Row justify="center" style={{ marginBottom: "16px" }}>
+              <Col>
+                <p
+                  style={{
+                    textAlign: "center",
+                    fontSize: "18px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  {selectedInventory.hotelName}
+                </p>
+              </Col>
+            </Row>
+            <Row gutter={[16, 16]} style={{ marginBottom: "10px" }}>
+              <Col span={24}>
+                <p>{selectedInventory.description}</p>
+              </Col>
+            </Row>
+
+            <Row gutter={[16, 16]}>
+              <Col span={8}>
+                <p>
+                  <strong>Hotel Name:</strong> {selectedInventory.hotelName}
+                </p>
+                <p>
+                  <strong>Country:</strong> {selectedInventory.hotelCountry}
+                </p>
+              </Col>
+              <Col span={8}>
+                <p>
+                  <strong>Locality:</strong> {selectedInventory.locality}
+                </p>
+                <p>
+                  <strong>State:</strong> {selectedInventory.hotelState}
+                </p>
+              </Col>
+              <Col span={8}>
+                <p>
+                  <strong>City:</strong> {selectedInventory.hotelCity}
+                </p>
+                <p>
+                  <strong>Rating:</strong> {selectedInventory.rating}
+                </p>
+              </Col>
+            </Row>
+
+            <Row gutter={[16, 16]}>
+              <Col span={12}>
+                <p>
+                  <strong>Start Date:</strong> {selectedInventory.startFrom}
+                </p>
+              </Col>
+              <Col span={12}>
+                <p>
+                  <strong>Available Date:</strong>{" "}
+                  {selectedInventory.availableDate}
+                </p>
+              </Col>
+            </Row>
+
+            {/* Address Section */}
+            <Divider orientation="left">Address & Contact</Divider>
+            <Row gutter={[16, 16]}>
+              <Col span={8}>
+                <p>
+                  <strong>Address:</strong> {selectedInventory.hotelAddress}
+                </p>
+              </Col>
+              <Col span={8}>
+                <p>
+                  <strong>Hotel Code:</strong> {selectedInventory.hotelCode}
+                </p>
+              </Col>
+              <Col span={8}>
+                <p>
+                  <strong>City Code:</strong> {selectedInventory.cityCode}
+                </p>
+              </Col>
+            </Row>
+
+            {/* Room Details Section */}
+
+            <Divider orientation="left">Room Details</Divider>
+            {selectedInventory.rooms.map((room, index) => (
+              <Card
+                key={index}
+                style={{ marginBottom: "20px" }}
+                bordered={true}
+              >
+                <Row gutter={[16, 16]} style={{ marginBottom: "16px" }}>
+                  <Col span={24}>
+                    <Row gutter={[16, 16]}>
+                      <Col span={8}>
+                        <p>
+                          <strong>Room Type:</strong> {room.room_type}
+                        </p>
+                      </Col>
+                      <Col span={8}>
+                        <p>
+                          <strong>Total Rooms:</strong> {room.totalRooms}
+                        </p>
+                      </Col>
+                      <Col span={8}>
+                        <p>
+                          <strong>Available Rooms:</strong>{" "}
+                          {room.availableRooms}
+                        </p>
+                      </Col>
+                    </Row>
+                  </Col>
+
+                  {/* Description in a separate row */}
+                  <Col span={24}>
+                    <p>
+                      <strong>Description:</strong> {room.description}
+                    </p>
+                  </Col>
+                </Row>
+
+                {/* Room Images */}
+                <Divider orientation="left" style={{ marginTop: "16px" }}>
+                  Room Images
+                </Divider>
+                <Row gutter={[16, 16]}>
+                  <Col span={24}>
+                    <Image.PreviewGroup>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexWrap: "wrap",
+                          gap: "10px",
+                          justifyContent: "start",
+                        }}
+                      >
+                        {room.roomsImages.map((image, imgIndex) => (
+                          <Image
+                            key={imgIndex}
                             src={image}
-                            alt={`Room Image ${index + 1}`}
+                            alt={`Room Image ${imgIndex + 1}`}
                             style={{
-                              width: "100px",
-                              height: "100px",
-                              margin: "5px",
+                              width: "120px",
+                              height: "120px",
+                              objectFit: "cover",
+                              borderRadius: "8px",
+                              boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
                             }}
                           />
                         ))}
                       </div>
+                    </Image.PreviewGroup>
+                  </Col>
+                </Row>
+              </Card>
+            ))}
 
-                      {/* Additional details can be added here */}
+            {/* Hotel Images Section */}
+            <Divider orientation="left">Hotel Images</Divider>
+            <Row gutter={[16, 16]}>
+              <Col span={24}>
+                <Carousel
+                  autoplay
+                  dots
+                  slidesToShow={3} // Display 3 images at a time
+                  slidesToScroll={1} // Scroll 1 image at a time
+                  responsive={[
+                    {
+                      breakpoint: 768, // For smaller screens (like mobile)
+                      settings: {
+                        slidesToShow: 1,
+                        slidesToScroll: 1,
+                      },
+                    },
+                    {
+                      breakpoint: 1024, // For tablets or medium screens
+                      settings: {
+                        slidesToShow: 2,
+                        slidesToScroll: 1,
+                      },
+                    },
+                  ]}
+                >
+                  {selectedInventory.hotelImages.map((image, index) => (
+                    <div key={index} className="image-slide">
+                      <img
+                        className="slider-image"
+                        src={image}
+                        alt={`Hotel Image ${index + 1}`}
+                        style={{
+                          width: "100%",
+                          height: "auto",
+                          borderRadius: "5px",
+                          objectFit: "cover",
+                        }}
+                      />
                     </div>
                   ))}
-                </div>
-              ))}
-            </div>
-          </div>
-        </Modal>
-      )}
+                </Carousel>
+              </Col>
+            </Row>
+          </Modal>
+        )}
+      </div>
 
-      {/* Modal for displaying the full description */}
       <Modal
         title="Description"
         visible={isDescriptionModalVisible}
