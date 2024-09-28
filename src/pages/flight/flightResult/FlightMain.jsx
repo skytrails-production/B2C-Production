@@ -307,7 +307,7 @@ const FlightMain = () => {
             </div>
 
             <div className="col-lg-12 visibleSmall stikcyHotelFilter">
-              {loaderFilter ? (
+              {loaderFilter || (!filteredFlights) ? (
                 <SmallSkeleton />
               ) : (
                 <FlightSmallFilter
@@ -320,7 +320,7 @@ const FlightMain = () => {
               )}
             </div>
             <div className="col-lg-9">
-              {loader ? (
+              {loader || (!filteredFlights) ? (
                 <FlightSleletonBigRight />
               ) : (
                 <FlightResult
