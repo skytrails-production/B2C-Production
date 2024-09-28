@@ -105,7 +105,7 @@ const PayLaterUsereCredential = () => {
             pincode: formData.pincode,
             dob: dayjs(newDepartDate).format("YYYY-MM-DD"),
             gender: formData.gender,
-            partnerCallbackUrl: "https://jzcckdnf-3000.inc1.devtunnels.ms/mihurupaymentsuccess"
+            partnerCallbackUrl: "https://theskytrails.com/mihurupaymentsuccess"
 
         }
 
