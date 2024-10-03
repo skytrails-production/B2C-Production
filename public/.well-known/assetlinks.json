@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.skytrails",
+      "sha256_cert_fingerprints": [
+        "56:2D:EF:4D:FE:24:56:A3:B6:03:13:64:5A:0B:2C:B9:F0:20:7A:DC:8D:8B:1D:13:CB:5E:1F:ED:5B:62:8D:20"
+      ]
+    }
+  }
+]
