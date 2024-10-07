@@ -5,7 +5,10 @@
       "namespace": "android_app",
       "package_name": "com.skytrails",
       "sha256_cert_fingerprints": [
-        "56:2D:EF:4D:FE:24:56:A3:B6:03:13:64:5A:0B:2C:B9:F0:20:7A:DC:8D:8B:1D:13:CB:5E:1F:ED:5B:62:8D:20"
+        "56:2D:EF:4D:FE:24:56:A3:B6:03:13:64:5A:0B:2C:B9:F0:20:7A:DC:8D:8B:1D:13:CB:5E:1F:ED:5B:62:8D:20",
+        "FA:C6:17:45:DC:09:03:78:6F:B9:ED:E6:2A:96:2B:39:9F:73:48:F0:BB:6F:89:9B:83:32:66:75:91:03:3B:9C",
+        "77:5D:09:5F:4F:00:6A:8C:BA:49:9F:EC:29:02:FD:CA:1D:2F:98:1B:39:8F:3E:B1:45:09:1C:F7:E0:5F:64:CA",
+        "96:39:95:04:DD:B3:16:0C:C1:E0:0D:12:0C:C8:06:8F:8C:E3:15:9C:7D:11:1F:6E:9A:07:62:9C:C9:C1:26:D1"
       ]
     }
   }
