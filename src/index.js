@@ -99,8 +99,8 @@ root.render(
   </script>
         </Helmet>
         <BrowserRouter>
-          {/* <App /> */}
-          <Maintenance />
+          <App />
+          {/* <Maintenance /> */}
         </BrowserRouter>
       </HelmetProvider>
     </PersistGate>
