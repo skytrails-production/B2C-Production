@@ -3,6 +3,7 @@ import { Fragment, useState } from "react";
 import Avatar from "./Avatar";
 import Authentic from "../../../pages/Auth/Authentic";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 export default function AvatarDropdown({ className = "" }) {
   const reducerState = useSelector((state) => state);
@@ -88,8 +89,8 @@ export default function AvatarDropdown({ className = "" }) {
                     <div className="w-full border-b border-neutral-200" />
 
                     {/* Option 1 */}
-                    <a
-                      href="#"
+                    <Link
+                      to="/bookinghistory"
                       className="flex text-gray-900 no-underline items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100  focus:outline-none"
                       onClick={() => close()}
                     >
@@ -120,10 +121,11 @@ export default function AvatarDropdown({ className = "" }) {
                       <div className="ml-4">
                         <p className="text-sm font-medium ">My Account</p>
                       </div>
-                    </a>
+                    </Link>
 
                     {/* Option 2 */}
-                    <a
+                    <Link
+                      to="/bookinghistory"
                       href="#"
                       className="flex text-gray-900 no-underline items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 focus:outline-none"
                       onClick={() => close()}
@@ -172,13 +174,13 @@ export default function AvatarDropdown({ className = "" }) {
                       <div className="ml-4">
                         <p className="text-sm font-medium ">My bookings</p>
                       </div>
-                    </a>
+                    </Link>
 
                     <div className="w-full border-b border-neutral-200" />
 
                     {/* Option 3 */}
-                    <a
-                      href="/#"
+                    <Link
+                      to="/contactus"
                       className="flex text-gray-900 no-underline items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 focus:outline-none"
                       onClick={() => close()}
                     >
@@ -237,11 +239,10 @@ export default function AvatarDropdown({ className = "" }) {
                       <div className="ml-4">
                         <p className="text-sm font-medium ">Help</p>
                       </div>
-                    </a>
+                    </Link>
 
                     {/* Option 4 */}
-                    <a
-                      href="/#"
+                    <div
                       className="flex text-gray-900 no-underline items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 focus:outline-none"
                       onClick={() => close()}
                     >
@@ -279,7 +280,7 @@ export default function AvatarDropdown({ className = "" }) {
                       <div className="ml-4" onClick={showLogoutModal}>
                         <p className="text-sm font-medium ">Log out</p>
                       </div>
-                    </a>
+                    </div>
                   </div>
                 </div>
               </Popover.Panel>
