@@ -2,38 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LazyLoad from "react-lazyload";
 
-const LazyImage = ({ src, alt, title, backgroundColor }) => {
-  return (
-    <LazyLoad
-      height={50}
-      width={50}
-      offset={100}
-      placeholder={
-        <div
-          className="rounded-full object-cover w-[50px] h-[50px] flex items-center justify-center text-white font-semibold uppercase"
-          style={{ backgroundColor: backgroundColor || "red" }}
-        >
-          <p>{title}</p>
-        </div>
-      }
-    >
-      {src ? (
-        <img
-          src={src}
-          alt={alt}
-          className="rounded-full object-cover w-[50px] h-[50px]"
-        />
-      ) : (
-        <div
-          className="rounded-full object-cover w-[50px] h-[50px] flex items-center justify-center text-white font-semibold uppercase"
-          style={{ backgroundColor: backgroundColor || "red" }}
-        >
-          <p>{title}</p>
-        </div>
-      )}
-    </LazyLoad>
-  );
-};
 // import { PiAirplaneInFlight } from "react-icons/pi";
 // import { LiaHotelSolid } from "react-icons/lia";
 // import { IoBusOutline } from "react-icons/io5";
@@ -98,6 +66,11 @@ const CardOne = ({ className = "", data }) => {
 };
 const CardOne1 = ({ item, icon, index }) => {
   // console.log(item, icon, "itemmmm");
+  const [hasError, setHasError] = useState(false);
+
+  const handleImageError = () => {
+    setHasError(true);
+  };
   const generateRandomColor = () => {
     let color;
     let brightness; // Define brightness here
@@ -121,6 +94,39 @@ const CardOne1 = ({ item, icon, index }) => {
     "https://raw.githubusercontent.com/The-SkyTrails/Images/refs/heads/main/icons/passportIcon.png",
     "https://raw.githubusercontent.com/The-SkyTrails/Images/refs/heads/main/icons/airplaneIcon.png",
   ];
+  const LazyImage = ({ src, alt, title, backgroundColor }) => {
+    return (
+      <LazyLoad
+        height={50}
+        width={50}
+        offset={100}
+        placeholder={
+          <div
+            className="rounded-full object-cover w-[50px] h-[50px] flex items-center justify-center text-white font-semibold uppercase"
+            style={{ backgroundColor: backgroundColor || "red" }}
+          >
+            <p>{title}</p>
+          </div>
+        }
+      >
+        {src ? (
+          <img
+            src={src}
+            alt={alt}
+            className="rounded-full object-cover w-[50px] h-[50px]"
+            onError={handleImageError}
+          />
+        ) : (
+          <div
+            className="rounded-full object-cover w-[50px] h-[50px] flex items-center justify-center text-white font-semibold uppercase"
+            style={{ backgroundColor: backgroundColor || "red" }}
+          >
+            <p>{title}</p>
+          </div>
+        )}
+      </LazyLoad>
+    );
+  };
   return (
     <div class="swiper-slide group bg-white border border-solid h-auto border-gray-300 rounded-2xl p-6 transition-all duration-500 w-full hover:border-indigo-600 slide-active:border-indigo-600 min-w-[300px]">
       <div class="flex items-center mb-2 gap-2 text-amber-500 transition-all duration-500  group-hover:text-indigo-600 swiper-slide-active:text-indigo-600 h-auto">
@@ -149,7 +155,7 @@ const CardOne1 = ({ item, icon, index }) => {
         </p>
       </div>
       <div class="flex items-center gap-2">
-        {item?.userId?.profilePic ? (
+        {item?.userId?.profilePic && !hasError ? (
           <LazyImage
             src={item?.userId?.profilePic}
             // src={images?.[index]}
