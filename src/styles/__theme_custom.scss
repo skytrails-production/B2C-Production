@@ -1,7 +1,3 @@
-@import 'path/to/tailwindcss/base';
-@import 'path/to/tailwindcss/components';
-@import 'path/to/tailwindcss/utilities';
-
 .root {
   overflow: hidden;
 }
@@ -42,7 +38,6 @@
 }
 
 //
-@layer components {
 .nc-card-title {
   @apply transition-colors  hover:text-primary-900 duration-75;
 }
