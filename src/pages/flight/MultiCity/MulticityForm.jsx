@@ -9,7 +9,7 @@ import "react-date-range/dist/theme/default.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import "react-datepicker/dist/react-datepicker.css";
+
 import axios from "axios";
 import TravelerCounter from "../../../components/TravelerCounter";
 import { clearbookTicketGDS } from "../../../Redux/FlightBook/actionFlightBook";

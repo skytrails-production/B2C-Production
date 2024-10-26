@@ -1,3 +1,4 @@
+import { findCheapestFlights } from "../../utility/Duplicateremoveflight";
 import * as types from "./oneWayActionType";
 
 const initState = {
@@ -51,9 +52,30 @@ export const oneWayReducer = (state = initState, action) => {
         showSuccessMessage: true,
       };
     case types.ONE_WAY_SUCCESS_COMBINED:
+      // console.log(payload, "payload")
+      const kafilatvoresponse = payload.data.result;
+      const sortedFinalResult = payload.data.result.sortedFinalRes;
+      const amdresukt = [...state.oneWayData.data.result];
+      // console.log(amdresukt, "amd", sortedFinalResult, "sortedFinalResult");
+
+      const removeduplicate = findCheapestFlights(amdresukt, sortedFinalResult);
+
+      // console.log(removeduplicate, "removeduplicateremoveduplicateremoveduplicateremoveduplicateremoveduplicate")
+
+      const newResult = [...sortedFinalResult, ...amdresukt];
+      // console.log(newResult, "newresukt", removeduplicate.length, sortedFinalResult?.length, amdresukt?.length);
+      const oneWayData = {
+        ...state.oneWayData,
+        data: {
+          ...state.oneWayData.data,
+          result: removeduplicate,
+        },
+      };
       return {
         ...state,
-        oneWayData: payload,
+        // oneWayData: [...oneWayData],
+        oneWayData,
+        kafilatvoresponse,
         isLoadingFilter: false,
         isErrorCombine: false,
         showSuccessMessage: true,

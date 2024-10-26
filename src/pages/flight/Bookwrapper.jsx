@@ -154,7 +154,7 @@ export default function BookWrapper() {
   const { ResultIndex } = location.state;
   const sesstioResultIndex = ResultIndex;
 
-
+// console.log(sesstioResultIndex,"sesstioResultIndex");
   // const [finalAmount, setFinalAmount] = useState(0);
 
   // const handleFinalAmountChange = (amount) => {
@@ -404,6 +404,7 @@ export default function BookWrapper() {
   };
 
   const TicketDetails = reducerState?.flightFare?.flightQuoteData?.Results;
+  // console.log(reducerState?.flightFare?.flightQuoteData,"hjbhjbjhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
   const cancellationPolicy =
     reducerState?.flightFare?.flightQuoteData?.Results?.MiniFareRules?.[0];
   const detailsOfCancel = cancellationPolicy?.filter(
@@ -423,10 +424,15 @@ export default function BookWrapper() {
   // console.log("fareRule",fareRule?.[0]?.FareRuleDetail);
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
 
+
+// console.log(reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId
+//   ,"reducerState?.oneWay?.oneWayData")
+
+
   const payload = {
     EndUserIp: reducerState?.ip?.ipData,
     TokenId: reducerState?.ip?.tokenData,
-    TraceId: reducerState?.oneWay?.oneWayData?.data?.tvoTraceId,
+    TraceId: reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId,
     ResultIndex: ResultIndex?.ResultIndex,
   };
 
@@ -439,13 +445,16 @@ export default function BookWrapper() {
   useEffect(() => {
     dispatch(resetFareData());
   }, [dispatch]);
+
+  // console.log(fareRule);
+
   useEffect(() => {
     const ssr = async () => {
       try {
         const payload = {
           EndUserIp: reducerState?.ip?.ipData,
           TokenId: reducerState?.ip?.tokenData,
-          TraceId: reducerState?.oneWay?.oneWayData?.data?.tvoTraceId,
+          TraceId: reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId,
           ResultIndex: ResultIndex?.ResultIndex,
         };
         const res = await axios({
@@ -1112,64 +1121,82 @@ export default function BookWrapper() {
     easebuzzCheckout.initiatePayment(options);
   };
 
+  console.log(mellData,"mellDatamellDatamellDatamellData");
+
   const handleButtonClick = () => {
     const allSeats = Object.values(seatList).flat();
     passengerData[0] = { ...passengerData[0], SeatDynamic: allSeats }
     const payloadGDS = {
       ResultIndex: ResultIndex?.ResultIndex,
-      Passengers: passengerData.map((item, index) => {
-        if (index < baggageData.length && index < mellData.length) {
-          return {
-            ...item,
-            Email: apiURL.flightEmail,
-            // ContactNo: apiURL.phoneNo,
-            ContactNo: passengerData[0]?.ContactNo,
-            PassportExpiry: isPassportRequired
-              ? convertDateFormat(item?.PassportExpiry)
-              : "",
-            Baggage: [baggageData[index]],
-            MealDynamic: mellData[index],
-            // SeatDynamic:  allSeats
+      // Passengers: passengerData.map((item, index) => {
+      //   if (index < baggageData.length && index < mellData.length) {
+      //     return {
+      //       ...item,
+      //       Email: apiURL.flightEmail,
+      //       // ContactNo: apiURL.phoneNo,
+      //       ContactNo: passengerData[0]?.ContactNo,
+      //       PassportExpiry: isPassportRequired
+      //         ? convertDateFormat(item?.PassportExpiry)
+      //         : "",
+      //       Baggage: [baggageData[index]],
+      //       MealDynamic: mellData[index],
+      //       // SeatDynamic:  allSeats
+      //     };
+      //   } else if (index < baggageData.length) {
+      //     return {
+      //       ...item,
+      //       Email: apiURL.flightEmail,
+      //       // ContactNo: apiURL.phoneNo,
+      //       ContactNo: passengerData[0]?.ContactNo,
+      //       PassportExpiry: isPassportRequired
+      //         ? convertDateFormat(item?.PassportExpiry)
+      //         : "",
+      //       Baggage: [baggageData[index]],
+      //       // SeatDynamic:  allSeats
+      //     };
+      //   } else if (index < mellData.length) {
+      //     return {
+      //       ...item,
+      //       Email: apiURL.flightEmail,
+      //       // ContactNo: apiURL.phoneNo,
+      //       ContactNo: passengerData[0]?.ContactNo,
+      //       PassportExpiry: isPassportRequired
+      //         ? convertDateFormat(item?.PassportExpiry)
+      //         : "",
+      //       MealDynamic: mellData[index],
+      //       // SeatDynamic:  allSeats
+      //     };
+      //   } else {
+      //     return {
+      //       ...item,
+      //       Email: apiURL.flightEmail,
+      //       // ContactNo: apiURL.phoneNo,
+      //       ContactNo: passengerData[0]?.ContactNo,
+      //       PassportExpiry: isPassportRequired
+      //         ? convertDateFormat(item?.PassportExpiry)
+      //         : "",
+      //     };
+      //   }
+      // }),
+      Passengers: passengerData?.map((item, index) => {
+   
+        return {
+          ...item,
+          Email: apiURL.flightEmail,
+          
+          ContactNo: passengerData[0]?.ContactNo,
+          PassportExpiry: isPassportRequired
+            ? convertDateFormat(item?.PassportExpiry)
+            : "",
+            Baggage: baggageData?.[index] == undefined ? [] : [baggageData?.[index]] ,
+            MealDynamic: mellData?.flat()?.[index] == undefined ? [] : [mellData?.flat()?.[index]],
+            SeatDynamic: seatList?.[0]?.flat()?.[index] == undefined ? [] : [seatList?.[0]?.flat()?.[index]],
           };
-        } else if (index < baggageData.length) {
-          return {
-            ...item,
-            Email: apiURL.flightEmail,
-            // ContactNo: apiURL.phoneNo,
-            ContactNo: passengerData[0]?.ContactNo,
-            PassportExpiry: isPassportRequired
-              ? convertDateFormat(item?.PassportExpiry)
-              : "",
-            Baggage: [baggageData[index]],
-            // SeatDynamic:  allSeats
-          };
-        } else if (index < mellData.length) {
-          return {
-            ...item,
-            Email: apiURL.flightEmail,
-            // ContactNo: apiURL.phoneNo,
-            ContactNo: passengerData[0]?.ContactNo,
-            PassportExpiry: isPassportRequired
-              ? convertDateFormat(item?.PassportExpiry)
-              : "",
-            MealDynamic: mellData[index],
-            // SeatDynamic:  allSeats
-          };
-        } else {
-          return {
-            ...item,
-            Email: apiURL.flightEmail,
-            // ContactNo: apiURL.phoneNo,
-            ContactNo: passengerData[0]?.ContactNo,
-            PassportExpiry: isPassportRequired
-              ? convertDateFormat(item?.PassportExpiry)
-              : "",
-          };
-        }
-      }),
+    }),
+     
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
-      TraceId: reducerState?.oneWay?.oneWayData?.data?.tvoTraceId,
+      TraceId: reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId,
     };
 
     if (fareValue?.IsLCC == false) {
@@ -1234,8 +1261,8 @@ export default function BookWrapper() {
       TokenId: reducerState?.ip?.tokenData,
 
       TraceId:
-        reducerState?.oneWay?.oneWayData?.data?.tvoTraceId ||
-        reducerState?.return?.returnData?.data?.data?.tvoTraceId,
+      reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId ||
+      reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId,
       Passengers: passengerData?.map((item, index) => {
    
           return {
@@ -1250,40 +1277,6 @@ export default function BookWrapper() {
               MealDynamic: mellData?.flat()?.[index] == undefined ? [] : [mellData?.flat()?.[index]],
               SeatDynamic: seatList?.[0]?.flat()?.[index] == undefined ? [] : [seatList?.[0]?.flat()?.[index]],
             };
-      
-          
-        // else if (index < baggageData.length) {
-        //   return {
-        //     ...item,
-        //     Email: apiURL.flightEmail,
-        //     ContactNo: passengerData[0]?.ContactNo,
-        //     PassportExpiry: isPassportRequired
-        //       ? convertDateFormat(item?.PassportExpiry)
-        //       : "",
-        //     Baggage: [baggageData[index]],
-        //   };
-        // } else if (index < mellData.length) {
-        //   return {
-        //     ...item,
-        //     Email: apiURL.flightEmail,
-        //     ContactNo: passengerData[0]?.ContactNo,
-        //     PassportExpiry: isPassportRequired
-        //       ? convertDateFormat(item?.PassportExpiry)
-        //       : "",
-        //     MealDynamic: mellData[index],
-
-        
-        //   };
-        // } else {
-        //   return {
-        //     ...item,
-        //     Email: apiURL.flightEmail,
-        //     ContactNo: passengerData[0]?.ContactNo,
-        //     PassportExpiry: isPassportRequired
-        //       ? convertDateFormat(item?.PassportExpiry)
-        //       : "",
-        //   };
-        // }
       }),
 
     };
@@ -1299,7 +1292,7 @@ export default function BookWrapper() {
     const payLoadDomestic = {
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
-      TraceId: reducerState?.oneWay?.oneWayData?.data?.tvoTraceId,
+      TraceId: reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId,
       PNR: reducerState?.flightBook?.flightBookDataGDS?.Response?.PNR,
       BookingId:
         reducerState?.flightBook?.flightBookDataGDS?.Response?.BookingId,
@@ -1307,63 +1300,26 @@ export default function BookWrapper() {
     const payLoadInternational = {
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
-      TraceId: reducerState?.oneWay?.oneWayData?.data?.tvoTraceId,
+      TraceId:reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId,
       PNR: reducerState?.flightBook?.flightBookDataGDS?.Response?.PNR,
       BookingId:
         reducerState?.flightBook?.flightBookDataGDS?.Response?.BookingId,
-      Passengers: passengerData.map((item, index) => {
-        if (index < baggageData.length && index < mellData.length) {
+     Passengers: passengerData?.map((item, index) => {
+   
           return {
             ...item,
             Email: apiURL.flightEmail,
-            // ContactNo: apiURL.phoneNo,
+            
             ContactNo: passengerData[0]?.ContactNo,
             PassportExpiry: isPassportRequired
               ? convertDateFormat(item?.PassportExpiry)
               : "",
-            Baggage: [baggageData[index]],
-            MealDynamic: mellData[index],
-            // SeatDynamic:  allSeats
-          };
-        } else if (index < baggageData.length) {
-          return {
-            ...item,
-            Email: apiURL.flightEmail,
-            // ContactNo: apiURL.phoneNo,
-            ContactNo: passengerData[0]?.ContactNo,
-            PassportExpiry: isPassportRequired
-              ? convertDateFormat(item?.PassportExpiry)
-              : "",
-            Baggage: [baggageData[index]],
-            // SeatDynamic:  allSeats
-          };
-        } else if (index < mellData.length) {
-          return {
-            ...item,
-            Email: apiURL.flightEmail,
-            // ContactNo: apiURL.phoneNo,
-            ContactNo: passengerData[0]?.ContactNo,
-            PassportExpiry: isPassportRequired
-              ? convertDateFormat(item?.PassportExpiry)
-              : "",
-            MealDynamic: mellData[index],
-            // SeatDynamic:  allSeats
-          };
-        } else {
-          return {
-            ...item,
-            Email: apiURL.flightEmail,
-            SeatDynamic: allSeats,
-            // ContactNo: apiURL.phoneNo,
-            ContactNo: passengerData[0]?.ContactNo,
-            PassportExpiry: isPassportRequired
-              ? convertDateFormat(item?.PassportExpiry)
-              : "",
-          };
-        }
+              Baggage: baggageData?.[index] == undefined ? [] : [baggageData?.[index]] ,
+              MealDynamic: mellData?.flat()?.[index] == undefined ? [] : [mellData?.flat()?.[index]],
+              SeatDynamic: seatList?.[0]?.flat()?.[index] == undefined ? [] : [seatList?.[0]?.flat()?.[index]],
+            };
       }),
     };
-    // console.warn(payLoadInternational, "payload international")
     if (isPassportRequired) {
       dispatch(bookTicketGDS(payLoadInternational));
     } else {
@@ -2184,7 +2140,7 @@ const convertedTime = convertMinutes(item?.Duration);
                                   </div> */}
                                 {/* </div> */}
                                 <hr style={{opacity:"0.3"}}/>
-                                <p style={{fontSize:"15px",color:"var(--black4)",fontWeight:500,fontFamily:"Montserrat",padding:"5px"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i>  Baggage (ADULT) check-in <span>{item?.Baggage?.match(/\d+/)?.[0]}KG</span>  cabin {item?.CabinBaggage?.match(/\d+/)[0]}KG</p>
+                                <p style={{fontSize:"15px",color:"var(--black4)",fontWeight:500,fontFamily:"Montserrat",padding:"5px"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i>  Baggage (ADULT) check-in <span>{item?.Baggage?.match(/\d+/)?.[0]}KG</span>  cabin {item?.CabinBaggage?.match(/\d+/)?.[0]}KG</p>
                                 </div>
                                 
    {/* <div className="flightLayoverOuter">
@@ -3341,17 +3297,6 @@ const convertedTime = convertMinutes(item?.Duration);
 
                     <motion.div ref={dropdownRef} variants={variants} className="col-lg-12 mt-3">
                       <div>
-
-                          {/* <div
-                            style={{
-                              display: "flex",
-                              gap: "15px",
-                              justifyContent:"end",
-                              alignItems: "center",
-                              fontSize: "12px",
-                              fontWeight: "300",
-                            }}
-                          > */}
                           <div className="col-lg-12 mt-3">
                           <div className="bookflightPassenger "> {showADDMELL && (
                               <button
@@ -3968,9 +3913,7 @@ if (bag?.AirlineDescription) {
                           </div>
                         </div>
                       );
-                      // } else {
-                      //   return <div>hiii{bag?.Price}</div>
-                      // }
+                     
                     }
                   )
                 ) : (

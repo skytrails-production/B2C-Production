@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { SearchOutlined } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import "react-datepicker/dist/react-datepicker.css";
+
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";

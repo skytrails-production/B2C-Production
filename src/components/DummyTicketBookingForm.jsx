@@ -16,7 +16,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import TravelerCounter from "./TravelerCounter";

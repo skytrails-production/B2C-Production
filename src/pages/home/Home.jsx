@@ -9,19 +9,28 @@ import Partners from "./Partners";
 import MulticityForm from "../flight/MultiCity/MulticityForm";
 import Blog from "./Blog";
 import ReturnFormNew from "../flight/ReturnFlight/ReturnFornNew";
-import homeBG from "../../images/homeBG.jpg"
+import homeBG from "../../images/homeBG.jpg";
 import OnewayNew from "../../components/OnewayNew";
 import NewHolidayCategory from "../NewPackagePages/holidayCategory/NewHolidayCategory";
 import NewHolidayTrending from "../NewPackagePages/holidayTrending/NewHolidayTrending";
 import HolidayTopCountries from "../NewPackagePages/holidayCountries/HolidayTopCountries";
-import "./home.css"
+import "./home.css";
 import Img from "../../LazyLoading/Img";
-
-
+import FlightSearchForm from "../../components/TailwindSearchComp/heroSection/flightSearchForm/FlightSearchForm";
+import OfferMain from "../../components/TailwindSearchComp/offerPage/OfferMain";
+import FlightSuggestion from "../../components/TailwindSearchComp/flightSuggestion/FlightSuggestion";
+import TrendingPackageHome from "../../components/TailwindSearchComp/trendingPackage/TrendingPackageHome";
+import Testimonials from "../../components/TailwindSearchComp/testimonials/Testimonials";
+import RecentSearches from "../../components/TailwindSearchComp/heroSection/flightSearchForm/FlightRecentSearch";
+import diwali from "../../images/diwali.png";
+import Faq from "../../components/TailwindSearchComp/Faq";
+import FooterNavigation from "../../components/footerNavigate/FooterNavigation";
+import { useDispatch } from "react-redux";
+import { clearHotelAll } from "../../Redux/HotelGRN/hotel";
 
 const Home = () => {
-
   const [activeTab, setActiveTab] = useState("oneway");
+  const dispatch = useDispatch();
 
   const handleTabChange = (event) => {
     setActiveTab(event.target.value);
@@ -29,6 +38,7 @@ const Home = () => {
 
   useEffect(() => {
     sessionStorage.setItem("hdhhfb7383__3u8748", false);
+    dispatch(clearHotelAll());
   }, []);
 
   const downloadRef = useRef(null);
@@ -40,7 +50,7 @@ const Home = () => {
   // };
 
   return (
-    <div className="" >
+    <div className="">
       <Helmet>
         <title>The Skytrails</title>
         <link rel="canonical" href="/" />
@@ -52,13 +62,15 @@ Theskytrails - #1 Travel Website 50% OFF on Hotels, Flights, Bus Booking at Lowe
         />
       </Helmet>
 
-      <div className='heroBannerFlight'>
+      <div className="heroBannerFlight flex md:hidden lg:hidden">
         <div className="backdrop-img">
           <Img src={homeBG} />
         </div>
         <div className="opacity-layer"></div>
         <div className="heroBannerContent  container">
-          <span className="headingTitle">Find Flights , book your tickets with us</span>
+          <span className="headingTitle">
+            Find Flights , book your tickets with us
+          </span>
           <div className="transParentBGFlight">
             <div className="buttonTabs">
               <div className="container">
@@ -113,42 +125,68 @@ Theskytrails - #1 Travel Website 50% OFF on Hotels, Flights, Bus Booking at Lowe
             {activeTab === "multicity" && <MulticityForm />}
           </div>
         </div>
-        {/* </div> */}
+      </div>
+      <div className="flightMainBox relative py-16 pt-44 bg-[radial-gradient(circle,_rgba(63,196,251,1)_0%,_rgba(70,153,252,1)_100%)] hidden md:flex">
+        <img
+          src={diwali}
+          className="absolute top-0 left-0  h-full object-fill w-full"
+          alt="Diwali Background"
+        />
+        <FlightSearchForm />
       </div>
 
       <div>
-        <Topflightroute />
+        <RecentSearches />
       </div>
 
-      <div className="mt-3">
+      <div>
+        <OfferMain />
+      </div>
+
+      <div>
+        {/* <Topflightroute /> */}
+        <FlightSuggestion />
+      </div>
+
+      {/* <div className="mt-3">
         <NewHolidayCategory />
-      </div>
+      </div> */}
       <div>
-        <NewHolidayTrending />
+        {/* <NewHolidayTrending /> */}
+        <TrendingPackageHome />
       </div>
 
-      <div>
+      {/* <div>
         <Advertise />
       </div>
 
       <div>
         <HolidayTopCountries />
-      </div>
+      </div> */}
 
       <div>
         <WhyChooseUs />
       </div>
       <div>
-        <Download downloadRef={downloadRef} />
+        <Testimonials />
       </div>
       <div>
+        <Faq />
+      </div>
+      <div>
+        <FooterNavigation />
+      </div>
+
+      {/* <div>
+        <Download downloadRef={downloadRef} />
+      </div> */}
+      {/* <div>
         <Partners />
       </div>
 
       <div>
         <Blog />
-      </div>
-
+      </div> */}
     </div>
   );
 };

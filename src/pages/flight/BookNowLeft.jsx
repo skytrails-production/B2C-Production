@@ -369,12 +369,12 @@ const BookNowLeft = (props) => {
   //   fareValue,
   //   fareValue?.Segments[0][0]?.Origin?.Airport
   //       ?.CityName,
-    
+
   //   "hgfghfghfghfhgfghfghfghfghfhgfhgfgh"
   // );
 
-  const departurelocation =  fareValue?.Segments[0][0]?.Origin?.Airport
-  ?.CityName;
+  const departurelocation = fareValue?.Segments[0][0]?.Origin?.Airport
+    ?.CityName;
   const arrivallocation = fareValue?.Segments[0][
     TicketDetails?.Segments[0].length - 1
   ]?.Destination?.Airport?.CityName
@@ -461,121 +461,108 @@ const BookNowLeft = (props) => {
               })}
             </div> */}
 
-            <div style={{display:"flex",justifyContent:"space-between",marginTop:"12px",padding:"10px"}} >
+            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "12px", padding: "10px" }} >
               {/* <div><p className="departurelocation-value">{departurelocation}</p></div>
               <div><i class="fa-solid fa-jet-fighter"></i></div>
               <div><p className="departurelocation-value">{arrivallocation}</p></div> */}
 
 
               <div className="checkInCheckOutBox">
-                      <div className="checkInInnerBoxOne">
-                        <div className="bookleftdetail">
-                          <p>Departure</p>
-                          <h5>
-                          {departurelocation}
-                          </h5>
-                          {/* <h2>
+                <div className="checkInInnerBoxOne">
+                  <div className="bookleftdetail">
+                    <p>Departure</p>
+                    <h5>
+                      {departurelocation}
+                    </h5>
+                    {/* <h2>
                             sdd
                           </h2> */}
-                        </div>
+                  </div>
 
-                        <div className="bookleftdetail">
-                          <p>Arrival</p>
-                          <h5>
-                          {arrivallocation}
-                          </h5>
-                          {/* <h2>
+                  <div className="bookleftdetail">
+                    <p>Arrival</p>
+                    <h5>
+                      {arrivallocation}
+                    </h5>
+                    {/* <h2>
                           dfd
                           </h2> */}
-                        </div>
-                      </div>
-                      <div className="checkInInnerBoxTwo">
-                        <p>
-                         {adultCount} Adult  {childCount > 0 && (
-              <>
-                {childCount} Child
-              </>
-            )} 
-            {infantCount > 0 && (
-              <> {infantCount} Infant</>)}
-                        </p>
-                        {/* <h5>
-                         Adult{" "}
-                         
-                        </h5> */}
-                      </div>
-                    </div>
-              
+                  </div>
+                </div>
+                <div className="checkInInnerBoxTwo">
+                  <p>
+                    {adultCount} Adult  {childCount > 0 && (
+                      <>
+                        {childCount} Child
+                      </>
+                    )}
+                    {infantCount > 0 && (
+                      <> {infantCount} Infant</>)}
+                  </p>
+                 
+                </div>
+              </div>
+
             </div>
 
-            <div className="TotGstFlight-new" style={{marginTop:"12px"}}>
-            <div>
+            <div className="TotGstFlight-new" style={{ marginTop: "12px" }}>
+              <div>
                 <span className="textcolor">Total Price :</span>
                 <p className="textcolor" >
                   {"₹"}{Number(
                     Number(finalvalue) +
                     Number(props.baggAmount) +
-                    Number(props.mellAmount)+
+                    Number(props.mellAmount) +
                     Number(totalSeatAmount)
                   ).toFixed(0)}
                 </p>
               </div>
-             
+
               <div>
-          
-              <div style={{display:"flex",gap:"1px"}}>
-                <span className="textcolor1">Base Fare : </span>
-                <div style={{background:"none",border:"none",padding:"2px",cursor:"pointer",marginRight:"2px",marginTop:"-4px"}}>                <span style={{margin:"2px"}} onClick={toggleDetails} >
-        {showDetails ? <FiMinusCircle/> : <FiPlusCircle/>}
-      </span>
-      </div>
-      </div>
-      <p className="textcolor1"> {"₹"}{parseInt(fareValue?.Fare?.BaseFare)}</p>
-      </div>
-      {showDetails && (
-        <div  style={{width:"100%",display:"flex",flexDirection:"column"}} >
-          <div style={{ borderBottom: "none",width:"100%",display:"flex",justifyContent:"space-between" }}>
-            <p className="textcolor1">
-              Adult(s) ({adultCount} × {adultamount})
-            </p>
-            <p className="textcolor1">{"₹"}{multiplydata} </p>
-          </div>
-          <div style={{ borderBottom: "none" ,width:"100%",display:"flex",justifyContent:"space-between"}}>
-            {childCount > 0 && (
-              <>
-                <p className="textcolor1">Child(s) ({childCount} × {chilsamount})</p>
-                <p className="textcolor1">{"₹"}{childmultiply}</p>
-              </>
-            )}
-          </div>
-          <div style={{ borderBottom: "none" ,width:"100%",display:"flex",justifyContent:"space-between"}}>
-            {infantCount > 0 && (
-              <>
-                <p className="textcolor1">Infant(s) ({infantCount} × {infantamount})</p>
-                <p className="textcolor1">{"₹"}{infantmultiplicity}</p>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-   
-               
+
+                <div style={{ display: "flex", gap: "1px" }}>
+                  <span className="textcolor1">Base Fare : </span>
+                  <div style={{ background: "none", border: "none", padding: "2px", cursor: "pointer", marginRight: "2px", marginTop: "-4px" }}>                <span style={{ margin: "2px" }} onClick={toggleDetails} >
+                    {showDetails ? <FiMinusCircle /> : <FiPlusCircle />}
+                  </span>
+                  </div>
+                </div>
+                <p className="textcolor1"> {"₹"}{parseInt(fareValue?.Fare?.BaseFare)}</p>
+              </div>
+              {showDetails && (
+                <div style={{ width: "100%", display: "flex", flexDirection: "column" }} >
+                  <div style={{ borderBottom: "none", width: "100%", display: "flex", justifyContent: "space-between" }}>
+                    <p className="textcolor1">
+                      Adult(s) ({adultCount} × {adultamount})
+                    </p>
+                    <p className="textcolor1">{"₹"}{multiplydata} </p>
+                  </div>
+                  <div style={{ borderBottom: "none", width: "100%", display: "flex", justifyContent: "space-between" }}>
+                    {childCount > 0 && (
+                      <>
+                        <p className="textcolor1">Child(s) ({childCount} × {chilsamount})</p>
+                        <p className="textcolor1">{"₹"}{childmultiply}</p>
+                      </>
+                    )}
+                  </div>
+                  <div style={{ borderBottom: "none", width: "100%", display: "flex", justifyContent: "space-between" }}>
+                    {infantCount > 0 && (
+                      <>
+                        <p className="textcolor1">Infant(s) ({infantCount} × {infantamount})</p>
+                        <p className="textcolor1">{"₹"}{infantmultiplicity}</p>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+
+
 
               <div>
                 <span className="textcolor1">Surcharge : </span>
                 <p className="textcolor1"> {"₹"}{parseInt(fareValue?.Fare?.Tax)}</p>
               </div>
-              {/* <div>
-                <span>Other TAX : </span>
-                <p>
-                  {"₹"}
-                  {(
-                    Number(taxvalue) +
-                    Number(props.baggAmount) +
-                    Number(props.mellAmount)
-                  ).toFixed(2)}
-                </p>
-              </div> */}
+
 
               {((Number(props.mellAmount) > 0) || (Number(props.baggAmount) > 0) || (totalSeatAmount) > 0) && (
                 <div>
@@ -622,35 +609,17 @@ const BookNowLeft = (props) => {
               {discountAmount > 0 && (
                 <div>
                   <span className="textcolor1">Discount Amount :</span>
-                  <p style={{color:"#44B50C"}} className="textcolor1">
+                  <p style={{ color: "#44B50C" }} className="textcolor1">
                     - {"₹"}{Number(discountAmount).toFixed(2)}
                   </p>
                 </div>
               )}
 
 
-              {/* <div>
-                <span>Grand Total :</span>
-                <p>
-                  {"₹"} */}
-                  {/* {(
-                    Number(taxvaluetotal) +
-                    Number(props.baggAmount) +
-                    Number(props.mellAmount)
-                  ).toFixed(2)} */}
 
-                  {/* {grandtotalamount} */}
-                  {/* {Number(
-                    Number(finalvalue) +
-                    Number(props.baggAmount) +
-                    Number(props.mellAmount) +
-                    Number(totalSeatAmount)
-                  ).toFixed(2)}
-                </p>
-              </div> */}
 
             </div>
-            {/* <Couponcontainer value={flight}   /> */}
+
             <Couponcontainer
               value={flight}
               couponCode={couponCode}

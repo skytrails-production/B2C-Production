@@ -123,3 +123,8 @@ export const clearHotelRoomSelect = () => {
     type: types.CLEAR_HOTEL_ROOM_SELECT,
   };
 };
+export const clearHotelAll = () => {
+  return {
+    type: types.CLEAR_HOTEL_ROOM_ALL,
+  };
+};

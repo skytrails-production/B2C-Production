@@ -5,7 +5,7 @@ import { apiURL } from "../Constants/constant";
 // import FlightTakeoffTwoToneIcon from "@mui/icons-material/FlightTakeoffTwoTone";
 import axios from "axios";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
-import "react-datepicker/dist/react-datepicker.css";
+
 import { oneWayAction, resetOneWay, oneWayActionCombined } from "../Redux/FlightSearch/oneWay";
 import { searchFlight, clearSearch } from "../Redux/SearchFlight/actionSearchFlight";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import "./style/Oneway.css";
 import "./oneway2.scss"
-import "react-datepicker/dist/react-datepicker.css";
+
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./card.css";
 // import { Helmet } from "react-helmet-async";

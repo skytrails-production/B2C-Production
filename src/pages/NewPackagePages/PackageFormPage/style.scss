@@ -5,11 +5,20 @@
   height: 443px;
   //   background-color: var(--black4);
   background-color: black;
-  display: flex;
+  display: none;
   align-items: center;
   position: relative;
   @include md {
     height: 90vh;
+    display: flex;
+      display: flex;
+    display: flex;
+    display: flex;
+      display: flex;
+    display: flex;
+    display: flex;
+    display: flex;
+      display: flex;
   }
 
   .backdrop-img {

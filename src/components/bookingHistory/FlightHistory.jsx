@@ -91,18 +91,22 @@ const FlightHistory = () => {
     try {
       const response = await axios({
         method: "GET",
-        url: `${apiURL.baseURL}/skyTrails/api/amadeus/user/getCombineBookingHistory
+        url: `${apiURL.baseURL}/skyTrails/api/amadeus/user/combine/getAllBookingHistoryAggregate
 `,
         headers: {
           token: token,
         },
       });
 
-      if (response.status === 200) {
-        const sortedData = response?.data?.result?.docs.sort((a, b) => {
+      // console.log(response)
+      if (response?.status === 200) {
+      //  console.log("response 200")
+        const sortedData = response?.data?.result?.result?.docs.sort((a, b) => {
+         
           const departureA = new Date(
             a.airlineDetails[0]?.Origin?.DepTime
           ).getTime();
+          // console.log(departureA,"departureAdepartureA");
           const departureB = new Date(
             b.airlineDetails[0]?.Origin?.DepTime
           ).getTime();
@@ -119,13 +123,17 @@ const FlightHistory = () => {
             return Math.abs(diffA) - Math.abs(diffB);
           }
         });
+
+        // console.log(sortedData,"responseresponseresponseresponse")
         setFlightBookingData(sortedData);
         // console.log('Flight History Response', response);
       } else {
+        // console.log("response else")
         console.error("Request failed with status code:", response.status);
       }
       setLoading(false);
     } catch (error) {
+      // console.log("response catch");
       console.error("An error occurred while fetching flight booking:", error);
       setLoading(false);
     }
@@ -227,6 +235,51 @@ const FlightHistory = () => {
   };
 
 
+  // ///////////////////////////////////kafila////////////////////////////////////////
+  const handleSubmitkafilaFlightChange = async (event) => {
+    event.preventDefault();
+
+    if (!selectedFlight || loadingCancelRequest) {
+      return;
+    }
+
+    const selectedReason = document.querySelector("input[type=radio]:checked");
+    const selectedCheckboxValue = selectedReason ? selectedReason.value : null;
+
+    const formData = {
+      reason: reason,
+      bookingId: selectedFlight?.bookingId,
+      flightBookingId: selectedFlight?._id,
+      contactNumber: selectedFlight?.passengerDetails[0]?.ContactNo,
+      changerequest: selectedCheckboxValue,
+    
+      pnr: selectedFlight?.pnr,
+    };
+
+    try {
+      setLoadingCancelRequest(true);
+
+      const response = await axios({
+        method: "post",
+        url: `${apiURL.baseURL}/skyTrails/api/user/kafila/changeKafilaFlightBooking`,
+        data: formData,
+        headers: {
+          token: token,
+        },
+      });
+      setOpenModalChange(false);
+      setResponseMessage(response.data.responseMessage);
+      setTimeout(() => {
+        handleModalOpenConfirmation();
+      }, 1000);
+    } catch (error) {
+      console.error("Error sending data to the server:", error);
+    } finally {
+      setLoadingCancelRequest(false); // Reset loading state regardless of success or failure
+    }
+  };
+
+// ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // change request flight
 
   // cancel flight request33333333333333333333333
@@ -292,6 +345,46 @@ const FlightHistory = () => {
       const response = await axios({
         method: "post",
         url: `${apiURL.baseURL}/skyTrails/api/amadeus/user/amadeusCancelUserFlightBooking`,
+        data: formData,
+        headers: {
+          token: token,
+        },
+      });
+      setOpenModalCancelRequest(false);
+      setResponseMessage(response.data.responseMessage);
+      setTimeout(() => {
+        handleModalOpenConfirmation();
+      }, 1000);
+    } catch (error) {
+      console.error("Error sending data to the server:", error);
+    } finally {
+      setLoadingCancelRequest(false);
+    }
+  };
+
+
+
+  const handleSubmitFlightkafilaCancelRequest = async (event) => {
+    event.preventDefault();
+
+    if (!selectedFlight || loadingCancelRequest) {
+      return;
+    }
+
+    const formData = {
+      reason: reason,
+      bookingId: selectedFlight?.bookingId,
+      flightBookingId: selectedFlight?._id,
+      pnr: selectedFlight?.pnr,
+     
+    };
+
+    try {
+      setLoadingCancelRequest(true);
+
+      const response = await axios({
+        method: "post",
+        url: `${apiURL.baseURL}/skyTrails/api/user/kafila/cancelKafilaFlightBooking`,
         data: formData,
         headers: {
           token: token,
@@ -527,7 +620,7 @@ const FlightHistory = () => {
                         <button
                           onClick={() => {
                             setSelectedFlight(item);
-                            if (!item?.isAmadeusBooking) {
+                            if (!item?.isAmadeusBooking  && !item?.isKafilaBooking) {
                               getCancellationCharges(item);
                             } else {
                               handleModalOpenCancelRequest();
@@ -650,7 +743,10 @@ const FlightHistory = () => {
                             onClick={(event) => {
                               if (selectedFlight?.isAmadeusBooking) {
                                 handleSubmitamdFlightChange(event);
-                              } else {
+                              } else if(selectedFlight?.isKafilaBooking) {
+                                handleSubmitkafilaFlightChange(event);
+                                
+                              }else{
                                 handleSubmitFlightChange(event);
                               }
                             }}
@@ -807,8 +903,8 @@ const FlightHistory = () => {
                         className="modal-header-cancel"
                         style={{ display: "flex", flexDirection: "column" }}
                       >
-                        {selectedFlight?.isAmadeusBooking ? (
-                          // Show nothing or alternative content here when isAmadeusBooking is present
+                        {selectedFlight?.isAmadeusBooking || selectedFlight?.isKafilaBooking ? (
+                         
                           null
                         ) : (
                           cancellationCharges &&
@@ -875,8 +971,11 @@ const FlightHistory = () => {
                             onClick={(event) => {
                               if (selectedFlight?.isAmadeusBooking) {
                                 handleSubmitFlightAmdCancelRequest(event); // Call Amadeus API if key is present
-                              } else {
-                                handleSubmitFlightCancelRequest(event); // Call the TBO API otherwise
+                              } else if(selectedFlight?.isKafilaBooking){
+                                handleSubmitFlightkafilaCancelRequest(event);
+                              
+                              }else{
+                                handleSubmitFlightCancelRequest(event); 
                               }
                             }}
                           >

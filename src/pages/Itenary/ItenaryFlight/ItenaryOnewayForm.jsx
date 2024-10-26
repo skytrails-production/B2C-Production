@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { clearbookTicketGDS } from "../../../Redux/FlightBook/actionFlightBook";
-import "react-datepicker/dist/react-datepicker.css";
+
 import { oneWayAction, resetOneWay } from "../../../Redux/FlightSearch/oneWay";
 import {
     searchFlight,
@@ -15,7 +15,7 @@ import "react-date-range/dist/theme/default.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import "react-datepicker/dist/react-datepicker.css";
+
 // import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { resetAllFareData } from "../../../Redux/FlightFareQuoteRule/actionFlightQuote"
 import { returnActionClear } from "../../../Redux/FlightSearch/Return/return";

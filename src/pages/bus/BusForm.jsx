@@ -2,12 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { apiURL } from "../../Constants/constant";
 import axios from "axios";
-import "react-datepicker/dist/react-datepicker.css";
+
 import { Button } from 'antd';
 import { useNavigate } from "react-router-dom";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import "react-datepicker/dist/react-datepicker.css";
+
 import { Select } from "antd";
 import { DatePicker } from "antd";
 import { useMediaQuery } from 'react-responsive';

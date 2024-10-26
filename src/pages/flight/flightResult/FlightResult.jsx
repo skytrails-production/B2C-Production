@@ -3,6 +3,7 @@ import CardAmd from "./CardAmd";
 import CardTvo from "./CardTvo";
 import "./flightResult.scss";
 import flightNoResult from "../../../../src/images/img/flightnoresult.jpg";
+import Kafila from "./Kafilapi/Kafila";
 const FlightResult = ({
   flights,
   airlineCodes,
@@ -15,20 +16,32 @@ const FlightResult = ({
     onFilter([], [], [minPrice, maxPrice], [], []);
   };
 
+  // console.log(flights, "flights");
+
   return (
     <div className="flight_result_container">
       {flights?.length > 0 ? (
-        flights.map((flight, index) => (
-          <div className="container d-flex col gap-3 p-0" key={index}>
+        flights.map((flight, index) => {
+
+          {/* console.log(flight, "jhgdhjgshjfdgshjfdghjsfdghjsfghjsfghjsdfgjdsf"); */}
+          return (<div className="container d-flex col gap-3 p-0" key={index}>
             {/* <h3>Flight {index + 1}</h3>
             <pre>{JSON.stringify(flight, null, 2)}</pre> */}
-            {flight?.propFlightGrDetail ? (
+            {/* {flight?.propFlighdtGrDetail ? (
               <CardAmd flight={flight} />
             ) : (
               <CardTvo flight={flight} />
-            )}
+            )} */}
+            {flight?.propFlightGrDetail ? (
+              <CardAmd flight={flight} />
+            ) : flight?.Segments ? (
+              <CardTvo flight={flight} />
+            ) : flight?.ADate ? (
+              <Kafila flight={flight} />
+            ) : <></>}
           </div>
-        ))
+          )
+        })
       ) : (
         <div className="filteredNotFound">
           <img src={flightNoResult} alt="filter" />
@@ -41,7 +54,7 @@ const FlightResult = ({
 
                 value="All"
                 name="test"
-                // checked={selectedCategory.includes("test:All")}
+              // checked={selectedCategory.includes("test:All")}
               />
               {/* <span className="checkmark"></span> */}
               <span

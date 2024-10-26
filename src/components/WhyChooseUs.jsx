@@ -1,31 +1,35 @@
-
-import React from 'react'
-import one from "../images/download/one.svg"
-import two from "../images/download/two.svg"
-import three from "../images/download/three.svg"
-import four from "../images/download/four.svg"
-
+import React from "react";
+import one from "../images/download/one.svg";
+import two from "../images/download/two.svg";
+import three from "../images/download/three.svg";
+import four from "../images/download/four.svg";
+import Heading from "./TailwindSearchComp/shared/Heading";
 
 const WhyChooseUs = () => {
-    return (
-        <section class="container paddHotWhyChoose px-0">
-            <h2>Why Choose Us ?</h2>
-            <div class="row g-3">
-                <div className="col-lg-3 col-md-3 col-12  ">
-                    <img className='w-100' src={one} alt="steps" />
-                </div>
-                <div className="col-lg-3 col-md-3 col-12  ">
-                    <img className='w-100' src={two} alt="steps" />
-                </div>
-                <div className="col-lg-3 col-md-3 col-12  ">
-                    <img className='w-100' src={three} alt="steps" />
-                </div>
-                <div className="col-lg-3 col-md-3 col-12 ">
-                    <img className='w-100' src={four} alt="steps" />
-                </div>
-            </div>
-        </section>
-    )
-}
+  return (
+    <div className="custom-container mx-auto mt-16">
+      <Heading
+        // desc="Discover great prices for popular destinations"
+        isCenter={true}
+      >
+        Why Choose Us ?
+      </Heading>
+      <div className="grid grid-cols-4 gap-4 md:grid-cols-4">
+        <div className="rounded-lg shadow-md">
+          <img className="w-100 " src={one} alt="steps" />
+        </div>
+        <div className="rounded-lg shadow-md  ">
+          <img className="w-100 " src={two} alt="steps" />
+        </div>
+        <div className="rounded-lg shadow-md  ">
+          <img className="w-100" src={three} alt="steps" />
+        </div>
+        <div className="rounded-lg shadow-md">
+          <img className="w-100 " src={four} alt="steps" />
+        </div>
+      </div>
+    </div>
+  );
+};
 
-export default WhyChooseUs
+export default WhyChooseUs;

@@ -8,7 +8,7 @@ import axios from "axios";
 import { FiPlusCircle } from "react-icons/fi";
 import { FiMinusCircle } from "react-icons/fi";
 import { apiURL } from "../../Constants/constant";
-import { useLocation, useNavigate, } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./booknowleft.css";
 import CouponContainer from "../../components/Coupon/Couponcontainer";
 
@@ -51,13 +51,12 @@ const BookNowLeftAmd = (props) => {
   const { ResultIndex } = location.state;
   const sesstioResultIndex = ResultIndex;
   const queryParams = new URLSearchParams(location.search);
-  const adultCount =Number( queryParams.get("adult"));
+  const adultCount = Number(queryParams.get("adult"));
   // const adultCount = 2;
-  const childCount =Number( queryParams.get("child"));
+  const childCount = Number(queryParams.get("child"));
   // const childCount = 2;
-  const infantCount =Number( queryParams.get("infant"));
+  const infantCount = Number(queryParams.get("infant"));
   // console.log(ResultIndex,"typeof adult  countttttttttttttttttt")
-
 
   useEffect(() => {
     if (!props.toggle) {
@@ -85,8 +84,25 @@ const BookNowLeftAmd = (props) => {
   //     sessionStorage.removeItem("couponCode");
   //   }
   // };
-  const { onFinalAmountChange,oncouponselect,disountdata } = props;
+  const { onFinalAmountChange, oncouponselect, disountdata } = props;
   const reducerState = useSelector((state) => state);
+  const AmountList = useSelector((state) => state?.airlineSeatMap?.seatList);
+  const [totalSeatAmount, setTotalSeatAmount] = useState(0);
+
+  useEffect(() => {
+    let totalSeatAmountlocal = 0;
+    //abhi k liye comment hain
+    // let totalSeatAmountlocall = AmountList?.forEach((d) => {
+    //   d?.reduce((acc, curr) => {
+    //     console.log(acc + curr.amount, "arrrrr");
+    //     totalSeatAmountlocal = acc + curr?.amount;
+    //     return acc + curr?.amount;
+    //   }, totalSeatAmountlocal);
+    // });
+    setTotalSeatAmount(totalSeatAmountlocal);
+  }, [AmountList]);
+  console.log(totalSeatAmount, "totalSeatAmount");
+
   // console.log(reducerState,"hjgjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj");
   const TicketDetails = reducerState?.flightFare?.flightQuoteData?.Results;
   const fareValue = reducerState?.flightFare?.flightQuoteData?.Results;
@@ -95,7 +111,7 @@ const BookNowLeftAmd = (props) => {
     parseInt(fareValue?.Fare?.PublishedFare) -
     parseInt(fareValue?.Fare?.OfferedFare);
 
-    // console.log("reducerState",reducerState);
+  // console.log("reducerState",reducerState);
 
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.flightMarkup;
@@ -103,14 +119,14 @@ const BookNowLeftAmd = (props) => {
 
   const integerValue = discountValue;
   const coupondiscount = integerValue;
-  const basefare =
-    Number(sesstioResultIndex?.TotalPublishFare)
-  const ourMarkup =Number((Number(markUpamount) * Number(basefare)));
-
+  const basefare = Number(sesstioResultIndex?.TotalPublishFare);
+  const ourMarkup = Number(Number(markUpamount) * Number(basefare));
 
   //   const taxvalue = markUpamount * parseInt(fareValue?.Fare?.PublishedFare);
   // console(markUpamount,grandTotal,ourMarkup,"markup grandtotalnnnnnnnnnnnnnnn")
-  const taxvaluetotal = Number((Number(markUpamount) * Number(ResultIndex?.monetaryDetail?.[0]?.amount)));
+  const taxvaluetotal = Number(
+    Number(markUpamount) * Number(ResultIndex?.monetaryDetail?.[0]?.amount)
+  );
   // const taxvaluetotal = Number((Number(markUpamount) * Number(ResultIndex?.monetaryDetail?.[0]?.amount)));;
   // console.log(taxvaluetotal, "marlup amount")
   let total = 0;
@@ -171,28 +187,33 @@ const BookNowLeftAmd = (props) => {
   //   Number(ResultIndex?.[1]?.paxFareDetail?.totalFareAmount),
   //   ResultIndex?.[2]?.paxFareDetail?.totalFareAmount ? Number(ResultIndex?.[2]?.paxFareDetail?.totalFareAmount) : 0, "Number(ResultIndex?.[1]?.paxFareDetail?.totalFareAmount || ResultIndex?.paxFareDetail?.totalFareAmount) +")
 
-
-  const adultTax = Number(ResultIndex?.[0]?.paxFareDetail?.totalTaxAmount
-    || ResultIndex?.paxFareDetail?.totalTaxAmount
-  ) * adultCount
-  const childTax = childCount!==0 ?Number( ResultIndex?.[1]?.paxFareDetail?.totalTaxAmount)*childCount  : 0
+  const adultTax =
+    Number(
+      ResultIndex?.[0]?.paxFareDetail?.totalTaxAmount ||
+        ResultIndex?.paxFareDetail?.totalTaxAmount
+    ) * adultCount;
+  const childTax =
+    childCount !== 0
+      ? Number(ResultIndex?.[1]?.paxFareDetail?.totalTaxAmount) * childCount
+      : 0;
   const infantTax = ResultIndex?.[2]?.paxFareDetail?.totalTaxAmount
-    ? Number(ResultIndex?.[2]?.paxFareDetail?.totalTaxAmount
-    ) * infantCount : 0
+    ? Number(ResultIndex?.[2]?.paxFareDetail?.totalTaxAmount) * infantCount
+    : 0;
   // console.log(adultTax, childTax, infantTax, "adi")
   // const totalTax =Number(taxvaluetotal+  adultTax + childTax + infantTax).toFixed(2)
-  const totalTax =Number( Number( ResultIndex?.monetaryDetail?.[0]?.amount)+Number(taxvaluetotal)).toFixed(2)
+  const totalTax = Number(
+    Number(ResultIndex?.monetaryDetail?.[0]?.amount) + Number(taxvaluetotal)
+  ).toFixed(2);
   // console.log(taxvaluetotal, markUpamount,basefare, "totalFareAmount")
   // console.log(ResultIndex?.[1]?.paxFareDetail?.totalTaxAmount,childCount
   //   )
-    const grandTotal=Number( ResultIndex?.monetaryDetail?.[0]?.amount)+Number(taxvaluetotal)
-    // console.log(basefare,totalTax,grandTotal,"grandtotallllllll")
+  const grandTotal =
+    Number(ResultIndex?.monetaryDetail?.[0]?.amount) + Number(taxvaluetotal);
+  // console.log(basefare,totalTax,grandTotal,"grandtotallllllll")
 
+  // ////////////////////////////////////////////////////////////////////coupon value///////////////////////////////
 
-
-    // ////////////////////////////////////////////////////////////////////coupon value///////////////////////////////
-
-    const inputRef = useRef(null);
+  const inputRef = useRef(null);
   const [showApplyButton, setShowApplyButton] = useState(false);
   const [couponApplied, setCouponApplied] = useState(false);
   const [couponCode, setCouponCode] = useState("");
@@ -210,11 +231,15 @@ const BookNowLeftAmd = (props) => {
   );
 
   const [showDetails, setShowDetails] = useState(false);
+  const [otherprice, setotherprice] = useState(false);
 
   const toggleDetails = () => {
     setShowDetails(!showDetails);
   };
- 
+
+  const toggleDetails1 = () => {
+    setotherprice(!otherprice);
+  };
 
   // console.log("discountValueObj///////////////////////////////////", discountValueObj,selectedCoupon);
 
@@ -245,117 +270,116 @@ const BookNowLeftAmd = (props) => {
   //           Number(markUpamount) * Number(ResultIndex?.monetaryDetail?.[0]?.amount) -
   //           Number(ResultIndex?.monetaryDetail?.[0]?.amount), (discountValueObj?.[0].value * 0.01));
 
-    const totalPriceCalculator = () => {
-      let finalAmount = 0;
-      let discountAmount = 0;
-      // if (selectedCoupon !== null) {
-      //   if (discountValueObj?.[0].type == "PERCENTAGE") {
-      //     finalAmount =
-      //       finalAmount +
-      //       Number(ResultIndex?.monetaryDetail?.[0]?.amount) +
-      //       Number(markUpamount) * Number(ResultIndex?.monetaryDetail?.[0]?.amount) -
-      //       Number(ResultIndex?.monetaryDetail?.[0]?.amount) * (discountValueObj?.[0].value * 0.01);
-  
-      //     discountAmount =
-      //       discountAmount +
-      //       Number( ResultIndex?.monetaryDetail?.[0]?.amount) * (discountValueObj?.[0].value * 0.01);
-      //   } else if (discountValueObj?.[0].type == "AMOUNT") {
-      //     finalAmount =
-      //       finalAmount +
-      //       Number(ResultIndex?.monetaryDetail?.[0]?.amount) +
-      //       Number(markUpamount) * Number(ResultIndex?.monetaryDetail?.[0]?.amount) -
-      //       discountValueObj?.[0].value;
-      //     discountAmount = discountAmount + discountValueObj?.[0].value;
-      //   }
-      // } else {
-      //   finalAmount =
-      //     finalAmount +
-      //     Number(ResultIndex?.monetaryDetail?.[0]?.amount)+
-      //     Number(markUpamount) * Number(ResultIndex?.monetaryDetail?.[0]?.amount);
-      // }
-      const publishedFare = Number(ResultIndex?.monetaryDetail?.[0]?.amount);
+  const totalPriceCalculator = () => {
+    let finalAmount = 0;
+    let discountAmount = 0;
+    // if (selectedCoupon !== null) {
+    //   if (discountValueObj?.[0].type == "PERCENTAGE") {
+    //     finalAmount =
+    //       finalAmount +
+    //       Number(ResultIndex?.monetaryDetail?.[0]?.amount) +
+    //       Number(markUpamount) * Number(ResultIndex?.monetaryDetail?.[0]?.amount) -
+    //       Number(ResultIndex?.monetaryDetail?.[0]?.amount) * (discountValueObj?.[0].value * 0.01);
 
+    //     discountAmount =
+    //       discountAmount +
+    //       Number( ResultIndex?.monetaryDetail?.[0]?.amount) * (discountValueObj?.[0].value * 0.01);
+    //   } else if (discountValueObj?.[0].type == "AMOUNT") {
+    //     finalAmount =
+    //       finalAmount +
+    //       Number(ResultIndex?.monetaryDetail?.[0]?.amount) +
+    //       Number(markUpamount) * Number(ResultIndex?.monetaryDetail?.[0]?.amount) -
+    //       discountValueObj?.[0].value;
+    //     discountAmount = discountAmount + discountValueObj?.[0].value;
+    //   }
+    // } else {
+    //   finalAmount =
+    //     finalAmount +
+    //     Number(ResultIndex?.monetaryDetail?.[0]?.amount)+
+    //     Number(markUpamount) * Number(ResultIndex?.monetaryDetail?.[0]?.amount);
+    // }
+    const publishedFare = Number(ResultIndex?.monetaryDetail?.[0]?.amount);
 
     if (selectedCoupon !== null) {
       let discountamount = 0;
       if (publishedFare <= discountValueObj?.[0].value?.min[0]) {
-        discountamount = (discountValueObj?.[0].value?.min[1]);
+        discountamount = discountValueObj?.[0].value?.min[1];
       } else if (publishedFare >= discountValueObj?.[0].value?.max[0]) {
-        discountamount = (discountValueObj?.[0].value?.max[1]);
+        discountamount = discountValueObj?.[0].value?.max[1];
       }
       if (discountValueObj?.[0].type == "PERCENTAGE") {
-        finalAmount = publishedFare + markUpamount * (ResultIndex?.monetaryDetail?.[0]?.amount) - publishedFare * (discountamount * 0.01);
-        discountAmount =  publishedFare * discountamount * 0.01;
-
-       
+        finalAmount =
+          publishedFare +
+          markUpamount * ResultIndex?.monetaryDetail?.[0]?.amount -
+          publishedFare * (discountamount * 0.01);
+        discountAmount = publishedFare * discountamount * 0.01;
       } else if (discountValueObj?.[0].type == "AMOUNT") {
-        finalAmount = Number(publishedFare+ markUpamount * ResultIndex?.monetaryDetail?.[0]?.amount  - discountamount);
+        finalAmount = Number(
+          publishedFare +
+            markUpamount * ResultIndex?.monetaryDetail?.[0]?.amount -
+            discountamount
+        );
         discountAmount = Number(discountamount);
       }
     } else {
       finalAmount =
         finalAmount +
-       Number (ResultIndex?.monetaryDetail?.[0]?.amount) +
+        Number(ResultIndex?.monetaryDetail?.[0]?.amount) +
         Number(markUpamount) * Number(ResultIndex?.monetaryDetail?.[0]?.amount);
     }
-      // return { amountGenerator: { finalAmount, discountAmount } };
-      return { finalAmount, discountAmount };
-    };
+    // return { amountGenerator: { finalAmount, discountAmount } };
+    return { finalAmount, discountAmount };
+  };
 
-    // console.log("totalPriceCalculator",totalPriceCalculator());
-    const { finalAmount, discountAmount } = totalPriceCalculator();
+  // console.log("totalPriceCalculator",totalPriceCalculator());
+  const { finalAmount, discountAmount } = totalPriceCalculator();
 
-    useEffect(() => {
-      if (typeof onFinalAmountChange === 'function' &&
-        typeof oncouponselect === 'function' &&
-        typeof disountdata === 'function') {
-        onFinalAmountChange(finalAmount);
-        oncouponselect(couponCode);
-        disountdata(discountAmount);
-      } else {
-        console.error(error);
-      }
-    }, [finalAmount,couponCode,discountAmount]);
+  useEffect(() => {
+    if (
+      typeof onFinalAmountChange === "function" &&
+      typeof oncouponselect === "function" &&
+      typeof disountdata === "function"
+    ) {
+      onFinalAmountChange(finalAmount);
+      oncouponselect(couponCode);
+      disountdata(discountAmount);
+    } else {
+      console.error(error);
+    }
+  }, [finalAmount, couponCode, discountAmount]);
 
+  const finalamountvalue = Number(finalAmount) - Number(taxvaluetotal);
+  // const finalamountvalue = finalAmount;
+  const finalamountvalue1 = Number(finalamountvalue).toFixed(2);
 
-    const finalamountvalue = Number(finalAmount) - Number(taxvaluetotal);
-    // const finalamountvalue = finalAmount;
-    const finalamountvalue1 = Number(finalamountvalue).toFixed(2);
+  const adultamount =
+    Number(ResultIndex?.[0]?.paxFareDetail?.totalFareAmount) -
+      Number(ResultIndex?.[0]?.paxFareDetail?.totalTaxAmount) ||
+    Number(ResultIndex?.paxFareDetail?.totalFareAmount) -
+      Number(ResultIndex?.paxFareDetail?.totalTaxAmount);
+  const chilsamount =
+    Number(ResultIndex?.[1]?.paxFareDetail?.totalFareAmount) -
+    Number(ResultIndex?.[1]?.paxFareDetail?.totalTaxAmount);
+  const infantamount =
+    Number(ResultIndex?.[2]?.paxFareDetail?.totalFareAmount) -
+    Number(ResultIndex?.[2]?.paxFareDetail?.totalTaxAmount);
 
+  const childmultiply = chilsamount * childCount;
 
+  const infantmultiplicity = infantamount * infantCount;
+  // const totalTax = amdata?.monetaryDetail?.[1]?.amount    ;
+  // console.log(ResultIndex,"ResultIndex");
 
-    const adultamount = Number(ResultIndex?.[0]?.paxFareDetail?.totalFareAmount) - Number(ResultIndex?.[0]?.paxFareDetail?.totalTaxAmount) || Number(ResultIndex?.paxFareDetail?.totalFareAmount) - Number(ResultIndex?.paxFareDetail?.totalTaxAmount) ;
-    const chilsamount = Number(ResultIndex?.[1]?.paxFareDetail?.totalFareAmount) - Number(ResultIndex?.[1]?.paxFareDetail?.totalTaxAmount) ;
-    const infantamount = Number( ResultIndex?.[2]?.paxFareDetail?.totalFareAmount)-Number( ResultIndex?.[2]?.paxFareDetail?.totalTaxAmount) ;
+  const multiplydata = adultamount * adultCount;
 
-    const  childmultiply =  chilsamount*childCount;
+  const departurelocation = ResultIndex?.flightDetails?.flightInformation
+    ? ResultIndex?.flightDetails?.flightInformation?.location[0]?.locationId
+    : ResultIndex?.flightDetails[0].flightInformation?.location[0]?.locationId;
 
-    const infantmultiplicity = infantamount*infantCount;
-    // const totalTax = amdata?.monetaryDetail?.[1]?.amount    ;
-// console.log(ResultIndex,"ResultIndex");
-
-    const multiplydata =  adultamount*adultCount;
-
-
-    const departurelocation = ResultIndex?.flightDetails
-    ?.flightInformation
-    ? ResultIndex?.flightDetails
-      ?.flightInformation?.location[0]
-      ?.locationId
-    : ResultIndex?.flightDetails[0]
-      .flightInformation?.location[0]
-      ?.locationId;
-
-      const arrivallocation =  ResultIndex?.flightDetails
-        ?.flightInformation
-        ? ResultIndex?.flightDetails
-          ?.flightInformation?.location[1]
-          ?.locationId
-        : ResultIndex?.flightDetails[
-          ResultIndex?.flightDetails.length -
-          1
-        ].flightInformation?.location[1]
-          ?.locationId
+  const arrivallocation = ResultIndex?.flightDetails?.flightInformation
+    ? ResultIndex?.flightDetails?.flightInformation?.location[1]?.locationId
+    : ResultIndex?.flightDetails[ResultIndex?.flightDetails.length - 1]
+        .flightInformation?.location[1]?.locationId;
 
   return (
     <>
@@ -366,51 +390,48 @@ const BookNowLeftAmd = (props) => {
               <span>Price Summary</span>
             </div>
 
-            <div style={{display:"flex",justifyContent:"space-between",marginTop:"12px",padding:"10px"}} >
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                marginTop: "12px",
+                padding: "10px",
+              }}
+            >
               {/* <div><p className="departurelocation-value">{departurelocation}</p></div>
               <div><i class="fa-solid fa-jet-fighter"></i></div>
               <div><p className="departurelocation-value">{arrivallocation}</p></div> */}
 
-
               <div className="checkInCheckOutBox">
-                      <div className="checkInInnerBoxOne">
-                        <div className="bookleftdetail">
-                          <p>Departure</p>
-                          <h5>
-                          {departurelocation}
-                          </h5>
-                          {/* <h2>
+                <div className="checkInInnerBoxOne">
+                  <div className="bookleftdetail">
+                    <p>Departure</p>
+                    <h5>{departurelocation}</h5>
+                    {/* <h2>
                             sdd
                           </h2> */}
-                        </div>
+                  </div>
 
-                        <div className="bookleftdetail">
-                          <p>Arrival</p>
-                          <h5>
-                          {arrivallocation}
-                          </h5>
-                          {/* <h2>
+                  <div className="bookleftdetail">
+                    <p>Arrival</p>
+                    <h5>{arrivallocation}</h5>
+                    {/* <h2>
                           dfd
                           </h2> */}
-                        </div>
-                      </div>
-                      <div className="checkInInnerBoxTwo">
-                        <p>
-                         {adultCount} Adult  {childCount > 0 && (
-              <>
-                {childCount} Child
-              </>
-            )} 
-            {infantCount > 0 && (
-              <> {infantCount} Infant</>)}
-                        </p>
-                        {/* <h5>
+                  </div>
+                </div>
+                <div className="checkInInnerBoxTwo">
+                  <p>
+                    {adultCount} Adult{" "}
+                    {childCount > 0 && <>{childCount} Child</>}
+                    {infantCount > 0 && <> {infantCount} Infant</>}
+                  </p>
+                  {/* <h5>
                          Adult{" "}
                          
                         </h5> */}
-                      </div>
-                    </div>
-              
+                </div>
+              </div>
             </div>
             {/* {sesstioResultIndex?.flightDetails?.flightInformation ? (
               <>
@@ -431,7 +452,7 @@ const BookNowLeftAmd = (props) => {
                     <p>Class</p>
                   </div>
                 </div> */}
-                {/* <div className="priceChart">
+            {/* <div className="priceChart">
                   <div>
                     <span className="text-bold">From</span>
                     <p className="text-bold">
@@ -451,10 +472,10 @@ const BookNowLeftAmd = (props) => {
                     </p>
                   </div>
                 </div> */}
-              {/* </> */}
+            {/* </> */}
             {/* ) : ( */}
-              {/* // [i]?.flightInformation?.productDateTime?.dateOfDeparture */}
-              {/* sesstioResultIndex?.flightDetails?.map((dat, index) => {
+            {/* // [i]?.flightInformation?.productDateTime?.dateOfDeparture */}
+            {/* sesstioResultIndex?.flightDetails?.map((dat, index) => {
                 return (
                   <>
                     <div className="TotGstFlight-new">
@@ -537,7 +558,13 @@ const BookNowLeftAmd = (props) => {
             </div> */}
 
             <div className="TotGstFlight-new">
-            <div style={{color:"#333333",fontSize:"18px",fontWeight:"bold"}}>
+              <div
+                style={{
+                  color: "#333333",
+                  fontSize: "18px",
+                  fontWeight: "bold",
+                }}
+              >
                 <span className="textcolor">Total Price :</span>
                 <p className="textcolor">
                   {"₹"}
@@ -548,23 +575,34 @@ const BookNowLeftAmd = (props) => {
                   ).toFixed(2)} */}
 
                   {/* {grandtotalamount} */}
-                  {Number(finalamountvalue1).toFixed(0)}
+                  {parseInt(
+                    Number(finalamountvalue1) + Number(totalSeatAmount)
+                  )}
                 </p>
               </div>
               <div>
-              <div style={{display:"flex",gap:"1px"}}>
-                <span className="textcolor1">Base Fare: </span>
-                <div style={{background:"none",border:"none",padding:"2px",cursor:"pointer",marginRight:"2px",marginTop:"-4px"}}>                <span style={{margin:"2px"}} onClick={toggleDetails} >
-        {showDetails ? <FiMinusCircle/> : <FiPlusCircle/>}
-      </span>
-      </div>
-
-      </div>
+                <div style={{ display: "flex", gap: "1px" }}>
+                  <span className="textcolor1">Base Fare: </span>
+                  <div
+                    style={{
+                      background: "none",
+                      border: "none",
+                      padding: "2px",
+                      cursor: "pointer",
+                      marginRight: "2px",
+                      marginTop: "-4px",
+                    }}
+                  >
+                    {" "}
+                    <span style={{ margin: "2px" }} onClick={toggleDetails}>
+                      {showDetails ? <FiMinusCircle /> : <FiPlusCircle />}
+                    </span>
+                  </div>
+                </div>
                 <p className="textcolor1">
                   {"₹"}
-                  {
-                  Number(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0) -
-                  Number(ResultIndex?.monetaryDetail?.[1]?.amount).toFixed(0)}
+                  {Number(ResultIndex?.monetaryDetail?.[0]?.amount).toFixed(0) -
+                    Number(ResultIndex?.monetaryDetail?.[1]?.amount).toFixed(0)}
                   {/* {
                   Number ((Number(ResultIndex?.[0]?.paxFareDetail?.totalFareAmount || ResultIndex?.paxFareDetail?.totalFareAmount) * adultCount) +
 
@@ -574,31 +612,72 @@ const BookNowLeftAmd = (props) => {
                 </p>
               </div>
               {showDetails && (
-        <div  style={{width:"100%",display:"flex",flexDirection:"column"}} >
-          <div style={{ borderBottom: "none",width:"100%",display:"flex",justifyContent:"space-between" }}>
-            <p className="textcolor1">
-              Adult(s) ({adultCount} × {adultamount})
-            </p>
-            <p className="textcolor1">{"₹"}{multiplydata} </p>
-          </div>
-          <div style={{ borderBottom: "none" ,width:"100%",display:"flex",justifyContent:"space-between"}}>
-            {childCount > 0 && (
-              <>
-                <p className="textcolor1">Child(s) ({childCount} × {chilsamount})</p>
-                <p className="textcolor1">{"₹"}{childmultiply}</p>
-              </>
-            )}
-          </div>
-          <div style={{ borderBottom: "none" ,width:"100%",display:"flex",justifyContent:"space-between"}}>
-            {infantCount > 0 && (
-              <>
-                <p className="textcolor1">Infant(s) ({infantCount} × {infantamount})</p>
-                <p className="textcolor1">{"₹"}{infantmultiplicity}</p>
-              </>
-            )}
-          </div>
-        </div>
-      )}
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <div
+                    style={{
+                      borderBottom: "none",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <p className="textcolor1">
+                      Adult(s) ({adultCount} × {adultamount})
+                    </p>
+                    <p className="textcolor1">
+                      {"₹"}
+                      {multiplydata}{" "}
+                    </p>
+                  </div>
+                  <div
+                    style={{
+                      borderBottom: "none",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    {childCount > 0 && (
+                      <>
+                        <p className="textcolor1">
+                          Child(s) ({childCount} × {chilsamount})
+                        </p>
+                        <p className="textcolor1">
+                          {"₹"}
+                          {childmultiply}
+                        </p>
+                      </>
+                    )}
+                  </div>
+                  <div
+                    style={{
+                      borderBottom: "none",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    {infantCount > 0 && (
+                      <>
+                        <p className="textcolor1">
+                          Infant(s) ({infantCount} × {infantamount})
+                        </p>
+                        <p className="textcolor1">
+                          {"₹"}
+                          {infantmultiplicity}
+                        </p>
+                      </>
+                    )}
+                  </div>
+                </div>
+              )}
+
               <div>
                 <span className="textcolor1">Surcharges: </span>
                 <p className="textcolor1">
@@ -606,7 +685,29 @@ const BookNowLeftAmd = (props) => {
                   {Number(ResultIndex?.monetaryDetail?.[1]?.amount).toFixed(0)}
                 </p>
               </div>
-             
+
+              {/* {totalSeatAmount > 0 &&
+              (
+                  <div>
+                    <span className="textcolor1">Surcharges: </span>
+                    <p className="textcolor1">
+                      Others{" "}
+                      <span style={{ margin: "2px" }} onClick={toggleDetails}>
+                        {otherprice ? <FiMinusCircle /> : <FiPlusCircle />}
+                      </span>
+                    </p>
+                  </div>
+                )}
+
+              {otherprice > 0 && (
+                <div>
+                  <span className="textcolor1">Surcharges: </span>
+                  <p className="textcolor1">
+                    {"₹"} {totalSeatAmount}
+                  </p>
+                </div>
+              )} */}
+
               {/* <div>
                 <span>Other Fare: </span>
                 <p>
@@ -614,14 +715,66 @@ const BookNowLeftAmd = (props) => {
                   {Number(taxvaluetotal).toFixed(2)}
                 </p>
               </div> */}
+              {Number(totalSeatAmount) > 0 && (
+                <div>
+                  <div style={{ display: "flex", gap: "1px" }}>
+                    <span className="textcolor1">Other Tax: </span>
+                    <div
+                      style={{
+                        background: "none",
+                        border: "none",
+                        padding: "2px",
+                        cursor: "pointer",
+                        marginRight: "2px",
+                        marginTop: "-4px",
+                      }}
+                    >
+                      {" "}
+                      <span style={{ margin: "2px" }} onClick={toggleDetails1}>
+                        {otherprice ? <FiMinusCircle /> : <FiPlusCircle />}
+                      </span>
+                    </div>
+                  </div>
+                  <p className="textcolor1">
+                    {"₹"}
+                    {totalSeatAmount}
+                  </p>
+                </div>
+              )}
+              {otherprice && Number(totalSeatAmount) !== 0 && (
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <div
+                    style={{
+                      borderBottom: "none",
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <p className="textcolor1">seat</p>
+                    <p className="textcolor1">
+                      {"₹"}
+                      {totalSeatAmount}{" "}
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {discountAmount > 0 && (
-      <div>
-        <span>Discount Amount:</span>
-        <p style={{color:"#44B50C"}}>
-          -{"₹"}{Number(discountAmount).toFixed(2)}
-        </p>
-      </div>
-    )}
+                <div>
+                  <span>Discount Amount:</span>
+                  <p style={{ color: "#44B50C" }}>
+                    -{"₹"}
+                    {Number(discountAmount).toFixed(2)}
+                  </p>
+                </div>
+              )}
               {/* <div>
                 <span>Grand Total:</span>
                 <p>
@@ -651,9 +804,7 @@ const BookNowLeftAmd = (props) => {
         </>
       ) : (
         <>
-          <div>
-            <p>session expired</p>
-          </div>
+          <div>{/* <p>session expired</p> */}</div>
         </>
       )}
     </>

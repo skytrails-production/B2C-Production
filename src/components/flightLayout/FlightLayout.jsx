@@ -146,11 +146,15 @@ const Seat = ({
   const [SEATES, setSEATS] = useState(airlineSeatMap?.seatList);
   // console.log(airlineSeatMap, "seatAmountlist");
   const findSeat = (seatToFind) => {
-    return seatAmountlist.find((obj) =>
-      obj.seat.some((seat) => {
-        return seat === seatToFind;
-      })
-    );
+    if (seatAmountlist) {
+      return seatAmountlist?.find((obj) =>
+        obj.seat.some((seat) => {
+          return seat === seatToFind;
+        })
+      );
+    } else {
+      return false;
+    }
   };
 
   const foundObject = findSeat(rowNumber + seat);
@@ -1139,8 +1143,15 @@ function FlightLayout({ data }) {
   };
 
   useEffect(() => {
-    console.log(data, "data22222");
-    if (data && data.length > 2) {
+    console.log(
+      data,
+      "data22222",
+      reducerState?.airlineSeatMap?.number_of_airline
+    );
+    if (
+      data &&
+      data.length >= reducerState?.airlineSeatMap?.number_of_airline
+    ) {
       // Initialize an empty array to store the mapped results
       let data2 = [];
 

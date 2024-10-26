@@ -1346,7 +1346,7 @@ function NewItems({
                               : `${
                                   item?.Segments?.[0]?.length - 1 ||
                                   item?.flightDetails?.length - 1
-                                } stop's`}
+                                } stops`}
                           </div>
                         </div>
 

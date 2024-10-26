@@ -78,7 +78,7 @@ const FlightDetailAMD = ({ flight }) => {
     // setAirlines(flightList?.flightDetails);
     setAirports(flightList?.aireportList);
   }, [flightList?.flightDetails, flightList?.aireportList]);
-  // console.log(flight, flight?.flightDetails?.flightInformation?.productDateTime
+  // console.log(flight
   //     , "flightAmdffff");
   // function findAirlineByCode(code) {
   //     // console.log(airlines)
@@ -140,9 +140,16 @@ const FlightDetailAMD = ({ flight }) => {
         `booknow?adult=${adultCount}&child=${childCount}&infant=${infantCount} `,
         { state: { ResultIndex } }
       );
-    } else if (ResultIndex?.flightDetails) {
+    }
+     else if (ResultIndex?.flightDetails) {
       navigate(
         `booknowAmd?adult=${adultCount}&child=${childCount}&infant=${infantCount}`,
+        { state: { ResultIndex } }
+      );
+    }
+    else if (ResultIndex?.ADate){
+      navigate(
+        `bookKafila?adult=${adultCount}&child=${childCount}&infant=${infantCount}`,
         { state: { ResultIndex } }
       );
     }

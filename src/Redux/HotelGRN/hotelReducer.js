@@ -189,6 +189,9 @@ export const hotelReducerGRN = (state = initState, action) => {
         ...state,
         hotelRoom: [],
       }
+    case types.CLEAR_HOTEL_ROOM_ALL:
+      console.log('CLEAR_HOTEL_ROOM_ALL');
+      return initState
 
     default:
       return state;

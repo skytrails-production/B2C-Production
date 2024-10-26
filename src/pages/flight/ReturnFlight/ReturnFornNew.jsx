@@ -6,7 +6,7 @@ import { ipAction, tokenAction } from "../../../Redux/IP/actionIp";
 import { useNavigate } from "react-router-dom";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
-import "react-datepicker/dist/react-datepicker.css";
+
 import axios from "axios";
 import TravelerCounter from "../../../components/TravelerCounter";
 import { clearbookTicketGDS } from "../../../Redux/FlightBook/actionFlightBook";

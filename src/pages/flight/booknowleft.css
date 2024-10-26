@@ -399,6 +399,6 @@ font-size: 15px;
 font-size: 13px;
             font-weight: 500;
             margin-bottom: 0 !important;
-            color: var(--black4) !important;
+            color: var(--black4) ;
             font-family: "Montserrat";
 }

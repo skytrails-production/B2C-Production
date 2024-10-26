@@ -7,6 +7,7 @@ import BookWrapperAmd from "./pages/flight/BookwrapperAmd";
 import Searchresult from "./pages/flight/flightResult/FlightMain";
 import "./App.css";
 import "./index.scss";
+import "./styles/index.scss"
 import LoginForm from "./components/Login";
 import DummyTicketBookingForm from "./components/DummyTicketBookingForm";
 // import SignUp from "./components/Signup";
@@ -100,6 +101,7 @@ import Registerinventory from "./pages/Inventory/Registerinventory";
 import InventoryHotelForm from "./pages/Inventory/InventoryHotelForm";
 
 import HotelResultMain from "./pages/GRMHotel/HotelResultMain";
+import Reviews from "./pages/userReview/UserReview";
 
 import "../src/pages/flight/selectflight.css";
 import SmallDevice from "./components/SmallDevicePopUp";
@@ -123,6 +125,15 @@ import Career from "./pages/skyTrailsCarrer/Career";
 import BusResultMain from "./pages/bus/BusResult/BusResultMain";
 import BusPassengerDetail from "./pages/bus/busPassengerDetails/BusPassengerDetails";
 import BusFinalReview from "./pages/bus/busFinalReview/BusFinalReview";
+
+// import SectionHero from "./pages/tailwindDesign/SectionHero";
+import NewHome from "./pages/tailwindDesign/NewHome";
+import MainNav from "./pages/tailwindDesign/MainNav";
+
+
+import Bookwrapperkafila from "./pages/flight/flightResult/Kafilapi/Bookwrapperkafila";
+import Kafilabookingdetails from "./pages/flight/flightResult/Kafilapi/Kafilabookingdetails";
+
 
 function App() {
   // const location = useLocation();
@@ -314,19 +325,28 @@ function App() {
       {/* {location.pathname == "/" &&
         <SmallDevice />} */}
 
+
+
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/phone" &&
         location.pathname !== "/inventoryDashboard" &&
         location.pathname !== "/Package/form" &&
-        // location.pathname !== "/inventoryhotelform" && <InsideNavbar />}
-        location.pathname !== "/inventoryhotelform" && <Navbar />}
+        location.pathname !== "/inventoryhotelform" && <MainNav />}
+      {/* {location.pathname !== "/inventoryLogin" &&
+        location.pathname !== "/inventoryRegister" &&
+        location.pathname !== "/phone" &&
+        location.pathname !== "/inventoryDashboard" &&
+        location.pathname !== "/Package/form" &&
+        location.pathname !== "/inventoryhotelform" && <Navbar />} */}
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
-        // location.pathname !== "/inventoryhotelform" && <InsideNavbar />}
         location.pathname !== "/inventoryhotelform" && <BottomNavbar />}
+
+
+
       {/* 
       {location.pathname == "/" ||
         location.pathname == "/st-hotel" ||
@@ -356,6 +376,7 @@ function App() {
         <Route index element={<Home />}></Route>
         {/* <Route path="/Return" element={<ReturnMain />}></Route> */}
         <Route path="/ReturnResult" element={<ReturnResult />}></Route>
+        <Route path="/tailwind" element={<NewHome />}></Route>
         <Route
           path="/ReturnResultInternational"
           element={<ReturnResultInternational />}
@@ -396,11 +417,19 @@ function App() {
           element={<ReturnReviewBooking />}
         />
         <Route path="login" element={<LoginForm />}></Route>
+        <Route path="reviews" element={<Reviews />}></Route>
         {/* <Route path="signup" element={<SignUp />}></Route> */}
         <Route path="flighterror" element={<Flighterror />}></Route>
         <Route path="Searchresult/booknow" element={<BookWrapper />}>
+
           {" "}
         </Route>
+
+        <Route path="Searchresult/bookKafila" element={<Bookwrapperkafila />}>
+
+          {" "}
+        </Route>
+        <Route path="/bookedTicketkafila" element={<Kafilabookingdetails />}></Route>
         <Route path="Searchresult/booknowAmd" element={<BookWrapperAmd />}>
           {" "}
         </Route>
@@ -557,13 +586,13 @@ function App() {
           path="/inventoryLogin"
           element={
             <div
-            style={{
-              backgroundImage: 'url("/bg.png")',  // Assuming your image is in the public folder
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              height: "100vh",  // Full screen height
-              width: "100vw"    // Optional: Full screen width
-            }}
+              style={{
+                backgroundImage: 'url("/bg.png")',  // Assuming your image is in the public folder
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                height: "100vh",  // Full screen height
+                width: "100vw"    // Optional: Full screen width
+              }}
             >
               <Logininventory />
             </div>

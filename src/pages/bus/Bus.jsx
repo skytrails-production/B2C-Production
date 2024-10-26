@@ -1,11 +1,10 @@
-
 import Download from "../../pages/home/Download";
 // import Bussearch from "./Bussearch";
 // import "./bus.css";
 import Advertise from "../home/Advertise";
 // import FLightOffer from "../flight/FLightOffer";
 // import hotelBanner from "../../images/hotelBanner.jpg"
-import busBanner from "../../images/busNew.jpg"
+import busBanner from "../../images/busNew.jpg";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
 import Partners from "../home/Partners";
@@ -15,30 +14,48 @@ import HolidayTopCountries from "../NewPackagePages/holidayCountries/HolidayTopC
 import Blog from "../home/Blog";
 import Img from "../../LazyLoading/Img";
 import BusForm from "./BusForm";
-
+import diwali from "../../images/diwali.png";
+import BusSearchForm from "../../components/TailwindSearchComp/heroSection/busSearchForm/BusSearchForm";
+import Testimonials from "../../components/TailwindSearchComp/testimonials/Testimonials";
+import Faq from "../../components/TailwindSearchComp/Faq";
+import FooterNavigation from "../../components/footerNavigate/FooterNavigation";
 
 const Bus = () => {
   return (
     <div>
       <div className="hotel_banner" style={{ background: "white" }}>
         <Helmet>
-          <title>The Skytrails - Hotel Booking, Flight Booking, Bus Booking</title>
+          <title>
+            The Skytrails - Hotel Booking, Flight Booking, Bus Booking
+          </title>
           <link rel="canonical" href="/bus" />
           <meta name="description" content="bus" />
-          <meta name="keywords" content="online bus booking,cheap bus ticket,compare bus fare,best bus deal,last minute bus booking,luxury bus travel,comfortable bus journeys,overnight bus trips,scenic bus routes,student bus passes,sleeper bus with AC,bus with Wi-Fi and charging points,pet-friendly bus travel,luggage allowance on buses " />
+          <meta
+            name="keywords"
+            content="online bus booking,cheap bus ticket,compare bus fare,best bus deal,last minute bus booking,luxury bus travel,comfortable bus journeys,overnight bus trips,scenic bus routes,student bus passes,sleeper bus with AC,bus with Wi-Fi and charging points,pet-friendly bus travel,luggage allowance on buses "
+          />
         </Helmet>
 
-        <div className='heroBannerFlight'>
+        <div className="heroBannerFlight flex md:hidden lg:hidden">
           <div className="backdrop-img">
             <Img src={busBanner} />
           </div>
           <div className="opacity-layer"></div>
           <div className="heroBannerContent container">
-            <span className="headingTitle">Make booking easy and convenient.</span>
-            {/* <GrmHotelForm /> */}
+            <span className="headingTitle">
+              Make booking easy and convenient.
+            </span>
             <BusForm />
-            {/* <Bussearch /> */}
           </div>
+        </div>
+
+        <div className="flightMainBox relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(63,196,251,1)_0%,_rgba(70,153,252,1)_100%)] hidden md:flex ">
+          <img
+            src={diwali}
+            className="absolute top-0 left-0  h-full object-fill w-full"
+            alt="Diwali Background"
+          />
+          <BusSearchForm />
         </div>
 
         <div className="mt-3">
@@ -60,6 +77,12 @@ const Bus = () => {
           <WhyChooseUs />
         </div>
         <div>
+          <Testimonials />
+        </div>
+        <div>
+          <Faq />
+        </div>
+        <div>
           <Download />
         </div>
         <div>
@@ -69,8 +92,10 @@ const Bus = () => {
         <div>
           <Blog />
         </div>
+        <div>
+          <FooterNavigation />
+        </div>
       </div>
-
     </div>
   );
 };

@@ -12,16 +12,21 @@ const FlightSmallFilter = ({
   minPrice,
   maxPrice,
   priceRange,
+  minDuration,
+  maxDuration,
+  durationRange,
   onFilter,
 }) => {
-  // console.log(airlineCodes, "airlines filtered")
+  // console.log(minDuration, maxDuration, durationRange, "mobile filtered");
   const [selectedCodes, setSelectedCodes] = useState([]);
   const [selectedStops, setSelectedStops] = useState([]);
   const [selectedDepTime, setSelectedDepTime] = useState([]);
   const [selectedArrTime, setSelectedArrTime] = useState([]);
 
   const [isPriceModalVisible, setIsPriceModalVisible] = useState(false);
+  const [isDurationModalVisible, setIsDurationModalVisible] = useState(false);
   const [localPriceRange, setLocalPriceRange] = useState(priceRange);
+  const [localDurationRange, setLocalDurationRange] = useState(durationRange);
   const [isStopsModalVisible, setIsStopsModalVisible] = useState(false);
   const [localSelectedStops, setLocalSelectedStops] = useState(
     // selectedTag
@@ -46,6 +51,7 @@ const FlightSmallFilter = ({
   );
 
   const [isPriceFilterApplied, setIsPriceFilterApplied] = useState(false);
+  const [isDurationFilterApplied, setIsDurationFilterApplied] = useState(false);
   const [isDepTimeFilterApplied, setIsDepTimeFilterApplied] = useState(false);
   const [isArrTimeFilterApplied, setIsArrTimeFilterApplied] = useState(false);
   const [isStopsFilterApplied, setIsStopsFilterApplied] = useState(false);
@@ -64,9 +70,21 @@ const FlightSmallFilter = ({
     setLocalPriceRange(priceRange);
     setIsPriceModalVisible(true);
   };
+  const showDurationModal = () => {
+    setLocalDurationRange(durationRange);
+    setIsDurationModalVisible(true);
+  };
+  //function for prices fliter
   const handlePriceOk = () => {
     // onPriceChange(localPriceRange);
-    onFilter(selectedCodes, selectedStops, priceRange, [[0, 6]], []);
+    onFilter(
+      selectedCodes,
+      selectedStops,
+      localPriceRange,
+      [],
+      [],
+      localDurationRange
+    );
     // Apply filter
     setIsPriceModalVisible(false);
     setIsPriceFilterApplied(true);
@@ -79,11 +97,35 @@ const FlightSmallFilter = ({
   const handlePriceChange = (value) => {
     setLocalPriceRange(value);
   };
+  const handleDurationOk = () => {
+    // onPriceChange(localPriceRange);
+    onFilter(
+      selectedCodes,
+      selectedStops,
+      localPriceRange,
+      [],
+      [],
+      localDurationRange
+    );
+    // Apply filter
+    setIsDurationModalVisible(false);
+    setIsDurationFilterApplied(true);
+    setClearVisible(true);
+  };
+  //functions for duration filter
+  const handleDurationCancel = () => {
+    setIsDurationModalVisible(false);
+  };
+
+  const handleDurationChange = (value) => {
+    setLocalDurationRange(value);
+  };
   const handleClearFilter = () => {
     // setSelectedDestinations([]);
     // setLocalSelectedDestinations([]);
 
     setLocalPriceRange([minPrice, maxPrice]);
+    setLocalDurationRange([minDuration, maxDuration]);
 
     setLocalSelectedStops([]);
     setLocalSelectedAirlines([]);
@@ -91,9 +133,10 @@ const FlightSmallFilter = ({
     setLocalSelectedArrTime([]);
     // onClearFilters()
     // onFilterChange([], [minPrice, maxPrice], '', []);
-    onFilter([], [], [minPrice, maxPrice], [], []);
+    onFilter([], [], [minPrice, maxPrice], [], [], [minDuration, maxDuration]);
 
     setIsPriceFilterApplied(false);
+    setIsDurationFilterApplied(false);
     setIsStopsFilterApplied(false);
 
     setIsAirlineFilterApplied(false);
@@ -119,7 +162,8 @@ const FlightSmallFilter = ({
       priceRange,
       // localSelectedDepTime,
       [],
-      []
+      [],
+      [minDuration, maxDuration]
     );
     // Apply filter
     setIsAirlinesModalVisible(false);
@@ -263,7 +307,8 @@ const FlightSmallFilter = ({
       [],
       [minPrice, maxPrice],
       localSelectedDepTime,
-      localSelectedArrTime
+      localSelectedArrTime,
+      localDurationRange
     );
     setIsArrTimeModalVisible(false);
     setIsArrTimeFilterApplied(true);
@@ -287,6 +332,16 @@ const FlightSmallFilter = ({
       return;
     }
     return;
+  }
+  //convert minutes to hours
+  function formatMinutes(durationMinutes) {
+    const hours = Math.floor(durationMinutes / 60); // Get whole hours
+    return `${hours}h`; // Return formatted string
+  }
+  function formatDuration(durationMinutes) {
+    const hours = Math.floor(durationMinutes / 60); // Get whole hours
+    const minutes = durationMinutes % 60; // Get remaining minutes
+    return `${hours}h ${minutes}m`; // Return formatted string
   }
   return (
     <div className="filterPackageMobileBox">
@@ -386,10 +441,7 @@ const FlightSmallFilter = ({
           onOk={handlePriceOk}
           onCancel={handlePriceCancel}
           footer={[
-            <Button
-              key="back"
-              // onClick={handlePriceCancel}
-            >
+            <Button key="back" onClick={handlePriceCancel}>
               Cancel
             </Button>,
             <Button key="submit" type="primary" onClick={handlePriceOk}>
@@ -413,6 +465,57 @@ const FlightSmallFilter = ({
               </span>
               <span style={{ fontWeight: "600", fontSize: "13px" }}>
                 ₹ {localPriceRange?.[1]}
+              </span>
+            </div>
+          </div>
+        </Modal>
+        {/* Duration Filter Box */}
+        <div className="filterCitiesMobile" onClick={showDurationModal}>
+          <p
+            style={{
+              border: isDurationFilterApplied
+                ? "1px solid #e73c34"
+                : "1px solid gray",
+              color: isDurationFilterApplied ? "#e73c34" : "gray",
+              cursor: "pointer",
+            }}
+          >
+            Filter By Layover
+          </p>
+        </div>
+
+        {/* Duration Modal */}
+        <Modal
+          title="Filter By Layover"
+          centered
+          open={isDurationModalVisible}
+          onOk={handleDurationOk}
+          onCancel={handleDurationCancel}
+          footer={[
+            <Button key="back" onClick={handleDurationCancel}>
+              Cancel
+            </Button>,
+            <Button key="submit" type="primary" onClick={handleDurationOk}>
+              Apply Filter
+            </Button>,
+          ]}
+        >
+          <div className="holidayFilterSlider">
+            {/* <p>Filter By Price</p> */}
+            <Slider
+              range
+              step={1}
+              min={minDuration}
+              max={maxDuration}
+              value={localDurationRange}
+              onChange={handleDurationChange}
+            />
+            <div className="d-flex flex-row justify-content-between align-items-center ">
+              <span style={{ fontWeight: "600", fontSize: "13px" }}>
+                {localDurationRange?.[0] + 1}h
+              </span>
+              <span style={{ fontWeight: "600", fontSize: "13px" }}>
+                {localDurationRange?.[1]}h
               </span>
             </div>
           </div>

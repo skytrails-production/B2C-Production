@@ -10,10 +10,15 @@ const FlightBigFilter = ({
   maxPrice,
   priceRange,
   onFilter,
+  minDuration,
+  maxDuration,
+  durationRange,
 }) => {
   const [selectedCodes, setSelectedCodes] = useState([]);
   const [selectedStops, setSelectedStops] = useState([]);
   const [currentPriceRange, setCurrentPriceRange] = useState(priceRange);
+  const [currentDurationRange, setCurrentDurationRange] =
+    useState(durationRange);
   const [selectedTimes, setSelectedTimes] = useState([]);
   const [selectedLandingTimes, setSelectedLandingTimes] = useState([]);
   const flightList = useSelector((state) => state?.flightList);
@@ -27,6 +32,9 @@ const FlightBigFilter = ({
   useEffect(() => {
     setCurrentPriceRange(priceRange); // Update currentPriceRange when priceRange changes
   }, [priceRange]);
+  useEffect(() => {
+    setCurrentDurationRange(durationRange); // Update currentPriceRange when priceRange changes
+  }, [durationRange]);
 
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
@@ -74,6 +82,17 @@ const FlightBigFilter = ({
       selectedLandingTimes
     ); // Call onFilter when price range changes
   };
+  const handleDurationChange = (value) => {
+    setCurrentDurationRange(value);
+    onFilter(
+      selectedCodes,
+      selectedStops,
+      currentPriceRange,
+      selectedTimes,
+      selectedLandingTimes,
+      currentDurationRange
+    ); // Call onFilter when price range changes
+  };
 
   useEffect(() => {
     // console.log(currentPriceRange, "currentPriceRange")
@@ -82,7 +101,8 @@ const FlightBigFilter = ({
       selectedStops,
       currentPriceRange,
       selectedTimes,
-      selectedLandingTimes
+      selectedLandingTimes,
+      currentDurationRange
     );
   }, [
     selectedCodes,
@@ -91,6 +111,7 @@ const FlightBigFilter = ({
     selectedTimes,
     selectedLandingTimes,
     onFilter,
+    currentDurationRange,
   ]);
   function findAirlineByCode(code) {
     // console.log(airlines)
@@ -103,6 +124,8 @@ const FlightBigFilter = ({
     }
     return;
   }
+
+  // console.log(minDuration, maxDuration, durationRange, "durrationrange");
 
   return (
     <div className="flightFilterMainBox ">
@@ -155,6 +178,26 @@ const FlightBigFilter = ({
         >
           2 Stop
         </Checkbox>
+      </div>
+      <div className="holidayFilterSlider flight-filter-aireline mt-3">
+        <p>Filter By Layover</p>
+        <Slider
+          range
+          step={1}
+          min={minDuration}
+          max={maxDuration}
+          value={currentDurationRange}
+          onChange={handleDurationChange}
+        />
+
+        <div className="d-flex flex-row justify-content-between align-items-center ">
+          <span style={{ fontWeight: "600", fontSize: "13px" }}>
+            {minDuration + 1}h
+          </span>
+          <span style={{ fontWeight: "600", fontSize: "13px" }}>
+            {maxDuration}h
+          </span>
+        </div>
       </div>
       <div className="holidayFilterSlider flight-filter-aireline mt-3">
         <p>Filter By Price</p>

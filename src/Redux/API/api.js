@@ -17,6 +17,9 @@ function api() {
   const airportList = () => {
     return axios.get(`${apiURL.baseURL}/skyTrails/searchCity`);
   };
+  const faqReviewApi = () => {
+    return axios.get(`${apiURL.baseURL}/skyTrails/api/user/getFaqRating`);
+  };
 
   const userB2BToken = (payload) => {
     return axios({
@@ -97,7 +100,8 @@ function api() {
   const oneWaySearchCombined = (payload) => {
     return axios({
       method: "POST",
-      url: "/skytrails/api/combined/combineTVOAMADEUSPriceSort",
+      // url: "/skytrails/api/combined/combineTVOAMADEUSPriceSort",
+      url: "/skyTrails/api/combine/combineApiRes",
       // url: "/skytrails/api/combined/AMADEUSPriceSort",
 
 
@@ -715,6 +719,7 @@ function api() {
     userIP,
     markUp,
     userB2CLogin,
+    faqReviewApi,
     userB2CLoginWithSocial,
     userB2BToken,
     oneWaySearch,

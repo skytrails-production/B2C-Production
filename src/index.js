@@ -8,7 +8,7 @@ import { persistor, store } from "./Redux/store";
 import { PersistGate } from "redux-persist/lib/integration/react";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import "react-loading-skeleton/dist/skeleton.css";
-import Maintenance from "./components/Maintenance";
+// import Maintenance from "./components/Maintenance";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

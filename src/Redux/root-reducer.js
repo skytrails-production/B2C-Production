@@ -2,6 +2,7 @@ import { combineReducers } from "redux";
 import { oneWayReducer } from "./FlightSearch/oneWayReducer";
 import { searchFlightReducer } from "./SearchFlight/searchFlightReducer";
 import { flightListReducer } from "./FlightList/fighListtReducer";
+import { faqRatingReducer } from "./Faq&Rating/faqRatingReducer";
 import { ipReducer } from "./IP/ipReducer";
 import { flightFareReducer } from "./FlightFareQuoteRule/flightFareReducer";
 import { flightBookReducer } from "./FlightBook/flightBookReducer";
@@ -48,8 +49,9 @@ const appReducer = combineReducers({
   Itenerary: itenaryReducer,
   searchFlight: searchFlightReducer,
   flightList: flightListReducer,
+  faqRating: faqRatingReducer,
 
-  airlineSeatMap:airlineSeatMapReducer
+  airlineSeatMap: airlineSeatMapReducer
 });
 
 const rootReducer = (state, action) => {

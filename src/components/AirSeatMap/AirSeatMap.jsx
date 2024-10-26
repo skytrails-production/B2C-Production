@@ -11,9 +11,17 @@ import {
   setAirlineAmount,
 } from "../../Redux/AirlineSeatMap/actionAirlineSeatMap";
 
-const AirSeatMap = ({ state, isDropdown, passengerData }) => {
+const AirSeatMap = ({
+  state,
+  isDropdown,
+  passengerData,
+  setIsSeatsShow,
+  isSeatsShow,
+  isSeatMapopen,
+}) => {
   // console.log(passengerData, "passengerData");
   const location = useLocation();
+  let isSeat = true;
   const [seatMap, setSeatMap] = useState(null);
   const [loader, setLoader] = useState(false);
   const dispatch = useDispatch();
@@ -69,13 +77,13 @@ const AirSeatMap = ({ state, isDropdown, passengerData }) => {
 
       <paxDetails>
 
-        <surname>${passengerData?.[i]?.lastName}</surname>
+        <surname>${passengerData?.[i]?.lastName || "dummy"}</surname>
 
       </paxDetails>
 
       <otherPaxDetails>
 
-        <givenName>${passengerData?.[i]?.firstName}</givenName>
+        <givenName>${passengerData?.[i]?.firstName || "dummy"}</givenName>
 
         <type>${passengerData?.[i]?.PaxType == 1 ? "ADT" : "CHD"}</type>
     
@@ -117,7 +125,18 @@ const AirSeatMap = ({ state, isDropdown, passengerData }) => {
     seatMapdataNew.push(result);
     // console.log(seatMapdataNew, "seatMapdataNew");
     setSeatMap(seatMapdataNew);
-
+    console.log(
+      result?.Air_RetrieveSeatMapReply?.seatmapInformation?.customerCentricData,
+      "result"
+    );
+    if (
+      !result?.Air_RetrieveSeatMapReply?.seatmapInformation?.customerCentricData
+    ) {
+      isSeat = false;
+      setIsSeatsShow({ loading: false, isSeat: isSeat });
+      console.log("false setisSeats", isSeatsShow);
+      return;
+    }
     if (seatMapData?.length == count) {
       setLoader(false);
     }
@@ -171,51 +190,6 @@ const AirSeatMap = ({ state, isDropdown, passengerData }) => {
     // console.log(seatlist, "seatlist")
     dispatch(number_of_seat_map({ no: numOfPaln, seatList: seatlist }));
   }, []);
-  function convertSeatPrice(seatPrice) {
-    return seatPrice.map((priceObj) => {
-      let result = {
-        type: "",
-        amount: "",
-        currency: "",
-        seat: [],
-      };
-
-      // Extracting seat details
-      if (priceObj?.rowDetails) {
-        const rowDetails = Array.isArray(priceObj.rowDetails)
-          ? priceObj.rowDetails
-          : [priceObj.rowDetails];
-        rowDetails.forEach((row) => {
-          if (Array.isArray(row?.seatOccupationDetails)) {
-            row.seatOccupationDetails.forEach((seat) => {
-              let seatDetail = `${row.seatRowNumber}${seat.seatColumn}`;
-              if (seat.seatOccupation) {
-                seatDetail += seat.seatOccupation;
-              }
-              result.seat.push(seatDetail);
-            });
-          }
-        });
-      }
-
-      // Extracting monetary details
-      if (priceObj?.seatPrice?.monetaryDetails) {
-        priceObj.seatPrice.monetaryDetails.forEach((detail) => {
-          if (detail?.typeQualifier === "TNB") {
-            result.type = "offer";
-            result.amount = detail.amount;
-            result.currency = detail.currency;
-          } else if (detail?.typeQualifier === "T") {
-            result.type = "full";
-            result.amount = detail.amount;
-            result.currency = detail.currency;
-          }
-        });
-      }
-
-      return result;
-    });
-  }
 
   const string = ` <seatRequestParameters>
     //     <genericDetails>
@@ -236,6 +210,8 @@ const AirSeatMap = ({ state, isDropdown, passengerData }) => {
         seatMapData[i]?.flight_number
       );
     }
+    console.log(isSeatsShow, "isshowseat1");
+    setIsSeatsShow({ isSeat: isSeat, loading: false });
   };
   const fetchData = async (depDate, dep, arr, airline, flight_number) => {
     const res = await axios({
@@ -393,9 +369,9 @@ const AirSeatMap = ({ state, isDropdown, passengerData }) => {
   };
 
   useEffect(() => {
-    if (isDropdown) {
-      handleData();
-    }
+    // if (isDropdown) {
+    handleData();
+    // }
   }, [isDropdown]);
   // console.log(seat, "seatmaplist");
   console.log(
@@ -406,7 +382,7 @@ const AirSeatMap = ({ state, isDropdown, passengerData }) => {
 
   return seatMap?.length == seatMapData?.length ? (
     <>
-      {isDropdown ? (
+      {isSeatMapopen ? (
         // <div className='d-flex justify-content-center align-items-center'>
 
         // <div class="loader-Seat-Map"></div>
@@ -417,7 +393,8 @@ const AirSeatMap = ({ state, isDropdown, passengerData }) => {
       )}
     </>
   ) : (
-    <div>Loading</div>
+    // <div>{isSeatsShow.loading ? "Loading" : ""}</div>
+    <div>{"Loading"}</div>
   );
 };
 

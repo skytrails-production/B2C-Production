@@ -7,8 +7,7 @@ import Item from "antd/es/list/Item";
 import { Segment } from "@mui/icons-material";
 
 const FlightDetail = ({ flight }) => {
-  // console.log(flight, flight?.
-  //     Segments?.[0]?.length, "flight tvo")
+  // console.log(flight, "flight tvo")
   function formatDateTime(dateString) {
     const date = new Date(dateString);
 

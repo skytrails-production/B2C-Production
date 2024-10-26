@@ -8,7 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 import { clearHotelReducer, hotelAction } from "../../Redux/Hotel/hotel";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+
 import Box from "@mui/material/Box";
 // import Swal from "sweetalert2";
 import Dialog from "@mui/material/Dialog";

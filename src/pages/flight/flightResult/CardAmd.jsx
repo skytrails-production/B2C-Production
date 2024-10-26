@@ -143,7 +143,7 @@ const CardAmd = ({ flight }) => {
                   <span>
                     {flight?.flightDetails?.flightInformation
                       ? "non-stop"
-                      : `${flight?.flightDetails?.length - 1} stop's`}
+                      : `${flight?.flightDetails?.length - 1} stop`}
                   </span>
                 </div>
                 <div className="flight-time-1">
@@ -177,7 +177,7 @@ const CardAmd = ({ flight }) => {
                 <button
                   onClick={() => {
                     setIsShow((pre) => !pre);
-                    // console.log(flight, "onclickkkkkk")
+                    // console.log(flight, "onclickkkkkk");
                   }}
                 >
                   <span>View Details</span>
@@ -188,122 +188,6 @@ const CardAmd = ({ flight }) => {
         </div>
       </div>
       {isShow && <FlightDetailAMD flight={flight} />}
-
-      {/* <div className='card-box-2'>
-        <button>
-            <p>Flight starting at ₹1099/ month</p>
-            <span>Book Now</span>
-        </button>
-    </div>
-    <div className='card-box-3'>
-        <div className='detail-options'>
-            <button>FLIGHT DETAILS</button>
-            <button>FARE SUMMARY</button>
-            <button>CANCELLATION</button>
-        </div>
-        <div className='flight-information'>
-            <div className='labale-flight'>
-                <div className='labale-left'><p>Base Fare (1 Adult)</p></div>
-                <div className='labale-right'><span>₹ 4,650</span></div>
-            </div>
-            <div className='labale-flight'>
-                <div className='labale-left'><p>Taxes and Fees (1 Adult)</p></div>
-                <div className='labale-right'><span>₹ 726</span></div>
-            </div>
-            <div className='labale-flight'>
-                <div className='labale-left'><p>Total Fare ( 1 Adult)</p></div>
-                <div className='labale-right'><span>₹ 5,376</span></div>
-            </div>
-            
-        </div>
-        <div className='card-flight'>
-    <div className='card-box-1'>
-        
-        <div className='detail'>
-            <div className='flight-box-1'>
-                <div className=''>
-                    <img
-                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${"AI"}.png`}
-                        alt="flight"
-                        style={{ borderRadius: "8px" }}
-                        width={58}
-                        height={58}
-                    />
-                </div>
-                <div>
-                    <p style={{ color: "#071C2C", fontSize: "18px" }}>Vistara</p>
-                    <p style={{ color: "#E73C348F", fontSize: "14px", fontWeight: "500" }}>A1441</p>
-                </div>
-            </div>
-            <div className='flight-box-2'>
-
-                <div className="flight-time-1">
-                    <p >DEL</p>
-                    <p >16:00</p>
-
-                    <span >Terminal 2</span>
-                </div>
-                <div className="flight-time-2">
-                    <p>01h 55m</p>
-                    <img src={stopImg} alt="" />
-                    <span>9 Seat(s) left</span>
-                </div>
-                <div  className="flight-time-1">
-                    <p >DEL</p>
-                    <p >16:00</p>
-
-                    <span >Terminal 2</span>
-                </div>
-            </div>
-          
-
-        </div>
-    </div>
-    <div className='card-box-1'>
-        
-        <div className='detail'>
-            <div className='flight-box-1'>
-                <div className=''>
-                    <img
-                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${"AI"}.png`}
-                        alt="flight"
-                        style={{ borderRadius: "8px" }}
-                        width={58}
-                        height={58}
-                    />
-                </div>
-                <div>
-                    <p style={{ color: "#071C2C", fontSize: "18px" }}>Vistara</p>
-                    <p style={{ color: "#E73C348F", fontSize: "14px", fontWeight: "500" }}>A1441</p>
-                </div>
-            </div>
-            <div className='flight-box-2'>
-
-                <div className="flight-time-1">
-                    <p >DEL</p>
-                    <p >16:00</p>
-
-                    <span >Terminal 2</span>
-                </div>
-                <div className="flight-time-2">
-                    <p>01h 55m</p>
-                    <img src={stopImg} alt="" />
-                    <span>9 Seat(s) left</span>
-                </div>
-                <div  className="flight-time-1">
-                    <p >DEL</p>
-                    <p >16:00</p>
-
-                    <span >Terminal 2</span>
-                </div>
-            </div>
-          
-
-        </div>
-    </div>
-
-</div >
-    </div> */}
     </div>
   );
 };

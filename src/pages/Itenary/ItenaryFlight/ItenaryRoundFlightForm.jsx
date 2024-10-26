@@ -7,7 +7,7 @@ import "react-date-range/dist/theme/default.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import "react-datepicker/dist/react-datepicker.css";
+
 import axios from "axios";
 import SecureStorage from "react-secure-storage";
 import { Select } from "antd";

@@ -43,6 +43,6 @@ export const clearAirlineSeat = () => {
 export const clear_all_airline = () => {
   return {
     type: types.CLEAR_ALL_AIRRLINE,
-    
+
   };
 };
