@@ -1,3 +1,4 @@
+
 .root {
   overflow: hidden;
 }
@@ -39,7 +40,7 @@
 
 //
 .nc-card-title {
-  // @apply transition-colors  hover:text-primary-900 duration-75;
+  @apply transition-colors  hover:text-primary-900 duration-75;
 }
 
 //
@@ -171,9 +172,9 @@
   @apply w-5 h-5 lg:w-8 lg:h-8;
 }
 //
-button.gm-control-active.gm-fullscreen-control {
-  @apply rounded-xl #{!important};
-}
+// button.gm-control-active.gm-fullscreen-control {
+//   @apply rounded-xl #{!important};
+// }
 
 //
 .nc-FiveStartIconForRate {
