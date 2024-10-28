@@ -66,7 +66,7 @@ const NewPackageForm = () => {
   };
 
   return (
-    <div className="heroBanner flex md:hidden lg:hidden">
+    <div className="heroBanner">
       <div className="backdrop-img">
         <Img src={newPackBanner} />
       </div>

@@ -19,6 +19,7 @@ import BusSearchForm from "../../components/TailwindSearchComp/heroSection/busSe
 import Testimonials from "../../components/TailwindSearchComp/testimonials/Testimonials";
 import Faq from "../../components/TailwindSearchComp/Faq";
 import FooterNavigation from "../../components/footerNavigate/FooterNavigation";
+import OfferMain from "../../components/TailwindSearchComp/offerPage/OfferMain";
 
 const Bus = () => {
   return (
@@ -58,20 +59,23 @@ const Bus = () => {
           <BusSearchForm />
         </div>
 
-        <div className="mt-3">
+        {/* <div className="mt-3">
           <NewHolidayCategory />
         </div>
         <div>
           <NewHolidayTrending />
+        </div> */}
+        <div>
+          <OfferMain />
         </div>
 
-        <div>
+        {/* <div>
           <Advertise />
-        </div>
+        </div> */}
 
-        <div>
+        {/* <div>
           <HolidayTopCountries />
-        </div>
+        </div> */}
 
         <div>
           <WhyChooseUs />
@@ -82,7 +86,7 @@ const Bus = () => {
         <div>
           <Faq />
         </div>
-        <div>
+        {/* <div>
           <Download />
         </div>
         <div>
@@ -91,7 +95,7 @@ const Bus = () => {
 
         <div>
           <Blog />
-        </div>
+        </div> */}
         <div>
           <FooterNavigation />
         </div>

@@ -17,6 +17,7 @@ import HolidaySearchForm from "../../components/TailwindSearchComp/heroSection/h
 import Testimonials from "../../components/TailwindSearchComp/testimonials/Testimonials";
 import Faq from "../../components/TailwindSearchComp/Faq";
 import FooterNavigation from "../../components/footerNavigate/FooterNavigation";
+import OfferMain from "../../components/TailwindSearchComp/offerPage/OfferMain";
 const PackageHomePage = () => {
   const dispatch = useDispatch();
   const reducerState = useSelector((state) => state);
@@ -42,7 +43,9 @@ const PackageHomePage = () => {
           />
         </Helmet>
 
-        <NewPackageForm />
+        <div className="flex md:hidden lg:hidden ">
+          <NewPackageForm />
+        </div>
 
         <div className="flightMainBox relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(63,196,251,1)_0%,_rgba(70,153,252,1)_100%)] hidden md:flex lg:flex">
           <img
@@ -52,16 +55,19 @@ const PackageHomePage = () => {
           />
           <HolidaySearchForm />
         </div>
-
         <div>
+          <OfferMain />
+        </div>
+
+        {/* <div>
           <NewHolidayCategory />
         </div>
         <div>
           <NewHolidayTrending />
-        </div>
-        <div>
+        </div> */}
+        {/* <div>
           <HolidayTopCountries />
-        </div>
+        </div> */}
 
         <div className="my-3">
           <div className="container d-none d-md-flex  holiBot">
@@ -81,13 +87,13 @@ const PackageHomePage = () => {
         <div>
           <Faq />
         </div>
-        <div>
+        {/* <div>
           <Download />
         </div>
 
         <div>
           <Blog />
-        </div>
+        </div> */}
         <div>
           <FooterNavigation />
         </div>

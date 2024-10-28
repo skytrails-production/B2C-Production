@@ -53,7 +53,10 @@ const MainNav = ({ className = "" }) => {
     <div className="nc-Header sticky top-0 w-full left-0 right-0 z-40 nc-header-bg shadow-sm">
       <div className={`MainNav2 relative z-10 ${className}`}>
         <div className="px-4 h-20 lg:container flex justify-between">
-          <div className="hidden md:flex justify-start space-x-3 sm:space-x-8 lg:space-x-10">
+          <div
+            onClick={() => navigate("/")}
+            className="hidden md:flex justify-start space-x-3 sm:space-x-8 lg:space-x-10 "
+          >
             {/* <Logo className="w-24 self-center" /> */}
             <img
               src="https://theskytrails.com/static/media/logoSky.63ff4d7e95a8ed4a90ba8f28c3b8958a.svg"

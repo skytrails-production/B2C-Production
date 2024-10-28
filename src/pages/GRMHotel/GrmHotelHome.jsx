@@ -18,6 +18,7 @@ import StaySearchForm from "../../components/TailwindSearchComp/heroSection/stay
 import Testimonials from "../../components/TailwindSearchComp/testimonials/Testimonials";
 import Faq from "../../components/TailwindSearchComp/Faq";
 import FooterNavigation from "../../components/footerNavigate/FooterNavigation";
+import OfferMain from "../../components/TailwindSearchComp/offerPage/OfferMain";
 
 const GrmHotelHome = () => {
   return (
@@ -59,21 +60,24 @@ const GrmHotelHome = () => {
       {/* <div>
                 <GrnHomeStaticHotel />
             </div> */}
+      <div>
+        <OfferMain />
+      </div>
 
-      <div className="mt-3">
+      {/* <div className="mt-3">
         <NewHolidayCategory />
       </div>
       <div>
         <NewHolidayTrending />
-      </div>
+      </div> */}
 
-      <div>
+      {/* <div>
         <Advertise />
-      </div>
+      </div> */}
 
-      <div>
+      {/* <div>
         <HolidayTopCountries />
-      </div>
+      </div> */}
 
       <div>
         <WhyChooseUs />
@@ -84,7 +88,7 @@ const GrmHotelHome = () => {
       <div>
         <Faq />
       </div>
-      <div>
+      {/* <div>
         <Download />
       </div>
       <div>
@@ -93,7 +97,7 @@ const GrmHotelHome = () => {
 
       <div>
         <Blog />
-      </div>
+      </div> */}
       <div>
         <FooterNavigation />
       </div>
