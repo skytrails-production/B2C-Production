@@ -18,6 +18,7 @@ import Testimonials from "../../components/TailwindSearchComp/testimonials/Testi
 import Faq from "../../components/TailwindSearchComp/Faq";
 import FooterNavigation from "../../components/footerNavigate/FooterNavigation";
 import OfferMain from "../../components/TailwindSearchComp/offerPage/OfferMain";
+import TrendingPackageHome from "../../components/TailwindSearchComp/trendingPackage/TrendingPackageHome";
 const PackageHomePage = () => {
   const dispatch = useDispatch();
   const reducerState = useSelector((state) => state);
@@ -61,10 +62,11 @@ const PackageHomePage = () => {
 
         {/* <div>
           <NewHolidayCategory />
-        </div>
-        <div>
-          <NewHolidayTrending />
         </div> */}
+        <div>
+          {/* <NewHolidayTrending /> */}
+          <TrendingPackageHome />
+        </div>
         {/* <div>
           <HolidayTopCountries />
         </div> */}
