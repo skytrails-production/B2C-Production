@@ -22,6 +22,8 @@ const FlightLocationTo = ({
     JSON.parse(localStorage.getItem("FlightRecentSearchesTo")) || []
   );
 
+  const [prevValue, setPrevValue] = useState(""); // To temporarily store the previous value
+
   const suggestedPlaces = [
     {
       _id: "668278aa909eb1823ba94368",
@@ -116,6 +118,17 @@ const FlightLocationTo = ({
   };
 
   const debouncedSearch = debounce(handleSearch, 500);
+
+  const handleFocus = () => {
+    setPrevValue(value); // Store the current value before clearing
+    setValue(""); // Clear the input value on focus
+  };
+
+  const handleBlur = () => {
+    if (!selectedLocation) {
+      setValue(prevValue); // Restore the previous value if no new location is selected
+    }
+  };
 
   const handleChange = (e) => {
     const keyword = e.currentTarget.value;
@@ -251,6 +264,8 @@ const FlightLocationTo = ({
             value={value}
             autoFocus={showPopover}
             onChange={handleChange}
+            onFocus={handleFocus} // Clear input when focused
+            onBlur={handleBlur} // Restore if nothing is selected
             ref={inputRef}
           />
           <span className="block mt-0.5 text-sm text-neutral-400 font-light">

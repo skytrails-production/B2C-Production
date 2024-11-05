@@ -62,7 +62,7 @@ const Faq = () => {
           </h2>
         </div>
         <div class="accordion-group" data-accordion="default-accordion">
-          <div className=" w-full pt-10 px-4">
+          <div className=" w-full pt-10 ">
             <div className=" w-full bg-white rounded-xl">
               {faq?.map((item, i) => {
                 return (

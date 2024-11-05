@@ -260,7 +260,7 @@ const FooterNavigation = () => {
     }
   };
   return (
-    <div className="px-24 flex flex-col gap-7">
+    <div className="custom-container flex flex-col gap-7">
       {constants?.footerNavigationdata?.map((item) => {
         return (
           <div className="flex  text-sm font-semibold flex-wrap flex-col ">

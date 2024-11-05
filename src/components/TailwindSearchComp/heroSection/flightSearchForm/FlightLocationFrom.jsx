@@ -22,6 +22,7 @@ const FlightLocationFrom = ({
   const [recentSearches, setRecentSearches] = useState(
     JSON.parse(localStorage.getItem("FlightRecentSearchesFrom")) || []
   );
+  const [prevValue, setPrevValue] = useState(""); // To temporarily store the previous value
 
   const suggestedPlaces = [
     {
@@ -55,7 +56,7 @@ const FlightLocationFrom = ({
         onLocationSelect(mostRecent);
       }
     } else {
-      const defaultCity = suggestedPlaces?.[0];
+      const defaultCity = suggestedPlaces[0];
       setSelectedLocation(defaultCity);
       setValue(defaultCity.name);
       if (onLocationSelect) {
@@ -118,6 +119,17 @@ const FlightLocationFrom = ({
 
   const debouncedSearch = debounce(handleSearch, 500);
 
+  const handleFocus = () => {
+    setPrevValue(value); // Store the current value before clearing
+    setValue(""); // Clear the input value on focus
+  };
+
+  const handleBlur = () => {
+    if (!selectedLocation) {
+      setValue(prevValue); // Restore the previous value if no new location is selected
+    }
+  };
+
   const handleChange = (e) => {
     const keyword = e.currentTarget.value;
     setValue(keyword);
@@ -173,7 +185,7 @@ const FlightLocationFrom = ({
             <span
               onClick={() => handleSelectLocation(item)}
               key={index}
-              className="flex px-4 sm:px-8 items-center space-x-3 sm:space-x-4 lg:py-4 md:py-4 sm:py-3  hover:bg-neutral-100 cursor-pointer"
+              className="flex px-4 sm:px-8 items-center space-x-3 sm:space-x-4 lg:py-4 md:py-4 sm:py-3 hover:bg-neutral-100 cursor-pointer"
             >
               <span className="block text-neutral-400">
                 <ClockIcon className="h-4 sm:h-6 w-4 sm:w-6" />
@@ -199,7 +211,7 @@ const FlightLocationFrom = ({
             <span
               onClick={() => handleSelectLocation(item)}
               key={index}
-              className="flex px-4 sm:px-8 items-center space-x-3 sm:space-x-4 lg:py-4 md:py-4 sm:py-3  hover:bg-neutral-100 cursor-pointer"
+              className="flex px-4 sm:px-8 items-center space-x-3 sm:space-x-4 lg:py-4 md:py-4 sm:py-3 hover:bg-neutral-100 cursor-pointer"
             >
               <span className="block text-neutral-400">
                 <MapPinIcon className="h-4 w-4 sm:h-6 sm:w-6" />
@@ -248,11 +260,13 @@ const FlightLocationFrom = ({
         </div>
         <div className="flex-grow">
           <input
-            className={`block w-full bg-transparent border-none focus:ring-0 p-0 focus:outline-none focus:placeholder-neutral-500 xl:text-lg font-semibold placeholder-gray-800 truncate`}
+            className="block w-full bg-transparent border-none focus:ring-0 p-0 focus:outline-none focus:placeholder-neutral-500 xl:text-lg font-semibold placeholder-gray-800 truncate"
             placeholder={placeHolder}
             value={value}
             autoFocus={showPopover}
             onChange={handleChange}
+            onFocus={handleFocus} // Clear input when focused
+            onBlur={handleBlur} // Restore if nothing is selected
             ref={inputRef}
           />
           <span className="block mt-0.5 text-sm text-neutral-400 font-light">

@@ -60,9 +60,9 @@ const PackageHomePage = () => {
           <OfferMain />
         </div>
 
-        {/* <div>
+        <div>
           <NewHolidayCategory />
-        </div> */}
+        </div>
         <div>
           {/* <NewHolidayTrending /> */}
           <TrendingPackageHome />
@@ -71,8 +71,8 @@ const PackageHomePage = () => {
           <HolidayTopCountries />
         </div> */}
 
-        <div className="my-3">
-          <div className="container d-none d-md-flex  holiBot">
+        <div className="my-3 mt-5">
+          <div className="custom-container d-none d-md-flex  holiBot">
             <Img style={{ width: "100%" }} src={holidayBottom} />
           </div>
           <div className="container d-flex w-100 d-md-none holiBotMobile">

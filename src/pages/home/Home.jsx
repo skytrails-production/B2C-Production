@@ -49,6 +49,8 @@ const Home = () => {
   //   }
   // };
 
+  const flightBottomLink = true;
+
   return (
     <div className="">
       <Helmet>
@@ -174,7 +176,7 @@ Theskytrails - #1 Travel Website 50% OFF on Hotels, Flights, Bus Booking at Lowe
         <Faq />
       </div>
       <div>
-        <FooterNavigation />
+        <FooterNavigation visible={flightBottomLink} />
       </div>
 
       {/* <div>

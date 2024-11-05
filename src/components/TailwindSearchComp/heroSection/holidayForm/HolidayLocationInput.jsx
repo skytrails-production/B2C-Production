@@ -1,4 +1,3 @@
-
 import { ClockIcon, MapPinIcon } from "@heroicons/react/24/outline";
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
@@ -22,8 +21,9 @@ const HolidayLocationInput = ({
   const [recentSearches, setRecentSearches] = useState(
     JSON.parse(localStorage.getItem("HolidayrecentSearches")) || []
   );
-  const suggestedPlaces = [
-    "Europe", "Turkey",  "Tokyo"];
+
+  const [prevValue, setPrevValue] = useState(""); // To temporarily store the previous value
+  const suggestedPlaces = ["Europe", "Turkey", "Tokyo"];
 
   // Set initial value based on recent searches or default to "New York"
   useEffect(() => {
@@ -43,9 +43,6 @@ const HolidayLocationInput = ({
       }
     }
   }, []);
-
-
-  
 
   useEffect(() => {
     if (showPopover) {
@@ -91,6 +88,17 @@ const HolidayLocationInput = ({
 
   const debouncedSearch = debounce(handleSearch, 500);
 
+  const handleFocus = () => {
+    setPrevValue(value); // Store the current value before clearing
+    setValue(""); // Clear the input value on focus
+  };
+
+  const handleBlur = () => {
+    if (!selectedLocation) {
+      setValue(prevValue); // Restore the previous value if no new location is selected
+    }
+  };
+
   const handleChange = (e) => {
     const keyword = e.currentTarget.value;
     setValue(keyword);
@@ -106,12 +114,16 @@ const HolidayLocationInput = ({
     setSelectedLocation(location);
     setShowPopover(false);
 
-    const updatedRecentSearches = [location, ...recentSearches.filter(
-        (item) => item !== location
-    )].slice(0, 5);
+    const updatedRecentSearches = [
+      location,
+      ...recentSearches.filter((item) => item !== location),
+    ].slice(0, 5);
 
     setRecentSearches(updatedRecentSearches);
-    localStorage.setItem("HolidayrecentSearches", JSON.stringify(updatedRecentSearches));
+    localStorage.setItem(
+      "HolidayrecentSearches",
+      JSON.stringify(updatedRecentSearches)
+    );
 
     if (onLocationSelect) {
       onLocationSelect(location);
@@ -145,9 +157,7 @@ const HolidayLocationInput = ({
               <span className="block text-neutral-400">
                 <ClockIcon className="h-4 sm:h-6 w-4 sm:w-6" />
               </span>
-              <span className="block font-medium text-neutral-700">
-                {item}
-              </span>
+              <span className="block font-medium text-neutral-700">{item}</span>
             </span>
           ))}
         </div>
@@ -171,9 +181,7 @@ const HolidayLocationInput = ({
               <span className="block text-neutral-400">
                 <MapPinIcon className="h-4 w-4 sm:h-6 sm:w-6" />
               </span>
-              <span className="block font-medium text-neutral-700">
-                {item}
-              </span>
+              <span className="block font-medium text-neutral-700">{item}</span>
             </span>
           ))}
         </div>
@@ -193,9 +201,7 @@ const HolidayLocationInput = ({
             <span className="block text-neutral-400">
               <MapPinIcon className="h-4 w-4 sm:h-6 sm:w-6" />
             </span>
-            <span className="block font-medium text-neutral-700">
-              {item}
-            </span>
+            <span className="block font-medium text-neutral-700">{item}</span>
           </span>
         ))}
       </>
@@ -220,12 +226,12 @@ const HolidayLocationInput = ({
             value={value}
             autoFocus={showPopover}
             onChange={handleChange}
+            onFocus={handleFocus} // Clear input when focused
+            onBlur={handleBlur} // Restore if nothing is selected
             ref={inputRef}
           />
           <span className="block mt-0.5 text-sm text-neutral-400 font-light">
-            <span className="line-clamp-1">
-              {!!value ? placeHolder : desc}
-            </span>
+            <span className="line-clamp-1">{!!value ? placeHolder : desc}</span>
           </span>
           {value && showPopover && (
             <ClearDataButton onClick={() => setValue("")} />
@@ -251,5 +257,4 @@ const HolidayLocationInput = ({
   );
 };
 
-export default HolidayLocationInput
-
+export default HolidayLocationInput;

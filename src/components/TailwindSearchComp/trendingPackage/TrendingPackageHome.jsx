@@ -6,6 +6,7 @@ import CardOne from "./CardOne";
 import Heading from "../shared/Heading";
 import PrevBtn from "../shared/PrevBtn";
 import NextBtn from "../shared/NextBtn";
+import PackageResultCards from "../../../pages/NewPackagePages/HolidayPackageSearchResult/PackageResultCards";
 
 const SkeletonLoader = () => {
   return (
@@ -17,7 +18,7 @@ const TrendingPackageHome = ({
   heading = "Suggestions for discovery",
   subHeading = "Popular places to recommend for you",
   className = "",
-  itemPerRow = 5,
+  itemPerRow = 3,
   sliderStyle = "style1",
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -61,11 +62,11 @@ const TrendingPackageHome = ({
     if (windowWidth < 320) {
       setNumberOfItems(1);
     } else if (windowWidth < 500) {
-      setNumberOfItems(itemPerRow - 3);
-    } else if (windowWidth < 1024) {
       setNumberOfItems(itemPerRow - 2);
-    } else if (windowWidth < 1280) {
+    } else if (windowWidth < 1024) {
       setNumberOfItems(itemPerRow - 1);
+    } else if (windowWidth < 1280) {
+      setNumberOfItems(itemPerRow);
     } else {
       setNumberOfItems(itemPerRow);
     }
@@ -152,7 +153,8 @@ const TrendingPackageHome = ({
                         width: `calc(1/${numberOfItems} * 100%)`,
                       }}
                     >
-                      <CardOne data={item} />
+                      {/* <CardOne data={item} /> */}
+                      <PackageResultCards data={item} />
                     </motion.li>
                   ))}
                 </AnimatePresence>

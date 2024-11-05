@@ -101,32 +101,38 @@ const RecentSearches = () => {
   return (
     <div className="container mx-auto mt-10">
       <div className="grid grid-cols-5 gap-4 md:grid-cols-4">
-        {searches.map((search, index) => (
-          <div
-            key={index}
-            className="bg-white p-2 rounded-lg shadow-md flex justify-between items-center cursor-pointer hover:bg-blue-100 transition duration-200"
-            onClick={() => handleCardClick(search)}
-          >
-            <div>
-              <h3 className="text-sm flex gap-2 items-center mb-0 font-semibold">
-                {search?.selectedFrom?.name}
-                <MoveRight className="w-4 h-4" />
-                {search?.selectedTo?.name}
-              </h3>
-              <p className="text-gray-600 text-sm ">
-                {search.PreferredDepartureTime}
-              </p>
-              <p className="text-gray-500 text-xs ">
-                1 Adult, 0 Child, 0 Infant
-              </p>
+        {/* {searches.map((search, index) => ( */}
+        {searches.slice(0, 4).map(
+          (
+            search,
+            index // Limit to the first 4 searches
+          ) => (
+            <div
+              key={index}
+              className="bg-white p-2 rounded-lg shadow-md flex justify-between items-center cursor-pointer hover:bg-blue-100 transition duration-200"
+              onClick={() => handleCardClick(search)}
+            >
+              <div>
+                <h3 className="text-sm flex gap-2 items-center mb-0 font-semibold">
+                  {search?.selectedFrom?.name}
+                  <MoveRight className="w-4 h-4" />
+                  {search?.selectedTo?.name}
+                </h3>
+                <p className="text-gray-600 text-sm ">
+                  {search.PreferredDepartureTime}
+                </p>
+                <p className="text-gray-500 text-xs ">
+                  1 Adult, 0 Child, 0 Infant
+                </p>
+              </div>
+              <div className="flex items-center justify-end">
+                <span className="bg-primary-6000 hover:bg-primary-700 text-white rounded-full w-8 h-8 flex items-center justify-center">
+                  →
+                </span>
+              </div>
             </div>
-            <div className="flex items-center justify-end">
-              <span className="bg-primary-6000 hover:bg-primary-700 text-white rounded-full w-8 h-8 flex items-center justify-center">
-                →
-              </span>
-            </div>
-          </div>
-        ))}
+          )
+        )}
       </div>
     </div>
   );
