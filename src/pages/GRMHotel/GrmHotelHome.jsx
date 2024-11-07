@@ -7,11 +7,6 @@ import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
 import Partners from "../home/Partners";
 import GrmHotelForm from "./GrmHotelForm";
-import Blog from "../home/Blog";
-import GrnHomeStaticHotel from "./GrnHomeStaticHotel";
-import NewHolidayCategory from "../NewPackagePages/holidayCategory/NewHolidayCategory";
-import NewHolidayTrending from "../NewPackagePages/holidayTrending/NewHolidayTrending";
-import HolidayTopCountries from "../NewPackagePages/holidayCountries/HolidayTopCountries";
 import Img from "../../LazyLoading/Img";
 import diwali from "../../images/diwali.png";
 import StaySearchForm from "../../components/TailwindSearchComp/heroSection/staySearchForm/StaySearchForm";
@@ -20,6 +15,7 @@ import Faq from "../../components/TailwindSearchComp/Faq";
 import FooterNavigation from "../../components/footerNavigate/FooterNavigation";
 import OfferMain from "../../components/TailwindSearchComp/offerPage/OfferMain";
 import TrendingPackageHome from "../../components/TailwindSearchComp/trendingPackage/TrendingPackageHome";
+import HotelSuggestion from "../../components/TailwindSearchComp/hotelSuggestion/HotelSuggestion";
 
 const GrmHotelHome = () => {
   return (
@@ -49,20 +45,20 @@ const GrmHotelHome = () => {
         </div>
       </div>
 
-      <div className="flightMainBox relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(63,196,251,1)_0%,_rgba(70,153,252,1)_100%)] hidden md:flex">
-        <img
-          src={diwali}
-          className="absolute top-0 left-0  h-full object-fill w-full"
-          alt="Diwali Background"
-        />
-        <StaySearchForm />
-      </div>
+
+      <div className="flightMainBox relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)] hidden md:flex bg-cover bg-top bg-no-repeat" style={{ backgroundImage: `url(${hotelBanner})` }}>
+  <StaySearchForm />
+</div>
 
       {/* <div>
                 <GrnHomeStaticHotel />
             </div> */}
       <div>
         <OfferMain />
+      </div>
+
+      <div>
+      <HotelSuggestion/>
       </div>
 
       {/* <div className="mt-3">

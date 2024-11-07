@@ -27,7 +27,7 @@ const HolidayDateRange = ({
     const [endDate, setEndDate] = useState(endDateValue);
 
 
-    const onChangeDate = (dates) => {
+    const onChangeDate = (dates, closePopover) => {
         const [start, end] = dates;
         setStartDate(start);
         setEndDate(end);
@@ -36,6 +36,7 @@ const HolidayDateRange = ({
                 checkin: formatDate(start),
                 checkout: formatDate(end),
             });
+            closePopover(); // Close the popover when both start and end dates are selected
         }
     };
 
@@ -74,8 +75,8 @@ const HolidayDateRange = ({
     };
 
     return (
-        <Popover className={`StayDatesRangeInput z-10 relative flex ${className}`}>
-            {({ open }) => (
+        <Popover className={`StayDatesRangeInput z-30 relative flex ${className}`}>
+              {({ open, close }) => (
                 <>
                     <Popover.Button
                         className={`flex-1 z-10 flex relative ${fieldClassName} items-center space-x-3 focus:outline-none ${open ? "nc-hero-field-focused" : ""}`}
@@ -103,7 +104,7 @@ const HolidayDateRange = ({
                             <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-black ring-opacity-5 bg-white p-8">
                                 <DatePicker
                                     selected={startDate}
-                                    onChange={onChangeDate}
+                                    onChange={(dates) => onChangeDate(dates, close)}
                                     startDate={startDate}
                                     endDate={endDate}
                                     selectsRange

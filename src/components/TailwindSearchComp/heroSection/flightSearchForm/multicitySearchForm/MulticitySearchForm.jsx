@@ -91,7 +91,7 @@ const MulticitySearchForm = ({ adult, child, infant, flightClass }) => {
     <form className="w-full relative flex flex-1 rounded-[10px] bg-white">
       <div className="flex flex-1 flex-col  rounded-full">
         {trips.map((trip, index) => (
-          <div key={index} className="flex flex-1">
+          <div key={index} className="flex flex-1 ">
             <FlightLocationFrom
               placeHolder="Flying from"
               desc="Where do you want to fly from?"

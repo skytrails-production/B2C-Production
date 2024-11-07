@@ -164,6 +164,7 @@ const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
             className="flex-1"
             onSubmit={handleSubmit}
             onDateChange={handleDateChange}
+            loader={loader}
           />
         </div>
       </form>

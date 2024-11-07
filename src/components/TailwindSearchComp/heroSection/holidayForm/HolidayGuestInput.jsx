@@ -41,7 +41,7 @@ const HolidayGuestInput = ({
     const totalGuests = guestChildrenInputValue + guestAdultsInputValue;
 
     return (
-        <Popover className={`flex relative ${className}`}>
+        <Popover className={`flex relative z-30 ${className}`}>
             {({ open, close }) => (
                 <>
                     <div

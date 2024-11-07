@@ -50,11 +50,15 @@ const PackageResultCards = ({ data }) => {
       (aValue === "true" || aValue === true)
     );
   });
+  console.log(data, "data in the pack res card");
 
   return (
     <div key={data._id} className="packageCard">
       <div className="packCardImg">
-        <Img className="posterImg" src={data.pakage_img} />
+        <Img
+          className="posterImg"
+          src={data.pakage_img || data.package_img[0]}
+        />
       </div>
       <div className="packCardContent">
         <div className="packCardTitle">

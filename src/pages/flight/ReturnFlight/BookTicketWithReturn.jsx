@@ -363,18 +363,30 @@ const BookedTicketWithReturn = () => {
             {/* <div className="mainimgFlightSearch"> */}
             {/* </div> */}
 
-            <div className="tempBox" style={{ marginTop: "150px", marginBottom: "150px" }}
+            <div className="tempBox " 
             >
                 <div className="container">
-                    <h2>Thank You for Booking With Us</h2>
-                    <p>Please Check your Email for Booking Details</p>
+                <div class="success-animation">
+<svg class="checkmarks" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmarks__circle" cx="26" cy="26" r="25" fill="none" /><path class="checkmarks__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8" /></svg>
+</div>
+                    <h2>Your payment was successful</h2>
+                    <p>Thank You for Booking With Us</p>
+                    <div className="flex items-center justify-center gap-3 ">
                     <button
                         onClick={() => {
                             navigate("/");
                         }}
                     >
-                        Ok
+                        Go to Home
                     </button>
+                    <button
+                        onClick={() => {
+                            navigate("/bookinghistory");
+                        }}
+                    >
+                        Check Booking
+                    </button>
+                    </div>
                 </div>
             </div>
         </div>

@@ -260,7 +260,7 @@ const FlightLocationFrom = ({
         </div>
         <div className="flex-grow">
           <input
-            className="block w-full bg-transparent border-none focus:ring-0 p-0 focus:outline-none focus:placeholder-neutral-500 xl:text-lg font-semibold placeholder-gray-800 truncate"
+            className="block w-full bg-transparent border-none focus:ring-0 p-0 focus:outline-none focus:placeholder-neutral-500 lg:text-2xl xl:text-2xl font-semibold placeholder-gray-800 truncate"
             placeholder={placeHolder}
             value={value}
             autoFocus={showPopover}

@@ -55,7 +55,7 @@ const MainNav = ({ className = "" }) => {
         <div className="px-4 h-20 lg:container flex justify-between">
           <div
             onClick={() => navigate("/")}
-            className="hidden md:flex justify-start space-x-3 sm:space-x-8 lg:space-x-10 "
+            className="hidden md:flex cursor-pointer justify-start space-x-3 sm:space-x-8 lg:space-x-10 "
           >
             {/* <Logo className="w-24 self-center" /> */}
             <img

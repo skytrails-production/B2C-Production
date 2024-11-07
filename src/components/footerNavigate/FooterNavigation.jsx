@@ -128,55 +128,9 @@ const FooterNavigation = () => {
   };
 
   async function searchHotel(event) {
-    // event.preventDefault();
-    // setIsSIngleHotelSerched(true);
-    // setLoader(true);
-    // console.log(event?.grnCityCode, "hotel payload");
+
     sessionStorage.setItem("SessionExpireTime", new Date());
 
-    // const dynamicFormData = formDataDynamic.map((data) => ({
-    //   adults: data.NoOfAdults || 0,
-    //   children_ages: data.ChildAge || [],
-    // }));
-
-    // sessionStorage.setItem(
-    //   "clientNationality",
-    //   JSON.stringify(selectNationality?.countryCode)
-    // );
-    // sessionStorage.setItem(
-    //   "revisithotel",
-    //   JSON.stringify([
-    //     {
-    //       cityCode: selectedFrom.cityCode,
-    //       cityName: selectedFrom.cityName,
-    //       countryCode: selectedFrom.countryCode,
-    //       countryName: selectedFrom.countryName,
-    //       checkin: newDepartDate,
-    //       checkout: newReturnDate,
-    //       rooms: [...dynamicFormData],
-    //       nationality: selectNationality,
-    //     },
-    //   ])
-    // );
-
-    // if (selectedFrom.hotelName) {
-    //   const payload = {
-    //     rooms: [...dynamicFormData],
-    //     rates: "concise",
-    //     hotel_codes: [`${selectedFrom.hotelCode}`],
-    //     currency: "INR",
-    //     client_nationality: selectNationality?.countryCode || "In",
-    //     checkin: dayjs(newDepartDate).format("YYYY-MM-DD"),
-    //     checkout: dayjs(newReturnDate).format("YYYY-MM-DD"),
-    //     cutoff_time: 30000,
-    //     version: "2.0",
-    //   };
-
-    //   sessionStorage.setItem("grnPayload", JSON.stringify(payload));
-    //   dispatch(hotelActionGRN(payload));
-
-    // } else {
-    // console.log(event, "event");
     if (event?.hotelCode) {
       let payload = {
         // ...event,

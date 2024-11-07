@@ -13,12 +13,14 @@ import Download from "../home/Download";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import Blog from "../home/Blog";
 import diwali from "../../images/diwali.png";
+import newPackBanner from "../../images/newpackageBanner.webp";
 import HolidaySearchForm from "../../components/TailwindSearchComp/heroSection/holidayForm/HolidaySearchForm";
 import Testimonials from "../../components/TailwindSearchComp/testimonials/Testimonials";
 import Faq from "../../components/TailwindSearchComp/Faq";
 import FooterNavigation from "../../components/footerNavigate/FooterNavigation";
 import OfferMain from "../../components/TailwindSearchComp/offerPage/OfferMain";
 import TrendingPackageHome from "../../components/TailwindSearchComp/trendingPackage/TrendingPackageHome";
+import PackageHomeAbsolute from "./PackageHomeAbsolute";
 const PackageHomePage = () => {
   const dispatch = useDispatch();
   const reducerState = useSelector((state) => state);
@@ -48,14 +50,12 @@ const PackageHomePage = () => {
           <NewPackageForm />
         </div>
 
-        <div className="flightMainBox relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(63,196,251,1)_0%,_rgba(70,153,252,1)_100%)] hidden md:flex lg:flex">
-          <img
-            src={diwali}
-            className="absolute top-0 left-0  h-full object-fill w-full"
-            alt="Diwali Background"
-          />
-          <HolidaySearchForm />
-        </div>
+
+
+        <div className="flightMainBox relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)] hidden md:flex bg-cover bg-top bg-no-repeat" style={{ backgroundImage: `url(${newPackBanner})` }}>
+  <HolidaySearchForm />
+</div>
+        <PackageHomeAbsolute />
         <div>
           <OfferMain />
         </div>
@@ -67,12 +67,12 @@ const PackageHomePage = () => {
           {/* <NewHolidayTrending /> */}
           <TrendingPackageHome />
         </div>
-        {/* <div>
+        <div>
           <HolidayTopCountries />
-        </div> */}
+        </div>
 
         <div className="my-3 mt-5">
-          <div className="custom-container d-none d-md-flex  holiBot">
+          <div className="custom-container d-none d-md-flex justify-center  holiBot">
             <Img style={{ width: "100%" }} src={holidayBottom} />
           </div>
           <div className="container d-flex w-100 d-md-none holiBotMobile">

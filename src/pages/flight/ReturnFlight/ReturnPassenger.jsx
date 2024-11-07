@@ -460,14 +460,14 @@ const ReturnPassenger = () => {
                                     <div className="bookaboveBox">
                                         <div>
                                             <p className="text-center">Departure</p>
-                                            <p>
+                                            <h4 className="flex items-center gap-2 lg:text-xxl  font-bold">
                                                 {flightDeparture?.[0][0]?.Origin?.Airport?.CityName}
                                                 <FiArrowRight style={{ margin: "5px" }} />{" "}
                                                 {
                                                     flightDeparture[0][flightDeparture[0].length - 1]
                                                         ?.Destination?.Airport?.CityName
                                                 }
-                                            </p>
+                                            </h4>
                                             <div className="aboveSpan">
                                                 <span className="aboveSOne">
                                                     {dayjs(flightDeparture[0][0]?.Origin?.DepTime).format(
@@ -604,14 +604,14 @@ const ReturnPassenger = () => {
                                     <div className="bookaboveBox">
                                         <div>
                                             <p className="text-center">Return</p>
-                                            <p>
+                                            <h4 className="flex items-center gap-2 lg:text-xxl  font-bold">
                                                 {flightReturn?.[0]?.[0]?.Origin?.Airport?.CityName}
                                                 <FiArrowRight style={{ margin: "5px" }} />{" "}
                                                 {
                                                     flightReturn?.[0][flightReturn?.[0].length - 1]
                                                         ?.Destination?.Airport?.CityName
                                                 }
-                                            </p>
+                                            </h4>
                                             <div className="aboveSpan">
                                                 <span className="aboveSOne">
                                                     {dayjs(flightReturn?.[0][0]?.Origin?.DepTime).format(

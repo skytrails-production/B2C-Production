@@ -23,14 +23,15 @@ const BusDateBox = ({
 
     const [startDate, setStartDate] = useState(today);
 
-    const onChangeDate = (date) => {
+    const onChangeDate = (date, closePopover) => {
         setStartDate(date);
         if (date) {
-            console.log({
-                checkin: formatDate(date),
-            });
+          console.log({
+            checkin: formatDate(date),
+          });
         }
-    };
+        closePopover();
+      };
 
     useEffect(() => {
         if (onDateChange) {
@@ -61,7 +62,7 @@ const BusDateBox = ({
 
     return (
         <Popover className={`relative flex ${className}`}>
-            {({ open }) => (
+            {({ open, close }) => (
                 <>
                     <div
                         className={`flex-1 z-10 flex items-center focus:outline-none ${open ? "nc-hero-field-focused" : ""
@@ -116,7 +117,7 @@ const BusDateBox = ({
                             <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-black ring-opacity-5 bg-white p-8">
                                 <DatePicker
                                     selected={startDate}
-                                    onChange={onChangeDate}
+                                    onChange={(dates) => onChangeDate(dates, close)}
                                     startDate={startDate}
                                     monthsShown={2}
                                     showPopperArrow={false}

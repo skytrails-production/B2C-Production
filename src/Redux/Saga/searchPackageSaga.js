@@ -1,8 +1,8 @@
 import { takeLatest, call, put } from "redux-saga/effects";
 import userApi from "../API/api";
 
-import { GET_SEARCH_PACKAGE_DATA, GET_SEARCH_PACKAGE_DATA_CATEGORY, GET_SEARCH_PACKAGE_DATA_COUNTRY } from "../SearchPackage/actionType";
-import { searchPackageData, searchPackageDataCategory, searchPackageDataTopCountries } from "../SearchPackage/actionSearchPackage";
+import { GET_SEARCH_PACKAGE_DATA, GET_SEARCH_PACKAGE_DATA_BUDGET, GET_SEARCH_PACKAGE_DATA_CATEGORY, GET_SEARCH_PACKAGE_DATA_COUNTRY } from "../SearchPackage/actionType";
+import { searchPackageBudget, searchPackageData, searchPackageDataCategory, searchPackageDataTopCountries } from "../SearchPackage/actionSearchPackage";
 
 function* searchResult(action) {
   try {
@@ -28,8 +28,17 @@ function* searchResultTopCountries(action) {
     // console.log(error);
   }
 }
+function* searchResultBudget(action) {
+  try {
+    const data = yield call(userApi.searchPackageBudget, action.payload);
+    yield put(searchPackageBudget(data));
+  } catch (error) {
+    // console.log(error);
+  }
+}
 export function* searchResultWatcher() {
   yield takeLatest(GET_SEARCH_PACKAGE_DATA, searchResult);
   yield takeLatest(GET_SEARCH_PACKAGE_DATA_CATEGORY, searchResultCategory);
   yield takeLatest(GET_SEARCH_PACKAGE_DATA_COUNTRY, searchResultTopCountries);
+  yield takeLatest(GET_SEARCH_PACKAGE_DATA_BUDGET, searchResultBudget);
 }

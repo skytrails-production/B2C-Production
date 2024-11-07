@@ -2,9 +2,8 @@ import Download from "../../pages/home/Download";
 // import Bussearch from "./Bussearch";
 // import "./bus.css";
 import Advertise from "../home/Advertise";
-// import FLightOffer from "../flight/FLightOffer";
-// import hotelBanner from "../../images/hotelBanner.jpg"
-import busBanner from "../../images/busNew.jpg";
+
+import busBanner from "../../images/busNew.webp";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
 import Partners from "../home/Partners";
@@ -51,12 +50,10 @@ const Bus = () => {
           </div>
         </div>
 
-        <div className="flightMainBox relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(63,196,251,1)_0%,_rgba(70,153,252,1)_100%)] hidden md:flex ">
-          <img
-            src={diwali}
-            className="absolute top-0 left-0  h-full object-fill w-full"
-            alt="Diwali Background"
-          />
+        <div
+          className="flightMainBox relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)] hidden md:flex bg-cover bg-top bg-no-repeat"
+          style={{ backgroundImage: `url(${busBanner})` }}
+        >
           <BusSearchForm />
         </div>
 

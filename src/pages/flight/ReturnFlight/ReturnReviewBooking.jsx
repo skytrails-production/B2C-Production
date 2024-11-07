@@ -699,20 +699,20 @@ const ReturnReviewBooking = () => {
     const payload = {
       firstname: Passengers[0].FirstName,
       phone: Passengers[0].ContactNo,
-      // amount: 2,
-      amount:
-      Number(finalAmount).toFixed(2) ||
-        (!isDummyTicketBooking
-          ? 
-          // Number(
-          //   fareValue?.Fare?.PublishedFare +
-          //   fareValueReturn?.Fare?.PublishedFare +
-          //   markUpamount *
-          //   (fareValue?.Fare?.PublishedFare +
-          //     fareValueReturn?.Fare?.PublishedFare)
-          // ).toFixed(0)
-          Number( finalAmount).toFixed(2)
-          : 99),
+      amount: 2,
+      // amount:
+      // Number(finalAmount).toFixed(2) ||
+      //   (!isDummyTicketBooking
+      //     ? 
+      //     // Number(
+      //     //   fareValue?.Fare?.PublishedFare +
+      //     //   fareValueReturn?.Fare?.PublishedFare +
+      //     //   markUpamount *
+      //     //   (fareValue?.Fare?.PublishedFare +
+      //     //     fareValueReturn?.Fare?.PublishedFare)
+      //     // ).toFixed(0)
+      //     Number( finalAmount).toFixed(2)
+      //     : 99),
 
 
       // (!isDummyTicketBooking
@@ -932,7 +932,7 @@ const ReturnReviewBooking = () => {
       </div>
       <div className="container px-0 pt-4">
         <div className="row">
-          <div className="col-lg-9 martop">
+          <div className="col-lg-9 ">
             <div className="row">
               {/* for departure  */}
 
@@ -941,14 +941,14 @@ const ReturnReviewBooking = () => {
                   <div className="bookaboveBox">
                     <div>
                       <p className="text-center">Departure</p>
-                      <p>
+                      <h4 className="flex items-center gap-2 lg:text-xxl  font-bold">
                         {flightDeparture?.[0][0]?.Origin?.Airport?.CityName}
                         <FiArrowRight style={{ margin: "5px" }} />{" "}
                         {
                           flightDeparture[0][flightDeparture[0].length - 1]
                             ?.Destination?.Airport?.CityName
                         }
-                      </p>
+                      </h4>
                       <div className="aboveSpan">
                         <span className="aboveSOne">
                           {dayjs(flightDeparture[0][0]?.Origin?.DepTime).format(
@@ -1085,14 +1085,14 @@ const ReturnReviewBooking = () => {
                   <div className="bookaboveBox">
                     <div>
                       <p className="text-center">Return</p>
-                      <p>
+                      <h4 className="flex items-center gap-2  lg:text-xxl  font-bold">
                         {flightReturn?.[0]?.[0]?.Origin?.Airport?.CityName}
                         <FiArrowRight style={{ margin: "5px" }} />{" "}
                         {
                           flightReturn?.[0][flightReturn?.[0].length - 1]
                             ?.Destination?.Airport?.CityName
                         }
-                      </p>
+                      </h4>
                       <div className="aboveSpan">
                         <span className="aboveSOne">
                           {dayjs(flightReturn?.[0][0]?.Origin?.DepTime).format(
@@ -1246,12 +1246,13 @@ const ReturnReviewBooking = () => {
 
                 }
               </div>
-              <div className="col-lg-8 my-3">
+              <div className="col-lg-12 my-3">
+                <div className="bg-white border border-gray-200 p-4 rounded-md">
                 {Passengers?.map((passenger, key) => {
                   return (
                     <>
                       <div style={{ marginBottom: "15px" }}>
-                        <p>
+                        <p className="font-medium text-lg">
                           Passenger {key + 1}{" "}
                           <span
                             style={{
@@ -1273,29 +1274,30 @@ const ReturnReviewBooking = () => {
                         </p>
                       </div>
 
-                      <div key={key} className="passDetails">
+                      <div key={key} className="flex align-middle items-center gap-5">
                         <div>
                           <p>Name:</p>
                           <p>Gender</p>
                           {passenger.Email && <p>Email:</p>}
                         </div>
                         <div>
-                          <span>
+                          <p>
                             {passenger.Title} {passenger.FirstName}{" "}
                             {passenger.LastName}
-                          </span>
-                          <span>
+                          </p>
+                          <p>
                             {passenger.Gender === "1"
                               ? "Male"
                               : "Female"
                             }
-                          </span>
-                          <span>{passenger.Email}</span>
+                          </p>
+                          <p>{passenger.Email}</p>
                         </div>
                       </div>
                     </>
                   );
                 })}
+                </div>
               </div>
             </div>
           </div>

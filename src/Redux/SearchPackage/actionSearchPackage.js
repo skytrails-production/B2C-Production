@@ -45,6 +45,22 @@ export const searchPackageActionTopCountries = (data) => {
     payload: data,
   }
 };
+
+export const searchPackageBudget = (data) => {
+  return {
+    type: types.SET_SEARCH_PACKAGE_DATA_BUDGET,
+    payload: data,
+  };
+};
+
+export const searchPackageActionBudget = (data) => {
+
+  return {
+    type: types.GET_SEARCH_PACKAGE_DATA_BUDGET,
+    payload: data,
+  }
+};
+
 export const clearPackageData = () => {
   return {
     type: types.CLEAR_PACKAGE_DATA,

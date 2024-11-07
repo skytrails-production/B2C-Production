@@ -194,7 +194,7 @@ const FlightSearchForm = () => {
 
   const renderForm = () => {
     return (
-      <form className="w-full container relative rounded-[10px] shadow-xl bg-white ">
+      <form className="w-full  container relative rounded-[10px] shadow-2xl bg-white ">
         {renderRadioBtn()}
 
         {dropOffLocationType == "oneway" && (

@@ -364,6 +364,14 @@ function api() {
     );
   };
 
+  const searchPackageBudget = (payload) => {
+
+    return axios.get(
+      `${apiURL.baseURL}/skyTrails/package/packagefilterAmount?amount=${payload}`
+
+    );
+  };
+
 
 
   // holidayCategory details
@@ -469,7 +477,7 @@ function api() {
 
 
 
-
+ 
   // new hotel grn api's
 
   const hotelSearchGRN = (payload) => {
@@ -747,6 +755,7 @@ function api() {
     searchPackage,
     searchPackageCategory,
     searchPackageCountry,
+    searchPackageBudget,
     getOnePackage,
     bookingHoliday,
     getBusSearch,

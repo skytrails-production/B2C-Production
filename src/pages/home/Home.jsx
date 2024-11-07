@@ -9,7 +9,7 @@ import Partners from "./Partners";
 import MulticityForm from "../flight/MultiCity/MulticityForm";
 import Blog from "./Blog";
 import ReturnFormNew from "../flight/ReturnFlight/ReturnFornNew";
-import homeBG from "../../images/homeBG.jpg";
+import homeBG from "../../images/homeBG.webp";
 import OnewayNew from "../../components/OnewayNew";
 import NewHolidayCategory from "../NewPackagePages/holidayCategory/NewHolidayCategory";
 import NewHolidayTrending from "../NewPackagePages/holidayTrending/NewHolidayTrending";
@@ -23,10 +23,12 @@ import TrendingPackageHome from "../../components/TailwindSearchComp/trendingPac
 import Testimonials from "../../components/TailwindSearchComp/testimonials/Testimonials";
 import RecentSearches from "../../components/TailwindSearchComp/heroSection/flightSearchForm/FlightRecentSearch";
 import diwali from "../../images/diwali.png";
+
 import Faq from "../../components/TailwindSearchComp/Faq";
 import FooterNavigation from "../../components/footerNavigate/FooterNavigation";
 import { useDispatch } from "react-redux";
 import { clearHotelAll } from "../../Redux/HotelGRN/hotel";
+import HotelSuggestion from "../../components/TailwindSearchComp/hotelSuggestion/HotelSuggestion";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState("oneway");
@@ -128,14 +130,10 @@ Theskytrails - #1 Travel Website 50% OFF on Hotels, Flights, Bus Booking at Lowe
           </div>
         </div>
       </div>
-      <div className="flightMainBox relative py-16 pt-44 bg-[radial-gradient(circle,_rgba(63,196,251,1)_0%,_rgba(70,153,252,1)_100%)] hidden md:flex">
-        <img
-          src={diwali}
-          className="absolute top-0 left-0  h-full object-fill w-full"
-          alt="Diwali Background"
-        />
-        <FlightSearchForm />
-      </div>
+      <div className="flightMainBox relative py-16 pt-44 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)] hidden md:flex bg-cover bg-top bg-no-repeat" style={{ backgroundImage: `url(${homeBG})` }}>
+  <FlightSearchForm />
+</div>
+
 
       <div>
         <RecentSearches />
