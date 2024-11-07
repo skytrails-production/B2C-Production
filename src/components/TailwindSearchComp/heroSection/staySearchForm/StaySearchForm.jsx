@@ -162,6 +162,7 @@ const StaySearchForm = () => {
         <GuestsInput
           className="flex-1"
           onSubmit={handleSubmit}
+          loader={isLoading}
           onRoomDataChange={handleRoomDataChange}
         />
       </form>

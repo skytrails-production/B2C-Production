@@ -101,12 +101,11 @@ const RecentSearches = () => {
   return (
     <div className="container mx-auto mt-10">
       <div className="grid grid-cols-5 gap-4 md:grid-cols-4">
-        {/* {searches.map((search, index) => ( */}
-        {searches.slice(0, 4).map(
-          (
-            search,
-            index // Limit to the first 4 searches
-          ) => (
+        {searches
+          .slice()
+          .reverse()
+          .slice(0, 4)
+          .map((search, index) => (
             <div
               key={index}
               className="bg-white p-2 rounded-lg shadow-md flex justify-between items-center cursor-pointer hover:bg-blue-100 transition duration-200"
@@ -131,8 +130,7 @@ const RecentSearches = () => {
                 </span>
               </div>
             </div>
-          )
-        )}
+          ))}
       </div>
     </div>
   );
