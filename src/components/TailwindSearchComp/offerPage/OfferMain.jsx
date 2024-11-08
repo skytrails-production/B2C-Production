@@ -95,13 +95,12 @@ const OfferMain = ({
     (item) => item.addType === filterType || item.addType === "FORALL"
   );
 
-  console.log(filteredData, "filtered data");
-  const filterOptions = ["DEALS", "FLIGHTS", "BUS", "HOTEL", "HOLIDAYS"];
+  const filterOptions = ["DEALS", "FLIGHTS", "BUS", "HOTELS", "HOLIDAYS"];
 
   if (!numberOfItems) return null;
 
   return (
-    <div className={`nc-SectionSliderNewCategories mt-16 ${className}`}>
+    <div className={`nc-SectionSliderNewCategories mt-16 mb-12 ${className}`}>
       <Heading desc={subHeading} isCenter={true}>
         {heading}
       </Heading>

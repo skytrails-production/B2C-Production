@@ -7,7 +7,7 @@ import axios from "axios";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import { useMediaQuery } from 'react-responsive';
+import { useMediaQuery } from "react-responsive";
 import CustomCalender from "./CustomCalender";
 import {
   hotelActionGRN,
@@ -21,22 +21,17 @@ import dayjs from "dayjs";
 import { swalModal } from "../../utility/swal";
 const { RangePicker } = DatePicker;
 
-
-// Select city data logic 
-
+// Select city data logic
 
 let FromTimeout;
 let FromCurrentValue;
 
-
-const initialSelectedFromData =
-{
+const initialSelectedFromData = {
   cityCode: "124054",
   cityName: "New Delhi",
   countryCode: "IN",
   countryName: "India",
-}
-
+};
 
 const fetchFromCity = (value, callback) => {
   if (FromTimeout) {
@@ -47,7 +42,9 @@ const fetchFromCity = (value, callback) => {
 
   const cityData = () => {
     axios
-      .get(`${apiURL.baseURL}/skyTrails/grnconnect/searchcityandhotel?keyword=${value}`)
+      .get(
+        `${apiURL.baseURL}/skyTrails/grnconnect/searchcityandhotel?keyword=${value}`
+      )
       .then((response) => {
         if (FromCurrentValue === value) {
           const { data } = response.data;
@@ -57,7 +54,7 @@ const fetchFromCity = (value, callback) => {
             code: item.countryCode,
             cityCode: item.countryName,
             item,
-            type: 'city',
+            type: "city",
           }));
 
           const hotelList = data.hotelList.map((item) => ({
@@ -69,8 +66,7 @@ const fetchFromCity = (value, callback) => {
             countryName: item.countryName,
             // cityName: item.cityName,
             item,
-            type: 'hotel',
-
+            type: "hotel",
           }));
 
           const combinedList = [...cityList, ...hotelList];
@@ -89,14 +85,15 @@ const fetchFromCity = (value, callback) => {
   }
 };
 
-
 const FromSearchInput = (props) => {
   const { onItemSelect } = props;
   const [fromData, setFromData] = useState([]);
   const [fromValue, setFromValue] = useState(initialSelectedFromData.cityName);
   const [selectedItem, setSelectedItem] = useState(initialSelectedFromData);
-  const [FromPlaceholder, setFromPlaceholder] = useState('');
-  const [FromDisplayValue, setFromDisplayValue] = useState(initialSelectedFromData.cityName);
+  const [FromPlaceholder, setFromPlaceholder] = useState("");
+  const [FromDisplayValue, setFromDisplayValue] = useState(
+    initialSelectedFromData.cityName
+  );
   const [inputStyle, setInputStyle] = useState({});
 
   useEffect(() => {
@@ -107,7 +104,7 @@ const FromSearchInput = (props) => {
         code: initialSelectedFromData.countryCode,
         cityCode: initialSelectedFromData.countryName,
         item: initialSelectedFromData,
-        type: 'city',
+        type: "city",
       },
     ]);
   }, []);
@@ -121,39 +118,34 @@ const FromSearchInput = (props) => {
     setFromValue(selected ? selected.name : newValue);
     setFromDisplayValue(selected ? selected.name : newValue);
     setSelectedItem(selected ? selected.item : null);
-    setInputStyle({ caretColor: 'transparent' });
+    setInputStyle({ caretColor: "transparent" });
     if (selected) {
       onItemSelect(selected.item);
     }
   };
 
   const handleFromFocus = () => {
-    setFromPlaceholder('From');
-    setFromDisplayValue('');
+    setFromPlaceholder("From");
+    setFromDisplayValue("");
     setInputStyle({});
   };
 
   const handleFromBlur = () => {
-    setFromPlaceholder('');
+    setFromPlaceholder("");
     setFromDisplayValue(fromValue);
-    setInputStyle({ caretColor: 'transparent' });
+    setInputStyle({ caretColor: "transparent" });
   };
-
-
-
-
 
   const renderFromOption = (option) => {
     return (
-      <div style={{ display: 'flex', alignItems: 'center', gap: "8px" }}>
-
-        {
-          option.type === 'city' ?
-            <i class="fa-solid fa-city"></i> :
-            <i class="fa-solid fa-bed"></i>
-        }
+      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+        {option.type === "city" ? (
+          <i class="fa-solid fa-city"></i>
+        ) : (
+          <i class="fa-solid fa-bed"></i>
+        )}
         <div>
-          {option.type === 'city' ? (
+          {option.type === "city" ? (
             <>
               <div className="ellipsisHotelDropdown">
                 {option.name} ({option.code})
@@ -165,14 +157,15 @@ const FromSearchInput = (props) => {
               <div className="ellipsisHotelDropdown">
                 {option.name} - ({option.countryName})
               </div>
-              <div className="ellipsisHotelDropdown" style={{ color: "gray" }}>{option.address}</div>
+              <div className="ellipsisHotelDropdown" style={{ color: "gray" }}>
+                {option.address}
+              </div>
             </>
           )}
         </div>
       </div>
     );
   };
-
 
   return (
     <Select
@@ -197,10 +190,7 @@ const FromSearchInput = (props) => {
   );
 };
 
-
 // select city data logic
-
-
 
 // select country data logic
 
@@ -225,7 +215,7 @@ const fetchToCity = (value, callback) => {
       .then((response) => {
         if (ToCurrentValue === value) {
           const { data } = response.data;
-          const filteredData = data.filter(item =>
+          const filteredData = data.filter((item) =>
             item.countryName.toLowerCase().includes(value.toLowerCase())
           );
           const result = filteredData.map((item) => ({
@@ -254,8 +244,10 @@ const ToSearchInput = (props) => {
   const [toValue, setToValue] = useState(initialSelectedToData.countryName);
   const [selectedItem, setSelectedItem] = useState(initialSelectedToData);
 
-  const [ToPlaceholder, setToPlaceholder] = useState('')
-  const [ToDisplayValue, setToDisplayValue] = useState(initialSelectedToData.countryName);
+  const [ToPlaceholder, setToPlaceholder] = useState("");
+  const [ToDisplayValue, setToDisplayValue] = useState(
+    initialSelectedToData.countryName
+  );
   const [inputStyle, setInputStyle] = useState({});
 
   useEffect(() => {
@@ -264,8 +256,8 @@ const ToSearchInput = (props) => {
         value: initialSelectedToData.countryCode,
         countryCode3: initialSelectedToData.countryCode3,
         countryName: initialSelectedToData.countryName,
-        item: initialSelectedToData
-      }
+        item: initialSelectedToData,
+      },
     ]);
   }, []);
 
@@ -278,22 +270,22 @@ const ToSearchInput = (props) => {
     setToValue(selected ? selected.countryName : newValue);
     setToDisplayValue(selected ? selected.countryName : newValue);
     setSelectedItem(selected ? selected.item : null);
-    setInputStyle({ caretColor: 'transparent' });
+    setInputStyle({ caretColor: "transparent" });
     if (selected) {
       onItemSelect(selected.item);
     }
   };
 
   const handleToFocus = () => {
-    setToPlaceholder('To');
-    setToDisplayValue('');
+    setToPlaceholder("To");
+    setToDisplayValue("");
     setInputStyle({});
   };
 
   const handleTOBlur = () => {
-    setToPlaceholder('');
+    setToPlaceholder("");
     setToDisplayValue(toValue);
-    setInputStyle({ caretColor: 'transparent' });
+    setInputStyle({ caretColor: "transparent" });
   };
 
   const renderToOption = (option) => (
@@ -304,8 +296,6 @@ const ToSearchInput = (props) => {
       <div style={{ color: "gray" }}>{option.countryCode3}</div>
     </div>
   );
-
-
 
   return (
     <Select
@@ -331,11 +321,7 @@ const ToSearchInput = (props) => {
 
 // select country data logic
 
-
-
 const GrmHotelForm = () => {
-
-
   const [openTravelModal, setOpenTravelModal] = React.useState(false);
   const currentDate = new Date();
 
@@ -343,14 +329,13 @@ const GrmHotelForm = () => {
   const futureDate = new Date(currentDate);
   futureDate.setDate(currentDate.getDate() + 1);
   const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData);
-  const [selectNationality, setSelectNationality] = useState(initialSelectedToData);
+  const [selectNationality, setSelectNationality] = useState(
+    initialSelectedToData
+  );
 
-  const [isSingleHotelSearched, setIsSIngleHotelSerched] = useState(false)
-
-
+  const [isSingleHotelSearched, setIsSIngleHotelSerched] = useState(false);
 
   const isMobile = useMediaQuery({ maxWidth: 767 });
-
 
   const handleFromSelect = (item) => {
     setSelectedFrom(item);
@@ -369,7 +354,6 @@ const GrmHotelForm = () => {
     }
   };
 
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [condition, setCondition] = useState(1);
@@ -383,15 +367,12 @@ const GrmHotelForm = () => {
 
   const reducerState = useSelector((state) => state);
 
-
-
   const [open, setOpen] = useState(false);
   const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     dispatch(clearHotelReducerGRN());
   }, []);
-
 
   const handleConditionChange = (event) => {
     const newCondition = parseInt(event.target.value);
@@ -404,7 +385,6 @@ const GrmHotelForm = () => {
     setFormData(newFormData);
   };
 
-
   const handleFormChange = (index, key, value) => {
     const updatedFormData = [...formDataDynamic];
     if (key === "NoOfAdults" && value > 8) {
@@ -414,7 +394,9 @@ const GrmHotelForm = () => {
 
     if (key === "NoOfChild") {
       updatedFormData[index]["ChildAge"] = Array.from(
-        { length: value }, () => "1");
+        { length: value },
+        () => "1"
+      );
     }
     setFormData(updatedFormData);
   };
@@ -425,11 +407,7 @@ const GrmHotelForm = () => {
     setFormData(updatedFormData);
   };
 
-
-
   // date selection logic here
-
-
 
   // const dateFormat = "DD MMM";
 
@@ -445,16 +423,11 @@ const GrmHotelForm = () => {
   const today = dayjs();
 
   const [newDepartDate, setNewDepartDate] = useState(today);
-  const [newReturnDate, setNewReturnDate] = useState(today.add(1, 'day'));
-
-
-
-
+  const [newReturnDate, setNewReturnDate] = useState(today.add(1, "day"));
 
   const handleOpenModal = () => {
     setModalVisible(true);
   };
-
 
   const handleCloseModal = () => {
     setModalVisible(false);
@@ -471,7 +444,7 @@ const GrmHotelForm = () => {
       let returnDate = dates[1];
 
       if (!returnDate) {
-        returnDate = dayjs(departDate).add(1, 'day');
+        returnDate = dayjs(departDate).add(1, "day");
       }
 
       setNewDepartDate(dayjs(departDate).format("DD MMM, YY"));
@@ -481,73 +454,62 @@ const GrmHotelForm = () => {
     }
   };
 
-
-
   const disablePastDates = (current) => {
-    return current && current < dayjs().startOf('day');
+    return current && current < dayjs().startOf("day");
   };
 
+  // date selection logic here
 
-  // date selection logic here 
+  const selectedSingleHotel =
+    reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels?.filter(
+      (item) => item.hotel_code == selectedFrom?.hotelCode
+    );
 
-
-
-  const selectedSingleHotel = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels?.filter(item => item.hotel_code == selectedFrom?.hotelCode)
-
-
-
-
-  // navigate by single hotel 
+  // navigate by single hotel
 
   const handleClick = () => {
-
     const payload = {
-      "data": {
-        "rate_key": selectedSingleHotel?.[0]?.min_rate?.rate_key,
-        "group_code": selectedSingleHotel?.[0]?.min_rate?.group_code,
+      data: {
+        rate_key: selectedSingleHotel?.[0]?.min_rate?.rate_key,
+        group_code: selectedSingleHotel?.[0]?.min_rate?.group_code,
       },
-      "searchID": selectedSingleHotel?.[0]?.search_id,
-      "hotel_code": selectedSingleHotel?.[0]?.hotel_code,
-    }
+      searchID: selectedSingleHotel?.[0]?.search_id,
+      hotel_code: selectedSingleHotel?.[0]?.hotel_code,
+    };
 
     const galleryPayload = {
-      "hotel_id": selectedSingleHotel?.[0]?.hotel_code,
-    }
-    dispatch(hotelGalleryRequest(galleryPayload))
-    dispatch(singleHotelGRN(payload))
-    navigate("/st-hotel/hotelresult/selectroom")
+      hotel_id: selectedSingleHotel?.[0]?.hotel_code,
+    };
+    dispatch(hotelGalleryRequest(galleryPayload));
+    dispatch(singleHotelGRN(payload));
+    navigate("/st-hotel/hotelresult/selectroom");
   };
 
-
-
   useEffect(() => {
-
-    if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels && isSingleHotelSearched) {
-      handleClick()
+    if (
+      reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels &&
+      isSingleHotelSearched
+    ) {
+      handleClick();
     }
-
-  }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels])
-
+  }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels]);
 
   useEffect(() => {
-    if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.errors?.[0]?.code == "1501") {
-      swalModal("hotel", "No Result Found !")
+    if (
+      reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.errors?.[0]
+        ?.code == "1501"
+    ) {
+      swalModal("hotel", "No Result Found !");
       setLoader(false);
     }
-  }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.errors])
+  }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.errors]);
 
-
-  // navigate by single hotel 
-
-
-
+  // navigate by single hotel
 
   function handleSubmit(event) {
-
-
     setIsSIngleHotelSerched(true);
     event.preventDefault();
-    setLoader(true)
+    setLoader(true);
 
     sessionStorage.setItem("SessionExpireTime", new Date());
 
@@ -556,7 +518,10 @@ const GrmHotelForm = () => {
       children_ages: data.ChildAge || [],
     }));
 
-    sessionStorage.setItem("clientNationality", JSON.stringify(selectNationality?.countryCode));
+    sessionStorage.setItem(
+      "clientNationality",
+      JSON.stringify(selectNationality?.countryCode)
+    );
     sessionStorage.setItem(
       "revisithotel",
       JSON.stringify([
@@ -570,51 +535,42 @@ const GrmHotelForm = () => {
           rooms: [...dynamicFormData],
           nationality: selectNationality,
         },
-
       ])
     );
 
-
-
-
     if (selectedFrom.hotelName) {
       const payload = {
-        "rooms": [...dynamicFormData],
-        "rates": "concise",
-        "hotel_codes": [`${selectedFrom.hotelCode}`],
-        "currency": "INR",
-        "client_nationality": selectNationality?.countryCode || "In",
-        "checkin": dayjs(newDepartDate).format("YYYY-MM-DD"),
-        "checkout": dayjs(newReturnDate).format("YYYY-MM-DD"),
-        "cutoff_time": 30000,
-        "version": "2.0",
+        rooms: [...dynamicFormData],
+        rates: "concise",
+        hotel_codes: [`${selectedFrom.hotelCode}`],
+        currency: "INR",
+        client_nationality: selectNationality?.countryCode || "In",
+        checkin: dayjs(newDepartDate).format("YYYY-MM-DD"),
+        checkout: dayjs(newReturnDate).format("YYYY-MM-DD"),
+        cutoff_time: 30000,
+        version: "2.0",
       };
 
       sessionStorage.setItem("grnPayload", JSON.stringify(payload));
       dispatch(hotelActionGRN(payload));
       // navigate("/st-hotel/hotelresult");
-
-
     } else {
       const payload = {
-        "rooms": [...dynamicFormData],
-        "rates": "concise",
-        "cityCode": selectedFrom.cityCode,
-        "currency": "INR",
-        "client_nationality": selectNationality?.countryCode || "In",
-        "checkin": dayjs(newDepartDate).format("YYYY-MM-DD"),
-        "checkout": dayjs(newReturnDate).format("YYYY-MM-DD"),
-        "cutoff_time": 30000,
-        "version": "2.0",
+        rooms: [...dynamicFormData],
+        rates: "concise",
+        cityCode: selectedFrom.cityCode,
+        currency: "INR",
+        client_nationality: selectNationality?.countryCode || "In",
+        checkin: dayjs(newDepartDate).format("YYYY-MM-DD"),
+        checkout: dayjs(newReturnDate).format("YYYY-MM-DD"),
+        cutoff_time: 30000,
+        version: "2.0",
       };
-
 
       sessionStorage.setItem("grnPayload", JSON.stringify(payload));
       dispatch(hotelActionGRN(payload));
       navigate("/st-hotel/hotelresult");
     }
-
-
 
     if (reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels) {
       setOpen(false);
@@ -643,23 +599,19 @@ const GrmHotelForm = () => {
     calculateTravellerCount();
   }, [formDataDynamic]);
 
-
-
-
-
-
-
   return (
     <>
       {/* {loader ? (
         <Hotelmainloading />
       ) : ( */}
-      <div className="container transParentBG" style={{ paddingBottom: "57px" }}>
+      <div
+        className="container transParentBG"
+        style={{ paddingBottom: "57px" }}
+      >
         <div className="row g-2 newOneWayMain">
-
           <div className="col-lg-4">
             <div className="newOnewaySingle">
-              <span >From</span>
+              <span>From</span>
               <FromSearchInput
                 className="grnFrom"
                 placeholder="Search"
@@ -672,59 +624,50 @@ const GrmHotelForm = () => {
             </div>
           </div>
 
-
-          {
-
-            isMobile ?
-              (
-                <div className="col-lg-3">
-                  <div className="newOnewaySingle " onClick={handleOpenModal}>
-                    <span className="me-4">Depart</span>
-                    <span className="ms-5 smMargin">Return</span>
-                    <div className="travelContent smallCustomCalender">
-                      <p className="selectedDates">
-                        {dayjs(newDepartDate).format("DD MMM, YY")}
-                      </p>
-                      <p className="selectedDates">
-                        {dayjs(newReturnDate).format("DD MMM, YY")}
-                      </p>
-                    </div>
-                  </div>
-                  <CustomCalender
-                    visible={modalVisible}
-                    onClose={handleCloseModal}
-                    onSelectDateRange={handleSelectDateRange}
-                    startDate={dayjs(newDepartDate).format("DD MMM, YY")}
-                    endDate={dayjs(newReturnDate).format("DD MMM, YY")}
-                  />
+          {isMobile ? (
+            <div className="col-lg-3">
+              <div className="newOnewaySingle " onClick={handleOpenModal}>
+                <span className="me-4">Depart</span>
+                <span className="ms-5 smMargin">Return</span>
+                <div className="travelContent smallCustomCalender">
+                  <p className="selectedDates">
+                    {dayjs(newDepartDate).format("DD MMM, YY")}
+                  </p>
+                  <p className="selectedDates">
+                    {dayjs(newReturnDate).format("DD MMM, YY")}
+                  </p>
                 </div>
-              )
-              :
-              (
-
-                <div className="col-lg-3">
-                  <div className="newOnewaySingle">
-                    {/* <div className="d-flex justify-content-evenly"> */}
-                    <span className="me-4">Check In</span>
-                    <span className="ms-5 smMargin">Check Out</span>
-                    {/* </div> */}
-                    <RangePicker
-                      onChange={handleRangeChange}
-                      defaultValue={[dayjs(newDepartDate), dayjs(newReturnDate)]}
-                      // defaultValue={[dayjs(), dayjs()]}
-                      format={dateFormat}
-                      disabledDate={disablePastDates}
-                    // onFocus={handleFocusDatePicker}
-                    />
-                    {/* <div className="d-flex justify-content-evenly">
+              </div>
+              <CustomCalender
+                visible={modalVisible}
+                onClose={handleCloseModal}
+                onSelectDateRange={handleSelectDateRange}
+                startDate={dayjs(newDepartDate).format("DD MMM, YY")}
+                endDate={dayjs(newReturnDate).format("DD MMM, YY")}
+              />
+            </div>
+          ) : (
+            <div className="col-lg-3">
+              <div className="newOnewaySingle">
+                {/* <div className="d-flex justify-content-evenly"> */}
+                <span className="me-4">Check In</span>
+                <span className="ms-5 smMargin">Check Out</span>
+                {/* </div> */}
+                <RangePicker
+                  onChange={handleRangeChange}
+                  defaultValue={[dayjs(newDepartDate), dayjs(newReturnDate)]}
+                  // defaultValue={[dayjs(), dayjs()]}
+                  format={dateFormat}
+                  disabledDate={disablePastDates}
+                  // onFocus={handleFocusDatePicker}
+                />
+                {/* <div className="d-flex justify-content-evenly">
                 <span className="nrsb">{dayjs(newDepartDate).format('dddd')}</span>
                 <span className="nrsb">{dayjs(newReturnDate).format('dddd')}</span>
               </div> */}
-                  </div>
-                </div>
-              )}
-
-
+              </div>
+            </div>
+          )}
 
           <div className="col-lg-3">
             <div>
@@ -733,7 +676,7 @@ const GrmHotelForm = () => {
                 <span className="nrsb">Guests & Rooms</span>
                 {/* </div> */}
                 <div className="travelContent">
-                  <p >
+                  <p>
                     {condition} Room, {numAdults} Adults {numChildren} Child
                   </p>
                   {/* <div className="d-none d-md-block ">
@@ -773,131 +716,106 @@ const GrmHotelForm = () => {
 
                       <div className="px-1">
                         {condition > 0 &&
-                          Array.from({ length: condition }).map(
-                            (_, index) => (
-                              <div
-                                key={index}
-                                className="room-modal-container"
-                              >
-                                <div>
-                                  <h5>ROOM {index + 1}</h5>
-                                </div>
-                                <div className="row">
-                                  <div className="hotel_modal_form_input">
-                                    <label className="form_label">
-                                      No of Adults:
-                                    </label>
-                                    <select
-                                      value={
-                                        formDataDynamic[index]
-                                          ?.NoOfAdults || 1
-                                      }
-                                      className="hotel_input_select"
-                                      onChange={(e) =>
-                                        handleFormChange(
-                                          index,
-                                          "NoOfAdults",
-                                          parseInt(e.target.value)
-                                        )
-                                      }
-                                    >
-                                      {[1, 2, 3, 4, 5, 6, 7, 8].map(
-                                        (num) => (
-                                          <option
-                                            key={num}
-                                            value={num}
-                                          >
-                                            {num}
-                                          </option>
-                                        )
-                                      )}
-                                    </select>
-                                  </div>
-
-                                  <div className="hotel_modal_form_input">
-                                    <label className="form_label">
-                                      No of Child:
-                                    </label>
-                                    <select
-                                      value={
-                                        formDataDynamic[index]
-                                          ?.NoOfChild || 0
-                                      }
-                                      className="hotel_input_select"
-                                      name="noOfChild"
-                                      onChange={(e) =>
-                                        handleFormChange(
-                                          index,
-                                          "NoOfChild",
-                                          parseInt(e.target.value)
-                                        )
-                                      }
-                                    >
-                                      {[0, 1, 2, 3, 4].map(
-                                        (childCount) => (
-                                          <option
-                                            key={childCount}
-                                            value={childCount}
-                                          >
-                                            {childCount}
-                                          </option>
-                                        )
-                                      )}
-                                    </select>
-                                  </div>
-                                </div>
-                                {formDataDynamic[index]?.NoOfChild >
-                                  0 && (
-                                    <div className="hotel_modal_form_input_child_age">
-                                      <label className="mt-3">
-                                        Child Age:
-                                      </label>
-                                      <div>
-                                        {Array.from({
-                                          length:
-                                            formDataDynamic[index]
-                                              ?.NoOfChild || 0,
-                                        }).map((_, childIndex) => (
-                                          <div
-                                            key={childIndex}
-                                            className=""
-                                          >
-                                            <select
-                                              value={
-                                                formDataDynamic[index]
-                                                  ?.ChildAge?.[
-                                                childIndex
-                                                ] || ""
-                                              }
-                                              className="hotel_input_select"
-                                              onChange={(e) =>
-                                                handleChildAgeChange(
-                                                  index,
-                                                  childIndex,
-                                                  e.target.value
-                                                )
-                                              }
-                                            >
-                                              {Array.from(
-                                                { length: 11 },
-                                                (_, i) => (
-                                                  <option
-                                                    key={i}
-                                                    value={i + 1}
-                                                  >
-                                                    {i + 1}
-                                                  </option>
-                                                )
-                                              )}
-                                            </select>
-                                          </div>
-                                        ))}
-                                      </div>
-                                    </div>
-                                  )}
+                          Array.from({ length: condition }).map((_, index) => (
+                            <div key={index} className="room-modal-container">
+                              <div>
+                                <h5>ROOM {index + 1}</h5>
                               </div>
-                            )
-                          )}
+                              <div className="row">
+                                <div className="hotel_modal_form_input">
+                                  <label className="form_label">
+                                    No of Adults:
+                                  </label>
+                                  <select
+                                    value={
+                                      formDataDynamic[index]?.NoOfAdults || 1
+                                    }
+                                    className="hotel_input_select"
+                                    onChange={(e) =>
+                                      handleFormChange(
+                                        index,
+                                        "NoOfAdults",
+                                        parseInt(e.target.value)
+                                      )
+                                    }
+                                  >
+                                    {[1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
+                                      <option key={num} value={num}>
+                                        {num}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+
+                                <div className="hotel_modal_form_input">
+                                  <label className="form_label">
+                                    No of Child:
+                                  </label>
+                                  <select
+                                    value={
+                                      formDataDynamic[index]?.NoOfChild || 0
+                                    }
+                                    className="hotel_input_select"
+                                    name="noOfChild"
+                                    onChange={(e) =>
+                                      handleFormChange(
+                                        index,
+                                        "NoOfChild",
+                                        parseInt(e.target.value)
+                                      )
+                                    }
+                                  >
+                                    {[0, 1, 2, 3, 4].map((childCount) => (
+                                      <option
+                                        key={childCount}
+                                        value={childCount}
+                                      >
+                                        {childCount}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              </div>
+                              {formDataDynamic[index]?.NoOfChild > 0 && (
+                                <div className="hotel_modal_form_input_child_age">
+                                  <label className="mt-3">Child Age:</label>
+                                  <div>
+                                    {Array.from({
+                                      length:
+                                        formDataDynamic[index]?.NoOfChild || 0,
+                                    }).map((_, childIndex) => (
+                                      <div key={childIndex} className="">
+                                        <select
+                                          value={
+                                            formDataDynamic[index]?.ChildAge?.[
+                                              childIndex
+                                            ] || ""
+                                          }
+                                          className="hotel_input_select"
+                                          onChange={(e) =>
+                                            handleChildAgeChange(
+                                              index,
+                                              childIndex,
+                                              e.target.value
+                                            )
+                                          }
+                                        >
+                                          {Array.from(
+                                            { length: 11 },
+                                            (_, i) => (
+                                              <option key={i} value={i + 1}>
+                                                {i + 1}
+                                              </option>
+                                            )
+                                          )}
+                                        </select>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          ))}
                       </div>
                     </div>
                   </>
@@ -929,7 +847,7 @@ const GrmHotelForm = () => {
           <div className="col-lg-2">
             <div className="newOnewaySingle">
               {/* <div> */}
-              <span >Nationality</span>
+              <span>Nationality</span>
               {/* </div> */}
               <ToSearchInput
                 placeholder="Search"
@@ -940,9 +858,7 @@ const GrmHotelForm = () => {
                 <span className="nrsb">{selectNationality?.countryCode3}</span>
               </div> */}
             </div>
-
           </div>
-
 
           {/* <div
             style={{ position: "relative", top: "80px", marginTop: "-45px" }}
@@ -950,8 +866,7 @@ const GrmHotelForm = () => {
             <Button className="returnButton" style={{ padding: "8px 36px", height: "unset" }} onClick={handleSubmit} loading={loader}>Search</Button>
           </div> */}
         </div>
-        <div
-          className="flightSearchButtonBox">
+        <div className="flightSearchButtonBox">
           <Button onClick={handleSubmit} loading={loader}>
             Search
           </Button>

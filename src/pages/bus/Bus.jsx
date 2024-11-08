@@ -24,7 +24,7 @@ import TrendingPackageHome from "../../components/TailwindSearchComp/trendingPac
 const Bus = () => {
   return (
     <div>
-      <div className="hotel_banner" style={{ background: "white" }}>
+      <div className="hotel_banner">
         <Helmet>
           <title>
             The Skytrails - Hotel Booking, Flight Booking, Bus Booking

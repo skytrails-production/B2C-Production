@@ -16,6 +16,7 @@ import FooterNavigation from "../../components/footerNavigate/FooterNavigation";
 import OfferMain from "../../components/TailwindSearchComp/offerPage/OfferMain";
 import TrendingPackageHome from "../../components/TailwindSearchComp/trendingPackage/TrendingPackageHome";
 import HotelSuggestion from "../../components/TailwindSearchComp/hotelSuggestion/HotelSuggestion";
+import GrnHomeStaticHotel from "./GrnHomeStaticHotel";
 
 const GrmHotelHome = () => {
   return (
@@ -45,20 +46,22 @@ const GrmHotelHome = () => {
         </div>
       </div>
 
+      <div
+        className="flightMainBox relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)] hidden md:flex bg-cover bg-top bg-no-repeat"
+        style={{ backgroundImage: `url(${hotelBanner})` }}
+      >
+        <StaySearchForm />
+      </div>
 
-      <div className="flightMainBox relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)] hidden md:flex bg-cover bg-top bg-no-repeat" style={{ backgroundImage: `url(${hotelBanner})` }}>
-  <StaySearchForm />
-</div>
-
-      {/* <div>
-                <GrnHomeStaticHotel />
-            </div> */}
       <div>
         <OfferMain />
       </div>
 
       <div>
-      <HotelSuggestion/>
+        <GrnHomeStaticHotel />
+      </div>
+      <div>
+        <HotelSuggestion />
       </div>
 
       {/* <div className="mt-3">

@@ -50,11 +50,12 @@ const PackageHomePage = () => {
           <NewPackageForm />
         </div>
 
-
-
-        <div className="flightMainBox relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)] hidden md:flex bg-cover bg-top bg-no-repeat" style={{ backgroundImage: `url(${newPackBanner})` }}>
-  <HolidaySearchForm />
-</div>
+        <div
+          className="flightMainBox relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)] hidden md:flex bg-cover bg-top bg-no-repeat"
+          style={{ backgroundImage: `url(${newPackBanner})` }}
+        >
+          <HolidaySearchForm />
+        </div>
         <PackageHomeAbsolute />
         <div>
           <OfferMain />
@@ -63,12 +64,14 @@ const PackageHomePage = () => {
         <div>
           <NewHolidayCategory />
         </div>
+
+        <div>
+          <HolidayTopCountries />
+        </div>
+
         <div>
           {/* <NewHolidayTrending /> */}
           <TrendingPackageHome />
-        </div>
-        <div>
-          <HolidayTopCountries />
         </div>
 
         <div className="my-3 mt-5">

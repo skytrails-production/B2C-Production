@@ -39,8 +39,8 @@ const BusSearchForm = () => {
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
       DateOfJourney: dayjs(departDate).format("YYYY/MM/DD"),
-      DestinationId: fromCity.CityId,
-      OriginId: toCity.CityId,
+      DestinationId: toCity.CityId,
+      OriginId: fromCity.CityId,
     };
 
     console.log(payload, "clicked");

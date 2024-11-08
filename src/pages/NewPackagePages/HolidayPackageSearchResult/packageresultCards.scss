@@ -58,7 +58,7 @@
       margin-top: 12px;
 
       h2 {
-        font-size: 13px;
+        // font-size: 13px;
         font-weight: 600;
         width: 85%;
         overflow: hidden;
@@ -141,4 +141,46 @@
       }
     }
   }
+}
+
+.packCardImg {
+  position: relative;
+  width: 40%; /* Adjust as per your layout */
+}
+
+.posterImg {
+  width: 100%;
+  height: auto;
+}
+
+.smallOverlayCard {
+  position: absolute;
+  top: 10px;
+  display: flex;
+  background-color: #090e10; /* Semi-transparent white */
+  padding: 6px 12px;
+  gap:5px;
+  // border-radius: 4px;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+  font-size: 12px;
+  color: white;
+  font-weight: 500;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.packCardPrice h2 {
+  margin-top: 0;
+}
+
+.inclusionMainBox {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.inclusionIcons div {
+  display: inline-block;
+  text-align: center;
+  margin-right: 10px;
 }

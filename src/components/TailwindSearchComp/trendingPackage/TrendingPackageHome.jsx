@@ -10,7 +10,7 @@ import PackageResultCards from "../../../pages/NewPackagePages/HolidayPackageSea
 
 const SkeletonLoader = () => {
   return (
-    <div className="flex bg-gray-200 animate-pulse space-x-4 flex-shrink-0 relative w-full aspect-w-5 aspect-h-5 sm:aspect-h-6 h-64 rounded-2xl overflow-hidden group"></div>
+    <div className="relative flex flex-shrink-0 w-full h-64 space-x-4 overflow-hidden bg-gray-200 animate-pulse aspect-w-5 aspect-h-5 sm:aspect-h-6 rounded-2xl group"></div>
   );
 };
 
@@ -115,7 +115,7 @@ const TrendingPackageHome = ({
           <div className="flow-root overflow-hidden rounded-xl">
             <motion.ul
               initial={false}
-              className="relative whitespace-nowrap p-0 -mx-2 xl:-mx-4"
+              className="relative p-0 -mx-2 whitespace-nowrap xl:-mx-4"
             >
               {loading ? (
                 Array.from({ length: 6 }).map((_, index) => (

@@ -91,7 +91,7 @@ const StaySearchForm = () => {
   const handleSubmit = async () => {
     setIsSIngleHotelSerched(true);
     setIsLoading(true);
-
+    sessionStorage.setItem("SessionExpireTime", new Date());
     sessionStorage.setItem("clientNationality", JSON.stringify("IN"));
     sessionStorage.setItem(
       "revisithotel",

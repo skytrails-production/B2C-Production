@@ -32,8 +32,10 @@ import {
   wellness,
   wifi,
   wildlife,
+  airplane,
 } from "../inclusionsSVG";
 import { useNavigate } from "react-router-dom";
+import { PiAirplaneTakeoffLight } from "react-icons/pi";
 
 const PackageResultCards = ({ data }) => {
   const navigate = useNavigate();
@@ -43,28 +45,37 @@ const PackageResultCards = ({ data }) => {
   };
 
   const sortedInclusions = data?.insclusions?.sort((a, b) => {
-    const aValue = Object.values(a)[0];
-    const bValue = Object.values(b)[0];
+    const aValue = Object?.values(a)[0];
+    const bValue = Object?.values(b)[0];
     return (
       (bValue === "true" || bValue === true) -
       (aValue === "true" || aValue === true)
     );
   });
-  console.log(data, "data in the pack res card");
+
+  console.log(data, "datapackagesss pakageanme");
 
   return (
-    <div key={data._id} className="packageCard">
+    <div key={data?._id} className="packageCard">
       <div className="packCardImg">
         <Img
           className="posterImg"
-          src={data.pakage_img || data.package_img[0]}
+          src={data?.pakage_img || data?.package_img[0]}
         />
+        {sortedInclusions?.some((ele) => ele?.flight) && (
+          <div className="smallOverlayCard">
+            <p style={{ fontSize: "20px" }}>
+              <PiAirplaneTakeoffLight />
+            </p>
+            <p>Flights Included</p>
+          </div>
+        )}
       </div>
       <div className="packCardContent">
         <div className="packCardTitle">
-          <h2>{data.pakage_title}</h2>
+          <h2>{data?.pakage_title}</h2>
           <p>
-            {data.days}D/{Number(data.days) - 1}N
+            {data?.days}D/{Number(data?.days) - 1}N
           </p>
         </div>
 
@@ -76,6 +87,12 @@ const PackageResultCards = ({ data }) => {
               {sortedInclusions?.slice(0, 4)?.map((ele, index) => {
                 return (
                   <div key={index} className="">
+                    {ele?.flight && (
+                      <div>
+                        <span>{airplane}</span>
+                        <p>Flight</p>
+                      </div>
+                    )}
                     {ele?.flexibility && (
                       <div>
                         <span>{flexible}</span>
@@ -283,7 +300,10 @@ const PackageResultCards = ({ data }) => {
                 </div> */}
 
         <div className="packCardPrice">
-          <h2>₹ {data.pakage_amount.amount}</h2>
+          <div className="flex items-center justify-start gap-2">
+            <span className="text-sm">Starts from </span>{" "}
+            <h2 className="text-lg">₹ {data.pakage_amount.amount}</h2>
+          </div>
           <button onClick={(e) => searchOneHoliday(data?._id)}>
             View Details
           </button>
