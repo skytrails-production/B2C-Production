@@ -75,13 +75,13 @@ const BusSearchForm = () => {
           desc="Departure City"
           onLocationSelect={handleFromSelect}
         />
-        <div className="self-center border-r border-slate-200 h-8"></div>
+        <div className="self-center border-r-2 border-slate-300 h-12"></div>
         <BusLocationInputTo
           className="flex-1"
           desc="Arrival City"
           onLocationSelect={handleToSelect}
         />
-        <div className="self-center border-r border-slate-200 h-8"></div>
+        <div className="self-center border-r-2 border-slate-300 h-12"></div>
         <BusDateBox
           className="flex-1"
           onSubmit={handleSubmit}

@@ -179,7 +179,7 @@ const OnewaySearchForm = ({ adult, child, infant, flightClass }) => {
             className="flex-1"
             onLocationSelect={handleFromSelect}
           />
-          <div className="self-center border-r border-slate-200  h-8"></div>
+          <div className="self-center border-r-2 border-slate-300  h-12"></div>
           <FlightLocationTo
             placeHolder="Flying to"
             desc="Where you want to fly to?"
@@ -187,7 +187,7 @@ const OnewaySearchForm = ({ adult, child, infant, flightClass }) => {
             divHideVerticalLineClass=" -inset-x-0.5"
             onLocationSelect={handleToSelect}
           />
-          <div className="self-center border-r border-slate-200  h-8"></div>
+          <div className="self-center border-r-2 border-slate-300  h-12"></div>
           <FlightDateBox
             // selectsRange={dropOffLocationType !== "oneWay"}
             className="flex-1"

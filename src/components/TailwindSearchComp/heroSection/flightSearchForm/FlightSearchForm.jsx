@@ -149,12 +149,12 @@ const FlightSearchForm = () => {
 
   const renderRadioBtn = () => {
     return (
-      <div className=" px-4 md:py-4 md:px-7 xl:py-6 xl:px-8 flex flex-row flex-wrap border-b border-neutral-100 ">
+      <div className=" px-4 md:py-4 md:px-7 xl:py-6 xl:px-8 flex flex-row flex-wrap border-b-2 border-slate-300 ">
         <div
           className={`py-1.5 px-4 flex items-center rounded-full font-medium text-xs cursor-pointer mr-2 my-1 sm:mr-3 ${
             dropOffLocationType === "oneway"
               ? "bg-black text-white shadow-black/10 shadow-lg"
-              : "border border-neutral-300 "
+              : "border-2 border-slate-300 "
           }`}
           onClick={() => setDropOffLocationType("oneway")}
         >
@@ -164,7 +164,7 @@ const FlightSearchForm = () => {
           className={`py-1.5 px-4 flex items-center rounded-full font-medium text-xs cursor-pointer mr-2 my-1 sm:mr-3 ${
             dropOffLocationType === "roundTrip"
               ? "bg-black shadow-black/10 shadow-lg text-white"
-              : "border border-neutral-300 "
+              : "border-2 border-slate-300 "
           }`}
           onClick={() => setDropOffLocationType("roundTrip")}
         >
@@ -174,18 +174,18 @@ const FlightSearchForm = () => {
           className={`py-1.5 px-4 flex items-center rounded-full font-medium text-xs cursor-pointer mr-2 my-1 sm:mr-3 ${
             dropOffLocationType === "multicity"
               ? "bg-black shadow-black/10 shadow-lg text-white"
-              : "border border-neutral-300 "
+              : "border-2 border-slate-300 "
           }`}
           onClick={() => setDropOffLocationType("multicity")}
         >
           Multi-city
         </div>
 
-        <div className="self-center border-r border-slate-200  h-8 mr-2 my-1 sm:mr-3"></div>
-        <div className="mr-2 my-1 sm:mr-3 border border-neutral-300  rounded-full">
+        <div className="self-center border-r-2 border-slate-300  h-8 mr-2 my-1 sm:mr-3"></div>
+        <div className="mr-2 my-1 sm:mr-3 border-2 border-slate-300  rounded-full">
           {renderSelectClass()}
         </div>
-        <div className="my-1 border border-neutral-300  rounded-full">
+        <div className="my-1 border-2 border-slate-300   rounded-full">
           {renderGuest()}
         </div>
       </div>

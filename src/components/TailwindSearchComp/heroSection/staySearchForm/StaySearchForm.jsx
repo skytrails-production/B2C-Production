@@ -153,12 +153,12 @@ const StaySearchForm = () => {
           className="flex-[1.5]"
           onLocationSelect={handleLocationSelect}
         />
-        <div className="self-center border-r border-slate-200 h-8"></div>
+        <div className="self-center border-r-2 border-slate-300  h-12"></div>
         <StayDatesRangeInput
           className="flex-1"
           onDateChange={handleDateChange}
         />
-        <div className="self-center border-r border-slate-200  h-8"></div>
+        <div className="self-center border-r-2 border-slate-300   h-12"></div>
         <GuestsInput
           className="flex-1"
           onSubmit={handleSubmit}

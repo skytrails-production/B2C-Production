@@ -314,7 +314,7 @@ const LocationInput = ({
         </div>
         <div className="flex-grow">
           <input
-            className={`block w-full bg-transparent border-none focus:ring-0 p-0 focus:outline-none focus:placeholder-neutral-300 xl:text-lg font-semibold placeholder-neutral-800 truncate`}
+            className={`block w-full bg-transparent border-none focus:ring-0 p-0 focus:outline-none focus:placeholder-neutral-300 text-2xl font-bold placeholder-neutral-800 truncate`}
             placeholder={placeHolder}
             value={value}
             autoFocus={showPopover}
@@ -323,7 +323,7 @@ const LocationInput = ({
             onBlur={handleBlur} // Restore if nothing is selected
             ref={inputRef}
           />
-          <span className="block mt-0.5 text-sm text-neutral-400 font-light">
+          <span className="block mt-0.5 text-[1rem] text-neutral-400 font-light">
             <span className="line-clamp-1">{!!value ? placeHolder : desc}</span>
           </span>
           {value && showPopover && (

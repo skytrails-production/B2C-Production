@@ -216,8 +216,8 @@ function Bookwrapperkafila({}) {
 
   const paramdata = reducerState?.oneWay?.kafilatvoresponse?.Param;
   const isPassportRequired =
-    reducerState?.searchFlight?.flightDetails?.from?.CountryCode !== "IN" ||
-    reducerState?.searchFlight?.flightDetails?.to?.CountryCode !== "IN"
+    reducerState?.searchFlight?.flightDetails?.from?.CountryCode !== "IN " ||
+    reducerState?.searchFlight?.flightDetails?.to?.CountryCode !== "IN "
       ? true
       : false;
 

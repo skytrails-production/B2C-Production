@@ -80,7 +80,7 @@ const ReturnReviewBooking = () => {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isDisableScroll, setIsDisableScroll] = useState(false);
 
-  const [refundTxnId, setRefundTxnId] = useState(null)
+  const [refundTxnId, setRefundTxnId] = useState(null);
 
   const token = SecureStorage.getItem("jwtToken");
   useEffect(() => {
@@ -118,7 +118,6 @@ const ReturnReviewBooking = () => {
 
   const [couponvalue, setCouponValue] = useState("");
 
-
   const handlecouponChange = (code) => {
     setCouponValue(code);
   };
@@ -128,8 +127,7 @@ const ReturnReviewBooking = () => {
     try {
       const token = SecureStorage.getItem("jwtToken");
       const response = await axios.get(
-        `${apiURL.baseURL
-          }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
+        `${apiURL.baseURL}/skyTrails/api/coupons/couponApplied/${couponvalue}`,
 
         {
           headers: {
@@ -191,18 +189,18 @@ const ReturnReviewBooking = () => {
   //     navigate("/");
   //   }
   // }, [reducerState?.flightBook?.flightBookData?.Response]);
-  
+
   const [finalAmount, setFinalAmount] = useState(0);
 
   const handleFinalAmountChange = (amount) => {
     setFinalAmount(amount);
   };
 
-
   useEffect(() => {
     const fetchData = async () => {
-
-      if (reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === "") {
+      if (
+        reducerState?.flightBook?.flightBookData?.Error?.ErrorMessage === ""
+      ) {
         // setLoaderPayment(false);
         handleReturnFlight();
         // navigate("/bookedTicket");
@@ -210,17 +208,15 @@ const ReturnReviewBooking = () => {
         reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
         reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== undefined
       ) {
-
         try {
           const token = SecureStorage.getItem("jwtToken");
           const payload = {
-            "refund_amount": Number(finalAmount).toFixed(2),
+            refund_amount: Number(finalAmount).toFixed(2),
             // ||
             //   (Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
             // "refund_amount": 2,
-            "txnId": refundTxnId,
-
-          }
+            txnId: refundTxnId,
+          };
 
           // console.log("i am chaling in the going flight")
           const res = await axios({
@@ -256,31 +252,30 @@ const ReturnReviewBooking = () => {
 
     // Return cleanup function
     return cleanup;
-
   }, [reducerState?.flightBook?.flightBookData?.Response]);
 
   useEffect(() => {
     const fetchData = async () => {
-
-      if (reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage === "") {
+      if (
+        reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorMessage === ""
+      ) {
         // setLoaderPayment(false);
         handleReturnFlight();
         // navigate("/bookedTicket");
       } else if (
         reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
-        reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== undefined
+        reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !==
+          undefined
       ) {
-
         try {
           const token = SecureStorage.getItem("jwtToken");
           const payload = {
-            "refund_amount": Number(finalAmount).toFixed(2),
+            refund_amount: Number(finalAmount).toFixed(2),
             //  ||
             //   (Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare) + Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
             // "refund_amount": 2,
-            "txnId": refundTxnId,
-
-          }
+            txnId: refundTxnId,
+          };
 
           // console.log("i am chaling in the going flight")
           const res = await axios({
@@ -316,9 +311,7 @@ const ReturnReviewBooking = () => {
 
     // Return cleanup function
     return cleanup;
-
   }, [reducerState?.flightBook?.flightBookDataGDS?.Response]);
-
 
   useEffect(() => {
     if (
@@ -350,7 +343,7 @@ const ReturnReviewBooking = () => {
     } else if (
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !==
-      undefined
+        undefined
     ) {
       swalModal(
         "flight",
@@ -378,11 +371,6 @@ const ReturnReviewBooking = () => {
   // console.log(reducerState, "resucer state")
 
   // for going flight
-
-
-
-
-
 
   // for return flight
 
@@ -427,29 +415,32 @@ const ReturnReviewBooking = () => {
   //   }
   // }, [reducerState?.flightBook?.flightBookDataReturn?.Response]);
 
-
   useEffect(() => {
     const fetchData = async () => {
       if (
-        reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorMessage === ""
+        reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorMessage ===
+        ""
       ) {
         couponconfirmation();
         setLoaderPayment(false);
-        navigate("/bookedTicketWithReturn", { state: { finalamount: finalAmount } });
+        navigate("/bookedTicketWithReturn", {
+          state: { finalamount: finalAmount },
+        });
       } else if (
-        reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorCode !== 0 &&
-        reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorCode !== undefined
+        reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorCode !==
+          0 &&
+        reducerState?.flightBook?.flightBookDataReturn?.Error?.ErrorCode !==
+          undefined
       ) {
-
         try {
           const token = SecureStorage.getItem("jwtToken");
           const payload = {
-            "refund_amount":Number(finalAmount).toFixed(2),
+            refund_amount: Number(finalAmount).toFixed(2),
             // "refund_amount": finalAmount - (Number(fareValue?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare))) ||
             //   (Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
             // "refund_amount": 1,
-            "txnId": refundTxnId,
-          }
+            txnId: refundTxnId,
+          };
 
           const res = await axios({
             method: "POST",
@@ -484,31 +475,34 @@ const ReturnReviewBooking = () => {
 
     // Return cleanup function
     return cleanup;
-
   }, [reducerState?.flightBook?.flightBookDataReturn?.Response]);
 
   useEffect(() => {
     const fetchData = async () => {
       if (
-        reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorMessage === ""
+        reducerState?.flightBook?.flightBookDataGDSReturn?.Error
+          ?.ErrorMessage === ""
       ) {
         couponconfirmation();
         setLoaderPayment(false);
-        navigate("/bookedTicketWithReturn", { state: { finalamount: finalAmount } });
+        navigate("/bookedTicketWithReturn", {
+          state: { finalamount: finalAmount },
+        });
       } else if (
-        reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorCode !== 0 &&
-        reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorCode !== undefined
+        reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorCode !==
+          0 &&
+        reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorCode !==
+          undefined
       ) {
-
         try {
           const token = SecureStorage.getItem("jwtToken");
           const payload = {
             // "refund_amount": finalAmount - (Number(fareValue?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValue?.Fare?.PublishedFare))) ||
             //   (Number(fareValueReturn?.Fare?.PublishedFare) + (Number(markUpamount) * Number(fareValueReturn?.Fare?.PublishedFare))).toFixed(0),
             // "refund_amount": 1,
-            "refund_amount":Number(finalAmount).toFixed(2),
-            "txnId": refundTxnId,
-          }
+            refund_amount: Number(finalAmount).toFixed(2),
+            txnId: refundTxnId,
+          };
 
           const res = await axios({
             method: "POST",
@@ -543,14 +537,13 @@ const ReturnReviewBooking = () => {
 
     // Return cleanup function
     return cleanup;
-
   }, [reducerState?.flightBook?.flightBookDataGDSReturn?.Response]);
 
   useEffect(() => {
     if (
       reducerState?.flightFare?.flightQuoteDataReturn?.Error?.ErrorCode !== 0 &&
       reducerState?.flightFare?.flightQuoteDataReturn?.Error?.ErrorCode !==
-      undefined
+        undefined
     ) {
       swalModal(
         "flight",
@@ -558,9 +551,7 @@ const ReturnReviewBooking = () => {
         false
       );
       navigate("/");
-    }
-    else if (reducerState?.passengers?.passengerDataReturn.length === 0
-    ) {
+    } else if (reducerState?.passengers?.passengerDataReturn.length === 0) {
       navigate("/FlightresultReturn/Passengerdetail");
     }
   }, [reducerState?.flightFare?.flightQuoteDataReturn?.Error?.ErrorCode]);
@@ -568,23 +559,25 @@ const ReturnReviewBooking = () => {
   useEffect(() => {
     if (
       reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorMessage ==
-      "" &&
+        "" &&
       !isDummyTicketBooking
     ) {
       getTicketForNonLCCReturn();
     } else if (
       reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorMessage ==
-      "" &&
+        "" &&
       isDummyTicketBooking
     ) {
       couponconfirmation();
       setLoaderPayment(false);
-      navigate("/bookedTicketWithReturn", { state: { finalamount: finalAmount } });
+      navigate("/bookedTicketWithReturn", {
+        state: { finalamount: finalAmount },
+      });
     } else if (
       reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorCode !==
-      0 &&
+        0 &&
       reducerState?.flightBook?.flightBookDataGDSReturn?.Error?.ErrorCode !==
-      undefined
+        undefined
     ) {
       swalModal(
         "flight",
@@ -606,7 +599,9 @@ const ReturnReviewBooking = () => {
     ) {
       couponconfirmation();
       setLoaderPayment(false);
-      navigate("/bookedTicketWithReturn", { state: { finalamount: finalAmount } });
+      navigate("/bookedTicketWithReturn", {
+        state: { finalamount: finalAmount },
+      });
     }
   }, [
     reducerState?.flightBook?.flightTicketDataGDSReturn?.data?.data?.Response,
@@ -652,7 +647,7 @@ const ReturnReviewBooking = () => {
           ...item,
           Email: apiURL.flightEmail,
           // ContactNo: apiURL.phoneNo,
-          ContactNo:Passengers[0].ContactNo,
+          ContactNo: Passengers[0].ContactNo,
           PassportExpiry: "",
         };
       }),
@@ -699,21 +694,19 @@ const ReturnReviewBooking = () => {
     const payload = {
       firstname: Passengers[0].FirstName,
       phone: Passengers[0].ContactNo,
-      amount: 2,
-      // amount:
-      // Number(finalAmount).toFixed(2) ||
-      //   (!isDummyTicketBooking
-      //     ? 
-      //     // Number(
-      //     //   fareValue?.Fare?.PublishedFare +
-      //     //   fareValueReturn?.Fare?.PublishedFare +
-      //     //   markUpamount *
-      //     //   (fareValue?.Fare?.PublishedFare +
-      //     //     fareValueReturn?.Fare?.PublishedFare)
-      //     // ).toFixed(0)
-      //     Number( finalAmount).toFixed(2)
-      //     : 99),
-
+      // amount: 2,
+      amount:
+        Number(finalAmount).toFixed(2) ||
+        (!isDummyTicketBooking
+          ? // Number(
+            //   fareValue?.Fare?.PublishedFare +
+            //   fareValueReturn?.Fare?.PublishedFare +
+            //   markUpamount *
+            //   (fareValue?.Fare?.PublishedFare +
+            //     fareValueReturn?.Fare?.PublishedFare)
+            // ).toFixed(0)
+            Number(finalAmount).toFixed(2)
+          : 99),
 
       // (!isDummyTicketBooking
       //     ? parseInt(
@@ -771,7 +764,7 @@ const ReturnReviewBooking = () => {
           try {
             // Make API call if payment status is 'success'
             const easeBuzzPayId = response.easepayid;
-            setRefundTxnId(response.easepayid)
+            setRefundTxnId(response.easepayid);
             const verifyResponse = await axios.post(
               `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`,
               { easeBuzzPayId: easeBuzzPayId }
@@ -823,7 +816,7 @@ const ReturnReviewBooking = () => {
           PassportExpiry: "",
           Email: apiURL.flightEmail,
           // ContactNo: apiURL.phoneNo,
-            ContactNo:Passengers[0]?.ContactNo,
+          ContactNo: Passengers[0]?.ContactNo,
         };
       }),
       EndUserIp: reducerState?.ip?.ipData,
@@ -897,7 +890,7 @@ const ReturnReviewBooking = () => {
     if (
       reducerState?.flightFare?.flightQuoteDataReturn?.Error?.ErrorCode !== 0 &&
       reducerState?.flightFare?.flightQuoteDataReturn?.Error?.ErrorCode !==
-      undefined
+        undefined
     ) {
       setErrorMassage({
         error: true,
@@ -909,7 +902,7 @@ const ReturnReviewBooking = () => {
     if (
       reducerState?.flightFare?.flightRuleDataReturn?.Error?.ErrorCode !== 0 &&
       reducerState?.flightFare?.flightRuleDataReturn?.Error?.ErrorCode !==
-      undefined
+        undefined
     ) {
       setErrorMassage({
         error: true,
@@ -920,16 +913,13 @@ const ReturnReviewBooking = () => {
   });
 
   if (!flightDeparture) {
-    return (
-      <div></div>
-    )
+    return <div></div>;
   }
   // return flight error
 
   return (
     <div>
-      <div className="mainimgFlightSearch">
-      </div>
+      <div className="mainimgFlightSearch"></div>
       <div className="container px-0 pt-4">
         <div className="row">
           <div className="col-lg-9 ">
@@ -957,9 +947,10 @@ const ReturnReviewBooking = () => {
                         </span>
                         <span>
                           {flightDeparture[0].length > 1
-                            ? `${flightDeparture[0].length - 1} stop via ${flightDeparture[0][0]?.Destination?.Airport
-                              ?.CityName
-                            }`
+                            ? `${flightDeparture[0].length - 1} stop via ${
+                                flightDeparture[0][0]?.Destination?.Airport
+                                  ?.CityName
+                              }`
                             : "Non Stop"}
                         </span>
                       </div>
@@ -975,7 +966,10 @@ const ReturnReviewBooking = () => {
                     if (nextFlight) {
                       const arrivalTime = dayjs(item?.Destination?.ArrTime);
                       const departureTime = dayjs(nextFlight?.Origin?.DepTime);
-                      layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
+                      layoverDuration = departureTime.diff(
+                        arrivalTime,
+                        "minutes"
+                      ); // Calculate difference in minutes
                       layoverHours = Math.floor(layoverDuration / 60); // Extract hours
                       layoverMinutes = layoverDuration % 60;
                     }
@@ -1048,7 +1042,6 @@ const ReturnReviewBooking = () => {
                               <p>Check-in</p>
                               <span>
                                 {flightDeparture[0][0]?.Baggage.split(" ")[0]}{" "}
-
                               </span>
                             </div>
                             <div>
@@ -1059,15 +1052,18 @@ const ReturnReviewBooking = () => {
                                     " "
                                   )[0]
                                 }{" "}
-
                               </span>
                             </div>
                           </div>
                         </div>
                         <div>
-                          {(layoverDuration !== 0) && (
-                            <p className="text-bold">Layover Time: {layoverHours !== 0 && `${layoverHours} hours`} {layoverMinutes !== 0 && `${layoverMinutes} minutes`}</p>
-
+                          {layoverDuration !== 0 && (
+                            <p className="text-bold">
+                              Layover Time:{" "}
+                              {layoverHours !== 0 && `${layoverHours} hours`}{" "}
+                              {layoverMinutes !== 0 &&
+                                `${layoverMinutes} minutes`}
+                            </p>
                           )}
                         </div>
                       </>
@@ -1102,9 +1098,10 @@ const ReturnReviewBooking = () => {
                         <span>
                           {/* {`${flightReturn[0].length -1} stop via ${flightReturn[0][0]?.Destination?.Airport?.CityName}`}{" "} */}
                           {flightReturn?.[0].length > 1
-                            ? `${flightReturn?.[0].length - 1} stop via ${flightReturn?.[0][0]?.Destination?.Airport
-                              ?.CityName
-                            }`
+                            ? `${flightReturn?.[0].length - 1} stop via ${
+                                flightReturn?.[0][0]?.Destination?.Airport
+                                  ?.CityName
+                              }`
                             : "Non Stop"}
                           {/* {duration} */}
                         </span>
@@ -1120,7 +1117,10 @@ const ReturnReviewBooking = () => {
                     if (nextFlight) {
                       const arrivalTime = dayjs(item?.Destination?.ArrTime);
                       const departureTime = dayjs(nextFlight?.Origin?.DepTime);
-                      layoverDuration = departureTime.diff(arrivalTime, 'minutes'); // Calculate difference in minutes
+                      layoverDuration = departureTime.diff(
+                        arrivalTime,
+                        "minutes"
+                      ); // Calculate difference in minutes
                       layoverHours = Math.floor(layoverDuration / 60); // Extract hours
                       layoverMinutes = layoverDuration % 60;
                     }
@@ -1193,7 +1193,6 @@ const ReturnReviewBooking = () => {
                               <p>Check-in</p>
                               <span>
                                 {flightDeparture?.[0][0]?.Baggage.split(" ")[0]}{" "}
-
                               </span>
                             </div>
                             <div>
@@ -1204,15 +1203,18 @@ const ReturnReviewBooking = () => {
                                     " "
                                   )[0]
                                 }{" "}
-
                               </span>
                             </div>
                           </div>
                         </div>
                         <div>
-                          {(layoverDuration !== 0) && (
-                            <p className="text-bold">Layover Time: {layoverHours !== 0 && `${layoverHours} hours`} {layoverMinutes !== 0 && `${layoverMinutes} minutes`}</p>
-
+                          {layoverDuration !== 0 && (
+                            <p className="text-bold">
+                              Layover Time:{" "}
+                              {layoverHours !== 0 && `${layoverHours} hours`}{" "}
+                              {layoverMinutes !== 0 &&
+                                `${layoverMinutes} minutes`}
+                            </p>
                           )}
                         </div>
                       </>
@@ -1222,19 +1224,16 @@ const ReturnReviewBooking = () => {
               </div>
 
               <div className="col-lg-12 accor_dian mt-4">
-                {fareRule &&
-                  fareRule.length > 0 &&
-
+                {fareRule && fareRule.length > 0 && (
                   <div my={2}>
-                    <Accordion
-                      defaultActiveKey={null}
-                    >
+                    <Accordion defaultActiveKey={null}>
                       <Accordion.Item>
                         <Accordion.Header>
                           <p>Detailed Fare Rules and Cancellation Policy</p>
                         </Accordion.Header>
                         <Accordion.Body>
-                          <div className="htmlFare"
+                          <div
+                            className="htmlFare"
                             dangerouslySetInnerHTML={{
                               __html: fareRule[0]?.FareRuleDetail,
                             }}
@@ -1243,60 +1242,59 @@ const ReturnReviewBooking = () => {
                       </Accordion.Item>
                     </Accordion>
                   </div>
-
-                }
+                )}
               </div>
               <div className="col-lg-12 my-3">
                 <div className="bg-white border border-gray-200 p-4 rounded-md">
-                {Passengers?.map((passenger, key) => {
-                  return (
-                    <>
-                      <div style={{ marginBottom: "15px" }}>
-                        <p className="font-medium text-lg">
-                          Passenger {key + 1}{" "}
-                          <span
-                            style={{
-                              color: "black",
-                              fontSize: 16,
-                              fontFamily: "Montserrat",
-                              fontWeight: "500",
-                              wordWrap: "break-word",
-                            }}
-                          >
-                            (
-                            {passenger.PaxType === 1
-                              ? "Adult"
-                              : passenger.PaxType === 2
+                  {Passengers?.map((passenger, key) => {
+                    return (
+                      <>
+                        <div style={{ marginBottom: "15px" }}>
+                          <p className="font-medium text-lg">
+                            Passenger {key + 1}{" "}
+                            <span
+                              style={{
+                                color: "black",
+                                fontSize: 16,
+                                fontFamily: "Montserrat",
+                                fontWeight: "500",
+                                wordWrap: "break-word",
+                              }}
+                            >
+                              (
+                              {passenger.PaxType === 1
+                                ? "Adult"
+                                : passenger.PaxType === 2
                                 ? "Child"
                                 : "Infant"}
-                            )
-                          </span>
-                        </p>
-                      </div>
+                              )
+                            </span>
+                          </p>
+                        </div>
 
-                      <div key={key} className="flex align-middle items-center gap-5">
-                        <div>
-                          <p>Name:</p>
-                          <p>Gender</p>
-                          {passenger.Email && <p>Email:</p>}
+                        <div
+                          key={key}
+                          className="flex align-middle items-center gap-5"
+                        >
+                          <div>
+                            <p>Name:</p>
+                            <p>Gender</p>
+                            {passenger.Email && <p>Email:</p>}
+                          </div>
+                          <div>
+                            <p>
+                              {passenger.Title} {passenger.FirstName}{" "}
+                              {passenger.LastName}
+                            </p>
+                            <p>
+                              {passenger.Gender === "1" ? "Male" : "Female"}
+                            </p>
+                            <p>{passenger.Email}</p>
+                          </div>
                         </div>
-                        <div>
-                          <p>
-                            {passenger.Title} {passenger.FirstName}{" "}
-                            {passenger.LastName}
-                          </p>
-                          <p>
-                            {passenger.Gender === "1"
-                              ? "Male"
-                              : "Female"
-                            }
-                          </p>
-                          <p>{passenger.Email}</p>
-                        </div>
-                      </div>
-                    </>
-                  );
-                })}
+                      </>
+                    );
+                  })}
                 </div>
               </div>
             </div>

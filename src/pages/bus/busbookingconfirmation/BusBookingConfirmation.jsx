@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import "./busbookingdetails.css";
@@ -8,11 +8,13 @@ import userApi from "../../../Redux/API/api";
 import { Mode } from "@mui/icons-material";
 import { useLocation, useNavigate } from "react-router-dom";
 import SecureStorage from "react-secure-storage";
+import { Modal } from "antd";
+import ReviewForm from "../../../components/TailwindSearchComp/reviews/ReviewForm";
 const BusBookingConfirmation = () => {
   const reducerState = useSelector((state) => state);
   const location = useLocation();
   const { finalamount, couponvalue } = location.state || {};
-
+  const [isOpen, setIsOpen] = useState(true);
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.busMarkup;
   const passengerNames = JSON.parse(sessionStorage.getItem("busPassName"));
@@ -23,8 +25,7 @@ const BusBookingConfirmation = () => {
     try {
       const token = SecureStorage.getItem("jwtToken");
       const response = await axios.get(
-        `${apiURL.baseURL
-        }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
+        `${apiURL.baseURL}/skyTrails/api/coupons/couponApplied/${couponvalue}`,
 
         {
           headers: {
@@ -52,9 +53,9 @@ const BusBookingConfirmation = () => {
         reducerState?.getBusResult?.busDetails?.data?.data
           ?.GetBookingDetailResult?.Itinerary?.Price?.OfferedPriceRoundedOff +
         markUpamount *
-        reducerState?.getBusResult?.busDetails?.data?.data
-          ?.GetBookingDetailResult?.Itinerary?.Price
-          ?.PublishedPriceRoundedOff;
+          reducerState?.getBusResult?.busDetails?.data?.data
+            ?.GetBookingDetailResult?.Itinerary?.Price
+            ?.PublishedPriceRoundedOff;
 
       const payloadSavedata = {
         userId: reducerState?.logIn?.loginData?.data?.data?.id,
@@ -98,6 +99,9 @@ const BusBookingConfirmation = () => {
     // }
     busBookSave();
   }, []);
+  const handleCancel = () => {
+    setIsOpen(false);
+  };
 
   return (
     // <div>
@@ -120,6 +124,24 @@ const BusBookingConfirmation = () => {
           Ok
         </button>
       </div>
+      <Modal
+        centered
+        maskClosable={false}
+        width={500}
+        open={isOpen}
+        onCancel={handleCancel}
+        footer={null}
+        className="authenticModal"
+      >
+        <ReviewForm
+          destination={
+            reducerState?.getBusResult?.busDetails?.data?.data
+              ?.GetBookingDetailResult?.Itinerary?.Destination
+          }
+          section={"BUSES"}
+          onCancel={handleCancel}
+        />
+      </Modal>
     </div>
   );
 };

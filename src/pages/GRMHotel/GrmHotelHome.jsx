@@ -54,7 +54,7 @@ const GrmHotelHome = () => {
       </div>
 
       <div>
-        <OfferMain />
+        <OfferMain active={"HOTELS"} />
       </div>
 
       <div>

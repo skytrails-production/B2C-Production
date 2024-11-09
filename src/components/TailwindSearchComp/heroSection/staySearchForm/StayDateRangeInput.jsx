@@ -49,7 +49,7 @@ const StayDatesRangeInput = ({
           <CalendarIcon className="w-5 h-5 lg:w-7 lg:h-7" />
         </div>
         <div className="flex-grow text-left">
-          <span className="block xl:text-lg font-semibold">
+          <span className="block text-2xl font-bold">
             {startDate?.toLocaleDateString("en-US", {
               month: "short",
               day: "2-digit",
@@ -62,7 +62,7 @@ const StayDatesRangeInput = ({
                 })
               : ""}
           </span>
-          <span className="block mt-1 text-sm text-neutral-400 leading-none font-light">
+          <span className="block mt-1 text-[1rem] text-neutral-400 leading-none font-light">
             {"Check in - Check out"}
           </span>
         </div>

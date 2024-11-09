@@ -3,8 +3,8 @@ import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArro
 import { BsFacebook, BsInstagram, BsEnvelope, BsTwitter } from "react-icons/bs";
 import { FaLinkedin } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import appstoreSVG from "../images/download/appstoreSVG.svg"
-import playstoreSVG from "../images/download/playstoreSVG.svg"
+import appstoreSVG from "../images/download/appstoreSVG.svg";
+import playstoreSVG from "../images/download/playstoreSVG.svg";
 import mainLogo from "../images/newlogo.png";
 import "./footer.scss";
 import Img from "../LazyLoading/Img";
@@ -137,14 +137,10 @@ const Footer = () => {
     // </section>
 
     <section className=" footers">
-      <div className="container">
+      <div className="custom-container">
         <div className="footerBoxMain">
           <div className="footerSingleBox">
-            <img
-              src={mainLogo}
-              alt="Flowbite Logo"
-              className="img-fluid"
-            />
+            <img src={mainLogo} alt="Flowbite Logo" className="img-fluid" />
 
             <div className="footerSingleBoxContent followBox">
               <h4>Follow us</h4>
@@ -191,8 +187,18 @@ const Footer = () => {
             <div className="footerSingleBoxContent">
               <h4>Download the Skytrails App</h4>
               <div className="DownLLoad">
-                <a href="https://play.google.com/store/apps/details?id=com.skytrails&hl=en_IN" target="_blank"><Img src={playstoreSVG} /></a>
-                <a href="https://apps.apple.com/in/app/the-skytrails/id6475768819" target="_blank"><Img src={appstoreSVG} /></a>
+                <a
+                  href="https://play.google.com/store/apps/details?id=com.skytrails&hl=en_IN"
+                  target="_blank"
+                >
+                  <Img src={playstoreSVG} />
+                </a>
+                <a
+                  href="https://apps.apple.com/in/app/the-skytrails/id6475768819"
+                  target="_blank"
+                >
+                  <Img src={appstoreSVG} />
+                </a>
               </div>
             </div>
           </div>
@@ -228,7 +234,9 @@ const Footer = () => {
             <div className="footerSingleBoxContentLinks">
               <h4>Reach out to us</h4>
               <Link to="tel:+919209793097">+91-9209793097</Link>
-              <Link to="mailto:holidays@theskytrails.com">holidays@theskytrails.com</Link>
+              <Link to="mailto:holidays@theskytrails.com">
+                holidays@theskytrails.com
+              </Link>
             </div>
           </div>
         </div>
@@ -237,7 +245,9 @@ const Footer = () => {
         <div className="footerBoxMain">
           <div className="footerSingleBox">
             <div className="footerSingleBoxContentLinks">
-              <Link to="#">© Skytrails Private Limited. All Rights Reserved.</Link>
+              <Link to="#">
+                © Skytrails Private Limited. All Rights Reserved.
+              </Link>
             </div>
           </div>
         </div>

@@ -130,17 +130,19 @@ Theskytrails - #1 Travel Website 50% OFF on Hotels, Flights, Bus Booking at Lowe
           </div>
         </div>
       </div>
-      <div className="flightMainBox relative py-16 pt-44 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)] hidden md:flex bg-cover bg-top bg-no-repeat" style={{ backgroundImage: `url(${homeBG})` }}>
-  <FlightSearchForm />
-</div>
-
+      <div
+        className="flightMainBox relative py-16 pt-44 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)] hidden md:flex bg-cover bg-top bg-no-repeat"
+        style={{ backgroundImage: `url(${homeBG})` }}
+      >
+        <FlightSearchForm />
+      </div>
 
       <div>
         <RecentSearches />
       </div>
 
       <div>
-        <OfferMain />
+        <OfferMain active={"FLIGHTS"} />
       </div>
 
       <div>

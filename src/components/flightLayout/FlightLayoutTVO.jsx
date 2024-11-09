@@ -559,14 +559,14 @@ const FlightLayoutTVO = ({ seatMap }) => {
     dispatch(setSeatAmountTvo(seatAmountList));
   }, [seatMap]);
   useEffect(() => {
-    let data1 = seatMap[0]?.SegmentSeat;
+    let data1 = seatMap?.[0]?.SegmentSeat;
     // let data = seatMap[0]?.SegmentSeat?.[planeNo];
 
-    let midValue = data1.map((data) => {
+    let midValue = data1?.map((data) => {
       if (data) {
         const TboAmountList = new Set();
-        data.RowSeats.forEach((row) =>
-          row.Seats.forEach((seat) => TboAmountList.add(seat.Price))
+        data?.RowSeats?.forEach((row) =>
+          row?.Seats?.forEach((seat) => TboAmountList?.add(seat?.Price))
         );
 
         const amountSort = Array.from(TboAmountList).sort((a, b) => a - b);
@@ -575,10 +575,10 @@ const FlightLayoutTVO = ({ seatMap }) => {
         }
         console.log(
           "amountsorttt",
-          parseInt(amountSort.length / 2),
+          parseInt(amountSort?.length / 2),
           amountSort,
 
-          amountSort[4],
+          amountSort?.[4],
           amountSort?.[parseInt(amountSort?.length / 2)]
         );
         //  setSeatAmount(amountSort);

@@ -62,7 +62,7 @@ const Bus = () => {
         </div> */}
 
         <div>
-          <OfferMain />
+          <OfferMain active={"BUS"} />
         </div>
         <div>
           {/* <NewHolidayTrending /> */}

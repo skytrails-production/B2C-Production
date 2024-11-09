@@ -140,7 +140,7 @@ const Testimonials = ({
   useEffect(() => {
     if (Rating?.length > 0 && title) {
       let newRating = Rating?.filter((item) => {
-        // console.log(title, item, "title, item.section");
+        console.log(title, item, "title, item.section");
         return title === item?.section;
       });
       setRating(newRating);

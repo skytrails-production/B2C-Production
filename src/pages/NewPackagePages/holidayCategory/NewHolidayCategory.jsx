@@ -12,6 +12,7 @@ import HolidayCategorySkeleton from "./HolidayCategorySkeleton";
 import PackageResultCards from "../HolidayPackageSearchResult/PackageResultCards";
 import PrevBtn from "../../../components/TailwindSearchComp/shared/PrevBtn";
 import NextBtn from "../../../components/TailwindSearchComp/shared/NextBtn";
+import Heading from "../../../components/TailwindSearchComp/shared/Heading";
 
 const SkeletonLoader = () => {
   return (
@@ -19,7 +20,14 @@ const SkeletonLoader = () => {
   );
 };
 
-const NewHolidayCategory = ({ itemPerRow = 3 }) => {
+const NewHolidayCategory = ({
+  heading = "Pick Your Category",
+  subHeading = "Category wise recommendation for you",
+  className = "",
+  itemPerRow = 3,
+  active,
+  sliderStyle = "style1",
+}) => {
   const [packageData, setPackageData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -122,7 +130,10 @@ const NewHolidayCategory = ({ itemPerRow = 3 }) => {
   if (!numberOfItems) return null;
 
   return (
-    <>
+    <div className={`nc-SectionSliderNewCategories mt-16 mb-12 ${className}`}>
+      <Heading desc={subHeading} isCenter={true}>
+        {heading}
+      </Heading>
       {packageData.map((category, index) => (
         <div
           key={index}
@@ -160,7 +171,7 @@ const NewHolidayCategory = ({ itemPerRow = 3 }) => {
                     {loading ? (
                       Array.from({ length: 6 }).map((_, index) => (
                         <motion.li
-                          className={`relative inline-block sm:px-2 md:px-2 lg:px-4 xl:px-4`}
+                          className={`relative inline-block sm:px-2 md:px-1 lg:px-2 xl:px-2`}
                           custom={direction}
                           initial={{
                             x: `${(currentIndex - 1) * -100}%`,
@@ -231,7 +242,7 @@ const NewHolidayCategory = ({ itemPerRow = 3 }) => {
           </div>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 

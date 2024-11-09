@@ -58,7 +58,7 @@ const PackageHomePage = () => {
         </div>
         <PackageHomeAbsolute />
         <div>
-          <OfferMain />
+          <OfferMain active={"HOLIDAYS"} />
         </div>
 
         <div>

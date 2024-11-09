@@ -722,6 +722,20 @@ function api() {
       },
     });
   };
+  const submitReview = (payload) => {
+    const token = secureLocalStorage?.getItem("jwtToken");
+    return axios({
+      method: "POST",
+      url: "/skyTrails/api/user/rating/rateOurApp",
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+        token: token
+
+      }
+    })
+  }
 
   return {
     userIP,
@@ -785,6 +799,7 @@ function api() {
 
     hotelSelectedRoom,
     IterneraryOneWaySearch,
+    submitReview
 
   };
 }

@@ -469,11 +469,11 @@ export default function BookWrapper() {
     const payload = {
       firstname: passengerData?.[0]?.firstName,
       phone: passengerData?.[0]?.ContactNo,
-      // amount: (Number(finalAmount) + Number(totalSeatAmount)).toFixed(2),
+      amount: (Number(finalAmount) + Number(totalSeatAmount)).toFixed(2),
       // transactionAmount ||
       // grandTotal,
 
-      amount: 1,
+      // amount: 1,
 
       email: passengerData[0]?.email,
       productinfo: "ticket",

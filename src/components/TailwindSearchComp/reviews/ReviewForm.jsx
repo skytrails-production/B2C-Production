@@ -1,15 +1,17 @@
 import React, { useState } from "react";
+import userApi from "../../../Redux/API/api";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FaStar } from "react-icons/fa";
 
-const SubmitReview = () => {
+const SubmitReview = ({ destination, section, onCancel }) => {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    rating: 0, // Initially 0 stars
+    rate: 0,
     comments: "",
+    destination: destination,
+    section: section,
   });
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -18,28 +20,37 @@ const SubmitReview = () => {
 
   // Function to handle star click
   const handleStarClick = (ratingValue) => {
-    setFormData({ ...formData, rating: ratingValue });
+    setFormData({ ...formData, rate: ratingValue });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    await userApi.submitReview(formData);
     console.log("Review submitted:", formData);
+    // setIsOpen(false);
+    onCancel();
 
     // Reset form after submission
-    setFormData({ name: "", email: "", rating: 0, comments: "" });
+    setFormData({
+      rate: 0,
+      comments: "",
+      destination: "",
+      section: "",
+    });
   };
 
   return (
-    <div className="w-full mx-auto mt-10 bg-white ">
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+    <div className="w-full mx-auto  bg-white ">
+      <h2 className="text-2xl font-semibold text-gray-800 mb-2">
         Submit Your Review
       </h2>
       <form
         onSubmit={handleSubmit}
-        style={{ backgroundColor: "#F9FAFC" }}
-        className="p-5"
+        // style={{ backgroundColor: "#F9FAFC" }}
+
+        // className="p-2 bg-red-800"
       >
-        <div className="mb-4">
+        <div className="mb-2">
           <label className="block text-gray-700 font-medium text-sm mb-2">
             Rating
           </label>
@@ -52,13 +63,13 @@ const SubmitReview = () => {
                 onClick={() => handleStarClick(star)}
                 className={`cursor-pointer text-3xl transition-all duration-500 
                 group-hover:text-indigo-600 ${
-                  star <= formData.rating ? "text-indigo-500" : "text-gray-300"
+                  star <= formData.rate ? "text-indigo-500" : "text-gray-300"
                 }`}
               />
             ))}
           </div>
         </div>
-        <div className="mb-4">
+        {/* <div className="mb-2">
           <label className="block text-gray-700 font-medium text-sm mb-2">
             Name
           </label>
@@ -73,7 +84,7 @@ const SubmitReview = () => {
           />
         </div>
 
-        <div className="mb-4">
+        <div className="mb-2">
           <label className="block text-gray-700 font-medium text-sm mb-2">
             Email
           </label>
@@ -86,15 +97,15 @@ const SubmitReview = () => {
             placeholder="Enter your email"
             required
           />
-        </div>
+        </div> */}
 
-        <div className="mb-4">
+        <div className="mb-2">
           <label className="block text-gray-700 font-medium text-sm mb-2">
             Comments
           </label>
           <textarea
             name="comments"
-            value={formData.comments}
+            value={formData?.comments}
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows="5"

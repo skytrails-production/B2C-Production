@@ -38,7 +38,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { PassengersAction } from "../../Redux/Passengers/passenger";
 import BookNowLeft from "./BookNowLeft";
 import BookNowLeftAmd from "./BookNowLeftAmd";
-import Box from '@mui/material/Box';
+import Box from "@mui/material/Box";
 import PaymentLoader from "./FlightLoader/paymentLoader";
 import Flighterror from "./Flighterror";
 import axios from "axios";
@@ -61,10 +61,10 @@ import {
 } from "../../utility/validationFunctions";
 import flightPaymentLoding from "../../images/loading/loading-ban.gif";
 import secureLocalStorage from "react-secure-storage";
-import FlightLayoutTVO from "../../components/flightLayout/FlightLayoutTVO"
-import { clear_all_airline } from "../../Redux/AirlineSeatMap/actionAirlineSeatMap"
+import FlightLayoutTVO from "../../components/flightLayout/FlightLayoutTVO";
+import { clear_all_airline } from "../../Redux/AirlineSeatMap/actionAirlineSeatMap";
 import Cancellationpolicy from "./Cancellationpolicy";
-import { Modal as AntdModal, Button, Tabs } from 'antd';
+import { Modal as AntdModal, Button, Tabs } from "antd";
 import Bookingloader from "./Bookingloader";
 import Authentic from "../Auth/Authentic";
 
@@ -86,44 +86,42 @@ const variants = {
 };
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 475,
-  background: 'aliceblue',
+  background: "aliceblue",
   height: 400,
   borderRadius: "15px",
-  bgcolor: 'aliceblue',
+  bgcolor: "aliceblue",
   // border: '2px solid #000',
   boxShadow: 24,
   p: 4,
 };
 
 export default function BookWrapper() {
-
-
   const [isOptionSelected, setIsOptionSelected] = useState(false);
   const [open, setOpen] = React.useState(false);
   const [skipAddOn, setSkipAddOn] = useState(false);
   const seatList = useSelector((state) => state?.airlineSeatMap?.seatList);
   const AmountList = useSelector((state) => state?.airlineSeatMap?.amountTVO);
-  let totalSeatAmount
+  let totalSeatAmount;
   // useEffect(()=>{
- 
 
-  totalSeatAmount = AmountList ? AmountList.reduce((acc, curr) => {
+  totalSeatAmount = AmountList
+    ? AmountList.reduce((acc, curr) => {
+        // console.log(acc,curr)
 
-    // console.log(acc,curr)
-    
-    return acc + curr[0]
-  }, 0) : 0
+        return acc + curr[0];
+      }, 0)
+    : 0;
 
   // useEffect(() =>{
   //   if(totalSeatAmount > 0 ){
   //     setIsOptionSelected(true);
   //   }
-    
+
   // },[totalSeatAmount])
   // },[AmountList])
   // const handleOpen = () => setOpen(true);
@@ -136,13 +134,11 @@ export default function BookWrapper() {
 
   const [couponvalue, setCouponValue] = useState("");
 
-
   const handlecouponChange = (code) => {
     setCouponValue(code);
   };
 
   const [discountvalue, setdiscountValue] = useState("");
-
 
   const handledisocuntChange = (amount) => {
     setdiscountValue(amount);
@@ -154,7 +150,7 @@ export default function BookWrapper() {
   const { ResultIndex } = location.state;
   const sesstioResultIndex = ResultIndex;
 
-// console.log(sesstioResultIndex,"sesstioResultIndex");
+  // console.log(sesstioResultIndex,"sesstioResultIndex");
   // const [finalAmount, setFinalAmount] = useState(0);
 
   // const handleFinalAmountChange = (amount) => {
@@ -162,16 +158,12 @@ export default function BookWrapper() {
   //   setFinalAmount(amount);
   // };
 
-
-
-
   const handleTravelClickOpen = () => {
-
     if (authenticUser !== 200) {
       setIsLoginModalOpen(true);
     } else {
-      setOpen(true)
-      
+      setOpen(true);
+
       // setOpenTravelModal(true);
     }
     // setIsDropdown(false);
@@ -182,8 +174,7 @@ export default function BookWrapper() {
     try {
       const token = SecureStorage.getItem("jwtToken");
       const response = await axios.get(
-        `${apiURL.baseURL
-        }/skyTrails/api/coupons/couponApplied/${couponvalue}`,
+        `${apiURL.baseURL}/skyTrails/api/coupons/couponApplied/${couponvalue}`,
 
         {
           headers: {
@@ -191,7 +182,7 @@ export default function BookWrapper() {
           },
         }
       );
-    } catch (error) { }
+    } catch (error) {}
   };
 
   const handleTravelClose = (event, reason) => {
@@ -253,22 +244,19 @@ export default function BookWrapper() {
   const dropdownRef = useRef(null);
   const [isDropdown, setIsDropdown] = useState(false);
 
-
   const toggleDropdown = () => {
-    setIsDropdown(pre => !pre);
+    setIsDropdown((pre) => !pre);
     if (dropdownRef.current) {
       const elementPosition = dropdownRef.current.getBoundingClientRect().top;
       // console.log(elementPosition, dropdownRef.current, "elementposition")
       if (!isDropdown) {
         window.scrollTo({
           top: isDropdown ? 0 : Number(elementPosition) + 1100,
-          behavior: 'smooth'
+          behavior: "smooth",
         });
-        setSkipAddOn(false)
+        setSkipAddOn(false);
         setIsOptionSelected(true);
-
       }
-
     }
   };
 
@@ -305,14 +293,6 @@ export default function BookWrapper() {
     }
     // console.log(baggageData, "baggageDatadddddddddddd", baggageListNub)
   };
-
-
-
-
-
-
-
-
 
   // const mellFuncton = (type, bag, index) => {
   //   console.log(bag.index == selectedIndex, 'bagggg');
@@ -367,7 +347,6 @@ export default function BookWrapper() {
   //       console.log(updatedMealData, 'updatedMealData');
   //       setMellData(updatedMealData);
   //       setMellFare(pre => pre - bag?.Price);
-
 
   //     // let arr = [...MellListNub];
   //     // arr[index] = arr[index] - 1;
@@ -424,10 +403,8 @@ export default function BookWrapper() {
   // console.log("fareRule",fareRule?.[0]?.FareRuleDetail);
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
 
-
-// console.log(reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId
-//   ,"reducerState?.oneWay?.oneWayData")
-
+  // console.log(reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId
+  //   ,"reducerState?.oneWay?.oneWayData")
 
   const payload = {
     EndUserIp: reducerState?.ip?.ipData,
@@ -439,7 +416,7 @@ export default function BookWrapper() {
   useEffect(() => {
     dispatch(ruleAction(payload));
     dispatch(quoteAction(payload));
-    dispatch(clear_all_airline())
+    dispatch(clear_all_airline());
   }, []);
   // console.log(reducerState,"reducerState")
   useEffect(() => {
@@ -475,7 +452,7 @@ export default function BookWrapper() {
         ].fill(0);
         setBaggageListNub(baglis);
         setMellListNub(mell);
-        setSeatMapList(res?.data?.data?.Response?.SeatDynamic)
+        setSeatMapList(res?.data?.data?.Response?.SeatDynamic);
 
         // console.log(
         //   // res?.data?.data?.Response?.Baggage[0]?.length, baggageListNub[0],
@@ -561,7 +538,7 @@ export default function BookWrapper() {
     FFNumber: "",
   };
 
-  const [isselected,setSelectedindex] = useState(0);
+  const [isselected, setSelectedindex] = useState(0);
   // Initialize the passenger list with the required number of passengers
   let totalPassenger =
     Number(adultCount) + Number(childCount) + Number(infantCount);
@@ -643,7 +620,7 @@ export default function BookWrapper() {
 
   // console.log(reducerState, "reducerState");
   const mealvaluenavigate = mellData.flat();
-  
+
   useEffect(() => {
     const fetchData = async () => {
       if (
@@ -657,13 +634,13 @@ export default function BookWrapper() {
           state: {
             baggage: baggageFare,
             meal: mellFare,
-            totalSeatAmount:totalSeatAmount,
+            totalSeatAmount: totalSeatAmount,
             finalvalue: finalAmount,
             baggagedata: baggageData,
             seats: allSeats,
             mealDynamic: mealvalue,
-            discount : discountvalue,
-          }
+            discount: discountvalue,
+          },
         });
       } else if (
         reducerState?.flightBook?.flightBookData?.Error?.ErrorCode !== 0 &&
@@ -675,13 +652,17 @@ export default function BookWrapper() {
             refund_amount:
               Number(finalAmount).toFixed(2) ||
               (!isDummyTicketBooking
-                ?
-                //  (
-                //     Number(fareValue?.Fare?.PublishedFare) +
-                //     Number(markUpamount) *
-                //       Number(fareValue?.Fare?.PublishedFare)
-                //   ).toFixed(0)
-                (Number(finalAmount) + Number(baggageFare) + Number(mellFare) + (Number(totalSeatAmount) || 0)).toFixed(2)
+                ? //  (
+                  //     Number(fareValue?.Fare?.PublishedFare) +
+                  //     Number(markUpamount) *
+                  //       Number(fareValue?.Fare?.PublishedFare)
+                  //   ).toFixed(0)
+                  (
+                    Number(finalAmount) +
+                    Number(baggageFare) +
+                    Number(mellFare) +
+                    (Number(totalSeatAmount) || 0)
+                  ).toFixed(2)
                 : 99),
             // "refund_amount": 1,
             txnId: refundTxnId,
@@ -735,19 +716,18 @@ export default function BookWrapper() {
           state: {
             baggage: baggageFare,
             meal: mellFare,
-            totalSeatAmount:totalSeatAmount,
+            totalSeatAmount: totalSeatAmount,
             finalvalue: finalAmount,
             baggagedata: baggageData,
             seats: allSeats,
             mealDynamic: mealvalue,
-            discount : discountvalue,
-           
-          }
+            discount: discountvalue,
+          },
         });
       } else if (
         reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
         reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !==
-        undefined
+          undefined
       ) {
         try {
           const token = SecureStorage.getItem("jwtToken");
@@ -755,13 +735,17 @@ export default function BookWrapper() {
             refund_amount:
               Number(finalAmount) ||
               (!isDummyTicketBooking
-                ?
-                // (
-                //     Number(fareValue?.Fare?.PublishedFare) +
-                //     Number(markUpamount) *
-                //       Number(fareValue?.Fare?.PublishedFare)
-                //   ).toFixed(0)
-                (Number(finalAmount) + Number(baggageFare) + Number(mellFare) + (Number(totalSeatAmount) || 0)).toFixed(2)
+                ? // (
+                  //     Number(fareValue?.Fare?.PublishedFare) +
+                  //     Number(markUpamount) *
+                  //       Number(fareValue?.Fare?.PublishedFare)
+                  //   ).toFixed(0)
+                  (
+                    Number(finalAmount) +
+                    Number(baggageFare) +
+                    Number(mellFare) +
+                    (Number(totalSeatAmount) || 0)
+                  ).toFixed(2)
                 : 99),
             // "refund_amount": 1,
             txnId: refundTxnId,
@@ -786,7 +770,7 @@ export default function BookWrapper() {
           "Booking failed, your amount will be refunded within 72 hours.",
           false
         );
-        navigate("/"); 
+        navigate("/");
       }
     };
 
@@ -812,7 +796,7 @@ export default function BookWrapper() {
         reducerState?.flightFare?.flightQuoteData?.Error?.ErrorMessage,
         false
       );
-      navigate("/"); 
+      navigate("/");
     }
   }, [reducerState?.flightFare?.flightQuoteData?.Error?.ErrorCode]);
 
@@ -832,20 +816,20 @@ export default function BookWrapper() {
       couponconfirmation();
       navigate("/bookedTicket", {
         state: {
-         baggage: baggageFare,
-            meal: mellFare,
-            totalSeatAmount:totalSeatAmount,
-            finalvalue: finalAmount,
-            baggagedata: baggageData,
-            seats: allSeats,
-            mealDynamic: mealvalue,
-            discount : discountvalue,
-        }
+          baggage: baggageFare,
+          meal: mellFare,
+          totalSeatAmount: totalSeatAmount,
+          finalvalue: finalAmount,
+          baggagedata: baggageData,
+          seats: allSeats,
+          mealDynamic: mealvalue,
+          discount: discountvalue,
+        },
       });
     } else if (
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !== 0 &&
       reducerState?.flightBook?.flightBookDataGDS?.Error?.ErrorCode !==
-      undefined
+        undefined
     ) {
       swalModal(
         "flight",
@@ -871,15 +855,15 @@ export default function BookWrapper() {
       couponconfirmation();
       navigate("/bookedTicket", {
         state: {
-         baggage: baggageFare,
-            meal: mellFare,
-            totalSeatAmount:totalSeatAmount,
-            finalvalue: finalAmount,
-            baggagedata: baggageData,
-            seats: allSeats,
-            mealDynamic: mealvalue,
-            discount : discountvalue,
-        }
+          baggage: baggageFare,
+          meal: mellFare,
+          totalSeatAmount: totalSeatAmount,
+          finalvalue: finalAmount,
+          baggagedata: baggageData,
+          seats: allSeats,
+          mealDynamic: mealvalue,
+          discount: discountvalue,
+        },
       });
     }
   }, [reducerState?.flightBook?.flightTicketDataGDS?.data?.data?.Response]);
@@ -1017,11 +1001,13 @@ export default function BookWrapper() {
       oneyWayDate: reducerState?.searchFlight?.flightDetails?.departureDate,
       returnDate: "",
       amount:
-      //   // //   (Number(finalAmount) && Number(finalAmount) + Number(baggageFare) + Number(mellFare)) ||
-        (!isDummyTicketBooking
-          ?
-          Number(finalAmount) + Number(baggageFare) + Number(mellFare) + (Number(totalSeatAmount) || 0)
-          : 99),
+        //   // //   (Number(finalAmount) && Number(finalAmount) + Number(baggageFare) + Number(mellFare)) ||
+        !isDummyTicketBooking
+          ? Number(finalAmount) +
+            Number(baggageFare) +
+            Number(mellFare) +
+            (Number(totalSeatAmount) || 0)
+          : 99,
       // amount: 1,
 
       email: passengerData[0]?.Email,
@@ -1121,11 +1107,11 @@ export default function BookWrapper() {
     easebuzzCheckout.initiatePayment(options);
   };
 
-  console.log(mellData,"mellDatamellDatamellDatamellData");
+  console.log(mellData, "mellDatamellDatamellDatamellData");
 
   const handleButtonClick = () => {
     const allSeats = Object.values(seatList).flat();
-    passengerData[0] = { ...passengerData[0], SeatDynamic: allSeats }
+    passengerData[0] = { ...passengerData[0], SeatDynamic: allSeats };
     const payloadGDS = {
       ResultIndex: ResultIndex?.ResultIndex,
       // Passengers: passengerData.map((item, index) => {
@@ -1179,21 +1165,27 @@ export default function BookWrapper() {
       //   }
       // }),
       Passengers: passengerData?.map((item, index) => {
-   
         return {
           ...item,
           Email: apiURL.flightEmail,
-          
+
           ContactNo: passengerData[0]?.ContactNo,
           PassportExpiry: isPassportRequired
             ? convertDateFormat(item?.PassportExpiry)
             : "",
-            Baggage: baggageData?.[index] == undefined ? [] : [baggageData?.[index]] ,
-            MealDynamic: mellData?.flat()?.[index] == undefined ? [] : [mellData?.flat()?.[index]],
-            SeatDynamic: seatList?.[0]?.flat()?.[index] == undefined ? [] : [seatList?.[0]?.flat()?.[index]],
-          };
-    }),
-     
+          Baggage:
+            baggageData?.[index] == undefined ? [] : [baggageData?.[index]],
+          MealDynamic:
+            mellData?.flat()?.[index] == undefined
+              ? []
+              : [mellData?.flat()?.[index]],
+          SeatDynamic:
+            seatList?.[0]?.flat()?.[index] == undefined
+              ? []
+              : [seatList?.[0]?.flat()?.[index]],
+        };
+      }),
+
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
       TraceId: reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId,
@@ -1261,34 +1253,38 @@ export default function BookWrapper() {
       TokenId: reducerState?.ip?.tokenData,
 
       TraceId:
-      reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId ||
-      reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId,
+        reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId ||
+        reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId,
       Passengers: passengerData?.map((item, index) => {
-   
-          return {
-            ...item,
-            Email: apiURL.flightEmail,
-            
-            ContactNo: passengerData[0]?.ContactNo,
-            PassportExpiry: isPassportRequired
-              ? convertDateFormat(item?.PassportExpiry)
-              : "",
-              Baggage: baggageData?.[index] == undefined ? [] : [baggageData?.[index]] ,
-              MealDynamic: mellData?.flat()?.[index] == undefined ? [] : [mellData?.flat()?.[index]],
-              SeatDynamic: seatList?.[0]?.flat()?.[index] == undefined ? [] : [seatList?.[0]?.flat()?.[index]],
-            };
-      }),
+        return {
+          ...item,
+          Email: apiURL.flightEmail,
 
+          ContactNo: passengerData[0]?.ContactNo,
+          PassportExpiry: isPassportRequired
+            ? convertDateFormat(item?.PassportExpiry)
+            : "",
+          Baggage:
+            baggageData?.[index] == undefined ? [] : [baggageData?.[index]],
+          MealDynamic:
+            mellData?.flat()?.[index] == undefined
+              ? []
+              : [mellData?.flat()?.[index]],
+          SeatDynamic:
+            seatList?.[0]?.flat()?.[index] == undefined
+              ? []
+              : [seatList?.[0]?.flat()?.[index]],
+        };
+      }),
     };
     // console.log(payloadLcc,"payloadLcc");
-    
+
     dispatch(bookAction(payloadLcc));
   };
 
   const allSeats = Object.values(seatList).flat();
   const getTicketForNonLCC = () => {
-  
-    passengerData[0] = { ...passengerData[0], SeatDynamic: allSeats }
+    passengerData[0] = { ...passengerData[0], SeatDynamic: allSeats };
     const payLoadDomestic = {
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
@@ -1300,24 +1296,30 @@ export default function BookWrapper() {
     const payLoadInternational = {
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
-      TraceId:reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId,
+      TraceId: reducerState?.oneWay?.kafilatvoresponse?.tvoTraceId,
       PNR: reducerState?.flightBook?.flightBookDataGDS?.Response?.PNR,
       BookingId:
         reducerState?.flightBook?.flightBookDataGDS?.Response?.BookingId,
-     Passengers: passengerData?.map((item, index) => {
-   
-          return {
-            ...item,
-            Email: apiURL.flightEmail,
-            
-            ContactNo: passengerData[0]?.ContactNo,
-            PassportExpiry: isPassportRequired
-              ? convertDateFormat(item?.PassportExpiry)
-              : "",
-              Baggage: baggageData?.[index] == undefined ? [] : [baggageData?.[index]] ,
-              MealDynamic: mellData?.flat()?.[index] == undefined ? [] : [mellData?.flat()?.[index]],
-              SeatDynamic: seatList?.[0]?.flat()?.[index] == undefined ? [] : [seatList?.[0]?.flat()?.[index]],
-            };
+      Passengers: passengerData?.map((item, index) => {
+        return {
+          ...item,
+          Email: apiURL.flightEmail,
+
+          ContactNo: passengerData[0]?.ContactNo,
+          PassportExpiry: isPassportRequired
+            ? convertDateFormat(item?.PassportExpiry)
+            : "",
+          Baggage:
+            baggageData?.[index] == undefined ? [] : [baggageData?.[index]],
+          MealDynamic:
+            mellData?.flat()?.[index] == undefined
+              ? []
+              : [mellData?.flat()?.[index]],
+          SeatDynamic:
+            seatList?.[0]?.flat()?.[index] == undefined
+              ? []
+              : [seatList?.[0]?.flat()?.[index]],
+        };
       }),
     };
     if (isPassportRequired) {
@@ -1363,8 +1365,8 @@ export default function BookWrapper() {
   }, [baggageList]);
 
   const bookticketvo = () => {
-    setOpenTravelModal(true)
-  }
+    setOpenTravelModal(true);
+  };
 
   const validation = async () => {
     const result = await passengerData.filter(
@@ -1373,7 +1375,7 @@ export default function BookWrapper() {
         validateName(item.LastName) &&
         validateDate(item.DateOfBirth) &&
         validateGender(item.Gender) &&
-        validatetitle(item.Title)&&
+        validatetitle(item.Title) &&
         (isPassportRequired ? isValidPassportNumber(item.PassportNo) : true)
     );
     // console.warn("result", result);
@@ -1511,7 +1513,7 @@ export default function BookWrapper() {
         ),
         baggage: baggageData,
         mealDynamic: mellData.flat(),
-        seatDynamic:allSeats,
+        seatDynamic: allSeats,
       };
       userApi.flightBookingDataSave(payloadLCC);
     } else {
@@ -1559,7 +1561,7 @@ export default function BookWrapper() {
               },
               Baggage: item.Baggage,
               mealDynamic: mellData.flat(),
-              seatDynamic:allSeats,
+              seatDynamic: allSeats,
             };
           }
         ),
@@ -1588,7 +1590,6 @@ export default function BookWrapper() {
         ),
         baggage: baggageData,
         mealDynamic: mellData[index],
-        
       };
       userApi.flightBookingDataSave(payloadNonLcc);
     }
@@ -1608,7 +1609,6 @@ export default function BookWrapper() {
   const [firstnamevalue, setfirstnamevalue] = useState("");
   const [lastnamevalue, setlastnamevalue] = useState("");
   const [numbervalue, setnumbervalue] = useState("");
-
 
   // console.log("finalAmjhgfjsgfjsgfhjsgfhjsdgfhjsghjshdgfjhsdgfount",finalAmount);
 
@@ -1645,9 +1645,6 @@ export default function BookWrapper() {
     }
   };
 
-
-
-
   // ///////////////////////////adult count ///////////////////////////////////////
 
   const [currentAdultCount, setCurrentAdultCount] = useState(0);
@@ -1657,179 +1654,151 @@ export default function BookWrapper() {
       setCurrentAdultCount((prevCount) => prevCount + 1);
     }
   };
-  
 
   const [currentChildCount, setcurrentChildCount] = useState(0);
-const addChild = () => {
-  if (currentChildCount < childCount) {
-    setcurrentChildCount((prevCount) => prevCount + 1);
-  }
-}
+  const addChild = () => {
+    if (currentChildCount < childCount) {
+      setcurrentChildCount((prevCount) => prevCount + 1);
+    }
+  };
 
-const [currentinfantCount, setcurrentinfantCount] = useState(0);
-const addinfant = () => {
-  if (currentinfantCount < infantCount) {
-    setcurrentinfantCount((prevCount) => prevCount + 1);
-  }
-}
+  const [currentinfantCount, setcurrentinfantCount] = useState(0);
+  const addinfant = () => {
+    if (currentinfantCount < infantCount) {
+      setcurrentinfantCount((prevCount) => prevCount + 1);
+    }
+  };
 
-// /////////////////////////meal///////////////////////////////////////////
-const [selectedIndex, setSelectedIndex] = useState(0);
-const [isModalVisible, setIsModalVisible] = useState(false);
+  // /////////////////////////meal///////////////////////////////////////////
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-const showModal = () => {
+  const showModal = () => {
+    setIsModalVisible(true);
+    // setMellListNub(mealListIndivisual)
+    // setMellData(mealDataIndivisual)
 
-  setIsModalVisible(true);
-  // setMellListNub(mealListIndivisual)
-  // setMellData(mealDataIndivisual)
+    if (MellListNub.length === 0) {
+      setMellListNub(mealListIndivisual);
+    }
+    if (mellData.length === 0) {
+      setMellData(mealDataIndivisual);
+    }
+  };
 
-  if (MellListNub.length === 0) {
-    setMellListNub(mealListIndivisual);
-  }
-  if (mellData.length === 0) {
-    setMellData(mealDataIndivisual);
-  }
-};
+  const mealclose = () => {
+    // console.log("Selected meals:", mellData);
+    setIsModalVisible(false);
+  };
 
-const mealclose = () => {
-  // console.log("Selected meals:", mellData);
-  setIsModalVisible(false);
-};
+  const handleCancel = () => {
+    // console.log("Selected meals:", mellData);
+    setIsModalVisible(false);
+  };
 
-
-
-const handleCancel = () => {
-  // console.log("Selected meals:", mellData);
-  setIsModalVisible(false);
-};
-
-
-const filteredMeals = mellList?.data?.Response?.MealDynamic?.[0]?.filter(
-  item => item.Price !== 0 && item?.AirlineDescription !== '',
-);
-
-const filteredSegemets = TicketDetails?.Segments[0]?.filter((item, index) => {
-  return !(
-    TicketDetails?.Segments?.[0]?.[index].Airline?.FlightNumber ==
-    TicketDetails?.Segments?.[0]?.[index + 1]?.Airline?.FlightNumber &&
-    TicketDetails?.Segments?.[0]?.[index]?.Airline?.AirlineCode ==
-    TicketDetails?.Segments?.[0]?.[index + 1]?.Airline?.AirlineCode
+  const filteredMeals = mellList?.data?.Response?.MealDynamic?.[0]?.filter(
+    (item) => item.Price !== 0 && item?.AirlineDescription !== ""
   );
-});
 
+  const filteredSegemets = TicketDetails?.Segments[0]?.filter((item, index) => {
+    return !(
+      TicketDetails?.Segments?.[0]?.[index].Airline?.FlightNumber ==
+        TicketDetails?.Segments?.[0]?.[index + 1]?.Airline?.FlightNumber &&
+      TicketDetails?.Segments?.[0]?.[index]?.Airline?.AirlineCode ==
+        TicketDetails?.Segments?.[0]?.[index + 1]?.Airline?.AirlineCode
+    );
+  });
 
-const dataorgin = filteredSegemets?.[0]?.Origin?.Airport?.AirportCode;
-const destination = filteredSegemets?.[0]?.Destination?.Airport?.AirportCode
+  const dataorgin = filteredSegemets?.[0]?.Origin?.Airport?.AirportCode;
+  const destination = filteredSegemets?.[0]?.Destination?.Airport?.AirportCode;
 
-let index = 0;
-const mealFlightNumberArr = [];
+  let index = 0;
+  const mealFlightNumberArr = [];
 
-const separatedByFlightNumber = Array.isArray(filteredMeals) 
-  ? filteredMeals.reduce((acc, item) => {
-      if (item.Price !== 0) {
-        if (!mealFlightNumberArr.includes(item.FlightNumber)) {
-          acc[index] = [];
-          mealFlightNumberArr.push(item.FlightNumber);
-          index = index + 1;
+  const separatedByFlightNumber = Array.isArray(filteredMeals)
+    ? filteredMeals.reduce((acc, item) => {
+        if (item.Price !== 0) {
+          if (!mealFlightNumberArr.includes(item.FlightNumber)) {
+            acc[index] = [];
+            mealFlightNumberArr.push(item.FlightNumber);
+            index = index + 1;
+          }
+
+          acc[index - 1].push({ ...item, index: index - 1 });
         }
-      
-        acc[index - 1].push({ ...item, index: index - 1 });
-      }
-      return acc;
-    }, [])
-  : []; 
-
-
-
+        return acc;
+      }, [])
+    : [];
 
   for (let i = 0; i < filteredSegemets?.length; i++) {
-
-      mealListIndivisual?.push(
-        [...Array(separatedByFlightNumber[i]?.length)].fill(0)
-      );
+    mealListIndivisual?.push(
+      [...Array(separatedByFlightNumber[i]?.length)].fill(0)
+    );
     // console.log("insideeMakingArray")
     mealDataIndivisual.push([]);
   }
 
-
-  
   const mellFuncton = (type, bag, index, tabKey) => {
-   const selectedKey=tabKey;
-   if (!Array.isArray(MellListNub[selectedKey])) {
-    MellListNub[selectedKey] = [];
-  }
+    const selectedKey = tabKey;
+    if (!Array.isArray(MellListNub[selectedKey])) {
+      MellListNub[selectedKey] = [];
+    }
 
-  let arr = [...MellListNub[selectedKey]];
+    let arr = [...MellListNub[selectedKey]];
     // console.log(MellListNub,"MellListNub");
     if (
-        type == "+" &&
-        mellData[selectedKey]?.length < Number(adultCount) + Number(childCount)&&
-        bag.index == selectedKey
+      type == "+" &&
+      mellData[selectedKey]?.length < Number(adultCount) + Number(childCount) &&
+      bag.index == selectedKey
     ) {
-        // console.log('insidePlus');
-        let updatedMealData = [...mellData];
-        updatedMealData[selectedKey] = [...mellData[selectedKey], bag];
-        setMellData(updatedMealData);
-        if (bag.index == selectedKey) {
-          let arr = MellListNub[selectedKey];
-          // console.log(arr,"arrr")
-          // arr[index] = arr[index] + 1;
-          arr[index] = (arr[index] || 0) + 1;
-          // console.log('meal data+++', arr, MellListNub, bag, bag?.Price);
-          let tempArr = [...MellListNub];
-          // console.log(tempArr,"tempArr")
-          tempArr[selectedKey] = arr;
-          setMellListNub(tempArr);
-          setMellFare(pre => pre + bag?.Price);
-        
-        }
-    } else if (
-        type == "-" &&
-        mellData[selectedKey]?.length &&
-       0 <  MellListNub[selectedKey][index]  && 
-        bag.index == selectedKey
-    ) {
-        // console.log('insideMinus');
+      // console.log('insidePlus');
+      let updatedMealData = [...mellData];
+      updatedMealData[selectedKey] = [...mellData[selectedKey], bag];
+      setMellData(updatedMealData);
+      if (bag.index == selectedKey) {
         let arr = MellListNub[selectedKey];
-        if (bag.index == selectedKey) {
-          arr[index] = arr[index] - 1;
-          let tempArr = [...MellListNub];
-          tempArr[selectedKey] = arr;
-          setMellListNub(tempArr);
-  
-          let chd = true;
-          let sub = mellData[selectedKey].filter(bagg => {
-            if (bagg?.AirlineDescription === bag?.AirlineDescription && chd) {
-              chd = false;
-              return false;
-            } else {
-              return true;
-            }
-          });
+        // console.log(arr,"arrr")
+        // arr[index] = arr[index] + 1;
+        arr[index] = (arr[index] || 0) + 1;
+        // console.log('meal data+++', arr, MellListNub, bag, bag?.Price);
+        let tempArr = [...MellListNub];
+        // console.log(tempArr,"tempArr")
+        tempArr[selectedKey] = arr;
+        setMellListNub(tempArr);
+        setMellFare((pre) => pre + bag?.Price);
+      }
+    } else if (
+      type == "-" &&
+      mellData[selectedKey]?.length &&
+      0 < MellListNub[selectedKey][index] &&
+      bag.index == selectedKey
+    ) {
+      // console.log('insideMinus');
+      let arr = MellListNub[selectedKey];
+      if (bag.index == selectedKey) {
+        arr[index] = arr[index] - 1;
+        let tempArr = [...MellListNub];
+        tempArr[selectedKey] = arr;
+        setMellListNub(tempArr);
+
+        let chd = true;
+        let sub = mellData[selectedKey].filter((bagg) => {
+          if (bagg?.AirlineDescription === bag?.AirlineDescription && chd) {
+            chd = false;
+            return false;
+          } else {
+            return true;
+          }
+        });
 
         let updatedMealData = [...mellData];
         updatedMealData[selectedKey] = sub;
         // console.log(updatedMealData, 'updatedMealData');
         setMellData(updatedMealData);
         setMellFare((pre) => pre - bag?.Price);
+      }
     }
-}
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   // //////////////////////////////////////////////////////////////////////////////////
 
@@ -1843,7 +1812,7 @@ const separatedByFlightNumber = Array.isArray(filteredMeals)
         ) : (
           <div className="">
             <div className="container px-0 pt-4">
-              <div className="row" style={{width:"100%"}}>
+              <div className="row" style={{ width: "100%" }}>
                 <motion.div
                   variants={variants}
                   initial="initial"
@@ -1855,45 +1824,50 @@ const separatedByFlightNumber = Array.isArray(filteredMeals)
                       {
                         // TicketDetails?.Segments[0].length == 2 ?
 
-                        <div className="booknowFlight" style={{borderRadius:"10px"}}>
+                        <div
+                          className="booknowFlight"
+                          style={{ borderRadius: "10px" }}
+                        >
                           <div className="bookaboveBox">
-                            <div style={{width:"100%"}}>
-                            
-
-                        <div className="itemticket">
-                        <div>
-                              <p>
-                                {
-                                  TicketDetails?.Segments[0][0]?.Origin?.Airport
-                                    ?.CityName
-                                }
-                                <FiArrowRight style={{ margin: "5px" }} />{" "}
-                                {
-                                  TicketDetails?.Segments[0][
-                                    TicketDetails?.Segments[0].length - 1
-                                  ]?.Destination?.Airport?.CityName
-                                }
-                              </p>
+                            <div style={{ width: "100%" }}>
+                              <div className="itemticket">
+                                <div>
+                                  <p>
+                                    {
+                                      TicketDetails?.Segments[0][0]?.Origin
+                                        ?.Airport?.CityName
+                                    }
+                                    <FiArrowRight style={{ margin: "5px" }} />{" "}
+                                    {
+                                      TicketDetails?.Segments[0][
+                                        TicketDetails?.Segments[0].length - 1
+                                      ]?.Destination?.Airport?.CityName
+                                    }
+                                  </p>
+                                </div>
+                                <div>
+                                  {TicketDetails?.AirlineRemark !== null &&
+                                  TicketDetails?.AirlineRemark !== "--." ? (
+                                    <p className="text-center w-100 mandaField-new">
+                                      {TicketDetails?.AirlineRemark}
+                                    </p>
+                                  ) : (
+                                    ""
+                                  )}
+                                </div>
                               </div>
-                        <div>
-                               {TicketDetails?.AirlineRemark !== null &&
-                                TicketDetails?.AirlineRemark !== "--." ? (
-                                <p className="text-center w-100 mandaField-new">
-                                  {TicketDetails?.AirlineRemark}
-                                </p>
-                                
-                              ) : (
-                                ""
-                              )}
-                              </div>
-                              
-                        </div>
-                              
 
                               <div className="aboveSpan">
-                              <span><img
-                                      src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${TicketDetails?.AirlineCode}.png`} style={{height:"50px",width:"50px",borderRadius:"5px"}}
-                                    /></span>
+                                <span>
+                                  <img
+                                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${TicketDetails?.AirlineCode}.png`}
+                                    style={{
+                                      height: "50px",
+                                      width: "50px",
+                                      borderRadius: "5px",
+                                    }}
+                                  />
+                                </span>
                                 <span className="aboveSOne">
                                   {dayjs(
                                     TicketDetails?.Segments[0][0]?.Origin
@@ -1901,13 +1875,15 @@ const separatedByFlightNumber = Array.isArray(filteredMeals)
                                   ).format("h:mm A")}
                                 </span>
                                 {/* <span>Non Stop {duration}</span> */}
-                                <span style={{color:"#E73C34"}}>
+                                <span style={{ color: "#E73C34" }}>
                                   {" "}
                                   {TicketDetails?.Segments[0].length > 1
-                                    ? `${TicketDetails?.Segments[0].length - 1
-                                    } stop via ${TicketDetails?.Segments[0][0]
-                                      ?.Destination?.Airport?.CityName
-                                    }`
+                                    ? `${
+                                        TicketDetails?.Segments[0].length - 1
+                                      } stop via ${
+                                        TicketDetails?.Segments[0][0]
+                                          ?.Destination?.Airport?.CityName
+                                      }`
                                     : "Non Stop"}
                                 </span>
                               </div>
@@ -2013,73 +1989,93 @@ const separatedByFlightNumber = Array.isArray(filteredMeals)
                                       </span>
                                     </div>
                                   </div> */}
-                                {/* </div>
+                          {/* </div>
 
                                
                           {/* //////////////////////////////////////////////////////////////////// */}
 
                           {TicketDetails?.Segments[0]?.map((item, index) => {
-  const nextFlight = TicketDetails?.Segments[0][index + 1];
-  let layoverHours = 0;
-  let layoverMinutes = 0;
-  let layoverDuration = 0;
+                            const nextFlight =
+                              TicketDetails?.Segments[0][index + 1];
+                            let layoverHours = 0;
+                            let layoverMinutes = 0;
+                            let layoverDuration = 0;
 
-  function convertMinutes(minutes) {
-  const hours = Math.floor(minutes / 60);
-  const mins = minutes % 60;
-  return {
-    hours: hours,
-    minutes: mins
-  };
-}
+                            function convertMinutes(minutes) {
+                              const hours = Math.floor(minutes / 60);
+                              const mins = minutes % 60;
+                              return {
+                                hours: hours,
+                                minutes: mins,
+                              };
+                            }
 
-const convertedTime = convertMinutes(item?.Duration);
+                            const convertedTime = convertMinutes(
+                              item?.Duration
+                            );
 
-  if (nextFlight) {
-    const arrivalTime = dayjs(item?.Destination?.ArrTime);
-    const departureTime = dayjs(nextFlight?.Origin?.DepTime);
-    layoverDuration = departureTime.diff(arrivalTime, "minutes");
-    layoverHours = Math.floor(layoverDuration / 60);
-    layoverMinutes = layoverDuration % 60;
-  }
-  const timeString = `${convertedTime.hours}h : ${convertedTime.minutes}m`;
+                            if (nextFlight) {
+                              const arrivalTime = dayjs(
+                                item?.Destination?.ArrTime
+                              );
+                              const departureTime = dayjs(
+                                nextFlight?.Origin?.DepTime
+                              );
+                              layoverDuration = departureTime.diff(
+                                arrivalTime,
+                                "minutes"
+                              );
+                              layoverHours = Math.floor(layoverDuration / 60);
+                              layoverMinutes = layoverDuration % 60;
+                            }
+                            const timeString = `${convertedTime.hours}h : ${convertedTime.minutes}m`;
 
-  return (
-    
-    <div>
-    <div style={{background: "rgb(247, 241, 255)",
-    borderRadius: "10px",
-    padding:" 8px"}}>
-  
-    <div key={index} className="container flightdestination mb-4" style={{paddingTop:"13px"}}>
-  
-      <div className="row  w-100 flight-detailss">
-        <div className="col-6 col-md-5 align-items-center mb-3 mb-md-0 flightdestination-right">
-          <p className="flightdestination-right-para">
-            {item?.Origin?.Airport?.CityName}{" "}
-          </p>
-          <p className="flightdestination-right-para">
-            {dayjs(item?.Origin?.DepTime).format("h:mm A")}
-          </p>
-          <p className="flightdestination-right-para1">
-            {item?.Origin?.Airport?.AirportName}
-            <p className="flightdestination-right-para1"> Terminal-
-            {item?.Origin?.Airport?.Terminal
-              ? item?.Origin?.Airport?.Terminal
-              : "X"}</p>
-          </p>
-        </div>
-        <div
-          className="col-12 col-md-2  mb-3 mb-md-0"
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-         <div style={{fontSize:"12px"}}>
-          {/* {layoverDuration !== 0 && (
+                            return (
+                              <div>
+                                <div
+                                  style={{
+                                    background: "rgb(247, 241, 255)",
+                                    borderRadius: "10px",
+                                    padding: " 8px",
+                                  }}
+                                >
+                                  <div
+                                    key={index}
+                                    className="container flightdestination mb-4"
+                                    style={{ paddingTop: "13px" }}
+                                  >
+                                    <div className="row  w-100 flight-detailss">
+                                      <div className="col-6 col-md-5 align-items-center mb-3 mb-md-0 flightdestination-right">
+                                        <p className="flightdestination-right-para">
+                                          {item?.Origin?.Airport?.CityName}{" "}
+                                        </p>
+                                        <p className="flightdestination-right-para">
+                                          {dayjs(item?.Origin?.DepTime).format(
+                                            "h:mm A"
+                                          )}
+                                        </p>
+                                        <p className="flightdestination-right-para1">
+                                          {item?.Origin?.Airport?.AirportName}
+                                          <p className="flightdestination-right-para1">
+                                            {" "}
+                                            Terminal-
+                                            {item?.Origin?.Airport?.Terminal
+                                              ? item?.Origin?.Airport?.Terminal
+                                              : "X"}
+                                          </p>
+                                        </p>
+                                      </div>
+                                      <div
+                                        className="col-12 col-md-2  mb-3 mb-md-0"
+                                        style={{
+                                          display: "flex",
+                                          flexDirection: "column",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                        }}
+                                      >
+                                        <div style={{ fontSize: "12px" }}>
+                                          {/* {layoverDuration !== 0 && (
             <>
              
               <p style={{fontSize:"12px"}}>
@@ -2087,40 +2083,52 @@ const convertedTime = convertMinutes(item?.Duration);
               </p>
             </>
           )} */}
-          {timeString}
-          </div>
-         <div className="d-flex flex-column align-items-center">
-            <img src={lineimg} alt="" style={{ width: "100%" }} />
-          </div>
-         
-          {/* <div className="d-flex flex-column align-items-center">
+                                          {timeString}
+                                        </div>
+                                        <div className="d-flex flex-column align-items-center">
+                                          <img
+                                            src={lineimg}
+                                            alt=""
+                                            style={{ width: "100%" }}
+                                          />
+                                        </div>
+
+                                        {/* <div className="d-flex flex-column align-items-center">
             <img src={lineimg} alt="" style={{ width: "100%" }} />
           </div> */}
-        </div>
-        <div className="col-6 col-md-5 align-items-center flightdestination-right">
-          <p className="flightdestination-right-para">
-            {item?.Destination?.Airport?.CityName}{" "}
-          </p>
-          <p className="flightdestination-right-para">
-            {dayjs(item?.Destination?.ArrTime).format("h:mm A")}
-          </p>
-          <p className="flightdestination-right-para1">
-            {item?.Destination?.Airport?.AirportName}
-           <p className="flightdestination-right-para1"> Terminal-
-            {item?.Destination?.Airport?.Terminal
-              ? item?.Destination?.Airport?.Terminal
-              : "Y"}</p>
-           
-          </p>
-        </div>
-      </div>
-      
-      </div>
-      {/* <div style={{backgroundColor:"#ffdeff",padding:"9px",borderRadius:"5px",fontSize:"14px"}}> */}
-     
-        {/* <p style={{fontSize:"15px",color:"var(--black4)",fontWeight:500,fontFamily:"Montserrat"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i>  Baggage (ADULT) check-in <span>{item?.Baggage?.match(/\d+/)?.[0]}KG</span>  cabin {item?.CabinBaggage?.match(/\d+/)[0]}KG</p>
+                                      </div>
+                                      <div className="col-6 col-md-5 align-items-center flightdestination-right">
+                                        <p className="flightdestination-right-para">
+                                          {item?.Destination?.Airport?.CityName}{" "}
+                                        </p>
+                                        <p className="flightdestination-right-para">
+                                          {dayjs(
+                                            item?.Destination?.ArrTime
+                                          ).format("h:mm A")}
+                                        </p>
+                                        <p className="flightdestination-right-para1">
+                                          {
+                                            item?.Destination?.Airport
+                                              ?.AirportName
+                                          }
+                                          <p className="flightdestination-right-para1">
+                                            {" "}
+                                            Terminal-
+                                            {item?.Destination?.Airport
+                                              ?.Terminal
+                                              ? item?.Destination?.Airport
+                                                  ?.Terminal
+                                              : "Y"}
+                                          </p>
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  {/* <div style={{backgroundColor:"#ffdeff",padding:"9px",borderRadius:"5px",fontSize:"14px"}}> */}
+
+                                  {/* <p style={{fontSize:"15px",color:"var(--black4)",fontWeight:500,fontFamily:"Montserrat"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i>  Baggage (ADULT) check-in <span>{item?.Baggage?.match(/\d+/)?.[0]}KG</span>  cabin {item?.CabinBaggage?.match(/\d+/)[0]}KG</p>
       </div> */}
-      {/* <div className="bookBottomFour">
+                                  {/* <div className="bookBottomFour">
                                     <div>
                                       <p>Baggage</p>
                                       <span>ADULT</span>
@@ -2138,12 +2146,31 @@ const convertedTime = convertMinutes(item?.Duration);
                                       </span>
                                     </div>
                                   </div> */}
-                                {/* </div> */}
-                                <hr style={{opacity:"0.3"}}/>
-                                <p style={{fontSize:"15px",color:"var(--black4)",fontWeight:500,fontFamily:"Montserrat",padding:"5px"}}><i class="fa-solid fa-bag-shopping" style={{color:"black"}}></i>  Baggage (ADULT) check-in <span>{item?.Baggage?.match(/\d+/)?.[0]}KG</span>  cabin {item?.CabinBaggage?.match(/\d+/)?.[0]}KG</p>
+                                  {/* </div> */}
+                                  <hr style={{ opacity: "0.3" }} />
+                                  <p
+                                    style={{
+                                      fontSize: "15px",
+                                      color: "var(--black4)",
+                                      fontWeight: 500,
+                                      fontFamily: "Montserrat",
+                                      padding: "5px",
+                                    }}
+                                  >
+                                    <i
+                                      class="fa-solid fa-bag-shopping"
+                                      style={{ color: "black" }}
+                                    ></i>{" "}
+                                    Baggage (ADULT) check-in{" "}
+                                    <span>
+                                      {item?.Baggage?.match(/\d+/)?.[0]}KG
+                                    </span>{" "}
+                                    cabin{" "}
+                                    {item?.CabinBaggage?.match(/\d+/)?.[0]}KG
+                                  </p>
                                 </div>
-                                
-   {/* <div className="flightLayoverOuter">
+
+                                {/* <div className="flightLayoverOuter">
     {layoverDuration !== 0 && (
             <>
             <div className="flightLayover">
@@ -2155,37 +2182,31 @@ const convertedTime = convertMinutes(item?.Duration);
           )}
           </div> */}
 
-          {layoverDuration !== 0 && (
-                                <div className="flightLayoverOuter">
-                                  <div className="flightLayover">
-                                    {/* <p className="text-bold">
+                                {layoverDuration !== 0 && (
+                                  <div className="flightLayoverOuter">
+                                    <div className="flightLayover">
+                                      {/* <p className="text-bold">
                                         Layover Time: {layover}
                                       </p> */}
-                                    <p className="text-bold">
-                                      Layover Time:{" "}
-                                      {layoverHours !== 0 &&
-                                        `${layoverHours} hours`}{" "}
-                                      {layoverMinutes !== 0 &&
-                                        `${layoverMinutes} minutes`}
-                                    </p>
+                                      <p className="text-bold">
+                                        Layover Time:{" "}
+                                        {layoverHours !== 0 &&
+                                          `${layoverHours} hours`}{" "}
+                                        {layoverMinutes !== 0 &&
+                                          `${layoverMinutes} minutes`}
+                                      </p>
+                                    </div>
                                   </div>
-                                </div>
-                              )}
-                                
-    </div>
+                                )}
+                              </div>
+                            );
+                          })}
 
-    
-    
-  );
-})}
-
-
-{/* //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
-
+                          {/* //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// */}
                         </div>
                       }
                     </motion.div>
-                    
+
                     {/* <motion.div variants={variants} className="col-lg-12 mt-3">
                       <div className="bookBottomFour">
                                     <div>
@@ -2309,260 +2330,324 @@ const convertedTime = convertMinutes(item?.Duration);
                         </div>
                       )}
                     </div> */}
-                    <Cancellationpolicy fareRule={fareRule}/>
+                    <Cancellationpolicy fareRule={fareRule} />
 
                     <motion.div variants={variants} className="col-lg-12 mt-3">
-                  
                       <div className="bookflightPassenger">
-                       
-                      <div className="headingBookFlight-new" style={{padding:"12px",color:"#E73C34",backgroundColor:"#FFFBFB"}}>
+                        <div
+                          className="headingBookFlight-new"
+                          style={{
+                            padding: "12px",
+                            color: "#E73C34",
+                            backgroundColor: "#FFFBFB",
+                          }}
+                        >
                           <h3>Passenger Details</h3>
                         </div>
-                        {sub && !V_aliation && <p className="form-label" style={{color:"red",textAlign:"center"}}><i class="fa-solid fa-circle-info"></i> Please fill all the required fields.</p>}
-               
+                        {sub && !V_aliation && (
+                          <p
+                            className="form-label"
+                            style={{ color: "red", textAlign: "center" }}
+                          >
+                            <i class="fa-solid fa-circle-info"></i> Please fill
+                            all the required fields.
+                          </p>
+                        )}
 
-      <div onClick={addAdult} style={{ cursor: "pointer",padding:"12px",fontWeight:600 }}>
-        <p className="textcolor"> +Add the Adult  ({currentAdultCount}/{adultCount})</p>
+                        <div
+                          onClick={addAdult}
+                          style={{
+                            cursor: "pointer",
+                            padding: "12px",
+                            fontWeight: 600,
+                          }}
+                        >
+                          <p className="textcolor">
+                            {" "}
+                            +Add the Adult ({currentAdultCount}/{adultCount})
+                          </p>
 
-        {sub && !V_aliation && currentAdultCount < adultCount && (
-    <p className="form-label" style={{color:"red"}}>Please add the remaining {adultCount - currentAdultCount} adult(s)</p>
-  )}
-      </div>
+                          {sub &&
+                            !V_aliation &&
+                            currentAdultCount < adultCount && (
+                              <p
+                                className="form-label"
+                                style={{ color: "red" }}
+                              >
+                                Please add the remaining{" "}
+                                {adultCount - currentAdultCount} adult(s)
+                              </p>
+                            )}
+                        </div>
 
-      
                         {currentAdultCount > 0 &&
-                          Array.from({ length: currentAdultCount }, (_, index) => (
-                            <div className="bookFlightPassInner" key={index}>
-                              <div className="bookAdultIndex" style={{display:"flex",gap:"12px"}}>
-                               <IoPersonSharp/> <p className="textcolor">Adult {index + 1}</p>
-                              </div>
-                              <div className="row g-3 mb-3">
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Title
-                                  </label>
-                                  <select
-                                    className="form-select "
-                                    name="Title"
-                                    value={passengerData[index].Title || ""} 
-                                    onChange={(e) =>
-                                      handleServiceChange(e, index)
-                                    }
-                                  >
-                                  <option value="">Select Title</option>
-                                    <option value="Mr">Mr.</option>
-                                    <option value="Mrs">Mrs.</option>
-                                    <option value="Miss">Miss</option>
-                                  </select>
-                                  {sub &&
-                                    !validatetitle(
-                                      passengerData[index].Title
-                                    ) && <span className="error10">Select Title</span>}
-                                </div>
-                                
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    First Name
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name="FirstName"
-                                    value={
-                                      index === 0
-                                        ? firstnamevalue
-                                        : passengerData[index]?.FirstName || ""
-                                    }
-                                    id="floatingInput"
-                                    className="form-control"
-                                    onChange={(e) => {
-                                      if (index === 0) {
-                                        setfirstnamevalue(e.target.value);
-                                      }
-                                      handleServiceChange(e, index);
-                                    }}
-                                    placeholder="First Name"
-                                  />
-                                  {sub &&
-                                    !validateName(
-                                      passengerData[index].FirstName
-                                    ) && (
-                                      <span className="error10">
-                                        First name{" "}
-                                      </span>
-                                    )}
-                                </div>
+                          Array.from(
+                            { length: currentAdultCount },
+                            (_, index) => (
+                              <div className="bookFlightPassInner" key={index}>
+                                <div
+                                  className="bookAdultIndex"
+                                  style={{ display: "flex", gap: "12px" }}
+                                >
+                                  <IoPersonSharp />{" "}
+                                  <p className="textcolor">Adult {index + 1}</p>
                                 </div>
                                 <div className="row g-3 mb-3">
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Last Name
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name="LastName"
-                                    value={
-                                      index === 0
-                                        ? lastnamevalue
-                                        : passengerData[index]?.LastName || ""
-                                    }
-                                    id="floatingInput"
-                                    className="form-control"
-                                    onChange={(e) => {
-                                      if (index === 0) {
-                                        setlastnamevalue(e.target.value);
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Title
+                                    </label>
+                                    <select
+                                      className="form-select "
+                                      name="Title"
+                                      value={passengerData[index].Title || ""}
+                                      onChange={(e) =>
+                                        handleServiceChange(e, index)
                                       }
-                                      handleServiceChange(e, index);
-                                    }}
-                                    placeholder="Last Name"
-                                  />
-                                  {sub &&
-                                    !validateName(
-                                      passengerData[index].LastName
-                                    ) && (
-                                      <span className="error10">
-                                        Last name{" "}
-                                      </span>
-                                    )}
-                                </div>
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Gender
-                                  </label>
-                                  <select
-                                    className="form-select"
-                                    name="Gender"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index
-                                      )
-                                    }
-                                  >
-                                    <option value="">Select Gender</option>
-                                    <option value="1">Male</option>
-                                    <option value="2">Female</option>
+                                    >
+                                      <option value="">Select Title</option>
+                                      <option value="Mr">Mr.</option>
+                                      <option value="Mrs">Mrs.</option>
+                                      <option value="Miss">Miss</option>
+                                    </select>
+                                    {sub &&
+                                      !validatetitle(
+                                        passengerData[index].Title
+                                      ) && (
+                                        <span className="error10">
+                                          Select Title
+                                        </span>
+                                      )}
+                                  </div>
 
-                                  </select>
-                                  {sub &&
-                                    !validateGender(
-                                      passengerData[index].Gender
-                                    ) && <span className="error10">Select Gender</span>}
-                                </div>
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      First Name
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="FirstName"
+                                      value={
+                                        index === 0
+                                          ? firstnamevalue
+                                          : passengerData[index]?.FirstName ||
+                                            ""
+                                      }
+                                      id="floatingInput"
+                                      className="form-control"
+                                      onChange={(e) => {
+                                        if (index === 0) {
+                                          setfirstnamevalue(e.target.value);
+                                        }
+                                        handleServiceChange(e, index);
+                                      }}
+                                      placeholder="First Name"
+                                    />
+                                    {sub &&
+                                      !validateName(
+                                        passengerData[index].FirstName
+                                      ) && (
+                                        <span className="error10">
+                                          First name{" "}
+                                        </span>
+                                      )}
+                                  </div>
                                 </div>
                                 <div className="row g-3 mb-3">
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Date of Birth
-                                  </label>
-                                  <input
-                                    type="date"
-                                    name="DateOfBirth"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(e, index)
-                                    }
-                                    max={maxDate}
-                                  ></input>
-                                  {sub &&
-                                    !validateDate(
-                                      passengerData[index].DateOfBirth
-                                    ) && <span className="error10">DOB </span>}
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Last Name
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="LastName"
+                                      value={
+                                        index === 0
+                                          ? lastnamevalue
+                                          : passengerData[index]?.LastName || ""
+                                      }
+                                      id="floatingInput"
+                                      className="form-control"
+                                      onChange={(e) => {
+                                        if (index === 0) {
+                                          setlastnamevalue(e.target.value);
+                                        }
+                                        handleServiceChange(e, index);
+                                      }}
+                                      placeholder="Last Name"
+                                    />
+                                    {sub &&
+                                      !validateName(
+                                        passengerData[index].LastName
+                                      ) && (
+                                        <span className="error10">
+                                          Last name{" "}
+                                        </span>
+                                      )}
+                                  </div>
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Gender
+                                    </label>
+                                    <select
+                                      className="form-select"
+                                      name="Gender"
+                                      onChange={(e) =>
+                                        handleServiceChange(e, index)
+                                      }
+                                    >
+                                      <option value="">Select Gender</option>
+                                      <option value="1">Male</option>
+                                      <option value="2">Female</option>
+                                    </select>
+                                    {sub &&
+                                      !validateGender(
+                                        passengerData[index].Gender
+                                      ) && (
+                                        <span className="error10">
+                                          Select Gender
+                                        </span>
+                                      )}
+                                  </div>
                                 </div>
+                                <div className="row g-3 mb-3">
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Date of Birth
+                                    </label>
+                                    <input
+                                      type="date"
+                                      name="DateOfBirth"
+                                      id="floatingInput"
+                                      class="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(e, index)
+                                      }
+                                      max={maxDate}
+                                    ></input>
+                                    {sub &&
+                                      !validateDate(
+                                        passengerData[index].DateOfBirth
+                                      ) && (
+                                        <span className="error10">DOB </span>
+                                      )}
+                                  </div>
+                                </div>
+
+                                {isPassportRequired == true ? (
+                                  <>
+                                    <div className="bookAdultIndex">
+                                      <p>Passport Details</p>
+                                    </div>
+                                    <div className="row g-3 mb-3">
+                                      <div className="col-lg-6 col-md-6">
+                                        <label
+                                          for="exampleInputEmail1"
+                                          class="form-label"
+                                        >
+                                          Passport Number
+                                        </label>
+                                        <input
+                                          type="text"
+                                          name="PassportNo"
+                                          id="floatingInput"
+                                          class="form-control"
+                                          onChange={(e) => {
+                                            handleServiceChange(e, index);
+                                          }}
+                                        ></input>
+                                        {sub &&
+                                          !isValidPassportNumber(
+                                            passengerData[index].PassportNo
+                                          ) && (
+                                            <span className="error10">
+                                              Enter a Valid Passport Number{" "}
+                                            </span>
+                                          )}
+                                      </div>
+                                      <div className="col-lg-6 col-md-6">
+                                        <label
+                                          for="exampleInputEmail1"
+                                          class="form-label"
+                                        >
+                                          Passport Expiry
+                                        </label>
+                                        <input
+                                          type="date"
+                                          name="PassportExpiry"
+                                          id="floatingInput"
+                                          class="form-control"
+                                          onChange={(e) => {
+                                            handleServiceChange(e, index);
+                                          }}
+                                          min={currentDate}
+                                        ></input>
+                                      </div>
+                                    </div>
+                                  </>
+                                ) : (
+                                  ""
+                                )}
                               </div>
-                             
-                              {isPassportRequired == true ? (
-                                <>
-                                  <div className="bookAdultIndex">
-                                    <p>Passport Details</p>
-                                  </div>
-                                  <div className="row g-3 mb-3">
-                                    <div className="col-lg-6 col-md-6">
-                                      <label
-                                        for="exampleInputEmail1"
-                                        class="form-label"
-                                      >
-                                        Passport Number
-                                      </label>
-                                      <input
-                                        type="text"
-                                        name="PassportNo"
-                                        id="floatingInput"
-                                        class="form-control"
-                                        onChange={(e) => {
-                                          handleServiceChange(e, index);
-                                        }}
-                                      ></input>
-                                      {sub &&
-                                        !isValidPassportNumber(
-                                          passengerData[index].PassportNo
-                                        ) && (
-                                          <span className="error10">
-                                            Enter a Valid Passport Number{" "}
-                                          </span>
-                                        )}
-                                    </div>
-                                    <div className="col-lg-6 col-md-6">
-                                      <label
-                                        for="exampleInputEmail1"
-                                        class="form-label"
-                                      >
-                                        Passport Expiry
-                                      </label>
-                                      <input
-                                        type="date"
-                                        name="PassportExpiry"
-                                        id="floatingInput"
-                                        class="form-control"
-                                        onChange={(e) => {
-                                          handleServiceChange(e, index);
-                                        }}
-                                        min={currentDate}
-                                      ></input>
-                                    </div>
-                                  </div>
-                                </>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          ))}
+                            )
+                          )}
 
                         {/* child details here  */}
 
-{childCount > 0 && <div onClick={addChild} style={{ cursor: "pointer" ,padding:"12px",fontWeight:600 }}>
-        <p className="textcolor"> +Add the Child  ({currentChildCount}/{childCount})</p>
+                        {childCount > 0 && (
+                          <div
+                            onClick={addChild}
+                            style={{
+                              cursor: "pointer",
+                              padding: "12px",
+                              fontWeight: 600,
+                            }}
+                          >
+                            <p className="textcolor">
+                              {" "}
+                              +Add the Child ({currentChildCount}/{childCount})
+                            </p>
 
-        {sub && !V_aliation && currentChildCount < childCount && (
-    <p className="form-label" style={{color:"red"}}>Please add the remaining {childCount - currentChildCount} child(s)</p>
-  )}
-      </div> }
-                        
+                            {sub &&
+                              !V_aliation &&
+                              currentChildCount < childCount && (
+                                <p
+                                  className="form-label"
+                                  style={{ color: "red" }}
+                                >
+                                  Please add the remaining{" "}
+                                  {childCount - currentChildCount} child(s)
+                                </p>
+                              )}
+                          </div>
+                        )}
 
                         {currentChildCount > 0 &&
-                          Array.from({ length: currentChildCount }, (_, index) => (
-                            <div className="bookFlightPassInner" key={index}>
-                              <div className="bookAdultIndex">
-                                <p className="textcolor">Child {index + 1}</p>
-                              </div>
-                              <div className="row g-3 mb-3">
-                                <div className="col-lg-6 col-md-6">
-                                  {/* <div class="form-floating">
+                          Array.from(
+                            { length: currentChildCount },
+                            (_, index) => (
+                              <div className="bookFlightPassInner" key={index}>
+                                <div className="bookAdultIndex">
+                                  <p className="textcolor">Child {index + 1}</p>
+                                </div>
+                                <div className="row g-3 mb-3">
+                                  <div className="col-lg-6 col-md-6">
+                                    {/* <div class="form-floating">
                                     <input
                                       onChange={(e) =>
                                         handleServiceChange(
@@ -2582,36 +2667,37 @@ const convertedTime = convertMinutes(item?.Duration);
                                     {sub && !validateName(passengerData[index + Number(adultCount)].FirstName) && <span className="error10">First name  </span>}
                                   </div> */}
 
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    First Name
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name="FirstName"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index + Number(adultCount)
-                                      )
-                                    }
-                                  ></input>
-                                  {sub &&
-                                    !validateName(
-                                      passengerData[index + Number(adultCount)]
-                                        .FirstName
-                                    ) && (
-                                      <span className="error10">
-                                        First name{" "}
-                                      </span>
-                                    )}
-                                </div>
-                                <div className="col-lg-6 col-md-6">
-                                  {/* <div class="form-floating">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      First Name
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="FirstName"
+                                      id="floatingInput"
+                                      class="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index + Number(adultCount)
+                                        )
+                                      }
+                                    ></input>
+                                    {sub &&
+                                      !validateName(
+                                        passengerData[
+                                          index + Number(adultCount)
+                                        ].FirstName
+                                      ) && (
+                                        <span className="error10">
+                                          First name{" "}
+                                        </span>
+                                      )}
+                                  </div>
+                                  <div className="col-lg-6 col-md-6">
+                                    {/* <div class="form-floating">
                                     <input
                                       onChange={(e) =>
                                         handleServiceChange(
@@ -2629,81 +2715,88 @@ const convertedTime = convertMinutes(item?.Duration);
                                     {sub && !validateName(passengerData[index + Number(adultCount)].LastName) && <span className="error10">Last name </span>}
                                   </div> */}
 
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Last Name
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name="LastName"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index + Number(adultCount)
-                                      )
-                                    }
-                                  ></input>
-                                </div>
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Last Name
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="LastName"
+                                      id="floatingInput"
+                                      class="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index + Number(adultCount)
+                                        )
+                                      }
+                                    ></input>
+                                  </div>
 
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Gender
-                                  </label>
-                                  <select
-                                    className="form-select"
-                                    name="Gender"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index + Number(adultCount)
-                                      )
-                                    }
-                                  >
-                                    <option value="">Select Gender</option>
-                                    <option value="1">Male</option>
-                                    <option value="2">Female</option>
-                                  </select>
-                                  {sub &&
-                                    !validateGender(
-                                      passengerData[index + Number(adultCount)].Gender
-                                    ) && <span className="error10">Select Gender</span>}
-
-                                    
-                                </div>
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Date of Birth
-                                  </label>
-                                  <input
-                                    type="date"
-                                    name="DateOfBirth"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index + Number(adultCount)
-                                      )
-                                    }
-                                    max={maxDateChild}
-                                    min={minDateChild}
-                                  ></input>
-                                  {sub &&
-                                    !validateDate(
-                                      passengerData[index + Number(adultCount)]
-                                        .DateOfBirth
-                                    ) && <span className="error10">DOB </span>}
-                                  {/* <div class="form-floating">
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Gender
+                                    </label>
+                                    <select
+                                      className="form-select"
+                                      name="Gender"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index + Number(adultCount)
+                                        )
+                                      }
+                                    >
+                                      <option value="">Select Gender</option>
+                                      <option value="1">Male</option>
+                                      <option value="2">Female</option>
+                                    </select>
+                                    {sub &&
+                                      !validateGender(
+                                        passengerData[
+                                          index + Number(adultCount)
+                                        ].Gender
+                                      ) && (
+                                        <span className="error10">
+                                          Select Gender
+                                        </span>
+                                      )}
+                                  </div>
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Date of Birth
+                                    </label>
+                                    <input
+                                      type="date"
+                                      name="DateOfBirth"
+                                      id="floatingInput"
+                                      class="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index + Number(adultCount)
+                                        )
+                                      }
+                                      max={maxDateChild}
+                                      min={minDateChild}
+                                    ></input>
+                                    {sub &&
+                                      !validateDate(
+                                        passengerData[
+                                          index + Number(adultCount)
+                                        ].DateOfBirth
+                                      ) && (
+                                        <span className="error10">DOB </span>
+                                      )}
+                                    {/* <div class="form-floating">
                                     <input
                                       type="date"
                                       name="DateOfBirth"
@@ -2720,17 +2813,17 @@ const convertedTime = convertMinutes(item?.Duration);
                                     <label htmlFor="DateOfBirth">DOB</label>
                                     {sub && !validateDate(passengerData[index + Number(adultCount)].DateOfBirth) && <span className="error10">DOB </span>}
                                   </div> */}
-                                </div>
-                              </div>
-                              {/* passport details here */}
-                              {isPassportRequired == true ? (
-                                <>
-                                  <div className="bookAdultIndex">
-                                    <p>Passport Details</p>
                                   </div>
-                                  <div className="row g-3 mb-3">
-                                    <div className="col-lg-6 col-md-6">
-                                      {/* <div class="form-floating">
+                                </div>
+                                {/* passport details here */}
+                                {isPassportRequired == true ? (
+                                  <>
+                                    <div className="bookAdultIndex">
+                                      <p>Passport Details</p>
+                                    </div>
+                                    <div className="row g-3 mb-3">
+                                      <div className="col-lg-6 col-md-6">
+                                        {/* <div class="form-floating">
                                         <input
                                           onChange={(e) =>
                                             handleServiceChange(
@@ -2749,37 +2842,37 @@ const convertedTime = convertMinutes(item?.Duration);
                                         </label>
                                       </div> */}
 
-                                      <label
-                                        for="exampleInputEmail1"
-                                        class="form-label"
-                                      >
-                                        Passport Number
-                                      </label>
-                                      <input
-                                        type="text"
-                                        name="PassportNo"
-                                        id="floatingInput"
-                                        class="form-control"
-                                        onChange={(e) =>
-                                          handleServiceChange(
-                                            e,
-                                            index + Number(adultCount)
-                                          )
-                                        }
-                                      ></input>
-                                      {sub &&
-                                        !isValidPassportNumber(
-                                          passengerData[
-                                            index + Number(adultCount)
-                                          ].PassportNo
-                                        ) && (
-                                          <span className="error10">
-                                            Enter a valid Passport Number{" "}
-                                          </span>
-                                        )}
-                                    </div>
-                                    <div className="col-lg-6 col-md-6">
-                                      {/* <div class="form-floating">
+                                        <label
+                                          for="exampleInputEmail1"
+                                          class="form-label"
+                                        >
+                                          Passport Number
+                                        </label>
+                                        <input
+                                          type="text"
+                                          name="PassportNo"
+                                          id="floatingInput"
+                                          class="form-control"
+                                          onChange={(e) =>
+                                            handleServiceChange(
+                                              e,
+                                              index + Number(adultCount)
+                                            )
+                                          }
+                                        ></input>
+                                        {sub &&
+                                          !isValidPassportNumber(
+                                            passengerData[
+                                              index + Number(adultCount)
+                                            ].PassportNo
+                                          ) && (
+                                            <span className="error10">
+                                              Enter a valid Passport Number{" "}
+                                            </span>
+                                          )}
+                                      </div>
+                                      <div className="col-lg-6 col-md-6">
+                                        {/* <div class="form-floating">
                                         <input
                                           onChange={(e) =>
                                             handleServiceChange(
@@ -2797,52 +2890,81 @@ const convertedTime = convertMinutes(item?.Duration);
                                           Passport Expiry
                                         </label>
                                       </div> */}
-                                      <label
-                                        for="exampleInputEmail1"
-                                        class="form-label"
-                                      >
-                                        Passport Expiry
-                                      </label>
-                                      <input
-                                        type="date"
-                                        name="PassportExpiry"
-                                        id="floatingInput"
-                                        class="form-control"
-                                        min={currentDate}
-                                        onChange={(e) =>
-                                          handleServiceChange(
-                                            e,
-                                            index + Number(adultCount)
-                                          )
-                                        }
-                                      ></input>
+                                        <label
+                                          for="exampleInputEmail1"
+                                          class="form-label"
+                                        >
+                                          Passport Expiry
+                                        </label>
+                                        <input
+                                          type="date"
+                                          name="PassportExpiry"
+                                          id="floatingInput"
+                                          class="form-control"
+                                          min={currentDate}
+                                          onChange={(e) =>
+                                            handleServiceChange(
+                                              e,
+                                              index + Number(adultCount)
+                                            )
+                                          }
+                                        ></input>
+                                      </div>
                                     </div>
-                                  </div>
-                                </>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          ))}
+                                  </>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                            )
+                          )}
 
                         {/* child details here  */}
-                       
+
                         {/* infant details here  */}
-{infantCount >0 && <div onClick={addinfant} style={{ cursor: "pointer",padding:"12px", fontWeight:600 }}>
-        <p className="textcolor"> +Add the infant  ({currentinfantCount}/{infantCount})</p>
-        {sub && !V_aliation && currentinfantCount < infantCount && (
-    <p className="form-label" style={{color:"red"}}>Please add the remaining {infantCount - currentinfantCount} Infant(s)</p>
-  )}
-      </div> }
+                        {infantCount > 0 && (
+                          <div
+                            onClick={addinfant}
+                            style={{
+                              cursor: "pointer",
+                              padding: "12px",
+                              fontWeight: 600,
+                            }}
+                          >
+                            <p className="textcolor">
+                              {" "}
+                              +Add the infant ({currentinfantCount}/
+                              {infantCount})
+                            </p>
+                            {sub &&
+                              !V_aliation &&
+                              currentinfantCount < infantCount && (
+                                <p
+                                  className="form-label"
+                                  style={{ color: "red" }}
+                                >
+                                  Please add the remaining{" "}
+                                  {infantCount - currentinfantCount} Infant(s)
+                                </p>
+                              )}
+                          </div>
+                        )}
                         {currentinfantCount > 0 &&
-                          Array.from({ length: currentinfantCount }, (_, index) => (
-                            <div className="bookFlightPassInner" key={{index}}>
-                              <div className="bookAdultIndex">
-                                <p className="textcolor">Infant {index + 1}</p>
-                              </div>
-                              <div className="row g-3 mb-3">
-                                <div className="col-lg-6 col-md-6">
-                                  {/* <div class="form-floating">
+                          Array.from(
+                            { length: currentinfantCount },
+                            (_, index) => (
+                              <div
+                                className="bookFlightPassInner"
+                                key={{ index }}
+                              >
+                                <div className="bookAdultIndex">
+                                  <p className="textcolor">
+                                    Infant {index + 1}
+                                  </p>
+                                </div>
+                                <div className="row g-3 mb-3">
+                                  <div className="col-lg-6 col-md-6">
+                                    {/* <div class="form-floating">
                                     <input
                                       onChange={(e) =>
                                         handleServiceChange(
@@ -2864,41 +2986,41 @@ const convertedTime = convertMinutes(item?.Duration);
                                     {sub && !validateName(passengerData[index + Number(adultCount) + Number(childCount)].FirstName) && <span className="error10">First name </span>}
                                   </div> */}
 
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    First Name
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name="FirstName"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      )
-                                    }
-                                  ></input>
-                                  {sub &&
-                                    !validateName(
-                                      passengerData[
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      ].FirstName
-                                    ) && (
-                                      <span className="error10">
-                                        First name{" "}
-                                      </span>
-                                    )}
-                                </div>
-                                <div className="col-lg-6 col-md-6">
-                                  {/* <div class="form-floating">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      First Name
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="FirstName"
+                                      id="floatingInput"
+                                      class="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                        )
+                                      }
+                                    ></input>
+                                    {sub &&
+                                      !validateName(
+                                        passengerData[
+                                          index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                        ].FirstName
+                                      ) && (
+                                        <span className="error10">
+                                          First name{" "}
+                                        </span>
+                                      )}
+                                  </div>
+                                  <div className="col-lg-6 col-md-6">
+                                    {/* <div class="form-floating">
                                     <input
                                       onChange={(e) =>
                                         handleServiceChange(
@@ -2918,75 +3040,78 @@ const convertedTime = convertMinutes(item?.Duration);
                                     {sub && !validateName(passengerData[index + Number(adultCount) + Number(childCount)].LastName) && <span className="error10">Last name </span>}
                                   </div> */}
 
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Last Name
-                                  </label>
-                                  <input
-                                    type="text"
-                                    name="LastName"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      )
-                                    }
-                                  ></input>
-                                  {sub &&
-                                    !validateName(
-                                      passengerData[
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      ].LastName
-                                    ) && (
-                                      <span className="error10">
-                                        Last name{" "}
-                                      </span>
-                                    )}
-                                </div>
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Last Name
+                                    </label>
+                                    <input
+                                      type="text"
+                                      name="LastName"
+                                      id="floatingInput"
+                                      class="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                        )
+                                      }
+                                    ></input>
+                                    {sub &&
+                                      !validateName(
+                                        passengerData[
+                                          index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                        ].LastName
+                                      ) && (
+                                        <span className="error10">
+                                          Last name{" "}
+                                        </span>
+                                      )}
+                                  </div>
 
-                                <div className="col-lg-6 col-md-6">
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Gender
-                                  </label>
-                                  <select
-                                    className="form-select"
-                                    name="Gender"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      )
-                                    }
-                                  >
-                                    <option value="">Select Gender</option>
-                                    <option value="1">Male</option>
-                                    <option value="2">Female</option>
-                                  </select>
-                                  {sub &&
-                                    !validateGender(
-
-                                      passengerData[
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      ].Gender
-                                    ) && <span className="error10">Select Gender</span>}
-                                </div>
-                                <div className="col-lg-6 col-md-6">
-                                  {/* <div class="form-floating">
+                                  <div className="col-lg-6 col-md-6">
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Gender
+                                    </label>
+                                    <select
+                                      className="form-select"
+                                      name="Gender"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                        )
+                                      }
+                                    >
+                                      <option value="">Select Gender</option>
+                                      <option value="1">Male</option>
+                                      <option value="2">Female</option>
+                                    </select>
+                                    {sub &&
+                                      !validateGender(
+                                        passengerData[
+                                          index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                        ].Gender
+                                      ) && (
+                                        <span className="error10">
+                                          Select Gender
+                                        </span>
+                                      )}
+                                  </div>
+                                  <div className="col-lg-6 col-md-6">
+                                    {/* <div class="form-floating">
                                     <input
                                       type="date"
                                       name="DateOfBirth"
@@ -3005,47 +3130,49 @@ const convertedTime = convertMinutes(item?.Duration);
                                     <label htmlFor="DateOfBirth">DOB</label>
                                     {sub && !validateDate(passengerData[index + Number(adultCount) + Number(childCount)].DateOfBirth) && <span className="error10">DOB </span>}
                                   </div> */}
-                                  <label
-                                    for="exampleInputEmail1"
-                                    class="form-label"
-                                  >
-                                    Date of Birth
-                                  </label>
-                                  <input
-                                    type="date"
-                                    name="DateOfBirth"
-                                    id="floatingInput"
-                                    class="form-control"
-                                    onChange={(e) =>
-                                      handleServiceChange(
-                                        e,
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      )
-                                    }
-                                    min={minDateInfer}
-                                    max={currentDate}
-                                  ></input>
-                                  {sub &&
-                                    !validateDate(
-                                      passengerData[
-                                        index +
-                                        Number(adultCount) +
-                                        Number(childCount)
-                                      ].DateOfBirth
-                                    ) && <span className="error10">DOB </span>}
-                                </div>
-                              </div>
-                              {/* passport details here */}
-                              {isPassportRequired == true ? (
-                                <>
-                                  <div className="bookAdultIndex">
-                                    <p>Passport Details</p>
+                                    <label
+                                      for="exampleInputEmail1"
+                                      class="form-label"
+                                    >
+                                      Date of Birth
+                                    </label>
+                                    <input
+                                      type="date"
+                                      name="DateOfBirth"
+                                      id="floatingInput"
+                                      class="form-control"
+                                      onChange={(e) =>
+                                        handleServiceChange(
+                                          e,
+                                          index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                        )
+                                      }
+                                      min={minDateInfer}
+                                      max={currentDate}
+                                    ></input>
+                                    {sub &&
+                                      !validateDate(
+                                        passengerData[
+                                          index +
+                                            Number(adultCount) +
+                                            Number(childCount)
+                                        ].DateOfBirth
+                                      ) && (
+                                        <span className="error10">DOB </span>
+                                      )}
                                   </div>
-                                  <div className="row g-3 mb-3">
-                                    <div className="col-lg-6 col-md-6">
-                                      {/* <div class="form-floating">
+                                </div>
+                                {/* passport details here */}
+                                {isPassportRequired == true ? (
+                                  <>
+                                    <div className="bookAdultIndex">
+                                      <p>Passport Details</p>
+                                    </div>
+                                    <div className="row g-3 mb-3">
+                                      <div className="col-lg-6 col-md-6">
+                                        {/* <div class="form-floating">
                                         <input
                                           onChange={(e) =>
                                             handleServiceChange(
@@ -3065,29 +3192,29 @@ const convertedTime = convertMinutes(item?.Duration);
                                           Passport Number
                                         </label>
                                       </div> */}
-                                      <label
-                                        for="exampleInputEmail1"
-                                        class="form-label"
-                                      >
-                                        Passport Number
-                                      </label>
-                                      <input
-                                        type="text"
-                                        name="PassportNo"
-                                        id="floatingInput"
-                                        class="form-control"
-                                        onChange={(e) =>
-                                          handleServiceChange(
-                                            e,
-                                            index +
-                                            Number(adultCount) +
-                                            Number(childCount)
-                                          )
-                                        }
-                                      ></input>
-                                    </div>
-                                    <div className="col-lg-6 col-md-6">
-                                      {/* <div class="form-floating">
+                                        <label
+                                          for="exampleInputEmail1"
+                                          class="form-label"
+                                        >
+                                          Passport Number
+                                        </label>
+                                        <input
+                                          type="text"
+                                          name="PassportNo"
+                                          id="floatingInput"
+                                          class="form-control"
+                                          onChange={(e) =>
+                                            handleServiceChange(
+                                              e,
+                                              index +
+                                                Number(adultCount) +
+                                                Number(childCount)
+                                            )
+                                          }
+                                        ></input>
+                                      </div>
+                                      <div className="col-lg-6 col-md-6">
+                                        {/* <div class="form-floating">
                                         <input
                                           onChange={(e) =>
                                             handleServiceChange(
@@ -3108,54 +3235,66 @@ const convertedTime = convertMinutes(item?.Duration);
                                         </label>
                                       </div> */}
 
-                                      <label
-                                        for="exampleInputEmail1"
-                                        class="form-label"
-                                      >
-                                        Passport Expiry
-                                      </label>
-                                      <input
-                                        type="date"
-                                        name="PassportExpiry"
-                                        id="floatingInput"
-                                        class="form-control"
-                                        min={currentDate}
-                                        onChange={(e) => {
-                                          handleServiceChange(
-                                            e,
-                                            index +
-                                            Number(adultCount) +
-                                            Number(childCount)
-                                          );
-                                          // console.log(
-                                          //   e.target.value,
-                                          //   "e.target.value="
-                                          // );
-                                        }}
-                                      ></input>
+                                        <label
+                                          for="exampleInputEmail1"
+                                          class="form-label"
+                                        >
+                                          Passport Expiry
+                                        </label>
+                                        <input
+                                          type="date"
+                                          name="PassportExpiry"
+                                          id="floatingInput"
+                                          class="form-control"
+                                          min={currentDate}
+                                          onChange={(e) => {
+                                            handleServiceChange(
+                                              e,
+                                              index +
+                                                Number(adultCount) +
+                                                Number(childCount)
+                                            );
+                                            // console.log(
+                                            //   e.target.value,
+                                            //   "e.target.value="
+                                            // );
+                                          }}
+                                        ></input>
+                                      </div>
                                     </div>
-                                  </div>
-                                </>
-                              ) : (
-                                ""
-                              )}
-                            </div>
-                          ))}
+                                  </>
+                                ) : (
+                                  ""
+                                )}
+                              </div>
+                            )
+                          )}
 
                         {/* infant details here  */}
                       </div>
                     </motion.div>
 
-
                     {authenticUser == 200 ? (
-                      <div style={{padding:"15px",display:"flex",justifyContent:"flex-end",marginTop:"12px",marginBottom:"12px",backgroundColor:"#FFFBFB"}}>
-                          <Checkbox onChange={passengerdetail} style={{color:"#E73C34",fontWeight:"bold"}}>
-                            Booking flight for yourself
-                          </Checkbox>
-                          </div>
-                        ) : (
-                          " "
-                        )}
+                      <div
+                        style={{
+                          padding: "15px",
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          marginTop: "12px",
+                          marginBottom: "12px",
+                          backgroundColor: "#FFFBFB",
+                        }}
+                      >
+                        <Checkbox
+                          onChange={passengerdetail}
+                          style={{ color: "#E73C34", fontWeight: "bold" }}
+                        >
+                          Booking flight for yourself
+                        </Checkbox>
+                      </div>
+                    ) : (
+                      " "
+                    )}
 
                     <motion.div variants={variants} className="col-lg-12 mt-3">
                       <div className="bookflightPassenger">
@@ -3225,34 +3364,44 @@ const convertedTime = convertMinutes(item?.Duration);
                         <FlightLayoutTVO seatMap={seatMapList}/>
                     
                     </div> */}
-                    {!isDropdown && <div className="col-lg-12 my-4 smallButtMobile">
-                      {V_aliation ? (
-                        <button
-                          className="bookWrapperButton"
-                          type="submit"
-                          onClick={() => seatMapList ? toggleDropdown() : handleTravelClickOpen()}
-                        >
-                          Continue
-                        </button>
-                      ) : (
-                        <button
-                          className="bookWrapperButton validationFalse"
-                          // type="submit"
-                          onClick={() => setSub(true)}
-                        >
-                          Continue
-                        </button>
-                      )}
-                    </div>}
-
-                    <motion.div ref={dropdownRef} variants={variants} className="col-lg-12 mt-3">
-                      <div className={`bookflightPassenger ${isDropdown ? "" : "cnt-dis"}`}>
-
-                        <>
-                          <div
-
-
+                    {!isDropdown && (
+                      <div className="col-lg-12 my-4 smallButtMobile">
+                        {V_aliation ? (
+                          <button
+                            className="bookWrapperButton"
+                            type="submit"
+                            onClick={() =>
+                              seatMapList
+                                ? toggleDropdown()
+                                : handleTravelClickOpen()
+                            }
                           >
+                            Continue
+                          </button>
+                        ) : (
+                          <button
+                            className="bookWrapperButton validationFalse"
+                            // type="submit"
+                            onClick={() => setSub(true)}
+                          >
+                            Continue
+                          </button>
+                        )}
+                      </div>
+                    )}
+
+                    <motion.div
+                      ref={dropdownRef}
+                      variants={variants}
+                      className="col-lg-12 mt-3"
+                    >
+                      <div
+                        className={`bookflightPassenger ${
+                          isDropdown ? "" : "cnt-dis"
+                        }`}
+                      >
+                        <>
+                          <div>
                             <div
                               style={{
                                 // height: "50px",
@@ -3261,73 +3410,113 @@ const convertedTime = convertMinutes(item?.Duration);
                                 // justifyContent: "center",
                                 alignItems: "center",
                                 gap: "5px",
-
                               }}
-
                               className="toggle-bar-seat"
-                            
                             >
-                              <div   onClick={() => { isDropdown && !skipAddOn && toggleDropdown(); skipAddOn && setSkipAddOn(false) }} style={{display:"flex",flex:1}}>
-
-                                <p style={{fontSize:"16px",color:"grey"}}>
+                              <div
+                                onClick={() => {
+                                  isDropdown && !skipAddOn && toggleDropdown();
+                                  skipAddOn && setSkipAddOn(false);
+                                }}
+                                style={{ display: "flex", flex: 1 }}
+                              >
+                                <p style={{ fontSize: "16px", color: "grey" }}>
                                   Selecting the Ideal Plane Seat
-                                </p> <span style={{fontSize:"15px"}} className={`arrow-dropdown ${isDropdown ? "open" : ""}`}><IoIosArrowForward /></span>
+                                </p>{" "}
+                                <span
+                                  style={{ fontSize: "15px" }}
+                                  className={`arrow-dropdown ${
+                                    isDropdown ? "open" : ""
+                                  }`}
+                                >
+                                  <IoIosArrowForward />
+                                </span>
                               </div>
-                              {
-                                isDropdown && 
-                              <div  onClick={() => {
-                                // toggleDropdown();
-                                setIsOptionSelected(true);
-                                setSkipAddOn((pre)=>!pre);
-                                // handleTravelClickOpen();
-                              }} className="skip-add-on-flight"><p>{skipAddOn?"Select seat":"Skip to add-ons"}</p></div>
-                            }
-
+                              {isDropdown && (
+                                <div
+                                  onClick={() => {
+                                    // toggleDropdown();
+                                    setIsOptionSelected(true);
+                                    setSkipAddOn((pre) => !pre);
+                                    // handleTravelClickOpen();
+                                  }}
+                                  className="skip-add-on-flight"
+                                >
+                                  <p>
+                                    {skipAddOn
+                                      ? "Select seat"
+                                      : "Skip to add-ons"}
+                                  </p>
+                                </div>
+                              )}
                             </div>
-                            {
-                              !skipAddOn && isDropdown &&                               
+                            {!skipAddOn && isDropdown && (
                               <FlightLayoutTVO seatMap={seatMapList} />
-                            }
+                            )}
                           </div>
-
-
                         </>
                       </div>
                     </motion.div>
 
-                    <motion.div ref={dropdownRef} variants={variants} className="col-lg-12 mt-3">
+                    <motion.div
+                      ref={dropdownRef}
+                      variants={variants}
+                      className="col-lg-12 mt-3"
+                    >
                       <div>
-                          <div className="col-lg-12 mt-3">
-                          <div className="bookflightPassenger "> {showADDMELL && (
+                        <div className="col-lg-12 mt-3">
+                          <div className="bookflightPassenger ">
+                            {" "}
+                            {showADDMELL && (
                               <button
-                                className={isOptionSelected ? "bagADDBtn1": "disablebagADDBtn" }
+                                className={
+                                  isOptionSelected
+                                    ? "bagADDBtn1"
+                                    : "disablebagADDBtn"
+                                }
                                 disabled={!isOptionSelected}
-                                style={{fontSize:"16px",cursor:"pointer",border:"none",background:"none"}}
+                                style={{
+                                  fontSize: "16px",
+                                  cursor: "pointer",
+                                  border: "none",
+                                  background: "none",
+                                }}
                                 // style={isOptionSelected ? { fontSize: "15px" } : { , fontSize: "15px" }}
                                 // onClick={() => setShowMell(true)}
                                 onClick={showModal}
                               >
-                                <i class="fa-solid fa-cheese"></i>  Add Meal +
+                                <i class="fa-solid fa-cheese"></i> Add Meal +
                               </button>
-                            )}</div>
-
+                            )}
                           </div>
-                          <div className="col-lg-12 mt-3">
+                        </div>
+                        <div className="col-lg-12 mt-3">
                           <div className="bookflightPassenger ">
-                          {showADD && (
+                            {showADD && (
                               <button
                                 // className="bagADDBtn"
-                                className={isOptionSelected ? "bagADDBtn1": "disablebagADDBtn" }
-                                style={{fontSize:"16px",cursor:"pointer",border:"none",background:"none"}}
+                                className={
+                                  isOptionSelected
+                                    ? "bagADDBtn1"
+                                    : "disablebagADDBtn"
+                                }
+                                style={{
+                                  fontSize: "16px",
+                                  cursor: "pointer",
+                                  border: "none",
+                                  background: "none",
+                                }}
                                 disabled={!isOptionSelected}
                                 onClick={() => setShowBaggage(true)}
                               >
-                                <i class="fa-solid fa-suitcase-rolling"></i>  Add Baggage +
+                                <i class="fa-solid fa-suitcase-rolling"></i> Add
+                                Baggage +
                               </button>
                             )}
-                          </div></div>
-                           
-                          {/* </div> */}
+                          </div>
+                        </div>
+
+                        {/* </div> */}
                       </div>
                     </motion.div>
 
@@ -3360,7 +3549,7 @@ const convertedTime = convertMinutes(item?.Duration);
                       />
                     </div>
                     {/* <p>Final Amount: {finalAmount}</p> */}
-                    {isDropdown &&
+                    {isDropdown && (
                       <div className="col-lg-12 my-4 smallButtMobile d-flex justify-content-between align-items-center">
                         {V_aliation ? (
                           <button
@@ -3370,7 +3559,6 @@ const convertedTime = convertMinutes(item?.Duration);
                           >
                             Continue
                           </button>
-
                         ) : (
                           <button
                             className="bookWrapperButton validationFalse"
@@ -3393,14 +3581,19 @@ const convertedTime = convertMinutes(item?.Duration);
                             aria-describedby="modal-modal-description"
                           >
                             <Box sx={style}>
-                              <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "flex-end",
+                                }}
+                              >
                                 <button
                                   style={{
-                                    background: 'none',
-                                    border: 'none',
-                                    cursor: 'pointer',
-                                    fontSize: '24px',
-                                    fontWeight: 'bold',
+                                    background: "none",
+                                    border: "none",
+                                    cursor: "pointer",
+                                    fontSize: "24px",
+                                    fontWeight: "bold",
                                   }}
                                   onClick={handleClose}
                                   aria-label="Close"
@@ -3408,22 +3601,62 @@ const convertedTime = convertMinutes(item?.Duration);
                                   &times;
                                 </button>
                               </div>
-                              <div style={{ display: "flex", flexDirection: "column", height: "100%", justifyContent: "space-evenly" }}>
-                                <h1 style={{ textAlign: "center", color: "black", fontWeight: "bold" }}>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  height: "100%",
+                                  justifyContent: "space-evenly",
+                                }}
+                              >
+                                <h1
+                                  style={{
+                                    textAlign: "center",
+                                    color: "black",
+                                    fontWeight: "bold",
+                                  }}
+                                >
                                   Total Fare
                                 </h1>
-                                <div className="TotGstFlight" style={{ borderRadius: "9px", backgroundColor: "aliceblue" }}>
+                                <div
+                                  className="TotGstFlight"
+                                  style={{
+                                    borderRadius: "9px",
+                                    backgroundColor: "aliceblue",
+                                  }}
+                                >
                                   <div style={{ display: "flex" }}>
-                                    <div style={{ display: "flex", gap: "12px", color: "black" }}>
-                                      <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Base Fare : </span>
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        gap: "12px",
+                                        color: "black",
+                                      }}
+                                    >
+                                      <span
+                                        style={{
+                                          color: "black",
+                                          fontSize: "18px",
+                                          fontWeight: "600",
+                                        }}
+                                      >
+                                        Base Fare :{" "}
+                                      </span>
                                       {/* <div style={{background:"none",border:"none",padding:"2px",cursor:"pointer",marginRight:"2px",marginTop:"-4px"}}>                <span style={{margin:"2px"}} onClick={toggleDetails} >
         {showDetails ? <FiMinusCircle/> : <FiPlusCircle/>}
       </span>
       </div> */}
                                     </div>
-                                    <p style={{ color: "black", fontSize: "15px" }}> {"₹"}{parseInt(fareValue?.Fare?.BaseFare)}</p>
-
-
+                                    <p
+                                      style={{
+                                        color: "black",
+                                        fontSize: "15px",
+                                      }}
+                                    >
+                                      {" "}
+                                      {"₹"}
+                                      {parseInt(fareValue?.Fare?.BaseFare)}
+                                    </p>
                                   </div>
 
                                   {/* {showDetails && (
@@ -3453,34 +3686,103 @@ const convertedTime = convertMinutes(item?.Duration);
         </div>
       )} */}
 
-
-                                  <div style={{ display: "flex", color: "black" }}>
-                                    <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Surcharge : </span>
-                                    <p style={{ color: "black", fontSize: "15px" }}> {"₹"}{parseInt(fareValue?.Fare?.Tax)}</p>
+                                  <div
+                                    style={{ display: "flex", color: "black" }}
+                                  >
+                                    <span
+                                      style={{
+                                        color: "black",
+                                        fontSize: "18px",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Surcharge :{" "}
+                                    </span>
+                                    <p
+                                      style={{
+                                        color: "black",
+                                        fontSize: "15px",
+                                      }}
+                                    >
+                                      {" "}
+                                      {"₹"}
+                                      {parseInt(fareValue?.Fare?.Tax)}
+                                    </p>
                                   </div>
-                                  <div style={{ display: "flex", color: "black" }}>
-                                    <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Other TAX : </span>
-                                    <p style={{ color: "black", fontSize: "15px" }}>
+                                  <div
+                                    style={{ display: "flex", color: "black" }}
+                                  >
+                                    <span
+                                      style={{
+                                        color: "black",
+                                        fontSize: "18px",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Other TAX :{" "}
+                                    </span>
+                                    <p
+                                      style={{
+                                        color: "black",
+                                        fontSize: "15px",
+                                      }}
+                                    >
                                       {"₹"}
                                       {(
-                                        Number(taxvalue) + Number(baggageFare) + (Number(totalSeatAmount) || 0) +
-                                        Number(mellFare)).toFixed(2)}
+                                        Number(taxvalue) +
+                                        Number(baggageFare) +
+                                        (Number(totalSeatAmount) || 0) +
+                                        Number(mellFare)
+                                      ).toFixed(2)}
                                     </p>
                                   </div>
 
                                   {discountvalue > 0 && (
-                                    <div style={{ display: "flex", color: "black" }}>
-                                      <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Discount Amount :</span>
-                                      <p style={{ color: "black", fontSize: "15px" }}>
+                                    <div
+                                      style={{
+                                        display: "flex",
+                                        color: "black",
+                                      }}
+                                    >
+                                      <span
+                                        style={{
+                                          color: "black",
+                                          fontSize: "18px",
+                                          fontWeight: "600",
+                                        }}
+                                      >
+                                        Discount Amount :
+                                      </span>
+                                      <p
+                                        style={{
+                                          color: "black",
+                                          fontSize: "15px",
+                                        }}
+                                      >
                                         {"₹"}
                                         {Number(discountvalue).toFixed(2)}
                                       </p>
                                     </div>
                                   )}
 
-                                  <div style={{ display: "flex", color: "black" }}>
-                                    <span style={{ color: "black", fontSize: "18px", fontWeight: "600" }}>Grand Total :</span>
-                                    <p style={{ color: "black", fontSize: "15px" }}>
+                                  <div
+                                    style={{ display: "flex", color: "black" }}
+                                  >
+                                    <span
+                                      style={{
+                                        color: "black",
+                                        fontSize: "18px",
+                                        fontWeight: "600",
+                                      }}
+                                    >
+                                      Grand Total :
+                                    </span>
+                                    <p
+                                      style={{
+                                        color: "black",
+                                        fontSize: "15px",
+                                      }}
+                                    >
                                       {"₹"}
                                       {/* {(
                     Number(taxvaluetotal) +
@@ -3490,20 +3792,33 @@ const convertedTime = convertMinutes(item?.Duration);
 
                                       {/* {grandtotalamount} */}
                                       {Number(
-                                        Number(finalAmount) + Number(baggageFare) + (Number(totalSeatAmount) || 0) +
-                                        Number(mellFare)
+                                        Number(finalAmount) +
+                                          Number(baggageFare) +
+                                          (Number(totalSeatAmount) || 0) +
+                                          Number(mellFare)
                                       ).toFixed(2)}
                                     </p>
                                   </div>
                                 </div>
-                                <div className=" mt-4 smallButtMobile" style={{ display: "flex", flexDirection: "row-reverse" }}>
-                                  <button onClick={bookticketvo} style={{padding:"10px 13px"}} className="bookWrapperButton">Continue</button>
+                                <div
+                                  className=" mt-4 smallButtMobile"
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "row-reverse",
+                                  }}
+                                >
+                                  <button
+                                    onClick={bookticketvo}
+                                    style={{ padding: "10px 13px" }}
+                                    className="bookWrapperButton"
+                                  >
+                                    Continue
+                                  </button>
                                 </div>
                               </div>
                             </Box>
                           </Modal>
                         </div>
-
 
                         <Dialog
                           sx={{ zIndex: "99999" }}
@@ -3529,7 +3844,8 @@ const convertedTime = convertMinutes(item?.Duration);
                             </button>
                           </DialogActions>
                         </Dialog>
-                      </div>}
+                      </div>
+                    )}
                   </motion.div>
                 </motion.div>
                 <div className="d-none d-sm-block col-lg-4 ">
@@ -3818,55 +4134,106 @@ const convertedTime = convertMinutes(item?.Duration);
                   mellList?.data?.Response?.MealDynamic?.[0]?.map(
                     (bag, index) => {
                       // if (0 < bag?.price) {
-                        let vegImage = null; 
+                      let vegImage = null;
                       let icon;
-    let iconColor = "#000"; 
+                      let iconColor = "#000";
 
-    if (mellList?.data?.Response?.MealDynamic?.[0]?.AirlineDescription) {
-    if (mellList?.data?.Response?.MealDynamic?.[0].AirlineDescription.toLowerCase().includes("non veg")|| mellList?.data?.Response?.MealDynamic?.[0].AirlineDescription.toLowerCase().includes("non-veg") || mellList?.data?.Response?.MealDynamic?.[0].AirlineDescription.toLowerCase().includes("nonveg")|| mellList?.data?.Response?.MealDynamic?.[0].AirlineDescription.toLowerCase().includes("chicken")) {
-    vegImage = <img src={nonveg} alt="Veg" style={{ marginTop: "14px", height: "15px" }} />;
-  } else if (bag.AirlineDescription.toLowerCase().includes("veg")){
-    vegImage =  <img src={veg} alt="nonveg" style={{ marginTop: "14px", height: "15px" }} />; 
-  }
-  else{
-    vegImage = null;
-  }
-    }
-    else{
-      vegImage = null;
-    }
-   
-if (bag?.AirlineDescription) {
-  if (bag.AirlineDescription.toLowerCase().includes("hotdog")) {
-    icon = <i className="fa-solid fa-hotdog" ></i>;
-    iconColor = "#228B22";
-  } else if (bag.AirlineDescription.toLowerCase().includes("Fruit")) {
-    icon = <i class="fa-solid fa-apple-whole"></i>;
-    iconColor = "#FFA500";
-  } else if (bag.AirlineDescription.toLowerCase().includes("Rice")) {
-    icon = <i class="fa-solid fa-bowl-rice"></i>;
-    iconColor = "#FF0000";
-  } else if (bag.AirlineDescription.toLowerCase().includes("Chicken")) {
-    icon = <i class="fa-solid fa-drumstick-bite"></i>;
-    iconColor = "#FF0000";
-  } 
-  else if (bag.AirlineDescription.toLowerCase().includes("sandwich")) {
-    icon = <i className="fa-solid fa-hotdog" ></i>;
-    iconColor = "#FF0000";
-  } else if (bag.AirlineDescription.toLowerCase().includes("beverage") || bag.AirlineDescription.toLowerCase().includes("Juice")) {
-    icon = (
-      <i className="fa-solid fa-martini-glass-citrus" ></i>
-    );
-  }
-  else if (bag.AirlineDescription.toLowerCase().includes("Tea") || bag.AirlineDescription.toLowerCase().includes("coffee")) {
-    icon = (
-      <i class="fa-solid fa-mug-hot"></i>
-    );
-  } 
-   else {
-    icon = <i className="fa-solid fa-bowl-food" ></i>;
-  }
-}
+                      if (
+                        mellList?.data?.Response?.MealDynamic?.[0]
+                          ?.AirlineDescription
+                      ) {
+                        if (
+                          mellList?.data?.Response?.MealDynamic?.[0].AirlineDescription.toLowerCase().includes(
+                            "non veg"
+                          ) ||
+                          mellList?.data?.Response?.MealDynamic?.[0].AirlineDescription.toLowerCase().includes(
+                            "non-veg"
+                          ) ||
+                          mellList?.data?.Response?.MealDynamic?.[0].AirlineDescription.toLowerCase().includes(
+                            "nonveg"
+                          ) ||
+                          mellList?.data?.Response?.MealDynamic?.[0].AirlineDescription.toLowerCase().includes(
+                            "chicken"
+                          )
+                        ) {
+                          vegImage = (
+                            <img
+                              src={nonveg}
+                              alt="Veg"
+                              style={{ marginTop: "14px", height: "15px" }}
+                            />
+                          );
+                        } else if (
+                          bag.AirlineDescription.toLowerCase().includes("veg")
+                        ) {
+                          vegImage = (
+                            <img
+                              src={veg}
+                              alt="nonveg"
+                              style={{ marginTop: "14px", height: "15px" }}
+                            />
+                          );
+                        } else {
+                          vegImage = null;
+                        }
+                      } else {
+                        vegImage = null;
+                      }
+
+                      if (bag?.AirlineDescription) {
+                        if (
+                          bag.AirlineDescription.toLowerCase().includes(
+                            "hotdog"
+                          )
+                        ) {
+                          icon = <i className="fa-solid fa-hotdog"></i>;
+                          iconColor = "#228B22";
+                        } else if (
+                          bag.AirlineDescription.toLowerCase().includes("Fruit")
+                        ) {
+                          icon = <i class="fa-solid fa-apple-whole"></i>;
+                          iconColor = "#FFA500";
+                        } else if (
+                          bag.AirlineDescription.toLowerCase().includes("Rice")
+                        ) {
+                          icon = <i class="fa-solid fa-bowl-rice"></i>;
+                          iconColor = "#FF0000";
+                        } else if (
+                          bag.AirlineDescription.toLowerCase().includes(
+                            "Chicken"
+                          )
+                        ) {
+                          icon = <i class="fa-solid fa-drumstick-bite"></i>;
+                          iconColor = "#FF0000";
+                        } else if (
+                          bag.AirlineDescription.toLowerCase().includes(
+                            "sandwich"
+                          )
+                        ) {
+                          icon = <i className="fa-solid fa-hotdog"></i>;
+                          iconColor = "#FF0000";
+                        } else if (
+                          bag.AirlineDescription.toLowerCase().includes(
+                            "beverage"
+                          ) ||
+                          bag.AirlineDescription.toLowerCase().includes("Juice")
+                        ) {
+                          icon = (
+                            <i className="fa-solid fa-martini-glass-citrus"></i>
+                          );
+                        } else if (
+                          bag.AirlineDescription.toLowerCase().includes(
+                            "Tea"
+                          ) ||
+                          bag.AirlineDescription.toLowerCase().includes(
+                            "coffee"
+                          )
+                        ) {
+                          icon = <i class="fa-solid fa-mug-hot"></i>;
+                        } else {
+                          icon = <i className="fa-solid fa-bowl-food"></i>;
+                        }
+                      }
 
                       return (
                         <div
@@ -3878,11 +4245,14 @@ if (bag?.AirlineDescription) {
                           <div className="bagListLeft">
                             {/* <PiSuitcaseRollingThin size={30} /> */}
                             <div>
-                            {icon}
-                            {vegImage}
+                              {icon}
+                              {vegImage}
                             </div>
-                           
-                            <div className="bagAdditional" style={{ color: iconColor }}>
+
+                            <div
+                              className="bagAdditional"
+                              style={{ color: iconColor }}
+                            >
                               <span> {bag?.AirlineDescription} </span>
                             </div>
                           </div>
@@ -3896,7 +4266,10 @@ if (bag?.AirlineDescription) {
                             <div className="qtyCounter">
                               <div
                                 className="qtyCounterBtn"
-                                style={{border:"1px solid #e7d6ff", borderRadius:"35px"}}
+                                style={{
+                                  border: "1px solid #e7d6ff",
+                                  borderRadius: "35px",
+                                }}
                                 onClick={() => mellFuncton("-", bag, index)}
                               >
                                 <GrFormSubtract />
@@ -3904,7 +4277,10 @@ if (bag?.AirlineDescription) {
                               {MellListNub[index]}{" "}
                               <div
                                 className="qtyCounterBtn"
-                                style={{border:"1px solid #e7d6ff", borderRadius:"35px"}}
+                                style={{
+                                  border: "1px solid #e7d6ff",
+                                  borderRadius: "35px",
+                                }}
                                 onClick={() => mellFuncton("+", bag, index)}
                               >
                                 <IoAdd />
@@ -3913,7 +4289,6 @@ if (bag?.AirlineDescription) {
                           </div>
                         </div>
                       );
-                     
                     }
                   )
                 ) : (
@@ -3953,191 +4328,321 @@ if (bag?.AirlineDescription) {
           </div>
         </Modal>
 
-      <AntdModal
-  title="Add Meal"
-  visible={isModalVisible}
-  onCancel={handleCancel}
-  footer={null}
-  width={800}
->
-  {mellList?.data?.Response?.Error?.ErrorCode === 0 ? (
-    <Tabs defaultActiveKey="0" onChange={(key) => setSelectedIndex(parseInt(key))} >
-      {Object.keys(separatedByFlightNumber).map((key,innerInnex) => {
-        const filteredSegment = filteredSegemets?.[innerInnex];
-        const dataOrigin = filteredSegment?.Origin?.Airport?.AirportCode;
-        const destination = filteredSegment?.Destination?.Airport?.AirportCode;
-        {/* console.log(destination,"destination"); */}
-         if(innerInnex==0){
-          return( <TabPane tab={`(${fareValue?.Segments?.[0]?.[0]?.Origin?.Airport
-                      ?.AirportCode} - ${destination})`} key={key} style={{height:"300px",overflow:"scroll"}}>
-            {separatedByFlightNumber[key]?.map((item, index) => {
-              const airlineDescription = item?.AirlineDescription?.toLowerCase();
-              let vegImage = null;
-              let icon;
-              let iconColor = "#000";
-
-              if (airlineDescription) {
-                // Determine the veg/non-veg image
-                if (airlineDescription.includes("non veg") || airlineDescription.includes("non-veg")||airlineDescription.includes("Non – Vegetarian") || airlineDescription.includes("nonveg") || airlineDescription.includes("chicken")) {
-                  vegImage = <img src={nonveg} alt="Non-Veg" style={{ marginTop: "14px", height: "15px" }} />;
-                } else if (airlineDescription.includes("veg") ||airlineDescription.includes("Vegetarian") ) {
-                  vegImage = <img src={veg} alt="Veg" style={{ marginTop: "14px", height: "15px" }} />;
-                }
-
-                // Determine the appropriate icon
-                if (airlineDescription.includes("hotdog")) {
-                  icon = <i className="fa-solid fa-hotdog"></i>;
-                  iconColor = "#228B22";
-                } else if (airlineDescription.includes("fruit")) {
-                  icon = <i className="fa-solid fa-apple-whole"></i>;
-                  iconColor = "#FFA500";
-                } else if (airlineDescription.includes("rice")) {
-                  icon = <i className="fa-solid fa-bowl-rice"></i>;
-                  iconColor = "#FF0000";
-                } else if (airlineDescription.includes("chicken")) {
-                  icon = <i className="fa-solid fa-drumstick-bite"></i>;
-                  iconColor = "#FF0000";
-                } else if (airlineDescription.includes("sandwich")) {
-                  icon = <i className="fa-solid fa-hotdog"></i>;
-                  iconColor = "#FF0000";
-                } else if (airlineDescription.includes("beverage") || airlineDescription.includes("juice")) {
-                  icon = <i className="fa-solid fa-martini-glass-citrus"></i>;
-                } else if (airlineDescription.includes("tea") || airlineDescription.includes("coffee")) {
-                  icon = <i className="fa-solid fa-mug-hot"></i>;
-                } else {
-                  icon = <i className="fa-solid fa-bowl-food"></i>;
-                }
-              }
-
-              return (
-                <div key={index} style={{ marginBottom: '16px', display: "flex", justifyContent: "space-between" }}>
-                  <div className="bagListLeft">
-                    <div>
-                      {icon}
-                      {vegImage}
-                    </div>
-                    <div><p>{item.AirlineDescription}</p></div>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div><p>{item?.Price}</p></div>
-                    <Button onClick={() => mellFuncton("-", item, index, key)}>-</Button>
-                    <div>{MellListNub[parseInt(key)]?.[index] || 0}</div>
-                    <Button onClick={() => mellFuncton("+", item, index, key)}>+</Button>
-                  </div>
-                </div>
-              );
-            })}
-          </TabPane>)
-         }
-         else{
-          return(
-            <TabPane tab={`(${dataOrigin} - ${destination})`} key={key} style={{height:"300px",overflow:"scroll"}}>
-            {separatedByFlightNumber[key]?.map((item, index) => {
-              const airlineDescription = item?.AirlineDescription?.toLowerCase();
-              let vegImage = null;
-              let icon;
-              let iconColor = "#000";
-
-              if (airlineDescription) {
-                // Determine the veg/non-veg image
-                if (airlineDescription.includes("non veg") || airlineDescription.includes("non-veg") || airlineDescription.includes("nonveg") || airlineDescription.includes("chicken")) {
-                  vegImage = <img src={nonveg} alt="Non-Veg" style={{ marginTop: "14px", height: "15px" }} />;
-                } else if (airlineDescription.includes("veg")) {
-                  vegImage = <img src={veg} alt="Veg" style={{ marginTop: "14px", height: "15px" }} />;
-                }
-
-                // Determine the appropriate icon
-                if (airlineDescription.includes("hotdog")) {
-                  icon = <i className="fa-solid fa-hotdog"></i>;
-                  iconColor = "#228B22";
-                } else if (airlineDescription.includes("fruit")) {
-                  icon = <i className="fa-solid fa-apple-whole"></i>;
-                  iconColor = "#FFA500";
-                } else if (airlineDescription.includes("rice")) {
-                  icon = <i className="fa-solid fa-bowl-rice"></i>;
-                  iconColor = "#FF0000";
-                } else if (airlineDescription.includes("chicken")) {
-                  icon = <i className="fa-solid fa-drumstick-bite"></i>;
-                  iconColor = "#FF0000";
-                } else if (airlineDescription.includes("sandwich")) {
-                  icon = <i className="fa-solid fa-hotdog"></i>;
-                  iconColor = "#FF0000";
-                } else if (airlineDescription.includes("beverage") || airlineDescription.includes("juice")) {
-                  icon = <i className="fa-solid fa-martini-glass-citrus"></i>;
-                } else if (airlineDescription.includes("tea") || airlineDescription.includes("coffee")) {
-                  icon = <i className="fa-solid fa-mug-hot"></i>;
-                } else {
-                  icon = <i className="fa-solid fa-bowl-food"></i>;
-                }
-              }
-
-              return (
-                <div key={index} style={{ marginBottom: '16px', display: "flex", justifyContent: "space-between" }}>
-                  <div className="bagListLeft">
-                    <div>
-                      {icon}
-                      {vegImage}
-                    </div>
-                    <div><p>{item.AirlineDescription}</p></div>
-                  </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    <div><p>{item?.Price}</p></div>
-                    <Button onClick={() => mellFuncton("-", item, index, key)}>-</Button>
-                    <div>{MellListNub[parseInt(key)]?.[index] || 0}</div>
-                    <Button onClick={() => mellFuncton("+", item, index, key)}>+</Button>
-                  </div>
-                </div>
-              );
-            })}
-          </TabPane>
-          )
-         }
-       
-      })}
-    </Tabs>
-  ) : (
-    <div>No SSR details found.</div>
-  )}
-  {0 < mellData?.length && (
-    <div className="bagPriceCon">
-      <div>
-        {" "}
-        {mellData[selectedIndex]?.length} of{" "}
-        {Number(adultCount) + Number(childCount)} Meal(s) Selected
-      </div>
-      <div
-        className="bagPriceConRight"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "15px",
-        }}
-      >
-        <div>
-          <div style={{ fontSize: "12px" }}>Added to fare</div>
-          <div style={{ fontWeight: "700" }}>₹{mellFare}</div>
-        </div>
-        <div
-          onClick={() => mealclose(false)}
-          className="buttonBag"
+        <AntdModal
+          title="Add Meal"
+          visible={isModalVisible}
+          onCancel={handleCancel}
+          footer={null}
+          width={800}
         >
-          Done
-        </div>
-      </div>
-    </div>
-  )}
-</AntdModal>
+          {mellList?.data?.Response?.Error?.ErrorCode === 0 ? (
+            <Tabs
+              defaultActiveKey="0"
+              onChange={(key) => setSelectedIndex(parseInt(key))}
+            >
+              {Object.keys(separatedByFlightNumber).map((key, innerInnex) => {
+                const filteredSegment = filteredSegemets?.[innerInnex];
+                const dataOrigin =
+                  filteredSegment?.Origin?.Airport?.AirportCode;
+                const destination =
+                  filteredSegment?.Destination?.Airport?.AirportCode;
+                {
+                  /* console.log(destination,"destination"); */
+                }
+                if (innerInnex == 0) {
+                  return (
+                    <TabPane
+                      tab={`(${fareValue?.Segments?.[0]?.[0]?.Origin?.Airport?.AirportCode} - ${destination})`}
+                      key={key}
+                      style={{ height: "300px", overflow: "scroll" }}
+                    >
+                      {separatedByFlightNumber[key]?.map((item, index) => {
+                        const airlineDescription =
+                          item?.AirlineDescription?.toLowerCase();
+                        let vegImage = null;
+                        let icon;
+                        let iconColor = "#000";
 
-<Authentic
-                isOpen={isLoginModalOpen}
-                onClose={handleModalClose}
-            // isLogoutOpen={logoutModalVisible}
-            // onLogoutClose={closeLogoutModal}
-            />
+                        if (airlineDescription) {
+                          // Determine the veg/non-veg image
+                          if (
+                            airlineDescription.includes("non veg") ||
+                            airlineDescription.includes("non-veg") ||
+                            airlineDescription.includes("Non – Vegetarian") ||
+                            airlineDescription.includes("nonveg") ||
+                            airlineDescription.includes("chicken")
+                          ) {
+                            vegImage = (
+                              <img
+                                src={nonveg}
+                                alt="Non-Veg"
+                                style={{ marginTop: "14px", height: "15px" }}
+                              />
+                            );
+                          } else if (
+                            airlineDescription.includes("veg") ||
+                            airlineDescription.includes("Vegetarian")
+                          ) {
+                            vegImage = (
+                              <img
+                                src={veg}
+                                alt="Veg"
+                                style={{ marginTop: "14px", height: "15px" }}
+                              />
+                            );
+                          }
 
+                          // Determine the appropriate icon
+                          if (airlineDescription.includes("hotdog")) {
+                            icon = <i className="fa-solid fa-hotdog"></i>;
+                            iconColor = "#228B22";
+                          } else if (airlineDescription.includes("fruit")) {
+                            icon = <i className="fa-solid fa-apple-whole"></i>;
+                            iconColor = "#FFA500";
+                          } else if (airlineDescription.includes("rice")) {
+                            icon = <i className="fa-solid fa-bowl-rice"></i>;
+                            iconColor = "#FF0000";
+                          } else if (airlineDescription.includes("chicken")) {
+                            icon = (
+                              <i className="fa-solid fa-drumstick-bite"></i>
+                            );
+                            iconColor = "#FF0000";
+                          } else if (airlineDescription.includes("sandwich")) {
+                            icon = <i className="fa-solid fa-hotdog"></i>;
+                            iconColor = "#FF0000";
+                          } else if (
+                            airlineDescription.includes("beverage") ||
+                            airlineDescription.includes("juice")
+                          ) {
+                            icon = (
+                              <i className="fa-solid fa-martini-glass-citrus"></i>
+                            );
+                          } else if (
+                            airlineDescription.includes("tea") ||
+                            airlineDescription.includes("coffee")
+                          ) {
+                            icon = <i className="fa-solid fa-mug-hot"></i>;
+                          } else {
+                            icon = <i className="fa-solid fa-bowl-food"></i>;
+                          }
+                        }
 
+                        return (
+                          <div
+                            key={index}
+                            style={{
+                              marginBottom: "16px",
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <div className="bagListLeft">
+                              <div>
+                                {icon}
+                                {vegImage}
+                              </div>
+                              <div>
+                                <p>{item.AirlineDescription}</p>
+                              </div>
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "10px",
+                              }}
+                            >
+                              <div>
+                                <p>{item?.Price}</p>
+                              </div>
+                              <Button
+                                onClick={() =>
+                                  mellFuncton("-", item, index, key)
+                                }
+                              >
+                                -
+                              </Button>
+                              <div>
+                                {MellListNub[parseInt(key)]?.[index] || 0}
+                              </div>
+                              <Button
+                                onClick={() =>
+                                  mellFuncton("+", item, index, key)
+                                }
+                              >
+                                +
+                              </Button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </TabPane>
+                  );
+                } else {
+                  return (
+                    <TabPane
+                      tab={`(${dataOrigin} - ${destination})`}
+                      key={key}
+                      style={{ height: "300px", overflow: "scroll" }}
+                    >
+                      {separatedByFlightNumber[key]?.map((item, index) => {
+                        const airlineDescription =
+                          item?.AirlineDescription?.toLowerCase();
+                        let vegImage = null;
+                        let icon;
+                        let iconColor = "#000";
 
+                        if (airlineDescription) {
+                          // Determine the veg/non-veg image
+                          if (
+                            airlineDescription.includes("non veg") ||
+                            airlineDescription.includes("non-veg") ||
+                            airlineDescription.includes("nonveg") ||
+                            airlineDescription.includes("chicken")
+                          ) {
+                            vegImage = (
+                              <img
+                                src={nonveg}
+                                alt="Non-Veg"
+                                style={{ marginTop: "14px", height: "15px" }}
+                              />
+                            );
+                          } else if (airlineDescription.includes("veg")) {
+                            vegImage = (
+                              <img
+                                src={veg}
+                                alt="Veg"
+                                style={{ marginTop: "14px", height: "15px" }}
+                              />
+                            );
+                          }
+
+                          // Determine the appropriate icon
+                          if (airlineDescription.includes("hotdog")) {
+                            icon = <i className="fa-solid fa-hotdog"></i>;
+                            iconColor = "#228B22";
+                          } else if (airlineDescription.includes("fruit")) {
+                            icon = <i className="fa-solid fa-apple-whole"></i>;
+                            iconColor = "#FFA500";
+                          } else if (airlineDescription.includes("rice")) {
+                            icon = <i className="fa-solid fa-bowl-rice"></i>;
+                            iconColor = "#FF0000";
+                          } else if (airlineDescription.includes("chicken")) {
+                            icon = (
+                              <i className="fa-solid fa-drumstick-bite"></i>
+                            );
+                            iconColor = "#FF0000";
+                          } else if (airlineDescription.includes("sandwich")) {
+                            icon = <i className="fa-solid fa-hotdog"></i>;
+                            iconColor = "#FF0000";
+                          } else if (
+                            airlineDescription.includes("beverage") ||
+                            airlineDescription.includes("juice")
+                          ) {
+                            icon = (
+                              <i className="fa-solid fa-martini-glass-citrus"></i>
+                            );
+                          } else if (
+                            airlineDescription.includes("tea") ||
+                            airlineDescription.includes("coffee")
+                          ) {
+                            icon = <i className="fa-solid fa-mug-hot"></i>;
+                          } else {
+                            icon = <i className="fa-solid fa-bowl-food"></i>;
+                          }
+                        }
+
+                        return (
+                          <div
+                            key={index}
+                            style={{
+                              marginBottom: "16px",
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <div className="bagListLeft">
+                              <div>
+                                {icon}
+                                {vegImage}
+                              </div>
+                              <div>
+                                <p>{item.AirlineDescription}</p>
+                              </div>
+                            </div>
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "10px",
+                              }}
+                            >
+                              <div>
+                                <p>{item?.Price}</p>
+                              </div>
+                              <Button
+                                onClick={() =>
+                                  mellFuncton("-", item, index, key)
+                                }
+                              >
+                                -
+                              </Button>
+                              <div>
+                                {MellListNub[parseInt(key)]?.[index] || 0}
+                              </div>
+                              <Button
+                                onClick={() =>
+                                  mellFuncton("+", item, index, key)
+                                }
+                              >
+                                +
+                              </Button>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </TabPane>
+                  );
+                }
+              })}
+            </Tabs>
+          ) : (
+            <div>No SSR details found.</div>
+          )}
+          {0 < mellData?.length && (
+            <div className="bagPriceCon">
+              <div>
+                {" "}
+                {mellData[selectedIndex]?.length} of{" "}
+                {Number(adultCount) + Number(childCount)} Meal(s) Selected
+              </div>
+              <div
+                className="bagPriceConRight"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "15px",
+                }}
+              >
+                <div>
+                  <div style={{ fontSize: "12px" }}>Added to fare</div>
+                  <div style={{ fontWeight: "700" }}>₹{mellFare}</div>
+                </div>
+                <div onClick={() => mealclose(false)} className="buttonBag">
+                  Done
+                </div>
+              </div>
+            </div>
+          )}
+        </AntdModal>
+
+        <Authentic
+          isOpen={isLoginModalOpen}
+          onClose={handleModalClose}
+          // isLogoutOpen={logoutModalVisible}
+          // onLogoutClose={closeLogoutModal}
+        />
       </>
     );
   } else {
