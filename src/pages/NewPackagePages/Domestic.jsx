@@ -38,7 +38,7 @@ const Domestic = ({
     };
 
     fetchData();
-  }, [data]);
+  }, []);
 
   const filteredData = data?.filter((item) => {
     if (filterType === "DOMESTIC") {

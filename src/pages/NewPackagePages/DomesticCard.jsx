@@ -6,15 +6,22 @@ import { BiChevronLeft, BiChevronRight } from "react-icons/bi"; // Importing ico
 const DomesticCard = ({ className = "", data }) => {
   const navigate = useNavigate();
 
-  const handleCountryClick = async (category) => {
-    const queryParameter = category;
-    navigate(`/holidaypackages/country/${queryParameter}`);
+  // const handleCountryClick = async (category) => {
+  //   const queryParameter = category;
+  //   navigate(`/holidaypackages/country/${queryParameter}`);
+  // };
+
+  const handleFormClicks = (category) => {
+    // e.preventDefault();
+    if (category) {
+      navigate(`/holidaypackages/cities/${category}`);
+    }
   };
 
   return (
     <div
       className={`nc-CardCategory3 pb-16 relative cursor-pointer flex flex-col items-center ${className}`}
-      onClick={() => handleCountryClick(data?.destination)}
+      onClick={() => handleFormClicks(data?.destination)}
     >
       <div className=" w-full aspect-w-5  aspect-h-3 sm:aspect-h-6 rounded-2xl overflow-hidden ">
         {/* Image */}
