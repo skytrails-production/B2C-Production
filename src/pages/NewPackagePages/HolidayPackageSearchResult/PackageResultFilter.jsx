@@ -56,10 +56,10 @@ const PackageResultFilter = ({
     onTagChange(e.target.value);
   };
 
-  const handleFlightOptionChange = (e) => {
-    // setFlightOption(option);
-    onFlightChange(e.target.value);
-  };
+  // const handleFlightOptionChange = (e) => {
+  //   // setFlightOption(option);
+  //   onFlightChange(e.target.value);
+  // };
 
   const handleDaysChange = (e) => {
     const value = e.target.value;
@@ -121,7 +121,7 @@ const PackageResultFilter = ({
         </Select>
       </div>
 
-      <div className="PackagetagFilters">
+      {/* <div className="PackagetagFilters">
         <p>Flight Options</p>
         <Checkbox
           value="flight"
@@ -137,7 +137,7 @@ const PackageResultFilter = ({
         >
           Flight Not Included
         </Checkbox>
-      </div>
+      </div> */}
 
       <div className="holidayFilterSlider">
         <p>Filter By Price</p>
