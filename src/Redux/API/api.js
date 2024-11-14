@@ -49,6 +49,38 @@ function api() {
     });
   };
 
+
+  const profilePicUpdate = (payload) => {
+    // console.log("payload", payload);
+    const token = SecureStorage.getItem("jwtToken");
+    // console.log("jwt token", token);
+    return axios({
+      method: "PUT",
+      url: "/skytrails/api/user/uploadImage",
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        token: token,
+      },
+    });
+  };
+  const profileDataUpdate = (payload) => {
+    // console.log("payload", payload);
+    const token = SecureStorage.getItem("jwtToken");
+    // console.log("jwt token", token);
+    return axios({
+      method: "PUT",
+      url: "/skytrails/api/user/editProfile",
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+        token: token,
+      },
+    });
+  };
+
   const userB2CLoginWithSocial = (payload) => {
     console.log("chal gye ")
     return axios({
@@ -741,6 +773,8 @@ function api() {
     userIP,
     markUp,
     userB2CLogin,
+    profileDataUpdate,
+    profilePicUpdate,
     faqReviewApi,
     userB2CLoginWithSocial,
     userB2BToken,

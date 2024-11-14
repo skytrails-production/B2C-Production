@@ -13,7 +13,6 @@
 .oneWayBg {
   border-radius: 0px 10px 10px 10px;
   position: relative;
-
 }
 
 .your-container {
@@ -28,7 +27,7 @@
   display: grid;
   gap: 12px;
   border-radius: 10px;
-  grid-template-columns: 18% 18% 20% 20% 20% ;
+  grid-template-columns: 18% 18% 20% 20% 20%;
 }
 
 @media screen and (max-width: 1200px) {
@@ -544,8 +543,6 @@ cursor: "pointer", */
   align-items: center;
 }
 
-
-
 @media only screen and (max-width: 1000px) {
   .from-container span {
     font-size: 13px;
@@ -573,7 +570,6 @@ cursor: "pointer", */
   background-color: #21325d;
 }
 
-
 @media screen and (min-width: 600px) and (max-width: 768px) {
   .roundlogo {
     position: static;
@@ -586,4 +582,21 @@ input.custominputplaceholder::placeholder {
   outline: none;
   color: #b8babb;
   font-weight: 700;
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* Apply the shake animation */
+.shake {
+  animation: shake 0.5s ease-in-out;
 }

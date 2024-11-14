@@ -47,14 +47,15 @@ const HolidaySearchForm = () => {
 
   const renderForm = () => {
     return (
-      <form className="w-full container  relative  flex rounded-[10px] shadow-xl  bg-white ">
+      <form className="relative flex items-center justify-center rounded-[10px] shadow-xl bg-white w-1/2 mx-auto">
         <HolidayLocationInput
           className="flex-[1.5]"
           onLocationSelect={handleLocationSelect}
         />
-        <div className="self-center border-r-2 border-slate-300 h-12"></div>
+        {/* <div className="self-center h-12 border-r-2 border-slate-300"></div>
         <HolidayDateRange className="flex-1" onDateChange={handleDateChange} />
-        <div className="self-center border-r-2 border-slate-300  h-12"></div>
+        <div className="self-center h-12 border-r-2 border-slate-300"></div> */}
+
         <HolidayGuestInput
           className="flex-1"
           onSubmit={handleSubmit}

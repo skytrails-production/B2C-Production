@@ -30,7 +30,7 @@ const ScrollToTop = () => {
       {isVisible && (
         <div
           onClick={scrollToTop}
-          className="bg-primary-6000 hover:bg-primary-700 w-16 fixed flex items-center justify-center cursor-pointer transition-all duration-500 ease-in-out right-20 p-3 rounded-xl bottom-6"
+          className="bg-primary-6000 hover:bg-primary-700 w-16 z-50 fixed flex items-center justify-center cursor-pointer transition-all duration-500 ease-in-out right-20 p-3 rounded-xl bottom-6"
         >
           <ArrowUpFromLine size={20} className="text-white" />
         </div>

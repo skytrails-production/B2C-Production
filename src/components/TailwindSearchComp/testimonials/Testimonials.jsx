@@ -140,14 +140,13 @@ const Testimonials = ({
   useEffect(() => {
     if (Rating?.length > 0 && title) {
       let newRating = Rating?.filter((item) => {
-        console.log(title, item, "title, item.section");
         return title === item?.section;
       });
       setRating(newRating);
     }
   }, [Rating, title]);
   if (!numberOfItems) return null;
-  // console.log(Rating, rating, title, "Ratings");
+
   return (
     <div
       className={`nc-SectionSliderNewCategories custom-container mt-16 ${className}`}

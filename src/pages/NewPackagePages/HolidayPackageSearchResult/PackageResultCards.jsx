@@ -53,7 +53,7 @@ const PackageResultCards = ({ data }) => {
     );
   });
 
-  console.log(data, "datapackagesss pakageanme");
+  // console.log(data, "datapackagesss pakageanme");
 
   return (
     <div key={data?._id} className="packageCard">
@@ -301,7 +301,7 @@ const PackageResultCards = ({ data }) => {
 
         <div className="packCardPrice">
           <div className="flex items-center justify-start gap-2">
-            <span className="text-sm">Starts from </span>{" "}
+            <span className="text-sm text-nowrap">Starts from </span>{" "}
             <h2 className="text-lg">₹ {data.pakage_amount.amount}</h2>
           </div>
           <button onClick={(e) => searchOneHoliday(data?._id)}>

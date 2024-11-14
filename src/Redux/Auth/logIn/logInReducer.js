@@ -21,6 +21,24 @@ export const logInReducer = (state = initialState, action) => {
         isLoading: false,
         isError: false,
       };
+    case types.UPDATE_IMG_SUCCESS_MYPROFILE:
+      return {
+        ...state,
+        loginData: payload,
+        token: payload,
+        isLogin: true,
+        isLoading: false,
+        isError: false,
+      };
+    case types.EDIT_SUCCESS_MYPROFILE:
+      return {
+        ...state,
+        loginData: payload,
+        token: payload,
+        isLogin: true,
+        isLoading: false,
+        isError: false,
+      };
     case types.LOGIN_SUCCESS_SOCIAL:
       return {
         ...state,

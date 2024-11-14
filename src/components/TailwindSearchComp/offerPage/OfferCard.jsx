@@ -1,15 +1,22 @@
+import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const OfferCard = ({ className = "", data }) => {
   const navigate = useNavigate();
+  const { _id, addType } = data;
 
-  console.log(data, "data in the offer carddddd");
+  const handleClick = (item) => {
+    navigate(`/offerDetail?couponType=${addType}&couponId=${_id}`);
+  };
 
   return (
-    <div className={`nc-CardCategory3 flex flex-col ${className}`}>
+    <div
+      className={`nc-CardCategory3 pb-2 cursor-pointer flex flex-col ${className}`}
+      onClick={() => handleClick(data)}
+    >
       <div
-        className={`flex-shrink-0 p-2 bg-gray-200 relative w-full aspect-w-5 aspect-h-3 sm:aspect-h-6 rounded-2xl overflow-hidden group`}
+        className={`h-full p-2 bg-gray-200  shadow-md relative w-full aspect-w-5 aspect-h-3 sm:aspect-h-6 rounded-2xl overflow-hidden group`}
       >
         <img
           src={data?.image}
@@ -17,8 +24,12 @@ const OfferCard = ({ className = "", data }) => {
           alt="places"
         />
 
-        <h3 className="mt-2 text-lg font-semibold truncate ">{data?.title}</h3>
-        <p className="line-clamp-2">{data?.content}</p>
+        <h3 className="mt-2 text-[1rem] font-semibold truncate">
+          {data?.title}
+        </h3>
+        <p className="text-sm font-semibold text-gray-600">
+          Expiry Date:{dayjs(data?.endDate).format("DD MMM, YY")}
+        </p>
 
         {/* <span className="opacity-0 group-hover:opacity-100 absolute inset-0 bg-black bg-opacity-10 transition-opacity"></span> */}
       </div>

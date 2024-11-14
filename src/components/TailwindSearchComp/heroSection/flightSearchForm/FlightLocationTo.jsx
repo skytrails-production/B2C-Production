@@ -10,7 +10,10 @@ const FlightLocationTo = ({
   className = "nc-flex-1.5",
   divHideVerticalLineClass = "left-10 -right-0.5",
   onLocationSelect,
+  error,
+  shake,
 }) => {
+  console.log("error: " + error, shake);
   const containerRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -179,7 +182,7 @@ const FlightLocationTo = ({
             Recent searches
           </h3>
         )}
-        <div className="mt-2">
+        <div className="mt-2 relative">
           {uniqueRecentSearches.map((item, index) => (
             <span
               onClick={() => handleSelectLocation(item)}
@@ -295,6 +298,15 @@ const FlightLocationTo = ({
               {renderSuggestedPlaces()}
             </>
           )}
+        </div>
+      )}
+      {error && (
+        <div className=" bottom-[-10px] left-10 absolute text-red-500 text-[11px] bg-[#ffeaee] px-2 py-1 border-0 rounded-sm inline-block  leading-[15px] whitespace-nowrap transition-all duration-500 capitalize w-auto m-0 font-medium">
+          <div className={`${shake ? "animate-shake" : ""}`}>
+            <span className={`${shake ? "animate-shake" : ""}`}>
+              From & To airports cannot be the same
+            </span>
+          </div>
         </div>
       )}
     </div>

@@ -35,7 +35,7 @@ export default {
 					300: customColors("--c-primary-300"),
 					400: customColors("--c-primary-400"),
 					500: customColors("--c-primary-500"),
-					6000: customColors("--c-primary-600"),
+					6000: "#4f46e5",//(purple color)
 					700: customColors("--c-primary-700"),
 					800: customColors("--c-primary-800"),
 					900: customColors("--c-primary-900"),
@@ -46,8 +46,8 @@ export default {
 					200: customColors("--c-secondary-200"),
 					300: customColors("--c-secondary-300"),
 					400: customColors("--c-secondary-400"),
-					500: customColors("--c-secondary-500"),
-					6000: customColors("--c-secondary-600"),
+					500: "#f34a42",//(red color)
+					6000: "#e73c34", //(red color)
 					700: customColors("--c-secondary-700"),
 					800: customColors("--c-secondary-800"),
 					900: customColors("--c-secondary-900"),
@@ -64,6 +64,16 @@ export default {
 					800: customColors("--c-neutral-800"),
 					900: customColors("--c-neutral-900"),
 				},
+			},
+			keyframes: {
+				shake: {
+					'0%, 100%': { transform: 'translateX(0)' },
+					'25%': { transform: 'translateX(-5px)' },
+					'75%': { transform: 'translateX(5px)' },
+				},
+			},
+			animation: {
+				shake: 'shake 0.5s ease-in-out ',
 			},
 		},
 		variants: {

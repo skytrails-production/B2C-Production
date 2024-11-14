@@ -133,6 +133,9 @@ import MainNav from "./pages/tailwindDesign/MainNav";
 
 import Bookwrapperkafila from "./pages/flight/flightResult/Kafilapi/Bookwrapperkafila";
 import Kafilabookingdetails from "./pages/flight/flightResult/Kafilapi/Kafilabookingdetails";
+import OfferDetails from "./components/TailwindSearchComp/offerPage/OfferDetails";
+import AllOffers from "./components/TailwindSearchComp/offerPage/AllOffers";
+import UserProfile from "./components/TailwindSearchComp/profilePage/UserProfile";
 
 
 function App() {
@@ -610,6 +613,10 @@ function App() {
           path="/inventoryForgetPassword"
           element={<InventoryForgetPassword />}
         ></Route>
+        <Route
+          path="/my-profile"
+          element={<UserProfile />}
+        ></Route>
 
         <Route
           path="/inventoryDashboard"
@@ -634,6 +641,9 @@ function App() {
         <Route path="/career" element={<Career />}></Route>
         {/* career  */}
         <Route path="/phone" element={<PhoneNumber />}></Route>
+        <Route path="/offers" element={<AllOffers />}></Route>
+        <Route path="/offerDetail" element={<OfferDetails />}></Route>
+        
         {/* <Route
           path="/practice"
           element={<ItenaryPractice/>}

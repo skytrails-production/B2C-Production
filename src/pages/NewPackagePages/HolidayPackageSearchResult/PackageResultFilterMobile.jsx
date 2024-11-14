@@ -149,11 +149,11 @@ const PackageResultFilterMobile = ({
                 !clearVisible ?
                     (
                         <div>
-                            <p className="d-flex fex-row gap-2 align-items-center" style={{ color: "gray" }}><SlidersOutlined /> <span>Filter</span></p>
+                            <p className="gap-2 d-flex fex-row align-items-center" style={{ color: "gray" }}><SlidersOutlined /> <span>Filter</span></p>
                         </div>
                     ) : (
                         <div>
-                            <p className="d-flex fex-row gap-2 align-items-center" onClick={handleClearFilter}> <span>Clear</span></p>
+                            <p className="gap-2 d-flex fex-row align-items-center" onClick={handleClearFilter}> <span>Clear</span></p>
                         </div>
                     )
             }
@@ -241,7 +241,7 @@ const PackageResultFilterMobile = ({
                             value={localPriceRange}
                             onChange={handlePriceChange}
                         />
-                        <div className="d-flex flex-row justify-content-between align-items-center ">
+                        <div className="flex-row d-flex justify-content-between align-items-center ">
                             <span style={{ fontWeight: "600", fontSize: "13px" }}>₹ {localPriceRange?.[0]}</span>
                             <span style={{ fontWeight: "600", fontSize: "13px" }}>₹ {localPriceRange?.[1]}</span>
                         </div>

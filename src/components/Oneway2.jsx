@@ -6,13 +6,20 @@ import { apiURL } from "../Constants/constant";
 import axios from "axios";
 import { clearbookTicketGDS } from "../Redux/FlightBook/actionFlightBook";
 
-import { oneWayAction, resetOneWay, oneWayActionCombined } from "../Redux/FlightSearch/oneWay";
-import { searchFlight, clearSearch } from "../Redux/SearchFlight/actionSearchFlight";
+import {
+  oneWayAction,
+  resetOneWay,
+  oneWayActionCombined,
+} from "../Redux/FlightSearch/oneWay";
+import {
+  searchFlight,
+  clearSearch,
+} from "../Redux/SearchFlight/actionSearchFlight";
 import { useNavigate } from "react-router-dom";
 import "react-date-range/dist/styles.css";
 import "react-date-range/dist/theme/default.css";
 import "./style/Oneway.css";
-import "./oneway2.scss"
+import "./oneway2.scss";
 
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./card.css";
@@ -24,22 +31,17 @@ import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote
 // import SecureStorage from "react-secure-storage";
 import { returnActionClear } from "../Redux/FlightSearch/Return/return";
 import { Modal, Select } from "antd";
-import { SearchOutlined } from '@ant-design/icons';
-import { Dropdown, Menu } from 'antd';
+import { SearchOutlined } from "@ant-design/icons";
+import { Dropdown, Menu } from "antd";
 import { DatePicker, Button } from "antd";
 import dayjs from "dayjs";
 // import reduxSaga from "redux-saga";
 // const { RangePicker } = DatePicker;
 
-
-
-// from data logic 
-
+// from data logic
 
 let FromTimeout;
 let FromCurrentValue;
-
-
 
 const fetchFromCity = (value, callback) => {
   if (FromTimeout) {
@@ -78,8 +80,7 @@ const FromSearchInput = (props) => {
   let value2 = JSON.parse(sessionStorage.getItem("onewayprop"));
   // console.log(value2, "value222222")
   let initialSelectedFromData = {
-    AirportCode: value2?.[0]?.selectedFrom
-      ?.AirportCode,
+    AirportCode: value2?.[0]?.selectedFrom?.AirportCode,
     CityCode: value2?.[0]?.selectedFrom?.CityCode,
     CountryCode: value2?.[0]?.selectedFrom?.CountryCode,
     code: value2?.[0]?.selectedFrom?.code,
@@ -95,15 +96,12 @@ const FromSearchInput = (props) => {
   const [fromValue, setFromValue] = useState(initialSelectedFromData.name);
   const [selectedItem, setSelectedItem] = useState(initialSelectedFromData);
 
-
-  const [FromPlaceholder, setFromPlaceholder] = useState('')
-  const [FromDisplayValue, setFromDisplayValue] = useState(initialSelectedFromData.name);
+  const [FromPlaceholder, setFromPlaceholder] = useState("");
+  const [FromDisplayValue, setFromDisplayValue] = useState(
+    initialSelectedFromData.name
+  );
   // console.log(FromDisplayValue, "FromDisplayValue")
   const [inputStyle, setInputStyle] = useState({});
-
-
-
-
 
   const handleFromSearch = (newValue) => {
     fetchFromCity(newValue, setFromData);
@@ -114,66 +112,65 @@ const FromSearchInput = (props) => {
     setFromValue(selected ? selected.name : newValue);
     setFromDisplayValue(selected ? selected.name : newValue);
     setSelectedItem(selected ? selected.item : null);
-    setInputStyle({ caretColor: 'transparent' });
+    setInputStyle({ caretColor: "transparent" });
     if (selected) {
       onItemSelect(selected.item);
     }
   };
 
   const handleFromFocus = () => {
-    setFromPlaceholder('From');
-    setFromDisplayValue(''); // Clear display value to show placeholder
+    setFromPlaceholder("From");
+    setFromDisplayValue(""); // Clear display value to show placeholder
     setInputStyle({});
   };
 
   const handleFromBlur = () => {
-    setFromPlaceholder('');
+    setFromPlaceholder("");
     setFromDisplayValue(fromValue); // Reset display value to selected value
-    setInputStyle({ caretColor: 'transparent' });
+    setInputStyle({ caretColor: "transparent" });
   };
   const renderFromOption = (option) => {
     // console.log(option,"optionnnnnnnnnn")
     return (
       <div>
-        <div >{option.code}</div>
+        <div>{option.code}</div>
         <div style={{ color: "gray" }}>
           {option.name} ({option?.item?.AirportCode})
         </div>
-      </div>)
+      </div>
+    );
   };
 
   return (
-    <Select
-      showSearch
-      style={inputStyle}
-      // value={fromValue}
-      value={FromDisplayValue}
-      // placeholder={props.placeholder}
-      placeholder={FromPlaceholder || props.placeholder}
-      // style={props.style}
-      defaultActiveFirstOption={false}
-      suffixIcon={null}
-      filterOption={false}
-      onSearch={handleFromSearch}
-      onChange={handleFromChange}
-      onFocus={handleFromFocus} // Set placeholder on focus
-      onBlur={handleFromBlur}
-      notFoundContent={null}
-      options={fromData.map((d) => ({
-        value: d.value,
-        label: renderFromOption(d),
-      }))}
-    />
+    <div>
+      <Select
+        showSearch
+        style={inputStyle}
+        // value={fromValue}
+        value={FromDisplayValue}
+        // placeholder={props.placeholder}
+        placeholder={FromPlaceholder || props.placeholder}
+        // style={props.style}
+        defaultActiveFirstOption={false}
+        suffixIcon={null}
+        filterOption={false}
+        onSearch={handleFromSearch}
+        onChange={handleFromChange}
+        onFocus={handleFromFocus} // Set placeholder on focus
+        onBlur={handleFromBlur}
+        notFoundContent={null}
+        options={fromData.map((d) => ({
+          value: d.value,
+          label: renderFromOption(d),
+        }))}
+      />
+    </div>
   );
 };
 
-
 // from data logic
 
-
-
-// to data logic 
-
+// to data logic
 
 let ToTimeout;
 let ToCurrentValue;
@@ -212,7 +209,6 @@ const fetchToCity = (value, callback) => {
 };
 
 const ToSearchInput = (props) => {
-
   let value2 = JSON.parse(sessionStorage.getItem("onewayprop"));
   let initialSelectedToData = {
     AirportCode: value2?.[0]?.selectedTo?.AirportCode,
@@ -227,16 +223,16 @@ const ToSearchInput = (props) => {
     _id: "63d7db1a64266cbf450e07c1",
   };
 
-  const { onItemSelect } = props;
+  const { onItemSelect, shake, error } = props;
   const [toData, setToData] = useState([]);
   const [toValue, setToValue] = useState(initialSelectedToData.name);
   const [selectedItem, setSelectedItem] = useState(initialSelectedToData);
 
-  const [ToPlaceholder, setToPlaceholder] = useState('')
-  const [ToDisplayValue, setToDisplayValue] = useState(initialSelectedToData.name);
+  const [ToPlaceholder, setToPlaceholder] = useState("");
+  const [ToDisplayValue, setToDisplayValue] = useState(
+    initialSelectedToData.name
+  );
   const [inputStyle, setInputStyle] = useState({});
-
-
 
   const handleToSearch = (newValue) => {
     fetchToCity(newValue, setToData);
@@ -247,27 +243,27 @@ const ToSearchInput = (props) => {
     setToValue(selected ? selected.name : newValue);
     setToDisplayValue(selected ? selected.name : newValue);
     setSelectedItem(selected ? selected.item : null);
-    setInputStyle({ caretColor: 'transparent' });
+    setInputStyle({ caretColor: "transparent" });
     if (selected) {
       onItemSelect(selected.item);
     }
   };
 
   const handleToFocus = () => {
-    setToPlaceholder('To');
-    setToDisplayValue(''); // Clear display value to show placeholder
+    setToPlaceholder("To");
+    setToDisplayValue(""); // Clear display value to show placeholder
     setInputStyle({});
   };
 
   const handleTOBlur = () => {
-    setToPlaceholder('');
+    setToPlaceholder("");
     setToDisplayValue(toValue); // Reset display value to selected value
-    setInputStyle({ caretColor: 'transparent' });
+    setInputStyle({ caretColor: "transparent" });
   };
 
   const renderToOption = (option) => (
     <div>
-      <div >{option.code}</div>
+      <div>{option.code}</div>
       <div style={{ color: "gray" }}>
         {option.name} ({option?.item?.AirportCode})
       </div>
@@ -275,42 +271,49 @@ const ToSearchInput = (props) => {
   );
 
   return (
-    <Select
-      showSearch
-      // value={toValue}
-      value={ToDisplayValue}
-      // placeholder={props.placeholder}
-      placeholder={ToPlaceholder || props.placeholder}
-      // placeholder={props.placeholder}
-      // style={props.style}
-      style={inputStyle}
-      defaultActiveFirstOption={false}
-      suffixIcon={null}
-      filterOption={false}
-      onSearch={handleToSearch}
-      onChange={handleToChange}
-      onFocus={handleToFocus} // Set placeholder on focus
-      onBlur={handleTOBlur}
-      notFoundContent={null}
-      options={toData.map((d) => ({
-        value: d.value,
-        label: renderToOption(d),
-      }))}
-    />
+    <div className="relative">
+      <Select
+        showSearch
+        // value={toValue}
+        value={ToDisplayValue}
+        // placeholder={props.placeholder}
+        placeholder={ToPlaceholder || props.placeholder}
+        // placeholder={props.placeholder}
+        // style={props.style}
+        style={inputStyle}
+        defaultActiveFirstOption={false}
+        suffixIcon={null}
+        filterOption={false}
+        onSearch={handleToSearch}
+        onChange={handleToChange}
+        onFocus={handleToFocus} // Set placeholder on focus
+        onBlur={handleTOBlur}
+        notFoundContent={null}
+        options={toData.map((d) => ({
+          value: d.value,
+          label: renderToOption(d),
+        }))}
+      />
+      {error && (
+        <div className=" bottom-[-30px] left-[16px] absolute text-red-500 text-[11px] bg-[#ffeaee] px-2 py-1 border-0 rounded-sm inline-block  leading-[15px] whitespace-nowrap transition-all duration-500 capitalize w-auto m-0 font-medium">
+          <div className={`${shake ? "animate-shake" : ""}`}>
+            <span className={`${shake ? "animate-shake" : ""}`}>
+              From & To airports cannot be the same
+            </span>
+          </div>
+        </div>
+      )}
+    </div>
   );
 };
 
-
-// to data logic 
-
-
+// to data logic
 
 function OnewayNew() {
   let value2 = JSON.parse(sessionStorage.getItem("onewayprop"));
   // console.log(value2, "value222222")
   let initialSelectedFromData = {
-    AirportCode: value2?.[0]?.selectedFrom
-      ?.AirportCode,
+    AirportCode: value2?.[0]?.selectedFrom?.AirportCode,
     CityCode: value2?.[0]?.selectedFrom?.CityCode,
     CountryCode: value2?.[0]?.selectedFrom?.CountryCode,
     code: value2?.[0]?.selectedFrom?.code,
@@ -345,7 +348,7 @@ function OnewayNew() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   sessionStorage.removeItem("apiCalled");
-  const revertDate = dayjs(value2?.[0]?.newDepartDate).format("DD MMM, YY")
+  const revertDate = dayjs(value2?.[0]?.newDepartDate).format("DD MMM, YY");
   const passedDate = new Date(revertDate);
   const [startDate, setStartDate] = useState(passedDate);
   const reducerState = useSelector((state) => state);
@@ -359,6 +362,9 @@ function OnewayNew() {
   const [totalCount, setCountPassanger] = useState(totalcount);
   const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData);
   const [selectedTo, setSelectedTo] = useState(initialSelectedToData);
+  const [error, setError] = useState(false);
+  const [shake, setShake] = useState(false);
+
   // console.log(reducerState, "reducerstate")
 
   useEffect(() => {
@@ -374,7 +380,6 @@ function OnewayNew() {
   const handleToSelect = (item) => {
     setSelectedTo(item);
   };
-
 
   const dateFormat = "DD MMM, YY";
   // const today = dayjs().format(dateFormat);
@@ -393,11 +398,9 @@ function OnewayNew() {
     }
   };
 
-
   const disablePastDates = (current) => {
-    return current && current < dayjs().startOf('day');
+    return current && current < dayjs().startOf("day");
   };
-
 
   const handleTravelerCountChange = (category, value) => {
     if (category === "adult") {
@@ -454,20 +457,23 @@ function OnewayNew() {
       setOpenTravelModal(false);
       setCountPassanger(
         parseInt(activeIdChild) +
-        parseInt(activeIdInfant) +
-        parseInt(activeIdAdult)
+          parseInt(activeIdInfant) +
+          parseInt(activeIdAdult)
       );
     }
   };
 
-
-
-
   // ////////////////////submit logic///////////////
 
   function handleOnewaySubmit(event) {
-
     event.preventDefault();
+    if (selectedFrom.AirportCode === selectedTo.AirportCode) {
+      setShake(true);
+      setTimeout(() => {
+        setShake(false);
+      }, 500);
+      return;
+    }
 
     // sessionStorage.setItem("SessionExpireTime", new Date());
 
@@ -504,16 +510,16 @@ function OnewayNew() {
     // Convert to ISO 8601 format with UTC
     const formattedDate = parsedDate.toISOString();
     // console.log(formattedDate,"formattedDate")
-    const localOffset = parsedDate.getTimezoneOffset() * 60000; 
+    const localOffset = parsedDate.getTimezoneOffset() * 60000;
     const adjustedDate = new Date(parsedDate.getTime() - localOffset);
-    const formattedDate1 = adjustedDate.toISOString().split('T')[0];
+    const formattedDate1 = adjustedDate.toISOString().split("T")[0];
     dispatch(oneWayAction(payload));
     dispatch(oneWayActionCombined(payload));
     const searchpy = {
       from: { ...selectedFrom },
       to: { ...selectedTo },
       departureDate: formattedDate,
-      parsedDate:formattedDate1,
+      parsedDate: formattedDate1,
     };
     dispatch(searchFlight(searchpy));
     navigate(
@@ -522,22 +528,14 @@ function OnewayNew() {
     // }
   }
 
-
-
-
-
-
   const handleFocusDatePicker = (e) => {
     e.target.blur();
   };
   const handleRoundLogoClick = () => {
-
     setSelectedFrom(selectedTo);
     setSelectedTo(selectedFrom);
     console.log(selectedTo, selectedFrom);
   };
-
-
 
   const items = ClassItems.map((ele) => ({
     key: ele.id, // Unique key
@@ -547,14 +545,23 @@ function OnewayNew() {
       setflightClassName(ele.value);
     },
   }));
-
+  useEffect(() => {
+    if (selectedTo.AirportCode === selectedFrom.AirportCode) {
+      setError(true);
+    } else {
+      setError(false);
+    }
+  }, [selectedFrom, selectedTo]);
 
   return (
     <>
       {/* <div className=" homeabsnew1" style={{ width: "100%" }}>
         <section className="HotelAbsDesignInner w-100"> */}
 
-      <div className=" container" style={{ paddingBottom: "13px", paddingTop: "13px" }}>
+      <div
+        className=" container"
+        style={{ paddingBottom: "13px", paddingTop: "13px" }}
+      >
         <div className="row g-2 newOneWayMainOneway2">
           <div className="col-lg-3">
             <div className="newOnewaySingle relative">
@@ -567,7 +574,6 @@ function OnewayNew() {
                 onItemSelect={handleFromSelect}
                 data={selectedFrom}
               />
-
             </div>
             {/* <div
               className="roundlogo "
@@ -612,12 +618,6 @@ function OnewayNew() {
             </div> */}
           </div>
 
-
-
-
-
-
-
           <div className="col-lg-3">
             <div className="newOnewaySingle">
               {/* <div> */}
@@ -628,6 +628,8 @@ function OnewayNew() {
                 style={{ width: "100%" }}
                 onItemSelect={handleToSelect} // Pass the callback function
                 data={selectedTo}
+                error={error}
+                shake={shake}
               />
               {/* <div>
                 <span className="nrsb">{selectedTo?.code}</span>
@@ -636,7 +638,6 @@ function OnewayNew() {
           </div>
           <div className="col-lg-2">
             <div className="newOnewaySingle">
-
               <span>Depart</span>
 
               <DatePicker
@@ -661,10 +662,18 @@ function OnewayNew() {
                 <div className="travelContent">
                   <p>
                     {(totalCount === 0 && 1) || totalCount} Traveller,
-                    {(activeIdClass === 2 && flightclassName === "Y" && "Economy") ||
-                      (activeIdClass === 3 && flightclassName === "W" && "Premium Economy") ||
-                      (activeIdClass === 4 && flightclassName === "C" && "Business") ||
-                      (activeIdClass === 6 && flightclassName === "F" && "First Class")}
+                    {(activeIdClass === 2 &&
+                      flightclassName === "Y" &&
+                      "Economy") ||
+                      (activeIdClass === 3 &&
+                        flightclassName === "W" &&
+                        "Premium Economy") ||
+                      (activeIdClass === 4 &&
+                        flightclassName === "C" &&
+                        "Business") ||
+                      (activeIdClass === 6 &&
+                        flightclassName === "F" &&
+                        "First Class")}
                   </p>
                 </div>
               </div>
@@ -767,7 +776,12 @@ function OnewayNew() {
                 </DialogActions>
               </Dialog> */}
 
-              <Modal className="customCalenderModalTraveller" open={openTravelModal} onCancel={handleTravelClose} footer={null}>
+              <Modal
+                className="customCalenderModalTraveller"
+                open={openTravelModal}
+                onCancel={handleTravelClose}
+                footer={null}
+              >
                 <>
                   <div className="travellersModalNew">
                     <div>
@@ -822,7 +836,8 @@ function OnewayNew() {
                           }}
                         >
                           <Button>
-                            {ClassItems.find((ele) => ele.id === activeIdClass)?.label || 'Select Class'}
+                            {ClassItems.find((ele) => ele.id === activeIdClass)
+                              ?.label || "Select Class"}
                           </Button>
                         </Dropdown>
                       </div>
@@ -838,8 +853,7 @@ function OnewayNew() {
                   </div>
                 </>
                 <div className="calenderButton">
-
-                  <Button onClick={handleTravelClose} >Continue</Button>
+                  <Button onClick={handleTravelClose}>Continue</Button>
                 </div>
               </Modal>
             </div>
@@ -852,16 +866,17 @@ function OnewayNew() {
             >
               Search
             </Button> */}
-            <Button className="Oneway2Search" onClick={handleOnewaySubmit} loading={loader} type="primary" icon={<SearchOutlined />} />
+            <Button
+              className="Oneway2Search"
+              onClick={handleOnewaySubmit}
+              loading={loader}
+              type="primary"
+              icon={<SearchOutlined />}
+            />
           </div>
         </div>
-        <div className="sShowOneway2-2">
-
-        </div>
-
-
+        <div className="sShowOneway2-2"></div>
       </div>
-
     </>
   );
 }

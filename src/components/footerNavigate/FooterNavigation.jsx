@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { oneWayAction } from "../../Redux/FlightSearch/oneWay";
 
 import {
@@ -16,10 +16,16 @@ const FooterNavigation = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const reducerState = useSelector((state) => state);
-
+  const [title, setTitle] = useState(""); // State to hold the value
+  const [footerData, setFooterData] = useState([]); // State to hold the value
   const [selectedFrom, setSelectedFrom] = useState([]);
   const [selectedTo, setSelectedTo] = useState([]);
   const [flightclassName, setflightClassName] = useState("Y");
+  const location = useLocation(); // Access the location object
+
+  // Extract the pathname, search, and state
+  const { pathname } = location;
+  // console.log(pathname, "pathnamee");
 
   function getNextDayDateIfAfter9PM(val) {
     const currentDate = new Date();
@@ -128,7 +134,6 @@ const FooterNavigation = () => {
   };
 
   async function searchHotel(event) {
-
     sessionStorage.setItem("SessionExpireTime", new Date());
 
     if (event?.hotelCode) {
@@ -213,9 +218,49 @@ const FooterNavigation = () => {
       console.log("No function found for this type", type);
     }
   };
+
+  useEffect(() => {
+    let Title = "";
+    switch (pathname) {
+      case "/":
+        setTitle("flight");
+        Title = "flight";
+        // setIcon(<PiAirplaneInFlight />);
+        // setTitle("flight");
+        break;
+      case "/st-hotel":
+        setTitle("hotel");
+        Title = "hotel";
+        // setIcon(<LiaHotelSolid />);
+        break;
+      case "/bus":
+        setTitle("bus");
+        Title = "bus";
+        // setIcon(<IoBusOutline />);
+        break;
+      case "/holidaypackages":
+        setTitle("HOLIDAYPACKAGE");
+        Title = "holidaypackages";
+        // setIcon(<FaUmbrellaBeach />);
+        break;
+      default:
+        setTitle("flight");
+        Title = "flight";
+        // setIcon(<PiAirplaneInFlight />);
+
+        break;
+    }
+    // console.log(title, Title, "titleee");
+    const data = constants.footerNavigationdata.filter((item) => {
+      // console.log(item.type, "itemtype", Title, "item.type===title");
+      return item.type === Title;
+    });
+    setFooterData(data);
+  }, [pathname]);
+
   return (
     <div className="custom-container flex flex-col gap-7">
-      {constants?.footerNavigationdata?.map((item) => {
+      {footerData?.map((item) => {
         return (
           <div className="flex  text-sm font-semibold flex-wrap flex-col ">
             <p>{`${item.headText} : `} </p>

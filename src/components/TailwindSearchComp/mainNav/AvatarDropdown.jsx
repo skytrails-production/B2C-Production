@@ -15,8 +15,6 @@ export default function AvatarDropdown({ className = "" }) {
   const phone =
     reducerState?.logIn?.loginData?.data?.result?.phone?.mobile_number;
 
-  // console.log(reducerState, "reduer state in the avatar dropdown");
-
   // confirmation modal open close
   const [showConfirmationModalVisible, setShowConfirmationModalVisible] =
     useState(false);
@@ -90,7 +88,7 @@ export default function AvatarDropdown({ className = "" }) {
 
                     {/* Option 1 */}
                     <Link
-                      to="/bookinghistory"
+                      to="/my-profile"
                       className="flex text-gray-900 no-underline items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100  focus:outline-none"
                       onClick={() => close()}
                     >
@@ -243,8 +241,9 @@ export default function AvatarDropdown({ className = "" }) {
 
                     {/* Option 4 */}
                     <div
-                      className="flex text-gray-900 no-underline items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 focus:outline-none"
-                      onClick={() => close()}
+                      className="flex text-gray-900 cursor-pointer no-underline items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 focus:outline-none"
+                      // onClick={() => close()}
+                      onClick={showLogoutModal}
                     >
                       <div className="flex items-center justify-center flex-shrink-0 text-neutral-500">
                         <svg
@@ -277,7 +276,7 @@ export default function AvatarDropdown({ className = "" }) {
                           />
                         </svg>
                       </div>
-                      <div className="ml-4" onClick={showLogoutModal}>
+                      <div className="ml-4">
                         <p className="text-sm font-medium ">Log out</p>
                       </div>
                     </div>

@@ -169,6 +169,10 @@ Theskytrails - #1 Travel Website 50% OFF on Hotels, Flights, Bus Booking at Lowe
       <div>
         <WhyChooseUs />
       </div>
+
+      <div>
+        <Download downloadRef={downloadRef} />
+      </div>
       <div>
         <Testimonials />
       </div>
@@ -179,9 +183,6 @@ Theskytrails - #1 Travel Website 50% OFF on Hotels, Flights, Bus Booking at Lowe
         <FooterNavigation visible={flightBottomLink} />
       </div>
 
-      {/* <div>
-        <Download downloadRef={downloadRef} />
-      </div> */}
       {/* <div>
         <Partners />
       </div>

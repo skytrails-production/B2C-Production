@@ -26,6 +26,59 @@ export const loginAction = (user) => {
 
 
 
+
+// UPDATE IMAGE IN MY PROFILE 
+
+
+export const UpdateLoginIMAGE = (user) => {
+  return {
+    type: types.UPDATE_IMG_SUCCESS_MYPROFILE,
+    payload: user,
+  };
+};
+
+
+
+export const updateActionIMAGE = (user) => {
+  // console.error("funtion", user);
+  if (user) {
+    return {
+      type: types.UPDATE_IMG_REQUEST_MYPROFILE,
+      payload: user,
+    };
+  }
+};
+
+
+// UPDATE IMAGE IN MY PROFILE 
+
+
+// EDIT PROFILE SECTION 
+
+export const editLoginIMAGE = (user) => {
+  return {
+    type: types.EDIT_SUCCESS_MYPROFILE,
+    payload: user,
+  };
+};
+
+
+
+export const editActionIMAGE = (user) => {
+  // console.error("funtion", user);
+  if (user) {
+    return {
+      type: types.EDIT_REQUEST_MYPROFILE,
+      payload: user,
+    };
+  }
+};
+
+
+// EDIT PROFILE SECTION 
+
+
+
 // login with social (google facebook)
 
 export const fetchLogInSocial = (user) => {

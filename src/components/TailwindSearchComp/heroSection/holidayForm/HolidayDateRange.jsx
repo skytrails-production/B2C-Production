@@ -52,7 +52,9 @@ const HolidayDateRange = ({
           <CalendarIcon className="w-5 h-5 lg:w-7 lg:h-7" />
         </div>
         <div className="flex-grow text-left">
+
           <span className="block text-2xl font-bold">
+
             {startDate?.toLocaleDateString("en-US", {
               month: "short",
               day: "2-digit",
@@ -65,7 +67,9 @@ const HolidayDateRange = ({
                 })
               : ""}
           </span>
+
           <span className="block mt-1 text-[1rem] text-neutral-400 leading-none font-light">
+
             {"Check in - Check out"}
           </span>
         </div>
@@ -102,7 +106,7 @@ const HolidayDateRange = ({
             leaveTo="opacity-0 translate-y-1"
           >
             <Popover.Panel className="absolute left-1/2 z-10 mt-[-40px] top-full w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
-              <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-black ring-opacity-5 bg-white p-8">
+              <div className="p-8 overflow-hidden bg-white shadow-lg rounded-3xl ring-1 ring-black ring-opacity-5">
                 <DatePicker
                   selected={startDate}
                   onChange={(dates) => onChangeDate(dates, close)}

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Heading from "../shared/Heading";
-import PrevBtn from "../shared/PrevBtn";
-import NextBtn from "../shared/NextBtn";
 import OfferCard from "./OfferCard";
 import "./offerMain.css";
 import axios from "axios";
@@ -12,6 +10,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "../../../../node_modules/swiper/swiper-bundle.min.css";
+import { useNavigate } from "react-router-dom";
 
 const OfferMain = ({
   heading = "Exclusive Offers",
@@ -24,12 +23,13 @@ const OfferMain = ({
   const [filterType, setFilterType] = useState(active);
   const localData = sessionStorage.getItem("advertise");
   const localDataArray = JSON.parse(localData);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `${apiURL.baseURL}/skyTrails/api/user/getWebBanner`
+          `${apiURL.baseURL}/skyTrails/api/combine/combieOffers`
         );
         const data = response.data.result;
         const jsonData = JSON.stringify(data);
@@ -103,6 +103,15 @@ const OfferMain = ({
             ))}
           </Swiper>
         </div>
+      </div>
+
+      <div className="flex justify-center my-5">
+        <button
+          onClick={() => navigate("/offers")}
+          className="bg-primary-6000 hover:bg-primary-700 rounded-full px-4 py-2 text-white"
+        >
+          See All Offers
+        </button>
       </div>
     </div>
   );

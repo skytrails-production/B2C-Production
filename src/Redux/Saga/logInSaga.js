@@ -1,12 +1,12 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { LOGIN_REQUEST, LOGIN_REQUEST_SOCIAL } from "../Auth/logIn/actionType";
+import { EDIT_REQUEST_MYPROFILE, LOGIN_REQUEST, LOGIN_REQUEST_SOCIAL, UPDATE_IMG_REQUEST_MYPROFILE } from "../Auth/logIn/actionType";
 // import { LOGIN_REQUEST, LOGIN_SUCCESS, USER_DATA } from "../Auth/logIn/actionType";
 import userApi from "../API/api";
 import {
+  editLoginIMAGE,
   fetchLogIn,
-  // userData,
-  // loginAction,
-  // userLogInAction,
+  UpdateLoginIMAGE,
+
 } from "../Auth/logIn/actionLogin";
 
 function* userLoginRequest(action) {
@@ -35,6 +35,22 @@ function* userLoginRequestWithSocialLogin(action) {
     console.log("Login Error saga", error?.response?.data)
   }
 }
+function* updateProfilePictureMyProfile(action) {
+  try {
+    const user = yield call(userApi.profilePicUpdate, action.payload);
+    yield put(UpdateLoginIMAGE(user));
+  } catch (error) {
+    console.log("Login Error saga", error?.response?.data)
+  }
+}
+function* editProfilePictureMyProfile(action) {
+  try {
+    const user = yield call(userApi.profileDataUpdate, action.payload);
+    yield put(editLoginIMAGE(user));
+  } catch (error) {
+    console.log("Login Error saga", error?.response?.data)
+  }
+}
 
 
 // function* userDataRequest() {
@@ -51,5 +67,7 @@ function* userLoginRequestWithSocialLogin(action) {
 export function* loginWatcher() {
   yield takeLatest(LOGIN_REQUEST, userLoginRequest);
   yield takeLatest(LOGIN_REQUEST_SOCIAL, userLoginRequestWithSocialLogin);
+  yield takeLatest(UPDATE_IMG_REQUEST_MYPROFILE, updateProfilePictureMyProfile);
+  yield takeLatest(EDIT_REQUEST_MYPROFILE, editProfilePictureMyProfile);
   // yield takeEvery(USER_DATA, userDataRequest);
 }

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./download.scss";
@@ -7,8 +6,8 @@ import { validatePhoneNumber } from "../../../src/utility/validationFunctions";
 import axios from "axios";
 import { apiURL } from "../../Constants/constant";
 import Img from "../../LazyLoading/Img";
-import downloadBackground from "../../images/download/downloadBackground.svg"
-import downloadMobile from "../../images/download/downloadMobile.png"
+import downloadBackground from "../../images/download/downloadBackground.svg";
+import downloadMobile from "../../images/download/downloadMobile.png";
 import { Button } from "antd";
 
 const Download = () => {
@@ -17,7 +16,6 @@ const Download = () => {
   const [mobileNumber, setMobileNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
-
 
   const handleDownloadLink = async () => {
     setLoading(true);
@@ -42,16 +40,12 @@ const Download = () => {
 
   return (
     <>
-
       <section class="downloadSection mb-5 mt-5">
-
         <div class="container">
-
           <div className="backdrop-img">
             <Img src={downloadBackground} />
           </div>
           <div class="row align-items-center">
-
             <div class="col-lg-6 order-lg-1 order-md-2 order-sm-2 order-2">
               <div class="download-app">
                 <h2>Download the app now</h2>
@@ -77,22 +71,18 @@ const Download = () => {
                       class="form-control"
                       placeholder="Mobile Number"
                     />
-
                   </div>
 
-
                   {sent && (
-                    <div style={{ color: 'green', fontSize: '12px' }}>
+                    <div style={{ color: "green", fontSize: "12px" }}>
                       download link sent to your whatsApp
                     </div>
                   )}
                   {validmobileclick && !validno && (
-                    <div style={{ color: 'red', fontSize: '12px' }}>
+                    <div style={{ color: "red", fontSize: "12px" }}>
                       Enter valid Mobile Number
                     </div>
                   )}
-
-
                 </div>
                 <div className="appButton">
                   <Button

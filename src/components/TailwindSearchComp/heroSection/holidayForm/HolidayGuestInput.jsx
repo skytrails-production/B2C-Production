@@ -37,15 +37,16 @@ const HolidayGuestInput = ({
   const totalGuests = guestChildrenInputValue + guestAdultsInputValue;
 
   return (
-    <Popover className={`flex relative z-30 ${className}`}>
+    <Popover className={`flex relative z-30 `}>
       {({ open, close }) => (
         <>
           <div
-            className={`flex-1 z-10 flex items-center focus:outline-none ${
+            className={` z-10 flex items-center focus:outline-none ${
               open ? "nc-hero-field-focused" : ""
             }`}
+            
           >
-            <Popover.Button
+            {/* <Popover.Button
               className={`relative z-10 flex-1 flex text-left items-center ${fieldClassName} space-x-3 focus:outline-none`}
             >
               <div className="text-neutral-300">
@@ -68,20 +69,21 @@ const HolidayGuestInput = ({
                   }}
                 />
               )}
-            </Popover.Button>
+            </Popover.Button> */}
 
             {hasButtonSubmit && (
               <div className="pr-2 xl:pr-4">
+
                 {/* <ButtonSubmit href={buttonSubmitHref} /> */}
                 <a
                   onClick={onSubmit}
                   type="button"
-                  className="h-14 md:h-16 w-full md:w-16 rounded-full bg-primary-6000 hover:bg-primary-700 flex items-center justify-center text-neutral-50 focus:outline-none"
+                  className="flex items-center justify-center w-full rounded-full h-14 md:h-16 md:w-16 bg-primary-6000 hover:bg-primary-700 text-neutral-50 focus:outline-none"
                 >
                   <span className="mr-3 md:hidden">Search</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-6 w-6"
+                    className="w-6 h-6"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -129,10 +131,11 @@ const HolidayGuestInput = ({
                 desc="Ages 2–12"
               />
 
-              <div className="mt-6 flex justify-end">
+
+              <div className="flex justify-end mt-6">
                 <button
                   type="button"
-                  className="w-full mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
+                  className="w-full px-4 py-2 mt-4 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700"
                   onClick={() => close()}
                 >
                   Okay

@@ -4,7 +4,7 @@ import PackageResultCards from './PackageResultCards';
 
 const HolidayResult = ({ packages, priceRange, searchTerm }) => {
 
-
+    console.log(packages, "packages")
     let filteredPackages = packages?.filter((pkg) => {
         if (
             searchTerm &&

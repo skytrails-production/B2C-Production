@@ -29,7 +29,7 @@ const OnewaySearchForm = ({ adult, child, infant, flightClass }) => {
   const dispatch = useDispatch();
   const reducerState = useSelector((state) => state);
   const [newDepartDateCld, setNewDepartDateCld] = useState("");
-
+  const [shake, setShake] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -46,9 +46,11 @@ const OnewaySearchForm = ({ adult, child, infant, flightClass }) => {
 
   const handleFromSelect = (location) => {
     setFromCity(location);
+    console.log(location, "form");
   };
   const handleToSelect = (location) => {
     setToCity(location);
+    console.log(location);
   };
 
   const handleDateChange = (dates) => {
@@ -60,6 +62,11 @@ const OnewaySearchForm = ({ adult, child, infant, flightClass }) => {
 
   const handleSubmit = async () => {
     sessionStorage.setItem("SessionExpireTime", new Date());
+    if (toCity.AirportCode === fromCity.AirportCode) {
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
+      return;
+    }
 
     const payload = {
       EndUserIp: reducerState?.ip?.ipData,
@@ -168,6 +175,16 @@ const OnewaySearchForm = ({ adult, child, infant, flightClass }) => {
     dispatch(searchFlight(searchpy));
     navigate(`/Searchresult?adult=${adult}&child=${child}&infant=${infant}`);
   };
+  const [error, setError] = useState(false);
+  useEffect(() => {
+    if (toCity?.AirportCode == fromCity?.AirportCode && toCity && fromCity) {
+      setError(true);
+      return;
+    } else {
+      setError(false);
+      return;
+    }
+  }, [toCity, fromCity]);
 
   const renderForm = () => {
     return (
@@ -186,6 +203,8 @@ const OnewaySearchForm = ({ adult, child, infant, flightClass }) => {
             className="flex-1"
             divHideVerticalLineClass=" -inset-x-0.5"
             onLocationSelect={handleToSelect}
+            error={error}
+            shake={shake}
           />
           <div className="self-center border-r-2 border-slate-300  h-12"></div>
           <FlightDateBox
@@ -195,6 +214,7 @@ const OnewaySearchForm = ({ adult, child, infant, flightClass }) => {
             onDateChange={handleDateChange}
           />
         </div>
+        {/* {error && <div>origin destination cat be same</div>} */}
       </form>
     );
   };

@@ -21,6 +21,7 @@ import FooterNavigation from "../../components/footerNavigate/FooterNavigation";
 import OfferMain from "../../components/TailwindSearchComp/offerPage/OfferMain";
 import TrendingPackageHome from "../../components/TailwindSearchComp/trendingPackage/TrendingPackageHome";
 import PackageHomeAbsolute from "./PackageHomeAbsolute";
+import Domestic from "./Domestic";
 const PackageHomePage = () => {
   const dispatch = useDispatch();
   const reducerState = useSelector((state) => state);
@@ -65,8 +66,11 @@ const PackageHomePage = () => {
           <NewHolidayCategory />
         </div>
 
-        <div>
+        {/* <div>
           <HolidayTopCountries />
+        </div> */}
+        <div>
+          <Domestic />
         </div>
 
         <div>
@@ -75,7 +79,7 @@ const PackageHomePage = () => {
         </div>
 
         <div className="my-3 mt-5">
-          <div className="custom-container d-none d-md-flex justify-center  holiBot">
+          <div className="justify-center custom-container d-none d-md-flex holiBot">
             <Img style={{ width: "100%" }} src={holidayBottom} />
           </div>
           <div className="container d-flex w-100 d-md-none holiBotMobile">

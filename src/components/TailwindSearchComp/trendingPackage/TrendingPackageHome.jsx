@@ -99,7 +99,7 @@ const TrendingPackageHome = ({
 
   return (
     <div
-      className={`nc-SectionSliderNewCategories custom-container mt-16 ${className}`}
+      className={`nc-SectionSliderNewCategories custom-container mt-24 ${className}`}
     >
       <Heading desc={subHeading} isCenter={sliderStyle === "style2"}>
         {heading}
