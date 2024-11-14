@@ -338,7 +338,7 @@ const HolidayPackageResultMain = () => {
               maxPrice={max}
               priceRange={priceRange}
               selectedTag={selectedTag}
-              flightOption={flightOption}
+              // flightOption={flightOption}
               onTagChange={handleTagChange}
               // onFlightChange={handleFlightChange}
               selectedDays={selectedDays}
