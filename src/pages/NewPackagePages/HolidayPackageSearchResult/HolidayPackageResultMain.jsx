@@ -22,7 +22,7 @@ const HolidayPackageResultMain = () => {
   const reducerState = useSelector((state) => state);
   const [priceRange, setPriceRange] = useState([0, 0]);
   const [selectedTag, setSelectedTag] = useState(null);
-  // const [flightOption, setFlightOption] = useState(null);
+  const [flightOption, setFlightOption] = useState(null);
   const [selectedDays, setSelectedDays] = useState([]);
   const [packageData, setPackagedata] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -236,9 +236,9 @@ const HolidayPackageResultMain = () => {
     setSelectedTag(value);
   };
 
-  // const handleFlightChange = (value) => {
-  //   setFlightOption(value);
-  // };
+  const handleFlightChange = (value) => {
+    setFlightOption(value);
+  };
   const handleDaysChange = (value) => {
     setSelectedDays((prev) =>
       prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
@@ -253,7 +253,7 @@ const HolidayPackageResultMain = () => {
     setPackagedata(Package);
     setPriceRange([min, max]);
     setSelectedTag(null);
-    // setFlightOption(null);
+    setFlightOption(null);
     setSelectedDays([]);
     setSearchTerm("");
     setSelectedDestinations([]);
@@ -338,9 +338,9 @@ const HolidayPackageResultMain = () => {
               maxPrice={max}
               priceRange={priceRange}
               selectedTag={selectedTag}
-              // flightOption={flightOption}
+              flightOption={flightOption}
               onTagChange={handleTagChange}
-              // onFlightChange={handleFlightChange}
+              onFlightChange={handleFlightChange}
               selectedDays={selectedDays}
               onDaysChange={handleDaysChange}
               onSearchTermChange={handleSearchTermChange}
