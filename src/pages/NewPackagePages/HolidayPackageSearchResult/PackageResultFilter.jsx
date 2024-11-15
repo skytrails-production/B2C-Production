@@ -84,7 +84,6 @@ const PackageResultFilter = ({
     onClearFilters();
   };
 
-  // console.log("hhh")
 
 
   return (
