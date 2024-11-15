@@ -84,6 +84,8 @@ const PackageResultFilter = ({
     onClearFilters();
   };
 
+  // console.log("hhh")
+
 
   return (
     <div className="holidayFilterMainBox ">
