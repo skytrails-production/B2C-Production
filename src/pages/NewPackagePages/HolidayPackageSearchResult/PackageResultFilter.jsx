@@ -84,6 +84,9 @@ const PackageResultFilter = ({
     onClearFilters();
   };
 
+  useEffect(()=>{
+    handleClear();
+  },[handleClear])
 
 
   return (
