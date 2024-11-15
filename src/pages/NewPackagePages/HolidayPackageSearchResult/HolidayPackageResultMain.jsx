@@ -261,7 +261,7 @@ const HolidayPackageResultMain = () => {
   
 
   useEffect(() => {
-    if (!Package?.length === 0 && packageData?.length === 0 && isFilterApplied) {
+    if (Package?.length != 0 && packageData?.length == 0 && isFilterApplied) {
       setToomanyFilter(true);
     } else {
       setToomanyFilter(false);
