@@ -85,9 +85,9 @@ const HolidayPackageResultMain = () => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   dispatch(clearHolidayReducer());
-  // }, []);
+  useEffect(() => {
+    dispatch(clearHolidayReducer());
+  }, []);
 
   useEffect(() => {
     if (type == "cities") {
