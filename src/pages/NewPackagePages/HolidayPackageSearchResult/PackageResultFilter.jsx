@@ -60,7 +60,6 @@ const PackageResultFilter = ({
     // setFlightOption(option);
     onFlightChange(e.target.value);
   };
-  
 
   const handleDaysChange = (e) => {
     const value = e.target.value;
@@ -84,6 +83,13 @@ const PackageResultFilter = ({
     setSelectedDestinations([]);
     onClearFilters();
   };
+
+  //for reset all filter
+
+  useEffect(()=>{
+    handleClear();
+  },[handleClear]);
+
 
   return (
     <div className="holidayFilterMainBox ">
@@ -135,7 +141,6 @@ const PackageResultFilter = ({
           value="not-included"
           checked={flightOption === "not-included"}
           onChange={handleFlightOptionChange}
-      
         >
           Flight Not Included
         </Checkbox>
