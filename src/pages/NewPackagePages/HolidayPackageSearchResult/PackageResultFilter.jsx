@@ -85,6 +85,10 @@ const PackageResultFilter = ({
     onClearFilters();
   };
 
+  useEffect(()=>{
+    onClearFilters();
+  },[])
+
   return (
     <div className="holidayFilterMainBox ">
       <div className="holidayFilterClear">
