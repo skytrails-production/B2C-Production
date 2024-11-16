@@ -7,7 +7,7 @@ import BookWrapperAmd from "./pages/flight/BookwrapperAmd";
 import Searchresult from "./pages/flight/flightResult/FlightMain";
 import "./App.css";
 import "./index.scss";
-import "./styles/index.scss";
+import "./styles/index.scss"
 import LoginForm from "./components/Login";
 import DummyTicketBookingForm from "./components/DummyTicketBookingForm";
 // import SignUp from "./components/Signup";
@@ -130,15 +130,12 @@ import BusFinalReview from "./pages/bus/busFinalReview/BusFinalReview";
 import NewHome from "./pages/tailwindDesign/NewHome";
 import MainNav from "./pages/tailwindDesign/MainNav";
 
+
 import Bookwrapperkafila from "./pages/flight/flightResult/Kafilapi/Bookwrapperkafila";
 import Kafilabookingdetails from "./pages/flight/flightResult/Kafilapi/Kafilabookingdetails";
 import OfferDetails from "./components/TailwindSearchComp/offerPage/OfferDetails";
 import AllOffers from "./components/TailwindSearchComp/offerPage/AllOffers";
-
-// import GetaCallback from "./GetaCallback";
-
 import UserProfile from "./components/TailwindSearchComp/profilePage/UserProfile";
-
 
 
 function App() {
@@ -331,6 +328,8 @@ function App() {
       {/* {location.pathname == "/" &&
         <SmallDevice />} */}
 
+
+
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/phone" &&
@@ -348,6 +347,8 @@ function App() {
         location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
         location.pathname !== "/inventoryhotelform" && <BottomNavbar />}
+
+
 
       {/* 
       {location.pathname == "/" ||
@@ -423,16 +424,15 @@ function App() {
         {/* <Route path="signup" element={<SignUp />}></Route> */}
         <Route path="flighterror" element={<Flighterror />}></Route>
         <Route path="Searchresult/booknow" element={<BookWrapper />}>
+
           {" "}
         </Route>
 
         <Route path="Searchresult/bookKafila" element={<Bookwrapperkafila />}>
+
           {" "}
         </Route>
-        <Route
-          path="/bookedTicketkafila"
-          element={<Kafilabookingdetails />}
-        ></Route>
+        <Route path="/bookedTicketkafila" element={<Kafilabookingdetails />}></Route>
         <Route path="Searchresult/booknowAmd" element={<BookWrapperAmd />}>
           {" "}
         </Route>
@@ -503,12 +503,6 @@ function App() {
           path="/holidaypackages/:type/:keyword"
           element={<HolidayPackageResultMain />}
         />
-
-        <Route
-          path="/holidaypackages/:type/:keyword"
-          element={<HolidayPackageResultMain />}
-        />
-
         <Route
           path="/holidaypackages/packagedetails/:id"
           element={<HolidayDetailsEnquiry />}
@@ -596,11 +590,11 @@ function App() {
           element={
             <div
               style={{
-                backgroundImage: 'url("/bg.png")', // Assuming your image is in the public folder
+                backgroundImage: 'url("/bg.png")',  // Assuming your image is in the public folder
                 backgroundSize: "cover",
                 backgroundPosition: "center",
-                height: "100vh", // Full screen height
-                width: "100vw", // Optional: Full screen width
+                height: "100vh",  // Full screen height
+                width: "100vw"    // Optional: Full screen width
               }}
             >
               <Logininventory />
@@ -649,7 +643,7 @@ function App() {
         <Route path="/phone" element={<PhoneNumber />}></Route>
         <Route path="/offers" element={<AllOffers />}></Route>
         <Route path="/offerDetail" element={<OfferDetails />}></Route>
-
+        
         {/* <Route
           path="/practice"
           element={<ItenaryPractice/>}
@@ -659,7 +653,7 @@ function App() {
       {/* complete inventory */}
 
       {/* <Whatsapp /> */}
-      {/* <GetaCallback /> */}
+
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/inventoryForgetPassword" &&
