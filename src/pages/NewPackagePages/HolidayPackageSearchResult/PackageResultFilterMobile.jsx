@@ -218,8 +218,8 @@ const PackageResultFilterMobile = ({
                         }}
                     >Filter By Price</p>
                 </div>
-
                 {/* Price Modal */}
+                
                 <Modal
                     title="Filter By Price"
                     centered

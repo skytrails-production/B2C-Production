@@ -22,7 +22,12 @@ const HolidayPackageResultMain = () => {
   const reducerState = useSelector((state) => state);
   const [priceRange, setPriceRange] = useState([0, 0]);
   const [selectedTag, setSelectedTag] = useState(null);
-  const [flightOption, setFlightOption] = useState(null);
+  //const [flightOption, setFlightOption] = useState(null);
+  const [flightOption, setFlightOption] = useState({
+    includeFlight: true,
+    notIncludeFlight: true,
+  });
+  console.log("Current flightOption:", flightOption);
   const [selectedDays, setSelectedDays] = useState([]);
   const [packageData, setPackagedata] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -54,16 +59,16 @@ const HolidayPackageResultMain = () => {
     setShowToast(true); // Set state to show the toast
   };
 
-  useEffect(() => {
-    if (keyword === "Europe") {
-      const timer = setTimeout(() => {
-        notify(); // Trigger the notification after 4 seconds
-      }, 4000);
+  // useEffect(() => {
+  //   if (keyword === "Europe") {
+  //     const timer = setTimeout(() => {
+  //       notify(); // Trigger the notification after 4 seconds
+  //     }, 4000);
 
-      // Cleanup function to clear the timer on component unmount or keyword change
-      return () => clearTimeout(timer);
-    }
-  }, [keyword]);
+  //     // Cleanup function to clear the timer on component unmount or keyword change
+  //     return () => clearTimeout(timer);
+  //   }
+  // }, [keyword]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -80,7 +85,10 @@ const HolidayPackageResultMain = () => {
       setLoading(false);
     }
   };
-
+  useEffect(() => {
+    // Page load par initially saare packages show karna hain
+    handleFilterChange();
+  }, []);
   useEffect(() => {
     fetchData();
   }, []);
@@ -116,7 +124,6 @@ const HolidayPackageResultMain = () => {
       setLoading(false);
     }
   }, [Package]);
-  
 
   const uniqueDestinations =
     Package.length > 0
@@ -152,30 +159,26 @@ const HolidayPackageResultMain = () => {
       );
     }
 
-    // if (includeFlight) {
-    //   if (includeFlight === "flight") {
-    //     // Include only packages where flight is explicitly true in inclusions
-    //     filtered = filtered?.filter((pkg) =>
-    //       pkg.inclusions?.some((inc) => inc.flight === "true")
-    //     );
-    //     console.log("After Including Only Packages with Flight:", filtered);
-    //   } else if (includeFlight === "no-flight") {
-    //     // Include only packages where flight is explicitly not true in inclusions
-    //     filtered = filtered?.filter(
-    //       (pkg) => !pkg.inclusions?.some((inc) => inc.flight === "true")
-    //     );
-    //     console.log("After Excluding Packages with Flight:", filtered);
-    //   }
-    // }
-    // Filter by inclusions (hasFlight and nonFlights)
-
     if (includeFlight !== undefined) {
       filtered = filtered.filter((pkg) => {
         const inclusions = pkg.insclusions;
         const hasFlight = inclusions.some((inclusion) =>
           Object.keys(inclusion).includes("flight")
         );
+
         return includeFlight === "flight" ? hasFlight : !hasFlight;
+      });
+    }
+    // Flight filter: apply only if user has chosen a specific option
+    if (isFilterApplied) {
+      filtered = filtered.filter((pkg) => {
+        const hasFlight = pkg.insclusions.some((inclusion) =>
+          Object.keys(inclusion).includes("flight")
+        );
+        if (flightOption.includeFlight && flightOption.notIncludeFlight) {
+          return true; // Show all if both options are selected
+        }
+        return flightOption.includeFlight ? hasFlight : !hasFlight;
       });
     }
 
@@ -258,7 +261,6 @@ const HolidayPackageResultMain = () => {
     setSearchTerm("");
     setSelectedDestinations([]);
   };
-  
 
   useEffect(() => {
     if (Package?.length != 0 && packageData?.length == 0 && isFilterApplied) {
@@ -298,15 +300,21 @@ const HolidayPackageResultMain = () => {
           <div className="px-0 col-lg-12">
             {Object.keys(data).length > 0 && (
               <div className="countryDescCardUpper">
-                <div className="relative packbannerCountrywise h-[350px]">
+                <div className="relative packbannerCountrywise h-[300px]">
                   <img
                     src={data?.imageUrl}
                     alt="city"
                     className="object-cover w-full h-full"
                   />
-                  <h2 className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white bg-opacity-50">
+                  {/* <h1 className="absolute inset-0 flex items-center justify-center text-4xl font-bold text-white bg-opacity-50">
                     {data?.cityName} Holiday Packages
-                  </h2>
+                  </h1> */}
+                  <h1 className="absolute inset-0 flex items-center justify-center text-4xl font-bold text-white bg-opacity-50">
+                    {data?.cityName &&
+                      `${data.cityName.charAt(0).toUpperCase()}${data.cityName
+                        .slice(1)
+                        .toLowerCase()} Holiday Packages`}
+                  </h1>
                 </div>
               </div>
             )}
@@ -328,7 +336,7 @@ const HolidayPackageResultMain = () => {
         </div>
       </div>
       <div className="container ">
-        <div className="row">
+        <div className="mt-3 row">
           <div className="p-0 col-lg-3 visibleBig">
             <PackageResultFilter
               uniqueDestinations={uniqueDestinations}
@@ -391,6 +399,5 @@ const HolidayPackageResultMain = () => {
     </div>
   );
 };
-
 
 export default HolidayPackageResultMain;
