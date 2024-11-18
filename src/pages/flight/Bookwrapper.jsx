@@ -928,9 +928,46 @@ export default function BookWrapper() {
   const authenticUser = reducerState?.logIn?.loginData?.status;
   // const notAuthenticUser = reducerState?.logIn?.loginData?.userNotFound;
 
- 
+  // razorpay integration part
 
-  
+  // const [Razorpay, isLoaded] = useRazorpay();
+
+  // const handlePayment = useCallback(async () => {
+  //   try {
+  //     // Implement createOrder to create an order on your backend
+  //     // const order = await createOrder(params);
+
+  //     const options = {
+  //       key: "rzp_test_rSxJ8wZCLzTJck",
+  //       amount: "300" * 100,
+  //       currency: "INR",
+  //       name: "The Skytrails",
+  //       description: "Test Transaction",
+  //       image: "https://travvolt.s3.amazonaws.com/Brand.png",
+  //       // order_id: order.id,
+  //       handler: (response) => {
+  //         console.log(response);
+  //         if (response.razorpay_payment_id) {
+  //           setLoaderPayment(true);
+  //           dispatch(PassengersAction(passengerData));
+  //         } else {
+  //           // Handle payment failure
+  //           console.log("Payment failed");
+  //         }
+  //       },
+  //       notes: {
+  //         address: "Razorpay Corpora te Office",
+  //       },
+  //       theme: {
+  //         color: "#e73c34",
+  //       },
+  //     };
+  //     const rzpay = new Razorpay(options);
+  //     rzpay.open();
+  //   } catch (error) {
+  //     console.error("Error creating order:", error);
+  //   }
+  // }, [Razorpay]);
   const baggageCount = (width) => {
     const length = baggageData.filter((bag) => {
       if (bag.Weight === width) {

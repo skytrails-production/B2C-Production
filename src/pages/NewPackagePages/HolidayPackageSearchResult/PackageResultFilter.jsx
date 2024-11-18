@@ -22,7 +22,6 @@ const PackageResultFilter = ({
   setSelectedDestinations, // Add this line
   onFlightChange,
   flightOption,
-  flightOption1,
 }) => {
   // const [selectedDestinations, setSelectedDestinations] = useState([]);
 
@@ -84,7 +83,13 @@ const PackageResultFilter = ({
     setSelectedDestinations([]);
     onClearFilters();
   };
-  // console.log(flightOption1.includes("flight"));
+
+  //for reset all filter
+
+  useEffect(()=>{
+    handleClear();
+  },[handleClear]);
+
 
   return (
     <div className="holidayFilterMainBox ">
@@ -127,14 +132,14 @@ const PackageResultFilter = ({
         <p>Flight Options</p>
         <Checkbox
           value="flight"
-          checked={flightOption1.includes("flight")}
+          checked={flightOption === "flight"}
           onChange={handleFlightOptionChange}
         >
           Flight Included
         </Checkbox>
         <Checkbox
           value="not-included"
-          checked={flightOption1.includes("not-included")}
+          checked={flightOption === "not-included"}
           onChange={handleFlightOptionChange}
         >
           Flight Not Included
