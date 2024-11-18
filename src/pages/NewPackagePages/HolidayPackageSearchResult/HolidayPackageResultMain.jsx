@@ -22,13 +22,7 @@ const HolidayPackageResultMain = () => {
   const reducerState = useSelector((state) => state);
   const [priceRange, setPriceRange] = useState([0, 0]);
   const [selectedTag, setSelectedTag] = useState(null);
-
-  const [flightOption, setFlightOption] = useState({
-    includeFlight: true,
-    notIncludeFlight: true,
-  });
-  const [flightOption1, setFlightOption1] = useState([]);
-
+  const [flightOption, setFlightOption] = useState(null);
   const [selectedDays, setSelectedDays] = useState([]);
   const [packageData, setPackagedata] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -60,16 +54,16 @@ const HolidayPackageResultMain = () => {
     setShowToast(true); // Set state to show the toast
   };
 
-  // useEffect(() => {
-  //   if (keyword === "Europe") {
-  //     const timer = setTimeout(() => {
-  //       notify(); // Trigger the notification after 4 seconds
-  //     }, 4000);
+  useEffect(() => {
+    if (keyword === "Europe") {
+      const timer = setTimeout(() => {
+        notify(); // Trigger the notification after 4 seconds
+      }, 4000);
 
-  //     // Cleanup function to clear the timer on component unmount or keyword change
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [keyword]);
+      // Cleanup function to clear the timer on component unmount or keyword change
+      return () => clearTimeout(timer);
+    }
+  }, [keyword]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -78,18 +72,15 @@ const HolidayPackageResultMain = () => {
         `${apiURL.baseURL}/skyTrails/package/getPackageCityData?keyword=${keyword}`
       );
       const result = await response.json();
-      // console.log(result, "resultsss");
-      setData(result?.data);
+      console.log(result, "resultsss");
+      setData(result.data);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching data:", error);
       setLoading(false);
     }
   };
-  useEffect(() => {
-    // Page load par initially saare packages show karna hain
-    handleFilterChange();
-  }, [flightOption1]);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -125,13 +116,14 @@ const HolidayPackageResultMain = () => {
       setLoading(false);
     }
   }, [Package]);
+  
 
   const uniqueDestinations =
-    Package?.length > 0
+    Package.length > 0
       ? [
           ...new Set(
-            Package?.flatMap((pkg) =>
-              pkg?.destination?.map((dest) => dest?.addMore)
+            Package.flatMap((pkg) =>
+              pkg?.destination?.map((dest) => dest.addMore)
             )
           ),
         ]
@@ -145,50 +137,46 @@ const HolidayPackageResultMain = () => {
     days
   ) => {
     let filtered = Package;
-    // console.log(filtered, "filteredddd");
 
     if (selectedDestinations?.length > 0) {
       filtered = filtered?.filter((pkg) =>
         selectedDestinations.every((dest) =>
-          pkg?.destination?.some((d) => d.addMore === dest)
+          pkg.destination.some((d) => d.addMore === dest)
         )
       );
     }
 
     if (tag) {
       filtered = filtered?.filter((pkg) =>
-        pkg?.select_tags?.some((t) => t[tag] === true)
+        pkg.select_tags.some((t) => t[tag] === true)
       );
     }
 
-    if (flightOption1?.length > 0) {
-      filtered = filtered?.filter((pkg) => {
-        const inclusions = pkg?.insclusions;
+    // if (includeFlight) {
+    //   if (includeFlight === "flight") {
+    //     // Include only packages where flight is explicitly true in inclusions
+    //     filtered = filtered?.filter((pkg) =>
+    //       pkg.inclusions?.some((inc) => inc.flight === "true")
+    //     );
+    //     console.log("After Including Only Packages with Flight:", filtered);
+    //   } else if (includeFlight === "no-flight") {
+    //     // Include only packages where flight is explicitly not true in inclusions
+    //     filtered = filtered?.filter(
+    //       (pkg) => !pkg.inclusions?.some((inc) => inc.flight === "true")
+    //     );
+    //     console.log("After Excluding Packages with Flight:", filtered);
+    //   }
+    // }
+    // Filter by inclusions (hasFlight and nonFlights)
 
-        const hasFlight = inclusions?.some((inclusion) =>
+    if (includeFlight !== undefined) {
+      filtered = filtered.filter((pkg) => {
+        const inclusions = pkg.insclusions;
+        const hasFlight = inclusions.some((inclusion) =>
           Object.keys(inclusion).includes("flight")
         );
-
-        const hasFlterFlight = flightOption1.includes("flight");
-        const hasNotFlterFlight = flightOption1.includes("not-included");
-
-        return (
-          (hasFlight && hasFlterFlight) || (hasNotFlterFlight && !hasFlight)
-        );
+        return includeFlight === "flight" ? hasFlight : !hasFlight;
       });
-    }
-
-    // Flight filter: apply only if user has chosen a specific option
-    if (isFilterApplied && Array.isArray(filtered)) {
-      filtered = filtered?.filter((pkg) => {
-        const hasFlight = pkg?.insclusions.some((inclusion) =>
-          Object.keys(inclusion).includes("flight")
-        );
-        if (flightOption?.includeFlight && flightOption?.notIncludeFlight) {
-          return true; // Show all if both options are selected
-        }
-        return flightOption?.includeFlight ? hasFlight : !hasFlight;
-      }); 
     }
 
     if (days?.length > 0) {
@@ -196,13 +184,13 @@ const HolidayPackageResultMain = () => {
         const daysInRange = days?.some((range) => {
           switch (range) {
             case "0-5":
-              return pkg?.days >= 0 && pkg?.days <= 5;
+              return pkg.days >= 0 && pkg.days <= 5;
             case "5-7":
-              return pkg?.days >= 5 && pkg?.days <= 7;
+              return pkg.days >= 5 && pkg.days <= 7;
             case "7-10":
-              return pkg?.days >= 7 && pkg?.days <= 10;
+              return pkg.days >= 7 && pkg.days <= 10;
             case "10+":
-              return pkg?.days >= 10;
+              return pkg.days >= 10;
             default:
               return false;
           }
@@ -221,15 +209,13 @@ const HolidayPackageResultMain = () => {
       return { min: 0, max: 0 };
     }
 
-    const validPackage = Pack?.filter(
-      (pkg) => pkg && pkg?.pakage_amount?.amount
-    );
+    const validPackage = Pack.filter((pkg) => pkg && pkg.pakage_amount.amount);
 
     if (validPackage.length === 0) {
       return { min: 0, max: 0 };
     }
 
-    const prices = validPackage?.map((pkg) => pkg.pakage_amount.amount);
+    const prices = validPackage.map((pkg) => pkg.pakage_amount.amount);
     return {
       min: Math.min(...prices),
       max: Math.max(...prices),
@@ -251,19 +237,7 @@ const HolidayPackageResultMain = () => {
   };
 
   const handleFlightChange = (value) => {
-    // setFlightOption(value);
-
-    let array = [...flightOption1];
-
-    let indexRemove = array.indexOf(value);
-    if (indexRemove == -1) {
-      array.push(value);
-    } else {
-      array.splice(indexRemove, 1);
-    }
-    // let newArray = [...array.slice(0, index), ...array.slice(index + 1)];
-    setFlightOption1([...array]);
-    // console.log(array, "arrayyy", value, array);
+    setFlightOption(value);
   };
   const handleDaysChange = (value) => {
     setSelectedDays((prev) =>
@@ -279,14 +253,12 @@ const HolidayPackageResultMain = () => {
     setPackagedata(Package);
     setPriceRange([min, max]);
     setSelectedTag(null);
-    setFlightOption({
-      includeFlight: true,
-      notIncludeFlight: true,
-    });
+    setFlightOption(null);
     setSelectedDays([]);
     setSearchTerm("");
     setSelectedDestinations([]);
   };
+  
 
   useEffect(() => {
     if (Package?.length != 0 && packageData?.length == 0 && isFilterApplied) {
@@ -326,23 +298,15 @@ const HolidayPackageResultMain = () => {
           <div className="px-0 col-lg-12">
             {Object.keys(data).length > 0 && (
               <div className="countryDescCardUpper">
-                <div className="relative packbannerCountrywise h-[300px]">
+                <div className="relative packbannerCountrywise h-[350px]">
                   <img
                     src={data?.imageUrl}
                     alt="city"
                     className="object-cover w-full h-full"
                   />
-                  {/* <h1 className="absolute inset-0 flex items-center justify-center text-4xl font-bold text-white bg-opacity-50">
+                  <h2 className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-white bg-opacity-50">
                     {data?.cityName} Holiday Packages
-                  </h1> */}
-                  <h1 className="absolute inset-0 flex items-center justify-center text-4xl font-bold text-white bg-opacity-50">
-                    {data?.cityName &&
-                      `${data?.cityName
-                        ?.charAt(0)
-                        .toUpperCase()}${data?.cityName
-                        .slice(1)
-                        .toLowerCase()} Holiday Packages`}
-                  </h1>
+                  </h2>
                 </div>
               </div>
             )}
@@ -364,7 +328,7 @@ const HolidayPackageResultMain = () => {
         </div>
       </div>
       <div className="container ">
-        <div className="mt-3 row">
+        <div className="row">
           <div className="p-0 col-lg-3 visibleBig">
             <PackageResultFilter
               uniqueDestinations={uniqueDestinations}
@@ -383,7 +347,6 @@ const HolidayPackageResultMain = () => {
               selectedDestinations={selectedDestinations}
               setSelectedDestinations={setSelectedDestinations}
               onClearFilters={handleClearFilters}
-              flightOption1={flightOption1}
             />
           </div>
           <div className="col-lg-12 visibleSmall stickyForMobile">
@@ -428,5 +391,6 @@ const HolidayPackageResultMain = () => {
     </div>
   );
 };
+
 
 export default HolidayPackageResultMain;
