@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import FlightSuggestCard from "./FlightSuggestCard";
 import Heading from "../shared/Heading";
+import axios from "axios";
+import { apiURL } from "../../../Constants/constant"
 
 
 const flightRoutes = [
@@ -13,7 +15,7 @@ const flightRoutes = [
     arrivalCode: "MAA",
     code1: "MAA-BOM",
     imgages:
-      "https://images.pexels.com/photos/3454027/pexels-photo-3454027.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://skytrails.s3.amazonaws.com/randomImages/uploadedFile_1731744070710_bangaloretochennai.webp",
     fromDetails: {
       AirportCode: "MAA",
       CityCode: "MAA",
@@ -287,6 +289,24 @@ const FlightSuggestion = ({
   className = "",
   gridClassName = "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
 }) => {
+  
+
+  const [flightSuggest,setFlightSuggest]=useState([])
+  const fetchflightSuggest=async()=>{
+
+    const data=await axios.get(`${apiURL.baseURL}/skyTrails/staticContent/flightPayload/listStaticFlightPayload`)
+    console.log("datattttt",apiURL.baseURL,data?.data?.result)
+    setFlightSuggest(data?.data?.result)
+
+    return  data
+  }
+  useEffect(()=>{
+    fetchflightSuggest()
+   
+  },[])
+  useEffect(()=>{
+    console.log(flightSuggest,"flightsuggttt")
+  },[flightSuggest])
   return (
     <div
       className={`nc-SectionGridCategoryBox custom-container mt-16 relative ${className}`}
@@ -298,7 +318,8 @@ const FlightSuggestion = ({
         Explore Cheapest Flight
       </Heading>
       <div className={`grid ${gridClassName} gap-3 sm:gap-3 md:gap-3`}>
-        {categories.map((item, i) => (
+        {flightSuggest && 
+          flightSuggest.map((item, i) => (
           <FlightSuggestCard key={i} data={item} />
         ))}
       </div>

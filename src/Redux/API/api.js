@@ -20,6 +20,10 @@ function api() {
   const faqReviewApi = () => {
     return axios.get(`${apiURL.baseURL}/skyTrails/api/user/getFaqRating`);
   };
+  const fetchflightSuggest=async()=>{
+
+    return axios.get(`${apiURL.baseURL}/skyTrails/staticContent/flightPayload/listStaticFlightPayload`)
+  }
 
   const userB2BToken = (payload) => {
     return axios({
@@ -772,6 +776,7 @@ function api() {
   return {
     userIP,
     markUp,
+    fetchflightSuggest,
     userB2CLogin,
     profileDataUpdate,
     profilePicUpdate,

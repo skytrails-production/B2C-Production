@@ -78,7 +78,7 @@ const HolidayPackageResultMain = () => {
         `${apiURL.baseURL}/skyTrails/package/getPackageCityData?keyword=${keyword}`
       );
       const result = await response.json();
-      console.log(result, "resultsss");
+      // console.log(result, "resultsss");
       setData(result?.data);
       setLoading(false);
     } catch (error) {
@@ -145,7 +145,7 @@ const HolidayPackageResultMain = () => {
     days
   ) => {
     let filtered = Package;
-     console.log(filtered, "filteredddd");
+    //  console.log(filtered, "filteredddd");
 
     if (selectedDestinations?.length > 0) {
       filtered = filtered?.filter((pkg) =>
@@ -161,7 +161,7 @@ const HolidayPackageResultMain = () => {
       );
     }
 
-    console.log(flightOption1,flightOption1?.length,"flightOption1")
+    // console.log(flightOption1,flightOption1?.length,"flightOption1")
     if (flightOption1?.length > 0) {
       filtered = filtered?.filter((pkg) => {
         const inclusions = pkg?.insclusions;
@@ -173,8 +173,8 @@ const HolidayPackageResultMain = () => {
       
       const hasFlterFlight = flightOption1.includes("flight");
       const hasNotFlterFlight = flightOption1.includes("not-included");
-      console.log("flightOption!11","hasFlterFlight",hasFlterFlight,"hasNotFlterFlight",hasNotFlterFlight,"hasFlight",hasFlight,flightOption1)
-console.log("ressss",(hasFlight && hasFlterFlight) || (hasNotFlterFlight && !hasFlight))
+      // console.log("flightOption!11","hasFlterFlight",hasFlterFlight,"hasNotFlterFlight",hasNotFlterFlight,"hasFlight",hasFlight,flightOption1)
+// console.log("ressss",(hasFlight && hasFlterFlight) || (hasNotFlterFlight && !hasFlight))
         return (
           (hasFlight && hasFlterFlight) || (hasNotFlterFlight && !hasFlight)
         );
@@ -182,7 +182,7 @@ console.log("ressss",(hasFlight && hasFlterFlight) || (hasNotFlterFlight && !has
         // return includeFlight.includes(true)? hasFlight :!hasFlight || true;
         // return true;
       });
-      console.log("inclidefflitred",filtered)
+      // console.log("inclidefflitred",filtered)
     }
 
     // Flight filter: apply only if user has chosen a specific option
@@ -298,17 +298,30 @@ console.log("ressss",(hasFlight && hasFlterFlight) || (hasNotFlterFlight && !has
   
 
   useEffect(() => {
-    console.log(packageData,"packageeeeeee")
+    // console.log(packageData,"packageeeeeee")
     
     setPackagedata(Package)
     if (packageData.length === 0) {
       // if (Package?.length != 0 && packageData?.length == 0 && isFilterApplied) {
-      console.log("setpackagedata",Package)
+      // console.log("setpackagedata",Package)
       setToomanyFilter(false);
     } else {
       setToomanyFilter(false);
     }
   }, [Package]);
+  useEffect(() => {
+    // console.log(packageData,"packageeeeeee")
+    
+    // setPackagedata(Package)
+    if (packageData.length === 0) {
+      // if (Package?.length != 0 && packageData?.length == 0 && isFilterApplied) {
+      // console.log("setpackagedata",Package)
+      setToomanyFilter(true);
+    } else {
+      setToomanyFilter(false);
+    }
+  }, [packageData]);
+
 
   if (loading) {
     return <HolidayResultSkeleton />;

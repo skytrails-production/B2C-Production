@@ -7,6 +7,7 @@ import {
 } from "../../../../Redux/FlightSearch/oneWay";
 import { searchFlight } from "../../../../Redux/SearchFlight/actionSearchFlight";
 import { useNavigate } from "react-router-dom";
+import  dayjs from "dayjs"
 
 // Tailwind CSS is automatically included if you follow the setup steps
 
@@ -16,6 +17,20 @@ const RecentSearches = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const reducerState = useSelector((state) => state);
+  function updateToCurrentDate(inputDate) {
+    // Parse the input date in the format "18 Nov, 24".
+    const parsedDate = dayjs(inputDate, 'DD MMM, YY');
+
+    // Get today's date in the same format, resetting time to 00:00.
+    const today = dayjs().startOf('day');
+
+    // Check if the input date is before today.
+    if (parsedDate.isBefore(today)) {
+        return today.format('DD MMM, YY'); // Return today's date if the input is outdated.
+    }
+
+    return inputDate; // Return the original date if it's not outdated.
+}
 
   useEffect(() => {
     const storedSearches =
@@ -24,6 +39,7 @@ const RecentSearches = () => {
   }, []);
 
   const handleCardClick = (search) => {
+    
     sessionStorage.setItem("SessionExpireTime", new Date());
 
     const payload = {
@@ -41,14 +57,14 @@ const RecentSearches = () => {
           Origin: search?.selectedFrom?.AirportCode,
           Destination: search?.selectedFrom?.AirportCode,
           FlightCabinClass: search?.FlightCabinClass,
-          PreferredDepartureTime: search?.newDepartDate,
-          PreferredArrivalTime: search?.newDepartDate,
+          PreferredDepartureTime:updateToCurrentDate( search?.newDepartDate),
+          PreferredArrivalTime: updateToCurrentDate(search?.newDepartDate),
         },
       ],
       Sources: null,
       to: search?.selectedTo?.AirportCode,
       from: search?.selectedFrom?.AirportCode,
-      date: search?.newDepartDate,
+      date:updateToCurrentDate( search?.newDepartDate),
       cabinClass: search?.FlightCabinClass,
       px: search?.activeIdAdult,
     };
@@ -62,8 +78,8 @@ const RecentSearches = () => {
           Origin: search?.selectedFrom?.AirportCode,
           Destination: search?.selectedTo?.AirportCode,
           FlightCabinClass: search?.FlightCabinClass,
-          PreferredDepartureTime: search?.newDepartDate,
-          PreferredArrivalTime: search?.newDepartDate,
+          PreferredDepartureTime:updateToCurrentDate( search?.newDepartDate),
+          PreferredArrivalTime:updateToCurrentDate( search?.newDepartDate),
           PreferredArrivalTimeCld: search?.newDepartDate,
           selectedFrom: search?.selectedFrom,
           selectedTo: search?.selectedTo,
@@ -79,6 +95,7 @@ const RecentSearches = () => {
 
     const parsedDate = new Date(search?.newDepartDate);
     const formattedDate = parsedDate.toISOString();
+    console.log(formattedDate,"formateddate")
     const localOffset = parsedDate.getTimezoneOffset() * 60000;
     const adjustedDate = new Date(parsedDate.getTime() - localOffset);
 
@@ -105,20 +122,25 @@ const RecentSearches = () => {
           .slice()
           .reverse()
           .slice(0, 4)
-          .map((search, index) => (
-            <div
+          .map((search, index) => {
+            console.log(search,"searchflightsuggested")
+          return   <div
               key={index}
               className="bg-white p-2 rounded-lg shadow-md flex justify-between items-center cursor-pointer hover:bg-blue-100 transition duration-200"
               onClick={() => handleCardClick(search)}
             >
               <div>
                 <h3 className="text-sm flex gap-2 items-center mb-0 font-semibold">
-                  {search?.selectedFrom?.name}
+                  {updateToCurrentDate(search?.selectedFrom?.name)}
                   <MoveRight className="w-4 h-4" />
                   {search?.selectedTo?.name}
                 </h3>
                 <p className="text-gray-600 text-sm ">
-                  {search.PreferredDepartureTime}
+                  {
+                updateToCurrentDate(
+                  search.PreferredDepartureTime
+                  )
+                  }
                 </p>
                 <p className="text-gray-500 text-xs ">
                   1 Adult, 0 Child, 0 Infant
@@ -130,7 +152,7 @@ const RecentSearches = () => {
                 </span>
               </div>
             </div>
-          ))}
+})}
       </div>
     </div>
   );

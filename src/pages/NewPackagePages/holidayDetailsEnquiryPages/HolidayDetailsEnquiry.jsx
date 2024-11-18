@@ -42,9 +42,19 @@ import {
 import HolidayEnquirySkeleton from "./HolidayEnquirySkeleton";
 import HolidayEnquiryForm from "./HolidayEnquiryForm";
 import { Tooltip } from "antd";
+import { Modal } from "antd";
 const HolidayDetailsEnquiry = () => {
   const dispatch = useDispatch();
   const reducerState = useSelector((state) => state);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalVisible(false);
+  };
   const [loading, setLoading] = useState(true);
   const onePackage =
     reducerState?.searchOneResult?.OneSearchPackageResult?.data?.data;
@@ -565,188 +575,190 @@ const HolidayDetailsEnquiry = () => {
                       </div>
                     ))}
 
-                  {/* Show "See More" if there are more than MAX_INCLUSIONS_TO_SHOW */}
-                  {/* {
-                  onePackage?.insclusions?.length > MAX_INCLUSIONS_TO_SHOW || 
-                  true && ( */}
-                  <Tooltip
-                    className="css-dev-only-do-not-override-d2lrxs.ant-tooltip ant-tooltip-inner"
-                    placement="bottom"
-                    style={{ display: "block !important" }}
-                    title={
-                      <div
-                        style={{
-                          display: "grid",
-                          gridTemplateColumns: "repeat(4, minmax(0, 1fr))", // 4 columns
-                          gap: "10px",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          border: "1px solid #ddd",
-                          borderRadius: "8px",
-                          width: "500px",
-                          overflowY: "auto",
-                          padding: "10px",
-                          backgroundColor: "#fff",
-                        }}
-                      >
-                        {onePackage?.insclusions
-                          .slice(MAX_INCLUSIONS_TO_SHOW)
-                          .map((ele, index) => {
-                            const inclusions = [
-                              {
-                                key: ele?.flight,
-                                icon: airplane,
-                                label: "Flight",
-                              },
-                              {
-                                key: ele?.flexibility,
-                                icon: flexible,
-                                label: "Flexibility",
-                              },
-                              { key: ele?.train, icon: train, label: "Train" },
-                              { key: ele?.bus, icon: bus, label: "Bus" },
-                              { key: ele?.cab, icon: cab, label: "Cab" },
-                              {
-                                key: ele?.moterBike,
-                                icon: motorbike,
-                                label: "Motorbike",
-                              },
-                              { key: ele?.hotel, icon: hotel, label: "Hotel" },
-                              {
-                                key: ele?.homeStays,
-                                icon: homestay,
-                                label: "Homestays",
-                              },
-                              {
-                                key: ele?.guestHouse,
-                                icon: guestbooking,
-                                label: "Guesthouse",
-                              },
-                              { key: ele?.camp, icon: "", label: "Camp" },
-                              {
-                                key: ele?.cruise,
-                                icon: crusine,
-                                label: "Cruise",
-                              },
-                              {
-                                key: ele?.sightSeeing,
-                                icon: binocular,
-                                label: "Sightseeing",
-                              },
-                              {
-                                key: ele?.guide,
-                                icon: travelagent,
-                                label: "Guide",
-                              },
-                              { key: ele?.meals, icon: meal, label: "Meals" },
-                              {
-                                key: ele?.breakfast,
-                                icon: breakfasrt,
-                                label: "Breakfast",
-                              },
-                              {
-                                key: ele?.drink,
-                                icon: cocktail,
-                                label: "Drink",
-                              },
-                              { key: ele?.visa, icon: visa, label: "Visa" },
-                              {
-                                key: ele?.travelInsurance,
-                                icon: travelinsurance,
-                                label: "Travel Insurance",
-                              },
-                              {
-                                key: ele?.safeTravel,
-                                icon: safetravel,
-                                label: "Safe to Travel",
-                              },
-                              {
-                                key: ele?.wildlife,
-                                icon: wildlife,
-                                label: "Wildlife",
-                              },
-                              {
-                                key: ele?.heritage,
-                                icon: heriatge,
-                                label: "Heritage",
-                              },
-                              {
-                                key: ele?.adventure,
-                                icon: adventure,
-                                label: "Adventure",
-                              },
-                              {
-                                key: ele?.beach,
-                                icon: beachChiar,
-                                label: "Beach",
-                              },
-                              {
-                                key: ele?.hillStation,
-                                icon: hillStation,
-                                label: "Hill Station",
-                              },
-                              {
-                                key: ele?.nature,
-                                icon: nature,
-                                label: "Nature",
-                              },
-                              {
-                                key: ele?.wellness,
-                                icon: wellness,
-                                label: "Wellness",
-                              },
-                              {
-                                key: ele?.hiddenGem,
-                                icon: hiddengem,
-                                label: "Hidden Gem",
-                              },
-                              { key: ele?.tax, icon: tax, label: "Tax" },
-                              {
-                                key: ele?.discount,
-                                icon: discount,
-                                label: "50% Off",
-                              },
-                              {
-                                key: ele?.waterActivities,
-                                icon: wateractivites,
-                                label: "Water Activities",
-                              },
-                              {
-                                key: ele?.optionalActivities,
-                                icon: otheractivity,
-                                label: "Optional Activities",
-                              },
-                              {
-                                key: ele?.flexibleBooking,
-                                icon: flexible,
-                                label: "Flexible Booking",
-                              },
-                              { key: ele?.wifi, icon: wifi, label: "WIFI" },
-                            ];
-
-                            // Render only items with valid keys
-                            return inclusions
-                              .filter(({ key }) => key)
-                              .map(({ icon, label }, subIndex) => (
-                                <div
-                                  key={`${index}-${subIndex}`}
-                                  style={{
-                                    width: "100px",
-                                    height: "68px",
-                                  }}
-                                >
-                                  <span>{icon}</span>
-                                  <p>{label}</p>
-                                </div>
-                              ));
-                          })}
-                      </div>
-                    }
-                  >
-                    <span className="seeMore">See More</span>
-                  </Tooltip>
-                  {/* )} */}
+                  <span className="seeMore" onClick={handleOpenModal}>
+                    See More
+                  </span>
                 </div>
+                <Modal
+                  visible={isModalVisible}
+                  onCancel={handleCloseModal}
+                  footer={
+                    <div className="flex items-center justify-center">
+                      <button
+                        className="px-4 py-2 text-white bg-red-600 border-none rounded cursor-pointer"
+                        onClick={handleCloseModal}
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  }
+                  width={570}
+                >
+                  <div className="grid grid-cols-4 gap-2 items-center justify-center border border-gray-300 rounded-lg w-[510px] overflow-y-auto p-2 bg-white">
+                    {onePackage?.insclusions
+                      .slice(MAX_INCLUSIONS_TO_SHOW)
+                      .map((ele, index) => {
+                        const inclusions = [
+                          {
+                            key: ele?.flight,
+                            icon: airplane,
+                            label: "Flight",
+                          },
+                          {
+                            key: ele?.flexibility,
+                            icon: flexible,
+                            label: "Flexibility",
+                          },
+                          { key: ele?.train, icon: train, label: "Train" },
+                          { key: ele?.bus, icon: bus, label: "Bus" },
+                          { key: ele?.cab, icon: cab, label: "Cab" },
+                          {
+                            key: ele?.moterBike,
+                            icon: motorbike,
+                            label: "Motorbike",
+                          },
+                          { key: ele?.hotel, icon: hotel, label: "Hotel" },
+                          {
+                            key: ele?.homeStays,
+                            icon: homestay,
+                            label: "Homestays",
+                          },
+                          {
+                            key: ele?.guestHouse,
+                            icon: guestbooking,
+                            label: "Guesthouse",
+                          },
+                          { key: ele?.camp, icon: "", label: "Camp" },
+                          {
+                            key: ele?.cruise,
+                            icon: crusine,
+                            label: "Cruise",
+                          },
+                          {
+                            key: ele?.sightSeeing,
+                            icon: binocular,
+                            label: "Sightseeing",
+                          },
+                          {
+                            key: ele?.guide,
+                            icon: travelagent,
+                            label: "Guide",
+                          },
+                          { key: ele?.meals, icon: meal, label: "Meals" },
+                          {
+                            key: ele?.breakfast,
+                            icon: breakfasrt,
+                            label: "Breakfast",
+                          },
+                          {
+                            key: ele?.drink,
+                            icon: cocktail,
+                            label: "Drink",
+                          },
+                          { key: ele?.visa, icon: visa, label: "Visa" },
+                          {
+                            key: ele?.travelInsurance,
+                            icon: travelinsurance,
+                            label: "Travel Insurance",
+                          },
+                          {
+                            key: ele?.safeTravel,
+                            icon: safetravel,
+                            label: "Safe to Travel",
+                          },
+                          {
+                            key: ele?.wildlife,
+                            icon: wildlife,
+                            label: "Wildlife",
+                          },
+                          {
+                            key: ele?.heritage,
+                            icon: heriatge,
+                            label: "Heritage",
+                          },
+                          {
+                            key: ele?.adventure,
+                            icon: adventure,
+                            label: "Adventure",
+                          },
+                          {
+                            key: ele?.beach,
+                            icon: beachChiar,
+                            label: "Beach",
+                          },
+                          {
+                            key: ele?.hillStation,
+                            icon: hillStation,
+                            label: "Hill Station",
+                          },
+                          {
+                            key: ele?.nature,
+                            icon: nature,
+                            label: "Nature",
+                          },
+                          {
+                            key: ele?.wellness,
+                            icon: wellness,
+                            label: "Wellness",
+                          },
+                          {
+                            key: ele?.hiddenGem,
+                            icon: hiddengem,
+                            label: "Hidden Gem",
+                          },
+                          { key: ele?.tax, icon: tax, label: "Tax" },
+                          {
+                            key: ele?.discount,
+                            icon: discount,
+                            label: "50% Off",
+                          },
+                          {
+                            key: ele?.waterActivities,
+                            icon: wateractivites,
+                            label: "Water Activities",
+                          },
+                          {
+                            key: ele?.optionalActivities,
+                            icon: otheractivity,
+                            label: "Optional Activities",
+                          },
+                          {
+                            key: ele?.flexibleBooking,
+                            icon: flexible,
+                            label: "Flexible Booking",
+                          },
+                          { key: ele?.wifi, icon: wifi, label: "WIFI" },
+                        ];
+
+                        // Render only items with valid keys
+                        return inclusions
+                          .filter(({ key }) => key)
+                          .map(({ icon, label }, subIndex) => (
+                            <div
+                              key={`${index}-${subIndex}`}
+                              style={{
+                                width: "100px",
+                                height: "68px",
+                                display: "flex", // Enable flexbox
+                                flexDirection: "column", // Stack items vertically
+                                justifyContent: "center", // Center items vertically
+                                alignItems: "center", // Center items horizontally
+                                textAlign: "center", // Center text alignment
+                              }}
+                            >
+                              <span style={{ marginBottom: "4px" }}>
+                                {icon}
+                              </span>{" "}
+                              {/* Icon */}
+                              <p style={{ textAlign: "center", margin: 0 }}>
+                                {label}
+                              </p>{" "}
+                              {/* Label */}
+                            </div>
+                          ));
+                      })}
+                  </div>
+                </Modal>
               </div>
 
               <div className="HDEinfo">

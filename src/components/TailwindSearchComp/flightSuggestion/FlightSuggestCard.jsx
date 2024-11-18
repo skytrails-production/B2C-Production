@@ -12,7 +12,7 @@ import dayjs from "dayjs";
 // import convertNumbThousand from "./convertNumbThousand";
 
 const FlightSuggestCard = ({ className = "", data }) => {
-  // console.log(data, "data")
+  console.log(data, "datatata")
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -116,7 +116,7 @@ const FlightSuggestCard = ({ className = "", data }) => {
 
       <div className="relative flex-shrink-0 w-16 h-16 rounded-full overflow-hidden">
         <img
-          src={data?.imgages}
+          src={data?.images}
           alt=""
           className="object-cover w-full h-full"
         />
@@ -144,7 +144,7 @@ const FlightSuggestCard = ({ className = "", data }) => {
           </span>
         </h2>
         <span className="block mt-2 text-sm text-neutral-500 dark:text-neutral-400">
-          {data?.code}-{data?.arrivalCode}
+          {data?.airportDepCode}-{data?.arrivalCode}
         </span>
       </div>
     </div>
