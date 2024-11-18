@@ -2,7 +2,7 @@
   min-width: fit-content;
   min-height: 32px;
 
-  color: black;
+  color: black !important;
   text-align: start;
   text-decoration: none;
   word-wrap: break-word;
@@ -20,5 +20,5 @@
   border-radius: 6px;
   box-sizing: border-box;
 
-  background-color: white;
+  background-color: white !important;
 }
