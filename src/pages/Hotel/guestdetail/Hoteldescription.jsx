@@ -8,7 +8,6 @@ import StarIcon from "@mui/icons-material/Star";
 import { apiURL } from "../../../Constants/constant";
 import chevrondown from "../../../images/chevrondown.svg";
 import { motion } from "framer-motion";
-import useRazorpay from "react-razorpay";
 import PaymentLoader from "../../flight/FlightLoader/paymentLoader";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -214,53 +213,12 @@ const Hoteldescription = ({
     // dispatch(hotelBookRoomAction(payload));//ye nhi hai
   };
 
-  // razorpay integration
+ 
 
-  // razorpay integration part
 
-  const [Razorpay, isLoaded] = useRazorpay();
+  
 
-  // const handlePayment = useCallback(async () => {
-  //   try {
-  //     const options = {
-  //       key: "rzp_test_rSxJ8wZCLzTJck",
-  //       amount: "300" * 100,
-  //       currency: "INR",
-  //       name: "The Skytrails",
-  //       description: "Test Transaction",
-  //       image: "https://travvolt.s3.amazonaws.com/Brand.png",
-  //       // order_id: order.id,
-  //       handler: (response) => {
-  //         console.log(response);
 
-  //         if (response.razorpay_payment_id) {
-  //           setLoaderPayment(true);
-  //         } else {
-  //           // Handle payment failure
-  //           console.log("Payment failed");
-  //         }
-  //       },
-  //       // prefill: {
-  //       //   name: "Piyush Garg",
-  //       //   email: "youremail@example.com",
-  //       //   contact: "9999999999"
-  //       // },
-  //       notes: {
-  //         address: "Razorpay Corporate Office",
-  //       },
-  //       theme: {
-  //         color: "#e73c34",
-  //       },
-  //     };
-
-  //     const rzpay = new Razorpay(options);
-  //     rzpay.open();
-  //   } catch (error) {
-  //     console.error("Error creating order:", error);
-  //   }
-  // }, [Razorpay]);
-
-  // razorpay integration
 
   const [paymentLoading, setPaymentLoading] = useState(false);
 
