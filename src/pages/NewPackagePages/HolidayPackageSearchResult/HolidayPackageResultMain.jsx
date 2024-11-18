@@ -290,6 +290,7 @@ console.log("ressss",(hasFlight && hasFlterFlight) || (hasNotFlterFlight && !has
       includeFlight: true,
       notIncludeFlight: true,
     });
+    setFlightOption1([])
     setSelectedDays([]);
     setSearchTerm("");
     setSelectedDestinations([]);
@@ -297,16 +298,17 @@ console.log("ressss",(hasFlight && hasFlterFlight) || (hasNotFlterFlight && !has
   
 
   useEffect(() => {
-    //console.log(Package,"packageee")
+    console.log(packageData,"packageeeeeee")
     
-    if (Package.length === 0) {
-      setPackagedata(Package)
+    setPackagedata(Package)
+    if (packageData.length === 0) {
       // if (Package?.length != 0 && packageData?.length == 0 && isFilterApplied) {
+      console.log("setpackagedata",Package)
       setToomanyFilter(false);
     } else {
       setToomanyFilter(false);
     }
-  }, [Package, packageData]);
+  }, [Package]);
 
   if (loading) {
     return <HolidayResultSkeleton />;
