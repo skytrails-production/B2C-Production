@@ -165,14 +165,16 @@ const HolidayPackageResultMain = () => {
     if (flightOption1?.length > 0) {
       filtered = filtered?.filter((pkg) => {
         const inclusions = pkg?.insclusions;
-
+        
+        
         const hasFlight = inclusions?.some((inclusion) =>
           Object.keys(inclusion).includes("flight")
-        );
-
-        const hasFlterFlight = flightOption1.includes("flight");
-        const hasNotFlterFlight = flightOption1.includes("not-included");
-
+      );
+      
+      const hasFlterFlight = flightOption1.includes("flight");
+      const hasNotFlterFlight = flightOption1.includes("not-included");
+      console.log("flightOption!11","hasFlterFlight",hasFlterFlight,"hasNotFlterFlight",hasNotFlterFlight,"hasFlight",hasFlight,flightOption1)
+console.log("ressss",(hasFlight && hasFlterFlight) || (hasNotFlterFlight && !hasFlight))
         return (
           (hasFlight && hasFlterFlight) || (hasNotFlterFlight && !hasFlight)
         );
@@ -180,20 +182,21 @@ const HolidayPackageResultMain = () => {
         // return includeFlight.includes(true)? hasFlight :!hasFlight || true;
         // return true;
       });
+      console.log("inclidefflitred",filtered)
     }
 
     // Flight filter: apply only if user has chosen a specific option
-    if (isFilterApplied && Array.isArray(filtered)) {
-      filtered = filtered?.filter((pkg) => {
-        const hasFlight = pkg?.insclusions.some((inclusion) =>
-          Object.keys(inclusion).includes("flight")
-        );
-        if (flightOption?.includeFlight && flightOption?.notIncludeFlight) {
-          return true; // Show all if both options are selected
-        }
-        return flightOption?.includeFlight ? hasFlight : !hasFlight;
-      });
-    }
+    // if (isFilterApplied && Array.isArray(filtered)) {
+    //   filtered = filtered?.filter((pkg) => {
+    //     const hasFlight = pkg?.insclusions.some((inclusion) =>
+    //       Object.keys(inclusion).includes("flight")
+    //     );
+    //     if (flightOption?.includeFlight && flightOption?.notIncludeFlight) {
+    //       return true; // Show all if both options are selected
+    //     }
+    //     return flightOption?.includeFlight ? hasFlight : !hasFlight;
+    //   });
+    // }
 
     if (days?.length > 0) {
       filtered = filtered?.filter((pkg) => {
@@ -267,7 +270,7 @@ const HolidayPackageResultMain = () => {
     }
     // let newArray = [...array.slice(0, index), ...array.slice(index + 1)];
     setFlightOption1([...array]);
-    console.log(array, 'arrayyy', value, array)
+    //console.log(array, 'arrayyy', value, array)
   };
   const handleDaysChange = (value) => {
     setSelectedDays((prev) =>
@@ -294,10 +297,10 @@ const HolidayPackageResultMain = () => {
   
 
   useEffect(() => {
-    console.log(Package,"packageeee")
-    setPackagedata(Package,"packageupadetded")
+    //console.log(Package,"packageee")
     
     if (Package.length === 0) {
+      setPackagedata(Package)
       // if (Package?.length != 0 && packageData?.length == 0 && isFilterApplied) {
       setToomanyFilter(false);
     } else {
