@@ -78,11 +78,11 @@ const HolidayPackageResultMain = () => {
         `${apiURL.baseURL}/skyTrails/package/getPackageCityData?keyword=${keyword}`
       );
       const result = await response.json();
-      //console.log(result, "resultsss");
+      console.log(result, "resultsss");
       setData(result?.data);
       setLoading(false);
     } catch (error) {
-      //console.error("Error fetching data:", error);
+      console.error("Error fetching data:", error);
       setLoading(false);
     }
   };
@@ -145,7 +145,7 @@ const HolidayPackageResultMain = () => {
     days
   ) => {
     let filtered = Package;
-    // console.log(filtered, "filteredddd");
+     console.log(filtered, "filteredddd");
 
     if (selectedDestinations?.length > 0) {
       filtered = filtered?.filter((pkg) =>
@@ -161,7 +161,7 @@ const HolidayPackageResultMain = () => {
       );
     }
 
-    //console.log(flightOption1,flightOption1?.length,"flightOption1")
+    console.log(flightOption1,flightOption1?.length,"flightOption1")
     if (flightOption1?.length > 0) {
       filtered = filtered?.filter((pkg) => {
         const inclusions = pkg?.insclusions;
@@ -267,7 +267,7 @@ const HolidayPackageResultMain = () => {
     }
     // let newArray = [...array.slice(0, index), ...array.slice(index + 1)];
     setFlightOption1([...array]);
-    //console.log(array, 'arrayyy', value, array)
+    console.log(array, 'arrayyy', value, array)
   };
   const handleDaysChange = (value) => {
     setSelectedDays((prev) =>
@@ -291,9 +291,12 @@ const HolidayPackageResultMain = () => {
     setSearchTerm("");
     setSelectedDestinations([]);
   };
+  
 
   useEffect(() => {
-    //console.log(Package,"packageee")
+    console.log(Package,"packageeee")
+    setPackagedata(Package,"packageupadetded")
+    
     if (Package.length === 0) {
       // if (Package?.length != 0 && packageData?.length == 0 && isFilterApplied) {
       setToomanyFilter(false);

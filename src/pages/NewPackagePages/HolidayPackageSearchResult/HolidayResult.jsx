@@ -39,6 +39,7 @@ import { Spin } from "antd"; // Ant Design's loading spinner
 
 const HolidayResult = ({ packages, priceRange, searchTerm }) => {
   // Filtering packages based on searchTerm and priceRange
+  console.log("innerpackage",packages);
   let filteredPackages = packages?.filter((pkg) => {
     if (
       searchTerm &&
@@ -46,7 +47,7 @@ const HolidayResult = ({ packages, priceRange, searchTerm }) => {
     ) {
       return false;
     }
-    if (
+    if ( 
       pkg.pakage_amount.amount &&
       pkg.pakage_amount.amount >= priceRange[0] &&
       pkg.pakage_amount.amount <= priceRange[1]
@@ -55,7 +56,7 @@ const HolidayResult = ({ packages, priceRange, searchTerm }) => {
     }
     return false;
   });
-  // console.log(filteredPackages, "Packages filtered");
+  console.log(filteredPackages, "Packages filtered");
   return (
     <div className="row g-4">
       {packages && packages.length === 0 ? (
