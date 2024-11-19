@@ -80,8 +80,12 @@ const HolidayDetailsEnquiry = () => {
     );
   }
   const MAX_INCLUSIONS_TO_SHOW = 7;
+  // Count the inclusions with a `true` value
+  const trueInclusionsCount = onePackage?.insclusions?.filter((inclusion) =>
+    Object?.values(inclusion)?.some((value) => value === "true")
+  )?.length;
 
-  // console.log(reducerState, "reducer state")
+  console.log(trueInclusionsCount, "trueInclusionsCount");
 
   return (
     <section className="pt-4">
@@ -369,6 +373,7 @@ const HolidayDetailsEnquiry = () => {
 
               <div className="inclusionMainBox">
                 <div className="inclusionIcons">
+                  {console.log("Inclusions:", onePackage?.insclusions)}
                   {onePackage?.insclusions
                     ?.slice(0, MAX_INCLUSIONS_TO_SHOW)
                     .map((ele, index) => (
@@ -575,9 +580,11 @@ const HolidayDetailsEnquiry = () => {
                       </div>
                     ))}
 
-                  <span className="seeMore" onClick={handleOpenModal}>
-                    See More
-                  </span>
+                  {trueInclusionsCount > 7 && (
+                    <span className="seeMore" onMouseOver={handleOpenModal}>
+                      See More
+                    </span>
+                  )}
                 </div>
                 <Modal
                   visible={isModalVisible}
