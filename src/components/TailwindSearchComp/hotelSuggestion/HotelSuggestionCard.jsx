@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { hotelActionGRN } from "../../../Redux/HotelGRN/hotel";
 
 const HotelSuggestionCard = ({ className = "", data }) => {
+  console.log(data,"HotelSuggestionCardData")
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -22,7 +23,7 @@ const HotelSuggestionCard = ({ className = "", data }) => {
   async function searchHotel(event) {
     sessionStorage.setItem("SessionExpireTime", new Date());
 
-    if (event?.Location.hotelCode) {
+    if (event?.hotelCode) {
       let payload = {
         rooms: [
           {
@@ -32,7 +33,7 @@ const HotelSuggestionCard = ({ className = "", data }) => {
         ],
         checkin: dayjs(todaydate).format("YYYY-MM-DD"),
         checkout: dayjs(nextDate).format("YYYY-MM-DD"),
-        hotel_codes: [`${event.Location.hotelCode}`],
+        hotel_codes: [`${event.Location  .hotelCode}`],
         client_nationality: "IN",
         currency: "INR",
         cutoff_time: 30000,
@@ -51,7 +52,7 @@ const HotelSuggestionCard = ({ className = "", data }) => {
             children_ages: [],
           },
         ],
-        cityCode: event.Location.grnCityCode || event?.Location.cityCode,
+        cityCode: event?.grnCityCode || event?.cityCode,
         checkin: dayjs(todaydate).format("YYYY-MM-DD"),
         checkout: dayjs(nextDate).format("YYYY-MM-DD"),
         client_nationality: "IN",
@@ -66,12 +67,12 @@ const HotelSuggestionCard = ({ className = "", data }) => {
         JSON.stringify([
           {
             cityCode:
-              event?.Location.grnCityCode || event?.Location.tboCityCode,
-            cityName: event?.Location.cityName,
+              event?.grnCityCode || event?.tboCityCode,
+            cityName: event?.cityName,
             countryCode:
-              event?.Location.grnCountryCode || event?.Location.tboCountryCode,
+              event?.grnCountryCode || event?.tboCountryCode,
             countryName:
-              event?.Location.grnCountryName || event?.Location.tboCountryName,
+              event?.grnCountryName || event?.tboCountryName,
             checkin: todaydate,
             checkout: nextDate,
             rooms: [
@@ -105,7 +106,7 @@ const HotelSuggestionCard = ({ className = "", data }) => {
 
       <div className="relative flex-shrink-0 w-16 h-16 rounded-full overflow-hidden">
         <img
-          src={data?.imgages}
+          src={data?.image}
           alt=""
           className="object-cover w-full h-full"
         />
@@ -113,7 +114,7 @@ const HotelSuggestionCard = ({ className = "", data }) => {
       <div className="ml-4 flex-grow overflow-hidden">
         <h2 className="text-base font-medium">
           <span className="line-clamp-1 flex gap-2 items-center">
-            {data?.Location?.cityName}{" "}
+            {data?.cityName}{" "}
             {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"

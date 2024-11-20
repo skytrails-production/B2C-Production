@@ -21,6 +21,7 @@ import {
   searchFlight,
   clearSearch,
 } from "../Redux/SearchFlight/actionSearchFlight";
+import {flightHotelSuggestListReq} from "../Redux/FlightHotelSuggest/actionFlightHotelSuggest"
 import { useNavigate } from "react-router-dom";
 import { resetAllFareData } from "../Redux/FlightFareQuoteRule/actionFlightQuote";
 import { returnActionClear } from "../Redux/FlightSearch/Return/return";
@@ -562,6 +563,7 @@ function OnewayNew() {
     dispatch(returnActionClear());
     dispatch(clearSearch());
     dispatch(resetOneWay());
+    dispatch(flightHotelSuggestListReq())
   }, []);
 
   const handleFromSelect = (item) => {

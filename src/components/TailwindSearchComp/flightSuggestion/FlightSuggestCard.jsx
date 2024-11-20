@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { oneWayAction } from "../../../Redux/FlightSearch/oneWay";
+import { oneWayAction, oneWayActionCombined } from "../../../Redux/FlightSearch/oneWay";
 import {
   searchaAirportListReq,
   searchFlightListReq,
@@ -89,6 +89,7 @@ const FlightSuggestCard = ({ className = "", data }) => {
     const formattedDate = parsedDate.toISOString();
 
     dispatch(oneWayAction(payload));
+    dispatch(oneWayActionCombined(payload));
 
     dispatch(searchFlightListReq());
     dispatch(searchaAirportListReq());
@@ -144,7 +145,7 @@ const FlightSuggestCard = ({ className = "", data }) => {
           </span>
         </h2>
         <span className="block mt-2 text-sm text-neutral-500 dark:text-neutral-400">
-          {data?.airportDepCode}-{data?.arrivalCode}
+          {data?.combineCode}
         </span>
       </div>
     </div>

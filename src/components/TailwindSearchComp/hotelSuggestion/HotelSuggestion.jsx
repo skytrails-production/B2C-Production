@@ -2,6 +2,7 @@ import React from "react";
 
 import Heading from "../shared/Heading";
 import HotelSuggestionCard from "./HotelSuggestionCard";
+import { useSelector } from "react-redux";
 
 const hotels = [
   {
@@ -218,6 +219,8 @@ const HotelSuggestion = ({
   className = "",
   gridClassName = "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
 }) => {
+  const reducerState= useSelector((state) => state);
+  const hotalData=reducerState?.flightSuggested?.flightHotalSuggeated?.hotelPayloadResult
   return (
     <div
       className={`nc-SectionGridCategoryBox custom-container mt-16 relative`}
@@ -229,7 +232,7 @@ const HotelSuggestion = ({
         Explore Best Hotels
       </Heading>
       <div className={`grid ${gridClassName} gap-3 sm:gap-3 md:gap-3`}>
-        {categories.map((item, i) => (
+        {hotalData.map((item, i) => (
           <HotelSuggestionCard key={i} data={item} />
         ))}
       </div>

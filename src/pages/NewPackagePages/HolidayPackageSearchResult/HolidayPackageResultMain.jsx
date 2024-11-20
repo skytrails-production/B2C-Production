@@ -298,7 +298,7 @@ console.log("ressss",(hasFlight && hasFlterFlight) || (hasNotFlterFlight && !has
   
 
   useEffect(() => {
-    // console.log(packageData,"packageeeeeee")
+    console.log(packageData,"packageeeeeee")
     
     setPackagedata(Package)
     if (packageData.length === 0) {

@@ -6,25 +6,23 @@ const categories = [
     name: "Under 100k",
     value: "100000",
     image:
-      "https://images.pexels.com/photos/6780256/pexels-photo-6780256.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://skytrails.s3.amazonaws.com/holidayPics/uploadedFile_1732016860535_1.jpg",
   },
   {
     name: "Under 200k",
     value: "200000",
     image:
-      "https://images.pexels.com/photos/29226221/pexels-photo-29226221/free-photo-of-taj-mahal-palace-hotel-at-night-in-mumbai.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  },
+      "https://skytrails.s3.amazonaws.com/holidayPics/uploadedFile_1732016884961_2.jpg"},
   {
     name: "Under 300k",
     value: "300000",
     image:
-      "https://images.pexels.com/photos/29226221/pexels-photo-29226221/free-photo-of-taj-mahal-palace-hotel-at-night-in-mumbai.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-  },
+      "https://skytrails.s3.amazonaws.com/holidayPics/uploadedFile_1732016908094_3.jpg" },
   {
     name: "above 300k",
     value: "400000",
     image:
-      "https://images.pexels.com/photos/4429333/pexels-photo-4429333.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      "https://skytrails.s3.amazonaws.com/holidayPics/uploadedFile_1732016924541_4.jpg"
   },
 ];
 

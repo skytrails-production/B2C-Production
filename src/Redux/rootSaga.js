@@ -26,6 +26,7 @@ import { flightListWatcher } from "./Saga/flightlListSaga";
 import { tnplWatcher } from "./Saga/tnplSaga";
 import { IteneraryWatcher } from "./Saga/itenarySaga";
 import { getInventoryWatcher } from "./Saga/InventoryAuth";
+import {flightHotalSuggeatedWatcher} from "./Saga/flightHotalSuggeatedSaga"
 
 export function* rootSaga() {
   yield all([
@@ -54,5 +55,6 @@ export function* rootSaga() {
     IteneraryWatcher(),
     flightListWatcher(),
     getInventoryWatcher(),
+    flightHotalSuggeatedWatcher()
   ]);
 }

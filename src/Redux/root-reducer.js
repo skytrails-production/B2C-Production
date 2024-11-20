@@ -27,6 +27,7 @@ import { itenaryReducer } from "./Itenary/itenaryReducer";
 import { InventoryReducer } from "./inventoryLogin/InventoryReducer";
 import { tnplReducer } from "./TNPL/tnplReducer"
 import { airlineSeatMapReducer } from "./AirlineSeatMap/airlineSeatmapReducer";
+import {flightHotelSuggestReducer} from "./FlightHotelSuggest/flightHotelSuggestReducer"
 
 const appReducer = combineReducers({
   logIn: logInReducer,
@@ -51,7 +52,8 @@ const appReducer = combineReducers({
   flightList: flightListReducer,
   faqRating: faqRatingReducer,
 
-  airlineSeatMap: airlineSeatMapReducer
+  airlineSeatMap: airlineSeatMapReducer,
+  flightSuggested:flightHotelSuggestReducer
 });
 
 const rootReducer = (state, action) => {

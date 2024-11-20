@@ -5,6 +5,8 @@ import Heading from "../shared/Heading";
 import axios from "axios";
 import { apiURL } from "../../../Constants/constant"
 
+import { useSelector } from "react-redux";
+
 
 const flightRoutes = [
   {
@@ -292,11 +294,14 @@ const FlightSuggestion = ({
   
 
   const [flightSuggest,setFlightSuggest]=useState([])
+  const reducerState= useSelector((state) => state);
+  // console.log(reducerState,"reducerState")
   const fetchflightSuggest=async()=>{
+   
 
     const data=await axios.get(`${apiURL.baseURL}/skyTrails/staticContent/flightPayload/listStaticFlightPayload`)
-    console.log("datattttt",apiURL.baseURL,data?.data?.result)
-    setFlightSuggest(data?.data?.result)
+    console.log("datattttt",apiURL.baseURL,data?.data?.result?.flightPayloadResult)
+    setFlightSuggest(data?.data?.result?.flightPayloadResult)
 
     return  data
   }
@@ -318,10 +323,11 @@ const FlightSuggestion = ({
         Explore Cheapest Flight
       </Heading>
       <div className={`grid ${gridClassName} gap-3 sm:gap-3 md:gap-3`}>
-        {flightSuggest && 
-          flightSuggest.map((item, i) => (
-          <FlightSuggestCard key={i} data={item} />
-        ))}
+      {reducerState?.flightSuggested?.flightHotalSuggeated?.flightPayloadResult
+        && 
+        reducerState?.flightSuggested?.flightHotalSuggeated?.flightPayloadResult.map((item, i) => (
+        <FlightSuggestCard key={i} data={item} />
+      ))}
       </div>
     </div>
   );

@@ -21,8 +21,8 @@ function api() {
     return axios.get(`${apiURL.baseURL}/skyTrails/api/user/getFaqRating`);
   };
   const fetchflightSuggest=async()=>{
-
-    return axios.get(`${apiURL.baseURL}/skyTrails/staticContent/flightPayload/listStaticFlightPayload`)
+   let  data =await axios.get(`${apiURL.baseURL}/skyTrails/staticContent/flightPayload/listStaticFlightPayload`)
+      return   data?.data?.result
   }
 
   const userB2BToken = (payload) => {
@@ -771,6 +771,14 @@ function api() {
 
       }
     })
+  }
+  const fetchflightHotelSuggest=async()=>{
+
+    const data=await axios.get(`${apiURL.baseURL}/skyTrails/staticContent/flightPayload/listStaticFlightPayload`)
+    console.log("datattttt",apiURL.baseURL,data?.data?.result?.flightPayloadResult)
+    
+
+    return  data?.data?.result?.flightPayloadResult
   }
 
   return {
