@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { searchOnePackageAction } from "../../../Redux/OnePackageSearchResult/actionOneSearchPackage";
 import "./holidaydetailsEnquiry.scss";
 import Img from "../../../LazyLoading/Img";
-import "./hoteldetailsenquiry.css";
+
 import HolidayDetailsBottomDetails from "./HolidayDetailsBottomDetails";
 import {
   adventure,
