@@ -1,0 +1,23 @@
+.main-section {
+  text-align: center; /* Align center if required */
+  margin: 20px; /* Add some spacing */
+}
+
+.request-received {
+  font-size: 18px; /* Adjust font size */
+  font-weight: bold;
+}
+
+.details-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px; /* Adjust font size */
+  font-weight: normal;
+  margin-top: 10px; /* Space above details */
+}
+
+.right-icon {
+  margin-left: 8px; /* Add space before the icon */
+  font-size: 16px; /* Adjust icon size */
+}

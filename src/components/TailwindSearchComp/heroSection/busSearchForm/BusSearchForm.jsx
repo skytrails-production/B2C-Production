@@ -18,6 +18,8 @@ const BusSearchForm = () => {
   const reducerState = useSelector((state) => state);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [error, setError] = useState(false);
+  const [shake, setShake] = useState(false);
 
   useEffect(() => {
     dispatch(clearBusSearchReducer());
@@ -28,6 +30,16 @@ const BusSearchForm = () => {
   };
   const handleToSelect = (location) => {
     setToCity(location);
+    if ( location?.CityId ===  fromCity?.CityId) {
+      setError(true)
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
+      return;
+    }
+    else{
+      setError(false)
+    }
+    
   };
 
   const handleDateChange = (dates) => {
@@ -35,6 +47,14 @@ const BusSearchForm = () => {
   };
 
   const handleSubmit = async () => {
+    if ( toCity?.CityId ===  fromCity?.CityId) {
+      console.log("bussubmit")
+      setShake(true);
+      setError(true)
+
+      setTimeout(() => setShake(false), 500);
+      return;
+    }
     const payload = {
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
@@ -80,6 +100,10 @@ const BusSearchForm = () => {
           className="flex-1"
           desc="Arrival City"
           onLocationSelect={handleToSelect}
+          error={error}
+          shake={shake}
+          
+          
         />
         <div className="self-center border-r-2 border-slate-300 h-12"></div>
         <BusDateBox

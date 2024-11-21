@@ -27,8 +27,8 @@ const HolidayPackageResultMain = () => {
     includeFlight: true,
     notIncludeFlight: true,
   });
+  
   const [flightOption1, setFlightOption1] = useState([]);
-
   const [selectedDays, setSelectedDays] = useState([]);
   const [packageData, setPackagedata] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -78,14 +78,15 @@ const HolidayPackageResultMain = () => {
         `${apiURL.baseURL}/skyTrails/package/getPackageCityData?keyword=${keyword}`
       );
       const result = await response.json();
-      console.log(result, "resultsss");
+     
       setData(result?.data);
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching data:", error);
+    
       setLoading(false);
     }
   };
+  
   useEffect(() => {
     // Page load par initially saare packages show karna hain
     handleFilterChange();
@@ -123,6 +124,9 @@ const HolidayPackageResultMain = () => {
   useEffect(() => {
     if (Package.length > 0) {
       setLoading(false);
+      return;
+    } else {
+      setLoading(true);
     }
   }, [Package]);
 
@@ -145,7 +149,7 @@ const HolidayPackageResultMain = () => {
     days
   ) => {
     let filtered = Package;
-     console.log(filtered, "filteredddd");
+   
 
     if (selectedDestinations?.length > 0) {
       filtered = filtered?.filter((pkg) =>
@@ -161,20 +165,18 @@ const HolidayPackageResultMain = () => {
       );
     }
 
-    console.log(flightOption1,flightOption1?.length,"flightOption1")
+   
     if (flightOption1?.length > 0) {
       filtered = filtered?.filter((pkg) => {
         const inclusions = pkg?.insclusions;
-        
-        
+
         const hasFlight = inclusions?.some((inclusion) =>
           Object.keys(inclusion).includes("flight")
-      );
-      
-      const hasFlterFlight = flightOption1.includes("flight");
-      const hasNotFlterFlight = flightOption1.includes("not-included");
-      console.log("flightOption!11","hasFlterFlight",hasFlterFlight,"hasNotFlterFlight",hasNotFlterFlight,"hasFlight",hasFlight,flightOption1)
-console.log("ressss",(hasFlight && hasFlterFlight) || (hasNotFlterFlight && !hasFlight))
+        );
+
+        const hasFlterFlight = flightOption1.includes("flight");
+        const hasNotFlterFlight = flightOption1.includes("not-included");
+       
         return (
           (hasFlight && hasFlterFlight) || (hasNotFlterFlight && !hasFlight)
         );
@@ -182,7 +184,7 @@ console.log("ressss",(hasFlight && hasFlterFlight) || (hasNotFlterFlight && !has
         // return includeFlight.includes(true)? hasFlight :!hasFlight || true;
         // return true;
       });
-      console.log("inclidefflitred",filtered)
+     
     }
 
     // Flight filter: apply only if user has chosen a specific option
@@ -270,7 +272,7 @@ console.log("ressss",(hasFlight && hasFlterFlight) || (hasNotFlterFlight && !has
     }
     // let newArray = [...array.slice(0, index), ...array.slice(index + 1)];
     setFlightOption1([...array]);
-    //console.log(array, 'arrayyy', value, array)
+    
   };
   const handleDaysChange = (value) => {
     setSelectedDays((prev) =>
@@ -290,38 +292,34 @@ console.log("ressss",(hasFlight && hasFlterFlight) || (hasNotFlterFlight && !has
       includeFlight: true,
       notIncludeFlight: true,
     });
-    setFlightOption1([])
+    setFlightOption1([]);
     setSelectedDays([]);
     setSearchTerm("");
     setSelectedDestinations([]);
   };
-  
 
   useEffect(() => {
-    console.log(packageData,"packageeeeeee")
-    
-    setPackagedata(Package)
+    setPackagedata(Package);
     if (packageData.length === 0) {
       // if (Package?.length != 0 && packageData?.length == 0 && isFilterApplied) {
-      console.log("setpackagedata",Package)
+  
       setToomanyFilter(false);
     } else {
       setToomanyFilter(false);
     }
   }, [Package]);
   useEffect(() => {
-    console.log(packageData,"packageeeeeee")
     
+
     // setPackagedata(Package)
-    if ( Package?.length>0 &&  packageData?.length === 0) {
+    if (Package?.length > 0 && packageData?.length === 0) {
       // if (Package?.length != 0 && packageData?.length == 0 && isFilterApplied) {
-      console.log("setpackagedata",Package)
+     
       setToomanyFilter(true);
     } else {
       setToomanyFilter(false);
     }
   }, [packageData]);
-
 
   if (loading) {
     return <HolidayResultSkeleton />;
@@ -353,7 +351,7 @@ console.log("ressss",(hasFlight && hasFlterFlight) || (hasNotFlterFlight && !has
           <div className="px-0 col-lg-12">
             {Object.keys(data).length > 0 && (
               <div className="countryDescCardUpper">
-                <div className="relative packbannerCountrywise h-[300px]">
+                <div className="relative packbannerCountrywise h-[280px]">
                   <img
                     src={data?.imageUrl}
                     alt="city"

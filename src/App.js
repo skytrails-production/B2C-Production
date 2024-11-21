@@ -135,11 +135,9 @@ import Kafilabookingdetails from "./pages/flight/flightResult/Kafilapi/Kafilaboo
 import OfferDetails from "./components/TailwindSearchComp/offerPage/OfferDetails";
 import AllOffers from "./components/TailwindSearchComp/offerPage/AllOffers";
 
-// import GetaCallback from "./GetaCallback";
+import GetaCallback from "./GetaCallback";
 
 import UserProfile from "./components/TailwindSearchComp/profilePage/UserProfile";
-
-
 
 function App() {
   // const location = useLocation();
@@ -263,6 +261,7 @@ function App() {
   const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
+    
   }, [pathname]);
 
   const [showPopup, setShowPopup] = useState(false);
@@ -619,10 +618,7 @@ function App() {
           path="/inventoryForgetPassword"
           element={<InventoryForgetPassword />}
         ></Route>
-        <Route
-          path="/my-profile"
-          element={<UserProfile />}
-        ></Route>
+        <Route path="/my-profile" element={<UserProfile />}></Route>
 
         <Route
           path="/inventoryDashboard"
@@ -659,7 +655,9 @@ function App() {
       {/* complete inventory */}
 
       {/* <Whatsapp /> */}
-      {/* <GetaCallback /> */}
+      {location.pathname.includes("/holidaypackages") && 
+      <GetaCallback />
+      }
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/inventoryForgetPassword" &&
