@@ -3,11 +3,16 @@ import axios from "axios";
 import { FaPhone } from "react-icons/fa";
 import { apiURL } from "./Constants/constant";
 import { CheckOutlined } from "@ant-design/icons";
+import { Link } from "react-router-dom";
 import "./getpage.css";
 function GetaCallback() {
   const [isOpen, setIsOpen] = useState(false);
   const [thankYouOpen, setThankYouOpen] = useState(false);
   const [page, setPage] = useState(1); // Manage pages
+  const today = new Date();
+  const minDate = new Date();
+  minDate.setDate(today.getDate() + 5); // Add 5 days to the current date
+
   const [formData, setFormData] = useState({
     destination: "",
     departureCity: "",
@@ -20,10 +25,12 @@ function GetaCallback() {
     child: "",
     msg: "",
     budget: "",
+    agreeToTerms: true, // Checkbox state
   });
 
   const [errors, setErrors] = useState({}); // Validation errors
   const [submittedData, setSubmittedData] = useState(null);
+
   const formatTravelDate = (date) => {
     const options = { year: "numeric", month: "short" }; // Format as Dec, 2024
     return new Date(date).toLocaleDateString("en-US", options);
@@ -49,7 +56,9 @@ function GetaCallback() {
 
     if (!formData.name) newErrors.name = "Enter your Name";
     if (!formData.phone) newErrors.phone = "Enter your Phone Number";
-
+    if (!formData.agreeToTerms)
+      newErrors.agreeToTerms =
+        "You must accept the User Agreement and Privacy Policy.";
     return newErrors;
   };
 
@@ -57,10 +66,6 @@ function GetaCallback() {
   const validatePage2 = () => {
     const newErrors = {};
     if (!formData.travelDate) newErrors.travelDate = "Enter Travel Date";
-    if (!formData.adult) newErrors.adult = "Enter number of Adults";
-    if (!formData.child) newErrors.child = "Enter number of Children";
-    if (!formData.msg) newErrors.msg = "Enter your Message";
-    if (!formData.budget) newErrors.budget = "Enter your budget";
 
     return newErrors;
   };
@@ -85,6 +90,7 @@ function GetaCallback() {
           name: formData.name,
           phone: formData.phone,
           email: formData.email,
+
           consent: formData.consent,
         }
       );
@@ -96,7 +102,6 @@ function GetaCallback() {
       console.error("Failed to request callback", err);
     }
   };
-
 
   const handleSubmitPage2 = async (e) => {
     e.preventDefault();
@@ -135,10 +140,10 @@ function GetaCallback() {
         <div className="flex items-center justify-center w-10 h-10 bg-gradient-to-r from-[#FF6C48] to-[#FF7371] rounded-full">
           <FaPhone className="text-xl text-white" />
         </div>
-        <span className="text-xs font-semibold text-black">
+        {/* <span className="text-xs font-semibold text-black">
           <span className="block">Get a</span>
           <span className="block">Callback</span>
-        </span>
+        </span> */}
       </button>
 
       {isOpen && (
@@ -160,94 +165,124 @@ function GetaCallback() {
                 <h2 className="text-xl font-semibold text-center">
                   Need Assistance?
                 </h2>
-                <form
-                  onSubmit={handleGetCallback}
-                  className="space-y-4 border"
-                  style={{ padding: "12px", border: "1px solid #DEE2E6" }}
-                >
+                <form onSubmit={handleGetCallback} className="space-y-4 ">
                   {/* Row 1 */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block">
-                        Destination <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="destination"
-                        value={formData.destination}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded"
-                      />
-                      {errors.destination && (
-                        <p className="text-sm text-red-500">
-                          {errors.destination}
-                        </p>
-                      )}
+
+                  <div style={{ padding: "12px", border: "1px solid #DEE2E6" }}>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block">
+                          Destination <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="destination"
+                          value={formData.destination}
+                          onChange={handleInputChange}
+                          className="w-full p-2 border rounded"
+                        />
+                        {errors.destination && (
+                          <p className="text-sm text-red-500">
+                            {errors.destination}
+                          </p>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block">Departure City</label>
+                        <input
+                          type="text"
+                          name="departureCity"
+                          value={formData.departureCity}
+                          onChange={handleInputChange}
+                          className="w-full p-2 border rounded"
+                        />
+                      </div>
                     </div>
+
+                    {/* Row 2 */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block">
+                          Full Name <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          className="w-full p-2 border rounded"
+                        />
+                        {errors.name && (
+                          <p className="text-sm text-red-500">{errors.name}</p>
+                        )}
+                      </div>
+                      <div>
+                        <label className="block">
+                          Mobile Number <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          className="w-full p-2 border rounded"
+                        />
+                        {errors.phone && (
+                          <p className="text-sm text-red-500">{errors.phone}</p>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Row 3 */}
                     <div>
-                      <label className="block">Departure City</label>
+                      <label className="block">Email Id</label>
                       <input
-                        type="text"
-                        name="departureCity"
-                        value={formData.departureCity}
+                        type="email"
+                        name="email"
+                        value={formData.email}
                         onChange={handleInputChange}
                         className="w-full p-2 border rounded"
                       />
                     </div>
                   </div>
-
-                  {/* Row 2 */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block">
-                        Full Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded"
-                      />
-                      {errors.name && (
-                        <p className="text-sm text-red-500">{errors.name}</p>
-                      )}
-                    </div>
-                    <div>
-                      <label className="block">
-                        Mobile Number <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded"
-                      />
-                      {errors.phone && (
-                        <p className="text-sm text-red-500">{errors.phone}</p>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Row 3 */}
-                  <div>
-                    <label className="block">Email Id</label>
+                  {/* Checkbox for Agreement */}
+                  <div className="flex items-center text-xs">
                     <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
+                      type="checkbox"
+                      name="agreeToTerms"
+                      checked={formData.agreeToTerms}
                       onChange={handleInputChange}
-                      className="w-full p-2 border rounded"
+                      className="mr-2"
                     />
+                    <span>
+                      I have read and agree to the{" "}
+                      <Link
+                        to="/termAndCondition"
+                        className="text-[#00A9FF] no-underline"
+                      >
+                       Term & Condition
+                      </Link>{" "}
+                      &{" "}
+                      <Link
+                        to="/privacypolicy"
+                        className=" text-[#00A9FF] no-underline"
+                      >
+                        Privacy Policy
+                      </Link>
+                      .
+                    </span>
                   </div>
-
+                  {errors.isAgreed && (
+                    <p className="text-sm text-red-500">{errors.isAgreed}</p>
+                  )}
                   <button
                     type="submit"
-                    className="px-2 py-2 font-bold text-white rounded-full"
-                    style={{
-                      background: "linear-gradient(to right, #4DABFD, #166CF5)",
-                    }}
+                    disabled={!formData.agreeToTerms} // Button disabled until checkbox is ticked
+                    className={`px-4 py-2 font-bold text-white rounded-full ${
+                      formData.agreeToTerms
+                        ? "bg-blue-500 hover:bg-blue-700"
+                        : "bg-gray-400 cursor-not-allowed"
+                    }`}
                   >
                     Get a Callback
                   </button>
@@ -261,79 +296,79 @@ function GetaCallback() {
                   Trip Details
                 </h2>
                 <form onSubmit={handleSubmitPage2} className="space-y-4">
-                  {/* Row 1 */}
-                  <div className="grid grid-cols-1">
-                    <div>
-                      <label className="block">
-                        Travel Date <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="date"
-                        name="travelDate"
-                        value={formData.travelDate}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded"
-                      />
+                  <div style={{ padding: "12px", border: "1px solid #DEE2E6" }}>
+                    {/* Row 1 */}
+                    <div className="grid grid-cols-1">
+                      <div>
+                        <label className="block">
+                          Travel Date<span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="date"
+                          name="travelDate"
+                          value={formData.travelDate}
+                          onChange={handleInputChange}
+                          className="w-full p-2 border rounded"
+                          min={minDate.toISOString().split("T")[0]} // Set minimum selectable date
+                        />
+                        {errors.travelDate && (
+                          <p className="text-sm text-red-500">
+                            {errors.travelDate}
+                          </p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  <div className="grid grid-cols-1">
-                    <div>
-                      <label className="block">
-                        Budget <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="budget"
-                        value={formData.budget}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded"
-                      />
-                    </div>
-                  </div>
 
-                  {/* Row 2 */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block">
-                        Adults <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="adult"
-                        value={formData.adult}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded"
-                      />
+                    <div className="grid grid-cols-1">
+                      <div>
+                        <label className="block">Budget</label>
+                        <input
+                          type="text"
+                          name="budget"
+                          value={formData.budget}
+                          onChange={handleInputChange}
+                          className="w-full p-2 border rounded"
+                        />
+                      </div>
                     </div>
-                    <div>
-                      <label className="block">
-                        Children <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="child"
-                        value={formData.child}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded"
-                      />
+
+                    {/* Row 2 */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block">Adults</label>
+                        <input
+                          type="text"
+                          name="adult"
+                          value={formData.adult}
+                          onChange={handleInputChange}
+                          className="w-full p-2 border rounded"
+                        />
+                      </div>
+                      <div>
+                        <label className="block">Children</label>
+                        <input
+                          type="text"
+                          name="child"
+                          value={formData.child}
+                          onChange={handleInputChange}
+                          className="w-full p-2 border rounded"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Row 3 */}
+                    <div className="grid grid-cols-1">
+                      <div>
+                        <label className="block">Message</label>
+                        <textarea
+                          name="msg"
+                          value={formData.msg}
+                          onChange={handleInputChange}
+                          className="w-full p-2 border rounded"
+                        />
+                      </div>
                     </div>
                   </div>
-
-                  {/* Row 3 */}
-                  <div className="grid grid-cols-1">
-                    <div>
-                      <label className="block">
-                        Message <span className="text-red-500">*</span>
-                      </label>
-                      <textarea
-                        name="msg"
-                        value={formData.msg}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded"
-                      />
-                    </div>
-                  </div>
-
                   <button
                     type="submit"
                     className="px-6 py-2 font-bold text-white rounded-full"

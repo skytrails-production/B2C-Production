@@ -5,20 +5,20 @@ import whatsapp from "./images/whatsapp.png";
 const Whatsapp = () => {
   const [showText, setShowText] = useState(true);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 130) {
-        setShowText(false);
-      } else {
-        setShowText(true);
-      }
-    };
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     if (window.scrollY > 130) {
+  //       setShowText(false);
+  //     } else {
+  //       setShowText(true);
+  //     }
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
   return (
     <a
@@ -28,8 +28,9 @@ const Whatsapp = () => {
       aria-label="Send a message on WhatsApp to +918800517859"
     >
       <div
-        className={`fixed transition-all duration-500 ease-in-out right-0 bottom-6  p-2 z-50 rounded-s-2xl bg-green-500 flex items-center space-x-2
-      ${showText ? "w-40" : "w-16"}`}
+        className={`fixed transition-all duration-500 ease-in-out right-0  bottom-28 p-2 z-50 rounded-s-2xl bg-green-500 flex items-center space-x-2
+     `}
+       
       >
         <img
           src={whatsapp}
@@ -40,13 +41,13 @@ const Whatsapp = () => {
             borderRadius: "50%",
           }}
         />
-        <span
+        {/* <span
           className={`text-[1rem] text-white text-nowrap font-semibold transition-all duration-500 ease-in-out ${
             showText ? "opacity-100 w-auto" : "opacity-0 w-0 d-none"
           }`}
         >
           Contact us
-        </span>
+        </span> */}
       </div>
     </a>
   );
