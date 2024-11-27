@@ -30,16 +30,14 @@ const BusSearchForm = () => {
   };
   const handleToSelect = (location) => {
     setToCity(location);
-    if ( location?.CityId ===  fromCity?.CityId) {
-      setError(true)
+    if (location?.CityId === fromCity?.CityId) {
+      setError(true);
       setShake(true);
       setTimeout(() => setShake(false), 500);
       return;
+    } else {
+      setError(false);
     }
-    else{
-      setError(false)
-    }
-    
   };
 
   const handleDateChange = (dates) => {
@@ -47,10 +45,12 @@ const BusSearchForm = () => {
   };
 
   const handleSubmit = async () => {
-    if ( toCity?.CityId ===  fromCity?.CityId) {
-      console.log("bussubmit")
+    sessionStorage.setItem("SessionExpireTime", new Date());
+
+    if (toCity?.CityId === fromCity?.CityId) {
+      console.log("bussubmit");
       setShake(true);
-      setError(true)
+      setError(true);
 
       setTimeout(() => setShake(false), 500);
       return;
@@ -102,8 +102,6 @@ const BusSearchForm = () => {
           onLocationSelect={handleToSelect}
           error={error}
           shake={shake}
-          
-          
         />
         <div className="self-center border-r-2 border-slate-300 h-12"></div>
         <BusDateBox

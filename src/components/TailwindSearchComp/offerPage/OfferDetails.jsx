@@ -248,7 +248,7 @@ const OfferDetails = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     disabled={isDisabled}
-                    className="block w-full border border-neutral-200 focus:border-primary-300 focus:ring focus:ring-primary-200 focus:ring-opacity-50 bg-gray-200 dark:border-neutral-700 dark:focus:ring-primary-6000 dark:focus:ring-opacity-25 dark:bg-neutral-900 rounded-md me-3 text-sm font-normal h-11 px-4 py-3 mt-1.5"
+                    className="block w-full border border-neutral-200 bg-gray-200  rounded-md me-3 text-sm font-normal h-11 px-4 py-3 mt-1.5"
                   />
                   <button
                     type="submit"
