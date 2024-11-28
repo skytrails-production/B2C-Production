@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { oneWayAction, oneWayActionCombined } from "../../../Redux/FlightSearch/oneWay";
+import {
+  oneWayAction,
+  oneWayActionCombined,
+} from "../../../Redux/FlightSearch/oneWay";
 import {
   searchaAirportListReq,
   searchFlightListReq,
@@ -12,8 +15,6 @@ import dayjs from "dayjs";
 // import convertNumbThousand from "./convertNumbThousand";
 
 const FlightSuggestCard = ({ className = "", data }) => {
-  console.log(data, "datatata")
-
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const reducerState = useSelector((state) => state);
@@ -73,6 +74,7 @@ const FlightSuggestCard = ({ className = "", data }) => {
           FlightCabinClass: 2,
           PreferredDepartureTime: dayjs(todaydate).format("DD MMM, YY"),
           PreferredArrivalTime: dayjs(todaydate).format("DD MMM, YY"),
+          PreferredArrivalTimeCld: dayjs(todaydate).format("DD MMM, YY"),
           selectedFrom: event.fromDetails,
           selectedTo: event.to,
           totalCount: 1,
@@ -107,7 +109,7 @@ const FlightSuggestCard = ({ className = "", data }) => {
   return (
     <div
       onClick={() => handleOnewaySubmit(data)}
-      className={`nc-CardCategoryBox1 relative flex items-center p-2 sm:p-2 py-6 sm:py-6 [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] ${className}`}
+      className={`nc-CardCategoryBox1 cursor-pointer relative flex items-center p-2 sm:p-2 py-6 sm:py-6 [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] ${className}`}
     >
       {/* <Badge
                 className="absolute right-2 top-2"
@@ -116,11 +118,7 @@ const FlightSuggestCard = ({ className = "", data }) => {
             /> */}
 
       <div className="relative flex-shrink-0 w-16 h-16 rounded-full overflow-hidden">
-        <img
-          src={data?.images}
-          alt=""
-          className="object-cover w-full h-full"
-        />
+        <img src={data?.images} alt="" className="object-cover w-full h-full" />
       </div>
       <div className="ml-4 flex-grow overflow-hidden">
         <h2 className="text-base font-medium">

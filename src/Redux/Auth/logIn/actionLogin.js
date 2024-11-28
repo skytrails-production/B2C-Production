@@ -27,6 +27,30 @@ export const loginAction = (user) => {
 
 
 
+
+
+export const successNumAfterSocialLogin = (user) => {
+  return {
+    type: types.VERIFY_NUM_AFTERSOCIALLOGIN_SUCCESS,
+    payload: user,
+  };
+};
+
+
+
+export const requestNumAfterSocialLogin = (user) => {
+  // console.error("funtion", user);
+  if (user) {
+    return {
+      type: types.VERIFY_NUM_AFTERSOCIALLOGIN_REQUEST,
+      payload: user,
+    };
+  }
+};
+
+
+
+
 // UPDATE IMAGE IN MY PROFILE 
 
 

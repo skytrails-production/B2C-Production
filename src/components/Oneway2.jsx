@@ -91,6 +91,7 @@ const FromSearchInput = (props) => {
     __v: 0,
     _id: "63d7db1a64266cbf450e07c1",
   };
+
   const { onItemSelect } = props;
   const [fromData, setFromData] = useState([]);
   const [fromValue, setFromValue] = useState(initialSelectedFromData.name);
@@ -100,7 +101,7 @@ const FromSearchInput = (props) => {
   const [FromDisplayValue, setFromDisplayValue] = useState(
     initialSelectedFromData.name
   );
-  // console.log(FromDisplayValue, "FromDisplayValue")
+
   const [inputStyle, setInputStyle] = useState({});
 
   const handleFromSearch = (newValue) => {
@@ -130,7 +131,6 @@ const FromSearchInput = (props) => {
     setInputStyle({ caretColor: "transparent" });
   };
   const renderFromOption = (option) => {
-    // console.log(option,"optionnnnnnnnnn")
     return (
       <div>
         <div>{option.code}</div>
@@ -311,7 +311,6 @@ const ToSearchInput = (props) => {
 
 function OnewayNew() {
   let value2 = JSON.parse(sessionStorage.getItem("onewayprop"));
-  // console.log(value2, "value222222")
   let initialSelectedFromData = {
     AirportCode: value2?.[0]?.selectedFrom?.AirportCode,
     CityCode: value2?.[0]?.selectedFrom?.CityCode,
@@ -344,7 +343,6 @@ function OnewayNew() {
   const flightclassvalue = value2?.[0]?.FlightCabinClass;
   const flightclassnamevalue = value2?.[0]?.flightclassName;
 
-  // console.log("total coutn",totalcount,adultcount,childcout,infantcount,flightclassvalue);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   sessionStorage.removeItem("apiCalled");
@@ -534,7 +532,6 @@ function OnewayNew() {
   const handleRoundLogoClick = () => {
     setSelectedFrom(selectedTo);
     setSelectedTo(selectedFrom);
-    console.log(selectedTo, selectedFrom);
   };
 
   const items = ClassItems.map((ele) => ({

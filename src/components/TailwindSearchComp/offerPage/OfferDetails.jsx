@@ -47,20 +47,27 @@ const OfferDetails = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8000/skyTrails/api/user/promotionalEmails/createEntry",
+        `${apiURL.baseURL}/skyTrails/api/user/promotionalEmails/createEntry`,
         { email }
       );
 
       if (response.status === 200) {
         setEmail(""); // Clear the email field on success
+        setIsLoading(false);
+
+        // Temporarily show "Submitted" on the button
+        setIsDisabled(true);
+        setTimeout(() => {
+          setIsDisabled(false);
+        }, 2000); // Enable the button again after 2 seconds
       }
     } catch (error) {
       console.error("Error subscribing:", error);
     } finally {
       setIsLoading(false);
-      setIsDisabled(false);
     }
   };
+
   const copyText = () => {
     const textToCopy = document.getElementById("easepayid").innerText;
     navigator.clipboard
@@ -255,7 +262,11 @@ const OfferDetails = () => {
                     className="h-11 px-4 py-2 mt-1.5 rounded-md bg-primary-6000 text-white font-semibold"
                     disabled={isDisabled}
                   >
-                    {isLoading ? "Loading..." : "Submit"}
+                    {isLoading
+                      ? "Loading..."
+                      : isDisabled
+                      ? "Submitted"
+                      : "Submit"}
                   </button>
                 </div>
               </form>

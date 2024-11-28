@@ -13,7 +13,7 @@ const FlightLocationTo = ({
   error,
   shake,
 }) => {
-  console.log("error: " + error, shake);
+  // console.log("error: " + error, shake);
   const containerRef = useRef(null);
   const inputRef = useRef(null);
 

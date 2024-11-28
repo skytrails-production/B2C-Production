@@ -382,18 +382,18 @@ const FlightMain = () => {
       a?.Fare?.BaseFare || a?.Fare?.BasicTotal || a?.TotalPublishFare || 0;
     const baseFare2 =
       b?.Fare?.BaseFare || b?.Fare?.BasicTotal || b?.TotalPublishFare || 0;
-    const totalPublishFareA = a?.TotalPublishFare || 0;
-    const totalPublishFareB = b?.TotalPublishFare || 0;
-    const basicTotalA = a?.Fare?.BasicTotal || 0;
-    const basicTotalB = b?.Fare?.BasicTotal || 0;
+    // const totalPublishFareA = a?.TotalPublishFare || 0;
+    // const totalPublishFareB = b?.TotalPublishFare || 0;
+    // const basicTotalA = a?.Fare?.BasicTotal || 0;
+    // const basicTotalB = b?.Fare?.BasicTotal || 0;
 
-    if (baseFare !== baseFare2) {
-      return baseFare - baseFare2;
-    } else if (totalPublishFareA !== totalPublishFareB) {
-      return totalPublishFareA - totalPublishFareB;
-    } else {
-      return basicTotalA - basicTotalB;
-    }
+    // if (baseFare !== baseFare2) {
+    return baseFare - baseFare2;
+    // } else if (totalPublishFareA !== totalPublishFareB) {
+    //   return totalPublishFareA - totalPublishFareB;
+    // } else {
+    //   return basicTotalA - basicTotalB;
+    // }
   });
 
   return (

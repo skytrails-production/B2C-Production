@@ -63,6 +63,25 @@ export const logInReducer = (state = initialState, action) => {
         isLoading: true,
         isError: false,
       };
+
+      case types.VERIFY_NUM_AFTERSOCIALLOGIN_SUCCESS:
+      return {
+        ...state,
+        loginData: payload,
+        token: payload,
+        isLogin: true,
+        isLoading: false,
+        isError: false,
+      };
+
+      case types.VERIFY_NUM_AFTERSOCIALLOGIN_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+
+
     case types.LOGIN_REQUEST_SOCIAL:
       return {
         ...state,

@@ -1,10 +1,11 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { EDIT_REQUEST_MYPROFILE, LOGIN_REQUEST, LOGIN_REQUEST_SOCIAL, UPDATE_IMG_REQUEST_MYPROFILE } from "../Auth/logIn/actionType";
+import { EDIT_REQUEST_MYPROFILE, LOGIN_REQUEST, LOGIN_REQUEST_SOCIAL, UPDATE_IMG_REQUEST_MYPROFILE, VERIFY_NUM_AFTERSOCIALLOGIN_REQUEST } from "../Auth/logIn/actionType";
 // import { LOGIN_REQUEST, LOGIN_SUCCESS, USER_DATA } from "../Auth/logIn/actionType";
 import userApi from "../API/api";
 import {
   editLoginIMAGE,
   fetchLogIn,
+  successNumAfterSocialLogin,
   UpdateLoginIMAGE,
 
 } from "../Auth/logIn/actionLogin";
@@ -25,6 +26,14 @@ function* userLoginRequest(action) {
       yield put(fetchLogIn(error?.response?.data));
     }
 
+  }
+}
+function* verifyNumAfterSocialLogin(action) {
+  try {
+    const user = yield call(userApi.socialPhoneVerify, action.payload);
+    yield put(successNumAfterSocialLogin(user));
+  } catch (error) {
+    console.log("Login Error saga", error?.response?.data)
   }
 }
 function* userLoginRequestWithSocialLogin(action) {
@@ -66,6 +75,7 @@ function* editProfilePictureMyProfile(action) {
 
 export function* loginWatcher() {
   yield takeLatest(LOGIN_REQUEST, userLoginRequest);
+  yield takeLatest(VERIFY_NUM_AFTERSOCIALLOGIN_REQUEST, verifyNumAfterSocialLogin);
   yield takeLatest(LOGIN_REQUEST_SOCIAL, userLoginRequestWithSocialLogin);
   yield takeLatest(UPDATE_IMG_REQUEST_MYPROFILE, updateProfilePictureMyProfile);
   yield takeLatest(EDIT_REQUEST_MYPROFILE, editProfilePictureMyProfile);

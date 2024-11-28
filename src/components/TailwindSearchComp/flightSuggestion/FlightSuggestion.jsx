@@ -3,10 +3,9 @@ import React, { useEffect, useState } from "react";
 import FlightSuggestCard from "./FlightSuggestCard";
 import Heading from "../shared/Heading";
 import axios from "axios";
-import { apiURL } from "../../../Constants/constant"
+import { apiURL } from "../../../Constants/constant";
 
 import { useSelector } from "react-redux";
-
 
 const flightRoutes = [
   {
@@ -182,7 +181,7 @@ const flightRoutes = [
     },
   },
   {
-    id: 5,
+    id: 6,
     from: "Patna",
     destination: "Delhi",
     code: "PAT",
@@ -216,7 +215,7 @@ const flightRoutes = [
     },
   },
   {
-    id: 5,
+    id: 7,
     from: "Patna",
     destination: "Delhi",
     code: "PAT",
@@ -250,7 +249,7 @@ const flightRoutes = [
     },
   },
   {
-    id: 5,
+    id: 8,
     from: "Patna",
     destination: "Delhi",
     code: "PAT",
@@ -291,27 +290,22 @@ const FlightSuggestion = ({
   className = "",
   gridClassName = "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4",
 }) => {
-  
+  const [flightSuggest, setFlightSuggest] = useState([]);
+  const reducerState = useSelector((state) => state);
 
-  const [flightSuggest,setFlightSuggest]=useState([])
-  const reducerState= useSelector((state) => state);
-  // console.log(reducerState,"reducerState")
-  const fetchflightSuggest=async()=>{
-   
+  const fetchflightSuggest = async () => {
+    const data = await axios.get(
+      `${apiURL.baseURL}/skyTrails/staticContent/flightPayload/listStaticFlightPayload`
+    );
 
-    const data=await axios.get(`${apiURL.baseURL}/skyTrails/staticContent/flightPayload/listStaticFlightPayload`)
-    console.log("datattttt",apiURL.baseURL,data?.data?.result?.flightPayloadResult)
-    setFlightSuggest(data?.data?.result?.flightPayloadResult)
+    setFlightSuggest(data?.data?.result?.flightPayloadResult);
 
-    return  data
-  }
-  useEffect(()=>{
-    fetchflightSuggest()
-   
-  },[])
-  useEffect(()=>{
-    console.log(flightSuggest,"flightsuggttt")
-  },[flightSuggest])
+    return data;
+  };
+  useEffect(() => {
+    fetchflightSuggest();
+  }, []);
+
   return (
     <div
       className={`nc-SectionGridCategoryBox custom-container mt-16 relative ${className}`}
@@ -323,11 +317,11 @@ const FlightSuggestion = ({
         Explore Cheapest Flight
       </Heading>
       <div className={`grid ${gridClassName} gap-3 sm:gap-3 md:gap-3`}>
-      {reducerState?.flightSuggested?.flightHotalSuggeated?.flightPayloadResult
-        && 
-        reducerState?.flightSuggested?.flightHotalSuggeated?.flightPayloadResult.map((item, i) => (
-        <FlightSuggestCard key={i} data={item} />
-      ))}
+        {reducerState?.flightSuggested?.flightHotalSuggeated
+          ?.flightPayloadResult &&
+          reducerState?.flightSuggested?.flightHotalSuggeated?.flightPayloadResult.map(
+            (item, i) => <FlightSuggestCard key={i} data={item} />
+          )}
       </div>
     </div>
   );

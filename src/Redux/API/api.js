@@ -52,6 +52,21 @@ function api() {
       },
     });
   };
+  const socialPhoneVerify = (payload) => {
+    // console.log("payload", payload);
+    const token = SecureStorage.getItem("jwtToken");
+    // console.log("jwt token", token);
+    return axios({
+      method: "PUT",
+      url: "/skytrails/api/user/socialLoginVerifyOtp",
+      baseURL: `${apiURL.baseURL}`,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+        token: token,
+      },
+    });
+  };
 
 
   const profilePicUpdate = (payload) => {
@@ -790,6 +805,7 @@ function api() {
     profilePicUpdate,
     faqReviewApi,
     userB2CLoginWithSocial,
+    socialPhoneVerify,
     userB2BToken,
     oneWaySearch,
     oneWaySearchCombined,

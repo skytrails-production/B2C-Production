@@ -141,7 +141,7 @@ const FlightLocationFrom = ({
   };
 
   const handleSelectLocation = (location) => {
-    console.log(location, "initial data: ");
+    // console.log(location, "initial data: ");
     setValue(location.name);
     setSelectedLocation(location);
     setShowPopover(false);
@@ -277,7 +277,7 @@ const FlightLocationFrom = ({
           {value && showPopover && (
             <ClearDataButton
               onClick={() => {
-                console.log("clicked");
+                // console.log("clicked");
               }}
             />
           )}
