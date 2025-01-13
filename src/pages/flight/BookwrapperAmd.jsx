@@ -998,6 +998,7 @@ export default function BookWrapper() {
     dispatch(resetFareData());
   }, [dispatch]);
   useEffect(() => {
+    console.log(airesellRes,"airesll")
     if (airesellRes?.data?.headers?.StatusCode === "UNS") {
       navigate(
         `/Searchresult?adult=${adultCount}&child=${childCount}&infant=${infantCount}`
@@ -1149,6 +1150,7 @@ export default function BookWrapper() {
   }, [loaderPayment]);
   useEffect(() => {
     const fetchData = async () => {
+      console.log(sesstioResultIndex, "sesstionResultIndex");
       const res = await axios({
         method: "POST",
         url: `${apiURL.baseURL}/skyTrails/amadeus/airsell`,

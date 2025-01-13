@@ -29,24 +29,44 @@ const LocationInput = ({
   const suggestedPlaces = [
     {
       type: "city",
-      cityCode: "124054",
-      cityName: "New Delhi",
-      countryCode: "IN",
-      countryName: "India",
+      // cityCode: "124054",
+      // cityName: "New Delhi",
+      // countryCode: "IN",
+      // countryName: "India",
+
+      cityName: "Delhi",
+      grnCityCode: "124054",
+      grnCountryCode: "IN",
+      grnCountryName: "India",
+      tboCityCode: 130443,
+      tboCountryCode: "IN",
+      tboCountryName: "India",
+      tbostateProvince: "DELHI",
+      tbostateProvinceCode: "DL",
     },
     {
       type: "city",
-      cityCode: 103863,
       cityName: "Mumbai",
-      countryCode: "IN",
-      countryName: "India",
+      grnCityCode: "103863",
+      grnCountryCode: "IN",
+      grnCountryName: "India",
+      tboCityCode: 144306,
+      tboCountryCode: "IN",
+      tboCountryName: "India",
+      tbostateProvince: "Maharashtra",
+      tbostateProvinceCode: "MH",
     },
     {
       type: "city",
-      cityCode: 122959,
       cityName: "Chandigarh",
-      countryCode: "IN",
-      countryName: "India",
+      grnCityCode: "122959",
+      grnCountryCode: "IN",
+      grnCountryName: "India",
+      tboCityCode: 114107,
+      tboCountryCode: "IN",
+      tboCountryName: "India",
+      tbostateProvince: "Chandigarh",
+      tbostateProvinceCode: "CH",
     },
   ];
 
@@ -113,9 +133,8 @@ const LocationInput = ({
     if (keyword.length > 2) {
       try {
         const response = await axios.get(
-          `${apiURL.baseURL}/skyTrails/grnconnect/searchcityandhotel?keyword=${keyword}`
+          `${apiURL.baseURL}/skyTrails/tboandgrn/citylist?keyword=${keyword}`
         );
-        console.log(response, "response");
         const cityList = response?.data?.data?.cityList.map((city) => ({
           type: "city",
           ...city,
@@ -158,7 +177,11 @@ const LocationInput = ({
     let selectedLocation;
     setSelectedLocation(location);
     if (location.type === "city") {
-      selectedLocation = `${location.cityName} (${location?.countryName})`;
+      selectedLocation = `${location.cityName} (${
+        location?.grnCountryName !== null
+          ? location?.grnCountryName
+          : location?.tboCountryName
+      })`;
     } else if (location.type === "hotel") {
       selectedLocation = `${location.hotelName} (${location.countryName})`;
     }
@@ -228,7 +251,8 @@ const LocationInput = ({
               </span>
               {item?.type == "city" ? (
                 <span className="block font-medium text-neutral-700 ">
-                  {item?.cityName} ({item?.countryName})
+                  {item?.cityName} (
+                  {item?.grnCountryName || item?.tboCountryName})
                 </span>
               ) : (
                 <span className="block font-medium text-neutral-700 ">
@@ -260,7 +284,8 @@ const LocationInput = ({
               </span>
               {item?.type == "city" ? (
                 <span className="block font-medium text-neutral-700 ">
-                  {item?.cityName} ({item?.countryName})
+                  {item?.cityName} (
+                  {item?.grnCountryName || item?.tboCountryName})
                 </span>
               ) : (
                 <span className="block font-medium text-neutral-700 ">
@@ -288,7 +313,8 @@ const LocationInput = ({
             </span>
             {item?.type == "city" ? (
               <span className="block font-medium text-neutral-700 ">
-                {item?.cityName} ({item?.countryName})
+                {item?.cityName} ({item?.grnCountryName || item?.tboCountryName}
+                )
               </span>
             ) : (
               <span className="block font-medium text-neutral-700 ">
@@ -302,7 +328,10 @@ const LocationInput = ({
   };
 
   return (
-    <div className={`relative flex ${className}`} ref={containerRef}>
+    <div
+      className={`relative flex border-b border-gray-300 md:border-0 ${className}`}
+      ref={containerRef}
+    >
       <div
         onClick={() => setShowPopover(true)}
         className={`flex z-10 flex-1 relative [ nc-hero-field-padding ] flex-shrink-0 items-center space-x-3 cursor-pointer focus:outline-none text-left ${
@@ -314,7 +343,7 @@ const LocationInput = ({
         </div>
         <div className="flex-grow">
           <input
-            className={`block w-full bg-transparent border-none focus:ring-0 p-0 focus:outline-none focus:placeholder-neutral-300 text-2xl font-bold placeholder-neutral-800 truncate`}
+            className={`block w-full bg-transparent border-none focus:ring-0 p-0 focus:outline-none focus:placeholder-neutral-300 text-base md:text-2xl font-bold placeholder-neutral-800 truncate`}
             placeholder={placeHolder}
             value={value}
             autoFocus={showPopover}

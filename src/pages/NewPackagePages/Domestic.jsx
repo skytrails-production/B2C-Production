@@ -8,7 +8,6 @@ import "swiper/css/navigation";
 import "../../../node_modules/swiper/swiper-bundle.min.css";
 import { useNavigate } from "react-router-dom";
 import Heading from "../../components/TailwindSearchComp/shared/Heading";
-import OfferCard from "../../components/TailwindSearchComp/offerPage/OfferCard";
 import { apiURL } from "../../Constants/constant";
 import DomesticCard from "./DomesticCard";
 
@@ -50,7 +49,7 @@ const Domestic = ({
 
   const filterOptions = ["DOMESTIC", "INTERNATIONAL"];
 
-  console.log(filteredData, "filtered data");
+  // console.log(filteredData, "filtered data");
 
   return (
     <div className={`nc-SectionSliderNewCategories mt-16 mb-12 ${className}`}>
@@ -89,16 +88,16 @@ const Domestic = ({
                   slidesPerView: 4,
                 },
                 1024: {
-                  slidesPerView: 5,
+                  slidesPerView: 4,
                 },
                 0: {
                   slidesPerView: 1,
                 },
               }}
-              autoplay={{
-                delay: 3000,
-                disableOnInteraction: false,
-              }}
+              // autoplay={{
+              //   delay: 3000,
+              //   disableOnInteraction: false,
+              // }}
               navigation={true}
             >
               {filteredData?.map((item, indx) => (
@@ -110,14 +109,6 @@ const Domestic = ({
           </div>
         </div>
       </div>
-      {/* <div className="flex justify-center my-5">
-        <button
-          onClick={() => navigate("/offers")}
-          className="bg-primary-6000 hover:bg-primary-700 rounded-full px-4 py-2 text-white"
-        >
-          See All Offers
-        </button>
-      </div> */}
     </div>
   );
 };

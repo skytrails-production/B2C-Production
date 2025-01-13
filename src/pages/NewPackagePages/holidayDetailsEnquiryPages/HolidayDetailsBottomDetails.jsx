@@ -1,109 +1,183 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./holidetailsbottomdetails.scss";
-import {
-  FileTextTwoTone,
-  CalendarTwoTone,
-  HomeTwoTone,
-  ExclamationCircleTwoTone,
-  PlusSquareTwoTone,
-  ReconciliationTwoTone,
-  MinusSquareTwoTone,
-} from "@ant-design/icons";
-const HolidayDetailsBottomDetails = ({ packageData }) => {
-  return (
-    <div>
-      {
-        <div className="packageDayWiseOuterMain">
-          <h3 className="packageNameHeading">Overview</h3>
-          <div className="dayWiseDetailsBox">
-            <div
-              className="dangerDesignHoliday"
-              dangerouslySetInnerHTML={{ __html: packageData?.overview }}
-            ></div>
-          </div>
-        </div>
-      }
+import { BedDouble, BookImage, Car, Plane } from "lucide-react";
+import HolidayDetTabsSection from "./HolidayDetTabsSection";
 
-      {packageData?.detailed_ltinerary.map((item, index) => (
-        <div className="packageDayWiseOuterMain">
-          <h3 className="packageNameHeading">Day {index + 1}</h3>
-          <div className="dayWiseDetailsBox">
-            {/* <h3><CalendarTwoTone className='me-2' twoToneColor="#e73c34" /></h3> */}
+const HolidayDetailsBottomDetails = ({
+  packageData,
+  setIsOpen,
+  filterType,
+  setFilterType,
+}) => {
+  // Step 1: Aggregate days for each location
+
+  // Generate filterOptions dynamically based on the data
+
+  const filterOptions = [];
+  if (
+    packageData?.packageAmount?.some(
+      (cat) => cat.packageCategory === "Standard"
+    )
+  ) {
+    filterOptions.push("Standard");
+    // setFilterType("Standard");
+  }
+  if (
+    packageData?.packageAmount?.some((cat) => cat.packageCategory === "Deluxe")
+  ) {
+    filterOptions.push("Deluxe");
+    // setFilterType("Deluxe");
+  }
+  if (
+    packageData?.packageAmount?.some((cat) => cat.packageCategory === "Luxury")
+  ) {
+    filterOptions.push("Luxury");
+    // setFilterType("Luxury");
+  }
+
+  useEffect(() => {
+    // Set the initial filterType only if it is not already set
+    if (!filterType) {
+      setFilterType(filterOptions?.[0]);
+    }
+  }, [filterOptions, filterType, setFilterType]);
+
+  const handleFilterClick = (type) => {
+    setFilterType(type);
+  };
+
+  const locationCounts =
+    packageData?.detailed_ltinerary?.reduce((acc, item) => {
+      if (item?.title) {
+        acc[item.title.toLowerCase()] =
+          (acc[item.title.toLowerCase()] || 0) + 1;
+      }
+      return acc;
+    }, {}) || {};
+
+  const locationData = Object.entries(locationCounts).map(([title, count]) => ({
+    title,
+    count,
+  }));
+
+  const inclusionComponents = {
+    hotel: (
+      <div className="flex flex-row items-center gap-2">
+        <BedDouble className="h-6 w-6 text-purple" />
+        Stay Included
+      </div>
+    ),
+    flight: (
+      <div className="flex flex-row items-center gap-2">
+        <Plane className="h-6 w-6 text-purple" />
+        Flight Included
+      </div>
+    ),
+    breakfast: (
+      <div className="flex flex-row items-center gap-2">
+        <BookImage className="h-6 w-6 text-purple" />
+        Breakfast Included
+      </div>
+    ),
+    cab: (
+      <div className="flex flex-row items-center gap-2">
+        <Car className="h-6 w-6 text-purple" />
+        Transfer Included
+      </div>
+    ),
+  };
+
+  // Filter and render inclusions
+  const renderedInclusions = packageData?.inclusions
+    ?.filter((item) => Object.values(item)[0] === "true")
+    .map((item, index) => {
+      const key = Object.keys(item)[0];
+      return inclusionComponents[key] ? (
+        <React.Fragment key={index}>{inclusionComponents[key]}</React.Fragment>
+      ) : null;
+    });
+
+  return (
+    <>
+      <h1 className="text-xl md:text-3xl lg:text-3xl xl:text-3xl font-bold text-gray-900">
+        {packageData?.title}
+      </h1>
+
+      <div className="flex flex-row mt-4 gap-3 items-center">
+        <div>
+          <span className="px-2 py-2 text-sm rounded-2xl bg-primary-6000 text-white font-semibold  uppercase">
+            {packageData?.days}D/{packageData?.days - 1}N
+          </span>
+        </div>
+        <div className="flex flex-row flex-wrap">
+          {locationData.map((location, index) => (
             <div
               key={index}
-              className="dangerDesignHoliday"
-              dangerouslySetInnerHTML={{ __html: item }}
-            ></div>
-          </div>
+              className="flex flex-row items-center gap-2 border-r border-gray-300 px-3"
+            >
+              <p className="text-3xl font-bold text-gray-500">
+                {location.count}
+              </p>
+              <div className="flex flex-col items-start gap-1 text-[10px] leading-none">
+                <span>Days in</span>
+                <span className="text-black font-semibold">
+                  {location.title.toUpperCase()}
+                </span>
+              </div>
+            </div>
+          ))}
         </div>
-      ))}
+      </div>
 
-      {
-        <div className="packageDayWiseOuterMain">
-          <h3 className="packageNameHeading">Hotel Details</h3>
-          <div className="dayWiseDetailsBox">
-            {/* <h3><HomeTwoTone className='me-2' twoToneColor="#e73c34" />Hotel Details</h3> */}
-            <div
-              className="dangerDesignHoliday"
-              dangerouslySetInnerHTML={{ __html: packageData?.hotel_details }}
-            ></div>
-          </div>
+      <div className="py-3 flex flex-row mt-4 justify-between gap-y-3 md:gap-y-0 lg:gap-y-0 xl:gap-y-0 flex-wrap border-y border-gray-300">
+        {renderedInclusions}
+      </div>
+
+      <div className="flex flex-col mt-4">
+        <h2 class="mb-2 text-lg font-semibold text-gray-900 ">Stay Category</h2>
+        <div className="flex justify-start space-x-4 pb-4 rounded-md  overflow-auto sm:overflow-hidden sm:overflow-x-scroll">
+          {filterOptions.map((type) => (
+            <button
+              key={type}
+              className={`relative px-[1.8rem] py-2 font-semibold text-sm md:text-md lg:text-md xl:text-md ${
+                filterType === type
+                  ? "  text-indigo-700 shadow-md border-2 border-indigo-700 rounded-md"
+                  : "text-gray-500 border-2 rounded-md"
+              }`}
+              onClick={() => handleFilterClick(type)}
+            >
+              {type}
+              {filterType === type ? (
+                <div className="absolute top-0 right-0 px-2 font-thin text-xs bg-primary-6000 text-white rounded-es-md">
+                  <i class="fa-solid fa-check"></i>{" "}
+                </div>
+              ) : (
+                ""
+              )}
+            </button>
+          ))}
         </div>
-      }
-      {
-        <div className="packageDayWiseOuterMain">
-          <h3 className="packageNameHeading">Inclusion</h3>
-          <div className="dayWiseDetailsBox">
-            {/* <h3><PlusSquareTwoTone className='me-2' twoToneColor="#e73c34" />Inclusion</h3> */}
-            <div
-              className="dangerDesignHoliday"
-              dangerouslySetInnerHTML={{ __html: packageData?.insclusion_note }}
-            ></div>
-          </div>
-        </div>
-      }
-      {
-        <div className="packageDayWiseOuterMain">
-          <h3 className="packageNameHeading">Exclusion</h3>
-          <div className="dayWiseDetailsBox">
-            <h3>
-              <MinusSquareTwoTone className="me-2" twoToneColor="#e73c34" />
-              Exclusion
-            </h3>
-            <div
-              className="dangerDesignHoliday"
-              dangerouslySetInnerHTML={{ __html: packageData?.exclusion_note }}
-            ></div>
-          </div>
-        </div>
-      }
-      {
-        <div className="packageDayWiseOuterMain">
-          <h3 className="packageNameHeading">Term & Condition</h3>
-          <div className="dayWiseDetailsBox">
-            {/* <h3><ReconciliationTwoTone className='me-2' twoToneColor="#e73c34" />Term & Condition</h3> */}
-            <div
-              className="dangerDesignHoliday"
-              dangerouslySetInnerHTML={{ __html: packageData?.term_Conditions }}
-            ></div>
-          </div>
-        </div>
-      }
-      {
-        <div className="packageDayWiseOuterMain">
-          <h3 className="packageNameHeading">Cancellation Policy</h3>
-          <div className="dayWiseDetailsBox">
-            {/* <h3><ExclamationCircleTwoTone className='me-2' twoToneColor="#e73c34" />Cancellation Policy</h3> */}
-            <div
-              className="dangerDesignHoliday"
-              dangerouslySetInnerHTML={{
-                __html: packageData?.cancellation_Policy,
-              }}
-            ></div>
-          </div>
-        </div>
-      }
-    </div>
+      </div>
+
+      <div className="flex flex-col mt-4">
+        <h2 class="mb-2 text-lg font-semibold text-gray-900 ">
+          Trip Highlights
+        </h2>
+        <ul class="space-y-1 ps-3 text-gray-700 text-sm list-disc ">
+          {packageData?.packageHighLight?.map((item, index) => (
+            <li key={index} className="mb-2">
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <HolidayDetTabsSection
+        packageData={packageData}
+        setIsOpen={setIsOpen}
+        stayType={filterType}
+      />
+    </>
   );
 };
 

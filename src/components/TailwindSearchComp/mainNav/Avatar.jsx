@@ -11,15 +11,13 @@ const Avatar = ({
 }) => {
   const name = userName || "John Doe";
 
-  // console.log(photo, "photo");
-
   return (
     <div
       className={`wil-avatar relative flex-shrink-0 inline-flex items-center justify-center text-neutral-100 uppercase font-semibold shadow-inner ${radius} ${sizeClass} ${containerClassName}`}
     >
       <img
         className={`absolute inset-0 w-full h-full object-cover ${radius}`}
-        src={`${photo}`}
+        src={photo}
         alt={name}
       />
 

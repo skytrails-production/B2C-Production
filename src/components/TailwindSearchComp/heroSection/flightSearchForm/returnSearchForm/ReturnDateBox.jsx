@@ -5,10 +5,20 @@ import DatePicker from "react-datepicker";
 import DatePickerCustomHeaderTwoMonth from "../../DatePickerCustomHeaderTwoMonth";
 import DatePickerCustomDay from "../../DatePickerCustomDay";
 import ClearDataButton from "../../ClearDataButton";
+import dayjs from "dayjs";
 
 // Helper function to format dates as "YYYY-MM-DD"
+const convertToISOString = (dateString) => {
+  // Parse the input date string
+  const parsedDate = dayjs(dateString, "DD MMM, YY");
+
+  const d = parsedDate.isValid() ? parsedDate.toDate().toString() : null;
+  // console.log(d, "startDate enddate1");
+  return d;
+};
+
 const formatDate = (date) => {
-  return date ? date.toISOString().split("T")[0] : null;
+  console.log(date, date ? date.toISOString().split("T")[0] : null);
 };
 
 const ReturnDateBox = ({
@@ -18,10 +28,18 @@ const ReturnDateBox = ({
   hasButtonSubmit = true,
   loader,
   onSubmit,
+  StartDate,
+  EndDate,
 }) => {
-  const today = new Date();
-  const twoDaysLater = new Date(today);
-  twoDaysLater.setDate(today.getDate() + 2);
+  const today = convertToISOString(StartDate) || new Date();
+  const todayDefult = new Date();
+
+  // console.log(today, "startDate enddate");
+  convertToISOString(StartDate);
+
+  const twoDays = new Date(todayDefult);
+  twoDays.setDate(todayDefult.getDate() + 2);
+  const twoDaysLater = convertToISOString(EndDate) || twoDays;
 
   const [startDate, setStartDate] = useState(today);
   const [endDate, setEndDate] = useState(twoDaysLater);
@@ -31,10 +49,10 @@ const ReturnDateBox = ({
     setStartDate(start);
     setEndDate(end);
     if (start && end) {
-      console.log({
-        checkin: formatDate(start),
-        checkout: formatDate(end),
-      });
+      // console.log({
+      //   checkin: formatDate(start),
+      //   checkout: formatDate(end),
+      // });
       closePopover(); // Close the popover when both start and end dates are selected
     }
   };
@@ -53,16 +71,26 @@ const ReturnDateBox = ({
         </div>
         <div className="flex-grow text-left">
           <span className="block text-2xl font-bold">
-            {startDate?.toLocaleDateString("en-US", {
-              month: "short",
-              day: "2-digit",
-            }) || "Add dates"}
-            {endDate
-              ? " - " +
-                endDate?.toLocaleDateString("en-US", {
+            {typeof startDate == "object"
+              ? startDate?.toLocaleDateString("en-US", {
                   month: "short",
                   day: "2-digit",
-                })
+                }) || "Add dates"
+              : new Date(startDate)?.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "2-digit",
+                }) || "Add dates"}
+            -
+            {endDate
+              ? " - " + typeof endDate == "object"
+                ? endDate?.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "2-digit",
+                  })
+                : new Date(endDate)?.toLocaleDateString("en-US", {
+                    month: "short",
+                    day: "2-digit",
+                  })
               : ""}
           </span>
           <span className="block mt-1 text-[1rem] text-neutral-400 leading-none font-light">
@@ -206,15 +234,25 @@ const ReturnDateBox = ({
             <Popover.Panel className="absolute left-0 z-10 mt-[-40px] top-full w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
               <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-black ring-opacity-5 bg-white p-8">
                 <DatePicker
-                  selected={startDate}
+                  selected={
+                    typeof startDate == "object"
+                      ? startDate
+                      : new Date(startDate)
+                  }
                   onChange={(dates) => onChangeDate(dates, close)}
-                  startDate={startDate}
-                  endDate={endDate}
+                  startDate={
+                    typeof startDate == "object"
+                      ? startDate
+                      : new Date(startDate)
+                  }
+                  endDate={
+                    typeof endDate == "object" ? endDate : new Date(endDate)
+                  }
                   selectsRange
                   monthsShown={2}
                   showPopperArrow={false}
                   inline
-                  minDate={today}
+                  // minDate={today}
                   renderCustomHeader={(p) => (
                     <DatePickerCustomHeaderTwoMonth {...p} />
                   )}

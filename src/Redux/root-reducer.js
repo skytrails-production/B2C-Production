@@ -27,7 +27,14 @@ import { itenaryReducer } from "./Itenary/itenaryReducer";
 import { InventoryReducer } from "./inventoryLogin/InventoryReducer";
 import { tnplReducer } from "./TNPL/tnplReducer"
 import { airlineSeatMapReducer } from "./AirlineSeatMap/airlineSeatmapReducer";
-import {flightHotelSuggestReducer} from "./FlightHotelSuggest/flightHotelSuggestReducer"
+
+import { returnSelectedFlightReducer } from "./returnSelectedFlight/returnSelectedFlightReducer";
+import { fareQuoteRuleAirselReducer } from "./FareQuoteRuleAirsel/fareQuoteRuleAirselReducer"
+import { newFlightBookReducer } from "./newFlightBook/reducerNewFlightBook";
+
+
+import { flightHotelSuggestReducer } from "./FlightHotelSuggest/flightHotelSuggestReducer"
+
 
 const appReducer = combineReducers({
   logIn: logInReducer,
@@ -37,6 +44,7 @@ const appReducer = combineReducers({
   ip: ipReducer,
   flightFare: flightFareReducer,
   flightBook: flightBookReducer,
+  newFlightBook: newFlightBookReducer,
   hotelSearchResult: hotelReducer,
   hotelSearchResultGRN: hotelReducerGRN,
   getBusResult: busSearchReducer,
@@ -52,8 +60,14 @@ const appReducer = combineReducers({
   flightList: flightListReducer,
   faqRating: faqRatingReducer,
 
+  returnSelected: returnSelectedFlightReducer,
+  fareQuoteRuleAirselReducer: fareQuoteRuleAirselReducer,
   airlineSeatMap: airlineSeatMapReducer,
-  flightSuggested:flightHotelSuggestReducer
+
+
+  airlineSeatMap: airlineSeatMapReducer,
+  flightSuggested: flightHotelSuggestReducer
+
 });
 
 const rootReducer = (state, action) => {

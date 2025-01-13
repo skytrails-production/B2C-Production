@@ -44,7 +44,6 @@ const HolidayGuestInput = ({
             className={` z-10 flex items-center focus:outline-none ${
               open ? "nc-hero-field-focused" : ""
             }`}
-            
           >
             {/* <Popover.Button
               className={`relative z-10 flex-1 flex text-left items-center ${fieldClassName} space-x-3 focus:outline-none`}
@@ -73,14 +72,13 @@ const HolidayGuestInput = ({
 
             {hasButtonSubmit && (
               <div className="pr-2 xl:pr-4">
-
                 {/* <ButtonSubmit href={buttonSubmitHref} /> */}
                 <a
                   onClick={onSubmit}
                   type="button"
-                  className="flex items-center justify-center w-full rounded-full h-14 md:h-16 md:w-16 bg-primary-6000 hover:bg-primary-700 text-neutral-50 focus:outline-none"
+                  className="flex items-center justify-center w-10 rounded-full h-10 md:h-16 md:w-16 bg-primary-6000 hover:bg-primary-700 text-neutral-50 focus:outline-none"
                 >
-                  <span className="mr-3 md:hidden">Search</span>
+                  {/* <span className="mr-3 md:hidden">Search</span> */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="w-6 h-6"
@@ -130,7 +128,6 @@ const HolidayGuestInput = ({
                 label="Children"
                 desc="Ages 2–12"
               />
-
 
               <div className="flex justify-end mt-6">
                 <button

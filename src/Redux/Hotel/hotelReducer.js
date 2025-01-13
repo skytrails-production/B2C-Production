@@ -117,7 +117,7 @@ export const hotelReducer = (state = initState, action) => {
         isLoadingBookRoom: false,
         isError: false,
         showSuccessMessage: true,
-      }
+      };
 
     case types.HOTEL_DETAILS_SUCCESS:
       return {
@@ -126,12 +126,18 @@ export const hotelReducer = (state = initState, action) => {
         isLoadingBookRoom: false,
         isError: false,
         showSuccessMessage: true,
-      }
+      };
     case types.CLEAR_HOTEL_BLOCK_ROOM:
       return {
         ...state,
         blockRoom: [],
-      }
+      };
+    case types.CLEAR_HOTEL_ROOM:
+      return {
+        ...state,
+        hotelRoom: [],
+        hotelInfo: [],
+      };
     case types.CLEAR_HOTEL_REDUCER:
       return {
         ticketData: [],
@@ -147,7 +153,7 @@ export const hotelReducer = (state = initState, action) => {
         isLoadingBookRoom: false,
         isError: false,
         showSuccessMessage: false,
-      }
+      };
 
     default:
       return state;

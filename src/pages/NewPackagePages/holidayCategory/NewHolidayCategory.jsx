@@ -1,18 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { AnimatePresence, motion, MotionConfig } from "framer-motion";
-import { useSwipeable } from "react-swipeable";
 import "./newcategory.scss";
 import { apiURL } from "../../../Constants/constant";
-import CarouselCategory from "../carouselPage/CarouselCategory";
 import Img from "../../../LazyLoading/Img";
 import { useNavigate } from "react-router-dom";
-import HolidayCategorySkeleton from "./HolidayCategorySkeleton";
-
-import PackageResultCards from "../HolidayPackageSearchResult/PackageResultCards";
-import PrevBtn from "../../../components/TailwindSearchComp/shared/PrevBtn";
-import NextBtn from "../../../components/TailwindSearchComp/shared/NextBtn";
 import Heading from "../../../components/TailwindSearchComp/shared/Heading";
+import PackageResultCard from "../HolidayPackageSearchResult/PackageResultCard";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "../../../../node_modules/swiper/swiper-bundle.min.css";
 
 const SkeletonLoader = () => {
   return (
@@ -24,16 +23,9 @@ const NewHolidayCategory = ({
   heading = "Pick Your Category",
   subHeading = "Category wise recommendation for you",
   className = "",
-  itemPerRow = 3,
-  active,
-  sliderStyle = "style1",
 }) => {
   const [packageData, setPackageData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
-  const [numberOfItems, setNumberOfItems] = useState(0);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -47,15 +39,14 @@ const NewHolidayCategory = ({
       const getPackage = async () => {
         try {
           const response = await axios.get(
-            `${apiURL.baseURL}/skyTrails/api/packages/packagesCategory`
+            `${apiURL.baseURL}/skytrails/holidaypackage/categoryfilter`
           );
           if (response.data.statusCode === 200) {
-            setPackageData(response.data.results);
+            setPackageData(response.data.data);
             sessionStorage.setItem(
               "packageAvailable",
-              JSON.stringify(response.data.results)
+              JSON.stringify(response.data.data)
             );
-            // console.log('packagelist', response);
           } else {
             console.log("packageError", response);
           }
@@ -74,60 +65,6 @@ const NewHolidayCategory = ({
   const handleFormClicks = (e) => {
     navigate(`/holidaypackages/category/${e}`);
   };
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (windowWidth < 320) {
-      setNumberOfItems(1);
-    } else if (windowWidth < 500) {
-      setNumberOfItems(itemPerRow - 2);
-    } else if (windowWidth < 1024) {
-      setNumberOfItems(itemPerRow - 1);
-    } else if (windowWidth < 1280) {
-      setNumberOfItems(itemPerRow);
-    } else {
-      setNumberOfItems(itemPerRow);
-    }
-  }, [itemPerRow, windowWidth]);
-
-  function changeItemId(newVal) {
-    if (newVal > currentIndex) {
-      setDirection(1);
-    } else {
-      setDirection(-1);
-    }
-    setCurrentIndex(newVal);
-  }
-
-  const handlers = useSwipeable({
-    onSwipedLeft: () => {
-      if (currentIndex < packageData.length - 1) {
-        changeItemId(currentIndex + 1);
-      }
-    },
-    onSwipedRight: () => {
-      if (currentIndex > 0) {
-        changeItemId(currentIndex - 1);
-      }
-    },
-    trackMouse: true,
-  });
-
-  // if (loading) {
-  //   return <HolidayCategorySkeleton />;
-  // }
-
-  if (!numberOfItems) return null;
 
   return (
     <div className={`nc-SectionSliderNewCategories mt-16 mb-12 ${className}`}>
@@ -156,89 +93,63 @@ const NewHolidayCategory = ({
               </p>
             </div>
 
-            <MotionConfig
-              transition={{
-                x: { type: "spring", stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 },
-              }}
-            >
-              <div className="relative flow-root" {...handlers}>
-                <div className="flow-root overflow-hidden rounded-xl">
-                  <motion.ul
-                    initial={false}
-                    className="relative p-0 -mx-2 whitespace-nowrap xl:-mx-4"
-                  >
-                    {loading ? (
-                      Array.from({ length: 6 }).map((_, index) => (
-                        <motion.li
-                          className={`relative inline-block sm:px-2 md:px-1 lg:px-2 xl:px-2`}
-                          custom={direction}
-                          initial={{
-                            x: `${(currentIndex - 1) * -100}%`,
-                          }}
-                          animate={{
-                            x: `${currentIndex * -100}%`,
-                          }}
-                          key={index}
-                          style={{
-                            width: `calc(1/${numberOfItems} * 100%)`,
-                          }}
-                        >
-                          <SkeletonLoader key={index} />
-                        </motion.li>
-                      ))
-                    ) : (
-                      <AnimatePresence initial={false} custom={direction}>
-                        {category?.result?.docs?.map((item, indx) => (
-                          <motion.li
-                            className={`relative inline-block sm:px-2 md:px-2 lg:px-4 xl:px-4`}
-                            custom={direction}
-                            initial={{
-                              x: `${(currentIndex - 1) * -100}%`,
-                            }}
-                            animate={{
-                              x: `${currentIndex * -100}%`,
-                            }}
-                            key={indx}
-                            style={{
-                              width: `calc(1/${numberOfItems} * 100%)`,
-                            }}
-                          >
-                            {/* <CardOne data={item} /> */}
-                            <PackageResultCards data={item} />
-                          </motion.li>
-                        ))}
-                      </AnimatePresence>
-                    )}
-                  </motion.ul>
+            <div class="swiper favSwiper-active mt-2">
+              <div class="swiper-wrapper  relative">
+                <div className="custom-navigation">
+                  <button className="custom-prev">
+                    <div className="h-6 w-6 flex justify-center items-center">
+                      <i className="fa fa-chevron-left"></i>
+                    </div>
+                  </button>
+                  <button className=" custom-next">
+                    <div className="h-6 w-6 flex justify-center items-center">
+                      <i className="fa fa-chevron-right"></i>
+                    </div>
+                  </button>
                 </div>
-
-                {currentIndex ? (
-                  <PrevBtn
-                    style={{ transform: "translate3d(0, 0, 0)" }}
-                    onClick={() => changeItemId(currentIndex - 1)}
-                    className="w-9 h-9 xl:w-12 xl:h-12 text-lg absolute -left-3 xl:-left-6 top-1/3 -translate-y-1/2 z-[1]"
-                  />
-                ) : null}
-
-                {packageData?.[0]?.result?.docs?.length >
-                currentIndex + numberOfItems ? (
-                  <NextBtn
-                    style={{ transform: "translate3d(0, 0, 0)" }}
-                    onClick={() => changeItemId(currentIndex + 1)}
-                    className="w-9 h-9 xl:w-12 xl:h-12 text-lg absolute -right-3 xl:-right-6 top-1/3 -translate-y-1/2 z-[1]"
-                  />
-                ) : null}
+                <Swiper
+                  modules={[Autoplay, Pagination, Navigation]}
+                  loop={true}
+                  spaceBetween={25}
+                  breakpoints={{
+                    640: {
+                      slidesPerView: 1,
+                    },
+                    768: {
+                      slidesPerView: 2,
+                    },
+                    1024: {
+                      slidesPerView: 2,
+                    },
+                    1280: {
+                      slidesPerView: 2,
+                    },
+                    1280: {
+                      slidesPerView: 3,
+                    },
+                    0: {
+                      slidesPerView: 1,
+                    },
+                  }}
+                  // autoplay={{
+                  //   delay: 3000,
+                  //   disableOnInteraction: false,
+                  // }}
+                  navigation={{
+                    prevEl: ".custom-prev",
+                    nextEl: ".custom-next",
+                  }}
+                >
+                  {category?.result?.map((item, indx) => (
+                    <SwiperSlide key={indx}>
+                      <PackageResultCard data={item} />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
-            </MotionConfig>
-
-            <div>
-              {/* <CarouselCategory data={category} /> */}
-
-              {/* {category?.result?.docs?.map((item, index) => {
-                return <PackageResultCards data={item} />;
-              })} */}
             </div>
+
+            <div></div>
           </div>
         </div>
       ))}

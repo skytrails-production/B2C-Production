@@ -541,7 +541,7 @@ const FlightLayoutTVO = ({ seatMap }) => {
               </div>
             );
           })}
-        <button onClick={() => console.log(reducerState)}>reducerstate</button>
+        {/* <button onClick={() => console.log(reducerState)}>reducerstate</button> */}
       </div>
     );
   };

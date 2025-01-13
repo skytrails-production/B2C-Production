@@ -4,6 +4,7 @@ import { fetchOneWay ,fetchOneWayFailed,fetchOneWayCombined,fetchOneWayFailedCom
 import { ONE_WAY_REQUEST ,ONE_WAY_REQUEST_COMBINED} from "../FlightSearch/oneWayActionType";
 
 function* oneWayRequest(action) {
+  
   try {
     const data = yield call(userApi.oneWaySearch, action.payload);
     yield put(fetchOneWay(data));

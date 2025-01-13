@@ -1,14 +1,12 @@
-import Download from "../home/Download";
 import React from "react";
 import { motion } from "framer-motion";
-import Advertise from "../home/Advertise";
 import hotelBanner from "../../images/hotelBanner.webp";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
-import Partners from "../home/Partners";
 import GrmHotelForm from "./GrmHotelForm";
 import Img from "../../LazyLoading/Img";
-import diwali from "../../images/diwali.png";
+// import hotelBeach from "../../images/hotelBeach.mp4";
+import hotelBeachImg from "../../images/hotelBeach.jpg";
 import StaySearchForm from "../../components/TailwindSearchComp/heroSection/staySearchForm/StaySearchForm";
 import Testimonials from "../../components/TailwindSearchComp/testimonials/Testimonials";
 import Faq from "../../components/TailwindSearchComp/Faq";
@@ -17,6 +15,7 @@ import OfferMain from "../../components/TailwindSearchComp/offerPage/OfferMain";
 import TrendingPackageHome from "../../components/TailwindSearchComp/trendingPackage/TrendingPackageHome";
 import HotelSuggestion from "../../components/TailwindSearchComp/hotelSuggestion/HotelSuggestion";
 import GrnHomeStaticHotel from "./GrnHomeStaticHotel";
+import Download from "../home/Download";
 
 const GrmHotelHome = () => {
   return (
@@ -33,7 +32,7 @@ const GrmHotelHome = () => {
         />
       </Helmet>
 
-      <div className="heroBannerFlight flex md:hidden lg:hidden">
+      {/* <div className="heroBannerFlight flex md:hidden lg:hidden">
         <div className="backdrop-img">
           <Img src={hotelBanner} />
         </div>
@@ -44,12 +43,26 @@ const GrmHotelHome = () => {
           </span>
           <GrmHotelForm />
         </div>
-      </div>
+      </div> */}
 
-      <div
-        className="flightMainBox relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)] hidden md:flex bg-cover bg-top bg-no-repeat"
-        style={{ backgroundImage: `url(${hotelBanner})` }}
+      {/* <div
+        className="flightMainBox mx-4 mt-4 rounded-lg relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)] hidden md:flex bg-cover bg-top bg-no-repeat"
+        style={{ backgroundImage: `url(${hotelBeachImg})` }}
       >
+        <StaySearchForm />
+      </div> */}
+
+      <div className="flightMainBox relative py-28 pt-44 flex md:flex justify-center bg-cover bg-top bg-no-repeat">
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          poster={hotelBeachImg}
+          loop
+          autoPlay
+          muted
+        >
+          {/* <source src={hotelBeach} type="video/mp4" /> */}
+          Your browser does not support the video tag.
+        </video>
         <StaySearchForm />
       </div>
 
@@ -63,25 +76,15 @@ const GrmHotelHome = () => {
       <div>
         <HotelSuggestion />
       </div>
-
-      {/* <div className="mt-3">
-        <NewHolidayCategory />
-      </div> */}
       <div>
-        {/* <NewHolidayTrending /> */}
         <TrendingPackageHome />
       </div>
 
-      {/* <div>
-        <Advertise />
-      </div> */}
-
-      {/* <div>
-        <HolidayTopCountries />
-      </div> */}
-
       <div>
         <WhyChooseUs />
+      </div>
+      <div>
+        <Download />
       </div>
       <div>
         <Testimonials />
@@ -89,16 +92,6 @@ const GrmHotelHome = () => {
       <div>
         <Faq />
       </div>
-      {/* <div>
-        <Download />
-      </div>
-      <div>
-        <Partners />
-      </div>
-
-      <div>
-        <Blog />
-      </div> */}
       <div>
         <FooterNavigation />
       </div>

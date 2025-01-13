@@ -5,7 +5,6 @@ import dayjs from "dayjs";
 import { hotelActionGRN } from "../../../Redux/HotelGRN/hotel";
 
 const HotelSuggestionCard = ({ className = "", data }) => {
-  console.log(data,"HotelSuggestionCardData")
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -33,7 +32,7 @@ const HotelSuggestionCard = ({ className = "", data }) => {
         ],
         checkin: dayjs(todaydate).format("YYYY-MM-DD"),
         checkout: dayjs(nextDate).format("YYYY-MM-DD"),
-        hotel_codes: [`${event.Location  .hotelCode}`],
+        hotel_codes: [`${event.Location.hotelCode}`],
         client_nationality: "IN",
         currency: "INR",
         cutoff_time: 30000,
@@ -66,13 +65,10 @@ const HotelSuggestionCard = ({ className = "", data }) => {
         "revisithotel",
         JSON.stringify([
           {
-            cityCode:
-              event?.grnCityCode || event?.tboCityCode,
+            cityCode: event?.grnCityCode || event?.tboCityCode,
             cityName: event?.cityName,
-            countryCode:
-              event?.grnCountryCode || event?.tboCountryCode,
-            countryName:
-              event?.grnCountryName || event?.tboCountryName,
+            countryCode: event?.grnCountryCode || event?.tboCountryCode,
+            countryName: event?.grnCountryName || event?.tboCountryName,
             checkin: todaydate,
             checkout: nextDate,
             rooms: [
@@ -105,11 +101,7 @@ const HotelSuggestionCard = ({ className = "", data }) => {
             /> */}
 
       <div className="relative flex-shrink-0 w-16 h-16 rounded-full overflow-hidden">
-        <img
-          src={data?.image}
-          alt=""
-          className="object-cover w-full h-full"
-        />
+        <img src={data?.image} alt="" className="object-cover w-full h-full" />
       </div>
       <div className="ml-4 flex-grow overflow-hidden">
         <h2 className="text-base font-medium">

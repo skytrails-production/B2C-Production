@@ -14,7 +14,7 @@ const WhyChooseUs = () => {
       >
         Why Choose Us ?
       </Heading>
-      <div className="grid grid-cols-4 gap-4 md:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
         <div className="rounded-lg shadow-md">
           <img className="w-100 " src={one} alt="steps" />
         </div>

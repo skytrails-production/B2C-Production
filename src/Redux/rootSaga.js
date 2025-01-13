@@ -1,7 +1,7 @@
 import { all } from "redux-saga/effects";
 
-import { oneWayWatcher,oneWayWatcherCombined } from "./Saga/oneWaySaga";
-import { returnWatcher } from "./Saga/returnSaga";
+import { oneWayWatcher, oneWayWatcherCombined } from "./Saga/oneWaySaga";
+import { returnWatcher, watchAmadeusReturnSearch, watchTobKailaReturnSearch } from "./Saga/returnSaga";
 import { multicityWatcher } from "./Saga/multicitySaga";
 import { ipWatcher } from "./Saga/ipSaga";
 import { flightFareWatcher } from "./Saga/flightFareSaga";
@@ -26,7 +26,12 @@ import { flightListWatcher } from "./Saga/flightlListSaga";
 import { tnplWatcher } from "./Saga/tnplSaga";
 import { IteneraryWatcher } from "./Saga/itenarySaga";
 import { getInventoryWatcher } from "./Saga/InventoryAuth";
-import {flightHotalSuggeatedWatcher} from "./Saga/flightHotalSuggeatedSaga"
+
+import { fareQuotesRuleAirselWatcher } from "./Saga/flightQuateRuleAirselSaga"
+import { flightBookNewWatcher } from "./Saga/newFlightBookSaga"
+
+import { flightHotalSuggeatedWatcher } from "./Saga/flightHotalSuggeatedSaga"
+
 
 export function* rootSaga() {
   yield all([
@@ -34,6 +39,8 @@ export function* rootSaga() {
     oneWayWatcher(),
     oneWayWatcherCombined(),
     returnWatcher(),
+    watchAmadeusReturnSearch(),
+    watchTobKailaReturnSearch(),
     multicityWatcher(),
     ipWatcher(),
     flightFareWatcher(),
@@ -55,6 +62,11 @@ export function* rootSaga() {
     IteneraryWatcher(),
     flightListWatcher(),
     getInventoryWatcher(),
+
+    fareQuotesRuleAirselWatcher(),
+    flightBookNewWatcher(),
+
     flightHotalSuggeatedWatcher()
+
   ]);
 }

@@ -1,71 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import LazyLoad from "react-lazyload";
 
-// import { PiAirplaneInFlight } from "react-icons/pi";
-// import { LiaHotelSolid } from "react-icons/lia";
-// import { IoBusOutline } from "react-icons/io5";
-// import { FaUmbrellaBeach } from "react-icons/fa";
-const CardOne = ({ className = "", data }) => {
-  const navigate = useNavigate();
-  const [destination, setDestination] = useState("");
-
-  useEffect(() => {
-    if (destination) {
-      const id = destination?._id;
-      navigate(`/holidaypackages/packagedetails/${id}`);
-    }
-  }, [destination]);
-
-  const searchOneHoliday = (item) => {
-    // console.log(item, "item")
-    const id = item?._id;
-    setDestination(item);
-    const payloadDestination = {
-      destination: destination?.country,
-      days: 0,
-    };
-    sessionStorage.setItem(
-      "searchPackageData",
-      JSON.stringify(payloadDestination)
-    );
-  };
-
-  return (
-    <div
-      onClick={(e) => searchOneHoliday(data)}
-      className={`nc-CardCategory3 flex flex-col ${className}`}
-    >
-      <div
-        className={`flex-shrink-0 relative w-full aspect-w-5 aspect-h-5 sm:aspect-h-6 h-64 rounded-2xl overflow-hidden group`}
-      >
-        <img
-          src={data?.pakage_img || data?.package_img?.[0]}
-          className="object-cover w-full h-full rounded-2xl"
-          alt="places"
-        />
-        <span className="opacity-0 group-hover:opacity-100 absolute inset-0 bg-black bg-opacity-10 transition-opacity"></span>
-      </div>
-      <div className="mt-4 truncate">
-        <h2
-          className={`text-sm sm:text-sm text-neutral-900  font-medium truncate`}
-        >
-          {data?.pakage_title}
-        </h2>
-        <span
-          className={`flex justify-between mt-1.5 text-base text-neutral-600 `}
-        >
-          <span>
-            {data?.days}D/ {data?.days - 1}N
-          </span>
-          <span>₹ {data?.pakage_amount?.amount}</span>
-        </span>
-      </div>
-    </div>
-  );
-};
 const CardOne1 = ({ item, icon, index }) => {
-  // console.log(item, icon, "itemmmm");
   const [hasError, setHasError] = useState(false);
 
   const handleImageError = () => {
@@ -78,22 +14,15 @@ const CardOne1 = ({ item, icon, index }) => {
       const r = Math.floor(Math.random() * 256);
       const g = Math.floor(Math.random() * 256);
       const b = Math.floor(Math.random() * 256);
-      // Calculate brightness using the luminance formula
       brightness = (r * 299 + g * 587 + b * 114) / 1000;
       color = `rgb(${r}, ${g}, ${b})`;
-    } while (brightness < 150); // Keep generating if color is too dark
+    } while (brightness < 150);
     return color;
   };
 
   const backgroundColor = generateRandomColor();
   let rating = item?.rate;
 
-  let images = [
-    "https://raw.githubusercontent.com/The-SkyTrails/Images/refs/heads/main/icons/flightIcon.png",
-    "https://raw.githubusercontent.com/The-SkyTrails/Images/refs/heads/main/icons/beachIcon.png",
-    "https://raw.githubusercontent.com/The-SkyTrails/Images/refs/heads/main/icons/passportIcon.png",
-    "https://raw.githubusercontent.com/The-SkyTrails/Images/refs/heads/main/icons/airplaneIcon.png",
-  ];
   const LazyImage = ({ src, alt, title, backgroundColor }) => {
     return (
       <LazyLoad
@@ -135,7 +64,7 @@ const CardOne1 = ({ item, icon, index }) => {
             key={index}
             className={`w-5 h-5 transition-all duration-500 ${
               index < rating
-                ? "text-indigo-600 "
+                ? "text-yello-600 "
                 : "group-hover:text-gray-300 text-gray-300"
             }`}
             viewBox="0 0 18 17"
@@ -149,38 +78,32 @@ const CardOne1 = ({ item, icon, index }) => {
           </svg>
         ))}
       </div>
-      <div className="h-[105px] overflow-scroll">
-        <p class="text-lg text-gray-500 leading-8 h-24 transition-all duration-500 mb-9 group-hover:text-gray-800  whitespace-break-spaces">
+      <div className="h-[138px] overflow-scroll">
+        <p class="text-base text-gray-500 leading-7 h-32 transition-all duration-500 mb-9 group-hover:text-gray-800  whitespace-break-spaces">
           {item?.comments}
         </p>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2  mt-3">
         {item?.userId?.profilePic && !hasError ? (
           <LazyImage
             src={item?.userId?.profilePic}
-            // src={images?.[index]}
             alt=""
             title={item?.userName?.[0]}
             backgroundColor={backgroundColor}
           />
         ) : (
-          // <img
-          //   class="rounded-full object-cover w-[50px] h-[50px]"
-          //   src={item?.userId?.profilePic}
-          //   alt="avatar"
-          // />
           <div
             className="rounded-full object-cover w-[50px] h-[50px] bg-red-400 flex items-center justify-center text-white font-semibold uppercase"
             style={{
               backgroundColor: backgroundColor,
             }}
           >
-            <p>{item?.userName?.[0]}</p>
+            <p className=" font-semibold">{item?.userName?.[0]}</p>
           </div>
         )}
 
         <div class="grid gap-1 items-center">
-          <h5 class="text-gray-900 font-medium transition-all duration-500  group-hover:text-indigo-600 swiper-slide-active:text-indigo-600 m-0">
+          <h5 class="text-gray-800 text-base font-medium transition-all duration-500  group-hover:text-indigo-600 swiper-slide-active:text-indigo-600 m-0">
             {item?.userName}
           </h5>
           <span class="text-sm leading-6 text-gray-500 flex gap-1 items-center">

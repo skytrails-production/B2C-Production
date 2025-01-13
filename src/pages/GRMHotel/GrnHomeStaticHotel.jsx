@@ -27,67 +27,108 @@ const GrnHomeStaticHotel = ({
   // const localData = sessionStorage.getItem("advertise");
   const [loader, setLoader] = useState(false);
   // const [selectedData, setSelectedData] = useState([]);
-  console.log(reducerState, "reducer state in the hotel static");
-
+  const [recentSearches, setRecentSearches] = useState(
+    JSON.parse(localStorage.getItem("recentSearchesHotel")) || []
+  );
   const localDataArray = [
     {
       logo: `https://raw.githubusercontent.com/The-SkyTrails/Images/main/selectHotels/1.jpg`,
-      title: "Darjeeling",
-      cityCode: "123209",
+      // title: "Darjeeling",
+      // cityCode: "123209",
+      // cityName: "Darjeeling",
+      // countryCode: "IN",
+      // countryName: "India",
+      type: "city",
       cityName: "Darjeeling",
-      countryCode: "IN",
-      countryName: "India",
+      grnCityCode: "123209",
+      grnCountryCode: "IN",
+      grnCountryName: "India",
+      tboCityCode: 116264,
+      tboCountryCode: "IN",
+      tboCountryName: "India",
+      tbostateProvince: "West Bengal",
+      tbostateProvinceCode: "WB",
     },
 
     {
       logo: `https://raw.githubusercontent.com/The-SkyTrails/Images/main/selectHotels/2.jpg`,
-      title: "Rishikesh",
-      cityCode: "125097",
+      type: "city",
       cityName: "Rishikesh",
-      countryCode: "IN",
-      countryName: "India",
+      grnCityCode: "125097",
+      grnCountryCode: "IN",
+      grnCountryName: "India",
+      tboCityCode: 134932,
+      tboCountryCode: "IN",
+      tboCountryName: "India",
+      tbostateProvince: "Uttarakhand",
+      tbostateProvinceCode: "UK",
     },
     {
       logo: `https://raw.githubusercontent.com/The-SkyTrails/Images/main/selectHotels/3.jpg`,
-      title: "Kolkata",
-      cityCode: "122164",
+      type: "city",
       cityName: "Kolkata",
-      countryCode: "IN",
-      countryName: "India",
+      grnCityCode: "122164",
+      grnCountryCode: "IN",
+      grnCountryName: "India",
+      tboCityCode: 113128,
+      tboCountryCode: "IN",
+      tboCountryName: "India",
+      tbostateProvince: "West Bengal",
+      tbostateProvinceCode: "WB",
     },
 
     {
       logo: `https://raw.githubusercontent.com/The-SkyTrails/Images/main/selectHotels/4.jpg`,
-      title: "Ajmer",
-      cityCode: "124819",
+      type: "city",
       cityName: "Ajmer",
-      countryCode: "IN",
-      countryName: "India",
+      grnCityCode: "124819",
+      grnCountryCode: "IN",
+      grnCountryName: "India",
+      tboCityCode: 100804,
+      tboCountryCode: "IN",
+      tboCountryName: "India",
+      tbostateProvince: "Rajasthan",
+      tbostateProvinceCode: "RJ",
     },
     {
       logo: `https://raw.githubusercontent.com/The-SkyTrails/Images/main/selectHotels/5.jpg`,
-      title: "Pune",
-      cityCode: "124649",
+      type: "city",
       cityName: "Pune",
-      countryCode: "IN",
-      countryName: "India",
+      grnCityCode: "124649",
+      grnCountryCode: "IN",
+      grnCountryName: "India",
+      tboCityCode: 133133,
+      tboCountryCode: "IN",
+      tboCountryName: "India",
+      tbostateProvince: "Maharashtra",
+      tbostateProvinceCode: "MH",
     },
 
     {
       logo: `https://raw.githubusercontent.com/The-SkyTrails/Images/main/selectHotels/6.jpg`,
-      title: "Nainital",
-      cityCode: "123559",
+      type: "city",
       cityName: "Nainital",
-      countryCode: "IN",
-      countryName: "India",
+      grnCityCode: "123559",
+      grnCountryCode: "IN",
+      grnCountryName: "India",
+      tboCityCode: 129726,
+      tboCountryCode: "IN",
+      tboCountryName: "India",
+      tbostateProvince: "Uttarakhand",
+      tbostateProvinceCode: "UK",
     },
     {
       logo: `https://raw.githubusercontent.com/The-SkyTrails/Images/main/selectHotels/7.jpg`,
-      title: "Bangalore",
-      cityCode: "121850",
+      type: "city",
       cityName: "Bangalore",
-      countryCode: "IN",
-      countryName: "India",
+      grnCityCode: "121850",
+      grnCountryCode: "IN",
+      grnCountryName: "India",
+      tboCityCode: 111124,
+      tboCountryCode: "IN",
+      tboCountryName: "India",
+      tbostateProvince: "Karnataka",
+      tbostateProvinceCode: "KA",
     },
   ];
 
@@ -115,21 +156,34 @@ const GrnHomeStaticHotel = ({
   const futureDate = new Date(currentDate);
   futureDate.setDate(currentDate.getDate() + 1);
 
-  const nationality = {
-    countryCode: "IN",
-    countryCode3: "IND",
-    countryName: "India",
-  };
+  // const nationality = {
+  //   countryCode: "IN",
+  //   countryCode3: "IND",
+  //   countryName: "India",
+  // };
 
   const handlePopularSearch = (param) => {
+    const updatedRecentSearches = [
+      param,
+      ...recentSearches.filter((item) => item.cityName !== param.cityName),
+    ].slice(0, 5);
+
+    setRecentSearches(updatedRecentSearches);
+    localStorage.setItem(
+      "recentSearchesHotel",
+      JSON.stringify(updatedRecentSearches)
+    );
     sessionStorage.setItem(
       "revisithotel",
       JSON.stringify([
         {
-          cityCode: param?.cityCode,
-          cityName: param?.cityName,
-          countryCode: param?.countryCode,
-          countryName: param?.countryName,
+          grnCityCode: param.grnCityCode,
+          tboCityCode: param.tboCityCode,
+          cityName: param.cityName,
+          grnCountryCode: param.grnCountryCode,
+          tboCountryCode: param.tboCountryCode,
+          grnCountryName: param.grnCountryName,
+          tboCountryName: param.tboCountryName,
           checkin: currentDate,
           checkout: futureDate,
           rooms: [
@@ -138,7 +192,7 @@ const GrnHomeStaticHotel = ({
               children_ages: [],
             },
           ],
-          nationality: nationality,
+          nationality: "IN",
         },
       ])
     );
@@ -150,25 +204,25 @@ const GrnHomeStaticHotel = ({
         },
       ],
       rates: "concise",
-      cityCode: param?.cityCode,
+      cityCode: param?.grnCityCode,
       currency: "INR",
       client_nationality: "IN",
       checkin: dayjs(currentDate).format("YYYY-MM-DD"),
       checkout: dayjs(futureDate).format("YYYY-MM-DD"),
       cutoff_time: 30000,
       version: "2.0",
+      tboCityCode: param?.tboCityCode,
+      EndUserIp: reducerState?.ip?.ipData,
+      TokenId: reducerState?.ip?.tokenData,
     };
 
-    const pageNumber = 1;
-
     sessionStorage.setItem("grnPayload", JSON.stringify(payload));
-
-    dispatch(hotelActionGRN(payload, pageNumber));
+    dispatch(hotelActionGRN(payload));
     navigate("/st-hotel/hotelresult");
   };
 
   return (
-    <section class="custom-container py-24 ">
+    <section class="custom-container py-14 ">
       <div class="mx-auto px-4 sm:px-6 lg:px-8 ">
         <Heading desc={subHeading} isCenter={true}>
           {heading}
@@ -188,10 +242,10 @@ const GrnHomeStaticHotel = ({
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-3xl flex flex-col justify-end p-4">
                   <h2 className="text-white font-semibold text-lg md:text-xl">
-                    {localDataArray?.[0].title}
+                    {localDataArray?.[0].cityName}
                   </h2>
                   <p className="text-white text-sm md:text-base">
-                    {localDataArray?.[0].countryName}
+                    {localDataArray?.[0].grnCountryName}
                   </p>
                 </div>
               </div>
@@ -207,10 +261,10 @@ const GrnHomeStaticHotel = ({
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-3xl flex flex-col justify-end p-4">
                   <h2 className="text-white font-semibold text-lg md:text-xl">
-                    {localDataArray?.[1].title}
+                    {localDataArray?.[1].cityName}
                   </h2>
                   <p className="text-white text-sm md:text-base">
-                    {localDataArray?.[1].countryName}
+                    {localDataArray?.[1].grnCountryName}
                   </p>
                 </div>
               </div>
@@ -227,10 +281,10 @@ const GrnHomeStaticHotel = ({
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-3xl flex flex-col justify-end p-4">
                   <h2 className="text-white font-semibold text-lg md:text-xl">
-                    {localDataArray?.[2].title}
+                    {localDataArray?.[2].cityName}
                   </h2>
                   <p className="text-white text-sm md:text-base">
-                    {localDataArray?.[2].countryName}
+                    {localDataArray?.[2].grnCountryName}
                   </p>
                 </div>
               </div>
@@ -245,10 +299,10 @@ const GrnHomeStaticHotel = ({
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-3xl flex flex-col justify-end p-4">
                   <h2 className="text-white font-semibold text-lg md:text-xl">
-                    {localDataArray?.[3].title}
+                    {localDataArray?.[3].cityName}
                   </h2>
                   <p className="text-white text-sm md:text-base">
-                    {localDataArray?.[3].countryName}
+                    {localDataArray?.[3].grnCountryName}
                   </p>
                 </div>
               </div>
@@ -264,10 +318,10 @@ const GrnHomeStaticHotel = ({
 
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-3xl flex flex-col justify-end p-4">
                   <h2 className="text-white font-semibold text-lg md:text-xl">
-                    {localDataArray?.[4].title}
+                    {localDataArray?.[4].cityName}
                   </h2>
                   <p className="text-white text-sm md:text-base">
-                    {localDataArray?.[4].countryName}
+                    {localDataArray?.[4].grnCountryName}
                   </p>
                 </div>
               </div>

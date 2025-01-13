@@ -1,68 +1,44 @@
-import React, { useEffect } from 'react'
-import "./bookingHistory.css"
-import Box from '@mui/material/Box';
-import Tab from '@mui/material/Tab';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
-
-import FlightHistory from './FlightHistory';
-import HotelHistory from './HotelHistory';
-import BusHistory from './BusHistory';
-import GrnHotelHistory from './GrnHotelHistory';
+import React, { useEffect, useState } from "react";
+import "./bookingHistory.css";
+import FlightHistory from "./FlightHistory";
+import HotelHistory from "./HotelHistory";
+import BusHistory from "./BusHistory";
+import GrnHotelHistory from "./GrnHotelHistory";
 
 const BookingHistory = () => {
+  const [filterType, setFilterType] = useState("FLIGHT");
+  const filterOptions = ["FLIGHT", "HOTEL", "BUS"];
 
+  const renderFunction = () => {
+    if (filterType === "FLIGHT") {
+      return <FlightHistory />;
+    } else if (filterType === "HOTEL") {
+      return <GrnHotelHistory />;
+    } else {
+      return <BusHistory />;
+    }
+  };
 
+  return (
+    <div className="mt-3">
+      <div className="container flex justify-start space-x-4 mb-4">
+        {filterOptions.map((type) => (
+          <button
+            key={type}
+            className={`px-4 py-2 font-semibold ${
+              filterType === type
+                ? "bg-primary-6000 hover:bg-primary-700 text-white border rounded-3xl "
+                : " text-black"
+            }`}
+            onClick={() => setFilterType(type)}
+          >
+            {type.charAt(0) + type.slice(1).toLowerCase()}
+          </button>
+        ))}
+      </div>
+      <div className="container">{renderFunction()}</div>
+    </div>
+  );
+};
 
-    const [value, setValue] = React.useState('1');
-
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
-
-
-
-
-
-
-
-    return (
-
-        <div>
-            <div className='container bookingMargin'>
-                <Box sx={{ width: '100%', typography: 'body1' }}>
-                    <TabContext value={value}>
-                        <Box sx={{ marginBottom: "20px", fontSize: "18px", borderBottom: 1, borderColor: 'divider' }}>
-                            <TabList onChange={handleChange}
-                                textColor="secondary"
-                                indicatorColor="secondary"
-                                aria-label="lab API tabs example">
-                                <Tab label="Flight" value="1" />
-                                <Tab label="Hotel" value="2" />
-                                <Tab label="GrnHotel" value="3" />
-                                <Tab label="Bus" value="4" />
-                            </TabList>
-                        </Box>
-                        <TabPanel value="1">
-                            <FlightHistory />
-                        </TabPanel>
-                        <TabPanel value="2">
-                            <HotelHistory />
-                        </TabPanel>
-                        <TabPanel value="3">
-                            <GrnHotelHistory />
-                        </TabPanel>
-                        <TabPanel value="4">
-                            <BusHistory />
-                        </TabPanel>
-                    </TabContext>
-                </Box>
-
-
-            </div>
-        </div>
-    )
-}
-
-export default BookingHistory
+export default BookingHistory;

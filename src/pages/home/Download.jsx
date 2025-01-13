@@ -40,73 +40,78 @@ const Download = () => {
 
   return (
     <>
-      <section class="downloadSection mb-5 mt-5">
-        <div class="container">
-          <div className="backdrop-img">
+      <div
+        className="flightMainBox relative py-16 pt-16 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)]  bg-cover bg-top bg-no-repeat"
+        style={{ backgroundImage: `url(${downloadBackground})` }}
+      >
+        <section class="downloadSection mb-5 mt-5">
+          <div class="container">
+            {/* <div className="backdrop-img">
             <Img src={downloadBackground} />
-          </div>
-          <div class="row align-items-center">
-            <div class="col-lg-6 order-lg-1 order-md-2 order-sm-2 order-2">
-              <div class="download-app">
-                <h2>Download the app now</h2>
-                <p>Get flat 500/- off on your 1st Booking</p>
+          </div> */}
+            <div class="row align-items-center">
+              <div class="col-lg-6 order-lg-1 order-md-2 order-sm-2 order-2">
+                <div class="download-app">
+                  <h2>Download the app now</h2>
+                  <p>Get flat 500/- off on your 1st Booking</p>
 
-                <div className="appLink">
-                  <div class="input-group customInputGroup">
-                    <div class="input-group-text designCustom">+91</div>
-                    <input
-                      type="tel"
-                      name="phone"
-                      id="phone"
-                      value={mobileNumber}
-                      onChange={(e) => {
-                        setMobileNumber(e.target.value);
-                        if (e.target.value === "") {
-                          setvalidmobileclick(false);
-                        }
-                        setvalidno(
-                          validatePhoneNumber(e.target.value) ? true : false
-                        );
-                      }}
-                      class="form-control"
-                      placeholder="Mobile Number"
-                    />
+                  <div className="appLink">
+                    <div class="input-group customInputGroup">
+                      <div class="input-group-text designCustom">+91</div>
+                      <input
+                        type="tel"
+                        name="phone"
+                        id="phone"
+                        value={mobileNumber}
+                        onChange={(e) => {
+                          setMobileNumber(e.target.value);
+                          if (e.target.value === "") {
+                            setvalidmobileclick(false);
+                          }
+                          setvalidno(
+                            validatePhoneNumber(e.target.value) ? true : false
+                          );
+                        }}
+                        class="form-control"
+                        placeholder="Mobile Number"
+                      />
+                    </div>
+
+                    {sent && (
+                      <div style={{ color: "green", fontSize: "12px" }}>
+                        download link sent to your whatsApp
+                      </div>
+                    )}
+                    {validmobileclick && !validno && (
+                      <div style={{ color: "red", fontSize: "12px" }}>
+                        Enter valid Mobile Number
+                      </div>
+                    )}
                   </div>
-
-                  {sent && (
-                    <div style={{ color: "green", fontSize: "12px" }}>
-                      download link sent to your whatsApp
-                    </div>
-                  )}
-                  {validmobileclick && !validno && (
-                    <div style={{ color: "red", fontSize: "12px" }}>
-                      Enter valid Mobile Number
-                    </div>
-                  )}
-                </div>
-                <div className="appButton">
-                  <Button
-                    loading={loading}
-                    className=""
-                    onClick={() => {
-                      loading || sent || !validno
-                        ? setvalidmobileclick(true)
-                        : handleDownloadLink();
-                    }}
-                  >
-                    Get the app link
-                  </Button>
+                  <div className="appButton">
+                    <Button
+                      loading={loading}
+                      className=""
+                      onClick={() => {
+                        loading || sent || !validno
+                          ? setvalidmobileclick(true)
+                          : handleDownloadLink();
+                      }}
+                    >
+                      Get the app link
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col-lg-6 order-lg-2 order-md-1 order-sm-1 order-1">
-              <div className="downloadImg">
-                <Img src={downloadMobile} />
+              <div class="col-lg-6 order-lg-2 order-md-1 order-sm-1 order-1">
+                <div className="downloadImg">
+                  <Img src={downloadMobile} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </>
   );
 };

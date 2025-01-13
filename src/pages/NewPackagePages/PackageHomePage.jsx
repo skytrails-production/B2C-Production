@@ -1,19 +1,15 @@
 import React, { useEffect } from "react";
-import NewPackageForm from "./PackageFormPage/NewPackageForm";
 import { Helmet } from "react-helmet-async";
 import NewHolidayCategory from "./holidayCategory/NewHolidayCategory";
-import NewHolidayTrending from "./holidayTrending/NewHolidayTrending";
+
 import holidayBottom from "./holidayBottom.svg";
 import holidayBottomMobile from "./holidayBottomMobile.svg";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { clearHolidayReducer } from "../../Redux/OnePackageSearchResult/actionOneSearchPackage";
 import Img from "../../LazyLoading/Img";
-import HolidayTopCountries from "./holidayCountries/HolidayTopCountries";
-import Download from "../home/Download";
 import WhyChooseUs from "../../components/WhyChooseUs";
-import Blog from "../home/Blog";
-import diwali from "../../images/diwali.png";
-import newPackBanner from "../../images/newpackageBanner.webp";
+import seashore from "../../images/seashore.mp4";
+import seashoreImg from "../../images/seashore.jpg";
 import HolidaySearchForm from "../../components/TailwindSearchComp/heroSection/holidayForm/HolidaySearchForm";
 import Testimonials from "../../components/TailwindSearchComp/testimonials/Testimonials";
 import Faq from "../../components/TailwindSearchComp/Faq";
@@ -22,12 +18,13 @@ import OfferMain from "../../components/TailwindSearchComp/offerPage/OfferMain";
 import TrendingPackageHome from "../../components/TailwindSearchComp/trendingPackage/TrendingPackageHome";
 import PackageHomeAbsolute from "./PackageHomeAbsolute";
 import Domestic from "./Domestic";
+import { clearPackageData } from "../../Redux/SearchPackage/actionSearchPackage";
 const PackageHomePage = () => {
   const dispatch = useDispatch();
-  const reducerState = useSelector((state) => state);
 
   useEffect(() => {
     dispatch(clearHolidayReducer());
+    dispatch(clearPackageData());
   }, []);
 
   return (
@@ -47,16 +44,33 @@ const PackageHomePage = () => {
           />
         </Helmet>
 
-        <div className="flex md:hidden lg:hidden ">
+        {/* <div className="flex md:hidden lg:hidden ">
           <NewPackageForm />
-        </div>
+        </div> */}
 
-        <div
+        {/* <div
           className="flightMainBox relative py-28 pt-44 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)] hidden md:flex bg-cover bg-top bg-no-repeat"
           style={{ backgroundImage: `url(${newPackBanner})` }}
         >
           <HolidaySearchForm />
+        </div> */}
+
+        <div className="flightMainBox relative py-28 pt-44 flex md:flex bg-cover bg-top bg-no-repeat">
+          <video
+            className="absolute inset-0 w-full h-full object-cover"
+            poster={seashoreImg}
+            loop
+            autoPlay
+            muted
+          >
+            <source src={seashore} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          {/* <div className=" z-10"> */}
+          <HolidaySearchForm />
+          {/* </div> */}
         </div>
+
         <PackageHomeAbsolute />
         <div>
           <OfferMain active={"HOLIDAYS"} />
@@ -65,10 +79,6 @@ const PackageHomePage = () => {
         <div>
           <NewHolidayCategory />
         </div>
-
-        {/* <div>
-          <HolidayTopCountries />
-        </div> */}
         <div>
           <Domestic />
         </div>
@@ -79,11 +89,19 @@ const PackageHomePage = () => {
         </div>
 
         <div className="my-3 mt-5">
-          <div className="justify-center custom-container d-none d-md-flex holiBot">
-            <Img style={{ width: "100%" }} src={holidayBottom} />
+          <div className="justify-center w-full  custom-container d-none d-md-flex holiBot">
+            <img
+              className="w-full object-cover"
+              src={holidayBottom}
+              alt="trip"
+            />
           </div>
           <div className="container d-flex w-100 d-md-none holiBotMobile">
-            <Img style={{ width: "100%" }} src={holidayBottomMobile} />
+            <img
+              style={{ width: "100%" }}
+              src={holidayBottomMobile}
+              alt="trip"
+            />
           </div>
         </div>
 
@@ -96,13 +114,6 @@ const PackageHomePage = () => {
         <div>
           <Faq />
         </div>
-        {/* <div>
-          <Download />
-        </div>
-
-        <div>
-          <Blog />
-        </div> */}
         <div>
           <FooterNavigation />
         </div>

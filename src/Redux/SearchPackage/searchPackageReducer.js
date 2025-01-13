@@ -71,7 +71,7 @@ export const searchPackageReducer = (state = initialState, action) => {
         isLoading: true,
         isError: false,
       };
-    case types.CLEAR_PACKAGE_DATA:
+    case types.CLEAR_PACKAGE_DATA: 
       return {
         packageSearchResult: [],
         isLogin: false,

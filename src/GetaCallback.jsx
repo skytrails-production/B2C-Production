@@ -152,6 +152,7 @@ function GetaCallback() {
             <button
               onClick={() => {
                 setIsOpen(false);
+                // closeModal();
                 setPage(1); // Reset to Page 1
                 setErrors({}); // Clear errors
               }}
@@ -162,16 +163,20 @@ function GetaCallback() {
 
             {page === 1 && (
               <>
-                <h2 className="text-xl font-semibold text-center">
+                <h2 className="text-xl font-semibold text-center mt-0">
                   Need Assistance?
                 </h2>
                 <form onSubmit={handleGetCallback} className="space-y-4 ">
                   {/* Row 1 */}
 
-                  <div style={{ padding: "12px", border: "1px solid #DEE2E6" }}>
-                    <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <div className="grid grid-cols-2 gap-3">
                       <div>
-                        <label className="block">
+                        <label
+                          for="email"
+                          className="block mb-2 text-sm font-medium text-gray-900 "
+                        >
+                          {" "}
                           Destination <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -179,7 +184,7 @@ function GetaCallback() {
                           name="destination"
                           value={formData.destination}
                           onChange={handleInputChange}
-                          className="w-full p-2 border rounded"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 "
                         />
                         {errors.destination && (
                           <p className="text-sm text-red-500">
@@ -188,21 +193,20 @@ function GetaCallback() {
                         )}
                       </div>
                       <div>
-                        <label className="block">Departure City</label>
+                        <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                          Departure City
+                        </label>
                         <input
                           type="text"
                           name="departureCity"
                           value={formData.departureCity}
                           onChange={handleInputChange}
-                          className="w-full p-2 border rounded"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 "
                         />
                       </div>
-                    </div>
 
-                    {/* Row 2 */}
-                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block">
+                        <label className="block mb-2 text-sm font-medium text-gray-900 ">
                           Full Name <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -210,14 +214,14 @@ function GetaCallback() {
                           name="name"
                           value={formData.name}
                           onChange={handleInputChange}
-                          className="w-full p-2 border rounded"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 "
                         />
                         {errors.name && (
                           <p className="text-sm text-red-500">{errors.name}</p>
                         )}
                       </div>
                       <div>
-                        <label className="block">
+                        <label className="block mb-2 text-sm font-medium text-gray-900 ">
                           Mobile Number <span className="text-red-500">*</span>
                         </label>
                         <input
@@ -225,24 +229,25 @@ function GetaCallback() {
                           name="phone"
                           value={formData.phone}
                           onChange={handleInputChange}
-                          className="w-full p-2 border rounded"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 "
                         />
                         {errors.phone && (
                           <p className="text-sm text-red-500">{errors.phone}</p>
                         )}
                       </div>
-                    </div>
 
-                    {/* Row 3 */}
-                    <div>
-                      <label className="block">Email Id</label>
-                      <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        className="w-full p-2 border rounded"
-                      />
+                      <div className="col-span-2">
+                        <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                          Email Id
+                        </label>
+                        <input
+                          type="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 "
+                        />
+                      </div>
                     </div>
                   </div>
                   {/* Checkbox for Agreement */}
@@ -252,20 +257,20 @@ function GetaCallback() {
                       name="agreeToTerms"
                       checked={formData.agreeToTerms}
                       onChange={handleInputChange}
-                      className="mr-2"
+                      className="mr-2 rounded-sm  focus:ring-0"
                     />
                     <span>
                       I have read and agree to the{" "}
                       <Link
                         to="/termAndCondition"
-                        className="text-[#00A9FF] no-underline"
+                        className="text-[#4f46e5] no-underline"
                       >
-                       Term & Condition
+                        Term & Condition
                       </Link>{" "}
                       &{" "}
                       <Link
                         to="/privacypolicy"
-                        className=" text-[#00A9FF] no-underline"
+                        className=" text-[#4f46e5] no-underline"
                       >
                         Privacy Policy
                       </Link>
@@ -275,32 +280,34 @@ function GetaCallback() {
                   {errors.isAgreed && (
                     <p className="text-sm text-red-500">{errors.isAgreed}</p>
                   )}
-                  <button
-                    type="submit"
-                    disabled={!formData.agreeToTerms} // Button disabled until checkbox is ticked
-                    className={`px-4 py-2 font-bold text-white rounded-full ${
-                      formData.agreeToTerms
-                        ? "bg-blue-500 hover:bg-blue-700"
-                        : "bg-gray-400 cursor-not-allowed"
-                    }`}
-                  >
-                    Get a Callback
-                  </button>
+                  <div className="flex justify-center">
+                    <button
+                      type="submit"
+                      disabled={!formData.agreeToTerms} // Button disabled until checkbox is ticked
+                      className={`px-4 py-2 text-white text-base rounded-full ${
+                        formData.agreeToTerms
+                          ? "bg-primary-6000 hover:bg-primary-700"
+                          : "bg-gray-400 cursor-not-allowed"
+                      }`}
+                    >
+                      Get a Callback
+                    </button>
+                  </div>
                 </form>
               </>
             )}
 
             {page === 2 && (
               <>
-                <h2 className="text-xl font-semibold text-center">
+                <h2 className="text-xl font-semibold text-center mt-0">
                   Trip Details
                 </h2>
                 <form onSubmit={handleSubmitPage2} className="space-y-4">
-                  <div style={{ padding: "12px", border: "1px solid #DEE2E6" }}>
+                  <div>
                     {/* Row 1 */}
-                    <div className="grid grid-cols-1">
-                      <div>
-                        <label className="block">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="col-span-2">
+                        <label className="block mb-2 text-sm font-medium text-gray-900 ">
                           Travel Date<span className="text-red-500">*</span>
                         </label>
                         <input
@@ -308,7 +315,7 @@ function GetaCallback() {
                           name="travelDate"
                           value={formData.travelDate}
                           onChange={handleInputChange}
-                          className="w-full p-2 border rounded"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 "
                           min={minDate.toISOString().split("T")[0]} // Set minimum selectable date
                         />
                         {errors.travelDate && (
@@ -317,100 +324,108 @@ function GetaCallback() {
                           </p>
                         )}
                       </div>
-                    </div>
-
-                    <div className="grid grid-cols-1">
-                      <div>
-                        <label className="block">Budget</label>
+                      <div className="col-span-2">
+                        <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                          Budget
+                        </label>
                         <input
                           type="text"
                           name="budget"
                           value={formData.budget}
                           onChange={handleInputChange}
-                          className="w-full p-2 border rounded"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 "
                         />
                       </div>
-                    </div>
 
-                    {/* Row 2 */}
-                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="block">Adults</label>
+                        <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                          Adults
+                        </label>
                         <input
                           type="text"
                           name="adult"
                           value={formData.adult}
                           onChange={handleInputChange}
-                          className="w-full p-2 border rounded"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 "
                         />
                       </div>
                       <div>
-                        <label className="block">Children</label>
+                        <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                          Children
+                        </label>
                         <input
                           type="text"
                           name="child"
                           value={formData.child}
                           onChange={handleInputChange}
-                          className="w-full p-2 border rounded"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 "
                         />
                       </div>
-                    </div>
 
-                    {/* Row 3 */}
-                    <div className="grid grid-cols-1">
-                      <div>
-                        <label className="block">Message</label>
+                      <div className="col-span-2">
+                        <label className="block mb-2 text-sm font-medium text-gray-900 ">
+                          Message
+                        </label>
                         <textarea
                           name="msg"
                           value={formData.msg}
                           onChange={handleInputChange}
-                          className="w-full p-2 border rounded"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-indigo-700 focus:border-indigo-700 block w-full p-2.5 "
                         />
                       </div>
                     </div>
                   </div>
-                  <button
-                    type="submit"
-                    className="px-6 py-2 font-bold text-white rounded-full"
-                    style={{
-                      background: "linear-gradient(to right, #4DABFD, #166CF5)",
-                    }}
-                  >
-                    Submit
-                  </button>
+                  <div className="flex justify-center">
+                    <button
+                      type="submit"
+                      className="px-4 py-2 text-white text-base rounded-full bg-primary-6000 hover:bg-primary-700"
+                    >
+                      Submit
+                    </button>
+                  </div>
                 </form>
               </>
             )}
 
             {page === 3 && submittedData && (
-              <div className="space-y-4 text-left">
-                <h2 className="text-2xl font-semibold text-black-600">
-                  Thank You! <strong>{submittedData.name}</strong>
-                </h2>
-                <div>
-                  {" "}
-                  <p>
+              <div className="space-y-4 text-left relative">
+                {/* <div className="absolute w-96 h-[200px] rounded-full bg-primary-6000 "></div> */}
+                <div className=" text-center">
+                  <h2 className="text-xl font-semibold text-black-600">
+                    Thank You! <strong>{submittedData.name}</strong>
+                  </h2>
+                </div>
+                <div className="text-center">
+                  <p className="font-medium text-sm text-gray-900">
                     Our Holiday Expert will shortly reach out to you with our
                     best quotations on <strong>{submittedData.phone}</strong>.
                   </p>
                 </div>
-                <div className="p-2.5 rounded-md flex gap-6 border border-red-500 w-[264px]">
-                  <div>
-                    {" "}
-                    <p className="border-b border-#D6D6D6 mb-2.5 pb-1.5 request-received">
-                      <strong>Request Received</strong>
-                    </p>
-                    <span className="text-base font-medium">
-                      {`${submittedData.destination} - ${formatTravelDate(
-                        submittedData.travelDate
-                      )}`}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between mt-2.5">
-                    <div className="w-9 h-9 flex items-center justify-center border border-[#4F46E5] rounded-full">
-                      <CheckOutlined className="text-[16px] text-[#4F46E5]" />
-                    </div>
+                <div className="p-2.5 rounded-md  gap-6 border w-full">
+                  <p className=" mb-2.5 text-center pb-1.5 text-lg font-semibold">
+                    Request Received
+                  </p>
+                  <div class="flex relative overflow-x-auto  sm:rounded-lg">
+                    <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                      <tbody>
+                        <tr class="border-b border-gray-200 ">
+                          <td class="px-2 py-3 text-center border-r font-medium text-gray-900">
+                            {submittedData.name}{" "}
+                          </td>
+                          <td class="px-2 py-3 text-center font-medium text-gray-900">
+                            {submittedData.destination}
+                          </td>
+                        </tr>
+                        <tr class="">
+                          <td class="px-2 py-3 text-center border-r font-medium text-gray-900">
+                            {formatTravelDate(submittedData.travelDate)}
+                          </td>
+                          <td class="px-2 py-3 text-center font-medium text-gray-900">
+                            {submittedData.phone}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>

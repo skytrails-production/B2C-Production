@@ -1,60 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { SlMenu } from "react-icons/sl";
-import { VscChromeClose } from "react-icons/vsc";
-import { useNavigate, useLocation, Link } from "react-router-dom";
-import newlogo from "../../images/logoSky.svg";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./navbar.scss";
-import ContentsWrapper from "./ContentsWrapper";
-import {
-  flightInactive,
-  flightActive,
-  holidayActive,
-  holidayInactive,
-  hotelActive,
-  hotelInactive,
-  busActive,
-  busInactive,
-  visaInactive,
-} from "./NavbarSvgs";
-// import Countrypicker from "../../layouts/Countrypicker";
-import { FaUser } from "react-icons/fa";
-import Authentic from "../Auth/Authentic";
-import { Button, Dropdown } from "antd";
-import { useSelector } from "react-redux";
+import PackageResSearchForm from "../NewPackagePages/PackageResSearchForm";
+import AvatarDropdown from "../../components/TailwindSearchComp/mainNav/AvatarDropdown";
 
 const Navbar = () => {
-  const [show, setShow] = useState("top");
-  const reducerState = useSelector((state) => state);
+  const [show, setShow] = useState("tops");
   const [lastScrollY, setLastScrollY] = useState(0);
-  const [mobileMenu, setMobileMenu] = useState(false);
-  const userName = reducerState?.logIn?.loginData?.data?.result?.username;
-  const navigate = useNavigate();
   const location = useLocation();
-
-  // confirmation modal open close
-  const [showConfirmationModalVisible, setShowConfirmationModalVisible] =
-    useState(false);
-
-  const showConfirmationModal = () => {
-    setShowConfirmationModalVisible(true);
-  };
-
-  const closeConfirmationModal = () => {
-    setShowConfirmationModalVisible(false);
-  };
-  // confirmation modal open close
-
-  // logout modal open close
-  const [logoutModalVisible, setLogoutModalVisible] = useState(false);
-
-  const showLogoutModal = () => {
-    setLogoutModalVisible(true);
-  };
-
-  const closeLogoutModal = () => {
-    setLogoutModalVisible(false);
-  };
-  // logout modal open close
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -62,13 +16,13 @@ const Navbar = () => {
 
   const controlNavbar = () => {
     if (window.scrollY > 200) {
-      if (window.scrollY > lastScrollY && !mobileMenu) {
-        setShow("hide");
+      if (window.scrollY > lastScrollY) {
+        setShow("shows");
       } else {
-        setShow("show");
+        setShow("shows");
       }
     } else {
-      setShow("top");
+      setShow("tops");
     }
     setLastScrollY(window.scrollY);
   };
@@ -80,197 +34,36 @@ const Navbar = () => {
     };
   }, [lastScrollY]);
 
-  const openMobileMenu = () => {
-    setMobileMenu(true);
-  };
-
-  const navigationHandler = (type) => {
-    if (type === "flight") {
-      navigate("/");
-    }
-    if (type === "holidays") {
-      navigate("/holidaypackages");
-    }
-    if (type === "hotel") {
-      navigate("/st-hotel");
-    }
-    if (type === "bus") {
-      navigate("/bus");
-    }
-
-    setMobileMenu(false);
-  };
-
-  // const isActive = (path) => {
-  //     if (path === "/") {
-  //         return location.pathname === path;
-  //     }
-  //     return location.pathname.startsWith(path);
-  // };
-
-  const isActive = (path) => {
-    const currentPath = location.pathname;
-
-    if (path === "/") {
-      return (
-        currentPath === "/" ||
-        currentPath === "/Searchresult" ||
-        currentPath === "/Searchresult/booknow"
-      );
-    }
-
-    return currentPath.startsWith(path);
-  };
-
-  const items = [
-    {
-      key: "1",
-      label: (
-        <a target="_blank" rel="noopener noreferrer" onClick={showLogoutModal}>
-          Logout
-        </a>
-      ),
-    },
-    {
-      key: "2",
-      label: (
-        <Link to="/bookinghistory" rel="noopener noreferrer">
-          Booking History
-        </Link>
-      ),
-    },
-  ];
-
   return (
-    <header className={`header ${mobileMenu ? "mobileView" : ""} ${show}`}>
-      <ContentsWrapper>
-        <div className="mainlogo">
-          <img src={newlogo} alt="" onClick={() => navigate("/")} />
-        </div>
-        {!mobileMenu && (
-          <>
-            <ul className="menuItems">
-              <li
-                className={`menuItem ${isActive("/") ? "active" : ""}`}
-                onClick={() => navigationHandler("flight")}
-              >
-                {isActive("/") ? flightActive : flightInactive} Flight
-              </li>
-              <li
-                className={`menuItem ${isActive("/st-hotel") ? "active" : ""}`}
-                onClick={() => navigationHandler("hotel")}
-              >
-                {isActive("/st-hotel") ? hotelActive : hotelInactive} Hotels
-              </li>
-              <li
-                className={`menuItem ${
-                  isActive("/holidaypackages") ? "active" : ""
-                }`}
-                onClick={() => navigationHandler("holidays")}
-              >
-                {isActive("/holidaypackages") ? holidayActive : holidayInactive}{" "}
-                Holidays
-              </li>
-              <li
-                className={`menuItem ${isActive("/bus") ? "active" : ""}`}
-                onClick={() => navigationHandler("bus")}
-              >
-                {isActive("/bus") ? busActive : busInactive} Buses
-              </li>
-              <li className="menuItem">
-                {visaInactive}
-                <Link to={"https://visa.theskytrails.com"} target="_blank">
-                  Visa
-                </Link>
-              </li>
-            </ul>
+    // <header className={`header ${show}`}>
+    <header className={`nc-Header ${show} w-full headers z-30 shadow-sm`}>
+      <div className={`MainNav2 relative z-10 `}>
+        <div className="px-4 h-20 lg:container flex justify-between">
+          <div
+            onClick={() => navigate("/")}
+            className="hidden md:flex cursor-pointer justify-start space-x-3 sm:space-x-8 lg:space-x-10 "
+          >
+            <img
+              src="https://theskytrails.com/static/media/logoSky.63ff4d7e95a8ed4a90ba8f28c3b8958a.svg"
+              className="w-20 lg:w-52 md:w-44"
+              alt=""
+            />
+          </div>
 
-            <div className="menuItemLogin">
-              {/* <Countrypicker /> */}
+          <div className="flex md:flex justify-center items-center flex-1 space-x-3 sm:space-x-8 lg:space-x-10">
+            <PackageResSearchForm />
+          </div>
 
-              {userName ? (
-                <Dropdown
-                  menu={{
-                    items,
-                  }}
-                  placement="bottomRight"
-                  arrow
-                >
-                  <Button>
-                    <FaUser />
-                    {userName}
-                  </Button>
-                  {/* <h4  ><FaUser /> {userName}</h4> */}
-                </Dropdown>
-              ) : (
-                <h4 className="flex gap-1" onClick={showConfirmationModal}>
-                  <FaUser /> Login/Signup
-                </h4>
-              )}
+          <div className="hidden md:flex flex-shrink-0 justify-end flex-1 lg:flex-none text-neutral-700 ">
+            <div className="hidden lg:flex space-x-1">
+              <AvatarDropdown />
             </div>
-          </>
-        )}
-
-        {mobileMenu && (
-          <ul className="menuItems">
-            {userName ? (
-              <>
-                <li
-                  className="menuItem"
-
-                  // onClick={}
-                >
-                  <i class="fa-solid fa-user"></i> {userName}
-                </li>
-              </>
-            ) : (
-              <li
-                className="menuItem"
-                onClick={() => {
-                  setMobileMenu(false);
-                  showConfirmationModal();
-                }}
-                // onClick={}
-              >
-                My Account
-              </li>
-            )}
-
-            <li
-              className="menuItem"
-              onClick={() => {
-                navigate("/aboutus");
-                setMobileMenu(false);
-              }}
-            >
-              About Us
-            </li>
-            <li
-              className="menuItem"
-              onClick={() => {
-                navigate("/privacypolicy");
-                setMobileMenu(false);
-              }}
-            >
-              Privacy Policy
-            </li>
-          </ul>
-        )}
-        <div className="mobileMenuItems">
-          {mobileMenu ? (
-            <VscChromeClose onClick={() => setMobileMenu(false)} />
-          ) : (
-            <SlMenu onClick={openMobileMenu} />
-          )}
+            <div className="flex space-x-2 lg:hidden">
+              <AvatarDropdown />
+            </div>
+          </div>
         </div>
-      </ContentsWrapper>
-
-      <Authentic
-        isOpen={showConfirmationModalVisible}
-        onClose={closeConfirmationModal}
-        isLogoutOpen={logoutModalVisible}
-        onLogoutClose={closeLogoutModal}
-      />
+      </div>
     </header>
   );
 };

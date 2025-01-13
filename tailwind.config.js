@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-
+const flowbite = require("flowbite-react/tailwind");
 
 function customColors(cssVar) {
 	return ({ opacityVariable, opacityValue }) => {
@@ -14,7 +14,7 @@ function customColors(cssVar) {
 }
 
 export default {
-	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
+	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}", flowbite.content(),],
 	theme: {
 
 		container: {
@@ -67,18 +67,25 @@ export default {
 			},
 			keyframes: {
 				shake: {
-					'0%, 100%': { transform: 'translateX(0)' },
-					'25%': { transform: 'translateX(-5px)' },
-					'75%': { transform: 'translateX(5px)' },
+				  '0%, 100%': { transform: 'translateX(0)' },
+				  '25%': { transform: 'translateX(-5px)' },
+				  '75%': { transform: 'translateX(5px)' },
 				},
-			},
-			animation: {
-				shake: 'shake 0.5s ease-in-out ',
-			},
+				slide: {
+				  '0%': { transform: 'translateX(-100%)' },
+				  '100%': { transform: 'translateX(100%)' },
+				},
+			  },
+			  animation: {
+				shake: 'shake 0.5s ease-in-out',
+				slide: 'slide 1s linear infinite',
+			  },
 		},
 		variants: {
 			extend: {},
 		},
 	},
-	plugins: [],
+	plugins: [
+		flowbite.plugin(),
+    ],
 };

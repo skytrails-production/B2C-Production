@@ -54,12 +54,7 @@ const Faq = () => {
     <section class="py-10">
       <div class="custom-container">
         <div class="mb-7">
-          <h6 class="text-lg text-indigo-600 font-medium text-center mb-2">
-            FAQs
-          </h6>
-          <h2 class="text-4xl font-manrope text-center font-bold text-gray-900 leading-[3.25rem]">
-            Frequently asked questions
-          </h2>
+          <Heading isCenter={true}>Frequently asked questions</Heading>
         </div>
         <div class="accordion-group" data-accordion="default-accordion">
           <div className=" w-full pt-10 ">

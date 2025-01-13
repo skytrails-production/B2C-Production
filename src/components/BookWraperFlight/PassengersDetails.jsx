@@ -25,8 +25,8 @@ const PassengersDetails = ({
 
   // const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const adultCount = queryParams.get("adult");
-  // const adultCount = 2;
+  // const adultCount = queryParams.get("adult");
+  const adultCount = 2;
   const childCount = queryParams.get("child");
   // const childCount = 2;
   const infantCount = queryParams.get("infant");

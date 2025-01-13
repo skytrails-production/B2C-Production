@@ -2,18 +2,15 @@ import dayjs from "dayjs";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-
-
 export default function PriceSummaryGRN(props) {
-
   const { onFinalAmountChange } = props;
 
   const reducerState = useSelector((state) => state);
 
   const hotelinfoGRN = reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel;
   const commnetRate = hotelinfoGRN?.rate?.rate_comments?.MandatoryTax;
-  const hotelMainReducer = reducerState?.hotelSearchResultGRN?.ticketData?.data?.data;
-
+  const hotelMainReducer =
+    reducerState?.hotelSearchResultGRN?.ticketData?.data?.data;
 
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup *
@@ -24,7 +21,6 @@ export default function PriceSummaryGRN(props) {
       return item?.name == "HOTELS" || item?.name == "FORALL";
     }
   );
-
 
   const totalPriceCalculator = () => {
     let finalAmount = 0;
@@ -39,121 +35,130 @@ export default function PriceSummaryGRN(props) {
       }
 
       if (discountValueObj?.[0].type == "PERCENTAGE") {
-        finalAmount = Number(publishedFare) + Number(markUpamount) - Number(publishedFare) * Number(discountamount * 0.01);
+        finalAmount =
+          Number(publishedFare) +
+          Number(markUpamount) -
+          Number(publishedFare) * Number(discountamount * 0.01);
         discountAmount = publishedFare * (discountamount * 0.01);
-
-
       } else if (discountValueObj?.[0].type == "AMOUNT") {
-        finalAmount = Number(publishedFare) + Number(markUpamount) - Number(discountamount);
+        finalAmount =
+          Number(publishedFare) + Number(markUpamount) - Number(discountamount);
         discountAmount = Number(discountamount);
       }
-    }
-    else {
+    } else {
       finalAmount =
-        finalAmount +
-        Number(hotelinfoGRN?.rate?.price) +
-        Number(markUpamount);
+        finalAmount + Number(hotelinfoGRN?.rate?.price) + Number(markUpamount);
     }
     // return { amountGenerator: { finalAmount, discountAmount } };
     return { finalAmount, discountAmount };
   };
   const { finalAmount, discountAmount } = totalPriceCalculator();
 
-
   useEffect(() => {
-    if (typeof onFinalAmountChange === 'function') {
+    if (typeof onFinalAmountChange === "function") {
       onFinalAmountChange(finalAmount);
     } else {
-      console.error('onFinalAmountChange is not a function:');
+      console.error("onFinalAmountChange is not a function:");
     }
   }, [finalAmount]);
 
-
-
   return (
     <>
-
-
-
-      <div className="initialBookingData">
-        <div className="checkInCheckOutBox">
-          <div className="checkInInnerBoxOne">
-            <div>
-              <p>Check-In</p>
-              <h5>
-                {dayjs(hotelMainReducer?.checkin).format(
-                  "DD MMM, YY"
-                )}
-              </h5>
-              <h2>
-                {dayjs(hotelMainReducer?.checkin).format(
-                  "dddd"
-                )}
-              </h2>
+      <div className="top-24 rounded-md shadow-sm border overflow-y-scroll p-7 sticky">
+        <div className=" flex flex-col w-full border rounded-md">
+          <div className=" flex flex-row justify-center items-center">
+            <div className="p-3 w-full border-b flex flex-col gap-2 justify-center items-center">
+              <p className="text-sm  text-gray-500 mb-0">Check-In</p>
+              <p className="text-sm font-semibold text-gray-600 mb-0">
+                {dayjs(hotelMainReducer?.checkin).format("DD MMM, YY")}
+              </p>
+              <p className="text-sm font-semibold text-gray-600 mb-0">
+                {dayjs(hotelMainReducer?.checkin).format("dddd")}
+              </p>
             </div>
 
-            <div>
-              <p>Check-Out</p>
-              <h5>
-                {dayjs(hotelMainReducer?.checkout).format(
-                  "DD MMM, YY"
-                )}
-              </h5>
-              <h2>
-                {dayjs(hotelMainReducer?.checkout).format(
-                  "dddd"
-                )}
-              </h2>
+            <div className="p-3 w-full border-b flex flex-col gap-2 justify-center items-center">
+              <p className="text-sm text-gray-500 mb-0">Check-Out</p>
+              <p className="text-sm font-semibold text-gray-600 mb-0">
+                {dayjs(hotelMainReducer?.checkout).format("DD MMM, YY")}
+              </p>
+              <p className="text-sm font-semibold text-gray-600 mb-0">
+                {dayjs(hotelMainReducer?.checkout).format("dddd")}
+              </p>
             </div>
           </div>
-          <div className="checkInInnerBoxTwo">
-            <p>
+          <div className=" flex flex-row justify-center items-center p-2">
+            <p className="text-sm font-semibold text-gray-600 mb-0">
               {hotelMainReducer?.no_of_rooms} Room
             </p>
-            <h5>
-              {", "}{hotelMainReducer?.no_of_adults} Adult{" "}
+            <p className="text-sm font-semibold text-gray-600 mb-0">
+              {", "}
+              {hotelMainReducer?.no_of_adults} Adult{" "}
               {hotelMainReducer?.no_of_children > 0
                 ? `${hotelMainReducer?.no_of_children} Child`
                 : ""}
-            </h5>
+            </p>
           </div>
         </div>
 
-
-        <div className="sideBarPriceBox">
-
-          <div>
-            <h6>₹{" "}{(hotelinfoGRN?.rate?.price / hotelMainReducer?.no_of_nights).toFixed(0)} x {hotelMainReducer?.no_of_nights}{" "}nights</h6>
-            <p>₹{" "}{hotelinfoGRN?.rate?.price}</p>
+        <div className="">
+          <div className=" flex flex-row justify-between mt-2 text-gray-600">
+            <p className="text-sm font-semibold text-gray-600 mb-0">
+              ₹{" "}
+              {(
+                hotelinfoGRN?.rate?.price / hotelMainReducer?.no_of_nights
+              ).toFixed(0)}{" "}
+              x {hotelMainReducer?.no_of_nights} nights
+            </p>
+            <p className="text-sm font-semibold text-gray-600 mb-0">
+              ₹ {hotelinfoGRN?.rate?.price}
+            </p>
           </div>
-          <div>
-            <h6>₹{" "}{(hotelinfoGRN?.rate?.price / hotelMainReducer?.no_of_rooms).toFixed(0)} x {hotelMainReducer?.no_of_rooms}{" "}rooms</h6>
-            <p>₹{" "}{hotelinfoGRN?.rate?.price}</p>
+          <div className=" flex flex-row justify-between mt-2 text-gray-600">
+            <p className="text-sm font-semibold text-gray-600 mb-0">
+              ₹{" "}
+              {(
+                hotelinfoGRN?.rate?.price / hotelMainReducer?.no_of_rooms
+              ).toFixed(0)}{" "}
+              x {hotelMainReducer?.no_of_rooms} rooms
+            </p>
+            <p className="text-sm font-semibold text-gray-600 mb-0">
+              ₹ {hotelinfoGRN?.rate?.price}
+            </p>
           </div>
-
         </div>
+
         <hr />
 
-        <div className="sideBarPriceBox">
+        <div className="">
+          <div className=" flex flex-row justify-between mt-2 text-gray-600">
+            <p className="text-sm font-semibold text-gray-600 mb-0">
+              Other Tax
+            </p>
+            <p className="text-sm font-semibold text-gray-600 mb-0">
+              ₹ {Number(markUpamount).toFixed(0)}
+            </p>
+          </div>
+          <div className=" flex flex-row justify-between mt-2 text-gray-600">
+            <p className="text-sm font-semibold text-gray-600 mb-0">
+              Grand Total
+            </p>
+            <p className="text-md font-semibold text-gray-800 mb-0">
+              ₹ {Number(finalAmount).toFixed(0)}
+            </p>
+          </div>
+        </div>
 
+        {/* <div className="sideBarPriceBox">
           <div>
             <h6>Other Tax</h6>
-            <p>₹{" "}{Number(markUpamount).toFixed(0)}</p>
+            <p>₹ {Number(markUpamount).toFixed(0)}</p>
           </div>
           <div>
             <h6>Grand Total</h6>
-            <p className="grTotal">₹{" "}{Number(finalAmount).toFixed(0)}</p>
+            <p className="grTotal">₹ {Number(finalAmount).toFixed(0)}</p>
           </div>
-
-
-        </div>
-
-        {/* <div className="sideBarButtonsHotel">
-        
-
-          <Button type="primary" onClick={}>Continue</Button>
         </div> */}
-
       </div>
     </>
   );

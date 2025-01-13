@@ -200,7 +200,7 @@ const BookedTicket = () => {
     const apiCalled = sessionStorage.getItem("apiCalled");
 
     if (!apiCalled) {
-      addBookingDetails();
+      // addBookingDetails();
       sessionStorage.setItem("apiCalled", "true");
     }
   }, []);

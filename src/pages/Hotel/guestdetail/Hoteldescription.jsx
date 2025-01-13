@@ -45,7 +45,8 @@ const Hoteldescription = ({
     try {
       const token = SecureStorage.getItem("jwtToken");
       const response = await axios.get(
-        `${apiURL.baseURL
+        `${
+          apiURL.baseURL
         }/skyTrails/api/coupons/couponApplied/${sessionStorage.getItem(
           "couponCode"
         )}`,
@@ -86,6 +87,8 @@ const Hoteldescription = ({
     reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Status || false;
   const passenger = reducerState?.passengers?.passengersData;
 
+  console.log(passenger, "passenger");
+
   // console.log(reducerState, "passenger");
   // useEffect(() => {
   //   // console.log(couponAmount, "couponAmount..................");
@@ -113,21 +116,16 @@ const Hoteldescription = ({
   const [bookingSuccess, setBookingSuccess] = useState(bookingStatus);
   const markUpamount =
     reducerState?.markup?.markUpData?.data?.result[0]?.hotelMarkup;
-  const hotelData =
-    reducerState?.hotelSearchResult?.ticketData?.data?.data?.HotelSearchResult;
-  // console.log(resultIndex, hotelCode);
-  const hotelInfo = reducerState?.hotelSearchResult?.hotelInfo?.HotelInfoResult;
 
+  const hotelInfo = reducerState?.hotelSearchResult?.hotelInfo?.HotelInfoResult;
 
   const getBookingDetails =
     reducerState?.hotelSearchResult?.blockRoom?.BlockRoomResult
       ?.HotelRoomsDetails;
-  // console.log("reducerState", reducerState);
 
   const totalAmount = getBookingDetails?.reduce((accumulator, item) => {
     return accumulator + item?.Price?.PublishedPriceRoundedOff;
   }, 0);
-  // console.log("totalAmount in last page", totalAmount);
   useEffect(() => {
     if (
       reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Error?.ErrorCode ==
@@ -156,7 +154,6 @@ const Hoteldescription = ({
       handleClickBooking();
     }
   }, [loaderPayment]);
-
 
   // console.log(reducerState, "reducer state")
 
@@ -212,13 +209,6 @@ const Hoteldescription = ({
     dispatch(hotelBookRoomAction([payload, hotelDetailsPayload]));
     // dispatch(hotelBookRoomAction(payload));//ye nhi hai
   };
-
- 
-
-
-  
-
-
 
   const [paymentLoading, setPaymentLoading] = useState(false);
 

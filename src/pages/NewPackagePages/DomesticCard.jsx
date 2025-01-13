@@ -1,18 +1,25 @@
 import dayjs from "dayjs";
-import React from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { BiChevronLeft, BiChevronRight } from "react-icons/bi"; // Importing icons for arrows
+import { BiChevronRight } from "react-icons/bi"; // Importing icons for arrows
 
 const DomesticCard = ({ className = "", data }) => {
   const navigate = useNavigate();
-
-  // const handleCountryClick = async (category) => {
-  //   const queryParameter = category;
-  //   navigate(`/holidaypackages/country/${queryParameter}`);
-  // };
+  const [recentSearches, setRecentSearches] = useState(
+    JSON.parse(localStorage.getItem("HolidayrecentSearches")) || []
+  );
 
   const handleFormClicks = (category) => {
-    // e.preventDefault();
+    const updatedRecentSearches = [
+      category,
+      ...recentSearches.filter((item) => item !== category),
+    ].slice(0, 5);
+
+    setRecentSearches(updatedRecentSearches);
+    localStorage.setItem(
+      "HolidayrecentSearches",
+      JSON.stringify(updatedRecentSearches)
+    );
     if (category) {
       navigate(`/holidaypackages/cities/${category}`);
     }
@@ -37,7 +44,7 @@ const DomesticCard = ({ className = "", data }) => {
             {data?.destination}
           </h3>
           <div className="flex flex-row justify-between items-center">
-            <p className="text-gray-500 text-sm">
+            <p className="text-gray-500 flex flex-col  text-sm">
               From<b className="text-lg"> ₹ {data?.startFrom}</b>
             </p>
             <Link

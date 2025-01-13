@@ -41,6 +41,7 @@ import HotelTicketGeneration from "./pages/Hotel/HotelTicketGeneration/HotelTick
 import RefundPolicy from "./layouts/RefundPolicy";
 import AboutUs from "./layouts/AboutUs";
 import BookedTicket from "./pages/flight/BookedTicket";
+import NewBookedTicket from "./pages/flight/flightResult/NewBookTicket";
 import Flighterror from "./pages/flight/Flighterror";
 import ContactUs from "./layouts/ContactUs";
 import BookingHistory from "./components/bookingHistory/BookingHistory";
@@ -55,8 +56,11 @@ import DummyPnrHome from "./components/DummyPnrHome";
 // import HolidayCountryDetails from "./pages/holidaypackages/holidayCategory/HolidayCountryDetails";
 import Events from "./pages/Event/Events";
 import ReturnMain from "./pages/flight/ReturnFlight/ReturnMain";
-import ReturnResult from "./pages/flight/ReturnFlight/ReturnResult";
+// import ReturnResult from "./pages/flight/ReturnFlight/ReturnResult";
+import ReturnResult from "./pages/flight/ReturnFlight/newRetun/ReturnFlightMain";
 import ReturnResultInternational from "./pages/flight/ReturnFlight/ReturnResultInternational";
+import BookWrapperReturn from "./components/TailwindSearchComp/heroSection/flightSearchForm/returnSearchForm/NewBookWrapperReturn"
+
 import ReturnPassenger from "./pages/flight/ReturnFlight/ReturnPassenger";
 
 import Whatsapp from "./Whatsapp";
@@ -138,6 +142,12 @@ import AllOffers from "./components/TailwindSearchComp/offerPage/AllOffers";
 import GetaCallback from "./GetaCallback";
 
 import UserProfile from "./components/TailwindSearchComp/profilePage/UserProfile";
+import HotelSelectroomMain from "./pages/GRMHotel/tboHotel/hotelselectroom/HotelSelectroomMain";
+import TboGuestDetails from "./pages/GRMHotel/tboHotel/tboGuestDetails/TboGuestDetails";
+import TboBookingHotel from "./pages/GRMHotel/tboHotel/bookHotel/TboBookingHotel";
+import TboTicketGeneration from "./pages/GRMHotel/tboHotel/bookHotel/TboTicketGeneration";
+import { faqRatingListReq } from "./Redux/Faq&Rating/actionFaqRating";
+import DownloadHotelPdf from "./components/bookingHistory/DownloadHotelPdf";
 
 function App() {
   // const location = useLocation();
@@ -149,6 +159,7 @@ function App() {
 
   useEffect(() => {
     dispatch(ipAction());
+    dispatch(faqRatingListReq());
   }, []);
 
   useEffect(() => {
@@ -261,7 +272,6 @@ function App() {
   const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
-    
   }, [pathname]);
 
   const [showPopup, setShowPopup] = useState(false);
@@ -318,7 +328,7 @@ function App() {
   }
 
   return (
-    <div className="background_gradient">
+    <div className="background_gradien bg-white">
       {/* <div className="triColorBox">
         
       </div> */}
@@ -335,7 +345,10 @@ function App() {
         location.pathname !== "/phone" &&
         location.pathname !== "/inventoryDashboard" &&
         location.pathname !== "/Package/form" &&
-        location.pathname !== "/inventoryhotelform" && <MainNav />}
+        location.pathname !== "/inventoryhotelform" && (
+          // !location.pathname.includes("/holidaypackages") &&
+          <MainNav />
+        )}
       {/* {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/phone" &&
@@ -347,6 +360,9 @@ function App() {
         location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
         location.pathname !== "/inventoryhotelform" && <BottomNavbar />}
+
+      {/* {(location.pathname.includes("/holidaypackages/c") || location.pathname.includes("/holidaypackages/p") ||  location.pathname.includes("/holidaypackages/b")) &&
+          <Navbar />} */}
 
       {/* 
       {location.pathname == "/" ||
@@ -387,12 +403,20 @@ function App() {
           element={<PassengerInternational />}
         ></Route>
         <Route
+          path="/ReturnResultNew/PassengerDetails"
+          element={<BookWrapperReturn />}
+        ></Route>
+        <Route
           path="/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational"
           element={<ReturnReviewInternational />}
         ></Route>
         <Route
           path="/FlightresultReturn/PassengerDetailsInternational/returnreviewbookingInternational/bookedTicketWithIntl"
           element={<BookedTicketInternationalDB />}
+        ></Route>
+        <Route
+          path="/newFlight/newBookedTicket"
+          element={<NewBookedTicket />}
         ></Route>
         <Route path="/multicityresult" element={<MulticityResult />}></Route>
         <Route
@@ -459,10 +483,37 @@ function App() {
           path="/st-hotel/hotelresult/selectroom/guestDetails/review"
           element={<BookingReviewGRN />}
         />
+
         <Route
           path="/st-hotel/hotelresult/selectroom/guestDetails/review/ticket"
           element={<HotelTicketDB />}
         />
+
+        {/* tbo routes  */}
+
+        <Route
+          exact
+          path="/st-hotel/hotelresult/HotelBooknow"
+          element={<HotelSelectroomMain />}
+        />
+        <Route
+          exact
+          path="/st-hotel/hotelresult/HotelBooknow/Reviewbooking"
+          element={<TboGuestDetails />}
+        />
+        <Route
+          exact
+          path="/st-hotel/hotelresult/HotelBooknow/Reviewbooking/bookhotel"
+          element={<TboBookingHotel />}
+        />
+        <Route
+          exact
+          path="/st-hotel/hotelresult/HotelBooknow/Reviewbooking/GuestDetail/ticket"
+          element={<TboTicketGeneration />}
+        />
+
+        {/* tbo routes  */}
+
         {/* old hotel routes  */}
 
         <Route path="hotel" element={<Hotel />}></Route>
@@ -503,13 +554,13 @@ function App() {
           element={<HolidayPackageResultMain />}
         />
 
-        <Route
+        {/* <Route
           path="/holidaypackages/:type/:keyword"
           element={<HolidayPackageResultMain />}
-        />
+        /> */}
 
         <Route
-          path="/holidaypackages/packagedetails/:id"
+          path="/holidaypackages/packagedetails"
           element={<HolidayDetailsEnquiry />}
         />
 
@@ -543,6 +594,10 @@ function App() {
           element={<BookedTicketWithReturn />}
         ></Route>
         <Route path="/bookinghistory" element={<BookingHistory />}></Route>
+        <Route
+          path="/bookinghistory/hotelPdf"
+          element={<DownloadHotelPdf />}
+        ></Route>
         <Route
           path="/oneWayDummyPnr"
           element={<DummyTicketBookingForm />}
@@ -655,16 +710,17 @@ function App() {
       {/* complete inventory */}
 
       {/* <Whatsapp /> */}
-      {location.pathname.includes("/holidaypackages") && 
-      <GetaCallback />
-      }
+      {location.pathname.includes("/holidaypackages") && <GetaCallback />}
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/inventoryForgetPassword" &&
         location.pathname !== "/inventoryDashboard" &&
         location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
-        location.pathname !== "/inventoryhotelform" && <Whatsapp />}
+        location.pathname !== "/inventoryhotelform" &&
+        location.pathname !== "/ReturnResult" &&
+        // location.pathname !== "/newFlight/newBookedTicket" &&
+        <Whatsapp />}
 
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
@@ -672,6 +728,8 @@ function App() {
         location.pathname !== "/inventoryDashboard" &&
         location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
+        location.pathname !== "/ReturnResult" &&
+        location.pathname !== "/newFlight/newBookedTicket" &&
         location.pathname !== "/inventoryhotelform" && <ScrollToTop />}
 
       {/* <PayLater /> */}
@@ -683,6 +741,8 @@ function App() {
         location.pathname !== "/inventoryDashboard" &&
         location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
+        location.pathname !== "/ReturnResult" &&
+        location.pathname !== "/newFlight/newBookedTicket" &&
         location.pathname !== "/inventoryhotelform" && <Footer />}
     </div>
   );

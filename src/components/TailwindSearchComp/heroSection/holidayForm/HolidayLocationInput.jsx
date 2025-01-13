@@ -9,6 +9,7 @@ const HolidayLocationInput = ({
   desc = "Where are you going?",
   className = "nc-flex-1.5",
   divHideVerticalLineClass = "left-10 -right-0.5",
+  customPadding,
   onLocationSelect,
 }) => {
   const containerRef = useRef(null);
@@ -76,7 +77,7 @@ const HolidayLocationInput = ({
     if (keyword.length > 2) {
       try {
         const response = await axios.get(
-          `https://back.theskytrails.com/skyTrails/packagecitylist?keyword=${keyword}`
+          `https://back.theskytrails.com/skyTrails/holidaypackage/packagecitylist?keyword=${keyword}`
         );
         const locations = response?.data?.data || [];
         setSearchResults(locations);
@@ -212,7 +213,7 @@ const HolidayLocationInput = ({
     <div className={`relative flex ${className}`} ref={containerRef}>
       <div
         onClick={() => setShowPopover(true)}
-        className={`flex z-10 flex-1 relative [ nc-hero-field-padding ] flex-shrink-0 items-center space-x-3 cursor-pointer focus:outline-none text-left ${
+        className={`flex z-10 flex-1 relative [ ${customPadding} ] flex-shrink-0 items-center space-x-3 cursor-pointer focus:outline-none text-left ${
           showPopover ? "nc-hero-field-focused" : ""
         }`}
       >

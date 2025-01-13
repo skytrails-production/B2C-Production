@@ -1,19 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import Download from "./Download";
 import "./home.scss";
-import Advertise from "./Advertise";
-import Topflightroute from "../flight/Topflightroute";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
-import Partners from "./Partners";
 import MulticityForm from "../flight/MultiCity/MulticityForm";
-import Blog from "./Blog";
 import ReturnFormNew from "../flight/ReturnFlight/ReturnFornNew";
 import homeBG from "../../images/homeBG.webp";
 import OnewayNew from "../../components/OnewayNew";
-import NewHolidayCategory from "../NewPackagePages/holidayCategory/NewHolidayCategory";
-import NewHolidayTrending from "../NewPackagePages/holidayTrending/NewHolidayTrending";
-import HolidayTopCountries from "../NewPackagePages/holidayCountries/HolidayTopCountries";
 import "./home.css";
 import Img from "../../LazyLoading/Img";
 import FlightSearchForm from "../../components/TailwindSearchComp/heroSection/flightSearchForm/FlightSearchForm";
@@ -22,13 +15,10 @@ import FlightSuggestion from "../../components/TailwindSearchComp/flightSuggesti
 import TrendingPackageHome from "../../components/TailwindSearchComp/trendingPackage/TrendingPackageHome";
 import Testimonials from "../../components/TailwindSearchComp/testimonials/Testimonials";
 import RecentSearches from "../../components/TailwindSearchComp/heroSection/flightSearchForm/FlightRecentSearch";
-import diwali from "../../images/diwali.png";
-
 import Faq from "../../components/TailwindSearchComp/Faq";
 import FooterNavigation from "../../components/footerNavigate/FooterNavigation";
 import { useDispatch } from "react-redux";
 import { clearHotelAll } from "../../Redux/HotelGRN/hotel";
-import HotelSuggestion from "../../components/TailwindSearchComp/hotelSuggestion/HotelSuggestion";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState("oneway");
@@ -44,13 +34,6 @@ const Home = () => {
   }, []);
 
   const downloadRef = useRef(null);
-
-  // const focusDownload = () => {
-  //   if (downloadRef.current) {
-  //     downloadRef.current.focus();
-  //   }
-  // };
-
   const flightBottomLink = true;
 
   return (
@@ -150,31 +133,21 @@ Theskytrails - #1 Travel Website 50% OFF on Hotels, Flights, Bus Booking at Lowe
         <FlightSuggestion />
       </div>
 
-      {/* <div className="mt-3">
-        <NewHolidayCategory />
-      </div> */}
       <div>
         {/* <NewHolidayTrending /> */}
         <TrendingPackageHome />
       </div>
-
-      {/* <div>
-        <Advertise />
-      </div>
-
-      <div>
-        <HolidayTopCountries />
-      </div> */}
 
       <div>
         <WhyChooseUs />
       </div>
 
       <div>
-        <Download downloadRef={downloadRef} />
-      </div>
-      <div>
         <Testimonials />
+      </div>
+
+      <div>
+        <Download downloadRef={downloadRef} />
       </div>
       <div>
         <Faq />
@@ -182,14 +155,6 @@ Theskytrails - #1 Travel Website 50% OFF on Hotels, Flights, Bus Booking at Lowe
       <div>
         <FooterNavigation visible={flightBottomLink} />
       </div>
-
-      {/* <div>
-        <Partners />
-      </div>
-
-      <div>
-        <Blog />
-      </div> */}
     </div>
   );
 };

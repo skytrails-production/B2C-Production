@@ -4,7 +4,7 @@ import userApi from "../API/api";
 import { GET_SEARCH_PACKAGE_DATA, GET_SEARCH_PACKAGE_DATA_BUDGET, GET_SEARCH_PACKAGE_DATA_CATEGORY, GET_SEARCH_PACKAGE_DATA_COUNTRY } from "../SearchPackage/actionType";
 import { searchPackageBudget, searchPackageData, searchPackageDataCategory, searchPackageDataTopCountries } from "../SearchPackage/actionSearchPackage";
 
-function* searchResult(action) {
+function* searchResult(action) { 
   try {
     const data = yield call(userApi.searchPackage, action.payload);
     yield put(searchPackageData(data));

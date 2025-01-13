@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { AnimatePresence, motion, MotionConfig } from "framer-motion";
-import { useSwipeable } from "react-swipeable";
-
-import CardOne from "./CardOne";
 import Heading from "../shared/Heading";
-import PrevBtn from "../shared/PrevBtn";
-import NextBtn from "../shared/NextBtn";
-import PackageResultCards from "../../../pages/NewPackagePages/HolidayPackageSearchResult/PackageResultCards";
+import { apiURL } from "../../../Constants/constant";
 
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "../../../../node_modules/swiper/swiper-bundle.min.css";
+import PackageResultCard from "../../../pages/NewPackagePages/HolidayPackageSearchResult/PackageResultCard";
 const SkeletonLoader = () => {
   return (
     <div className="relative flex flex-shrink-0 w-full h-64 space-x-4 overflow-hidden bg-gray-200 animate-pulse aspect-w-5 aspect-h-5 sm:aspect-h-6 rounded-2xl group"></div>
@@ -21,10 +22,6 @@ const TrendingPackageHome = ({
   itemPerRow = 3,
   sliderStyle = "style1",
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
-  const [numberOfItems, setNumberOfItems] = useState(0);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [loading, setLoading] = useState(true);
 
   const [packageData, setPackageData] = useState([]);
@@ -32,7 +29,7 @@ const TrendingPackageHome = ({
   const fetchData = async () => {
     try {
       const response = await fetch(
-        `https://back.theskytrails.com/skyTrails/latestPackages`
+        `${apiURL.baseURL}/skytrails/holidaypackage/latestpackages`
       );
       const result = await response.json();
       setPackageData(result.data);
@@ -47,56 +44,6 @@ const TrendingPackageHome = ({
     fetchData();
   }, []);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (windowWidth < 320) {
-      setNumberOfItems(1);
-    } else if (windowWidth < 500) {
-      setNumberOfItems(itemPerRow - 2);
-    } else if (windowWidth < 1024) {
-      setNumberOfItems(itemPerRow - 1);
-    } else if (windowWidth < 1280) {
-      setNumberOfItems(itemPerRow);
-    } else {
-      setNumberOfItems(itemPerRow);
-    }
-  }, [itemPerRow, windowWidth]);
-
-  function changeItemId(newVal) {
-    if (newVal > currentIndex) {
-      setDirection(1);
-    } else {
-      setDirection(-1);
-    }
-    setCurrentIndex(newVal);
-  }
-
-  const handlers = useSwipeable({
-    onSwipedLeft: () => {
-      if (currentIndex < packageData.length - 1) {
-        changeItemId(currentIndex + 1);
-      }
-    },
-    onSwipedRight: () => {
-      if (currentIndex > 0) {
-        changeItemId(currentIndex - 1);
-      }
-    },
-    trackMouse: true,
-  });
-
-  if (!numberOfItems) return null;
-
   return (
     <div
       className={`nc-SectionSliderNewCategories custom-container mt-24 ${className}`}
@@ -105,7 +52,7 @@ const TrendingPackageHome = ({
         {heading}
       </Heading>
 
-      <MotionConfig
+      {/* <MotionConfig
         transition={{
           x: { type: "spring", stiffness: 300, damping: 30 },
           opacity: { duration: 0.2 },
@@ -153,7 +100,6 @@ const TrendingPackageHome = ({
                         width: `calc(1/${numberOfItems} * 100%)`,
                       }}
                     >
-                      {/* <CardOne data={item} /> */}
                       <PackageResultCards data={item} />
                     </motion.li>
                   ))}
@@ -178,7 +124,63 @@ const TrendingPackageHome = ({
             />
           ) : null}
         </div>
-      </MotionConfig>
+      </MotionConfig> */}
+
+      <div class="swiper favSwiper-active mt-2">
+        <div class="swiper-wrapper  relative">
+          <div className="custom-navigation">
+            <button className="custom-prev">
+              <div className="h-6 w-6 flex justify-center items-center">
+                <i className="fa fa-chevron-left"></i>
+              </div>
+            </button>
+            <button className=" custom-next">
+              <div className="h-6 w-6 flex justify-center items-center">
+                <i className="fa fa-chevron-right"></i>
+              </div>
+            </button>
+          </div>
+          <Swiper
+            modules={[Autoplay, Pagination, Navigation]}
+            loop={true}
+            spaceBetween={25}
+            breakpoints={{
+              640: {
+                slidesPerView: 1,
+              },
+              768: {
+                slidesPerView: 2,
+              },
+              1024: {
+                slidesPerView: 2,
+              },
+              1280: {
+                slidesPerView: 2,
+              },
+              1280: {
+                slidesPerView: 3,
+              },
+              0: {
+                slidesPerView: 1,
+              },
+            }}
+            // autoplay={{
+            //   delay: 3000,
+            //   disableOnInteraction: false,
+            // }}
+            navigation={{
+              prevEl: ".custom-prev",
+              nextEl: ".custom-next",
+            }}
+          >
+            {packageData?.map((item, indx) => (
+              <SwiperSlide>
+                <PackageResultCard data={item} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+      </div>
     </div>
   );
 };

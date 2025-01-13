@@ -12,6 +12,7 @@ import {
   hotelGalleryRequest,
   singleHotelGRN,
 } from "../../../../Redux/HotelGRN/hotel";
+import { clearHotelReducer } from "../../../../Redux/Hotel/hotel";
 
 const StaySearchForm = () => {
   const [rooms, setRooms] = useState([]);
@@ -32,6 +33,7 @@ const StaySearchForm = () => {
 
   useEffect(() => {
     dispatch(clearHotelReducerGRN());
+    dispatch(clearHotelReducer());
   }, []);
 
   const handleLocationSelect = (location) => {
@@ -97,12 +99,15 @@ const StaySearchForm = () => {
       "revisithotel",
       JSON.stringify([
         {
-          cityCode: selectedFrom.cityCode,
+          grnCityCode: selectedFrom.grnCityCode,
+          tboCityCode: selectedFrom.tboCityCode,
           cityName: selectedFrom.cityName,
-          countryCode: selectedFrom.countryCode,
-          countryName: selectedFrom.countryName,
-          checkin: checkinDate,
-          checkout: checkoutDate,
+          grnCountryCode: selectedFrom.grnCountryCode,
+          tboCountryCode: selectedFrom.tboCountryCode,
+          grnCountryName: selectedFrom.grnCountryName,
+          tboCountryName: selectedFrom.tboCountryName,
+          checkin: checkinDate.toString(),
+          checkout: checkoutDate.toString(),
           rooms: rooms,
           nationality: "IN",
         },
@@ -128,16 +133,16 @@ const StaySearchForm = () => {
       const payload = {
         rooms: rooms,
         rates: "concise",
-        cityCode: selectedFrom?.cityCode,
+        cityCode: selectedFrom?.grnCityCode,
         currency: "INR",
         client_nationality: "IN",
         checkin: dayjs(checkinDate).format("YYYY-MM-DD"),
         checkout: dayjs(checkoutDate).format("YYYY-MM-DD"),
         cutoff_time: 30000,
         version: "2.0",
-        // tboCityCode: selectedFrom?.tboCityCode,
-        // EndUserIp: reducerState?.ip?.ipData,
-        // TokenId: reducerState?.ip?.tokenData,
+        tboCityCode: selectedFrom?.tboCityCode,
+        EndUserIp: reducerState?.ip?.ipData,
+        TokenId: reducerState?.ip?.tokenData,
       };
 
       sessionStorage.setItem("grnPayload", JSON.stringify(payload));
@@ -148,17 +153,17 @@ const StaySearchForm = () => {
 
   const renderForm = () => {
     return (
-      <form className="w-full container relative  flex rounded-[10px] shadow-xl  bg-white ">
+      <form className="w-full mx-2 md:mx-0 container relative flex flex-col  md:flex-row rounded-[10px] shadow-xl  bg-white ">
         <LocationInput
           className="flex-[1.5]"
           onLocationSelect={handleLocationSelect}
         />
-        <div className="self-center border-r-2 border-slate-300  h-12"></div>
+        <div className="self-center border-r-2 border-slate-300 hidden md:flex h-12"></div>
         <StayDatesRangeInput
           className="flex-1"
           onDateChange={handleDateChange}
         />
-        <div className="self-center border-r-2 border-slate-300   h-12"></div>
+        <div className="self-center border-r-2 border-slate-300  hidden md:flex   h-12"></div>
         <GuestsInput
           className="flex-1"
           onSubmit={handleSubmit}

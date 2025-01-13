@@ -1,325 +1,364 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import { ScissorsLineDashed, Vault } from "lucide-react";
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
 
 const Amenities = () => {
+  const reducerState = useSelector((state) => state);
+  const hotelinfoGRN =
+    reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel ||
+    reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.hotel;
+  const [showAll, setShowAll] = useState(false);
+  const facilities =
+    hotelinfoGRN?.facilities?.split(";")?.map((item) => item.trim()) || [];
+  const initialDisplayCount = 10;
+  const facilitiesToShow = showAll
+    ? facilities
+    : facilities.slice(0, initialDisplayCount);
 
-    const reducerState = useSelector((state) => state);
-    const hotelinfoGRN = reducerState?.hotelSearchResultGRN?.hotelRoom?.hotel || reducerState?.hotelSearchResultGRN?.hotelDetails?.data?.data?.hotel;
-    const [showAll, setShowAll] = useState(false);
-    const facilities = hotelinfoGRN?.facilities?.split(';')?.map(item => item.trim()) || [];
-    const initialDisplayCount = 10;
-    const facilitiesToShow = showAll ? facilities : facilities.slice(0, initialDisplayCount);
+  return (
+    <div className="col-lg-12 mt-3 mb-3">
+      <div className="border-b border-gray-300  pb-4 ">
+        <h2 class="mb-3 text-lg font-semibold text-gray-900 ">Amenities</h2>
+        <div className="" id="topAmenities">
+          <div className="grid grid-cols-3 gap-y-5">
+            {[
+              ...new Set(facilitiesToShow.map((item) => item?.toLowerCase())),
+            ].map((item) => {
+              return (
+                <>
+                  {item?.toLowerCase() === "air conditioning" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-regular fa-snowflake"></i> Air Condition
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "roof terrace" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-people-roof"></i>
+                      Roof terrace
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "grocery store" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-basket-shopping"></i>Grocery store
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "tennis court" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-table-tennis-paddle-ball"></i>
+                      Tennis court
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "lounges/bars" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-wine-bottle"></i> Lounges/bars
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "elevators" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-elevator"></i> Elevators
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "indoor pool" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-water-ladder"></i> Indoor Pool
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "concierge desk" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-inbox"></i> Concierge desk
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "indoor pool" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-water-ladder"></i> Indoor Pool
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "outdoor pool" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-water-ladder"></i> Outdoor Pool
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "shopping mall" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-cart-shopping"></i> Shopping mall
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "conference facilities" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-person-chalkboard"></i>
+                      Conference facilities
+                    </p>
+                  )}
 
+                  {item?.toLowerCase() ===
+                    "complimentary newspaper delivered to room" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-regular fa-newspaper"></i>Newspaper in room
+                    </p>
+                  )}
+                  {item?.toLowerCase() ===
+                    "complimentary in-room coffee or tea" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-mug-hot"></i>in-room coffee or tea
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "housekeeping - daily" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-broom"></i>
+                      House Keeping
+                    </p>
+                  )}
 
-    return (
-        <div className="col-lg-12 mt-3 mb-3 ">
-            <div className="roomNameAndCategoryOuter">
-                <h3 className="hotelNameHeading">Amenities</h3>
-                <div className="roomNameAndCategory" id='topAmenities'>
+                  {item?.toLowerCase() === "hair dryer" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-wind"></i>
+                      Hair Dryer
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "safe deposit box" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <Vault className="w-6 h-6 " />
+                      Safe Deposit Box
+                    </p>
+                  )}
 
-                    {/* <div className="roomTitle">
-                    <h5 className="HotelRoomHeadings2">Amenities</h5>
-                </div> */}
-                    <div className="row g-3" >
-                        <div className="col-lg-12 my-4">
-                            <div className="hotelReviewAmenity">
-                                {/* <img src={chevrondown} alt="Chevron Down" /> */}
-                                {/* <div>
-                                {facilitiesToShow.map((item, index) => {
+                  {item?.toLowerCase() === "laundry/valet service" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-jug-detergent"></i> Laundry
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "poolside snack bar" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-water-ladder"></i> Poolside snack
+                      bar
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "spa" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-spa"></i> Spa
+                    </p>
+                  )}
+                  {item?.toLowerCase() ===
+                    "complimentary newspaper in lobby" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-regular fa-newspaper"></i>Newspaper in lobby
+                    </p>
+                  )}
 
-                                    return (
-                                        <p key={index}>
+                  {item?.toLowerCase() === "bell staff/porter" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-bell-concierge"></i> Bell
+                      staff/porter
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "express check-out" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-regular fa-credit-card"></i> Express Check
+                      out
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "wedding services" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-gift"></i> Wedding services
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "express check-in" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-calendar-check"></i> Express
+                      Check-in
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "guestroom wired internet" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-globe"></i>wired Internet
+                    </p>
+                  )}
+                  {item?.toLowerCase() ===
+                    "complimentary wireless internet" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-globe"></i> wireless internet
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "24-hour security" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-person-military-rifle"></i>
+                      24-hour security
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "room service" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-person-booth"></i>
+                      Room service
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "guestroom wireless internet" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-globe"></i> wireless internet
+                    </p>
+                  )}
+                  {item?.toLowerCase() ===
+                    "complimentary wireless internet" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-wifi"></i> Wifi
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "restaurant" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-utensils"></i> Restaurant
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "business center" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-business-time"></i> Business Center
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "snack bar" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-cookie-bite"></i>Snack bar
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "valet parking" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-square-parking"></i>Valet parking
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "fitness center" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-dumbbell"></i>Gym/Fitness Room
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "phone services" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-phone-volume"></i>Phone services
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "health club" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-dumbbell"></i>Health club
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "multilingual staff" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-language"></i>Multilingual staff
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "steam bath" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-soap"></i>
+                      Steam bath
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "sauna" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-soap"></i>
+                      Sauna
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "game room" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-gamepad"></i>
+                      Game room
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "shuttle to local attractions" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-bus"></i>
+                      Shuttle to local attractions
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "free parking" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-square-parking"></i>
+                      Free Parking
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "coffee shop" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-mug-hot"></i>
+                      Coffee shop
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "meeting rooms" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-person-chalkboard"></i>
+                      Meeting Rooms
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "beauty shop/salon" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <ScissorsLineDashed className="w-6 h-6" />
+                      Beauty shop/salon
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "Wheelchair access" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-wheelchair"></i> Wheelchair access
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "atm/cash machine" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-cash-register"></i> ATM/Cash machine
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "smoke-free property" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-ban-smoking"></i>
+                      Smoke-free property
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "ballroom" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-golf-ball-tee"></i>
+                      Ball Room
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "pets allowed" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-paw"></i>
+                      Pets Allowed
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "cloakroom service" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-fingerprint"></i>
+                      Cloakroom service
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "adjoining rooms" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-restroom"></i>
+                      Adjoining rooms
+                    </p>
+                  )}
+                  {item?.toLowerCase() === "tour/sightseeing desk" && (
+                    <p className="flex flex-row items-center gap-2">
+                      <i class="fa-solid fa-binoculars"></i>
+                      Tour/sightseeing desk
+                    </p>
+                  )}
+                </>
+              );
+            })}
+          </div>
 
-                                            {item}
-                                        </p>
-                                    )
-
-                                })
-                                }
-                            </div> */}
-
-                                <div>
-                                    {[...new Set(facilitiesToShow.map(item => item?.toLowerCase()))].map((item) => {
-
-                                        return (
-                                            <>
-                                                {
-                                                    item?.toLowerCase() === "air conditioning" &&
-                                                    <p><i class="fa-regular fa-snowflake"></i> Air Condition</p>
-
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "roof terrace" &&
-                                                    <p><i class="fa-solid fa-people-roof"></i>
-                                                        Roof terrace</p>
-
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "grocery store" &&
-                                                    <p><i class="fa-solid fa-basket-shopping"></i>Grocery store</p>
-
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "tennis court" &&
-                                                    <p><i class="fa-solid fa-table-tennis-paddle-ball"></i>Tennis court</p>
-
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "lounges/bars" &&
-                                                    <p><i class="fa-solid fa-wine-bottle"></i> Lounges/bars</p>
-
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "elevators" &&
-                                                    <p><i class="fa-solid fa-elevator"></i> Elevators</p>
-
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "indoor pool" &&
-                                                    <p><i class="fa-solid fa-water-ladder"></i> Indoor Pool</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "concierge desk" &&
-                                                    <p><i class="fa-solid fa-inbox"></i> Concierge desk</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "indoor pool" &&
-                                                    <p><i class="fa-solid fa-water-ladder"></i> Indoor Pool</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "outdoor pool" &&
-                                                    <p><i class="fa-solid fa-water-ladder"></i> Outdoor Pool</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "shopping mall" &&
-                                                    <p><i class="fa-solid fa-cart-shopping"></i> Shopping mall</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "conference facilities" &&
-                                                    <p><svg height="17" viewBox="0 -11 512 512" width="17" xmlns="http://www.w3.org/2000/svg" id="fi_1429487"><path d="m245.332031 341.332031h21.335938v149.335938h-21.335938zm0 0"></path><path d="m96 298.667969h320v21.332031h-320zm0 0"></path><path d="m458.667969 160c-29.410157 0-53.335938-23.925781-53.335938-53.332031 0-29.410157 23.925781-53.335938 53.335938-53.335938 29.40625 0 53.332031 23.925781 53.332031 53.335938 0 29.40625-23.925781 53.332031-53.332031 53.332031zm0-85.332031c-17.644531 0-32 14.355469-32 32 0 17.640625 14.355469 32 32 32 17.640625 0 32-14.359375 32-32 0-17.644531-14.359375-32-32-32zm0 0"></path><path d="m352 490.667969c-1.40625 0-2.835938-.269531-4.203125-.867188-5.417969-2.324219-7.925781-8.59375-5.597656-14.003906l32-74.667969c1.671875-3.921875 5.535156-6.460937 9.800781-6.460937h74.667969c17.640625 0 32-14.359375 32-32v-138.667969c0-11.765625-9.570313-21.332031-21.335938-21.332031h-10.664062c-7.488281 0-14.304688 4.949219-23.488281 17.109375-10.304688 13.609375-41.578126 52.007812-42.902344 53.628906-2.039063 2.488281-5.066406 3.925781-8.277344 3.925781h-53.332031c-5.890625 0-10.667969 4.78125-10.667969 10.667969v21.332031c0 5.898438-4.769531 10.667969-10.667969 10.667969-5.898437 0-10.664062-4.769531-10.664062-10.667969v-21.332031c0-17.644531 14.355469-32 32-32h48.253906c8.40625-10.347656 31.0625-38.292969 39.234375-49.097656 9.011719-11.90625 21.746094-25.570313 40.511719-25.570313h10.664062c23.53125 0 42.667969 19.136719 42.667969 42.667969v138.667969c0 29.40625-23.925781 53.332031-53.332031 53.332031h-67.636719l-29.230469 68.203125c-1.726562 4.042969-5.664062 6.464844-9.800781 6.464844zm0 0"></path><path d="m309.332031 490.667969c-1.109375 0-2.25-.183594-3.371093-.554688-5.578126-1.855469-8.605469-7.894531-6.738282-13.496093l35.371094-106.121094c5.789062-17.429688 22.066406-29.164063 40.46875-29.164063h30.269531v-32c0-5.898437 4.769531-10.664062 10.667969-10.664062s10.667969 4.765625 10.667969 10.664062v42.667969c0 5.898438-4.769531 10.667969-10.667969 10.667969h-40.9375c-9.195312 0-17.335938 5.855469-20.226562 14.570312l-35.378907 106.132813c-1.496093 4.46875-5.65625 7.296875-10.125 7.296875zm0 0"></path><path d="m415.988281 320c-2.226562 0-4.46875-.691406-6.386719-2.132812-4.714843-3.53125-5.675781-10.21875-2.136718-14.921876l32-42.667968c3.53125-4.714844 10.21875-5.664063 14.925781-2.132813 4.714844 3.53125 5.671875 10.21875 2.132813 14.921875l-32 42.667969c-2.082032 2.792969-5.28125 4.265625-8.535157 4.265625zm0 0"></path><path d="m53.332031 160c-29.40625 0-53.332031-23.925781-53.332031-53.332031 0-29.410157 23.925781-53.335938 53.332031-53.335938 29.410157 0 53.335938 23.925781 53.335938 53.335938 0 29.40625-23.925781 53.332031-53.335938 53.332031zm0-85.332031c-17.640625 0-32 14.355469-32 32 0 17.640625 14.359375 32 32 32 17.644531 0 32-14.359375 32-32 0-17.644531-14.355469-32-32-32zm0 0"></path><path d="m160 490.667969c-4.136719 0-8.074219-2.421875-9.800781-6.464844l-29.230469-68.203125h-67.636719c-29.40625 0-53.332031-23.925781-53.332031-53.332031v-138.667969c0-23.53125 19.136719-42.667969 42.667969-42.667969h10.664062c18.765625 0 31.511719 13.664063 40.503907 25.570313 8.179687 10.804687 30.824218 38.75 39.230468 49.097656h48.265625c17.644531 0 32 14.355469 32 32v21.332031c0 5.898438-4.777343 10.667969-10.664062 10.667969-5.890625 0-10.667969-4.769531-10.667969-10.667969v-21.332031c0-5.886719-4.789062-10.667969-10.667969-10.667969h-53.332031c-3.210938 0-6.238281-1.4375-8.265625-3.925781-1.324219-1.621094-32.609375-40.019531-42.902344-53.640625-9.195312-12.148437-16-17.097656-23.5-17.097656h-10.664062c-11.765625 0-21.335938 9.566406-21.335938 21.332031v138.667969c0 17.640625 14.359375 32 32 32h74.667969c4.265625 0 8.128906 2.539062 9.800781 6.460937l32 74.667969c2.328125 5.410156-.191406 11.679687-5.597656 14.003906-1.367187.597657-2.796875.867188-4.203125.867188zm0 0"></path><path d="m202.667969 490.667969c-4.46875 0-8.628907-2.828125-10.125-7.296875l-35.371094-106.125c-2.898437-8.710938-11.039063-14.578125-20.234375-14.578125h-40.9375c-5.886719 0-10.667969-4.769531-10.667969-10.667969v-42.667969c0-5.898437 4.78125-10.664062 10.667969-10.664062s10.667969 4.765625 10.667969 10.664062v32h30.269531c18.402344 0 34.667969 11.722657 40.480469 29.164063l35.371093 106.121094c1.867188 5.589843-1.152343 11.640624-6.742187 13.496093-1.128906.371094-2.269531.554688-3.378906.554688zm0 0"></path><path d="m96.011719 320c-3.242188 0-6.445313-1.472656-8.546875-4.265625l-32-42.667969c-3.539063-4.703125-2.578125-11.390625 2.136718-14.921875 4.734376-3.53125 11.410157-2.582031 14.933594 2.132813l32 42.667968c3.539063 4.703126 2.578125 11.390626-2.136718 14.921876-1.917969 1.441406-4.167969 2.132812-6.386719 2.132812zm0 0"></path><path d="m341.332031 277.332031c-5.898437 0-10.664062-4.765625-10.664062-10.664062v-74.667969c0-23.53125-19.136719-42.667969-42.667969-42.667969h-64c-23.53125 0-42.667969 19.136719-42.667969 42.667969v32c0 5.886719-4.777343 10.667969-10.664062 10.667969-5.890625 0-10.667969-4.78125-10.667969-10.667969v-32c0-35.296875 28.703125-64 64-64h64c35.296875 0 64 28.703125 64 64v74.667969c0 5.898437-4.769531 10.664062-10.667969 10.664062zm0 0"></path><path d="m256 106.667969c-29.40625 0-53.332031-23.925781-53.332031-53.335938 0-29.40625 23.925781-53.332031 53.332031-53.332031s53.332031 23.925781 53.332031 53.332031c0 29.410157-23.925781 53.335938-53.332031 53.335938zm0-85.335938c-17.644531 0-32 14.359375-32 32 0 17.644531 14.355469 32 32 32s32-14.355469 32-32c0-17.640625-14.355469-32-32-32zm0 0"></path><path d="m245.332031 170.667969h21.335938v21.332031h-21.335938zm0 0"></path></svg> Conference facilities</p>
-                                                }
-
-                                                {
-                                                    item?.toLowerCase() === "complimentary newspaper delivered to room" &&
-                                                    <p><i class="fa-regular fa-newspaper"></i>Newspaper in room</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "complimentary in-room coffee or tea" &&
-                                                    <p><i class="fa-solid fa-mug-hot"></i>in-room coffee or tea</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "housekeeping - daily" &&
-                                                    <p><svg id="fi_4512622" height="18" viewBox="0 0 100 100" width="18" xmlns="http://www.w3.org/2000/svg"><g id="XMLID_25_"><path id="XMLID_66_" d="m92.975 81.167h-2.025c-.685-3.001-3.371-5.25-6.576-5.25-1.07 0-2.105.276-3.044.753-1.804-2.237-4.533-3.587-7.455-3.587-2.55 0-4.865 1.008-6.584 2.638v-4.895l.954.677c.264.187.566.276.867.276.47 0 .932-.22 1.225-.632.479-.676.32-1.612-.355-2.092l-2.69-1.909v-22.631h1.822c.828 0 1.5-.671 1.5-1.5v-10.625c0-.829-.672-1.5-1.5-1.5h-8.255v-7.566c0-.829-.672-1.5-1.5-1.5h-1.111v-3.574h1.885c.383 0 .729-.148.994-.384 1.064 2.137 3.211 4.183 7.216 5.025.104.022.208.033.311.033.694 0 1.317-.485 1.466-1.192.171-.811-.349-1.606-1.159-1.776-5.199-1.093-5.741-4.506-5.731-5.946.465-.271.998-.438 1.573-.44l3.852-.006c.828-.001 1.498-.672 1.498-1.5v-7.064c0-.829-.672-1.5-1.5-1.5h-16.022c-7.306 0-13.25 5.944-13.25 13.25 0 .829.671 1.5 1.5 1.5h5.115v3.573h-1.542c-.829 0-1.5.671-1.5 1.5v7.566h-3.196v-1.87c0-3.716-2.719-6.8-6.27-7.39v-5.409c0-.829-.671-1.5-1.5-1.5h-.825l-.498-8.377c-.047-.792-.704-1.411-1.498-1.411h-8.777c-.794 0-1.45.619-1.498 1.411l-.498 8.377h-.824c-.829 0-1.5.671-1.5 1.5v5.409c-3.551.59-6.27 3.675-6.27 7.391v1.87h-4.826c-.829 0-1.5.671-1.5 1.5v10.625c0 .829.671 1.5 1.5 1.5h1.822v42.512c0 5.224 4.239 9.474 9.45 9.474h76.728c1.93 0 3.5-1.57 3.5-3.5v-8.333c.001-1.931-1.569-3.501-3.499-3.501zm-19.101-5.084c2.375 0 4.575 1.288 5.742 3.361.408.724 1.323.976 2.043.572.092-.052.175-.112.252-.178.682-.594 1.555-.921 2.462-.921 1.534 0 2.852.928 3.432 2.25h-20.336c.682-2.909 3.291-5.084 6.405-5.084zm-32.169-24.104c-.829 0-1.5.672-1.5 1.5v19.168c0 .693-.564 1.257-1.257 1.257s-1.256-.563-1.256-1.257v-19.168c0-.828-.671-1.5-1.5-1.5s-1.5.672-1.5 1.5v15.637c0 .692-.564 1.256-1.257 1.256s-1.256-.563-1.256-1.256v-15.637c0-.828-.671-1.5-1.5-1.5s-1.5.672-1.5 1.5v10.339c0 .693-.564 1.257-1.257 1.257s-1.256-.563-1.256-1.257v-29.928h21.809v14.823c-.268-.411-.729-.684-1.256-.684-.829 0-1.5.671-1.5 1.5v19.587c0 .692-.564 1.256-1.257 1.256s-1.256-.563-1.256-1.256v-15.637c-.001-.828-.673-1.5-1.501-1.5zm9.77-1.256v-6.208h12.815v20.504l-14.967-10.619c1.279-.735 2.152-2.099 2.152-3.677zm16.138-9.208h-16.138v-7.625h16.138zm-.463-30.95-2.006.003v-4.068h2.006zm-14.519-4.065h9.513v4.697c-1.633.789-2.879 2.259-3.328 4.053h-2.069-9.25-5.007c.729-4.943 4.999-8.75 10.141-8.75zm-3.635 11.75h6.25v3.573h-6.25zm-3.041 6.573h11.903v6.066h-11.903zm-26.885-7.102h11.418v3.799h-11.418zm2.734-9.788h5.95l.404 6.788h-6.758zm-9.004 21.087c0-2.481 2.019-4.5 4.5-4.5h.271 14.418.27c2.481 0 4.5 2.019 4.5 4.5v1.87h-23.959zm-6.326 4.87h17.191v7.625h-17.191zm3.323 53.136v-42.511h13.869v19.304c0 2.348 1.909 4.257 4.256 4.257.44 0 .857-.086 1.257-.211v1.252c0 2.347 1.909 4.256 4.256 4.256.459 0 .893-.092 1.307-.227.25 2.111 2.029 3.759 4.206 3.759s3.956-1.648 4.206-3.759c.414.135.848.227 1.307.227 2.347 0 4.257-1.909 4.257-4.256v-11.467l15.572 11.048v12.469h-9.73c-1.93 0-3.5 1.57-3.5 3.5v8.333c0 .171.027.335.051.5h-34.864c-3.557 0-6.45-2.904-6.45-6.474zm83.678 5.974c0 .275-.225.5-.5.5h-38.415c-.275 0-.5-.225-.5-.5v-8.333c0-.275.225-.5.5-.5h38.415c.275 0 .5.225.5.5z"></path><path id="XMLID_82_" d="m79.214 58.537c2.94 0 5.333-2.393 5.333-5.333 0-2.941-2.393-5.333-5.333-5.333s-5.333 2.393-5.333 5.333c0 2.941 2.393 5.333 5.333 5.333zm0-7.666c1.286 0 2.333 1.046 2.333 2.333 0 1.286-1.047 2.333-2.333 2.333s-2.333-1.047-2.333-2.333c0-1.287 1.047-2.333 2.333-2.333z"></path><path id="XMLID_85_" d="m86.028 41.831c5.789 0 10.498-4.709 10.498-10.499s-4.709-10.499-10.498-10.499-10.499 4.709-10.499 10.499 4.71 10.499 10.499 10.499zm0-17.997c4.135 0 7.498 3.364 7.498 7.499s-3.363 7.499-7.498 7.499-7.499-3.364-7.499-7.499 3.364-7.499 7.499-7.499z"></path><path id="XMLID_86_" d="m86.028 28.834c1.377 0 2.498 1.121 2.498 2.499 0 .829.672 1.5 1.5 1.5s1.5-.671 1.5-1.5c0-3.032-2.467-5.499-5.498-5.499-.828 0-1.5.671-1.5 1.5s.671 1.5 1.5 1.5z"></path></g></svg> House Keeping</p>
-                                                }
-
-                                                {
-                                                    item?.toLowerCase() === "hair dryer" &&
-                                                    <p><svg xmlns="http://www.w3.org/2000/svg" id="fi_4503384" data-name="Layer 2" viewBox="0 0 64 64" width="18" height="18"><path d="M59.084,29.02a1.14,1.14,0,0,1-.9151.48c-.46,0-.6572-.1953-1.0976-.6763A3.2768,3.2768,0,0,0,54.5,27.5a1,1,0,0,0,0,2c.459,0,.6563.1953,1.0967.6758A3.2774,3.2774,0,0,0,58.1689,31.5a3.0806,3.0806,0,0,0,2.3624-1.1006A1,1,0,1,0,59.084,29.02Z"></path><path d="M59.084,22.02a1.14,1.14,0,0,1-.9151.48c-.46,0-.6572-.1953-1.0976-.6763A3.2768,3.2768,0,0,0,54.5,20.5a1,1,0,0,0,0,2c.459,0,.6563.1953,1.0967.6758A3.2774,3.2774,0,0,0,58.1689,24.5a3.0806,3.0806,0,0,0,2.3624-1.1006A1,1,0,1,0,59.084,22.02Z"></path><path d="M59.084,15.02a1.14,1.14,0,0,1-.9151.48c-.46,0-.6572-.1953-1.0976-.6763A3.2768,3.2768,0,0,0,54.5,13.5a1,1,0,0,0,0,2c.459,0,.6563.1953,1.0967.6758A3.2774,3.2774,0,0,0,58.1689,17.5a3.0806,3.0806,0,0,0,2.3624-1.1006A1,1,0,1,0,59.084,15.02Z"></path><path d="M50.6836,14.0513,44.98,15.9525,26.3379,10.5151A14.3369,14.3369,0,0,0,17.5,7.5,14.4909,14.4909,0,0,0,14,36.055V50a3.996,3.996,0,0,0,3,3.858V61a1,1,0,0,0,2,0V53.858A3.996,3.996,0,0,0,22,50V35.7828a14.4358,14.4358,0,0,0,4.3379-2.2979L44.98,28.0475l5.7036,1.9012A1.0006,1.0006,0,0,0,52,29V15A1,1,0,0,0,50.6836,14.0513ZM17.5,28.5A6.5,6.5,0,1,1,24,22,6.5075,6.5075,0,0,1,17.5,28.5Z"></path></svg> Hair Dryer</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "safe deposit box" &&
-                                                    <p><svg id="fi_14350366" enable-background="new 0 0 512 512" height="18" width="18" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><g><g><path d="m7.5 334.287c4.143 0 7.5-3.358 7.5-7.5v-265.548c0-4.267 3.472-7.739 7.738-7.739h401.032c4.143 0 7.5-3.358 7.5-7.5s-3.357-7.5-7.5-7.5h-401.032c-12.538 0-22.738 10.201-22.738 22.739v265.548c0 4.142 3.357 7.5 7.5 7.5z"></path><path d="m489.262 38.5h-29.727c-4.143 0-7.5 3.358-7.5 7.5s3.357 7.5 7.5 7.5h29.727c4.267 0 7.738 3.472 7.738 7.739v359.522c0 4.267-3.472 7.739-7.738 7.739h-466.524c-4.267 0-7.738-3.472-7.738-7.739v-57.833c0-4.142-3.357-7.5-7.5-7.5s-7.5 3.358-7.5 7.5v57.833c0 12.538 10.2 22.739 22.738 22.739h23.634l2.881 17.696c1.159 7.129 7.244 12.304 14.467 12.304h21.059c7.223 0 13.308-5.175 14.467-12.303l2.881-17.697h307.745l2.881 17.696c1.159 7.129 7.244 12.304 14.467 12.304h21.059c7.223 0 13.308-5.175 14.467-12.303l2.881-17.697h23.634c12.539 0 22.739-10.201 22.739-22.739v-359.522c0-12.538-10.2-22.739-22.738-22.739zm-404.774 420h-20.476l-2.441-15h25.359zm363.5 0h-20.477l-2.441-15h25.359z"></path><path d="m454.5 68.5h-397c-15.163 0-27.5 12.336-27.5 27.5v290c0 15.164 12.337 27.5 27.5 27.5h397c15.163 0 27.5-12.336 27.5-27.5v-26.708c.022-.236.036-.474.036-.716v-34c0-.242-.014-.48-.036-.716v-165.72c.022-.236.036-.474.036-.716v-34c0-.242-.014-.48-.036-.716v-26.708c0-15.164-12.337-27.5-27.5-27.5zm12.5 282.576h-32.964v-19h32.964zm0-201.152h-32.964v-19h32.964zm-12.5 248.576h-397c-6.893 0-12.5-5.607-12.5-12.5v-290c0-6.893 5.607-12.5 12.5-12.5h397c6.893 0 12.5 5.607 12.5 12.5v19.924h-33.567c-7.938 0-14.396 6.458-14.396 14.396v20.208c0 7.938 6.458 14.396 14.396 14.396h33.567v152.152h-33.567c-7.938 0-14.396 6.458-14.396 14.396v20.208c0 7.938 6.458 14.396 14.396 14.396h33.567v19.924c0 6.893-5.607 12.5-12.5 12.5z"></path><path d="m140.444 269.5h-14c-4.143 0-7.5 3.358-7.5 7.5s3.357 7.5 7.5 7.5h14c4.143 0 7.5-3.358 7.5-7.5s-3.357-7.5-7.5-7.5z"></path><path d="m140.444 299.5h-14c-4.143 0-7.5 3.358-7.5 7.5s3.357 7.5 7.5 7.5h14c4.143 0 7.5-3.358 7.5-7.5s-3.357-7.5-7.5-7.5z"></path><path d="m133 127.331c-34.463 0-62.5 28.038-62.5 62.5 0 16.014 6.06 30.636 16 41.707v87.971c0 17.049 13.871 30.919 30.92 30.919h31.16c17.049 0 30.92-13.871 30.92-30.919v-87.971c9.94-11.071 16-25.692 16-41.707 0-34.463-28.037-62.5-62.5-62.5zm0 15c26.191 0 47.5 21.309 47.5 47.5s-21.309 47.5-47.5 47.5-47.5-21.309-47.5-47.5 21.309-47.5 47.5-47.5zm15.58 193.097h-31.16c-8.778 0-15.92-7.142-15.92-15.919v-75.73c9.257 5.426 20.017 8.552 31.5 8.552s22.243-3.126 31.5-8.552v75.73c0 8.777-7.142 15.919-15.92 15.919z"></path><path d="m133 222.331c17.921 0 32.5-14.58 32.5-32.5s-14.579-32.5-32.5-32.5-32.5 14.58-32.5 32.5 14.579 32.5 32.5 32.5zm0-50c9.649 0 17.5 7.851 17.5 17.5s-7.851 17.5-17.5 17.5-17.5-7.851-17.5-17.5 7.851-17.5 17.5-17.5z"></path></g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg> Safe Deposit Box</p>
-                                                }
-
-                                                {
-                                                    item?.toLowerCase() === "laundry/valet service" &&
-                                                    <p><i class="fa-solid fa-jug-detergent"></i> Laundry</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "poolside snack bar" &&
-                                                    <p><svg id="fi_3572470" enable-background="new 0 0 64 64" height="18" viewBox="0 0 64 64" width="18" xmlns="http://www.w3.org/2000/svg"><g><path d="m45.529 35h-10.224l1.6-16h.095c1.103 0 2-.897 2-2v-2c0-1.103-.897-2-2-2h-13.173l.8-6h14.373v-6h-15.249c-2.496 0-4.626 1.865-4.956 4.34l-1.021 7.66h-14.774c-1.103 0-2 .897-2 2v2c0 1.103.897 2 2 2h.095l3.55 35.498c.256 2.566 2.396 4.502 4.975 4.502h4.531l-1.151 1.692v2.308h48v-2.308zm-2.438 2-16.615 24h-3.567l16.615-24zm-8.621-13.752c-.858-.161-1.686-.248-2.47-.248-3.41 0-6.785 1.332-9.87 2.729l.897-6.729h11.868zm-18.761 5.24c-.975.314-1.889.512-2.709.512-4.337 0-7-1.165-7-2s2.663-2 7-2c.9 0 1.948.16 3.113.462zm3.283-9.488h2.018l-1.029 7.717c-.731.339-1.448.664-2.146.961zm1.786-13.396c.198-1.485 1.476-2.604 2.973-2.604h13.249v2h-12.373c-.998 0-1.85.746-1.982 1.736l-.836 6.264h-2.018zm-17.778 9.396h34v2h-34zm13.974 4-.595 4.463c-1.24-.305-2.374-.463-3.379-.463-2.646 0-5.568.428-7.345 1.501l-.55-5.501zm-5.354 38c-1.548 0-2.831-1.161-2.985-2.701l-2.452-24.516c1.795.864 4.419 1.217 6.817 1.217 2.511 0 5.351-1.319 8.358-2.716 3.475-1.615 7.069-3.284 10.642-3.284.707 0 1.475.107 2.268.267l-.973 9.733h-.824l-14.96 22zm21.909-20h3.562l-16.615 24h-3.266zm-4.62 24 16.084-23.232 15.798 23.232z"></path><path d="m51 53h2v2h-2z"></path><path d="m47 53h2v2h-2z"></path><path d="m43 53h2v2h-2z"></path><path d="m51 57h2v2h-2z"></path><path d="m47 57h2v2h-2z"></path><path d="m43 57h2v2h-2z"></path><path d="m20 44c0-.911-.355-1.769-1-2.414l-1.585-1.586c-1.289-1.289-3.541-1.289-4.829 0l-1.586 1.586c-.645.646-1 1.503-1 2.414s.355 1.769 1 2.414l.586.586-.586.586c-.645.646-1 1.503-1 2.414s.355 1.769 1 2.414l1.585 1.586c.645.645 1.502 1 2.415 1s1.77-.355 2.414-1l1.586-1.586c.645-.646 1-1.503 1-2.414s-.355-1.769-1-2.414l-.586-.586.586-.586c.645-.645 1-1.503 1-2.414zm-7.586-1 1.586-1.586c.267-.268.622-.414 1-.414s.733.146 1 .414l1.585 1.586c.268.268.415.622.415 1s-.147.732-.414 1l-1.586 1.586c-.533.535-1.465.535-2 0l-1.585-1.586c-.268-.268-.415-.622-.415-1s.147-.732.414-1zm5.172 8-1.586 1.586c-.533.535-1.465.535-2 0l-1.585-1.586c-.268-.268-.415-.622-.415-1s.147-.732.414-1l.626-.626c.571.403 1.247.626 1.96.626s1.389-.223 1.96-.626l.625.626c.268.268.415.622.415 1s-.147.732-.414 1z"></path><path d="m26.415 32c-1.289-1.289-3.541-1.289-4.829 0l-1.586 1.586c-.645.646-1 1.503-1 2.414s.355 1.769 1 2.414l1.585 1.586c.645.645 1.502 1 2.415 1s1.77-.355 2.414-1l1.586-1.586c.645-.646 1-1.503 1-2.414s-.355-1.769-1-2.414zm.171 5-1.586 1.586c-.533.535-1.465.535-2 0l-1.586-1.586c-.267-.268-.414-.623-.414-1 0-.378.147-.732.414-1l1.586-1.586c.533-.535 1.465-.535 2 0l1.585 1.586c.268.268.415.622.415 1s-.147.732-.414 1z"></path></g></svg> Poolside snack bar</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "spa" &&
-                                                    <p><i class="fa-solid fa-spa"></i> Spa</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "complimentary newspaper in lobby" &&
-                                                    <p><i class="fa-regular fa-newspaper"></i>Newspaper in lobby</p>
-                                                }
-
-                                                {
-                                                    item?.toLowerCase() === "24-hour front desk" &&
-                                                    <p><svg id="fi_2020773" enable-background="new 0 0 512 512" height="20" viewBox="0 0 512 512" width="20" xmlns="http://www.w3.org/2000/svg"><path d="m96.194 96.194c42.686-42.686 99.439-66.194 159.806-66.194 46.164 0 90.796 14.043 128.331 39.967l-28.977 2.972 3.061 29.843 78-8-8-78-29.844 3.061 2.594 25.291c-42.478-29.277-92.957-45.134-145.165-45.134-68.38 0-132.667 26.629-181.019 74.981s-74.981 112.639-74.981 181.019c0 51.192 15.064 100.605 43.563 142.895l24.878-16.765c-.345-.513-.68-1.03-1.021-1.545-24.482-36.976-37.42-80.009-37.42-124.585 0-60.366 23.508-117.12 66.194-159.806z"></path><path d="m468.438 113.105-24.879 16.765c.345.512.68 1.031 1.021 1.545 24.481 36.976 37.42 80.009 37.42 124.585 0 60.367-23.508 117.12-66.194 159.806-42.685 42.686-99.438 66.194-159.806 66.194-46.164 0-90.796-14.043-128.331-39.967l28.977-2.972-3.061-29.843-78 8 8 78 29.844-3.061-2.594-25.291c42.479 29.277 92.958 45.134 145.165 45.134 68.38 0 132.667-26.629 181.02-74.981 48.352-48.352 74.98-112.639 74.98-181.019 0-51.192-15.063-100.605-43.562-142.895z"></path><path d="m124.983 287.484 19.42-17.949c14.712-13.535 17.508-22.657 17.508-32.661 0-19.126-16.331-31.337-40.017-31.337-20.303 0-34.868 8.533-42.665 21.48l21.627 12.064c4.119-6.62 10.887-10.004 18.39-10.004 8.827 0 13.241 3.972 13.241 10.593 0 4.267-1.177 8.975-9.416 16.625l-38.546 36.045v18.243h80.181v-23.098h-39.723z"></path><path d="m257.252 290.868h15.3v-23.098h-15.3v-17.507h-27.512v17.507h-20.891l41.929-60.173h-30.16l-46.196 64.292v18.979h54.435v19.714h28.395z"></path><path d="m299.038 325.294 48.549-138.588h-24.863l-48.55 138.588z"></path><path d="m372.305 246.584v-15.889h27.07l-34.72 79.887h31.778l36.339-84.742v-18.243h-85.331v38.987z"></path></svg>
-                                                        24-hour front desk</p>
-                                                }
-
-                                                {
-                                                    item?.toLowerCase() === "bell staff/porter" &&
-                                                    <p><i class="fa-solid fa-bell-concierge"></i> Bell staff/porter</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "express check-out" &&
-                                                    <p><i class="fa-regular fa-credit-card"></i> Express Check out</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "wedding services" &&
-                                                    <p><i class="fa-solid fa-gift"></i> Wedding services</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "express check-in" &&
-                                                    <p><i class="fa-solid fa-calendar-check"></i> Express Check-in</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "guestroom wired internet" &&
-                                                    <p><i class="fa-solid fa-globe"></i>wired Internet</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "complimentary wireless internet" &&
-                                                    <p><i class="fa-solid fa-globe"></i> wireless internet</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "24-hour security" &&
-                                                    <p><i class="fa-solid fa-person-military-rifle"></i>
-                                                        24-hour security</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "room service" &&
-                                                    <p><i class="fa-solid fa-person-booth"></i>
-                                                        Room service</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "guestroom wireless internet" &&
-                                                    <p><i class="fa-solid fa-globe"></i> wireless internet</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "complimentary wireless internet" &&
-                                                    <p><i class="fa-solid fa-wifi"></i> Wifi</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "restaurant" &&
-                                                    <p><i class="fa-solid fa-utensils"></i> Restaurant</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "business center" &&
-                                                    <p><i class="fa-solid fa-business-time"></i> Business Center</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "snack bar" &&
-                                                    <p><i class="fa-solid fa-cookie-bite"></i>Snack bar</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "valet parking" &&
-                                                    <p><i class="fa-solid fa-square-parking"></i>Valet parking</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "fitness center" &&
-                                                    <p><i class="fa-solid fa-dumbbell"></i>Gym/Fitness Room</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "phone services" &&
-                                                    <p><i class="fa-solid fa-phone-volume"></i>Phone services</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "health club" &&
-                                                    <p><i class="fa-solid fa-dumbbell"></i>Health club</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "multilingual staff" &&
-                                                    <p><i class="fa-solid fa-language"></i>Multilingual staff</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "steam bath" &&
-                                                    <p><i class="fa-solid fa-soap"></i>
-                                                        Steam bath</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "sauna" &&
-                                                    <p><i class="fa-solid fa-soap"></i>
-                                                        Sauna</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "game room" &&
-                                                    <p><i class="fa-solid fa-gamepad"></i>
-                                                        Game room</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "shuttle to local attractions" &&
-                                                    <p><i class="fa-solid fa-bus"></i>
-                                                        Shuttle to local attractions</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "free parking" &&
-                                                    <p><i class="fa-solid fa-square-parking"></i>
-                                                        Free Parking</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "coffee shop" &&
-                                                    <p><i class="fa-solid fa-mug-hot"></i>
-                                                        Coffee shop</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "meeting rooms" &&
-                                                    <p><svg height="17" viewBox="0 -11 512 512" width="17" xmlns="http://www.w3.org/2000/svg" id="fi_1429487"><path d="m245.332031 341.332031h21.335938v149.335938h-21.335938zm0 0"></path><path d="m96 298.667969h320v21.332031h-320zm0 0"></path><path d="m458.667969 160c-29.410157 0-53.335938-23.925781-53.335938-53.332031 0-29.410157 23.925781-53.335938 53.335938-53.335938 29.40625 0 53.332031 23.925781 53.332031 53.335938 0 29.40625-23.925781 53.332031-53.332031 53.332031zm0-85.332031c-17.644531 0-32 14.355469-32 32 0 17.640625 14.355469 32 32 32 17.640625 0 32-14.359375 32-32 0-17.644531-14.359375-32-32-32zm0 0"></path><path d="m352 490.667969c-1.40625 0-2.835938-.269531-4.203125-.867188-5.417969-2.324219-7.925781-8.59375-5.597656-14.003906l32-74.667969c1.671875-3.921875 5.535156-6.460937 9.800781-6.460937h74.667969c17.640625 0 32-14.359375 32-32v-138.667969c0-11.765625-9.570313-21.332031-21.335938-21.332031h-10.664062c-7.488281 0-14.304688 4.949219-23.488281 17.109375-10.304688 13.609375-41.578126 52.007812-42.902344 53.628906-2.039063 2.488281-5.066406 3.925781-8.277344 3.925781h-53.332031c-5.890625 0-10.667969 4.78125-10.667969 10.667969v21.332031c0 5.898438-4.769531 10.667969-10.667969 10.667969-5.898437 0-10.664062-4.769531-10.664062-10.667969v-21.332031c0-17.644531 14.355469-32 32-32h48.253906c8.40625-10.347656 31.0625-38.292969 39.234375-49.097656 9.011719-11.90625 21.746094-25.570313 40.511719-25.570313h10.664062c23.53125 0 42.667969 19.136719 42.667969 42.667969v138.667969c0 29.40625-23.925781 53.332031-53.332031 53.332031h-67.636719l-29.230469 68.203125c-1.726562 4.042969-5.664062 6.464844-9.800781 6.464844zm0 0"></path><path d="m309.332031 490.667969c-1.109375 0-2.25-.183594-3.371093-.554688-5.578126-1.855469-8.605469-7.894531-6.738282-13.496093l35.371094-106.121094c5.789062-17.429688 22.066406-29.164063 40.46875-29.164063h30.269531v-32c0-5.898437 4.769531-10.664062 10.667969-10.664062s10.667969 4.765625 10.667969 10.664062v42.667969c0 5.898438-4.769531 10.667969-10.667969 10.667969h-40.9375c-9.195312 0-17.335938 5.855469-20.226562 14.570312l-35.378907 106.132813c-1.496093 4.46875-5.65625 7.296875-10.125 7.296875zm0 0"></path><path d="m415.988281 320c-2.226562 0-4.46875-.691406-6.386719-2.132812-4.714843-3.53125-5.675781-10.21875-2.136718-14.921876l32-42.667968c3.53125-4.714844 10.21875-5.664063 14.925781-2.132813 4.714844 3.53125 5.671875 10.21875 2.132813 14.921875l-32 42.667969c-2.082032 2.792969-5.28125 4.265625-8.535157 4.265625zm0 0"></path><path d="m53.332031 160c-29.40625 0-53.332031-23.925781-53.332031-53.332031 0-29.410157 23.925781-53.335938 53.332031-53.335938 29.410157 0 53.335938 23.925781 53.335938 53.335938 0 29.40625-23.925781 53.332031-53.335938 53.332031zm0-85.332031c-17.640625 0-32 14.355469-32 32 0 17.640625 14.359375 32 32 32 17.644531 0 32-14.359375 32-32 0-17.644531-14.355469-32-32-32zm0 0"></path><path d="m160 490.667969c-4.136719 0-8.074219-2.421875-9.800781-6.464844l-29.230469-68.203125h-67.636719c-29.40625 0-53.332031-23.925781-53.332031-53.332031v-138.667969c0-23.53125 19.136719-42.667969 42.667969-42.667969h10.664062c18.765625 0 31.511719 13.664063 40.503907 25.570313 8.179687 10.804687 30.824218 38.75 39.230468 49.097656h48.265625c17.644531 0 32 14.355469 32 32v21.332031c0 5.898438-4.777343 10.667969-10.664062 10.667969-5.890625 0-10.667969-4.769531-10.667969-10.667969v-21.332031c0-5.886719-4.789062-10.667969-10.667969-10.667969h-53.332031c-3.210938 0-6.238281-1.4375-8.265625-3.925781-1.324219-1.621094-32.609375-40.019531-42.902344-53.640625-9.195312-12.148437-16-17.097656-23.5-17.097656h-10.664062c-11.765625 0-21.335938 9.566406-21.335938 21.332031v138.667969c0 17.640625 14.359375 32 32 32h74.667969c4.265625 0 8.128906 2.539062 9.800781 6.460937l32 74.667969c2.328125 5.410156-.191406 11.679687-5.597656 14.003906-1.367187.597657-2.796875.867188-4.203125.867188zm0 0"></path><path d="m202.667969 490.667969c-4.46875 0-8.628907-2.828125-10.125-7.296875l-35.371094-106.125c-2.898437-8.710938-11.039063-14.578125-20.234375-14.578125h-40.9375c-5.886719 0-10.667969-4.769531-10.667969-10.667969v-42.667969c0-5.898437 4.78125-10.664062 10.667969-10.664062s10.667969 4.765625 10.667969 10.664062v32h30.269531c18.402344 0 34.667969 11.722657 40.480469 29.164063l35.371093 106.121094c1.867188 5.589843-1.152343 11.640624-6.742187 13.496093-1.128906.371094-2.269531.554688-3.378906.554688zm0 0"></path><path d="m96.011719 320c-3.242188 0-6.445313-1.472656-8.546875-4.265625l-32-42.667969c-3.539063-4.703125-2.578125-11.390625 2.136718-14.921875 4.734376-3.53125 11.410157-2.582031 14.933594 2.132813l32 42.667968c3.539063 4.703126 2.578125 11.390626-2.136718 14.921876-1.917969 1.441406-4.167969 2.132812-6.386719 2.132812zm0 0"></path><path d="m341.332031 277.332031c-5.898437 0-10.664062-4.765625-10.664062-10.664062v-74.667969c0-23.53125-19.136719-42.667969-42.667969-42.667969h-64c-23.53125 0-42.667969 19.136719-42.667969 42.667969v32c0 5.886719-4.777343 10.667969-10.664062 10.667969-5.890625 0-10.667969-4.78125-10.667969-10.667969v-32c0-35.296875 28.703125-64 64-64h64c35.296875 0 64 28.703125 64 64v74.667969c0 5.898437-4.769531 10.664062-10.667969 10.664062zm0 0"></path><path d="m256 106.667969c-29.40625 0-53.332031-23.925781-53.332031-53.335938 0-29.40625 23.925781-53.332031 53.332031-53.332031s53.332031 23.925781 53.332031 53.332031c0 29.410157-23.925781 53.335938-53.332031 53.335938zm0-85.335938c-17.644531 0-32 14.359375-32 32 0 17.644531 14.355469 32 32 32s32-14.355469 32-32c0-17.640625-14.355469-32-32-32zm0 0"></path><path d="m245.332031 170.667969h21.335938v21.332031h-21.335938zm0 0"></path></svg> Meeting Rooms</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "beauty shop/salon" &&
-                                                    <p><svg fill="none" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg" id="fi_5882203"><g fill="rgb(0,0,0)"><path clip-rule="evenodd" d="m10.1446 2.46772c-.25944-.41708-.80307-.58236-1.2657-.38479-.46264.19756-.69822.69558-.54847 1.15949l3.57077 11.06218-.9571 1.1081c-.4226-.1689-.8863-.2621-1.37267-.2621-1.97245 0-3.57143 1.5332-3.57143 3.4246s1.59898 3.4247 3.57143 3.4247c1.97247 0 3.57147-1.5333 3.57147-3.4247 0-.7284-.2372-1.4037-.6416-1.9588l1.574-1.8222.9247-.8778.9247.8778 1.574 1.8222c-.4044.5551-.6416 1.2304-.6416 1.9588 0 1.8914 1.599 3.4247 3.5715 3.4247 1.9724 0 3.5714-1.5333 3.5714-3.4247s-1.599-3.4246-3.5714-3.4246c-.4864 0-.9501.0932-1.3727.2621l-.9571-1.1081 3.5708-11.06218c.1497-.46391-.0859-.96193-.5485-1.15949-.4626-.19757-1.0063-.03229-1.2657.38479l-4.8554 7.80658zm11.8554 16.10748c0-.8322-.7036-1.5068-1.5714-1.5068-.8679 0-1.5715.6746-1.5715 1.5068s.7036 1.5069 1.5715 1.5069c.8678 0 1.5714-.6747 1.5714-1.5069zm-12.42857-1.5068c-.86788 0-1.57143.6746-1.57143 1.5068s.70355 1.5069 1.57143 1.5069c.86787 0 1.57147-.6747 1.57147-1.5069s-.7036-1.5068-1.57147-1.5068z" fill-rule="evenodd"></path><path d="m3 19.2602h-2c-.552285 0-1 .4293-1 .9588 0 .5296.447715.9589 1 .9589h3c.55229 0 1-.4293 1-.9589v-17.26011c0-.0662-.00699-.13083-.02031-.19325-.06361-.29808-.27145-.54577-.55055-.67311-.13004-.05934-.27554-.09254-.42914-.09254h-3c-.552285 0-1 .42931-1 .95889 0 .52959.447715.9589 1 .9589h2v.9589h-2c-.552285 0-1 .42932-1 .9589 0 .52959.447715.9589 1 .9589h2v.9589h-2c-.552285 0-1 .42931-1 .9589 0 .52958.447715.95889 1 .95889h2v.95893h-2c-.552285 0-1 .4293-1 .9589s.447715.9589 1 .9589h2v.9589h-2c-.552285 0-1 .4293-1 .9589 0 .5295.447715.9589 1 .9589h2v.9589h-2c-.552285 0-1 .4293-1 .9589 0 .5295.447715.9589 1 .9589h2z"></path></g></svg> Beauty shop/salon</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "Wheelchair access" &&
-                                                    <p><i class="fa-solid fa-wheelchair"></i> Wheelchair access</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "atm/cash machine" &&
-                                                    <p><i class="fa-solid fa-cash-register"></i> ATM/Cash machine</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "smoke-free property" &&
-                                                    <p><i class="fa-solid fa-ban-smoking"></i>
-                                                        Smoke-free property</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "ballroom" &&
-                                                    <p><i class="fa-solid fa-golf-ball-tee"></i>
-                                                        Ball Room</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "pets allowed" &&
-                                                    <p><i class="fa-solid fa-paw"></i>
-                                                        Pets Allowed</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "cloakroom service" &&
-                                                    <p><i class="fa-solid fa-fingerprint"></i>
-                                                        Cloakroom service</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "adjoining rooms" &&
-                                                    <p><i class="fa-solid fa-restroom"></i>
-                                                        Adjoining rooms</p>
-                                                }
-                                                {
-                                                    item?.toLowerCase() === "tour/sightseeing desk" &&
-                                                    <p><i class="fa-solid fa-binoculars"></i>
-                                                        Tour/sightseeing desk</p>
-                                                }
-                                            </>
-                                        )
-
-                                    })
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {facilities.length > initialDisplayCount && (
-                        <p onClick={() => {
-                            setShowAll(!showAll)
-                            const element = document.getElementById("topAmenities");
-                            if (element) {
-                                element.scrollIntoView({ behavior: "smooth" });
-                            }
-                        }
-                        } className="showMoore">
-                            {showAll ? 'Show Less' : 'Show More'}
-                        </p>
-                    )}
-                </div>
-            </div>
+          {facilities.length > initialDisplayCount && (
+            <p
+              onClick={() => {
+                setShowAll(!showAll);
+                const element = document.getElementById("topAmenities");
+                if (element) {
+                  element.scrollIntoView({ behavior: "smooth" });
+                }
+              }}
+              className="mt-3 text-purple font-semibold cursor-pointer"
+            >
+              {showAll ? "Show Less" : "Show More"}
+            </p>
+          )}
         </div>
+      </div>
+    </div>
+  );
+};
 
-    )
-}
-
-export default Amenities
+export default Amenities;

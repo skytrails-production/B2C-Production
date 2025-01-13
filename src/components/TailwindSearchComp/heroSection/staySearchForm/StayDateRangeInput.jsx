@@ -6,11 +6,6 @@ import DatePickerCustomHeaderTwoMonth from "../DatePickerCustomHeaderTwoMonth";
 import DatePickerCustomDay from "../DatePickerCustomDay";
 import ClearDataButton from "../ClearDataButton";
 
-// Helper function to format dates as "YYYY-MM-DD"
-const formatDate = (date) => {
-  return date ? date.toISOString().split("T")[0] : null;
-};
-
 const StayDatesRangeInput = ({
   className = "[ lg:nc-flex-2 ]",
   fieldClassName = "[ nc-hero-field-padding ]",
@@ -28,10 +23,6 @@ const StayDatesRangeInput = ({
     setStartDate(start);
     setEndDate(end);
     if (start && end) {
-      console.log({
-        checkin: formatDate(start),
-        checkout: formatDate(end),
-      });
       closePopover(); // Close the popover when both start and end dates are selected
     }
   };
@@ -49,7 +40,7 @@ const StayDatesRangeInput = ({
           <CalendarIcon className="w-5 h-5 lg:w-7 lg:h-7" />
         </div>
         <div className="flex-grow text-left">
-          <span className="block text-2xl font-bold">
+          <span className="block text-base md:text-2xl font-bold">
             {startDate?.toLocaleDateString("en-US", {
               month: "short",
               day: "2-digit",
@@ -71,7 +62,9 @@ const StayDatesRangeInput = ({
   };
 
   return (
-    <Popover className={`StayDatesRangeInput z-10 relative flex ${className}`}>
+    <Popover
+      className={`StayDatesRangeInput border-b border-gray-300 md:border-0 z-10 relative flex ${className}`}
+    >
       {({ open, close }) => (
         <>
           <Popover.Button
@@ -99,7 +92,7 @@ const StayDatesRangeInput = ({
             leaveTo="opacity-0 translate-y-1"
           >
             <Popover.Panel className="absolute left-1/2 z-30 mt-[-40px] top-full w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
-              <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-black ring-opacity-5 bg-white p-8">
+              <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-black ring-opacity-5 bg-white p-8 z-50">
                 <DatePicker
                   selected={startDate}
                   onChange={(dates) => onChangeDate(dates, close)}

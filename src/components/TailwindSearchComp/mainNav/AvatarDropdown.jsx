@@ -47,7 +47,9 @@ export default function AvatarDropdown({ className = "" }) {
               <Popover.Button
                 className={`self-center cursor-pointer flex p-2 gap-3 h-10  sm:h-12 rounded-full text-slate-700  bg-slate-200 hover:bg-slate-300  focus:outline-none  items-center justify-center`}
               >
-                <h4 className="font-semibold text-base mb-0">{userName}</h4>
+                <h4 className="font-semibold hidden md:flex text-sm xl:text-base mb-0">
+                  {userName}
+                </h4>
                 <Avatar sizeClass="w-8 h-8 sm:w-9 sm:h-9" photo={profile} />
               </Popover.Button>
             ) : (
@@ -55,7 +57,9 @@ export default function AvatarDropdown({ className = "" }) {
                 onClick={showConfirmationModal}
                 className={`self-center flex p-2 cursor-pointer gap-3 h-10  sm:h-12 rounded-full text-slate-700  bg-slate-200 hover:bg-slate-300  focus:outline-none  items-center justify-center`}
               >
-                <h4 className="font-semibold text-base mb-0">Login/Signup</h4>
+                <h4 className="font-semibold hidden md:flex text-base mb-0">
+                  Login/Signup
+                </h4>
                 <Avatar sizeClass="w-8 h-8 sm:w-9 sm:h-9" />
               </div>
             )}
@@ -69,8 +73,8 @@ export default function AvatarDropdown({ className = "" }) {
               leaveTo="opacity-0 translate-y-1"
             >
               <Popover.Panel className="absolute z-10 w-screen max-w-[300px]  top-full -right-10 sm:right-0 sm:px-0">
-                <div className="overflow-hidden rounded-3xl xl:shadow-lg lg:shadow-lg md:shadow-lg  sm:shadow-lg  ring-opacity-5">
-                  <div className="relative grid grid-cols-1 gap-6 bg-white xl:py-7 lg:py-7 md:py-7 sm:py-7 px-6">
+                <div className="overflow-hidden rounded-3xl shadow-md xl:shadow-lg lg:shadow-lg md:shadow-lg  sm:shadow-lg  ring-opacity-5">
+                  <div className="relative grid grid-cols-1 gap-6 bg-white xl:py-7 lg:py-7 md:py-7 py-7 px-6">
                     <div className="flex items-center space-x-3">
                       <Avatar sizeClass="w-12 h-12" photo={profile} />
 

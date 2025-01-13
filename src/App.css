@@ -8,10 +8,8 @@ body {
   width: 100%;
   /* height: 100vh; */
   font-family: "Montserrat";
-  background-color: #F4F3F3;
+  background-color: #f4f3f3;
   /* overflow: unset !important; */
-  
-
 }
 
 #root {
@@ -19,27 +17,26 @@ body {
   background: #f8f8f8;
 }
 
-
 .triColorBox {
   height: 70px;
   background-color: white;
   /* background-image: radial-gradient(orange white green); */
-  background-image: linear-gradient(to right,
-      #d35400,
-      #d35400 -8%,
-      #ff8c00 8%,
-      #f1f1f0 40%,
-      #fff 65%,
-      #90ee90 78%,
-      green 119%);
+  background-image: linear-gradient(
+    to right,
+    #d35400,
+    #d35400 -8%,
+    #ff8c00 8%,
+    #f1f1f0 40%,
+    #fff 65%,
+    #90ee90 78%,
+    green 119%
+  );
 
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   position: relative;
-
-
 }
 
 .triColorBox h3 {
@@ -47,17 +44,18 @@ body {
   font-size: 17px;
   font-weight: 700;
   color: #06038d;
-
-
 }
 
-
-@media(max-width: 600px) {
+@media (max-width: 600px) {
   .triColorBox h3 {
     font-size: 13px;
   }
-}
 
+  #root {
+    overflow-x: hidden;
+    background: #f8f8f8;
+  }
+}
 
 .mainimgHotelSearchResult {
   /* background-image: url(http://localhost:3000/static/media/hotelNavBg.46afce9….jpg); */
@@ -69,9 +67,13 @@ body {
   z-index: 3;
   /* background-image: linear-gradient(to right, #84C2C8 0%, #ADE6E8 51%, #84C2C8 100%); */
   /* background-image: linear-gradient(to right, rgb(128, 76, 128) 0%, var(--darkPurple) 51%, rgb(128, 76, 128) 100%); */
-  background-image: linear-gradient(to right, #4b556d 0%, #636979 51%, #4b556d 100%);
+  background-image: linear-gradient(
+    to right,
+    #4b556d 0%,
+    #636979 51%,
+    #4b556d 100%
+  );
 }
-
 
 .to_Search_Container {
   text-align: center;
@@ -103,13 +105,13 @@ body {
 
 .scroll_style::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgb(217 4 41 / 11%);
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   height: 100%;
 }
 
 .scroll_style::-webkit-scrollbar {
   width: 5px;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   margin-top: 5px !important;
 }
 
@@ -144,7 +146,8 @@ body {
   margin: 0;
   padding: 0;
   width: fit-content;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 .Adult_Count li {
@@ -154,7 +157,6 @@ body {
   padding: 5px 12px;
 
   cursor: pointer;
-
 }
 
 .fare_type {
@@ -195,7 +197,7 @@ body {
 } */
 
 .Down_Arrow {
-  color: #006CF8;
+  color: #006cf8;
   animation: jumpInfinite 1.5s infinite;
 }
 
@@ -211,8 +213,6 @@ body {
   border-radius: 4px;
   transform: rotateZ(45deg);
 }
-
-
 
 @keyframes jumpInfinite {
   0% {
@@ -238,7 +238,7 @@ body {
 
 .error-message {
   color: red !important;
-  font-size: '10px';
+  font-size: "10px";
   display: flex;
   font-weight: 700;
 }
@@ -258,8 +258,6 @@ body {
   /* background-image: linear-gradient(to bottom, #ab5081, #bb8197, #dc817e); */
   /* background-color: #111; */
   /* z-index: -2; */
-
-
 }
 
 .bannerBack {
@@ -276,7 +274,6 @@ body {
 
 /* Universal Background gradient */
 
-
 .form-control:focus {
   background-color: #fff;
   border-color: unset !important;
@@ -284,7 +281,6 @@ body {
   color: #212529;
   outline: 0;
 }
-
 
 ::-webkit-scrollbar {
   display: none;
@@ -303,16 +299,13 @@ body {
   font-size: 14px;
 }
 
-
 .whyChoose i {
   width: 102px !important;
   height: 102px !important;
 }
 
-
 .scrollDesign {
   position: relative;
-
 }
 
 .flightFilterBox {
@@ -338,14 +331,6 @@ body {
   /* color: white; */
   text-transform: uppercase;
 }
-
-
-
-
-
-
-
-
 
 /* sun animation design  */
 
@@ -375,7 +360,6 @@ body {
   height: 100%;
 }
 
-
 .boxSun {
   width: 130px;
   height: 130px;
@@ -386,7 +370,8 @@ body {
   top: 20%;
   z-index: -1;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 39px 21px rgb(252, 252, 121), 0 0 25px 24px rgb(252, 252, 121) inset;
+  box-shadow: 0 0 39px 21px rgb(252, 252, 121),
+    0 0 25px 24px rgb(252, 252, 121) inset;
   /* background: var(--accent); */
 }
 
@@ -399,7 +384,8 @@ body {
   width: 100%;
   height: 100%;
   display: block;
-  background: url(http://www.script-tutorials.com/demos/360/images/stars.png) repeat top center;
+  background: url(http://www.script-tutorials.com/demos/360/images/stars.png)
+    repeat top center;
   z-index: -1;
 }
 
@@ -413,7 +399,8 @@ body {
   top: 20%;
   z-index: -1;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 39px 9px rgb(252, 252, 255), 0 0 25px 24px rgb(252, 252, 255) inset;
+  box-shadow: 0 0 39px 9px rgb(252, 252, 255),
+    0 0 25px 24px rgb(252, 252, 255) inset;
 }
 
 .cloudright {
@@ -466,8 +453,7 @@ body {
   opacity: 0.9;
 }
 
-
-@media(max-width: 600px) {
+@media (max-width: 600px) {
   .bannerBackPackage {
     /* position: absolute; */
     /* z-index: -1; */
@@ -481,17 +467,9 @@ body {
   }
 }
 
-
 /* sun animation design  */
 
-
-
-
-
-
-
 /* popup design  */
-
 
 .popup-container {
   position: fixed;
@@ -542,15 +520,11 @@ body {
   z-index: 0;
 }
 
-
-
-
 .close-button:hover {
   background-color: #333;
 }
 
-
-@media (max-width:600px) {
+@media (max-width: 600px) {
   .popup-content {
     height: 350px !important;
   }
@@ -564,15 +538,11 @@ body {
 
 /* popup design  */
 
-
 [id^="easebuzz-container-v2-"] {
   z-index: 2147483640 !important;
 }
 
-
-
 .payLaterBox {
-
   /* width: 50px; */
   /* height: 50px; */
   border-radius: 50px 5px 50px 50px;
@@ -586,8 +556,6 @@ body {
   background-color: red;
 }
 
-
-
 .loaderButtonPayLater {
   padding: 2px 20px;
   background-color: #e73c34;
@@ -597,8 +565,7 @@ body {
   align-items: center;
 }
 
-
-@media(max-width:650px) {
+@media (max-width: 650px) {
   .loaderButtonPayLater {
     padding: 2px 20px;
     background-color: #e73c34;
@@ -621,13 +588,12 @@ body {
 .loaderButtonPayLater button:hover {
   font-weight: 600;
   color: white;
-
 }
 
 .loaderPaylater {
   width: 29px;
   height: 29px;
-  border: 5px solid #FFF;
+  border: 5px solid #fff;
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
@@ -643,11 +609,7 @@ body {
   margin-bottom: 20px;
 }
 
-
-
-
 /* loader for hotel fetching  */
-
 
 .loaderHotelFetching {
   padding: 2px 20px;
@@ -658,8 +620,7 @@ body {
   align-items: center;
 }
 
-
-@media(max-width:650px) {
+@media (max-width: 650px) {
   .loaderHotelFetching {
     padding: 2px 20px;
     /* background-color: #e73c34; */
@@ -683,9 +644,7 @@ body {
   /* background-color: #e73c34; */
 }
 
-
 /* loader for hotel fetching  */
-
 
 @keyframes rotation {
   0% {
@@ -696,11 +655,6 @@ body {
     transform: rotate(360deg);
   }
 }
-
-
-
-
-
 
 .scrollToTop {
   width: 40px;
@@ -742,7 +696,6 @@ body {
   width: 100%;
 }
 
-
 .scrollToTop svg {
   position: absolute;
   left: 50%;
@@ -758,7 +711,6 @@ body {
   animation: mymove 0.8s infinite;
 }
 
-
 @keyframes mymove {
   from {
     top: 50%;
@@ -768,7 +720,6 @@ body {
     top: 40%;
   }
 }
-
 
 .ranPayBox {
   display: flex;
@@ -784,7 +735,6 @@ body {
   border-radius: 50%;
 }
 
-
 .genderPayLater {
   display: flex;
   flex-direction: row;
@@ -796,7 +746,7 @@ body {
   margin-bottom: 0 !important;
 }
 
-.genderPayLater>div {
+.genderPayLater > div {
   display: flex;
   gap: 8px;
   align-items: center;
@@ -806,14 +756,11 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
-
 }
 
 .skeWidth {
   width: 100% !important;
 }
-
-
 
 .skeHeight {
   height: 100% !important;
@@ -864,8 +811,6 @@ body {
   border: none;
 }
 
-
-
 /* Chrome, Safari, Edge, Opera */
 .editedNum input::-webkit-outer-spin-button,
 .editedNum input::-webkit-inner-spin-button {
@@ -874,10 +819,55 @@ body {
 }
 
 /* Firefox */
-.editedNum input[type=number] {
+.editedNum input[type="number"] {
   -moz-appearance: textfield;
-
 }
 
+@keyframes beat {
+  30% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+  50% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
+.heartbeat {
+  animation: beat 0.6s ease-in-out;
+}
 
+@keyframes fadeInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.checkbox_input:checked {
+  background-color: #4f46e5 !important;
+  border-color: #4f46e5 !important;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* For Firefox */
+}
+
+@media (min-width: 1026px) {
+  .custom-container {
+    max-width: 1184px;
+  }
+}

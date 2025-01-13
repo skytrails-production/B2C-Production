@@ -352,9 +352,6 @@ function GrmHotelform2() {
   futureDate.setDate(currentDate.getDate() + 1);
   const [selectedFrom, setSelectedFrom] = useState(initialSelectedFromData);
   const [selectNationality, setSelectNationality] = useState("IN");
-  // const [selectNationality, setSelectNationality] = useState(
-  //   initialSelectedToData
-  // );
 
   const handleFromSelect = (item) => {
     setSelectedFrom(item);

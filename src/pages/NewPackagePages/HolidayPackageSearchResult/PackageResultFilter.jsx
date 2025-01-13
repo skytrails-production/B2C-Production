@@ -13,6 +13,8 @@ const PackageResultFilter = ({
   priceRange,
   selectedTag,
   onTagChange,
+  flightIncluded,
+  onFlightChange,
   selectedDays,
   onDaysChange,
   onSearchTermChange,
@@ -20,12 +22,7 @@ const PackageResultFilter = ({
   onClearFilters, // New prop
   selectedDestinations, // Add this line
   setSelectedDestinations, // Add this line
-  onFlightChange,
-  flightOption,
-  flightOption1,
 }) => {
-  // const [selectedDestinations, setSelectedDestinations] = useState([]);
-
   const [currentPriceRange, setCurrentPriceRange] = useState(priceRange);
 
   useEffect(() => {
@@ -33,14 +30,14 @@ const PackageResultFilter = ({
       selectedDestinations,
       currentPriceRange,
       selectedTag,
-      flightOption,
+      flightIncluded,
       selectedDays
     );
   }, [
     selectedDestinations,
     currentPriceRange,
     selectedTag,
-    flightOption,
+    flightIncluded,
     selectedDays,
   ]);
 
@@ -55,11 +52,12 @@ const PackageResultFilter = ({
 
   const handleTagChange = (e) => {
     onTagChange(e.target.value);
+    console.log("value in the pack res fil", e.target.value);
   };
 
   const handleFlightOptionChange = (e) => {
-    // setFlightOption(option);
-    onFlightChange(e.target.value);
+    const value = e.target.value;
+    onFlightChange(flightIncluded === value ? "" : value);
   };
 
   const handleDaysChange = (e) => {
@@ -84,7 +82,6 @@ const PackageResultFilter = ({
     setSelectedDestinations([]);
     onClearFilters();
   };
-  // console.log(flightOption1.includes("flight"));
 
   return (
     <div className="holidayFilterMainBox ">
@@ -103,6 +100,7 @@ const PackageResultFilter = ({
           placeholder="Search by Package Name"
           value={searchTerm}
           onChange={handleSearchChange}
+          className="rounded-md border-1 border-gray-300"
         />
       </div>
 
@@ -127,14 +125,14 @@ const PackageResultFilter = ({
         <p>Flight Options</p>
         <Checkbox
           value="flight"
-          checked={flightOption1.includes("flight")}
+          checked={flightIncluded === "flight"}
           onChange={handleFlightOptionChange}
         >
           Flight Included
         </Checkbox>
         <Checkbox
-          value="not-included"
-          checked={flightOption1.includes("not-included")}
+          value="no-flight"
+          checked={flightIncluded === "no-flight"}
           onChange={handleFlightOptionChange}
         >
           Flight Not Included

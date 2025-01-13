@@ -4,17 +4,15 @@ import { useSelector } from "react-redux";
 import { FaPen } from "react-icons/fa";
 import HotelFilterBox from "./HotelFilterBox";
 import { EditOutlined } from "@ant-design/icons";
-import GrmHotelform2 from "./GrmHotelform2";
 import HolidayResultSkeleton from "../NewPackagePages/HolidayPackageSearchResult/holidayresultSkeletonPage/HolidayResultSkeleton";
 import HotelMobileFilter from "./HotelMobileFilter";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { apiURL } from "../../Constants/constant";
+import ResultSearchForm from "./resultSearchForm/ResultSearchForm";
 
 const HotelResultMain = () => {
-  // const navigate = useNavigate();
   const reducerState = useSelector((state) => state);
-  // console.log(reducerState, "reducerState")
   const [loader, setLoader] = useState(true);
   const [hotelData, setHotelData] = useState([]);
   const navigate = useNavigate();
@@ -30,19 +28,13 @@ const HotelResultMain = () => {
         reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels
       );
       setLoader(false);
+    } else if (
+      reducerState?.hotelSearchResultGRN?.ticketData?.data?.data
+        ?.no_of_hotels == 0
+    ) {
+      setLoader(false);
     }
   }, [reducerState?.hotelSearchResultGRN?.ticketData]);
-
-  const getUniqueFacilities = (hotels) => {
-    const allFacilities = hotels?.flatMap(
-      (hotel) =>
-        hotel?.facilities
-          ?.split(";")
-          ?.map((facility) => facility.trim())
-          ?.filter((facility) => facility) // Remove empty facilities
-    );
-    return Array.from(new Set(allFacilities));
-  };
 
   const getMinMaxPrices = (hotels) => {
     const validHotels = hotels.filter(
@@ -61,16 +53,12 @@ const HotelResultMain = () => {
   };
 
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedFacilities, setSelectedFacilities] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 0]);
   const [sortBy, setSortBy] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [errors, setErrors] = useState(false);
-
   const [locations, setLocations] = useState([]);
   const [selectedLocations, setSelectedLocations] = useState([]);
-
-  const uniqueFacilities = getUniqueFacilities(hotelData);
   const { min, max } = getMinMaxPrices(hotelData);
 
   useEffect(() => {
@@ -78,7 +66,6 @@ const HotelResultMain = () => {
   }, [min, max]);
 
   useEffect(() => {
-    // Fetch location data from API
     fetch(
       `${apiURL.baseURL}/skyTrails/grnconnect/locationamelist?cityCode=${cityCode?.cityCode}`
     )
@@ -89,14 +76,10 @@ const HotelResultMain = () => {
         }
       })
       .catch((error) => console.error("Error fetching locations:", error));
-  }, []);
+  }, [cityCode?.cityCode]);
 
   const handleCategoryChange = (categories) => {
     setSelectedCategories(categories);
-  };
-
-  const handleFacilityChange = (facilities) => {
-    setSelectedFacilities(facilities);
   };
 
   const handlePriceChange = (value) => {
@@ -115,7 +98,6 @@ const HotelResultMain = () => {
 
   const handleClearFilters = () => {
     setSelectedCategories([]);
-    setSelectedFacilities([]);
     setPriceRange([min, max]);
     setSortBy(null);
     setSearchTerm("");
@@ -128,8 +110,12 @@ const HotelResultMain = () => {
         ?.code == "1501"
     ) {
       setErrors(true);
-    }
-    if (
+    } else if (
+      reducerState?.hotelSearchResultGRN?.ticketData?.data?.data
+        ?.no_of_hotels == 0
+    ) {
+      setErrors(true);
+    } else if (
       reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.errors?.[0]
         ?.code == "5111"
     ) {
@@ -138,6 +124,10 @@ const HotelResultMain = () => {
       setErrors(false);
     }
   }, [reducerState?.hotelSearchResultGRN?.ticketData?.data?.data]);
+
+  const toggleLoader = () => {
+    setLoader(true);
+  };
 
   if (loader) {
     return <HolidayResultSkeleton />;
@@ -151,13 +141,12 @@ const HotelResultMain = () => {
     totalChildren += room?.children_ages?.length || 0;
   });
 
+  console.log(reducerState, "reducer in the hotel resultttttt");
+
   return (
     <div>
-      <div className="mainimgHotelSearchResult visibleBigHotel">
-        <GrmHotelform2 />
-        <div className="container searchMainBoxAbs">
-          <div className="HotelResultSearchBarBox"></div>
-        </div>
+      <div className="visibleBigHotel">
+        <ResultSearchForm toggleLoader={toggleLoader} />
       </div>
       <div className=" visibleSmall stickyHotelDetails">
         <section
@@ -192,21 +181,19 @@ const HotelResultMain = () => {
       ) : (
         <div className="container">
           {errors ? (
-            <div className="row">
-              <div className="noHotels">
-                <h3>No result found for the requested search criteria !</h3>
-                <p>
-                  Please Modify Your search <FaPen />
-                </p>
-              </div>
+            <div className="mb-64 mt-10 text-center">
+              <h1 className="text-xl md:text-3xl lg:text-3xl xl:text-3xl font-bold text-gray-900">
+                No result found for the requested search criteria !
+              </h1>
+              <p className="text-red-600 flex items-center gap-2 justify-center">
+                Please Modify Your search <FaPen />
+              </p>
             </div>
           ) : (
             <div className="row pt-4">
               <div className=" col-lg-3 visibleBig p-0">
                 <HotelFilterBox
-                  uniqueFacilities={uniqueFacilities}
                   onCategoryChange={handleCategoryChange}
-                  onFacilityChange={handleFacilityChange}
                   onPriceChange={handlePriceChange}
                   onSortChange={handleSortChange}
                   onSearchTermChange={handleSearchTermChange}
@@ -215,7 +202,6 @@ const HotelResultMain = () => {
                   maxPrice={max}
                   searchTerm={searchTerm}
                   selectedCategories={selectedCategories}
-                  selectedFacilities={selectedFacilities}
                   priceRange={priceRange}
                   sortBy={sortBy}
                   onLocationChange={handleLocationChange}
@@ -224,11 +210,9 @@ const HotelResultMain = () => {
                 />
               </div>
 
-              <div className="col-lg-12 visibleSmall stikcyHotelFilter">
+              {/* <div className="col-lg-12 visibleSmall stikcyHotelFilter">
                 <HotelMobileFilter
-                  uniqueFacilities={uniqueFacilities}
                   onCategoryChange={handleCategoryChange}
-                  onFacilityChange={handleFacilityChange}
                   onPriceChange={handlePriceChange}
                   onSortChange={handleSortChange}
                   onSearchTermChange={handleSearchTermChange}
@@ -237,21 +221,19 @@ const HotelResultMain = () => {
                   maxPrice={max}
                   searchTerm={searchTerm}
                   selectedCategories={selectedCategories}
-                  selectedFacilities={selectedFacilities}
                   priceRange={priceRange}
                   sortBy={sortBy}
                 />
-              </div>
+              </div> */}
 
               <div className=" col-lg-9 col-md-12 ">
                 <HotelResult
                   hotels={hotelData}
                   selectedCategories={selectedCategories}
-                  selectedFacilities={selectedFacilities}
                   priceRange={priceRange}
                   sortBy={sortBy}
                   searchTerm={searchTerm}
-                  selectedLocations={selectedLocations} // Pass selected locations
+                  selectedLocations={selectedLocations}
                 />
               </div>
             </div>

@@ -102,9 +102,15 @@ export const clearHotelReducer = () => {
   return {
     type: types.CLEAR_HOTEL_REDUCER,
   };
-}
+};
 export const clearHotelBlockRoom = () => {
   return {
     type: types.CLEAR_HOTEL_BLOCK_ROOM,
+  };
+};
+
+export const clearHotelRoom = () => {
+  return {
+    type: types.CLEAR_HOTEL_ROOM,
   };
 };

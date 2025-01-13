@@ -965,6 +965,7 @@ export default function BookWrapper() {
       returnDate: "",
       amount:
         //   // //   (Number(finalAmount) && Number(finalAmount) + Number(baggageFare) + Number(mellFare)) ||
+        // niche wala hai
         !isDummyTicketBooking
           ? Number(finalAmount) +
             Number(baggageFare) +

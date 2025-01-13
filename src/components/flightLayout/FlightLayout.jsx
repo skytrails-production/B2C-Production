@@ -480,13 +480,13 @@ const FlightTypes = ({ planeNo }) => {
             </div>
           );
         })}
-      <button
+      {/* <button
         onClick={() => {
           console.log(reducerState, "reducer");
         }}
       >
         Reducerstate
-      </button>
+      </button> */}
     </div>
   );
 };

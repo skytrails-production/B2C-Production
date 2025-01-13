@@ -95,7 +95,7 @@ const Authentic = ({ isOpen, onClose, isLogoutOpen, onLogoutClose }) => {
       }
       setToken(newToken);
     } catch (error) {
-      console.log("Error requesting sign-in:", error);
+      // console.log("Error requesting sign-in:", error);
       setOtpLoader(false);
     }
   };
@@ -140,7 +140,6 @@ const Authentic = ({ isOpen, onClose, isLogoutOpen, onLogoutClose }) => {
     // handleCancel();
   };
 
-  console.log(reducerState, "reducer state in the authentic");
   // first time user
 
   const validateForm = (formData) => {

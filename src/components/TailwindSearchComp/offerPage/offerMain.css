@@ -1,11 +1,12 @@
-.fade-container {
+@media (min-width: 700px) {
+  .fade-container {
     position: relative;
     overflow: hidden;
   }
-  
+
   .fade-container::before,
   .fade-container::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     bottom: 0;
@@ -13,14 +14,22 @@
     pointer-events: none;
     z-index: 10;
   }
-  
+
   .fade-container::before {
     left: 0;
-    background: linear-gradient(to right, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0)
+    );
   }
-  
+
   .fade-container::after {
     right: 0;
-    background: linear-gradient(to left, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+    background: linear-gradient(
+      to left,
+      rgba(255, 255, 255, 1),
+      rgba(255, 255, 255, 0)
+    );
   }
-  
+}

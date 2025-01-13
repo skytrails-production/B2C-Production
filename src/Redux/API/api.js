@@ -2,6 +2,7 @@ import axios from "axios";
 import { apiURL } from "../../Constants/constant";
 import SecureStorage from 'react-secure-storage';
 import secureLocalStorage from "react-secure-storage";
+import { ErrorMessage } from "formik";
 
 function api() {
   const userIP = (formData) => {
@@ -179,79 +180,169 @@ function api() {
     });
   };
 
-  const flightQuoteSearch = (payload) => {
-    return axios({
-      method: "POST",
-      url: "/skyTrails/flight/farequote",
-      baseURL: `${apiURL.baseURL}`,
-      data: payload,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const flightQuoteSearch = async (payload) => {
+    try {
+      const response = await axios({
+        method: "POST",
+        url: "/skyTrails/flight/farequote",
+        baseURL: `${apiURL.baseURL}`,
+        data: payload,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response; // Return the response if the request is successful
+    } catch (error) {
+      console.error("Error in flightQuoteSearch:", error);
+      return { error: true, errorMessage: error }
+    }
   };
 
-  const flightRuleSearch = (payload) => {
-    return axios({
-      method: "POST",
-      url: "/skyTrails/flight/farerule",
-      baseURL: `${apiURL.baseURL}`,
-      data: payload,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const flightRuleSearch = async (payload) => {
+    try {
+
+
+      const response = await axios({
+        method: "POST",
+        url: "/skyTrails/flight/farerule",
+        baseURL: `${apiURL.baseURL}`,
+        data: payload,
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+      return response
+    }
+    catch (error) {
+      console.error("Error in flightRuleSearch:", error);
+      return { error: true, errorMessage: error }
+    }
+  };
+  const kafilaFareCheck = async (payload) => {
+
+    try {
+      const response = await axios.post(
+        `${apiURL.baseURL}/skyTrails/api/kafila/kafilaFareCheck`,
+        payload
+      );
+      return response;
+    } catch (error) {
+      console.error(error);
+      return { error: true, errorMessage: error?.message }
+    }
+  };
+  const fetchAirsel = async (payload) => {
+
+    try {
+      const response = await axios({
+        method: "POST",
+        url: `${apiURL.baseURL}/skyTrails/amadeus/airsell`,
+        data: payload,
+        headers: {
+          "Content-Type": "text/xml",
+
+        },
+      });
+      return response;
+
+    } catch (error) {
+      console.error(error);
+      return { error: true, errorMessage: error }
+    }
   };
 
-  const flightBookGDS = (payload) => {
-    return axios({
-      method: "POST",
-      url: "skyTrails/flight/booking",
-      baseURL: `${apiURL.baseURL}`,
-      data: payload,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const flightBookGDS = async (payload) => {
+    try {
+
+      const response = await axios({
+        method: "POST",
+        url: "skyTrails/flight/booking",
+        baseURL: `${apiURL.baseURL}`,
+        data: payload,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response;
+    } catch (error) {
+      return { error: true, errorMessage: error }
+    }
   };
 
-  const flightGetTicketLcc = (payload) => {
-    return axios({
-      method: "POST",
-      url: "skyTrails/flight/getticketlcc",
-      baseURL: `${apiURL.baseURL}`,
-      data: payload,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const flightGetTicketLcc = async (payload) => {
+    try {
+
+      const response = await axios({
+        method: "POST",
+        url: "skyTrails/flight/getticketlcc",
+        baseURL: `${apiURL.baseURL}`,
+        data: payload,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response
+    } catch (error) {
+      return { error: true, errorMessage: error }
+    }
   };
 
-  const flightGetTicketNonLcc = (payload) => {
-    return axios({
-      method: "POST",
-      url: "skyTrails/flight/getticketnonlcc",
-      baseURL: `${apiURL.baseURL}`,
-      data: payload,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const flightGetTicketNonLcc = async (payload) => {
+    try {
+      const response = await axios({
+        method: "POST",
+        url: "skyTrails/flight/getticketnonlcc",
+        baseURL: `${apiURL.baseURL}`,
+        data: payload,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return response
+    }
+    catch (error) {
+      return { error: true, errorMessage: error }
+    }
   };
 
 
-  const flightBookingDataSave = (payload) => {
-    const token = SecureStorage?.getItem("jwtToken");
-    return axios({
-      method: "POST",
-      url: "skyTrails/api/user/flightBooking",
-      baseURL: `${apiURL.baseURL}`,
-      data: payload,
-      headers: {
-        "Content-Type": "application/json",
-        token: token,
-      },
-    });
+  const flightBookingDataSave = async (payload) => {
+    try {
+
+      const token = SecureStorage?.getItem("jwtToken");
+      const response = await axios({
+        method: "POST",
+        url: "skyTrails/api/user/flightBooking",
+        baseURL: `${apiURL.baseURL}`,
+        data: payload,
+        headers: {
+          "Content-Type": "application/json",
+          token: token,
+        },
+      });
+      return response;
+    } catch (error) {
+      return { error: true, errorMessage: error }
+    }
+
+  };
+  //Kafila PNR
+  const kafilapnr = async (payloadvalue) => {
+
+    try {
+      const response = await axios.post(
+        `${apiURL.baseURL}/skyTrails/api/kafila/kafilaPnrcreation`,
+        payloadvalue
+      );
+      // setresponse(response);
+      // console.log("response aagya", response);
+      // setpnrResponse(response?.data);
+      return (response?.data);
+      // console.log(response);
+    } catch (error) {
+      console.error(error, "error in kafila PNR api ");
+      return { error: true, errorMessage: error }
+    }
   };
 
 
@@ -271,16 +362,21 @@ function api() {
     });
   };
 
-  const flightGetTicketLccReturn = (payload) => {
-    return axios({
-      method: "POST",
-      url: "/skyTrails/flight/getticketlcc",
-      baseURL: `${apiURL.baseURL}`,
-      data: payload,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+  const flightGetTicketLccReturn = async (payload) => {
+    try {
+
+      return axios({
+        method: "POST",
+        url: "/skyTrails/flight/getticketlcc",
+        baseURL: `${apiURL.baseURL}`,
+        data: payload,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      return { error: true, errorMessage: error }
+    }
   };
 
 
@@ -297,6 +393,22 @@ function api() {
         "Content-Type": "application/json",
       },
     });
+  };
+  const addBookingDetailsKafila = async (payloadkafila) => {
+
+
+    try {
+      const token = SecureStorage?.getItem("jwtToken");
+      const response = await axios.post(
+        `${apiURL.baseURL}/skyTrails/api/user/kafila/userFlightBookingData`,
+        payloadkafila,
+        {
+          headers: {
+            token: token,
+          },
+        }
+      );
+    } catch (error) { }
   };
 
 
@@ -394,7 +506,8 @@ function api() {
   const searchPackage = (payload) => {
 
     return axios.get(
-      `${apiURL.baseURL}/skyTrails/international/getAll?keyword=${payload}`
+      `${apiURL.baseURL}/skyTrails/holidaypackage/getallpackages?keyword=${payload}`
+      
     );
   };
 
@@ -402,7 +515,7 @@ function api() {
   const searchPackageCategory = (payload) => {
 
     return axios.get(
-      `${apiURL.baseURL}/skyTrails/api/packages/packagesCategory?seeAll=true&keyword=${payload}`
+      `${apiURL.baseURL}/skytrails/holidaypackage/categoryfilter?seeAll=true&keyword=${payload}`
 
     );
   };
@@ -418,7 +531,7 @@ function api() {
   const searchPackageBudget = (payload) => {
 
     return axios.get(
-      `${apiURL.baseURL}/skyTrails/package/packagefilterAmount?amount=${payload}`
+      `${apiURL.baseURL}/skytrails/holidaypackage/filterbyamount?amount=${payload}`
 
     );
   };
@@ -444,7 +557,7 @@ function api() {
   const getOnePackage = (payload) => {
     // console.log("getOnePacked", payload);
     const { id } = payload;
-    return axios.get(`${apiURL.baseURL}/skyTrails/international/getone/${id}`);
+    return axios.get(`${apiURL.baseURL}/skytrails/holidaypackage/singlepackage/${id}`);
   };
 
   const bookingHoliday = (payload) => {
@@ -528,14 +641,15 @@ function api() {
 
 
 
- 
+
   // new hotel grn api's
 
   const hotelSearchGRN = (payload) => {
 
     return axios({
       method: "POST",
-      url: `/skyTrails/grnconnect/searchmultihotel`,
+      url: `/skyTrails/tboandgrn/searchresults`,
+      // url: `/skyTrails/grnconnect/searchmultihotel`,
       baseURL: `${apiURL.baseURL}`,
       data: payload.data,
       headers: {
@@ -787,6 +901,11 @@ function api() {
       }
     })
   }
+
+  const fetchFareQuotesAirsetApi = (payload) => {
+    return { name: "mohittttttttttttttttt" }
+  }
+
   const fetchflightHotelSuggest=async()=>{
 
     const data=await axios.get(`${apiURL.baseURL}/skyTrails/staticContent/flightPayload/listStaticFlightPayload`)
@@ -794,6 +913,7 @@ function api() {
     
 
     return  data?.data?.result?.flightPayloadResult
+
   }
 
   return {
@@ -862,7 +982,11 @@ function api() {
 
     hotelSelectedRoom,
     IterneraryOneWaySearch,
-    submitReview
+    submitReview, fetchFareQuotesAirsetApi,
+    kafilaFareCheck,
+    fetchAirsel,
+    kafilapnr,
+    addBookingDetailsKafila
 
   };
 }
