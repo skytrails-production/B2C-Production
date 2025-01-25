@@ -84,7 +84,7 @@ const PackageResultFilter = ({
   };
 
   return (
-    <div className="holidayFilterMainBox ">
+    <div className="holidayFilterMainBox shadow-md bg-white">
       <div className="holidayFilterClear">
         <h5
           style={{ cursor: "pointer", fontSize: "15px", fontWeight: "700" }}

@@ -13,7 +13,7 @@ import Partners from "../home/Partners";
 import Blog from "../home/Blog";
 import Img from "../../LazyLoading/Img";
 import BusForm from "./BusForm";
-import diwali from "../../images/diwali.png";
+// import diwali from "../../images/diwali.png";
 import BusSearchForm from "../../components/TailwindSearchComp/heroSection/busSearchForm/BusSearchForm";
 import Testimonials from "../../components/TailwindSearchComp/testimonials/Testimonials";
 import Faq from "../../components/TailwindSearchComp/Faq";

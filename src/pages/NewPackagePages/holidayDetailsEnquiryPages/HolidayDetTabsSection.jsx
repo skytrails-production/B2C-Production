@@ -367,17 +367,17 @@ const HolidayDetTabsSection = ({ packageData, setIsOpen, stayType }) => {
                       <div className="absolute w-[30%] left-[35%] md:w-[70%] md:left-[15%] lg:w-[70%] lg:left-[15%] xl:w-[70%] xl:left-[15%] top-10 justify-center items-center">
                         <div className="w- border-t border-dashed border-gray-500"></div>
                       </div>
-                      <div className="text-sm">
+                      <div className="text-sm md:text-base">
                         <span>Check-In</span>
                         <p className="font-medium">
                           {dayjs(hotel.checkIn, "HH:mm").format("hh:mm A")}
                         </p>
                       </div>
-                      <div className="text-sm text-center bg-violet-100 relative z-10 px-3 flex flex-row gap-2 items-center">
+                      <div className="text-sm md:text-base text-center bg-violet-100 relative z-10 px-3 flex flex-row gap-2 items-center">
                         <span>{hotel?.numberOfNights}N</span>
                         <CloudMoon className="text-gray-600 w-[1.3rem] h-[1.3rem]" />
                       </div>
-                      <div className="text-sm">
+                      <div className="text-sm md:text-base">
                         <span>Check-Out</span>
                         <p className="font-medium">
                           {dayjs(hotel.checkOut, "HH:mm").format("hh:mm A")}
@@ -389,7 +389,7 @@ const HolidayDetTabsSection = ({ packageData, setIsOpen, stayType }) => {
                       <h3 className="text-gray-800 text-sm font-semibold mb-4">
                         You will get
                       </h3>
-                      <div className="flex justify-between space-x-4 text-sm">
+                      <div className="flex justify-between space-x-4 text-sm md:text-base">
                         <div className="grow flex flex-col items-center space-x-1 border-r border-gray-500 last:border-r-0 pr-4">
                           <div className="flex items-center space-x-1">
                             <Coffee className="text-gray-600 w-[1.3rem] h-[1.3rem]" />

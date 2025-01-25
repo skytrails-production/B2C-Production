@@ -1,19 +1,9 @@
-import React from "react";
-import SearchFormForMobile from "../../components/TailwindSearchComp/mainNav/SearchFormForMobile";
+import React, { useEffect, useState } from "react";
+// import SearchFormForMobile from "../../components/TailwindSearchComp/mainNav/SearchFormForMobile";
 import AvatarDropdown from "../../components/TailwindSearchComp/mainNav/AvatarDropdown";
 import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import {
-  flightInactive,
-  flightActive,
-  holidayActive,
-  holidayInactive,
-  hotelActive,
-  hotelInactive,
-  busActive,
-  busInactive,
-  visaInactive,
-} from "../navbar/NavbarSvgs";
+
 import { BedDouble, BusFront, Plane, TentTree } from "lucide-react";
 // import { FaIdCard } from "react-icons/fa";
 
@@ -22,14 +12,32 @@ const MainNav = ({ className = "" }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [showSticky, setShowSticky] = useState(true);
+  const path = location.pathname;
+
+  useEffect(() => {
+    if (
+      path === "/flightlist" ||
+      path === "/ReturnResult" ||
+      path.includes("/holidaypackages/")
+    ) {
+      setShowSticky(false);
+    } else {
+      setShowSticky(true);
+    }
+  }, [path]);
+
+  // console.log(path, "path in the main nav");
+
   const isActive = (path) => {
     const currentPath = location.pathname;
 
     if (path === "/") {
       return (
         currentPath === "/" ||
-        currentPath === "/Searchresult" ||
-        currentPath === "/Searchresult/booknow"
+        currentPath === "/flightlist" ||
+        currentPath === "/ReturnResult" ||
+        currentPath === "/ReturnResultNew/PassengerDetails"
       );
     }
 
@@ -52,7 +60,11 @@ const MainNav = ({ className = "" }) => {
   };
 
   return (
-    <div className="nc-Header overflow-visible sticky top-0 w-full left-0 right-0 z-40 nc-header-bg shadow-sm">
+    <div
+      className={`${
+        showSticky ? "sticky" : ""
+      } nc-Header overflow-visible top-0 w-full left-0 right-0 z-40 nc-header-bg shadow-sm`}
+    >
       <div className={`MainNav2 relative z-10 ${className}`}>
         <div className="px-4 h-20 lg:container flex justify-between">
           <div

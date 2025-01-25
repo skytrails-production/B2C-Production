@@ -727,6 +727,8 @@ export const startBookingProcessAMD_New = async ({
   setJsonSaveData,
   totalSeatAmount,
 }) => {
+  xmlContinue = "";
+  dataElementsMaster = "";
   console.log(sesstioResultIndex, "sessionResultIndex");
   // const refundAmount = async ({
   //   refundTxnId,

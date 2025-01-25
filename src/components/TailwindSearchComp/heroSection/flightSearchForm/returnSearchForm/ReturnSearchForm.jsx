@@ -309,7 +309,7 @@ const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
     const searchpy = {
       from: fromCity,
       to: toCity,
-      FlightCabinClass: flightClass?.id,
+      FlightCabinClass: flightClass?.label,
       date: departDate,
       returnDate: returnDate,
     };
@@ -338,7 +338,7 @@ const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
       Child: child,
       Infant: infant,
       class: JSON.stringify(flightClass),
-      FlightCabinClass: flightClass?.id || flightClass,
+      FlightCabinClass: flightClass?.label || flightClass,
     };
     const queryString = new URLSearchParams(params).toString();
 
@@ -350,14 +350,14 @@ const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
   const renderForm = () => {
     return (
       <form className="w-full relative rounded-[10px]   bg-white ">
-        <div className="flex flex-1 rounded-full">
+        <div className="flex flex-1 rounded-full flex-col  md:flex-row">
           <FlightLocationFrom
             placeHolder="Flying from"
             desc="Where do you want to fly from?"
             className="flex-1"
             onLocationSelect={handleFromSelect}
           />
-          <div className="self-center border-r border-slate-200  h-8"></div>
+          <div className="self-center border-r-2 border-slate-300 hidden md:flex h-12"></div>
           <FlightLocationTo
             placeHolder="Flying to"
             desc="Where you want to fly to?"
@@ -365,7 +365,7 @@ const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
             divHideVerticalLineClass=" -inset-x-0.5"
             onLocationSelect={handleToSelect}
           />
-          <div className="self-center border-r border-slate-200  h-8"></div>
+          <div className="self-center border-r-2 border-slate-300 hidden md:flex h-12"></div>
           <ReturnDateBox
             // selectsRange={dropOffLocationType !== "oneWay"}
             className="flex-1"

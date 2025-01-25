@@ -64,25 +64,26 @@ const HolidayDetailsBottomDetails = ({
     hotel: (
       <div className="flex flex-row items-center gap-2">
         <BedDouble className="h-6 w-6 text-purple" />
-        Stay Included
+        <p className="font-semibold text-sm md:text-base">Stay Included</p>
       </div>
     ),
     flight: (
       <div className="flex flex-row items-center gap-2">
         <Plane className="h-6 w-6 text-purple" />
-        Flight Included
+
+        <p className="font-semibold text-sm md:text-base">Flight Included</p>
       </div>
     ),
     breakfast: (
       <div className="flex flex-row items-center gap-2">
         <BookImage className="h-6 w-6 text-purple" />
-        Breakfast Included
+        <p className="font-semibold text-sm md:text-base">Breakfast Included</p>
       </div>
     ),
     cab: (
       <div className="flex flex-row items-center gap-2">
         <Car className="h-6 w-6 text-purple" />
-        Transfer Included
+        <p className="font-semibold text-sm md:text-base">Transfer Included</p>
       </div>
     ),
   };
@@ -99,7 +100,7 @@ const HolidayDetailsBottomDetails = ({
 
   return (
     <>
-      <h1 className="text-xl md:text-3xl lg:text-3xl xl:text-3xl font-bold text-gray-900">
+      <h1 className="text-xl md:text-2xl lg:text-2xl xl:text-2xl font-bold text-gray-900">
         {packageData?.title}
       </h1>
 

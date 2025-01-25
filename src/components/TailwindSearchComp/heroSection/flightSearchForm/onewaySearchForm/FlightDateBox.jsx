@@ -6,9 +6,9 @@ import ClearDataButton from "../../ClearDataButton";
 import DatePickerCustomHeaderTwoMonth from "../../DatePickerCustomHeaderTwoMonth";
 import DatePickerCustomDay from "../../DatePickerCustomDay";
 // Helper function to format dates as "YYYY-MM-DD"
-const formatDate = (date) => {
-  return date ? date.toISOString().split("T")[0] : null;
-};
+// const formatDate = (date) => {
+//   return date ? date.toISOString().split("T")[0] : null;
+// };
 
 const FlightDateBox = ({
   className = "[ lg:nc-flex-2 ]",
@@ -23,11 +23,11 @@ const FlightDateBox = ({
 
   const onChangeDate = (date, closePopover) => {
     setStartDate(date);
-    if (date) {
-      console.log({
-        checkin: formatDate(date),
-      });
-    }
+    // if (date) {
+    //   console.log({
+    //     checkin: formatDate(date),
+    //   });
+    // }
     closePopover();
   };
 
@@ -44,13 +44,14 @@ const FlightDateBox = ({
           <CalendarIcon className="w-5 h-5 lg:w-7 lg:h-7" />
         </div>
         <div className="flex-grow text-left">
-          <span className="block text-2xl font-bold">
+          <span className="block text-base md:text-2xl font-bold">
             {startDate?.toLocaleDateString("en-US", {
               month: "short",
               day: "2-digit",
+              year: "2-digit",
             }) || "Add date"}
           </span>
-          <span className="block mt-1 text-sm text-gray-800  leading-none font-light text-[1rem]">
+          <span className="block mt-1 text-[0.8rem] text-neutral-400 leading-none font-light">
             {"Departure Date"}
           </span>
         </div>
@@ -81,9 +82,9 @@ const FlightDateBox = ({
                 <a
                   onClick={onSubmit}
                   type="button"
-                  className="h-14 md:h-16 w-full md:w-16 rounded-full bg-primary-700 hover:bg-primary-700 flex items-center justify-center text-neutral-50 focus:outline-none"
+                  className="h-14 md:h-16 w-14 md:w-16 rounded-full bg-primary-6000 hover:bg-primary-700 flex items-center justify-center text-neutral-50 focus:outline-none"
                 >
-                  <span className="mr-3 md:hidden">Search</span>
+                  {/* <span className="mr-3 md:hidden">Search</span> */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-6 w-6"
@@ -112,7 +113,7 @@ const FlightDateBox = ({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className=" absolute left-0 z-10 mt-[-40px] top-full w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
+            <Popover.Panel className=" absolute left-1/2 md:left-0 z-30 mt-[-40px] top-full w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
               <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-black ring-opacity-5 bg-white p-8">
                 <DatePicker
                   selected={startDate}

@@ -103,8 +103,8 @@ const ReturnFlightMain = () => {
       //duration baad mai krung
     });
     standardizedFlights2?.forEach((flight) => {
-      let price = flight.price;
-      let dur = flight.layover;
+      let price = flight?.price;
+      let dur = flight?.layover;
       // console.log(flight, "calculatePriceRange");
       min = Math.min(min, price);
       max = Math.max(max, price);
@@ -333,9 +333,9 @@ const ReturnFlightMain = () => {
   return (
     <div>
       {/* <div className="flightMainOneWayDiv visibleBig "> */}
-      <div className=" hidden md:flex relative w-full z-3 bg-gradient-to-r from-indigo-700 from-10% via-indigo-500 via-30% to-indigo-700 to-90% ">
+      <div className="sticky top-0 left-0 z-40 hidden md:flex  w-full z-3 bg-gradient-to-b from-primary-6000 via-primary-6000 to-primary-6000">
         {/* <Oneway2 /> */}
-        <div className="w-full p-2 flex justify-center items-center">
+        <div className="custom-container p-2 flex justify-center items-center">
           <ReturnSearchResultForm />
         </div>
       </div>

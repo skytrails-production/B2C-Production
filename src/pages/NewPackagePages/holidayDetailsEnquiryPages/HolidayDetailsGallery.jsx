@@ -43,14 +43,17 @@ const HolidayDetailsGallery = ({ data, isOpen, setIsOpen }) => {
             rightControl=" "
             pauseOnHover
           >
-            {data?.images?.destinations?.map((item, index) => (
-              <img
-                src={item}
-                alt={index}
-                key={index}
-                className="rounded-lg w-full h-full object-cover"
-              />
-            ))}
+            {data?.images?.destinations
+              ?.slice()
+              .reverse()
+              .map((item, index) => (
+                <img
+                  src={item}
+                  alt={index}
+                  key={index}
+                  className="rounded-lg w-full h-full object-cover"
+                />
+              ))}
           </Carousel>
           <span className="absolute bottom-0 left-0 w-full rounded-lg bg-gradient-to-t from-black to-transparent text-white font-semibold pt-4 p-2 text-sm">
             Destination

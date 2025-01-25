@@ -3,26 +3,26 @@ import { useNavigate } from "react-router-dom";
 
 const categories = [
   {
-    name: "Under 100k",
-    value: "100000",
+    name: "Under 50k",
+    value: "50000",
     image:
       "https://skytrails.s3.amazonaws.com/holidayPics/uploadedFile_1732016860535_1.jpg",
   },
   {
-    name: "Under 200k",
-    value: "200000",
+    name: "Under 100k",
+    value: "100000",
     image:
       "https://skytrails.s3.amazonaws.com/holidayPics/uploadedFile_1732016884961_2.jpg",
   },
   {
-    name: "Under 300k",
-    value: "300000",
+    name: "Under 150k",
+    value: "150000",
     image:
       "https://skytrails.s3.amazonaws.com/holidayPics/uploadedFile_1732016908094_3.jpg",
   },
   {
-    name: "above 300k",
-    value: "400000",
+    name: "above 150k",
+    value: "200000",
     image:
       "https://skytrails.s3.amazonaws.com/holidayPics/uploadedFile_1732016924541_4.jpg",
   },

@@ -240,7 +240,7 @@
   width: 10px;
   height: 10px;
   background-color: #ffffff;
-  box-shadow: 0 0 0 2px #e73c34;
+  box-shadow: 0 0 0 2px #6366f1;
   border-radius: 50%;
   cursor: pointer;
   transition: inset-inline-start 0.2s, inset-block-start 0.2s, width 0.2s,

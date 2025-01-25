@@ -8,11 +8,12 @@ import {
   fetchFlightQuotesAireselSucessReturn,
 } from "../../Redux/FareQuoteRuleAirsel/actionFlightQuoteRuleAirsel";
 import { apiURL } from "../../Constants/constant";
-
+import { XMLParser } from "fast-xml-parser";
 import { startBookingProcessAMD_New } from "./flightbookingAmdUtility";
 import moment from "moment";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
+import axios from "axios";
 
 dayjs.extend(utc);
 
@@ -144,7 +145,7 @@ export const useSeatUtility = () => {
       let seatGroup = "";
 
       flight.forEach((seat) => {
-        console.log(seat, "flight");
+        // console.log(seat, "flight");
 
         seatGroup += `
           <seatRequest>
@@ -503,9 +504,12 @@ export const fareQuateRuleAirsel = async (type) => {
       // console.log(data, "kafiladata");
       return data;
     } else if (flight.type == "AMD") {
-      const adultCount = 1;
-      const childCount = 0;
-      const infantCount = 0;
+      // const adultCount = 1;
+      // const childCount = 0;
+      // const infantCount = 0;
+      const adultCount = sessionStorage.getItem("adults");
+      const childCount = sessionStorage.getItem("childs");
+      const infantCount = sessionStorage.getItem("infants");
       const sesstioResultIndex =
         type == "onward" ? Onward?.flight : Return?.flight;
 
@@ -697,6 +701,343 @@ export const fareQuateRuleAirselErrorCheck = async (type) => {
     }
   }
 };
+export const flightSeatMap = async (type) => {
+  // console.log(type, "typeSeatmapAction");
+  const reducerState = store.getState();
+
+  const Onward = reducerState?.returnSelected?.returnSelectedFlight?.onward;
+  const Return = reducerState?.returnSelected?.returnSelectedFlight?.return;
+  let passengerData = [];
+
+  const {
+    journeyFlightParam,
+    journeyFlightTvoTraceId,
+    returnFlightParam,
+    returnFlightTvoTraceId,
+  } = reducerState?.return;
+  const handleSeatBaggageListDispatch = async (flight, type) => {
+    // console.log(flight, "handleDispatch");
+
+    if (flight.type == "TBO") {
+      const ResultIndex =
+        type == "onward"
+          ? Onward?.flight?.ResultIndex
+          : Return?.flight?.ResultIndex;
+      const TraceId =
+        type == "onward" ? journeyFlightTvoTraceId : returnFlightTvoTraceId;
+
+      const payload = {
+        EndUserIp: reducerState?.ip?.ipData,
+        TokenId: reducerState?.ip?.tokenData,
+        TraceId: TraceId,
+        ResultIndex: ResultIndex,
+      };
+      const ssrResponse = await userApi?.flightSSR(payload);
+
+      // console.log(ssrResponse, "ssrResponse");
+      return ssrResponse;
+    } else if (flight.type == "KAFILA") {
+      const Param = type == "onward" ? journeyFlightParam : returnFlightParam;
+      const SelectedFlights =
+        type == "onward" ? Onward?.flight : Return?.flight;
+
+      // console.log(data, "kafiladata");
+      return {
+        seatMap: 0,
+        number_of_seat_map: 0,
+
+        number_of_airline: 0,
+        seatList: [],
+        amountList: [],
+        amountTVO: [],
+        defaultSeatOccupation: [],
+        midAmount: 0,
+        seatDataList: [],
+        mealsList: [],
+        baggageList: [],
+        isError: false,
+        isLoading: false,
+        errorMessage: "",
+        isSeatsShow: false,
+      };
+    } else if (flight.type == "AMD") {
+      // const adultCount = 1;
+      // const childCount = 0;
+      // const infantCount = 0;
+      const adultCount = Number(sessionStorage.getItem("adults"));
+      const childCount = Number(sessionStorage.getItem("childs"));
+      const infantCount = Number(sessionStorage.getItem("infants"));
+      let seatMapData = [];
+      let seatMap = [];
+      let seatDataAmount = [];
+      let seatMapdataNew = [];
+      let count = 0;
+      let number_of_seat_map = {};
+      let seatAmountList;
+      let isSeatsShow;
+      let isSeat = true;
+      const state = type == "onward" ? Onward?.flight : Return?.flight;
+      // console.log(state, "sessionresultIndex");
+      let travler = "";
+      for (let i = 0; i < Number(adultCount) + Number(childCount); i++) {
+        let fareBasisCode = "";
+        let fareBasisCode1 =
+          state?.fareDetails?.groupOfFares?.[0]?.productInformation
+            ?.fareProductDetail?.fareBasis;
+
+        if (adultCount == 0 || childCount == 0) {
+          fareBasisCode =
+            state?.fareDetails?.groupOfFares?.productInformation
+              ?.fareProductDetail?.fareBasis;
+        } else if (i < Number(adultCount)) {
+          fareBasisCode =
+            state?.[0]?.fareDetails?.groupOfFares?.productInformation
+              ?.fareProductDetail?.fareBasis ||
+            state?.[0]?.fareDetails?.groupOfFares?.[0]?.productInformation
+              ?.fareProductDetail?.fareBasis;
+        } else {
+          fareBasisCode =
+            state?.[1]?.fareDetails?.groupOfFares?.productInformation
+              ?.fareProductDetail?.fareBasis;
+        }
+
+        travler += `<traveler>
+    <travelerInformation>
+
+      <paxDetails>
+
+        <surname>${passengerData?.[i]?.lastName || "dummy"}</surname>
+
+      </paxDetails>
+
+      <otherPaxDetails>
+
+        <givenName>${passengerData?.[i]?.firstName || "dummy"}</givenName>
+
+        <type>${passengerData?.[i]?.PaxType == 1 ? "ADT" : "CHD"}</type>
+    
+
+      </otherPaxDetails>
+
+    </travelerInformation>
+ 
+
+
+        <fareQualifierDetails>
+
+          <additionalFareDetails>
+
+            <rateClass>${fareBasisCode || fareBasisCode1}/${(
+          fareBasisCode || fareBasisCode1
+        )?.slice(-2)}</rateClass>
+
+          </additionalFareDetails>
+
+        </fareQualifierDetails>
+
+      </traveler>`;
+      }
+      // console.log(travler, "Travel");
+      const convertXmlToJsonSeat = async (xmlData) => {
+        count++;
+        const parser = new XMLParser();
+        const result = await parser.parse(xmlData);
+        seatMapdataNew.push(result);
+
+        // console.log(seatMapdataNew, "seatMapdataNew");
+        seatMap = seatMapdataNew;
+        // console.log(
+        //   result?.Air_RetrieveSeatMapReply?.seatmapInformation
+        //     ?.customerCentricData,
+        //   "result"
+        // );
+        if (
+          !result?.Air_RetrieveSeatMapReply?.seatmapInformation
+            ?.customerCentricData
+        ) {
+          isSeat = false;
+          isSeatsShow = isSeat;
+          // console.log("false setisSeats", isSeatsShow);
+          return;
+        }
+      };
+      let seatlist = [];
+      if (state?.flightDetails?.flightInformation) {
+        let depDate =
+          state?.flightDetails?.flightInformation?.productDateTime
+            ?.dateOfDeparture;
+        let dep =
+          state?.flightDetails?.flightInformation?.location?.[0]?.locationId;
+        let arr =
+          state?.flightDetails?.flightInformation?.location?.[1]?.locationId;
+        let airline =
+          state?.flightDetails?.flightInformation?.companyId?.marketingCarrier;
+        let flight_number =
+          state?.flightDetails?.flightInformation?.flightOrtrainNumber;
+        seatMapData.push({ depDate, dep, arr, airline, flight_number });
+      } else {
+        for (let i = 0; i < state?.flightDetails?.length; i++) {
+          let depDate =
+            state?.flightDetails?.[i]?.flightInformation?.productDateTime
+              ?.dateOfDeparture;
+          let dep =
+            state?.flightDetails?.[i]?.flightInformation?.location?.[0]
+              ?.locationId;
+          let arr =
+            state?.flightDetails?.[i]?.flightInformation?.location?.[1]
+              ?.locationId;
+          let airline =
+            state?.flightDetails?.[i]?.flightInformation?.companyId
+              ?.marketingCarrier;
+          let flight_number =
+            state?.flightDetails?.[i]?.flightInformation?.flightOrtrainNumber;
+          // seatlist.push({})
+          seatMapData.push({ depDate, dep, arr, airline, flight_number });
+        }
+        // dispatch(number_of_seat_map({ no: state?.flightDetails?.length, seatlist, seatlist: seatlist }))
+      }
+
+      let numOfPaln = state?.flightDetails?.flightInformation
+        ? 1
+        : state?.flightDetails?.length;
+      if (state?.flightDetails?.flightInformation) {
+        seatlist.push([]);
+      } else {
+        for (let i = 0; i < numOfPaln; i++) {
+          seatlist.push([]);
+        }
+      }
+      number_of_seat_map = { no: numOfPaln, seatList: seatlist };
+      const handleData = async () => {
+        // console.log("handleData 865");
+        seatMapdataNew = [];
+        for (let i = 0; i < seatMapData?.length; i++) {
+          // console.log(seatMapData, "seatMapData");
+          await fetchData(
+            seatMapData[i]?.depDate,
+            seatMapData[i]?.dep,
+            seatMapData[i]?.arr,
+            seatMapData[i]?.airline,
+            seatMapData[i]?.flight_number
+          );
+        }
+        // console.log(isSeatsShow, "isshowseat1");
+        isSeatsShow = { isSeat: isSeat, loading: false };
+      };
+      const fetchData = async (depDate, dep, arr, airline, flight_number) => {
+        const res = await axios({
+          method: "POST",
+          url: `${apiURL.baseURL}/skyTrails/amadeus/airretrieveseatmap`,
+          data: `<Air_RetrieveSeatMap>
+
+    <travelProductIdent>
+
+        <flightDate>
+
+            <departureDate>${depDate}</departureDate>
+
+        </flightDate>
+
+        <boardPointDetails>
+
+            <trueLocationId>${dep}</trueLocationId>
+
+        </boardPointDetails>
+
+        <offpointDetails>
+
+            <trueLocationId>${arr}</trueLocationId>
+
+        </offpointDetails>
+
+        <companyDetails>
+
+            <marketingCompany>${airline}</marketingCompany>
+
+        </companyDetails>
+
+        <flightIdentification>
+
+            <flightNumber>${flight_number}</flightNumber>
+
+        </flightIdentification>
+
+    </travelProductIdent>
+
+    <seatRequestParameters>
+
+        <genericDetails>
+
+             <cabinClassDesignator>W</cabinClassDesignator>
+
+         </genericDetails>
+
+         <processingIndicator>FT</processingIndicator>
+
+     </seatRequestParameters>
+
+     ${travler}
+
+
+</Air_RetrieveSeatMap>`,
+
+          headers: {
+            "Content-Type": "text/xml",
+            //  token: token,
+          },
+        });
+
+        convertXmlToJsonSeat(res?.data?.data);
+      };
+      await handleData();
+      // console.log(
+      //   seatMap,
+      //   seatMap?.length,
+      //   Number(adultCount) + Number(childCount),
+      //   "traveler length seatmapdata"
+      // );
+
+      // const data = await fetchDataAirlse({
+      //   sesstioResultIndex,
+      //   adultCount,
+      //   childCount,
+      //   infantCount,
+      // });
+      // console.log(data, "Airseldata");
+      // return data;
+      return {
+        seatMap: seatMap,
+        number_of_seat_map: number_of_seat_map,
+
+        number_of_airline: number_of_seat_map,
+        seatList: number_of_seat_map?.seatList,
+        amountList: [],
+        amountTVO: [],
+        defaultSeatOccupation: [],
+        midAmount: 0,
+        seatDataList: [],
+        mealsList: [],
+        baggageList: [],
+        isError: false,
+        isLoading: false,
+        errorMessage: "",
+        isSeatsShow: isSeatsShow,
+      };
+    }
+  };
+  if (type == "onward") {
+    const seatBaggageList = await handleSeatBaggageListDispatch(Onward, type);
+    // console.log(fareCodeFareRule, "onwardFarecoed");
+    // dispatch(fetchFlightQuotesAireselSucessOneway(fareCodeFareRule));
+    return seatBaggageList;
+  } else {
+    const seatBaggageList = await handleSeatBaggageListDispatch(Return, type);
+    // console.log(fareCodeFareRule, "ReturnFarecoed");
+    // dispatch(fetchFlightQuotesAireselSucessReturn(fareCodeFareRule));
+    return seatBaggageList;
+  }
+};
+
 export const findPrice = async (type) => {
   const reducerState = store.getState();
   // console.log(reducerState, "reducerState");
@@ -743,6 +1084,123 @@ export const findPrice = async (type) => {
     return Price;
   }
 };
+export const findSeatMealBaggagePrice = (type) => {
+  const reducerState = store.getState();
+  // console.log(reducerState, "reducerState");
+  const Onward = reducerState?.returnSelected?.returnSelectedFlight?.onward;
+  const Return = reducerState?.returnSelected?.returnSelectedFlight?.return;
+  const ssrOnward = reducerState?.airlineSeatMapNew?.onward;
+  const ssrReturn = reducerState?.airlineSeatMapNew?.return;
+
+  let baggagePrice = 0;
+  let mealPrice = 0;
+  let seatPrice = 0;
+  let totalMealPrice = 0;
+  let totalBaggageAmount = 0;
+  const handleSeatMealPrice = (flight, ssrDetails) => {
+    // console.log(flight, "handleDispatch");
+
+    if (flight.type == "TBO") {
+      const price = flight?.flight?.Fare?.PublishedFare;
+      let mealdata = ssrDetails?.mealsList;
+      let seatList = ssrDetails?.seatList;
+      let mealList = ssrDetails?.meals;
+      let baggagedata = ssrDetails?.baggageList;
+
+      let baggageList = ssrDetails?.baggage;
+
+      seatPrice =
+        seatPrice +
+        ssrDetails?.amountTVO?.flat()?.reduce((acc, val) => acc + val, 0);
+
+      function separateFunction(param) {
+        // seatKeys = [];
+        const groupedMeals = new Map();
+
+        param?.forEach((item) => {
+          if (item.Code !== "NoMeal") {
+            const flightNumber = item.FlightNumber;
+            if (!groupedMeals.has(flightNumber)) {
+              groupedMeals.set(flightNumber, []);
+              //   seatKeys.push(flightNumber);
+            }
+            groupedMeals.get(flightNumber).push(item);
+          }
+        });
+
+        // Convert Map to an object and preserve order
+        const result = {};
+        for (const [key, value] of groupedMeals) {
+          result[key] = value;
+        }
+
+        return result;
+      }
+      let separateData = separateFunction(mealdata);
+      // console.log(separateData, "separateData");
+
+      // Loop through each flight in mealList
+      for (const flightNumber in mealList) {
+        const meals = mealList[flightNumber];
+        const mealPrices = separateData[flightNumber];
+
+        // Calculate the total price for each meal
+        meals.forEach((quantity, index) => {
+          totalMealPrice += quantity * mealPrices[index].Price;
+          // for (let i = 0; i < quantity; i++) {
+          //   totalMealPrice.push(mealPrices[index]);
+          // }
+        });
+      }
+      function calculateBaggageTotal(baggage, baggageList) {
+        let total = 0;
+        for (let i = 0; i < baggage?.length; i++) {
+          if (baggage[i] === 1) {
+            total += baggageList[i].Price;
+          }
+        }
+        return total;
+      }
+      totalBaggageAmount =
+        totalBaggageAmount + calculateBaggageTotal(baggageList, baggagedata);
+
+      // console.log(ssrDetails, "tboprice");
+    } else if (flight.type == "KAFILA") {
+      const price = flight?.flight?.Fare?.GrandTotal;
+      // console.log("kafilaprice");
+    } else if (flight.type == "AMD") {
+      let seatList = ssrDetails?.seatList;
+      function calculateSeatTotal(seatList) {
+        let total = 0;
+        if (Array.isArray(seatList)) {
+          seatList?.forEach((group) => {
+            group?.forEach((seat) => {
+              total += seat.amount;
+            });
+          });
+        }
+        return total;
+      }
+
+      seatPrice = seatPrice + calculateSeatTotal(seatList);
+    }
+  };
+
+  handleSeatMealPrice(Onward, ssrOnward);
+
+  // dispatch(fetchFlightQuotesAireselSucessOneway(fareCodeFareRule));
+  if (Return) {
+    handleSeatMealPrice(Return, ssrReturn);
+  }
+
+  // dispatch(fetchFlightQuotesAireselSucessReturn(fareCodeFareRule));
+  return {
+    seatPrice: seatPrice,
+    mealPrice: totalMealPrice,
+    baggagePrice: totalBaggageAmount,
+  };
+};
+
 function convertDateFormatTBO(inputDate) {
   // Split the input date string into year, month, and day
   const [year, month, day] = inputDate?.split("-");
@@ -760,6 +1218,7 @@ function convertDateFormatTBO(inputDate) {
   return outputDate;
 }
 export const startBookingProcess = async (type) => {
+  // console.log(type, "typeeeeeeeee");
   const reducerState = store.getState();
   let passengerData = reducerState?.passengers?.passengersData;
 
@@ -779,6 +1238,10 @@ export const startBookingProcess = async (type) => {
 
   const Onward = reducerState?.returnSelected?.returnSelectedFlight?.onward;
   const Return = reducerState?.returnSelected?.returnSelectedFlight?.return;
+  let baggage;
+  let seat;
+  let meal;
+
   const isPassportRequired = passportReqired();
 
   const {
@@ -797,6 +1260,26 @@ export const startBookingProcess = async (type) => {
               ?.data?.Response?.Results?.FareBreakdown
           : reducerState?.fareQuoteRuleAirselReducer?.return?.flightQuote?.data
               ?.data?.Response?.Results?.FareBreakdown;
+      let baggageData =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.baggageList
+          : reducerState?.airlineSeatMapNew?.return?.baggageList;
+      let baggageList =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.baggage
+          : reducerState?.airlineSeatMapNew?.return?.baggage;
+      seat =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.seatList
+          : reducerState?.airlineSeatMapNew?.return?.seatList;
+      let mealData =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.mealsList
+          : reducerState?.airlineSeatMapNew?.return?.mealsList;
+      let mealList =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.meals
+          : reducerState?.airlineSeatMapNew?.return?.meals;
       const isLCC =
         type == "onward"
           ? reducerState?.fareQuoteRuleAirselReducer?.oneway?.flightQuote?.data
@@ -804,6 +1287,52 @@ export const startBookingProcess = async (type) => {
           : reducerState?.fareQuoteRuleAirselReducer?.return?.flightQuote?.data
               ?.data?.Response?.Results?.IsLCC;
       let arr = [];
+      let baggageDynamic = [];
+      baggageList?.map((item, index) => {
+        for (let i = 0; i < item; i++) {
+          baggageDynamic.push(baggageData[index]);
+        }
+      });
+      function separateFunction(param) {
+        // seatKeys = [];
+        const groupedMeals = new Map();
+
+        param?.forEach((item) => {
+          if (item.Code !== "NoMeal") {
+            const flightNumber = item.FlightNumber;
+            if (!groupedMeals.has(flightNumber)) {
+              groupedMeals.set(flightNumber, []);
+              //   seatKeys.push(flightNumber);
+            }
+            groupedMeals.get(flightNumber).push(item);
+          }
+        });
+
+        // Convert Map to an object and preserve order
+        const result = {};
+        for (const [key, value] of groupedMeals) {
+          result[key] = value;
+        }
+
+        return result;
+      }
+      let totalMeallist = [];
+
+      let newMealList;
+      let separateData = separateFunction(mealData);
+      for (const flightNumber in mealList) {
+        const meals = mealList[flightNumber];
+        const mealPrices = separateData[flightNumber];
+
+        // Calculate the total price for each meal
+        meals.forEach((quantity, index) => {
+          for (let i = 0; i < quantity; i++) {
+            totalMeallist.push(mealPrices[index]);
+          }
+        });
+        newMealList = separateFunction(totalMeallist);
+      }
+
       const fareBreakDown = fareBreak.map((price, key) => {
         let obj1 = {
           Currency: price?.Currency,
@@ -823,6 +1352,24 @@ export const startBookingProcess = async (type) => {
       const newPassengerData = passengerData?.map((item, index) => {
         const Fare = fareBreakDown[item?.PaxType - 1];
         console.log(Fare, "fareeeee");
+        let seatDynamic = [];
+        let mealDynamic = [];
+        if (seat) {
+          Object.keys(seat).forEach((key) => {
+            if (seat[key]?.[index]) {
+              seatDynamic?.push(seat[key]?.[index]);
+            }
+          });
+        }
+        if (newMealList) {
+          Object.keys(newMealList).forEach((key) => {
+            if (newMealList[key]?.[index]) {
+              mealDynamic?.push(newMealList[key]?.[index]);
+            }
+          });
+        }
+        let tempBag = baggageDynamic?.[index] || [];
+        // console.log(seatDynamic, mealDynamic, tempBag, "seatbaggagemealpyc");
         return {
           ...item,
           Title: item?.title,
@@ -837,6 +1384,9 @@ export const startBookingProcess = async (type) => {
           PassportExpiry: isPassportRequired
             ? convertDateFormatTBO(item?.passportExpiry)
             : "",
+          MealDynamic: mealDynamic,
+          SeatDynamic: seatDynamic,
+          Baggage: tempBag,
         };
       });
       // console.log(newPassengerData, "passengerData");
@@ -861,6 +1411,10 @@ export const startBookingProcess = async (type) => {
 
         const block = await userApi.flightBookGDS(payload);
         // console.log(block, "blockkkkk");
+        if (block?.data?.data?.Response?.Response?.Error?.ErrorCode != 0) {
+          return block;
+        }
+
         const PNR = block?.data?.data?.Response?.Response?.PNR;
         const BookingId = block?.data?.data?.Response?.Response?.BookingId;
 
@@ -900,6 +1454,7 @@ export const startBookingProcess = async (type) => {
           //   };
           // }),
         };
+
         const BookTicket = await userApi?.flightGetTicketNonLcc(
           payLoadDomestic
         );
@@ -1292,6 +1847,9 @@ export const saveDB = (type) => {
 
   const Onward = reducerState?.returnSelected?.returnSelectedFlight?.onward;
   const Return = reducerState?.returnSelected?.returnSelectedFlight?.return;
+  let baggage;
+  let seat;
+  let meal;
   // console.log(type, Onward, Return, passengerData, "typeeee");
 
   const SelectedFlights = type === "onward" ? Onward : Return;
@@ -1356,11 +1914,35 @@ export const saveDB = (type) => {
     let boardingTime;
 
     if (flight.type === "TBO") {
+      let baggageData =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.baggageList
+          : reducerState?.airlineSeatMapNew?.return?.baggageList;
+      let baggageList =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.baggage
+          : reducerState?.airlineSeatMapNew?.return?.baggage;
+      seat =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.seatList
+          : reducerState?.airlineSeatMapNew?.return?.seatList;
+      let mealData =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.mealsList
+          : reducerState?.airlineSeatMapNew?.return?.mealsList;
+      let mealList =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.meals
+          : reducerState?.airlineSeatMapNew?.return?.meals;
       const PNRData =
         type === "onward"
           ? reducerState?.newFlightBook?.oneway?.data?.data?.Response?.Response
           : reducerState?.newFlightBook?.return?.data?.data?.Response?.Response;
       PNR = PNRData?.PNR;
+      PNRData?.FlightItinerary?.Passenger?.forEach((item, index) => {
+        passengerData[index].TicketNumber = item?.Ticket?.TicketNumber || "";
+        passengerData[index].amount = item?.Fare?.PublishedFare || "";
+      });
       let airlineDetails = flight?.flight?.Segments?.[0]?.map((item, index) => {
         return {
           Airline: {
@@ -1383,17 +1965,75 @@ export const saveDB = (type) => {
             Terminal: item.Destination.Airport.Terminal,
             ArrTime: item.Destination.ArrTime,
           },
-          baggage: [],
-          mealDynamic: [],
-          seatDynamic: [],
+          Baggage: item?.Baggage,
         };
       });
+      let totalMeallist = [];
+
+      let newMealList;
+      let baggageDynamic = [];
+      baggageList?.map((item, index) => {
+        for (let i = 0; i < item; i++) {
+          baggageDynamic.push(baggageData[index]);
+        }
+      });
+      function separateFunction(param) {
+        // seatKeys = [];
+        const groupedMeals = new Map();
+
+        param?.forEach((item) => {
+          if (item.Code !== "NoMeal") {
+            const flightNumber = item.FlightNumber;
+            if (!groupedMeals.has(flightNumber)) {
+              groupedMeals.set(flightNumber, []);
+              //   seatKeys.push(flightNumber);
+            }
+            groupedMeals.get(flightNumber).push(item);
+          }
+        });
+
+        // Convert Map to an object and preserve order
+        const result = {};
+        for (const [key, value] of groupedMeals) {
+          result[key] = value;
+        }
+
+        return result;
+      }
+      let separateData = separateFunction(mealData);
+      for (const flightNumber in mealList) {
+        const meals = mealList[flightNumber];
+        const mealPrices = separateData[flightNumber];
+
+        // Calculate the total price for each meal
+        meals.forEach((quantity, index) => {
+          for (let i = 0; i < quantity; i++) {
+            totalMeallist.push(mealPrices[index]);
+          }
+        });
+        newMealList = separateFunction(totalMeallist);
+      }
+      let seatDynamic = [];
+      let mealDynamic = [];
+      if (seat) {
+        Object.keys(seat).forEach((key) => {
+          seatDynamic = [...seatDynamic, ...seat[key]];
+        });
+      }
+      if (newMealList) {
+        Object.keys(newMealList).forEach((key) => {
+          mealDynamic = [...mealDynamic, ...newMealList[key]];
+        });
+      }
       BookingId = PNRData?.BookingId;
       payload.pnr = PNR;
       payload.airlineDetails = airlineDetails;
       payload.bookingId = BookingId;
       let bookingStatus = PNR ? "BOOKED" : "FAILED";
       payload.bookingStatus = bookingStatus;
+      payload.seatDynamic = seatDynamic;
+      payload.mealDynamic = mealDynamic;
+      payload.baggage = baggageDynamic;
       // console.log(PNRData, PNR, payload, airlineDetails, "TVO PNR Data", type);
       // return ticket;
       // Placeholder - modify based on actual requirements
@@ -1441,6 +2081,16 @@ export const saveDB = (type) => {
       // return ticket;
     } else if (flight.type === "AMD") {
       const flightDetails = flight?.flight;
+      seat =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.seatList
+          : reducerState?.airlineSeatMapNew?.return?.seatList;
+      let seatDynamic = [];
+      if (seat) {
+        seat.forEach((item) => {
+          seatDynamic = [...seatDynamic, ...item];
+        });
+      }
       let Baggage =
         (flightDetails?.baggage?.freeBagAllownceInfo?.baggageDetails
           ?.quantityCode ||
@@ -1603,6 +2253,7 @@ export const saveDB = (type) => {
           ?.timeDetail?.checkinTime;
 
       payload.pnr = PNR;
+      payload.seatDynamic = seatDynamic;
       // console.log(
       //   PNRData,
       //   PNR,

@@ -70,7 +70,7 @@ const ReturnDateBox = ({
           <CalendarIcon className="w-5 h-5 lg:w-7 lg:h-7" />
         </div>
         <div className="flex-grow text-left">
-          <span className="block text-2xl font-bold">
+          <span className="block text-base md:text-2xl font-bold">
             {typeof startDate == "object"
               ? startDate?.toLocaleDateString("en-US", {
                   month: "short",
@@ -93,7 +93,7 @@ const ReturnDateBox = ({
                   })
               : ""}
           </span>
-          <span className="block mt-1 text-[1rem] text-neutral-400 leading-none font-light">
+          <span className="block mt-1 text-[0.8rem] text-neutral-400 leading-none font-light">
             {"Check in - Check out"}
           </span>
         </div>
@@ -126,10 +126,8 @@ const ReturnDateBox = ({
                 <a
                   onClick={onSubmit}
                   type="button"
-                  className="h-14 md:h-16 w-full md:w-16 rounded-full bg-primary-6000 hover:bg-primary-700 flex items-center justify-center text-neutral-50 focus:outline-none"
+                  className="h-14 md:h-16 w-14 md:w-16 rounded-full bg-primary-6000 hover:bg-primary-700 flex items-center justify-center text-neutral-50 focus:outline-none"
                 >
-                  <span className="mr-3 md:hidden">Search</span>
-
                   {loader ? (
                     <svg
                       className="h-6 w-6"
@@ -231,7 +229,7 @@ const ReturnDateBox = ({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className="absolute left-0 z-10 mt-[-40px] top-full w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
+            <Popover.Panel className="absolute left-1/2 md:left-0 z-30 mt-[-40px] top-full w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
               <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-black ring-opacity-5 bg-white p-8">
                 <DatePicker
                   selected={

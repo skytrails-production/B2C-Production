@@ -149,7 +149,7 @@ const FlightSearchForm = () => {
 
   const renderRadioBtn = () => {
     return (
-      <div className=" px-4 md:py-4 md:px-7 xl:py-6 xl:px-8 flex flex-row flex-wrap border-b-2 border-slate-300 ">
+      <div className=" px-6 md:py-4 md:px-7 py-3 xl:py-6 xl:px-8 flex flex-row justify-center md:justify-start flex-wrap border-b-2 md:border-b-2 border-gray-200  md:border-gray-300">
         <div
           className={`py-1.5 px-4 flex items-center rounded-full font-medium text-xs cursor-pointer mr-2 my-1 sm:mr-3 ${
             dropOffLocationType === "oneway"
@@ -171,7 +171,7 @@ const FlightSearchForm = () => {
           Round-trip
         </div>
         <div
-          className={`py-1.5 px-4 flex items-center rounded-full font-medium text-xs cursor-pointer mr-2 my-1 sm:mr-3 ${
+          className={`py-1.5 px-4 hidden md:flex items-center rounded-full font-medium text-xs cursor-pointer mr-2 my-1 sm:mr-3 ${
             dropOffLocationType === "multicity"
               ? "bg-black shadow-black/10 shadow-lg text-white"
               : "border-2 border-slate-300 "
@@ -181,7 +181,7 @@ const FlightSearchForm = () => {
           Multi-city
         </div>
 
-        <div className="self-center border-r-2 border-slate-300  h-8 mr-2 my-1 sm:mr-3"></div>
+        <div className="self-center border-r-2 border-slate-300 hidden md:flex  h-8 mr-2 my-1 sm:mr-3"></div>
         <div className="mr-2 my-1 sm:mr-3 border-2 border-slate-300  rounded-full">
           {renderSelectClass()}
         </div>
@@ -194,7 +194,7 @@ const FlightSearchForm = () => {
 
   const renderForm = () => {
     return (
-      <form className="w-full  container relative rounded-[10px] shadow-2xl bg-white ">
+      <form className="w-full mx-2 md:mx-0  container relative rounded-[10px] shadow-2xl bg-white ">
         {renderRadioBtn()}
 
         {dropOffLocationType == "oneway" && (

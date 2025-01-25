@@ -1,14 +1,22 @@
 import React from "react";
 
-const ContinueBtn = ({ valiation, setSub, handleTravelClickOpen }) => {
+const ContinueBtn = ({
+  valiation,
+  setSub,
+  handleTravelClickOpen,
+  setReviewTravellerModal,
+  handleFocus,
+}) => {
   return (
     <>
       {!valiation ? (
         <button
-          className="py-2 px-8 mt-4  bg-indigo-600 font-bold text-center rounded-md text-white "
+          className="py-2 px-8 mt-4 bg-indigo-600 font-bold text-center rounded-md text-white "
           // type="submit"
-          onClick={() => setSub(true)}
-          // onClick={() => handleTravelClickOpen()}
+          onClick={() => {
+            setSub(true); // Trigger any existing logic
+            handleFocus(); // Focus on the form
+          }}
         >
           Continue
         </button>
@@ -18,6 +26,7 @@ const ContinueBtn = ({ valiation, setSub, handleTravelClickOpen }) => {
           // type="submit"
           // onClick={() => handleBookingProcess()}
           onClick={() => handleTravelClickOpen()}
+          // onClick={() => setReviewTravellerModal()}
         >
           Continue
         </button>

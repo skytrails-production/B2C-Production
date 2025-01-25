@@ -3,12 +3,8 @@ import Download from "./Download";
 import "./home.scss";
 import WhyChooseUs from "../../components/WhyChooseUs";
 import { Helmet } from "react-helmet-async";
-import MulticityForm from "../flight/MultiCity/MulticityForm";
-import ReturnFormNew from "../flight/ReturnFlight/ReturnFornNew";
-import homeBG from "../../images/homeBG.webp";
-import OnewayNew from "../../components/OnewayNew";
+import homeBG from "../../images/homeBG.jpg";
 import "./home.css";
-import Img from "../../LazyLoading/Img";
 import FlightSearchForm from "../../components/TailwindSearchComp/heroSection/flightSearchForm/FlightSearchForm";
 import OfferMain from "../../components/TailwindSearchComp/offerPage/OfferMain";
 import FlightSuggestion from "../../components/TailwindSearchComp/flightSuggestion/FlightSuggestion";
@@ -19,6 +15,7 @@ import Faq from "../../components/TailwindSearchComp/Faq";
 import FooterNavigation from "../../components/footerNavigate/FooterNavigation";
 import { useDispatch } from "react-redux";
 import { clearHotelAll } from "../../Redux/HotelGRN/hotel";
+import { returnActionClear } from "../../Redux/FlightSearch/Return/return";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState("oneway");
@@ -31,6 +28,7 @@ const Home = () => {
   useEffect(() => {
     sessionStorage.setItem("hdhhfb7383__3u8748", false);
     dispatch(clearHotelAll());
+    dispatch(returnActionClear());
   }, []);
 
   const downloadRef = useRef(null);
@@ -49,7 +47,7 @@ Theskytrails - #1 Travel Website 50% OFF on Hotels, Flights, Bus Booking at Lowe
         />
       </Helmet>
 
-      <div className="heroBannerFlight flex md:hidden lg:hidden">
+      {/* <div className="heroBannerFlight flex md:hidden lg:hidden">
         <div className="backdrop-img">
           <Img src={homeBG} />
         </div>
@@ -117,6 +115,20 @@ Theskytrails - #1 Travel Website 50% OFF on Hotels, Flights, Bus Booking at Lowe
         className="flightMainBox relative py-16 pt-44 bg-[radial-gradient(circle,_rgba(189,22,15,1)_0%,_rgba(214,74,80,1)_100%)] hidden md:flex bg-cover bg-top bg-no-repeat"
         style={{ backgroundImage: `url(${homeBG})` }}
       >
+        <FlightSearchForm />
+      </div>  */}
+
+      <div className="flightMainBox relative py-16 pt-44 flex md:flex justify-center bg-cover bg-top bg-no-repeat">
+        <video
+          className="absolute inset-0 w-full h-full object-cover"
+          poster={homeBG}
+          loop
+          autoPlay
+          muted
+        >
+          {/* <source src={hotelBeach} type="video/mp4" /> */}
+          Your browser does not support the video tag.
+        </video>
         <FlightSearchForm />
       </div>
 

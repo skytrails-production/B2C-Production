@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  airplane,
   adventure,
   beachChiar,
   binocular,
@@ -30,7 +31,6 @@ import {
   wellness,
   wifi,
   wildlife,
-  airplane,
 } from "../inclusionsSVG";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -40,6 +40,8 @@ import secureLocalStorage from "react-secure-storage";
 import Authentic from "../../Auth/Authentic";
 import { Earth, Info, MapPin } from "lucide-react";
 import EnquiryForm from "./EnquiryForm";
+import SharePackages from "../../holidaypackages/holidaypackagesearchresult/SharePackages";
+import ShareNow from "./ShareNow";
 
 const PackageResultCard = ({ data, shadoww }) => {
   const navigate = useNavigate();
@@ -102,12 +104,15 @@ const PackageResultCard = ({ data, shadoww }) => {
   }, [authenticUser]);
 
   // console.log(pathname, "pathname");
-
+  const randomReviews = Math.floor(Math.random() * 100) + 1;
   return (
     <div
       key={data?._id}
-      className={`max-w-3xl mx-auto bg-white border border-gray-200 ${shadoww} rounded-lg  p-4 `}
+      className={`max-w-3xl mx-auto bg-white border relative border-gray-200 ${shadoww} rounded-lg  p-4 `}
     >
+      <div className="absolute right-2 top-2 cursor-pointer">
+        <ShareNow id={data?._id} />
+      </div>
       {/* Left Section: Image */}
 
       <div className="flex">
@@ -153,7 +158,10 @@ const PackageResultCard = ({ data, shadoww }) => {
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star text-gray-300"></i>
             </div>
-            <span className="ml-2 text-sm text-gray-500">(36 Reviews)</span>
+            <span className="ml-2 text-sm text-gray-500">
+              {" "}
+              ({randomReviews} Reviews)
+            </span>
           </div>
 
           <div className="flex justify-between mb-2">
@@ -174,6 +182,9 @@ const PackageResultCard = ({ data, shadoww }) => {
                           {ele?.flight && (
                             <div className=" flex flex-col items-center justify-center gap-1 text-center">
                               <span>{airplane}</span>
+                              {/* <span>
+                                <i class="fa-solid fa-plane"></i>
+                              </span> */}
                               <p>Flight</p>
                             </div>
                           )}
@@ -382,6 +393,56 @@ const PackageResultCard = ({ data, shadoww }) => {
 
       <div className="flex justify-start gap-3 border-b-[1px] border-gray-300">
         <div className="flex flex-col items-start my-2">
+          <span className="text-[12px] font-semibold text-gray-600">
+            Destinations
+          </span>
+          <div className="text-[12px] text-gray-800">
+            <p className="relative group">
+              <span className="text-blue-500 cursor-pointer">
+                {data?.country?.length}{" "}
+                {data?.country?.length > 0 ? "Countries" : "Country"},{" "}
+                {data?.destination?.length}{" "}
+                {data?.destination?.length > 0 ? "Cities" : "City"}
+              </span>
+
+              <div className="absolute top-full mt-1 hidden  group-hover:block w-72 border border-gray-500 bg-gray-100 text-gray-800 text-xs rounded-lg shadow-lg p-2">
+                <p className="font-semibold flex items-center gap-2">
+                  {" "}
+                  <Earth size={15} className=" text-primary-6000" /> Countries
+                  You will Visit
+                </p>
+
+                <div className="my-2 pl-4">
+                  {data?.country?.map((item, index) => (
+                    <span
+                      key={index}
+                      className="text-[15px] font-medium mt-2 pl-1"
+                    >
+                      {item} {index < data?.country?.length - 1 && ", "}
+                    </span>
+                  ))}
+                </div>
+                <p className="font-semibold flex items-center gap-2">
+                  <MapPin size={15} className=" text-primary-6000" /> Cities You
+                  will Visit
+                </p>
+
+                <div className="pl-4 my-2">
+                  {data?.destination?.map((item, index) => (
+                    <span
+                      key={index}
+                      className="text-[14px] font-medium mt-2 pl-1"
+                    >
+                      {item?.addMore}{" "}
+                      {index < data?.destination?.length - 1 && ", "}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </p>
+          </div>
+        </div>
+        <div className="flex flex-col items-start my-2">
           <span className="text-[12px] font-semibold text-gray-600">Days</span>
           <p className="text-[13px] text-gray-900 font-semibold">
             {data?.days}
@@ -403,48 +464,6 @@ const PackageResultCard = ({ data, shadoww }) => {
             <p className="text-[13px] text-gray-900 font-semibold">included</p>
           </div>
         )}
-        <div className="flex flex-col items-start my-2">
-          <span className="text-[12px] font-semibold text-gray-600">
-            Destinations
-          </span>
-          <div className="text-[12px] text-gray-800">
-            <p className="relative group">
-              <span className="text-blue-500 cursor-pointer">
-                {data?.country?.length}{" "}
-                {data?.country?.length > 0 ? "Countries" : "Country"},{" "}
-                {data?.destination?.length}{" "}
-                {data?.destination?.length > 0 ? "Cities" : "City"}
-              </span>
-
-              <div className="absolute top-full mt-1 hidden group-hover:block w-72 border border-gray-500 bg-gray-100 text-gray-800 text-xs rounded-lg shadow-lg p-2">
-                <p className="font-semibold flex items-center gap-2">
-                  {" "}
-                  <Earth size={13} /> Countries You will Visit :
-                </p>
-
-                <div className="mb-2 ">
-                  {data?.country?.map((item, index) => (
-                    <span key={index} className="">
-                      {item} {index < data?.country?.length - 1 && ", "}
-                    </span>
-                  ))}
-                </div>
-                <p className="font-semibold flex items-center gap-2">
-                  <MapPin size={13} /> Cities You will Visit :
-                </p>
-
-                <div>
-                  {data?.destination?.map((item, index) => (
-                    <span key={index}>
-                      {item?.addMore}{" "}
-                      {index < data?.destination?.length - 1 && ", "}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </p>
-          </div>
-        </div>
       </div>
 
       <div>

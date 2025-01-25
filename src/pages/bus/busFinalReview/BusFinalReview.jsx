@@ -21,6 +21,7 @@ import secureLocalStorage from "react-secure-storage";
 import { Button } from "antd";
 import BusSummaryWithCoupon from "../busSummary/BusSummaryWithCoupon";
 import Authentic from "../../Auth/Authentic";
+import { colors } from "../../../colors";
 
 const BusFinalReview = () => {
   const dispatch = useDispatch();
@@ -186,7 +187,7 @@ const BusFinalReview = () => {
           firstname: passengerSessionStorageParsed[0].FirstName,
           phone: passengerSessionStorageParsed[0].Phoneno,
           amount: Number(finalAmount).toFixed(0),
-          //   amount: 1,
+          // amount: 1,
           email: passengerSessionStorageParsed[0].Email,
           productinfo: "ticket",
           bookingType: "BUS",
@@ -367,7 +368,7 @@ const BusFinalReview = () => {
     return (
       <>
         <div className="container">
-          <div className="row mt-4">
+          <div className="mt-4 row">
             <div className="col-lg-8 ">
               <div className="col-lg-12 ">
                 <div className="singlebusMain">
@@ -418,7 +419,7 @@ const BusFinalReview = () => {
                 </div>
               </div>
 
-              <div className="col-lg-12 my-3">
+              <div className="my-3 col-lg-12">
                 <div className="passHeading">
                   <h3>Passenger Details</h3>
                 </div>
@@ -451,7 +452,7 @@ const BusFinalReview = () => {
                 </div>
               </div>
 
-              <div className="col-lg-12 my-3">
+              <div className="my-3 col-lg-12">
                 <div className="busCancellation">
                   <table>
                     <thead>
@@ -490,10 +491,13 @@ const BusFinalReview = () => {
                 </div>
               </div>
 
-              <div className="col-lg-12 mt-4 busBook">
-                <Button type="primary" onClick={handlePayment}>
+              <div className="mt-4 col-lg-12 busBook">
+                <button
+                  className={`${colors.primary6000} border${colors.primary6000} rounded-lg  hover:${colors.primary700} p-1 text-white`}
+                  onClick={handlePayment}
+                >
                   Book Ticket
-                </Button>
+                </button>
               </div>
             </div>
             <div className="col-lg-4">

@@ -31,6 +31,7 @@ import { fareQuotesRuleAirselWatcher } from "./Saga/flightQuateRuleAirselSaga"
 import { flightBookNewWatcher } from "./Saga/newFlightBookSaga"
 
 import { flightHotalSuggeatedWatcher } from "./Saga/flightHotalSuggeatedSaga"
+import { flightSeatMapWatcher } from "./Saga/airSeatMapSaga"
 
 
 export function* rootSaga() {
@@ -65,6 +66,8 @@ export function* rootSaga() {
 
     fareQuotesRuleAirselWatcher(),
     flightBookNewWatcher(),
+    flightSeatMapWatcher(),
+
 
     flightHotalSuggeatedWatcher()
 

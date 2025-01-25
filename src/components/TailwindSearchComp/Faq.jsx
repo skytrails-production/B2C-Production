@@ -67,7 +67,7 @@ const Faq = () => {
                     defaultOpen={false}
                   >
                     <DisclosureButton className="group accordion-toggle group inline-flex items-center justify-between leading-8 text-gray-900 w-full transition duration-500 text-left hover:text-indigo-600 accordion-active:font-medium accordion-active:text-indigo-600 ">
-                      <span className="accordion-toggle group inline-flex items-left justify-between leading-8 text-gray-900 w-full transition duration-500  hover:text-indigo-600 accordion-active:font-medium accordion-active:text-indigo-600 flex-col  text-start group-hover:text-indigo-600 group-hover:font-semibold data-[focus]:bg-blue-950 group-data-[open]:text-indigo-600 group-data-[open]:font-semibold ">
+                      <span className="accordion-toggle group inline-flex items-left justify-between leading-8 text-gray-900 w-full transition duration-500  hover:text-indigo-600 accordion-active:font-medium accordion-active:text-indigo-600 flex-col  text-start group-hover:text-indigo-600  data-[focus]:bg-blue-950 group-data-[open]:text-indigo-600  ">
                         {item.Q}
                       </span>
                       <ChevronDownIcon className="size-5 text-gray-900 group-data-[hover]:fill-indigo-600 group-data-[open]:rotate-180 hover:text-indigo-600 group-data-[open]:fill-indigo-600  " />

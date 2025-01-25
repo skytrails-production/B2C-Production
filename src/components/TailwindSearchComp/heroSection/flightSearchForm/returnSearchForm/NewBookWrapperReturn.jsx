@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import FlightDetailBookWraper from "../../../../BookWraperFlight/FlightDetailBookWraper";
 import BookWrapperSummary from "../../../../BookWraperFlight/BookWrapperSummary";
 import PassengersDetails from "../../../../BookWraperFlight/NewPassengerDetails";
@@ -8,18 +8,17 @@ import {
   fareQuateRuleAirsel,
   fareQuateRuleAirselErrorCheck,
   findPrice,
+  findSeatMealBaggagePrice,
+  flightSeatMap,
 } from "../../../../../utility/flightUtility/BookwarperUtility";
 import {
   fetchFlightQuotesAireselRequestOneway,
   fetchFlightQuotesAireselRequestReturn,
 } from "../../../../../Redux/FareQuoteRuleAirsel/actionFlightQuoteRuleAirsel";
-import { startBookingProcess } from "../../../../../utility/flightUtility/BookwarperUtility";
+// import { startBookingProcess } from "../../../../../utility/flightUtility/BookwarperUtility";
 import { swalModal } from "../../../../../utility/swal";
 import { Await, useNavigate } from "react-router-dom";
 import Authentic from "../../../../../pages/Auth/Authentic";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
 import { PassengersAction } from "../../../../../Redux/Passengers/passenger";
 import SecureStorage from "react-secure-storage";
 import { apiURL } from "../../../../../Constants/constant";
@@ -32,6 +31,13 @@ import {
   fetchFlightBookRequestReturn,
 } from "../../../../../Redux/newFlightBook/actionNewFlightBook";
 import { standardizeFlightFareResponse } from "../../../../../utility/flightUtility/standardizeFlightResponse";
+import ReviewTravellerFlight from "./ReviewTravellerFlight";
+// import { setSelectedFlightRequest } from "../../../../../Redux/Itenary/itenary";
+import {
+  flightSeatRequestOnward,
+  flightSeatRequestReturn,
+} from "../../../../../Redux/AirlineSeatMapNew/actionAirlineSeatMap";
+import AirSeatMapModal from "./AirSeatMapModal";
 const NewBookWrapperReturn = () => {
   const [sub, setSub] = useState(false);
   const [passengerData, setPassengerData] = useState([]);
@@ -40,11 +46,14 @@ const NewBookWrapperReturn = () => {
   const [isDropdown, setIsDropdown] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [open, setOpen] = React.useState(false);
-  const [finalAmount, setFinalAmount] = useState(1);
+  // const [finalAmount, setFinalAmount] = useState(1);
   const dispatch = useDispatch();
   const reducerState = useSelector((state) => {
     return state;
   });
+
+  // console.log(V_aliation, "V_aliationV_aliationV_aliation");
+  // console.log(reducerState, "reducerState in book wrapper");
   const navigation = useNavigate();
   const fareCode = reducerState?.fareQuoteRuleAirselReducer;
   const authenticUser = reducerState?.logIn?.loginData?.status;
@@ -60,76 +69,120 @@ const NewBookWrapperReturn = () => {
   const infant = sessionStorage.getItem("infants");
   const [FlightFareOnward, setFlightFareOnward] = useState([]);
   const [FlightFareReturn, setFlightFareReturn] = useState([]);
+  const [airSeatMapModal, SetAirSeatMapModal] = useState(false);
+  const [reviewTravellerModal, setReviewTravellerModal] = useState(false);
+  const [openSSR, setOpenSSR] = useState(false);
 
   const markUP =
     reducerState?.markup?.markUpData?.data?.result?.[0]?.flightMarkup;
   // console.log(markUP, "markUp");
 
+  const seatbaggagePrice = findSeatMealBaggagePrice();
+  const combinedAddOnPrice =
+    (seatbaggagePrice?.seatPrice > 0 ? seatbaggagePrice?.seatPrice : 0) +
+    (seatbaggagePrice?.mealPrice > 0 ? seatbaggagePrice?.mealPrice : 0) +
+    (seatbaggagePrice?.baggagePrice > 0 ? seatbaggagePrice?.baggagePrice : 0);
+
   const Onward = reducerState?.returnSelected?.returnSelectedFlight?.onward;
   const Return = reducerState?.returnSelected?.returnSelectedFlight?.return;
+  const farequoteOnward = reducerState?.fareQuoteRuleAirselReducer?.oneway;
+  const farequoteReturn = reducerState?.fareQuoteRuleAirselReducer?.return;
+
+  const formRef = useRef(null);
+
+  const handleFocusForm = () => {
+    if (formRef.current) {
+      formRef.current.scrollIntoView({ behavior: "smooth" });
+      formRef.current.getElementsByTagName("div")[0].classList.add("mt-20");
+      // console.log(
+      //   formRef.current,
+      //   "form formRef.current.getElementsByClassname"
+      // );
+    }
+  };
+  const handleTravelClickYes = () => {
+    setReviewTravellerModal(false);
+    // console.log(Onward, "onward97");
+    if (
+      (Onward?.type == "KAFILA" && Return?.type == "KAFILA") ||
+      (!Return && Onward?.type == "KAFILA")
+    ) {
+      setIsConfirmationModalOpen(true);
+    } else {
+      SetAirSeatMapModal(true);
+    }
+  };
+  const handleSkipToPayment = () => {
+    SetAirSeatMapModal(false);
+    setIsConfirmationModalOpen(true);
+  };
+
+  // console.log("Onward", Onward, Return, reducerState, "ReturnSelected");
+
   useEffect(() => {
-    if ((Onward, Return)) {
+    if (Onward) {
       const onwardData = standardizeFlightFareResponse(
         Onward,
         adult,
         child,
         infant
       ); // Get standardized data
+      setFlightFareOnward(onwardData); // Update state with data
+    }
+    if (Return) {
       const returnData = standardizeFlightFareResponse(
         Return,
         adult,
         child,
         infant
       ); // Get standardized data
-      setFlightFareOnward(onwardData); // Update state with data
+
       setFlightFareReturn(returnData); // Update state with data
     }
   }, []);
 
-  const totalBase =
-    FlightFareOnward?.Adt?.Basic +
-    FlightFareOnward?.Chd?.Basic +
-    FlightFareOnward?.Inf?.Basic +
-    FlightFareReturn?.Adt?.Basic +
-    FlightFareReturn?.Chd?.Basic +
-    FlightFareReturn?.Inf?.Basic;
-  const totalTax =
-    FlightFareOnward?.Adt?.Taxes +
-    FlightFareOnward?.Chd?.Taxes +
-    FlightFareOnward?.Inf?.Taxes +
-    FlightFareReturn?.Adt?.Taxes +
-    FlightFareReturn?.Chd?.Taxes +
-    FlightFareReturn?.Inf?.Taxes;
-  const grandTotal =
+  const totalOnward =
     FlightFareOnward?.Adt?.Total +
     FlightFareOnward?.Chd?.Total +
-    FlightFareOnward?.Inf?.Total +
+    FlightFareOnward?.Inf?.Total;
+
+  const totalReturn =
     FlightFareReturn?.Adt?.Total +
     FlightFareReturn?.Chd?.Total +
     FlightFareReturn?.Inf?.Total;
-  let lastFinalPrice = (grandTotal + grandTotal * markUP)?.toFixed();
+
+  const grandTotal = Number(totalOnward + (Return ? totalReturn : 0));
+  const newGrandTotal = (grandTotal + grandTotal * markUP)?.toFixed();
+  // console.log(grandTotal, "grand total");
+  let lastFinalPrice = (
+    Number(newGrandTotal) + Number(combinedAddOnPrice)
+  )?.toFixed();
   // console.log(lastFinalPrice, "lastFinalPrice");
 
   const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
+
   const finalPricee = useCallback(async () => {
-    const onwardPrice = await findPrice("onward");
-    const returnPrice = await findPrice("return");
-    // console.log(onwardPrice, returnPrice, "onwordpricereturnprice");
-    return onwardPrice + returnPrice; // Return a computed value if needed
+    if (Return && Onward) {
+      const onwardPrice = await findPrice("onward");
+      const returnPrice = await findPrice("return");
+      return onwardPrice + returnPrice;
+    } else if (Onward) {
+      const onwardPrice = await findPrice("onward");
+      return onwardPrice;
+    }
   }, [fareCode]);
 
   useEffect(() => {
-    finalPricee(); // Call the function
-    // console.log("Final Price:", price);
+    finalPricee();
   }, [finalPricee]);
+
   const handleTravelClickOpen = () => {
     if (authenticUser !== 200) {
       setIsLoginModalOpen(true);
     } else {
       dispatch(PassengersAction(passengerData));
       setOpen(true);
-      setIsConfirmationModalOpen(true);
-      // setOpenTravelModal(true);
+      setReviewTravellerModal(true);
     }
   };
   const handleModalClose = () => {
@@ -138,6 +191,7 @@ const NewBookWrapperReturn = () => {
   const handleConfirmationModalClose = () => {
     setIsConfirmationModalOpen(false);
   };
+
   const handlePayment = async () => {
     // console.log(passengerData)
     const token = SecureStorage?.getItem("jwtToken");
@@ -150,7 +204,7 @@ const NewBookWrapperReturn = () => {
       // transactionAmount ||
       // grandTotal,
       amount: lastFinalPrice,
-
+      // ye wala hai
       // amount: 1,
       email: passengerData?.[0]?.email,
       productinfo: "ticket",
@@ -241,49 +295,66 @@ const NewBookWrapperReturn = () => {
     easebuzzCheckout.initiatePayment(options);
   };
   const handleBookingProcess = () => {
-    // startBookingProcess("onward", passengerData);
     dispatch(fetchFlightBookRequestOneway("onward"));
-    dispatch(fetchFlightBookRequestReturn("return"));
+    if (Return) {
+      dispatch(fetchFlightBookRequestReturn("return"));
+    }
     navigation("/newFlight/newBookedTicket");
   };
   useEffect(() => {
     dispatch(clearAllFlightBookNew());
   }, []);
+
   useEffect(() => {
     if (loaderPayment == true) {
       handleBookingProcess();
-      console.log("payment sucessfully completed");
+      // console.log("payment sucessfully completed");
     }
   }, [loaderPayment]);
   useState(() => {
-    dispatch(fetchFlightQuotesAireselRequestOneway("onward"));
-    dispatch(fetchFlightQuotesAireselRequestReturn("return"));
+    // console.log(Onward, Return, "onwardReturn");
+    if (Onward && Return) {
+      dispatch(fetchFlightQuotesAireselRequestOneway("onward"));
+      dispatch(fetchFlightQuotesAireselRequestReturn("return"));
+
+      // dispatch(flightSeatRequestOnward("onward"));
+      // dispatch(flightSeatRequestReturn("return"));
+    } else if (Onward) {
+      dispatch(fetchFlightQuotesAireselRequestOneway("onward"));
+      // dispatch(flightSeatRequestOnward("onward"));
+    }
   }, []);
 
   useEffect(() => {
     const checkErrors = async () => {
       try {
-        // console.log(reducerState, "reducerState");
-
         const onwardError = await fareQuateRuleAirselErrorCheck("onward");
-        const returnError = await fareQuateRuleAirselErrorCheck("return");
+        // console.log(Return, "return308", farequoteOnward);
+        // console.log(
+        //   onwardError,
+        //   // returnError,
+        //   "onwardErroronwardError",
+        //   onwardError?.error,
+        //   !onwardError?.loading,
+        //   Object.keys(farequoteOnward).length > 0
+        // );
+        const returnError =
+          Return && (await fareQuateRuleAirselErrorCheck("return"));
 
-        // console.log(onwardError, returnError, "onward error");
+        !onwardError?.error &&
+          !onwardError?.loading &&
+          Object.keys(farequoteOnward).length > 0 &&
+          dispatch(flightSeatRequestOnward("onward"));
 
-        if (
-          onwardError?.error == true ||
-          // && onwardError?.loading == false
+        Return &&
+          !returnError?.error &&
+          !returnError?.loading &&
+          Object.keys(farequoteReturn).length > 0 &&
+          dispatch(flightSeatRequestReturn("return"));
 
-          returnError?.error == true
-          // && returnError?.loading == false
-        ) {
-          swalModal(
-            "flight",
-            "No Class Available", // Replace with appropriate error message if needed
-            false
-          );
+        if (onwardError?.error == true || returnError?.error == true) {
+          swalModal("flight", "Selected flight not available", false);
           navigation(-1);
-          // abhi k liye
         }
       } catch (error) {
         console.error("Error checking fare quote rules:", error);
@@ -293,9 +364,6 @@ const NewBookWrapperReturn = () => {
     checkErrors();
   }, [fareCode]);
 
-  // const onwardFare = fareQuateRuleAirsel("onward");
-
-  // const returnFare = fareQuateRuleAirsel("return");
   const FlightItineraryLoader = ({
     message = "We’re booking your flight...",
   }) => {
@@ -324,7 +392,7 @@ const NewBookWrapperReturn = () => {
       {!lastFinalPrice ? (
         <FlightItineraryLoader />
       ) : (
-        <div className="custom-container  flex flex-col sm:flex-row gap-3 mt-3 ">
+        <div className="container  flex flex-col sm:flex-row gap-3 mt-3 ">
           <div className="w-full sm:w-8/12">
             <FlightDetailBookWraper />
             <PassengersDetails
@@ -335,34 +403,17 @@ const NewBookWrapperReturn = () => {
               isSeatMapopen={isSeatMapopen}
               setIsDropdown={setIsDropdown}
               setIsSeatMapOpen={setIsSeatMapOpen}
+              ref={formRef}
             />
             <ContinueBtn
               valiation={V_aliation}
               setSub={() => setSub(true)}
+              setReviewTravellerModal={() => setReviewTravellerModal(true)}
               handleTravelClickOpen={handleTravelClickOpen}
-              // handleTravelClickOpen={handleBookingProcess}
+              handleFocus={handleFocusForm}
             />
-            {/* {!V_aliation ? (
-          <button
-            className="py-2 px-8 mt-4  bg-indigo-600 font-bold text-center rounded-md text-white "
-            // type="submit"
-            onClick={() => setSub(true)}
-            // onClick={() => handleTravelClickOpen()}
-          >
-            Continue
-          </button>
-        ) : (
-          <button
-            className="py-2 px-8 mt-4  bg-red-600 font-bold text-center rounded-md text-white "
-            // type="submit"
-            // onClick={() => handleBookingProcess()}
-            onClick={() => handleTravelClickOpen()}
-          >
-            Continue
-          </button>
-        )} */}
           </div>
-          <BookWrapperSummary />
+          <BookWrapperSummary widdthh={"w-full sm:w-4/12"} />
           <Authentic isOpen={isLoginModalOpen} onClose={handleModalClose} />
           <ReckeckPayment
             isConfirmationModalOpen={isConfirmationModalOpen}
@@ -370,6 +421,13 @@ const NewBookWrapperReturn = () => {
             handlePayment={handlePayment}
             // handlePayment={handleBookingProcess}
           />
+          <ReviewTravellerFlight
+            passengerData={passengerData}
+            isModal={reviewTravellerModal}
+            closeModal={() => setReviewTravellerModal(false)}
+            closeModalWithYes={() => handleTravelClickYes()}
+          />
+
           {/* <Dialog
         sx={{ zIndex: "99999" }}
         disableEscapeKeyDown
@@ -393,6 +451,12 @@ const NewBookWrapperReturn = () => {
           </div>
         </DialogActions>
       </Dialog> */}
+          <AirSeatMapModal
+            passengerData={passengerData}
+            isSeatModal={airSeatMapModal}
+            closeSeatModal={() => SetAirSeatMapModal(false)}
+            handleSkipToPayment={() => handleSkipToPayment()}
+          />
         </div>
       )}
     </>

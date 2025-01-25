@@ -352,7 +352,7 @@ const LocationInput = ({
             onBlur={handleBlur} // Restore if nothing is selected
             ref={inputRef}
           />
-          <span className="block mt-0.5 text-[1rem] text-neutral-400 font-light">
+          <span className="block mt-0.5 text-[0.8rem] text-neutral-400 font-light">
             <span className="line-clamp-1">{!!value ? placeHolder : desc}</span>
           </span>
           {value && showPopover && (

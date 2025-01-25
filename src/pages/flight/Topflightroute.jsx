@@ -1,19 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from "react";
 import "./Topflightroute.scss";
-import Img from '../../LazyLoading/Img';
+import Img from "../../LazyLoading/Img";
 import flightimg from "../../images/black-plane.svg";
 import { useNavigate } from "react-router-dom";
 
-import one from "../../images/flightRoute/one.svg"
-import two from "../../images/flightRoute/two.svg"
-import three from "../../images/flightRoute/three.svg"
-import four from "../../images/flightRoute/four.svg"
-import { useDispatch, useSelector } from 'react-redux';
-import { searchaAirportListReq, searchFlightListReq } from '../../Redux/FlightList/actionFlightList';
-import { oneWayAction } from '../../Redux/FlightSearch/oneWay';
-import { searchFlight } from '../../Redux/SearchFlight/actionSearchFlight';
-import dayjs from 'dayjs';
-
+import one from "../../images/flightRoute/one.svg";
+import two from "../../images/flightRoute/two.svg";
+import three from "../../images/flightRoute/three.svg";
+import four from "../../images/flightRoute/four.svg";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  searchaAirportListReq,
+  searchFlightListReq,
+} from "../../Redux/FlightList/actionFlightList";
+import { oneWayAction } from "../../Redux/FlightSearch/oneWay";
+import { searchFlight } from "../../Redux/SearchFlight/actionSearchFlight";
+import dayjs from "dayjs";
 
 const flightRoutes = [
   {
@@ -47,7 +49,7 @@ const flightRoutes = [
       updatedAt: "2023-01-30T14:58:34.428Z",
       __v: 0,
       _id: "63d7db1a64266cbf450e07c2",
-    }
+    },
   },
   {
     id: 2,
@@ -81,7 +83,7 @@ const flightRoutes = [
       updatedAt: "2023-01-30T14:58:34.428Z",
       __v: 0,
       _id: "63d7db1a64266cbf450e07c2",
-    }
+    },
   },
 
   {
@@ -115,7 +117,7 @@ const flightRoutes = [
       updatedAt: "2023-01-30T14:58:34.428Z",
       __v: 0,
       _id: "63d7db1a64266cbf450e07c2",
-    }
+    },
   },
   {
     id: 4,
@@ -148,7 +150,7 @@ const flightRoutes = [
       updatedAt: "2023-01-30T14:58:34.428Z",
       __v: 0,
       _id: "63d7db1a64266cbf450e07c1",
-    }
+    },
   },
   {
     id: 5,
@@ -181,15 +183,11 @@ const flightRoutes = [
       updatedAt: "2023-01-30T14:58:34.428Z",
       __v: 0,
       _id: "63d7db1a64266cbf450e07c1",
-    }
+    },
   },
-
-
 ];
 
 function Topflightroute() {
-
-
   const carouselContainer = useRef();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -213,8 +211,6 @@ function Topflightroute() {
     });
   };
 
-
-
   function getNextDayDateIfAfter9PM() {
     const currentDate = new Date();
     if (currentDate.getHours() >= 21) {
@@ -224,51 +220,6 @@ function Topflightroute() {
   }
 
   const todaydate = getNextDayDateIfAfter9PM();
-
-  // const handlePopularSearch = (popularParam) => {
-  //   const updatedParam = [
-  //     {
-  //       Destination: popularParam.arrivalCode,
-  //       FlightCabinClass: 1,
-  //       Origin: popularParam.origincode,
-  //       PreferredArrivalTime: todaydate,
-  //       PreferredDepartureTime: todaydate,
-  //       activeIdAdult: 1,
-  //       activeIdChild: 0,
-  //       activeIdInfant: 0,
-  //       selectedFrom: {
-  //         AirportCode: popularParam.code,
-  //         CityCode: popularParam.code,
-  //         CountryCode: "IN ",
-  //         code: popularParam.code,
-  //         createdAt: todaydate,
-  //         id: popularParam.id,
-  //         name: popularParam.from,
-  //         updatedAt: todaydate,
-  //         __v: 0,
-  //         _id: "",
-  //       },
-  //       selectedTo: {
-  //         AirportCode: popularParam.arrivalCode,
-  //         CityCode: popularParam.arrivalCode,
-  //         CountryCode: "IN ",
-  //         code: popularParam.arrivalCode,
-  //         createdAt: todaydate,
-  //         id: popularParam.origincode,
-  //         name: popularParam.destination,
-  //         updatedAt: todaydate,
-  //         __v: 0,
-  //         _id: "",
-  //       },
-  //       startDate: todaydate,
-  //       totalCount: 0,
-  //     },
-  //   ];
-  //   sessionStorage.setItem("onewayprop", JSON.stringify(updatedParam));
-  //   sessionStorage.setItem("isPopularSearch", true);
-  //   navigate(`/Searchresult?adult=${1}&child=${0}&infant=${0}`);
-  // };
-
 
   function handleOnewaySubmit(event) {
     // event.preventDefault();
@@ -301,8 +252,8 @@ function Topflightroute() {
       cabinClass: "Y",
       px: 1,
     };
-    setSelectedFrom(event?.fromDetails)
-    setSelectedTo(event?.to)
+    setSelectedFrom(event?.fromDetails);
+    setSelectedTo(event?.to);
 
     sessionStorage.setItem(
       "onewayprop",
@@ -321,7 +272,7 @@ function Topflightroute() {
           activeIdAdult: 1,
           activeIdChild: 0,
           activeIdInfant: 0,
-          flightclassName
+          flightclassName,
         },
       ])
     );
@@ -340,55 +291,45 @@ function Topflightroute() {
       departureDate: formattedDate,
     };
 
-    console.log(searchpy, "search pyyyyyy")
+    console.log(searchpy, "search pyyyyyy");
     dispatch(searchFlight(searchpy));
-    navigate(
-      `/Searchresult?adult=${1}&child=${0}&infant=${0}`
-    );
+    navigate(`/Searchresult?adult=${1}&child=${0}&infant=${0}`);
     // }
   }
 
-
   return (
-
-    <div className='container paddHotCatTopRoute'>
-
+    <div className="container paddHotCatTopRoute">
       <h2>Best Flight Deals</h2>
       <div className="categoryMainBox">
-        <div className='HoliCateHeading'>
-
-        </div>
+        <div className="HoliCateHeading"></div>
         <div>
           <div className="carouselTopFlight">
             <div className="carouselItems" ref={carouselContainer}>
-              {
-                flightRoutes?.map((item, index) => {
-                  return (
-                    <div className="carouselItem" onClick={() => handleOnewaySubmit(item)} >
-                      <div className="posterBlock">
-                        <Img src={item?.imgages} />
-                      </div>
-                      <div className="textBlock">
-                        <span className="titleHoliCat">
-                          <span>{item.from}</span>
-                          <span className="flightTopImg">
-                            <img width={20} src={flightimg} alt={item.id} />
-                          </span>
-                          <span>{item.destination}</span>
+              {flightRoutes?.map((item, index) => {
+                return (
+                  <div
+                    className="carouselItem"
+                    onClick={() => handleOnewaySubmit(item)}
+                  >
+                    <div className="posterBlock">
+                      <Img src={item?.imgages} />
+                    </div>
+                    <div className="textBlock">
+                      <span className="titleHoliCat">
+                        <span>{item.from}</span>
+                        <span className="flightTopImg">
+                          <img width={20} src={flightimg} alt={item.id} />
                         </span>
-                        <div className="dateHoliCat">
-                          <span >
-                            {item.code1}
-                          </span>
-                          <span>
-                            {/* ₹ {item?.pakage_amount?.amount} */}
-                          </span>
-                        </div>
+                        <span>{item.destination}</span>
+                      </span>
+                      <div className="dateHoliCat">
+                        <span>{item.code1}</span>
+                        <span>{/* ₹ {item?.pakage_amount?.amount} */}</span>
                       </div>
                     </div>
-                  )
-                })
-              }
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

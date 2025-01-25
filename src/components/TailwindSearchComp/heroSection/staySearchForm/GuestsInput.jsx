@@ -196,6 +196,10 @@ const GuestsInput = ({
             )}
           </div>
 
+          {open && (
+            <div className="h-8 absolute self-center top-1/2 -translate-y-1/2 z-0 -left-0.5 right-0.5 bg-white"></div>
+          )}
+
           <Transition
             as={Fragment}
             enter="transition ease-out duration-200"

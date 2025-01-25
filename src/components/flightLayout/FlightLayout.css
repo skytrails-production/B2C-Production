@@ -21,6 +21,7 @@
     /* border-radius: 10px; */
     /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
     position: relative;
+    top: -2px;
     z-index: 1;
     display: flex;
     grid-template-columns: repeat(7, 1fr);
@@ -60,7 +61,7 @@
     transform: rotate(180deg);
   }
   .plane-headd {
-    width: 100%;
+    width: 100.2%;
      transform: rotate(180deg)
   }
   .plane-headd img {
@@ -304,15 +305,28 @@
   }
   
   .seat-occupied {
-    background-color: #ededed !important;
+    background-color: #d2d1d1 !important;
     /* color: #ededed !important; */
     /* color: black !important; */
     /* color: transparent !important; */
-    color: transparent!important;
+    /* color: transparent!important; */
+    position: relative;
+    /* content: "X"; */
     cursor: default !important;
   }
+  /* .seat-occupied::before {
+
+    position: absolute;
+    z-index: 1;
+    content: "X";
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    cursor: default !important;
+  } */
   .seat-occupied-def {
-    background-color: #ededed;
+    background-color: #d2d1d1;
     /* color: #ededed !important; */
     /* color: black !important; */
     color: transparent;
@@ -361,7 +375,7 @@
     background-color: silver;
   }
   .seatSelected {
-    background-color: #0091ff !important;
+    background-color: #4f46e5 !important;
   }
   
   .FLightSeatMapBox {
@@ -369,7 +383,7 @@
     overflow: hidden;
     overflow-y: scroll;
     /* background-color: #d90429; */
-    background-color: #f9eded;
+    background-color: #eef2ff;
   }
   
   :where(.css-dev-only-do-not-override-3rel02).ant-carousel .slick-dots-bottom {
@@ -519,9 +533,10 @@
     /* top: 100px; */
     /* left: 20px; */
     /* z-index: 999; */
-    background: #d90429;
+    /* background: #d90429; */
+    background: #5f5f5f;
     padding: 10px;
-    border-radius: 7px;
+    /* border-radius: 7px; */
     width: 100%;
     overflow: hidden;
       overflow-x: scroll;
@@ -540,6 +555,7 @@
   .plane-type-item-title{
     
     white-space: nowrap;
+    font-size: 12px;
   }
   .plane-type-item{
     display: flex;

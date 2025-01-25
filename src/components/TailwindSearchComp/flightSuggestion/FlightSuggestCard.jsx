@@ -19,6 +19,21 @@ const FlightSuggestCard = ({ className = "", data }) => {
   const dispatch = useDispatch();
   const reducerState = useSelector((state) => state);
 
+  const [recentSearchesFrom, setRecentSearchesFrom] = useState(
+    JSON.parse(localStorage.getItem("FlightRecentSearchesFrom")) || []
+  );
+
+  const [recentSearchesTo, setRecentSearchesTo] = useState(
+    JSON.parse(localStorage.getItem("FlightRecentSearchesTo")) || []
+  );
+
+  const flightClass = [
+    { id: 2, value: "Y", label: "Economy" },
+    { id: 3, value: "W", label: "Premium Economy" },
+    { id: 4, value: "C", label: "Business" },
+    { id: 6, value: "F", label: "First" },
+  ];
+
   const [selectedFrom, setSelectedFrom] = useState([]);
   const [selectedTo, setSelectedTo] = useState([]);
   const [flightclassName, setflightClassName] = useState("Y");
@@ -33,82 +48,74 @@ const FlightSuggestCard = ({ className = "", data }) => {
 
   const todaydate = getNextDayDateIfAfter9PM();
 
-  function handleOnewaySubmit(event) {
+  const handleSubmit = async (event) => {
+    // console.log(event, "event");
     sessionStorage.setItem("SessionExpireTime", new Date());
-
-    const payload = {
-      EndUserIp: reducerState?.ip?.ipData,
-      TokenId: reducerState?.ip?.tokenData,
-      AdultCount: 1,
-      ChildCount: 0,
-      InfantCount: 0,
-      DirectFlight: "false",
-      OneStopFlight: "false",
-      JourneyType: 1,
-      PreferredAirlines: null,
-      Segments: [
-        {
-          Origin: event.fromDetails.AirportCode,
-          Destination: event.to.AirportCode,
-          FlightCabinClass: 2,
-          PreferredDepartureTime: dayjs(todaydate).format("DD MMM, YY"),
-          PreferredArrivalTime: dayjs(todaydate).format("DD MMM, YY"),
-        },
-      ],
-      Sources: null,
-      from: event.fromDetails.AirportCode,
-      to: event.to.AirportCode,
-      date: dayjs(todaydate).format("DD MMM, YY"),
-      cabinClass: "Y",
-      px: 1,
-    };
-    setSelectedFrom(event?.fromDetails);
-    setSelectedTo(event?.to);
-
-    sessionStorage.setItem(
-      "onewayprop",
-      JSON.stringify([
-        {
-          Origin: event.fromDetails.AirportCode,
-          Destination: event.to.AirportCode,
-          FlightCabinClass: 2,
-          PreferredDepartureTime: dayjs(todaydate).format("DD MMM, YY"),
-          PreferredArrivalTime: dayjs(todaydate).format("DD MMM, YY"),
-          PreferredArrivalTimeCld: dayjs(todaydate).format("DD MMM, YY"),
-          selectedFrom: event.fromDetails,
-          selectedTo: event.to,
-          totalCount: 1,
-          todaydate: dayjs(todaydate).format("DD MMM, YY"),
-          activeIdAdult: 1,
-          activeIdChild: 0,
-          activeIdInfant: 0,
-          flightclassName,
-        },
-      ])
-    );
     const parsedDate = new Date(todaydate);
 
+    // for from
+
+    const updatedRecentSearchesFrom = [
+      event.fromDetails,
+      ...recentSearchesFrom.filter(
+        (item) => item._id !== event.fromDetails._id
+      ),
+    ].slice(0, 5);
+
+    // setRecentSearches(updatedRecentSearches);
+    localStorage.setItem(
+      "FlightRecentSearchesFrom",
+      JSON.stringify(updatedRecentSearchesFrom)
+    );
+    // for from
+
+    const updatedRecentSearchesTo = [
+      event.to,
+      ...recentSearchesTo.filter((item) => item._id !== event?.to?._id),
+    ].slice(0, 5);
+
+    localStorage.setItem(
+      "FlightRecentSearchesTo",
+      JSON.stringify(updatedRecentSearchesTo)
+    );
+
     const formattedDate = parsedDate.toISOString();
-
-    dispatch(oneWayAction(payload));
-    dispatch(oneWayActionCombined(payload));
-
-    dispatch(searchFlightListReq());
-    dispatch(searchaAirportListReq());
-
     const searchpy = {
       from: event.fromDetails,
       to: event.to,
-      departureDate: formattedDate,
+      FlightCabinClass: "Y",
+      date: formattedDate,
+      // returnDate: returnDate,
     };
+
     dispatch(searchFlight(searchpy));
-    navigate(`/Searchresult?adult=${1}&child=${0}&infant=${0}`);
-    // }
-  }
+
+    sessionStorage.setItem("adults", 1);
+    sessionStorage.setItem("childs", 0);
+    sessionStorage.setItem("infants", 0);
+    const params = {
+      from: event?.fromDetails?.AirportCode,
+      to: event?.to?.AirportCode,
+
+      date: dayjs(todaydate).format("DD MMM, YY"),
+      // retrunDate: returnDate,
+      Adult: 1,
+      Child: 0,
+      Infant: 0,
+
+      class: JSON.stringify(flightClass?.[0]),
+      FlightCabinClass: "Y",
+    };
+    const queryString = new URLSearchParams(params).toString();
+
+    navigate(`/flightlist?${queryString}`);
+
+    // dispatch(returnAction(payload));
+  };
 
   return (
     <div
-      onClick={() => handleOnewaySubmit(data)}
+      onClick={() => handleSubmit(data)}
       className={`nc-CardCategoryBox1 cursor-pointer relative flex items-center p-2 sm:p-2 py-6 sm:py-6 [ nc-box-has-hover ] [ nc-dark-box-bg-has-hover ] ${className}`}
     >
       {/* <Badge

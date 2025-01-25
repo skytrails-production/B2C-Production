@@ -34,6 +34,7 @@ import { newFlightBookReducer } from "./newFlightBook/reducerNewFlightBook";
 
 
 import { flightHotelSuggestReducer } from "./FlightHotelSuggest/flightHotelSuggestReducer"
+import { airlineSeatMapReducerNew } from "./AirlineSeatMapNew/airlineSeatmapReducer";
 
 
 const appReducer = combineReducers({
@@ -63,9 +64,7 @@ const appReducer = combineReducers({
   returnSelected: returnSelectedFlightReducer,
   fareQuoteRuleAirselReducer: fareQuoteRuleAirselReducer,
   airlineSeatMap: airlineSeatMapReducer,
-
-
-  airlineSeatMap: airlineSeatMapReducer,
+  airlineSeatMapNew: airlineSeatMapReducerNew,
   flightSuggested: flightHotelSuggestReducer
 
 });

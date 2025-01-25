@@ -1,32 +1,36 @@
 import React, { useState, useEffect, Fragment } from "react";
 
-import FlightLocationFrom from "../FlightLocationFrom";
-import FlightLocationTo from "../FlightLocationTo";
-import ReturnDateBox from "./ReturnDateBox";
+// import FlightLocationFrom from "../FlightLocationFrom";
+// import FlightLocationTo from "../FlightLocationTo";
+// import ReturnDateBox from "./ReturnDateBox";
+
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
-import { ipAction, tokenAction } from "../../../../../Redux/IP/actionIp";
-import {
-  returnAction,
-  returnActionClear,
-} from "../../../../../Redux/FlightSearch/Return/return";
-import { swalModal } from "../../../../../utility/swal";
-import { clearbookTicketGDS } from "../../../../../Redux/FlightBook/actionFlightBook";
-import { resetAllFareData } from "../../../../../Redux/FlightFareQuoteRule/actionFlightQuote";
-import { apiURL } from "../../../../../Constants/constant";
-import axios from "axios";
-import {
-  returnActionSearchAmd,
-  returnActionSearchTboKafila,
-} from "../../../../../Redux/FlightSearch/Return/return";
+// import { ipAction, tokenAction } from "../../../../../Redux/IP/actionIp";
+// import {
+//   returnAction,
+//   returnActionClear,
+// } from "../../../../../Redux/FlightSearch/Return/return";
+// import { swalModal } from "../../../../../utility/swal";
+// import { clearbookTicketGDS } from "../../../../../Redux/FlightBook/actionFlightBook";
+// import { resetAllFareData } from "../../../../../Redux/FlightFareQuoteRule/actionFlightQuote";
+// import { apiURL } from "../../../../../Constants/constant";
+// import axios from "axios";
+// import {
+//   returnActionSearchAmd,
+//   returnActionSearchTboKafila,
+// } from "../../../../../Redux/FlightSearch/Return/return";
 import {
   amadeusSearchRequest,
   tbo_kafila_SearchRequest,
 } from "../../../../../Redux/FlightSearch/Return/return";
 import { searchFlight } from "../../../../../Redux/SearchFlight/actionSearchFlight";
 import RetrunGuestsInput from "./RetrunGuestsInput";
+import ReturnResultLocationFrom from "./ReturnResultLocationFrom";
+import ReturnResultLocationTo from "./ReturnResultLocationTo";
+import ReturnResultDateBox from "./ReturnResultDateBox";
 const flightClass = [
   { id: 2, value: "Y", label: "Economy" },
   { id: 3, value: "W", label: "Premium Economy" },
@@ -34,21 +38,19 @@ const flightClass = [
   { id: 6, value: "F", label: "First" },
 ];
 const ReturnSearchResultForm = () => {
-  const [searchParams] = useSearchParams();
-
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const from = queryParams.get("from");
   const to = queryParams.get("to");
   const dDate = queryParams.get("date");
   const rDate = queryParams.get("retrunDate");
+  const [depDate, setDepDate] = useState(dDate);
+  const [retDate, setRetDate] = useState(dDate);
   const Adult = queryParams.get("Adult");
   const Child = queryParams.get("Child");
   const Infant = queryParams.get("Infant");
   const Class = queryParams.get("FlightCabinClass");
   const Class1 = JSON.parse(queryParams.get("class")) || flightClassState?.[0];
-
-  // console.log(queryParams, from, Class, Class1, "queryParams");
 
   const [fromCity, setFromCity] = useState(from);
   const [toCity, setToCity] = useState(to);
@@ -60,8 +62,6 @@ const ReturnSearchResultForm = () => {
   const [child, setChild] = useState(Child);
   const [infant, setInfant] = useState(Infant);
   const [flightClassState, setFlightClassState] = useState(Class1);
-
-  const [newDepartDateCld, setNewDepartDateCld] = useState("");
   const [loader, setLoader] = useState(false);
 
   const navigate = useNavigate();
@@ -71,39 +71,20 @@ const ReturnSearchResultForm = () => {
   const handleToSelect = (location) => {
     setToCity(location);
   };
-  const handleChangeData = (value, type) => {
-    if (type === "guestAdults") {
-      setAdult(value);
-    }
-    if (type === "guestChildren") {
-      setChild(value);
-    }
-    if (type === "guestInfants") {
-      setInfant(value);
-    }
-  };
 
-  const totalGuests = adult + child + infant;
+  useEffect(() => {
+    setDepDate(queryParams.get("date"));
+    setRetDate(queryParams.get("retrunDate"));
+  }, [queryParams]);
 
-  //   useEffect(() => {
-  //     const payload = {
-  //       EndUserIp: reducerState?.ip?.ipData,
-  //     };
-  //     dispatch(tokenAction(payload));
-  //   }, [reducerState?.ip?.ipData]);
-  //   useEffect(() => {
-  //     if (reducerState?.return?.isLoading === true) {
-  //       setLoader(true);
-  //       return null;
-  //     } else {
-  //       setLoader(false);
-  //       return null;
-  //     }
-  //   }, [reducerState?.return?.isLoading]);
+  // console.log(departDate, "depart date");
+  // console.log(returnDate, "return date");
+
   const handleDateChange = (dates) => {
     setDepartDate(dayjs(dates.startDate).format("DD MMM, YY"));
     setReturnDate(dayjs(dates.endDate).format("DD MMM, YY"));
   };
+
   const handleTravellerClassChange = (travellers, travelClass) => {
     // console.log(travellers, travelClass);
     setAdult(travellers?.adult);
@@ -134,98 +115,24 @@ const ReturnSearchResultForm = () => {
   };
   const handleSubmit = async () => {
     sessionStorage.setItem("SessionExpireTime", new Date());
-    // console.log(flightClassState, "flightstateclass");
 
-    const payload = {
-      EndUserIp: reducerState?.ip?.ipData,
-      TokenId: reducerState?.ip?.tokenData,
-      AdultCount: adult,
-      ChildCount: child,
-      InfantCount: infant,
-      DirectFlight: "false",
-      OneStopFlight: "false",
-      JourneyType: 1,
-      PreferredAirlines: null,
-      Segments: [
-        {
-          Origin: fromCity.AirportCode || from,
-          Destination: toCity.AirportCode || to,
-          FlightCabinClass: flightClassState?.id || Class,
-          PreferredDepartureTime: departDate,
-          PreferredArrivalTime: departDate,
-        },
-      ],
-      Sources: null,
-      to: toCity.AirportCode || to,
-      from: fromCity.AirportCode || from,
-      date: departDate,
-      cabinClass: flightClassState?.value || Class,
-      px: adult,
-    };
-    const payloadReturn = {
-      EndUserIp: reducerState?.ip?.ipData,
-      TokenId: reducerState?.ip?.tokenData,
-      AdultCount: adult,
-      ChildCount: child,
-      InfantCount: infant,
-      DirectFlight: "false",
-      OneStopFlight: "false",
-      JourneyType: 1,
-      PreferredAirlines: null,
-      Segments: [
-        {
-          Destination: fromCity.AirportCode || from,
-          Origin: toCity.AirportCode || to,
-          FlightCabinClass: flightClassState?.id || Class,
-          PreferredDepartureTime: returnDate,
-          PreferredArrivalTime: returnDate,
-        },
-      ],
-      Sources: null,
-
-      from: toCity.AirportCode || to,
-      to: fromCity.AirportCode || from,
-      date: returnDate,
-      cabinClass: flightClassState?.value || Class,
-      px: adult,
-    };
-    const searchpy = {
-      from: fromCity,
-      to: toCity,
-      FlightCabinClass: flightClass?.id,
-      date: departDate,
-      returnDate: returnDate,
-    };
-
-    // dispatch(searchFlight(searchpy));
-
-    // amadeusSearch(payload, payloadReturn);
-    // flightReturnTboAndKafila(payload, payloadReturn);
-
-    // sessionStorage.setItem("adults", adult);
-    // sessionStorage.setItem("childs", child);
-    // sessionStorage.setItem("infants", infant);
     const params = {
-      from: toCity.AirportCode || from,
-      to: fromCity.AirportCode || to,
+      from: fromCity.AirportCode || from,
+      to: toCity.AirportCode || to,
       date: departDate,
       retrunDate: returnDate,
       Adult: adult,
       Child: child,
       Infant: infant,
       class: JSON.stringify(flightClassState),
-      FlightCabinClass: flightClassState?.id,
+      FlightCabinClass: flightClassState?.label,
     };
     const queryString = new URLSearchParams(params).toString();
 
     navigate(`/ReturnResult?${queryString}`);
-    // navigate("/ReturnResult");
   };
   const handleSubmitt = async () => {
-    // console.log(dDate, rDate, "ddateesdfdf");
     sessionStorage.setItem("SessionExpireTime", new Date());
-    // console.log(flightClassState, "flightstateclass");
-
     const payload = {
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
@@ -309,35 +216,24 @@ const ReturnSearchResultForm = () => {
     const queryString = new URLSearchParams(params).toString();
 
     navigate(`/ReturnResult?${queryString}`);
-    // navigate("/ReturnResult");
   };
   useEffect(() => {
-    const handleQueryParamChange = () => {
-      const queryObject = {};
-      for (const [key, value] of searchParams.entries()) {
-        queryObject[key] = value;
-      }
-      // console.log("Query Params Updated:", queryObject);
-      // Call your function here
-      // handleSubmit();
-    };
-    // console.log("handlesubmitcall");
     handleSubmitt();
-
-    // handleQueryParamChange();
   }, [rDate, dDate, from, to, adult, child]);
+
   const renderForm = () => {
     return (
-      <form className="w-full relative rounded-[10px]   bg-white ">
+      // <form className="w-full relative rounded-[10px]   bg-white ">
+      <form className="w-full relative rounded-[10px]   bg-white/15 shadow-lg backdrop-blur-sm  border-1 border-white/15 ">
         <div className="flex flex-1 rounded-full">
-          <FlightLocationFrom
+          <ReturnResultLocationFrom
             placeHolder="Flying from"
             desc="Where do you want to fly from?"
             className="flex-1"
             onLocationSelect={handleFromSelect}
           />
           <div className="self-center border-r border-slate-200  h-8"></div>
-          <FlightLocationTo
+          <ReturnResultLocationTo
             placeHolder="Flying to"
             desc="Where you want to fly to?"
             className="flex-1"
@@ -345,16 +241,15 @@ const ReturnSearchResultForm = () => {
             onLocationSelect={handleToSelect}
           />
           <div className="self-center border-r border-slate-200  h-8"></div>
-          <ReturnDateBox
-            // selectsRange={dropOffLocationType !== "oneWay"}
+          <ReturnResultDateBox
             className="flex-1"
-            onSubmit={handleSubmit}
             onDateChange={handleDateChange}
             loader={loader}
             hasButtonSubmit={false}
-            StartDate={dDate}
-            EndDate={rDate}
+            StartDate={depDate}
+            EndDate={retDate}
           />
+          <div className="self-center border-r border-slate-200  h-8"></div>
           <RetrunGuestsInput
             onSubmit={handleSubmit}
             onTravellerClassChange={handleTravellerClassChange}

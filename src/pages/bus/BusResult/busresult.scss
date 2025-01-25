@@ -1,5 +1,8 @@
 @import "../../../mixins.scss";
 
+.seatdiv {
+  border-radius: 8px;
+}
 .singlebusMain {
   border: 1px solid lightgray;
   margin-bottom: 12px;
@@ -17,7 +20,9 @@
       font-size: 16px;
     }
   }
-
+  .spansborder {
+    transform: "scaleY(0.3)";
+  }
   .singleBusResultBox {
     display: flex;
     flex-direction: column;
@@ -52,9 +57,9 @@
       width: 100%;
 
       button {
-        background-color: var(--primary) !important;
+        //background-color: var(--primary) !important;
         color: var(--pureWhite);
-        border: 1px solid var(--primary) !important;
+        //border: 1px solid var(--primary) !important;
         font-size: 12px !important;
         padding: 4px 6px !important;
 
@@ -64,7 +69,7 @@
         }
 
         &:hover {
-          background-color: var(--primaryHover) !important;
+          //background-color: var(--primaryHover) !important;
           color: var(--pureWhite) !important;
         }
       }
@@ -275,9 +280,9 @@
         }
 
         button {
-          background-color: var(--primary) !important;
+          //background-color: var(--primary) !important;
           color: var(--pureWhite);
-          border: 1px solid var(--primary) !important;
+          //border: 1px solid var(--primary) !important;
           font-size: 12px !important;
           padding: 4px 6px !important;
 
@@ -287,7 +292,7 @@
           }
 
           &:hover {
-            background-color: var(--primaryHover) !important;
+            //background-color: var(--primaryHover) !important;
             color: var(--pureWhite) !important;
           }
         }
@@ -481,21 +486,21 @@
       }
     }
 
-    button {
-      margin-top: 15px;
-      width: 100%;
-      padding: 21px 0px !important;
-      background-color: var(--primary) !important;
-      color: var(--pureWhite) !important;
-      font-size: 13px !important;
-      font-family: "Montserrat";
-      font-weight: 500;
+    // button {
+    //   margin-top: 15px;
+    //   width: 100%;
+    //   padding: 15px 0px !important;
+    //   background-color: #4F46E5 !important;
+    //   color: var(--pureWhite) !important;
+    //   font-size: 14px !important;
+    //   font-family: "Montserrat";
+    //   font-weight: 500;
 
-      &:hover {
-        background-color: var(--primaryHover) !important;
-        color: var(--pureWhite) !important;
-      }
-    }
+    //   &:hover {
+    //     background-color: var(--primaryHover) !important;
+    //     color: var(--pureWhite) !important;
+    //   }
+    // }
   }
 }
 
@@ -688,9 +693,9 @@
   display: flex;
   justify-content: center;
   button {
-    background-color: var(--primary) !important;
+    // background-color: var(--primary) !important;
     color: var(--pureWhite);
-    border: 1px solid var(--primary) !important;
+    //border: 1px solid var(--primary) !important;
     font-size: 12px !important;
     padding: 4px 15px !important;
 
@@ -700,7 +705,7 @@
     }
 
     &:hover {
-      background-color: var(--primaryHover) !important;
+      // background-color: var(--primaryHover) !important;
       color: var(--pureWhite) !important;
     }
   }

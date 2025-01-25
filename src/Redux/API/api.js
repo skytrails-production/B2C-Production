@@ -1,6 +1,6 @@
 import axios from "axios";
 import { apiURL } from "../../Constants/constant";
-import SecureStorage from 'react-secure-storage';
+import SecureStorage from "react-secure-storage";
 import secureLocalStorage from "react-secure-storage";
 import { ErrorMessage } from "formik";
 
@@ -21,10 +21,12 @@ function api() {
   const faqReviewApi = () => {
     return axios.get(`${apiURL.baseURL}/skyTrails/api/user/getFaqRating`);
   };
-  const fetchflightSuggest=async()=>{
-   let  data =await axios.get(`${apiURL.baseURL}/skyTrails/staticContent/flightPayload/listStaticFlightPayload`)
-      return   data?.data?.result
-  }
+  const fetchflightSuggest = async () => {
+    let data = await axios.get(
+      `${apiURL.baseURL}/skyTrails/staticContent/flightPayload/listStaticFlightPayload`
+    );
+    return data?.data?.result;
+  };
 
   const userB2BToken = (payload) => {
     return axios({
@@ -69,7 +71,6 @@ function api() {
     });
   };
 
-
   const profilePicUpdate = (payload) => {
     // console.log("payload", payload);
     const token = SecureStorage.getItem("jwtToken");
@@ -102,7 +103,7 @@ function api() {
   };
 
   const userB2CLoginWithSocial = (payload) => {
-    console.log("chal gye ")
+    console.log("chal gye ");
     return axios({
       method: "POST",
       url: "/skyTrails/api/user/socialLogin",
@@ -113,13 +114,6 @@ function api() {
       },
     });
   };
-
-
-
-
-
-
-
 
   // const loginUserData = () => {
   //   const token = SecureStorage.getItem("jwtToken");
@@ -141,7 +135,6 @@ function api() {
       // url: "/skytrails/api/combined/combineTVOAMADEUSPriceSort",
       url: "/skytrails/api/combined/AMADEUSPriceSort",
 
-
       baseURL: `${apiURL.baseURL}`,
       data: payload,
       headers: {
@@ -155,7 +148,6 @@ function api() {
       // url: "/skytrails/api/combined/combineTVOAMADEUSPriceSort",
       url: "/skyTrails/api/combine/combineApiRes",
       // url: "/skytrails/api/combined/AMADEUSPriceSort",
-
 
       baseURL: `${apiURL.baseURL}`,
       data: payload,
@@ -194,14 +186,78 @@ function api() {
       return response; // Return the response if the request is successful
     } catch (error) {
       console.error("Error in flightQuoteSearch:", error);
-      return { error: true, errorMessage: error }
+      return { error: true, errorMessage: error };
+    }
+  };
+  const flightSSR = async (payload) => {
+    try {
+      const res = await axios({
+        method: "POST",
+        url: `${apiURL.baseURL}/skyTrails/flight/ssr`,
+        data: payload,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const Response = res?.data?.data?.Response;
+      const mealLength = Response?.MealDynamic?.[0]?.filter((item) => {
+        return item?.Code !== "NoMeal";
+      });
+      let BaggageList = Response?.Baggage?.[0].filter((item, index) => {
+        return item?.Price !== 0;
+      });
+      let MealsList = mealLength;
+      let baglis = [...Array(BaggageList?.length)].fill(0);
+      let Meals = [...Array(Response?.MealDynamic?.[0]?.length)].fill(0);
+      let MealsNew = Response?.MealDynamic?.[0]?.reduce((result, param) => {
+        if (param.Code !== "NoMeal") {
+          const flightNumber = param.FlightNumber;
+          if (!result[flightNumber]) {
+            result[flightNumber] = [];
+          }
+          result[flightNumber].push(0);
+        }
+        return result;
+      }, {});
+      let seatMapList = Response?.SeatDynamic;
+      let seatListt = [];
+      let seatAmountList = [];
+
+      for (let i = 0; i < seatMapList?.[0]?.SegmentSeat?.length; i++) {
+        // seatListt[i]={}
+        seatListt.push([]);
+        seatAmountList.push([]);
+        // console.log(seatListt, "gg")
+      }
+      return {
+        seatMap: seatMapList,
+        number_of_seat_map: 0,
+
+        number_of_airline: 0,
+        seatList: seatListt,
+        amountList: [],
+        amountTVO: seatAmountList,
+        defaultSeatOccupation: [],
+        midAmount: 0,
+        seatDataList: [],
+        mealsList: MealsList,
+        baggageList: BaggageList,
+        baggage: baglis,
+        meals: MealsNew,
+
+        isError: false,
+        isLoading: false,
+        errorMessage: "",
+        isSeatsShow: seatMapList?.[0]?.SegmentSeat?.length > 0 ? true : false,
+      };
+    } catch (error) {
+      console.warn(error);
+      return { error: true, errorMessage: error };
     }
   };
 
   const flightRuleSearch = async (payload) => {
     try {
-
-
       const response = await axios({
         method: "POST",
         url: "/skyTrails/flight/farerule",
@@ -209,17 +265,15 @@ function api() {
         data: payload,
         headers: {
           "Content-Type": "application/json",
-        }
+        },
       });
-      return response
-    }
-    catch (error) {
+      return response;
+    } catch (error) {
       console.error("Error in flightRuleSearch:", error);
-      return { error: true, errorMessage: error }
+      return { error: true, errorMessage: error };
     }
   };
   const kafilaFareCheck = async (payload) => {
-
     try {
       const response = await axios.post(
         `${apiURL.baseURL}/skyTrails/api/kafila/kafilaFareCheck`,
@@ -228,11 +282,10 @@ function api() {
       return response;
     } catch (error) {
       console.error(error);
-      return { error: true, errorMessage: error?.message }
+      return { error: true, errorMessage: error?.message };
     }
   };
   const fetchAirsel = async (payload) => {
-
     try {
       const response = await axios({
         method: "POST",
@@ -240,20 +293,17 @@ function api() {
         data: payload,
         headers: {
           "Content-Type": "text/xml",
-
         },
       });
       return response;
-
     } catch (error) {
       console.error(error);
-      return { error: true, errorMessage: error }
+      return { error: true, errorMessage: error };
     }
   };
 
   const flightBookGDS = async (payload) => {
     try {
-
       const response = await axios({
         method: "POST",
         url: "skyTrails/flight/booking",
@@ -265,13 +315,12 @@ function api() {
       });
       return response;
     } catch (error) {
-      return { error: true, errorMessage: error }
+      return { error: true, errorMessage: error };
     }
   };
 
   const flightGetTicketLcc = async (payload) => {
     try {
-
       const response = await axios({
         method: "POST",
         url: "skyTrails/flight/getticketlcc",
@@ -281,9 +330,9 @@ function api() {
           "Content-Type": "application/json",
         },
       });
-      return response
+      return response;
     } catch (error) {
-      return { error: true, errorMessage: error }
+      return { error: true, errorMessage: error };
     }
   };
 
@@ -298,17 +347,14 @@ function api() {
           "Content-Type": "application/json",
         },
       });
-      return response
-    }
-    catch (error) {
-      return { error: true, errorMessage: error }
+      return response;
+    } catch (error) {
+      return { error: true, errorMessage: error };
     }
   };
 
-
   const flightBookingDataSave = async (payload) => {
     try {
-
       const token = SecureStorage?.getItem("jwtToken");
       const response = await axios({
         method: "POST",
@@ -322,13 +368,11 @@ function api() {
       });
       return response;
     } catch (error) {
-      return { error: true, errorMessage: error }
+      return { error: true, errorMessage: error };
     }
-
   };
   //Kafila PNR
   const kafilapnr = async (payloadvalue) => {
-
     try {
       const response = await axios.post(
         `${apiURL.baseURL}/skyTrails/api/kafila/kafilaPnrcreation`,
@@ -337,14 +381,13 @@ function api() {
       // setresponse(response);
       // console.log("response aagya", response);
       // setpnrResponse(response?.data);
-      return (response?.data);
+      return response?.data;
       // console.log(response);
     } catch (error) {
       console.error(error, "error in kafila PNR api ");
-      return { error: true, errorMessage: error }
+      return { error: true, errorMessage: error };
     }
   };
-
 
   // return flight api
 
@@ -364,7 +407,6 @@ function api() {
 
   const flightGetTicketLccReturn = async (payload) => {
     try {
-
       return axios({
         method: "POST",
         url: "/skyTrails/flight/getticketlcc",
@@ -375,11 +417,9 @@ function api() {
         },
       });
     } catch (error) {
-      return { error: true, errorMessage: error }
+      return { error: true, errorMessage: error };
     }
   };
-
-
 
   // multicity flight api
 
@@ -395,8 +435,6 @@ function api() {
     });
   };
   const addBookingDetailsKafila = async (payloadkafila) => {
-
-
     try {
       const token = SecureStorage?.getItem("jwtToken");
       const response = await axios.post(
@@ -408,12 +446,10 @@ function api() {
           },
         }
       );
-    } catch (error) { }
+    } catch (error) {}
   };
 
-
-  // multicity flight api 
-
+  // multicity flight api
 
   //Hotel API's Start
   const hotelSearch = (payload) => {
@@ -500,43 +536,32 @@ function api() {
         token: token,
       },
     });
-  }
+  };
 
   // Holiday Package API
   const searchPackage = (payload) => {
-
     return axios.get(
       `${apiURL.baseURL}/skyTrails/holidaypackage/getallpackages?keyword=${payload}`
-      
     );
   };
 
-
   const searchPackageCategory = (payload) => {
-
     return axios.get(
       `${apiURL.baseURL}/skytrails/holidaypackage/categoryfilter?seeAll=true&keyword=${payload}`
-
     );
   };
 
   const searchPackageCountry = (payload) => {
-
     return axios.get(
       `${apiURL.baseURL}/skyTrails/domesticAndInternationalPackages?country=${payload}`
-
     );
   };
 
   const searchPackageBudget = (payload) => {
-
     return axios.get(
       `${apiURL.baseURL}/skytrails/holidaypackage/filterbyamount?amount=${payload}`
-
     );
   };
-
-
 
   // holidayCategory details
 
@@ -550,14 +575,14 @@ function api() {
   //   );
   // };
 
-  // holidayCategory details 
-
-
+  // holidayCategory details
 
   const getOnePackage = (payload) => {
     // console.log("getOnePacked", payload);
     const { id } = payload;
-    return axios.get(`${apiURL.baseURL}/skytrails/holidaypackage/singlepackage/${id}`);
+    return axios.get(
+      `${apiURL.baseURL}/skytrails/holidaypackage/singlepackage/${id}`
+    );
   };
 
   const bookingHoliday = (payload) => {
@@ -639,13 +664,9 @@ function api() {
     });
   };
 
-
-
-
   // new hotel grn api's
 
   const hotelSearchGRN = (payload) => {
-
     return axios({
       method: "POST",
       url: `/skyTrails/tboandgrn/searchresults`,
@@ -657,10 +678,6 @@ function api() {
       },
     });
   };
-
-
-
-
 
   const hotelsingleDataGRN = (payload) => {
     // console.log("key")
@@ -677,7 +694,7 @@ function api() {
     });
   };
 
-  // book room  
+  // book room
 
   const hotelBookRoomGRN = (payload) => {
     // console.log("key")
@@ -695,7 +712,6 @@ function api() {
       },
     });
   };
-
 
   const hotelGalleryGRN = (payload) => {
     // console.log("key")
@@ -722,7 +738,6 @@ function api() {
     });
   };
 
-
   const hotelBookingDetailsSaveGRN = (payload) => {
     const token = secureLocalStorage?.getItem("jwtToken");
     return axios({
@@ -735,22 +750,17 @@ function api() {
         token: token,
       },
     });
-  }
+  };
 
   // new hotel grn api's
 
-
-
-  // fetch tnpl 
-
-
+  // fetch tnpl
 
   const fetchTNPL = () => {
     return axios.get(
       `${apiURL.baseURL}/skyTrails/mihuru/partnerauthentication`
     );
   };
-
 
   const tnplUserData = (payload) => {
     // console.log("Passenger payload", payload);
@@ -767,18 +777,12 @@ function api() {
     return payload;
   };
 
-
-
-
-
-  // itenerary api's 
+  // itenerary api's
 
   const iteneraryPayloadData = (payload) => {
     // console.log("Passenger payload", payload);
     return payload;
   };
-
-
 
   const hotelSearchforItenerary = (payload) => {
     return axios({
@@ -793,8 +797,7 @@ function api() {
   };
 
   const itenerarySearch = (payload) => {
-
-    const { origin, destination, noOfDays } = payload
+    const { origin, destination, noOfDays } = payload;
     return axios({
       method: "GET",
       url: `/skyTrails/api/itinerary/dayWise/getAllCItyWiseItinerary?origin=${origin}&&destination=${destination}&&noOfDays=${noOfDays}`,
@@ -805,8 +808,6 @@ function api() {
       },
     });
   };
-
-
 
   // const hotelSelectedRoom = (payload) => {
   //   return axios({
@@ -823,12 +824,9 @@ function api() {
     return payload;
   };
 
-
-
   const savehotelRoominItenerary = (payload) => {
     return payload;
   };
-
 
   const flightFromData = (payload) => {
     return payload;
@@ -838,7 +836,6 @@ function api() {
     return payload;
   };
 
-
   const handleFlightDomestic = (payload) => {
     return payload;
   };
@@ -847,19 +844,16 @@ function api() {
     return payload;
   };
 
-
   const handleItenaryActivitySelection = (payload) => {
     return payload;
   };
 
-
-  // onewayflight 
+  // onewayflight
 
   const IterneraryOneWaySearch = (payload) => {
     return axios({
       method: "POST",
       url: "/skyTrails/flight/search/oneway",
-
 
       baseURL: `${apiURL.baseURL}`,
       data: payload,
@@ -869,12 +863,11 @@ function api() {
     });
   };
 
-  // onewayflight 
+  // onewayflight
 
-  // itenerary api's 
+  // itenerary api's
 
-
-  //inventoryAuth 
+  //inventoryAuth
 
   const InventoryAuth = (payload) => {
     return axios({
@@ -896,25 +889,27 @@ function api() {
       data: payload,
       headers: {
         "Content-Type": "application/json",
-        token: token
-
-      }
-    })
-  }
+        token: token,
+      },
+    });
+  };
 
   const fetchFareQuotesAirsetApi = (payload) => {
-    return { name: "mohittttttttttttttttt" }
-  }
+    return { name: "mohittttttttttttttttt" };
+  };
 
-  const fetchflightHotelSuggest=async()=>{
+  const fetchflightHotelSuggest = async () => {
+    const data = await axios.get(
+      `${apiURL.baseURL}/skyTrails/staticContent/flightPayload/listStaticFlightPayload`
+    );
+    console.log(
+      "datattttt",
+      apiURL.baseURL,
+      data?.data?.result?.flightPayloadResult
+    );
 
-    const data=await axios.get(`${apiURL.baseURL}/skyTrails/staticContent/flightPayload/listStaticFlightPayload`)
-    console.log("datattttt",apiURL.baseURL,data?.data?.result?.flightPayloadResult)
-    
-
-    return  data?.data?.result?.flightPayloadResult
-
-  }
+    return data?.data?.result?.flightPayloadResult;
+  };
 
   return {
     userIP,
@@ -968,7 +963,8 @@ function api() {
     tnplOTPVerified,
     tnplPlanGenerator,
     flightBookingDB,
-    flightList, airportList,
+    flightList,
+    airportList,
 
     iteneraryPayloadData,
     itenerarySearch,
@@ -982,12 +978,13 @@ function api() {
 
     hotelSelectedRoom,
     IterneraryOneWaySearch,
-    submitReview, fetchFareQuotesAirsetApi,
+    submitReview,
+    fetchFareQuotesAirsetApi,
     kafilaFareCheck,
     fetchAirsel,
     kafilapnr,
-    addBookingDetailsKafila
-
+    addBookingDetailsKafila,
+    flightSSR,
   };
 }
 

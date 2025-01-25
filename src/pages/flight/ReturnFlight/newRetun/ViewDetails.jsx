@@ -14,6 +14,7 @@ import {
   findAirlineByCode,
   findAirportByCode,
 } from "../../../../utility/flightUtility/BookwarperUtility";
+import { AlarmClock } from "lucide-react";
 // const Tabs = ["Flight Information", "Fare Details", "Baggage", "Cancellation"];
 const Tabs = ["Flight Information", "Fare Details", "Baggage"];
 
@@ -32,61 +33,70 @@ const FlightDetail = ({ item }) => {
     return <div>Loading...</div>;
   }
   // console.log(item, flightDetail, "flightDetailAMD");
-
+  // console.log(item, flightDetail, "flightDetailAMD");
   return (
     <>
       {Array.isArray(flightDetail) &&
         flightDetail?.map((item) => {
+          let layover = item?.layover;
           return (
-            <div className="mt-2 flex flex-col gap-2">
-              <div className="flex  items-center ">
-                <p className="font-semibold text-md">
-                  {findAirportByCode(item?.origin)?.name}
-                </p>
-                <TiArrowRight />
-                <p className="font-semibold text-md">
-                  {findAirportByCode(item?.destination)?.name}
-                </p>
-              </div>
-              <div className="flex w-full justify-between">
-                <div className="w-[20px] h-[20px]">
-                  <img
-                    src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.flightName}.png`}
-                    width={"20px"}
-                    height={"20px"}
-                  />
-                </div>
-                <div>
-                  <p className="text-sm">
-                    {findAirlineByCode(item?.flightName)?.airlineName}
+            <>
+              <div className="mt-2 flex flex-col gap-2">
+                <div className="flex  items-center ">
+                  <p className="font-medium text-sm">
+                    {findAirportByCode(item?.origin)?.name}
                   </p>
-                  <p className="text-sm">
-                    {item?.flightName}-{item?.flightNumber}
+                  <TiArrowRight />
+                  <p className="font-medium text-sm">
+                    {findAirportByCode(item?.destination)?.name}
                   </p>
-                  <p className="text-sm">(ECONOMY)</p>
                 </div>
-                <div>
-                  <p className="text-xl font-semibold">{item?.departureTime}</p>
-                  <p className="text-sm font-semibold">
-                    Lucknow({item?.origin})
-                  </p>
-                  <p className="text-sm">{item?.dateOfDeparture}</p>
-                  <p className="text-sm">Terminal-3</p>
+                <div className="flex w-full justify-between bg-gray-100 rounded-md p-2 border-1 border-gray-200">
+                  <div className="flex flex-col justify-center items-left gap-1">
+                    <div className="w-[20px] h-[20px]">
+                      <img
+                        src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.flightName}.png`}
+                        width={"20px"}
+                        height={"20px"}
+                      />
+                    </div>
+                    <div>
+                      <p className="text-sm text-wrap">
+                        {findAirlineByCode(item?.flightName)?.airlineName}
+                      </p>
+                      <p className="text-sm">
+                        {item?.flightName}-{item?.flightNumber}
+                      </p>
+                      {/* <p className="text-sm">(ECONOMY)</p> */}
+                    </div>
+                  </div>
+                  <div>
+                    <p className="text-gray-700 font-semibold">
+                      {item?.departureTime}
+                    </p>
+                    <p className="text-sm font-semibold">
+                      {findAirportByCode(item?.origin)?.name} ({item?.origin})
+                    </p>
+                    <p className="text-sm">{item?.dateOfDeparture}</p>
+                    <p className="text-sm">Terminal-{item?.terminal1}</p>
+                  </div>
+                  <div className="flex   flex-col gap-2 items-center justify-center">
+                    <AlarmClock size={16} className="font-bold  text-black" />
+                    <p className="text-sm">{item?.duration || "01h 10m"}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-700 font-semibold">
+                      {item?.arrivalTime}
+                    </p>
+                    <p className="text-sm font-semibold">
+                      {findAirportByCode(item?.destination)?.name}(
+                      {item?.destination})
+                    </p>
+                    <p className="text-sm">{item?.dateOfArrival}</p>
+                    <p className="text-sm">Terminal-{item?.terminal2}</p>
+                  </div>
                 </div>
-                <div className="flex   flex-col gap-2 items-center">
-                  <CiAlarmOn className="font-bold text-sm text-black" />
-                  <p className="text-sm">{item?.duration || "01h 10m"}</p>
-                </div>
-                <div>
-                  <p className="text-xl font-semibold">{item?.arrivalTime}</p>
-                  <p className="text-sm font-semibold">
-                    Bangalore({item?.destination})
-                  </p>
-                  <p className="text-sm">{item?.dateOfArrival}</p>
-                  <p className="text-sm">Terminal-{item?.terminal}</p>
-                </div>
-              </div>
-              {/* <div className="w-full flex justify-between items-center">
+                {/* <div className="w-full flex justify-between items-center">
                 <div className="flex-1  border-t-2 border-dashed"></div>
                 <div className="border-2 border-dashed  top-1 flex gap-2 py-1 px-2 rounded-full ">
                   <p className="text-[12px] ">LAYOVER</p>
@@ -94,7 +104,17 @@ const FlightDetail = ({ item }) => {
                 </div>
                 <div className="flex-1  border-t-2 border-dashed"></div>
               </div> */}
-            </div>
+              </div>
+              {layover && (
+                <div className="relative flex justify-center items-center mt-2">
+                  <p className="text-center bg-white  z-10 rounded-full px-3 py-1 text-gray-400 inline-block font-semibold text-sm shadow-md">
+                    {layover?.toLowerCase()} Layover in{" "}
+                    {findAirportByCode(item?.destination)?.name}
+                  </p>
+                  <div className="absolute border-b border-gray-400 w-full -z-0 left-0 "></div>
+                </div>
+              )}
+            </>
           );
         })}
     </>
@@ -146,16 +166,16 @@ const FareDetails = ({ item }) => {
         )}
         <div className="flex justify-between text-sm mb-1">
           <span>Total (Base Fare)</span>
-          <span className="font-medium">₹{totalBase}</span>
+          <span className="font-medium">₹{totalBase?.toFixed(0)}</span>
         </div>
         <div className="flex justify-between text-sm mb-1">
           <span>Fee & Surcharges</span>
-          <span className="font-medium">+ ₹{totalTax}</span>
+          <span className="font-medium">+ ₹{totalTax?.toFixed(0)}</span>
         </div>
       </div>
       <div className="flex justify-between text-base font-semibold mt-2">
         <span>Grand Total</span>
-        <span className="text-green-600">₹{grandTotal}</span>
+        <span className="text-green-600">₹{grandTotal?.toFixed(0)}</span>
       </div>
     </div>
   );
@@ -172,33 +192,21 @@ const Baggage = ({ item }) => {
     return <div>Loading...</div>;
   }
   return (
-    <div className="max-w-md mx-auto mt-2 bg-white rounded-lg shadow-md">
-      <table className="w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border border-gray-300 px-4 text-left text-sm font-bold py-1 ">
-              Airline
-            </th>
-            <th className="border border-gray-300 px-4 text-left text-sm font-bold py-1">
-              Check-in Baggage
-            </th>
-            <th className="border border-gray-300 px-4 text-left text-sm font-bold py-1">
-              Cabin Baggage
-            </th>
+    <div className="relative overflow-x-auto mt-2 border-1 border-gray-300 sm:rounded-lg">
+      <table className="w-full text-sm text-center rtl:text-right text-gray-500">
+        <thead className="text-xs text-gray-700 uppercase bg-gray-50 ">
+          <tr className="border-b">
+            <th className="px-6 py-3">Airline</th>
+            <th className="px-6 py-3">Check-in Baggage</th>
+            <th className="px-6 py-3">Cabin Baggage</th>
           </tr>
         </thead>
         <tbody>
           {FlightBaggage.map((baggage, index) => (
-            <tr key={index}>
-              <td className="border border-gray-300 px-4  text-sm">
-                {baggage.Airline}
-              </td>
-              <td className="border border-gray-300 px-4 ">
-                {baggage.Baggage}
-              </td>
-              <td className="border border-gray-300 px-4 ">
-                {baggage.CabinBaggage}
-              </td>
+            <tr className="odd:bg-white  even:bg-gray-50  border-b" key={index}>
+              <td className="px-6 py-3">{baggage.Airline}</td>
+              <td className="px-6 py-3">{baggage.Baggage}</td>
+              <td className="px-6 py-3">{baggage.CabinBaggage}</td>
             </tr>
           ))}
         </tbody>
@@ -215,13 +223,13 @@ const ViewDetails = ({ item }) => {
 
   return (
     <div>
-      <div className="flex mt-2 w-full justify-between items-center  rounded-md bg-slate-50 text-sm ">
+      <div className="flex mt-2 w-full justify-start gap-2 items-center p-1 rounded-md bg-slate-100 text-sm">
         {Tabs?.map((item, index) => {
           return (
             <div
-              className={`px-2 py-2 rounded-full  text-sm ${
+              className={`px-2 py-2 rounded-md font-semibold text-sm ${
                 item == selectedTab
-                  ? "bg-indigo-700 text-white font-bold"
+                  ? "bg-indigo-700 text-white"
                   : " text-gray-500"
               } `}
               key={index}

@@ -10,12 +10,9 @@ const flightClass = [
   { id: 6, value: "F", label: "First" },
 ];
 const RetrunGuestsInput = ({
-  fieldClassName = "[ nc-hero-field-padding ]",
+  fieldClassName = "[ p-3]",
   className = "[ nc-flex-1 ]",
   hasButtonSubmit = true,
-  onRoomDataChange = () => {
-    console.log("hii");
-  },
   onTravellerClassChange,
   onSubmit,
   loader,
@@ -77,17 +74,17 @@ const RetrunGuestsInput = ({
                 <UserPlusIcon className="w-5 h-5 lg:w-7 lg:h-7" />
               </div>
               <div className="flex-grow">
-                <span className="block text-2xl font-bold">
+                <span className="block w-full bg-transparent text-gray-100  border-none focus:ring-0 p-0 focus:outline-none text-xl md:text-xl lg:text-xl xl:text-xl font-bold placeholder-neutral-800 truncate">
                   {totalGuests || ""} Travellers
                 </span>
-                <span className="block mt-1 text-[1rem] text-neutral-400 leading-none font-light">
-                  {totalGuests ? "Travellers" : "Add Travellers"}
+                <span className="block mt-0.5 text-[0.8rem] text-gray-100 font-medium">
+                  {flightClassState.label}
                 </span>
               </div>
 
-              {!!totalGuests && open && (
-                <ClearDataButton onClick={() => console.log("jj")} />
-              )}
+              {/* {!!totalGuests && open && (
+                <ClearDataButton onClick={() => onChangeDate([null, null])} />
+              )} */}
             </Popover.Button>
 
             {hasButtonSubmit && (
@@ -95,9 +92,9 @@ const RetrunGuestsInput = ({
                 <a
                   onClick={onSubmit}
                   type="button"
-                  className="h-14 md:h-16 w-full md:w-16 rounded-full bg-primary-6000 hover:bg-primary-700 flex items-center justify-center text-neutral-50 focus:outline-none"
+                  className="flex items-center shadow-md justify-center w-10 rounded-full h-10 md:h-12 md:w-12 bg-primary-6000 hover:bg-primary-700 text-neutral-50 focus:outline-none"
                 >
-                  <span className="mr-3 md:hidden">Search</span>
+                  {/* <span className="mr-3 md:hidden">Search</span> */}
                   {loader ? (
                     <svg
                       className="h-6 w-6"
@@ -191,7 +188,7 @@ const RetrunGuestsInput = ({
           </div>
 
           {open && (
-            <div className="h-8 absolute self-center top-1/2 -translate-y-1/2 z-0 -left-0.5 right-0.5 bg-white"></div>
+            <div className="h-8 absolute self-center top-1/2 -translate-y-1/2 z-0 -left-0.5 right-0.5 bg-transparent"></div>
           )}
 
           <Transition
@@ -203,109 +200,109 @@ const RetrunGuestsInput = ({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className="absolute left-0 z-50 top-0  flex justify-center items-center w-full h-[100vh]">
+            <Popover.Panel className="absolute right-0 z-10 w-full sm:min-w-[340px] max-w-sm bg-white top-full mt-3 py-5 sm:py-6 px-4 sm:px-8 rounded-3xl shadow-xl">
               {/* <div className="absolute inset-0 bg-black opacity-20 z-0 pointer-events-none"></div>{" "} */}
               {/* Dark background layer */}
-              <div className="z-10 w-full sm:min-w-[340px] max-w-sm bg-white py-3 sm:py-3 px-4 sm:px-3 rounded-2xl shadow-xl">
-                <div
-                //  className="p-6  mx-auto bg-white shadow-lg rounded-lg border"
-                >
-                  <h2 className="text-sm font-semibold mb-2 ">
-                    Passenger Selection
-                  </h2>
+              {/* <div className="z-10 w-full sm:min-w-[340px] max-w-sm bg-white py-3 sm:py-3 px-4 sm:px-3 rounded-2xl shadow-xl"> */}
+              <div
+              //  className="p-6  mx-auto bg-white shadow-lg rounded-lg border"
+              >
+                <h2 className="text-sm font-semibold mb-2 ">
+                  Passenger Selection
+                </h2>
 
-                  {["adult", "child", "infant"].map((type) => {
-                    const maxCount = type === "adult" ? 9 : 6;
+                {["adult", "child", "infant"].map((type) => {
+                  const maxCount = type === "adult" ? 9 : 6;
 
+                  return (
+                    <div key={type} className="flex flex-col  rounded-lg ">
+                      <span className="capitalize font-medium text-gray-700 mb-2">
+                        {type === "adult" && "Adult (12+ years)"}
+                        {type === "child" && "Child (2-11 years)"}
+                        {type === "infant" && "Infant (under 2 years)"}
+                      </span>
+                      <div className="flex flex-nowrap gap-1">
+                        {Array.from({ length: maxCount + 1 }).map(
+                          (_, index) => {
+                            const isDisabled =
+                              (type === "adult" &&
+                                index + passengers.child >
+                                  maxTotalPassengers) ||
+                              (type === "child" &&
+                                index + passengers.adult >
+                                  maxTotalPassengers) ||
+                              (type === "infant" && index > passengers.adult);
+
+                            return (
+                              <button
+                                key={index}
+                                type="button" // Prevent form submission
+                                className={`px-2 py-1 rounded-md ${
+                                  isDisabled
+                                    ? " text-gray-400 cursor-not-allowed"
+                                    : " text-indigo-700 hover:bg-gray-50"
+                                } ${
+                                  passengers[type] === index && !isDisabled
+                                    ? "bg-indigo-700 text-white"
+                                    : ""
+                                }`}
+                                disabled={isDisabled}
+                                onClick={() => handleSelect(type, index)}
+                              >
+                                {index}
+                              </button>
+                            );
+                          }
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+                <h2 className="text-sm font-semibold mb-4  ">Class</h2>
+                <div className="flex gap-2 justify-between  w-full">
+                  {flightClass.map((item) => {
+                    const isSelected = item.value == flightClassState.value;
                     return (
-                      <div key={type} className="flex flex-col  rounded-lg ">
-                        <span className="capitalize font-medium text-gray-700 mb-2">
-                          {type === "adult" && "Adult (12+ years)"}
-                          {type === "child" && "Child (2-11 years)"}
-                          {type === "infant" && "Infant (under 2 years)"}
-                        </span>
-                        <div className="flex flex-nowrap gap-1">
-                          {Array.from({ length: maxCount + 1 }).map(
-                            (_, index) => {
-                              const isDisabled =
-                                (type === "adult" &&
-                                  index + passengers.child >
-                                    maxTotalPassengers) ||
-                                (type === "child" &&
-                                  index + passengers.adult >
-                                    maxTotalPassengers) ||
-                                (type === "infant" && index > passengers.adult);
-
-                              return (
-                                <button
-                                  key={index}
-                                  type="button" // Prevent form submission
-                                  className={`px-2 py-1 rounded-md ${
-                                    isDisabled
-                                      ? " text-gray-400 cursor-not-allowed"
-                                      : " text-indigo-700 hover:bg-gray-50"
-                                  } ${
-                                    passengers[type] === index && !isDisabled
-                                      ? "bg-indigo-700 text-white"
-                                      : ""
-                                  }`}
-                                  disabled={isDisabled}
-                                  onClick={() => handleSelect(type, index)}
-                                >
-                                  {index}
-                                </button>
-                              );
-                            }
-                          )}
-                        </div>
+                      <div
+                        key={item.value}
+                        // href={item.href}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setFlightClassState(item);
+                        }}
+                        className={`flex items-center no-underline p-2 -m-3 transition duration-150 ease-in-out rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50 ${
+                          isSelected
+                            ? "bg-indigo-700 text-white"
+                            : "text-gray-900 hover:bg-gray-50"
+                        }`}
+                      >
+                        <p className="text-sm font-medium">{item.label}</p>
                       </div>
                     );
                   })}
-                  <h2 className="text-sm font-semibold mb-4  ">Class</h2>
-                  <div className="flex gap-2 justify-between  w-full">
-                    {flightClass.map((item) => {
-                      const isSelected = item.value == flightClassState.value;
-                      return (
-                        <div
-                          key={item.value}
-                          // href={item.href}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setFlightClassState(item);
-                          }}
-                          className={`flex items-center no-underline p-2 -m-3 transition duration-150 ease-in-out rounded-lg focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50 ${
-                            isSelected
-                              ? "bg-indigo-700 text-white"
-                              : "text-gray-900 hover:bg-gray-50"
-                          }`}
-                        >
-                          <p className="text-sm font-medium">{item.label}</p>
-                        </div>
-                      );
-                    })}
-                  </div>
+                </div>
 
-                  <div className="mt-6 flex justify-end items-center  w-full">
-                    {/* <p className="text-gray-600 font-medium">
+                <div className="mt-6 flex justify-end items-center  w-full">
+                  {/* <p className="text-gray-600 font-medium">
                       Total Passengers: {passengers.adult + passengers.child}
                     </p>
                     <p className="text-gray-400 text-sm">
                       Adults and Children cannot exceed 10. Infants must not
                       exceed Adults.
                     </p> */}
-                    <button
-                      className="bg-indigo-700 text-white font-bold text-md px-4 py-2 text-center rounded-full cursor-pointer"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        close();
-                        onTravellerClassChange(passengers, flightClassState);
-                      }}
-                    >
-                      Add
-                    </button>
-                  </div>
+                  <button
+                    className="bg-indigo-700 text-white font-bold text-md px-4 py-2 text-center rounded-full cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      close();
+                      onTravellerClassChange(passengers, flightClassState);
+                    }}
+                  >
+                    Add
+                  </button>
                 </div>
               </div>
+              {/* </div> */}
             </Popover.Panel>
           </Transition>
         </>

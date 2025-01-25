@@ -61,6 +61,13 @@ export const returnReducer = (state = initState, action) => {
         ?.map((response) => standardizeFlightResponse(response))
         .filter((flight) => flight !== null); // Filter out any null results
       // console.log(standardizedFlights1, "standardizedFlightsTbo1")
+
+      // console.log(
+      //   standardizedFlights1,
+      //   "standardizedFlights11",
+
+      //   "standarderdized flight 1 in the return reducer"
+      // );
       const standardizedFlights2 = payload?.returnFlight
         ?.map((response) => standardizeFlightResponse(response))
         .filter((flight) => flight !== null); // Filter out any null results
@@ -68,7 +75,13 @@ export const returnReducer = (state = initState, action) => {
         journeyFlight: standardizedFlights1,
         returnFlight: standardizedFlights2,
       };
-      // console.log(standardizedFlights1, "standardizedFlights11", newPayload)
+
+      // console.log(
+      //   standardizedFlights1,
+      //   "standardizedFlights11",
+      //   newPayload,
+      //   "standarderdized flight 1 in the return reducer"
+      // );
 
       return {
         ...state,
@@ -92,16 +105,29 @@ export const returnReducer = (state = initState, action) => {
         isLoadingFilter: true,
       };
     case types.TBO_KAFILA_SEARCH_RETURN_SUCCESS:
-      const standardizedFlightsTbo1 = payload?.journeyFlight?.sortedFinalRes
-        ?.map((response) => standardizeFlightResponse(response))
-        .filter((flight) => flight !== null); // Filter out any null results
+      // console.log(
+      //   payload?.journeyFlight?.sortedFinalRes,
+      //   "payload?.journeyFlight?.sortedFinalRes"
+      // );
+      const standardizedFlightsTbo1 =
+        payload?.journeyFlight?.sortedFinalRes
+          ?.map((response) => standardizeFlightResponse(response))
+          .filter((flight) => flight !== null) || [];
+
+      // console.log(
+      //   standardizedFlightsTbo1,
+      //   "standardizedFlightsTbo1 in line 120"
+      // );
 
       const standardizedFlightsTbo2 = payload?.returnFlight?.sortedFinalRes
-        ?.map((response) => standardizeFlightResponse(response))
-        .filter((flight) => flight !== null); // Filter out any null results
+        ? payload?.returnFlight?.sortedFinalRes
+            ?.map((response) => standardizeFlightResponse(response))
+            .filter((flight) => flight !== null)
+        : []; // Filter out any null results
       // console.log(standardizedFlightsTbo1, "datafffTBO")
       // const newJourneyFlight = [...state?.returnData?.journeyFlight, ...payload?.journeyFlight?.sortedFinalRes]
       // const newReturnFlight = [...state?.returnData?.returnFlight, ...payload?.returnFlight?.sortedFinalRes]
+
       const newJourneyFlight = [
         ...state?.returnData?.journeyFlight,
         ...standardizedFlightsTbo1,

@@ -12,13 +12,20 @@ import { useReactToPrint } from "react-to-print";
 import { ChevronLeft, Printer } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { FaPlaneDeparture } from "react-icons/fa";
+import { returnReducer } from "../../../Redux/FlightSearch/Return/returnReducer";
 const NewBookTicket = () => {
   const reducerState = useSelector((state) => state);
   console.log(reducerState, "reducerState");
   const [loader, setLoader] = useState(true);
   const book1 = flightBookErrorCheck("onward");
   const book2 = flightBookErrorCheck("return");
-  console.log(book1, book2, "bookResult");
+  const [hasSaved, setHasSaved] = useState(false);
+  const Onward = reducerState?.returnSelected?.returnSelectedFlight?.onward;
+  const Return = reducerState?.returnSelected?.returnSelectedFlight?.return;
+  const dDate = reducerState?.searchFlight?.flightDetails?.date;
+  const rDate = reducerState?.searchFlight?.flightDetails?.returnDate;
+  const className = reducerState?.searchFlight?.flightDetails?.FlightCabinClass;
+  console.log(book1, book2, dDate, rDate, "bookResult");
   const ticketData = {
     pnr: "ABC123",
     flightNo: "6E-123",
@@ -108,7 +115,7 @@ const NewBookTicket = () => {
                   <strong>Duration:</strong> {layover || ""}
                 </p>
                 <p className="text-gray-700">
-                  <strong>Date:</strong> {"2,jul,2025"}
+                  <strong>Date:</strong> {type == "onward" ? dDate : rDate}
                 </p>
               </div>
             </div>
@@ -128,7 +135,7 @@ const NewBookTicket = () => {
                     <strong>Seat:</strong> {passenger.seat}
                   </p> */}
                   <p className="text-gray-700">
-                    <strong>Class:</strong> {passenger?.class}
+                    <strong>Class:</strong> {passenger?.class || className}
                   </p>
                 </div>
               ))}
@@ -236,15 +243,18 @@ const NewBookTicket = () => {
   }, [handlePrint]);
 
   useEffect(() => {
-    if (!book1.loading && !book2.loading) {
+    if (!Return && !book1?.loading && !hasSaved) {
+      saveDB("onward");
+    } else if (!book1?.loading && !book2?.loading && !hasSaved) {
       saveDB("onward");
       saveDB("return");
+      setHasSaved(true);
     }
-  }, [book1, book2]);
+  }, [book1, book2, hasSaved]);
 
   return (
     <>
-      {book1?.loading || book2?.loading ? (
+      {book1?.loading || (Return ? book2?.loading : false) ? (
         <FlightPaymentLoader />
       ) : (
         <div className="bg-gray-100 p-2  md:p-6 min-h-screen ">
@@ -290,7 +300,8 @@ const NewBookTicket = () => {
               </div>
               <div className="flex flex-col gap-2 bg-white">
                 <TicketCard type="onward" />
-                <TicketCard type="return" />
+
+                {Return && <TicketCard type="return" />}
               </div>
             </div>
           </div>

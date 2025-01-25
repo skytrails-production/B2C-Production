@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import ViewDetails from "./ViewDetails";
+import { ChevronsDown, ChevronsUp } from "lucide-react";
+import { findAirportByCode } from "../../../../utility/flightUtility/BookwarperUtility";
+import freeMeal from "../../../../images/freemeal.png";
 
 const ReturnSelectCard = ({
   item,
@@ -43,12 +46,21 @@ const ReturnSelectCard = ({
     //     </div>
     //   </div>
     // </div>
-    <div class="w-full group bg-white shadow-sm rounded-lg overflow-hidden p-2 hover:shadow-sm cursor-pointer border">
+    <div class="w-full transition-all ease-in-out hover:scale-[1.01]  bg-white shadow-sm rounded-lg overflow-hidden p-2 hover:shadow-sm cursor-pointer border">
       {/* <!-- Flight Image --> */}
 
       {/* <!-- Flight Name --> */}
 
       {/* <!-- Flight Times and Duration --> */}
+      {item?.isFreeMeal && (
+        <div className="absolute -top-2 z-50 left-0  px-2 py-0.5 rounded-sm bg-gradient-to-r from-orange-500 font-semibold   to-orange-300">
+          <div className="relative flex flex-row items-center gap-1">
+            <img src={freeMeal} className="w-4 h-4" alt="" />
+            <p className="text-[10px]">Free Meal</p>
+            <div className="absolute inset-0   bg-gradient-to-r from-transparent via-white to-transparent opacity-75 blur-md z-10 animate-slide"></div>
+          </div>
+        </div>
+      )}
       <div
         onClick={() => handleSelectedChange(type, item, index)}
         class="flex justify-between mt-4"
@@ -68,20 +80,44 @@ const ReturnSelectCard = ({
         {/* <!-- Departure Time --> */}
         <div class="text-center">
           <p class="text-sm text-gray-500">{item?.origin}</p>
-          <p class="font-semibold text-gray-700">{item.departureTime}</p>
+          <p class="font-semibold text-gray-700">{item?.departureTime}</p>
         </div>
 
         {/* <!-- Duration and Stops --> */}
-        <div class="text-center">
+        <div className="relative group flex  flex-col items-center justify-center gap-0">
           {/* <p class="text-sm text-gray-500">{item?.destination}</p> */}
           <p class="font-semibold text-gray-700">{item?.layover}</p>
-          <div className="w-full h-[1.5px] bg-primary-500 relative">
-            {item.stopes !== 0 && (
-              <div className="w-2 h-2 rounded-full bg-gray-400 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
-            )}
+          <div className=" w-full h-[1.5px] bg-primary-500 mt-2">
+            <div className=" ">
+              {item?.stopes !== 0 && (
+                <div className="w-2 h-2 rounded-full bg-gray-400 absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2"></div>
+              )}
+              {/* Tooltip */}
+              {item.stopes !== 0 && (
+                <div className="absolute hidden -top-0 left-1/2 transform -translate-x-1/2  group-hover:block  bg-white whitespace-nowrap  text-white text-sm px-3 py-1 rounded shadow-md border border-gray-600">
+                  <p className="text-center text-gray-900 block text-[12px] font-medium">
+                    {item.stopes} stop via
+                  </p>
+                  <ul className="p-0 list-disc mb-0">
+                    {item?.via?.map((i, index) => {
+                      return (
+                        <>
+                          {index < item?.via?.length - 1 && (
+                            <li className="block  text-gray-700 text-[11px] font-medium">
+                              {i} ({findAirportByCode(i)?.name}){" "}
+                            </li>
+                          )}
+                        </>
+                      );
+                    })}
+                  </ul>
+                  <div className="absolute -bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 w-2 h-2 bg-white rotate-45 border-b border-gray-300 border-r"></div>
+                </div>
+              )}
+            </div>
           </div>
 
-          <p class="text-xs text-gray-400">
+          <p class="text-xs text-gray-400 mt-2">
             {item.stopes == 0 ? "Non-stop" : `${item.stopes}-stop`}
           </p>
         </div>
@@ -157,9 +193,14 @@ const ReturnSelectCard = ({
         </div>
         <button
           onClick={() => setIsFlightDetail((pre) => !pre)}
-          className="text-indigo-600  hover:text-indigo-700 focus:outline-none text-right"
+          className="text-indigo-600  flex gap-2 items-center font-semibold text-[14px] hover:text-indigo-700 focus:outline-none text-right"
         >
-          Flight Details
+          View Details{" "}
+          {isFlightDetail ? (
+            <ChevronsUp size={16} />
+          ) : (
+            <ChevronsDown size={16} />
+          )}
         </button>
       </div>
       {isFlightDetail && <ViewDetails key={index} item={item} />}

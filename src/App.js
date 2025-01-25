@@ -3,6 +3,7 @@ import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
 import Home from "./pages/home/Home";
 import BookWrapper from "./pages/flight/Bookwrapper";
 import BookWrapperAmd from "./pages/flight/BookwrapperAmd";
+import BookWrapperAmdNew from "./pages/flight/BookwrapperAmdNew"
 // import Searchresult from "./pages/flight/Searchresult";
 import Searchresult from "./pages/flight/flightResult/FlightMain";
 import "./App.css";
@@ -13,7 +14,7 @@ import DummyTicketBookingForm from "./components/DummyTicketBookingForm";
 // import SignUp from "./components/Signup";
 import BookedTicketAmd from "./pages/flight/BookedTicketAmd";
 import Hotel from "./pages/Hotel/HotelHome";
-import Payment from "./pages/flight/Payment";
+// import Payment from "./pages/flight/Payment";
 
 // Bus
 import Bus from "./pages/bus/Bus";
@@ -59,7 +60,7 @@ import ReturnMain from "./pages/flight/ReturnFlight/ReturnMain";
 // import ReturnResult from "./pages/flight/ReturnFlight/ReturnResult";
 import ReturnResult from "./pages/flight/ReturnFlight/newRetun/ReturnFlightMain";
 import ReturnResultInternational from "./pages/flight/ReturnFlight/ReturnResultInternational";
-import BookWrapperReturn from "./components/TailwindSearchComp/heroSection/flightSearchForm/returnSearchForm/NewBookWrapperReturn"
+import BookWrapperReturn from "./components/TailwindSearchComp/heroSection/flightSearchForm/returnSearchForm/NewBookWrapperReturn";
 
 import ReturnPassenger from "./pages/flight/ReturnFlight/ReturnPassenger";
 
@@ -148,6 +149,8 @@ import TboBookingHotel from "./pages/GRMHotel/tboHotel/bookHotel/TboBookingHotel
 import TboTicketGeneration from "./pages/GRMHotel/tboHotel/bookHotel/TboTicketGeneration";
 import { faqRatingListReq } from "./Redux/Faq&Rating/actionFaqRating";
 import DownloadHotelPdf from "./components/bookingHistory/DownloadHotelPdf";
+import ResultOnewayMain from "./pages/flight/Oneway/ResultOneway/ResultOnewayMain";
+import OnewayBookingPage from "./pages/flight/Oneway/OnewayPassengerDetails/OnewayBookingPage";
 
 function App() {
   // const location = useLocation();
@@ -443,6 +446,15 @@ function App() {
         />
         <Route path="login" element={<LoginForm />}></Route>
         <Route path="reviews" element={<Reviews />}></Route>
+
+        {/* new oneway flight paths  */}
+
+        <Route path="flightlist" element={<ResultOnewayMain />}></Route>
+        <Route
+          path="/flightlist/passengerdetails"
+          element={<OnewayBookingPage />}
+        ></Route>
+
         {/* <Route path="signup" element={<SignUp />}></Route> */}
         <Route path="flighterror" element={<Flighterror />}></Route>
         <Route path="Searchresult/booknow" element={<BookWrapper />}>
@@ -456,12 +468,13 @@ function App() {
           path="/bookedTicketkafila"
           element={<Kafilabookingdetails />}
         ></Route>
-        <Route path="Searchresult/booknowAmd" element={<BookWrapperAmd />}>
+        {/* <Route path="Searchresult/booknowAmd" element={<BookWrapperAmd />}> */}
+        <Route path="Searchresult/booknowAmd" element={<BookWrapperAmdNew />}>
           {" "}
         </Route>
         <Route path="/Searchresult" element={<Searchresult />} />
 
-        <Route path="/payment" element={<Payment />} />
+        {/* <Route path="/payment" element={<Payment />} /> */}
         <Route path="/download" element={<Download />} />
 
         {/* new grm hotel routes  */}
@@ -718,9 +731,10 @@ function App() {
         location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
         location.pathname !== "/inventoryhotelform" &&
-        location.pathname !== "/ReturnResult" &&
-        // location.pathname !== "/newFlight/newBookedTicket" &&
-        <Whatsapp />}
+        location.pathname !== "/ReturnResult" && (
+          // location.pathname !== "/newFlight/newBookedTicket" &&
+          <Whatsapp />
+        )}
 
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&

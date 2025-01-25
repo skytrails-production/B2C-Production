@@ -248,11 +248,11 @@ const ReturnFlightBigFilter = ({
                     {key == "moreThanOneStop" ? "2+ stops" : key}
                   </Checkbox>
                   <div className=" flex  items-center   gap-1 justify-between p-0 !font-medium">
-                    <p className="p-0 !text-sm !font-medium">{`(${count})`}</p>
                     <div className="flex">
                       <p className="text-green-400 text-nowrap text-sm">₹ </p>
                       <p className="!font-medium !text-sm">{price}</p>
                     </div>
+                    <p className="p-0 !text-sm !font-medium">{`(${count})`}</p>
                   </div>
                 </div>
               ) : null;

@@ -48,7 +48,7 @@ export default function AvatarDropdown({ className = "" }) {
                 className={`self-center cursor-pointer flex p-2 gap-3 h-10  sm:h-12 rounded-full text-slate-700  bg-slate-200 hover:bg-slate-300  focus:outline-none  items-center justify-center`}
               >
                 <h4 className="font-semibold hidden md:flex text-sm xl:text-base mb-0">
-                  {userName}
+                  Hey, {userName.split(" ")?.[0]}
                 </h4>
                 <Avatar sizeClass="w-8 h-8 sm:w-9 sm:h-9" photo={profile} />
               </Popover.Button>
@@ -72,7 +72,7 @@ export default function AvatarDropdown({ className = "" }) {
               leaveFrom="opacity-100 translate-y-0"
               leaveTo="opacity-0 translate-y-1"
             >
-              <Popover.Panel className="absolute z-10 w-screen max-w-[300px]  top-full -right-10 sm:right-0 sm:px-0">
+              <Popover.Panel className="absolute z-50 w-screen max-w-[300px]  top-full -right-10 sm:right-0 sm:px-0">
                 <div className="overflow-hidden rounded-3xl shadow-md xl:shadow-lg lg:shadow-lg md:shadow-lg  sm:shadow-lg  ring-opacity-5">
                   <div className="relative grid grid-cols-1 gap-6 bg-white xl:py-7 lg:py-7 md:py-7 py-7 px-6">
                     <div className="flex items-center space-x-3">

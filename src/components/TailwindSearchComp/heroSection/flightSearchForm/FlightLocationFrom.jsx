@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import ClearDataButton from "../ClearDataButton";
 import { apiURL } from "../../../../Constants/constant";
+import { PlaneTakeoff } from "lucide-react";
 
 const FlightLocationFrom = ({
   autoFocus = false,
@@ -248,7 +249,10 @@ const FlightLocationFrom = ({
   };
 
   return (
-    <div className={`relative flex ${className}`} ref={containerRef}>
+    <div
+      className={`relative flex border-b border-gray-300 md:border-0 ${className}`}
+      ref={containerRef}
+    >
       <div
         onClick={() => setShowPopover(true)}
         className={`flex z-10 flex-1 relative [ nc-hero-field-padding ] flex-shrink-0 items-center space-x-3 cursor-pointer focus:outline-none text-left ${
@@ -256,11 +260,11 @@ const FlightLocationFrom = ({
         }`}
       >
         <div className="text-neutral-300">
-          <MapPinIcon className="w-5 h-5 lg:w-7 lg:h-7" />
+          <PlaneTakeoff className="w-5 h-5 lg:w-7 lg:h-7" />
         </div>
         <div className="flex-grow">
           <input
-            className="text-2xl block w-full bg-transparent border-none focus:ring-0 p-0 focus:outline-none focus:placeholder-neutral-500  font-bold placeholder-gray-800 truncate"
+            className="block w-full bg-transparent border-none focus:ring-0 p-0 focus:outline-none focus:placeholder-neutral-300 text-base md:text-2xl font-bold placeholder-neutral-800 truncate"
             placeholder={placeHolder}
             value={value}
             autoFocus={showPopover}
@@ -269,10 +273,8 @@ const FlightLocationFrom = ({
             onBlur={handleBlur} // Restore if nothing is selected
             ref={inputRef}
           />
-          <span className="block mt-0.5 text-[1rem] text-neutral-400 font-light">
-            <span className="line-clamp-1 text-gray-800">
-              {!!value ? placeHolder : desc}
-            </span>
+          <span className="block mt-0.5 text-[0.8rem] text-neutral-400 font-ligh">
+            <span className="line-clamp-1">{!!value ? placeHolder : desc}</span>
           </span>
           {value && showPopover && (
             <ClearDataButton
