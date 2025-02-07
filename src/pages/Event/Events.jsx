@@ -18,45 +18,27 @@ const Events = () => {
           <h3 className="mb-4 font-medium ">
             Important Notification Regarding Your PEFA Award Event
           </h3>
-          <ul className="list-disc ps-[1rem]">
+          <ul className="list-disc px-[2rem]">
             <li className="text-base mb-3 ">
-              We want to keep you informed about the status of your PEFA Award
-              Event submission. Please take note of the following disclaimer for
-              a smooth and successful event processing:
+              An Identity Proof will be required at the entry point
             </li>
             <li className="text-base mb-3 ">
-              Your PEFA Award Event details have been diligently submitted to
-              the relevant authorities, and processing is currently underway.
+              All pass bookings are final & Free.
             </li>
             <li className="text-base mb-3 ">
-              Ensuring the accuracy of the details you provided, including
-              essential documents such as passport copies, photo scans, and bank
-              statements, is crucial for a seamless processing experience.
+              Entry will be denied to anyone under the influence of alcohol.
             </li>
             <li className="text-base mb-3 ">
-              Be proactive in notifying the authorities promptly of any changes
-              or updates to your event details, as this ensures that your
-              submission remains up-to-date and in compliance.
+              Do not Book passes if you are feeling unwell or showing signs of
+              illness.
             </li>
             <li className="text-base mb-3 ">
-              Please be aware that the processing time may vary, and there is a
-              possibility of additional documentation or information being
-              requested during the thorough review process.
+              The organizer reserves all rights of admission.
             </li>
             <li className="text-base mb-3 ">
-              While we are committed to facilitating a smooth experience, it's
-              important to note that this information does not guarantee the
-              automatic approval of your PEFA Award Event. The final decision is
-              subject to the laws and regulations set by the respective
-              authorities.
-            </li>
-            <li className="text-base mb-3 ">
-              For the most accurate and up-to-date information on the status of
-              your PEFA Award Event, we encourage you to consult directly with
-              the relevant authorities.
+              Terms and conditions may be updated at the organizer’s discretion.
             </li>
           </ul>
-          <p></p>
         </div>
       </div>
 
@@ -67,7 +49,7 @@ const Events = () => {
             <h2 class="text-4xl text-gray-800 mb-6 font-bold">
               Get Your Pass Now!
             </h2>
-            <div class="flex flex-col gap-2 p-2 md:flex-row w-1/2 ">
+            <div class="flex flex-col gap-2 p-2 md:flex-row w-2/3 ">
               <a
                 href="https://apps.apple.com/in/app/the-skytrails/id6475768819"
                 target="_blank"
