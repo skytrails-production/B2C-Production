@@ -16,6 +16,7 @@ import FooterNavigation from "../../components/footerNavigate/FooterNavigation";
 import { useDispatch } from "react-redux";
 import { clearHotelAll } from "../../Redux/HotelGRN/hotel";
 import { returnActionClear } from "../../Redux/FlightSearch/Return/return";
+import Pefa from "./Pefa";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState("oneway");
@@ -134,6 +135,9 @@ Theskytrails - #1 Travel Website 50% OFF on Hotels, Flights, Bus Booking at Lowe
 
       <div>
         <RecentSearches />
+      </div>
+      <div>
+        <Pefa />
       </div>
 
       <div>

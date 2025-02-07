@@ -1,624 +1,177 @@
-import React, { useEffect, useState, useRef } from "react";
-// import scroll from "../../images/scroll.png";
-import axios from "axios";
-import { apiURL } from "../../Constants/constant";
-// import dayjs from "dayjs";
-import "./event.css";
-// import click from "../../images/click.gif";
-// import Modal from "@mui/material/Modal";
-// import Box from "@mui/material/Box";
-// import Login from "../../components/Login";
-// import loginnew from "../../images/login-01.jpg";
-// import CloseIcon from "@mui/icons-material/Close";
-import apple from "../../images/download/apple.png";
-import google from "../../images/download/google.png";
-// import mobil from "../../images/download/mobil.png";
-import check from "../../images/download/check.png";
+import React from "react";
 import scan from "../../images/scan.png";
-import { useSelector } from "react-redux";
-import SecureStorage from "react-secure-storage";
-import ReactPlayer from "react-player/youtube";
-import { Link } from "react-router-dom";
+import pefa from "../../images/pefa/pefa2.jpg";
 
 const Events = () => {
-  const reducerState = useSelector((state) => state);
-  const authenticUser = reducerState?.logIn?.loginData?.status;
-
-  // const style = {
-  //   position: "absolute",
-  //   top: "50%",
-  //   left: "50%",
-  //   transform: "translate(-50%, -50%)",
-  //   width: 400,
-  //   bgcolor: "background.paper",
-  //   border: "2px solid #000",
-  //   boxShadow: 24,
-  //   p: 4,
-  //   display: "flex",
-  //   flexDirection: "column",
-  //   alignItems: "center",
-  //   gap: "20px",
-  // };
-  // const [open, setOpen] = React.useState(false);
-  // const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
-  // const firstInputRef = useRef(null);
-  // const handlePassAbsClick = () => {
-  //   firstInputRef.current.focus();
-  // };
-  const token = SecureStorage.getItem("jwtToken");
-  // const [loadingEvent, setLoadingEvent] = useState(false);
-  const [eventDetails, setEventDetails] = useState([]);
-  // const [formData, setFormData] = useState({
-  //   firstName: "",
-  //   mobileNumber: "",
-  //   currentCity: "",
-  //   profession: "",
-  //   otherProfession: "",
-  // });
-  // const [selectedProfession, setSelectedProfession] = useState("film industry");
-  // const [totalPeople, setTotalPeople] = useState("1");
-
-  // const handleChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
-
-  // const handleSelectChange = (e) => {
-  //   setSelectedProfession(e.target.value);
-  // };
-
-  // const handleRadioChange = (e) => {
-  //   setTotalPeople(e.target.value);
-  // };
-
-  // if user is already registered
-  // const [eventHistoryData, setEventHistoryData] = useState([]);
-
-  const fetchData = async () => {
-    try {
-      const apiUrl = `${apiURL.baseURL}/skyTrails/api/user/getEventBookingStatus`;
-      const headers = {
-        token: token,
-      };
-
-      const response = await axios.get(apiUrl, { headers });
-
-      if (response.data.statusCode === 200) {
-        // setEventHistoryData(response.data.result);
-        // console.log('res', response);
-      }
-    } catch (error) {
-      console.error("Error fetching event history:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  // console.log(eventHistoryData, "history")
-
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setLoadingEvent(true);
-  //   const { firstName, mobileNumber, currentCity, otherProfession } = formData;
-
-  //   const payload = {
-  //     name: firstName,
-  //     mobileNumber: mobileNumber,
-  //     city: currentCity,
-  //     eventId: "65bdf1f5d8cecc4038704007",
-  //     startTime: "17:00",
-  //     eventDate: "2024-03-02T17:00:00.000+00:00",
-  //     profession:
-  //       selectedProfession === "other" ? otherProfession : selectedProfession,
-  //     noOfMember: totalPeople,
-  //   };
-
-  //   try {
-  //     const res = await axios({
-  //       method: "post",
-  //       url: `${apiURL.baseURL}/skyTrails/api/user/event/pefaBookFreeEvents`,
-  //       data: payload,
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         token: token,
-  //       },
-  //     });
-  //     // console.log(res, "data")
-  //     if (res.data.statusCode === 200) {
-  //       handleOpen();
-  //       setLoadingEvent(false);
-  //     }
-  //   } catch (error) {
-  //     setLoadingEvent(false);
-  //     console.error("Error submitting form:", error);
-  //   }
-  //   fetchData();
-  // };
-
-  useEffect(() => {
-    const fetchEvent = async () => {
-      try {
-        const res = await axios({
-          method: "get",
-          url: `${apiURL.baseURL}/skyTrails/api/user/getEventById?eventId=65bdf1f5d8cecc4038704007`,
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-        // console.log(res.data, "data")
-        setEventDetails(res.data.result);
-      } catch (error) {
-        console.error("Event Error fetching data:", error);
-        // console.log('Event Error fetching data:', error);
-      }
-    };
-    fetchEvent();
-    window.scrollTo(0, 0);
-  }, []);
-
-  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-
-  const handleModalClose = () => {
-    setIsLoginModalOpen(false);
-  };
-
-  // const handleTravelClickOpen = () => {
-  //   if (authenticUser !== 200) {
-  //     setIsLoginModalOpen(true);
-  //   }
-  // };
-
-  useEffect(() => {
-    if (authenticUser === 200) {
-      handleModalClose();
-    }
-  }, [authenticUser]);
-
-  // download logic here
-
-  const [mobileNumber, setMobileNumber] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
-  const handleDownloadLink = async () => {
-    setLoading(true);
-    try {
-      const res = await axios({
-        method: "GET",
-        url: `${apiURL.baseURL}/skyTrails/api/user/getUrl/${mobileNumber}`,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (res.data.statusCode === 200) {
-        setLoading(false); // Stop loading
-        setSent(true); // Mark as sent
-        setTimeout(() => setSent(false), 4000); // Reset "sent" state after 2 seconds
-      }
-      // console.log(res, "responsie")
-    } catch (error) {
-      console.warn("Error sending link:", error);
-    }
-  };
-
-  // download logic here
-
   return (
     <>
-      <div className="mainimgEvent">
-        <Link to="https://www.youtube.com/watch?v=2WnttqZmUu0" target="_blank">
-          <ReactPlayer
-            url="https://www.youtube.com/watch?v=2WnttqZmUu0"
-            width="100%"
-            muted
-            playing={true}
-          />
-        </Link>
-      </div>
-
-      {/* /////////////////////////////////////videos////////////////////////// */}
-      <div className="container mt-4">
-        <div className="row">
-          {/* First Row */}
-          <div className="col-lg-4 col-md-6 mb-4">
-            {/* Content for the first column */}
-            <Link to="https://www.youtube.com/watch?v=O4PmcP9ecE4" target="_blank">
-              <ReactPlayer
-                url="https://www.youtube.com/watch?v=O4PmcP9ecE4"
-                width="100%"
-                playing={true}
-                muted
-              />
-            </Link>
-          </div>
-
-          <div className="col-lg-4 col-md-6 mb-4">
-            {/* Content for the second column */}
-            <Link to="https://www.youtube.com/watch?v=BHdIQy00_p4" target="_blank">
-              <ReactPlayer
-                url="https://www.youtube.com/watch?v=BHdIQy00_p4"
-                width="100%"
-                playing={true}
-                muted
-              />
-            </Link>
-          </div>
-
-          <div className="col-lg-4 col-md-6 mb-4">
-            {/* Content for the third column */}
-            <Link to="https://www.youtube.com/watch?v=XYwP-QndGG0" target="_blank">
-              <ReactPlayer
-                url="https://www.youtube.com/watch?v=XYwP-QndGG0"
-                playing={true}
-                muted
-                width="100%"
-              />
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      <section class="download-section-mobil mb-5 mt-5">
-        <div class="opacityPackdownload"></div>
-        <div class="container">
-          <div class="row align-items-center">
-            <div class="col-lg-6">
-              <div class="download-app">
-                <h2>To get the PEFA Event pass Download Our App</h2>
-                <ul class="download-list">
-                  <li>
-                    <img src={check} alt="check" />
-                    Flight Ticket, Bus Ticket, Hotel Booking
-                  </li>
-                  <li>
-                    <img src={check} alt="check" />
-                    Events, Recharge, Visa
-                  </li>
-                </ul>
-                <div className="qr-Box">
-                  <div>
-                    <img src={scan} className="scan-logo" alt="scan logo" />
-                  </div>
-                  <div class="d-sm-flex">
-                    <a
-                      href="https://play.google.com/store/apps/details?id=com.skytrails"
-                      target="_blank"
-                    >
-                      <img src={google} alt="google" />
-                    </a>
-                    <a
-                      href="https://apps.apple.com/in/app/the-skytrails/id6475768819"
-                      target="_blank"
-                    >
-                      <img src={apple} alt="apple" />
-                    </a>
-                  </div>
-                </div>
-                <div className="appLink ">
-                  <div class="input-group customInputGroup">
-                    <div class="input-group-text designCustom">+91</div>
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={mobileNumber}
-                      onChange={(e) => {
-                        setMobileNumber(e.target.value);
-                      }}
-                      class="form-control"
-                      placeholder="Mobile Number"
-                    />
-                    <div class="input-group-text designCustomTwo">
-                      <button
-                        className="appLinkButton"
-                        onClick={handleDownloadLink}
-                        disabled={loading || sent}
-                      >
-                        {loading ? (
-                          <>Sending...</>
-                        ) : sent ? (
-                          <>
-                            Sent{" "}
-                            <span>
-                              <svg
-                                height="20"
-                                viewBox="0 0 520 520"
-                                width="20"
-                                xmlns="http://www.w3.org/2000/svg"
-                                id="fi_5290058"
-                              >
-                                <g id="_15-Checked" data-name="15-Checked">
-                                  <circle
-                                    cx="208.52"
-                                    cy="288.5"
-                                    fill="#b0ef8f"
-                                    r="176.52"
-                                  ></circle>
-                                  <path
-                                    d="m210.516 424.937-2.239-3.815c-34.2-58.27-125.082-181.928-126-183.17l-1.311-1.781 30.963-30.6 98.012 68.439c61.711-80.079 119.283-135.081 156.837-167.2 41.081-35.135 67.822-51.31 68.092-51.465l.608-.364h52.522l-5.017 4.468c-129.029 114.926-268.883 359.19-270.276 361.644z"
-                                    fill="#009045"
-                                  ></path>
-                                </g>
-                              </svg>
-                            </span>
-                          </>
-                        ) : (
-                          "GET APP LINK"
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* <div class="col-lg-6">
-              <div class="download-img-mobil">
-                <img src={mobil} alt="mobil" />
-              </div>
-            </div> */}
-          </div>
-        </div>
+      <section className="relative h-[70vh] w-screen flex items-center justify-center">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${pefa})` }}
+        ></div>
       </section>
 
-      <div className="container mt-5 eventContnet">
-        <h1 className="mt-5">{eventDetails?.title}</h1>
-        <div className="eventFirstPara">
-          <p>{eventDetails?.content}</p>
-        </div>
-
-        <div className="eventForm">
-          {/* <div className="formUpperEvent">
-                        <div>
-                            <p>Venue : </p>
-                            <span>{eventDetails?.venue}</span>
-                        </div>
-                        <div>
-                            <p>Ages above : </p>
-                            <span>{eventDetails?.age}</span>
-                        </div>
-                        <div>
-                            <p>Event Date : </p>
-                            <span>{dayjs(eventDetails?.startDate).format('DD MMM, YY')}</span>
-                        </div>
-                        <div>
-                            <p className='text-green'>Free of Cost</p>
-                        </div>
-                    </div> */}
-          {/* <form onSubmit={handleSubmit}>
-                                    <div className="row">
-                                        <div className="col-lg-6">
-                                            <div className="eventInput mb-3">
-                                                <label htmlFor="firstName" className="form-label">First Name</label>
-                                                <input
-                                                    type="text"
-                                                    name="firstName"
-                                                    ref={firstInputRef}
-                                                    id="firstName"
-                                                    className="form-control"
-                                                    value={formData.firstName}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <div className="eventInput mb-3">
-                                                <label htmlFor="mobileNumber" className="form-label">Mobile Number</label>
-                                                <input
-                                                    type="tel"
-                                                    name="mobileNumber"
-                                                    id="mobileNumber"
-                                                    className="form-control"
-                                                    value={formData.mobileNumber}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <div className="eventInput mb-3">
-                                                <label htmlFor="currentCity" className="form-label">Current City</label>
-                                                <input
-                                                    type="text"
-                                                    name="currentCity"
-                                                    id="currentCity"
-                                                    className="form-control"
-                                                    value={formData.currentCity}
-                                                    onChange={handleChange}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6">
-                                            <div className="eventInput mb-3">
-                                                <label htmlFor="professionSelect" className="form-label">Select Profession</label>
-                                                <select
-                                                    className="form-select"
-                                                    id="professionSelect"
-                                                    value={selectedProfession}
-                                                    onChange={handleSelectChange}
-                                                >
-                                                    <option value="film industry">Film Industry</option>
-                                                    <option value="other">Other</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        {selectedProfession === 'other' &&
-                                            <div className="col-lg-6 offset-lg-6">
-                                                <div className="eventInput mb-3">
-                                                    <label htmlFor="otherProfession" className="form-label">Other Profession</label>
-                                                    <input
-                                                        type="text"
-                                                        name="otherProfession"
-                                                        id="otherProfession"
-                                                        className="form-control"
-                                                        value={formData.otherProfession}
-                                                        onChange={handleChange}
-                                                    />
-                                                </div>
-                                            </div>
-                                        }
-                                        <div className="col-lg-12">
-                                            <div className="eventSubmitBox">
-                                                <div class="eventTickets">
-                                                    <input type="radio"
-                                                        id="option-1"
-                                                        name="totalPeople"
-                                                        value="1"
-                                                        checked={totalPeople === "1"}
-                                                        onChange={handleRadioChange}
-                                                    />
-                                                    <input type="radio"
-                                                        name="totalPeople"
-                                                        id="option-2"
-                                                        value="2"
-                                                        checked={totalPeople === "2"}
-                                                        onChange={handleRadioChange}
-                                                    />
-                                                    <label for="option-1" class="optionsss optionTicket1">
-                                                        <div class="dot"></div>
-                                                        <span>Pick 1 Pass</span>
-                                                    </label>
-                                                    <label for="option-2" class="optionsss optionTicket2 m-0">
-                                                        <div class="dot"></div>
-                                                        <span>Pick 2 passes</span>
-                                                    </label>
-                                                </div>
-                                                <div className='eventSubmit'>
-
-                                                    {
-                                                        authenticUser ? (
-
-                                                            <button type="submit" >
-                                                                {
-                                                                    loadingEvent ? ("loading") : ("Get your Pass")
-                                                                }
-                                                            </button>
-                                                        ) :
-                                                            (
-                                                                <button type="submit" onClick={() => handleTravelClickOpen()}>Get your Pass</button>
-                                                            )
-                                                    }
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form> */}
-        </div>
-        <div className="eventFirstPara mt-5">
-          <h3 className="mb-4">
+      <div>
+        <div className="container mt-5">
+          <h3 className="mb-4 font-medium ">
             Important Notification Regarding Your PEFA Award Event
           </h3>
-          <p>
-            - We want to keep you informed about the status of your PEFA Award
-            Event submission. Please take note of the following disclaimer for a
-            smooth and successful event processing:
-          </p>
-          <p>
-            - Your PEFA Award Event details have been diligently submitted to
-            the relevant authorities, and processing is currently underway.
-          </p>
-          <p>
-            - Ensuring the accuracy of the details you provided, including
-            essential documents such as passport copies, photo scans, and bank
-            statements, is crucial for a seamless processing experience.
-          </p>
-          <p>
-            - Be proactive in notifying the authorities promptly of any changes
-            or updates to your event details, as this ensures that your
-            submission remains up-to-date and in compliance.
-          </p>
-          <p>
-            - Please be aware that the processing time may vary, and there is a
-            possibility of additional documentation or information being
-            requested during the thorough review process.
-          </p>
-          <p>
-            - While we are committed to facilitating a smooth experience, it's
-            important to note that this information does not guarantee the
-            automatic approval of your PEFA Award Event. The final decision is
-            subject to the laws and regulations set by the respective
-            authorities.
-          </p>
-          <p>
-            - For the most accurate and up-to-date information on the status of
-            your PEFA Award Event, we encourage you to consult directly with the
-            relevant authorities.
-          </p>
+          <ul className="list-disc ps-[1rem]">
+            <li className="text-base mb-3 ">
+              We want to keep you informed about the status of your PEFA Award
+              Event submission. Please take note of the following disclaimer for
+              a smooth and successful event processing:
+            </li>
+            <li className="text-base mb-3 ">
+              Your PEFA Award Event details have been diligently submitted to
+              the relevant authorities, and processing is currently underway.
+            </li>
+            <li className="text-base mb-3 ">
+              Ensuring the accuracy of the details you provided, including
+              essential documents such as passport copies, photo scans, and bank
+              statements, is crucial for a seamless processing experience.
+            </li>
+            <li className="text-base mb-3 ">
+              Be proactive in notifying the authorities promptly of any changes
+              or updates to your event details, as this ensures that your
+              submission remains up-to-date and in compliance.
+            </li>
+            <li className="text-base mb-3 ">
+              Please be aware that the processing time may vary, and there is a
+              possibility of additional documentation or information being
+              requested during the thorough review process.
+            </li>
+            <li className="text-base mb-3 ">
+              While we are committed to facilitating a smooth experience, it's
+              important to note that this information does not guarantee the
+              automatic approval of your PEFA Award Event. The final decision is
+              subject to the laws and regulations set by the respective
+              authorities.
+            </li>
+            <li className="text-base mb-3 ">
+              For the most accurate and up-to-date information on the status of
+              your PEFA Award Event, we encourage you to consult directly with
+              the relevant authorities.
+            </li>
+          </ul>
           <p></p>
         </div>
       </div>
 
-      {/* <Modal
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style}>
-                    <div className='eventSuccessModalImage'>
-                        <img src={click} alt="click" />
-                    </div>
-                    <p>Event Registered Sucessfully.</p>
-                    <div className='eventSuccessModalButton'>
-                        <button onClick={handleClose}>Done</button>
-                    </div>
-                </Box>
-            </Modal>
-
-
-            <Modal
-                open={isLoginModalOpen}
-                onClose={handleModalClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                sx={{ zIndex: "999999" }}
-            >
-
-                <div class="login-page">
-                    <div class="container ">
-                        <div class="row d-flex justify-content-center">
-                            <div class="col-lg-5 ">
-                                <div class="bg-white shadow roundedCustom">
-                                    <div class="">
-                                        <div class="col-md-12 ps-0  d-md-block">
-                                            <div class="form-right leftLogin h-100 text-white text-center ">
-                                                <CloseIcon className="closeIncon" onClick={handleModalClose} />
-                                                <div className="loginImg logg">
-                                                    <img src={loginnew} alt="loginnew" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12 pe-0">
-                                            <div class="form-left h-100 d-flex justify-content-center flex-column py-4 px-3">
-
-                                                <div class="row g-4">
-                                                    <div class="col-12" style={{ display: "flex", justifyContent: "center" }}>
-                                                        <label className="mb-3">Please Login to Continue<span class="text-danger">*</span></label>
-
-                                                    </div>
-                                                    <div class="col-12" style={{ display: "flex", justifyContent: "center" }}>
-                                                        <Login />
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+      <section class="container py-20 px-4 bg-gray-100 rounded-lg mt-8 mb-8">
+        <div class="w-full mx-auto flex flex-col md:flex-row items-center">
+          <div class="md:w-1/2 mb-8 md:mb-0 flex justify-center flex-col items-center">
+            <h5 className="text-gray-800">Download the app to</h5>
+            <h2 class="text-4xl text-gray-800 mb-6 font-bold">
+              Get Your Pass Now!
+            </h2>
+            <div class="flex flex-col gap-2 p-2 md:flex-row w-1/2 ">
+              <a
+                href="https://apps.apple.com/in/app/the-skytrails/id6475768819"
+                target="_blank"
+                class="flex items-center justify-center w-full px-2 py-2 text-center text-white bg-white border-1 rounded-2xl"
+                rel="noreferrer"
+              >
+                <svg
+                  class="w-7"
+                  viewBox="0 0 40 45"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0)">
+                    <path
+                      d="M32.6226 23.7016C32.6026 20.0267 34.2591 17.253 37.6118 15.2103C35.7359 12.5167 32.902 11.0347 29.1601 10.7443C25.6177 10.464 21.7461 12.8171 20.3292 12.8171C18.8324 12.8171 15.3998 10.8445 12.7057 10.8445C7.13769 10.9346 1.22048 15.3004 1.22048 24.1822C1.22048 26.8057 1.69945 29.516 2.65738 32.3131C3.93461 35.988 8.54465 45 13.3542 44.8498C15.8688 44.7897 17.645 43.0574 20.9179 43.0574C24.091 43.0574 25.7375 44.8498 28.5414 44.8498C33.3909 44.7797 37.5619 36.5888 38.7793 32.9039C32.2733 29.8298 32.6226 23.8919 32.6226 23.7016ZM26.9748 7.25968C29.6989 4.01535 29.4494 1.06142 29.3696 0C26.9648 0.140187 24.1808 1.64219 22.5943 3.49466C20.848 5.4773 19.8203 7.93058 20.0398 10.6943C22.6442 10.8945 25.019 9.55274 26.9748 7.25968Z"
+                      fill="black"
+                    ></path>
+                  </g>
+                  <defs>
+                    <clipPath id="clip0">
+                      <rect width="40" height="45" fill="white"></rect>
+                    </clipPath>
+                  </defs>
+                </svg>
+                <div class="flex flex-col ml-2 leading-4 text-left md:ml-3">
+                  <span class="text-sm text-black">Get it on</span>
+                  <span class="text-base font-semibold text-black">
+                    App Store
+                  </span>
                 </div>
-            </Modal> */}
+              </a>
+              <a
+                href="https://play.google.com/store/apps/details?id=com.skytrails"
+                target="_blank"
+                class="flex items-center justify-center w-full px-2 py-2 text-center text-white bg-white border-1 rounded-2xl"
+                rel="noreferrer"
+              >
+                <svg
+                  class="w-7"
+                  viewBox="-9 0 274 274"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g>
+                    <path
+                      d="M188.81319,178.874645 C221.272218,161.051727 245.880297,147.470853 248.001319,146.415618 C254.78648,142.806714 261.79324,133.256838 248.001319,125.838536 C243.548228,123.506467 219.573289,110.347687 188.81319,93.3795092 L146.171146,136.443648 L188.81319,178.874645 Z"
+                      fill="#FFD900"
+                    ></path>
+                    <path
+                      d="M146.171146,136.443648 L10.3940643,273.286517 C13.5808739,273.708611 17.1792251,272.864423 21.4212696,270.532353 C30.3274526,265.657168 124.739324,214.098388 188.81319,178.885198 L146.171146,136.443648 Z"
+                      fill="#F43249"
+                    ></path>
+                    <path
+                      d="M146.171146,136.443648 L188.81319,93.5905562 C188.81319,93.5905562 30.9711459,7.45172685 21.4212696,2.36549437 C17.8229184,0.233919759 13.7919209,-0.399221214 10.1830173,0.233919759 L146.171146,136.443648 Z"
+                      fill="#00EE76"
+                    ></path>
+                    <path
+                      d="M146.171146,136.443648 L10.1830173,0.233919759 C4.6641385,1.51075405 0,6.38593954 0,16.3579099 C0,32.270853 0,244.003747 0,257.162527 C0,266.290309 3.60890354,272.864423 10.3940643,273.497564 L146.171146,136.443648 Z"
+                      fill="#00D3FF"
+                    ></path>
+                  </g>
+                </svg>
+                <div class="flex flex-col ml-2 leading-4 text-left md:ml-3">
+                  <span class="text-sm text-black">Get it on</span>
+                  <span class="text-base font-semibold text-black">
+                    Play Store
+                  </span>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div class="md:w-1/2 flex justify-center flex-col md:flex-col items-center">
+            <h2 class="text-4xl text-gray-800 mb-6 font-bold">Or Scan Here!</h2>
+            <img src={scan} alt="Mobile App" class="w-64 " />
+          </div>
+        </div>
+      </section>
+
+      <section class="relative h-96 mb-6">
+        {/* <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1540959733332-eab4deabeeaf')] bg-cover bg-center"></div> */}
+        <iframe
+          className="absolute inset-0 w-full h-full"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4257.612796294252!2d76.6644754!3d30.687216499999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390fef154b91a85b%3A0x4d8b9df97e986631!2sChandigarh%20Group%20of%20Colleges%20(CGC)%20-%20Landran!5e1!3m2!1sen!2sin!4v1738832992933!5m2!1sen!2sin"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+        ></iframe>
+        <div className="container">
+          <div class="absolute right-10 top-1/2 transform -translate-y-1/2 bg-white p-8 rounded-xl shadow-2xl max-w-sm">
+            <h3 class="text-2xl font-bold mb-4">Event Location</h3>
+            <p class="text-gray-600">
+              CGC Landran
+              <br />
+              Sahibzada Ajit Singh Nagar
+              <br />
+              Punjab 140307
+              <br />
+            </p>
+            <button class="mt-4 bg-primary-6000 text-white px-6 py-2 rounded-full hover:bg-primary-700 transition">
+              Get Directions
+            </button>
+          </div>
+        </div>
+      </section>
     </>
   );
 };
