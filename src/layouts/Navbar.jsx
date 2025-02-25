@@ -20,7 +20,6 @@ import { Link, NavLink } from "react-router-dom";
 import STLogo from "../images/ST-Main-Logo.png";
 import newlogo from "../images/newlogo.png";
 import "./navbar.css";
-// import bgimg from "../images/bg.png";
 
 const PAGES = ["Home", "About Us", "Contact Us", "Products"];
 const Header = () => {
@@ -36,10 +35,10 @@ const Header = () => {
           display: "flex",
           justifyContent: "space-between",
           flexWrap: "wrap",
-          backgroundImage: "url('../images/app.png')",  // Add the path to your background image
-          backgroundSize: 'cover',  // Adjust the background size as needed
-          backgroundRepeat: 'no-repeat',
-          paddingLeft: '20px'
+          backgroundImage: "url('../images/app.png')", // Add the path to your background image
+          backgroundSize: "cover", // Adjust the background size as needed
+          backgroundRepeat: "no-repeat",
+          paddingLeft: "20px",
         }}
       >
         <div>

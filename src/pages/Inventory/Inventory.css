@@ -71,17 +71,8 @@
   margin-top: 10px;
 }
 
-/* .inventoryForm {
-  background-image: url("./bg.png");
-} */
 
-.form-item {
-  /* Add any necessary styles for the form item */
-}
 
-.add-facility-button {
-  /* Add styles for the button if needed */
-}
 
 .facility-chips {
   display: flex;

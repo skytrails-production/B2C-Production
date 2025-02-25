@@ -662,28 +662,22 @@ function App() {
           element={<SkytailsTrendingPackages />}
         ></Route>
         <Route path="/my-profile" element={<UserProfile />}></Route>
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
 
-      {/* inventory */}
-      <Routes>
+        <Route path="/Package/form" element={<Packageform />}></Route>
+
+        {/* career  */}
+        <Route path="/career" element={<Career />}></Route>
+        {/* career  */}
+        <Route path="/phone" element={<PhoneNumber />}></Route>
+        <Route path="/offers" element={<AllOffers />}></Route>
+        <Route path="/offerDetail" element={<OfferDetails />}></Route>
+
+        {/* </Routes> */}
+
+        {/* inventory */}
+        {/* <Routes> */}
         {/* <Route path="/inventoryLogin" element={<Logininventory />}></Route> */}
-        <Route
-          path="/inventoryLogin"
-          element={
-            <div
-              style={{
-                backgroundImage: 'url("/bg.png")', // Assuming your image is in the public folder
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                height: "100vh", // Full screen height
-                width: "100vw", // Optional: Full screen width
-              }}
-            >
-              <Logininventory />
-            </div>
-          }
-        />
+        <Route path="/inventoryLogin" element={<Logininventory />} />
         <Route
           path="/inventoryRegister"
           element={<Registerinventory />}
@@ -713,15 +707,7 @@ function App() {
           path="/itenaryresult/itenaryDownload/:id"
           element={<ItenaryPdfDownloader />}
         ></Route>
-
-        <Route path="/Package/form" element={<Packageform />}></Route>
-
-        {/* career  */}
-        <Route path="/career" element={<Career />}></Route>
-        {/* career  */}
-        <Route path="/phone" element={<PhoneNumber />}></Route>
-        <Route path="/offers" element={<AllOffers />}></Route>
-        <Route path="/offerDetail" element={<OfferDetails />}></Route>
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
 
       {/* complete inventory */}
