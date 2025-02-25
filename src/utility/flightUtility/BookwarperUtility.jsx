@@ -501,6 +501,7 @@ export const fareQuateRuleAirsel = async (type) => {
         SelectedFlights: [SelectedFlights],
       };
       const data = await userApi?.kafilaFareCheck(payload);
+
       // console.log(data, "kafiladata");
       return data;
     } else if (flight.type == "AMD") {
@@ -740,22 +741,86 @@ export const flightSeatMap = async (type) => {
       const Param = type == "onward" ? journeyFlightParam : returnFlightParam;
       const SelectedFlights =
         type == "onward" ? Onward?.flight : Return?.flight;
+      const payload =
+        type == "onward"
+          ? reducerState?.fareQuoteRuleAirselReducer?.oneway?.data?.result
+          : reducerState?.fareQuoteRuleAirselReducer?.return?.data?.result;
+      console.log(payload, "payload");
+      payload.IsAncl = true;
+      const kafilaSsrResponse = await userApi?.kafilaSsrApi({
+        ...payload,
+        Param: Param,
+      });
 
+      const data = kafilaSsrResponse?.data?.result;
+      const isError = data?.Error?.IsError;
+      // console.log(
+      //   reducerState,
+      //   "reducerState",
+      //   payload,
+      //   kafilaSsrResponse?.data?.result,
+      //   "kafilaSsrResponse",
+      //   data?.Ancl?.Seat
+      // );
+      let seatMapList = data?.Ancl?.Seat;
+      let BaggageList = data?.Ancl?.Baggage;
+      let mealList = data?.Ancl?.Meals;
+      let seatListt = [];
+      let seatAmountList = [];
+      let seatAmountListMid = [];
+      let meal = [];
+      meal = mealList?.reduce((result, param) => {
+        // if (param.Code !== "NoMeal") {
+        const flightNumber = param.FNo;
+        if (!result[flightNumber]) {
+          result[flightNumber] = [];
+        }
+        result[flightNumber].push(0);
+        // }
+        return result;
+      }, {});
+
+      seatMapList.forEach((seat, index) => {
+        seatListt.push([]);
+        seatAmountList.push([]);
+        seatAmountListMid.push([]);
+        const AmountList = new Set();
+        seat.forEach((item, index) => {
+          item[0]?.Price !== 0 && AmountList.add(item[0]?.Price);
+        });
+        seatAmountList[index] = [...AmountList];
+        // seatAmountList[index] = [...AmountList];
+      });
+      seatAmountList?.forEach((item, index) => {
+        item.sort((a, b) => {
+          return a - b; // Sort numbers in ascending order
+        });
+        seatAmountListMid[index] =
+          seatAmountList[index][parseInt(seatAmountList[index]?.length / 2)];
+      });
+
+      // seatAmountListMid?.[].push(
+      //   seatAmountList[parseInt(seatAmountList.length / 2)]
+      // );
+      let baglis = [...Array(BaggageList?.length)].fill(0);
       // console.log(data, "kafiladata");
       return {
-        seatMap: 0,
-        number_of_seat_map: 0,
+        seatMap: data?.Ancl?.Seat,
 
-        number_of_airline: 0,
-        seatList: [],
-        amountList: [],
-        amountTVO: [],
+        number_of_seat_map: data?.Ancl?.Seat?.length,
+
+        number_of_airline: data?.Ancl?.Seat?.length,
+        seatList: seatListt,
+        amountList: seatAmountListMid,
+        amountTVO: seatAmountList,
         defaultSeatOccupation: [],
         midAmount: 0,
         seatDataList: [],
-        mealsList: [],
-        baggageList: [],
-        isError: false,
+        mealsList: mealList,
+        baggageList: BaggageList,
+        meals: meal,
+        baggage: baglis,
+        isError: isError,
         isLoading: false,
         errorMessage: "",
         isSeatsShow: false,
@@ -1146,7 +1211,7 @@ export const findSeatMealBaggagePrice = (type) => {
 
         // Calculate the total price for each meal
         meals.forEach((quantity, index) => {
-          totalMealPrice += quantity * mealPrices[index].Price;
+          totalMealPrice += quantity * mealPrices?.[index].Price;
           // for (let i = 0; i < quantity; i++) {
           //   totalMealPrice.push(mealPrices[index]);
           // }
@@ -1167,6 +1232,68 @@ export const findSeatMealBaggagePrice = (type) => {
       // console.log(ssrDetails, "tboprice");
     } else if (flight.type == "KAFILA") {
       const price = flight?.flight?.Fare?.GrandTotal;
+      let mealdata = ssrDetails?.mealsList;
+      let seatList = ssrDetails?.seatList;
+      let mealList = ssrDetails?.meals;
+      let baggagedata = ssrDetails?.baggageList;
+
+      let baggageList = ssrDetails?.baggage;
+
+      Object.values(seatList).forEach((item) => {
+        seatPrice += item.reduce((acc, val) => acc + val.Price, 0);
+      });
+
+      function separateFunction(param) {
+        // console.log(param, "pramssss");
+        // seatKeys = [];
+        const groupedMeals = new Map();
+
+        param?.forEach((item) => {
+          if (item.Code !== "NoMeal") {
+            const flightNumber = item.FNo;
+            if (!groupedMeals.has(flightNumber)) {
+              groupedMeals.set(flightNumber, []);
+              //   seatKeys.push(flightNumber);
+            }
+            groupedMeals.get(flightNumber).push(item);
+          }
+        });
+
+        // Convert Map to an object and preserve order
+        const result = {};
+        for (const [key, value] of groupedMeals) {
+          result[key] = value;
+        }
+
+        return result;
+      }
+      let separateData = separateFunction(mealdata);
+      // console.log(separateData, "separateData");
+
+      // Loop through each flight in mealList
+      for (const flightNumber in mealList) {
+        const meals = mealList?.[flightNumber];
+        const mealPrices = separateData?.[flightNumber];
+
+        // Calculate the total price for each meal
+        meals.forEach((quantity, index) => {
+          totalMealPrice += quantity * mealPrices?.[index].Price;
+          // for (let i = 0; i < quantity; i++) {
+          //   totalMealPrice.push(mealPrices[index]);
+          // }
+        });
+      }
+      function calculateBaggageTotal(baggage, baggageList) {
+        let total = 0;
+        for (let i = 0; i < baggage?.length; i++) {
+          if (baggage[i] === 1) {
+            total += baggageList[i].Price;
+          }
+        }
+        return total;
+      }
+      totalBaggageAmount =
+        totalBaggageAmount + calculateBaggageTotal(baggageList, baggagedata);
       // console.log("kafilaprice");
     } else if (flight.type == "AMD") {
       let seatList = ssrDetails?.seatList;
@@ -1477,6 +1604,74 @@ export const startBookingProcess = async (type) => {
           ? reducerState?.fareQuoteRuleAirselReducer?.oneway
           : reducerState?.fareQuoteRuleAirselReducer?.return;
       // console.log(fareresponse, "kafilaFareCheck");
+      let baggageData =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.baggageList
+          : reducerState?.airlineSeatMapNew?.return?.baggageList;
+      let baggageList =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.baggage
+          : reducerState?.airlineSeatMapNew?.return?.baggage;
+      seat =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.seatList
+          : reducerState?.airlineSeatMapNew?.return?.seatList;
+      let mealData =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.mealsList
+          : reducerState?.airlineSeatMapNew?.return?.mealsList;
+      let mealList =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.meals
+          : reducerState?.airlineSeatMapNew?.return?.meals;
+      let seatList =
+        type == "onward"
+          ? reducerState?.airlineSeatMapNew?.onward?.seatList
+          : reducerState?.airlineSeatMapNew?.return?.seatList;
+      let arr = [];
+      let baggageDynamic = [];
+      baggageList?.map((item, index) => {
+        for (let i = 0; i < item; i++) {
+          baggageDynamic.push(baggageData[index]);
+        }
+      });
+      function separateFunction(param) {
+        // seatKeys = [];
+        const groupedMeals = new Map();
+
+        param?.forEach((item) => {
+          const flightNumber = item?.FNo;
+          if (!groupedMeals.has(flightNumber)) {
+            groupedMeals.set(flightNumber, []);
+            //   seatKeys.push(flightNumber);
+          }
+          groupedMeals.get(flightNumber).push(item);
+        });
+
+        // Convert Map to an object and preserve order
+        const result = {};
+        for (const [key, value] of groupedMeals) {
+          result[key] = value;
+        }
+
+        return result;
+      }
+      let totalMeallist = [];
+
+      let newMealList;
+      let separateData = separateFunction(mealData);
+      for (const flightNumber in mealList) {
+        const meals = mealList[flightNumber];
+        const mealPrices = separateData[flightNumber];
+
+        // Calculate the total price for each meal
+        meals.forEach((quantity, index) => {
+          for (let i = 0; i < quantity; i++) {
+            totalMeallist.push(mealPrices[index]);
+          }
+        });
+        newMealList = separateFunction(totalMeallist);
+      }
 
       const payload = {
         FareChkRes: {
@@ -1495,6 +1690,37 @@ export const startBookingProcess = async (type) => {
           PaxEmail: apiURL.flightEmail,
           PaxMobile: passengerData[0]?.ContactNo,
           Passengers: passengerData?.map((item, index) => {
+            let mealDynamic = [];
+            let seatDynamic = [];
+
+            if (newMealList) {
+              Object.keys(newMealList).forEach((key) => {
+                if (newMealList[key]?.[index]) {
+                  mealDynamic?.push(newMealList[key]?.[index]);
+                }
+              });
+            }
+            // console.log(seatList, "seatListseatList");
+            if (seatList && typeof seatList === "object") {
+              Object.keys(seatList).forEach((key) => {
+                //   console.log(key, seatList[key]?.[index]); // Debugging seat data
+                if (seatList[key]?.[index]) {
+                  seatDynamic.push(seatList[key][index]); // Push only if seat exists
+                }
+              });
+            }
+            // if (newMealList) {
+            //   Object.keys(newMealList).forEach((key) => {
+            //     if (newMealList[key]?.[index]) {
+            //       mealDynamic?.push(newMealList[key]?.[index]);
+            //     }
+            //   });
+            // }
+            let tempBag = Array.isArray(baggageDynamic?.[index])
+              ? baggageDynamic?.[index]
+              : baggageDynamic?.[index]
+              ? [baggageDynamic?.[index]]
+              : [];
             const paxvalue =
               item?.PaxType === 1
                 ? "ADT"
@@ -1509,15 +1735,15 @@ export const startBookingProcess = async (type) => {
               Title: item?.title,
               FName: item?.firstName,
               LName: item?.lastName,
-              Gender: item?.Gender === 1 ? "Male" : "Female",
+              Gender: item?.gender === 1 ? "Male" : "Female",
               Dob: item?.DateOfBirth,
               // Dob:null,
               // selectedbaggage?.[index] == undefined ? [] : [selectedbaggage?.[index]]
-              Baggage: [],
+              Baggage: tempBag,
               Special: [],
-              Meal: [],
+              Meal: mealDynamic,
 
-              Seat: null,
+              Seat: seatDynamic,
               Optional: {
                 TicketNumber: "",
                 PassportNo: item?.PassportNo,
@@ -2298,7 +2524,10 @@ export function findAirportByCode(code) {
   // const
   const state = store.getState();
   const airportList = state?.flightList?.aireportList;
-  const data = airportList?.find((airport) => airport?.AirportCode === code);
+  const data =
+    airportList?.length > 0
+      ? airportList?.find((airport) => airport?.AirportCode === code)
+      : { name: code };
   // console.log(state?.flightList, "airportlist");
   return data;
 }

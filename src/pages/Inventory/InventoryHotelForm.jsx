@@ -417,7 +417,7 @@ const InventoryHotelForm = () => {
       );
 
       const responseData = await response.json();
-      console.log(responseData);
+      // console.log(responseData);
 
       if (response.ok) {
         notification.success({
@@ -645,7 +645,7 @@ const InventoryHotelForm = () => {
         .filter((state) => state && state !== ""); // Remove empty or undefined values
 
       const uniqueStateProvinces = [...new Set(stateProvinces)];
-      console.log(uniqueStateProvinces, "stateProvinces");
+      // console.log(uniqueStateProvinces, "stateProvinces");
 
       // Extract and normalize unique cityName values
       const cityData = stateList

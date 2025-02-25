@@ -4,7 +4,6 @@ import { UserPlusIcon } from "@heroicons/react/24/outline";
 import NcInputNumber from "../../../components/TailwindSearchComp/heroSection/NcInputNumber";
 
 const ResultGuest = ({
-  fieldClassName = "[p-3]",
   className = "[ nc-flex-1 ]",
   hasButtonSubmit = true,
   onRoomDataChange,
@@ -110,11 +109,11 @@ const ResultGuest = ({
               <div className="flex-grow">
                 <span
                   //  className="block text-2xl font-bold"
-                  className="block w-full bg-transparent border-none focus:ring-0 p-0 focus:outline-none text-xl md:text-xl lg:text-xl xl:text-xl font-bold placeholder-neutral-800 truncate"
+                  className="block w-full bg-transparent text-gray-100  border-none focus:ring-0 p-0 focus:outline-none text-xl md:text-xl lg:text-xl xl:text-xl font-bold placeholder-neutral-800 truncate"
                 >
                   {totalGuests || ""} Guests
                 </span>
-                <span className="block mt-1 text-[1rem] text-neutral-400 leading-none font-light">
+                <span className="block mt-0.5 text-[0.8rem] text-gray-100 font-medium">
                   {roomsCount} Rooms
                 </span>
               </div>
@@ -124,7 +123,7 @@ const ResultGuest = ({
                 <a
                   onClick={onSubmit}
                   type="button"
-                  className="flex items-center justify-center w-10 rounded-full h-10 md:h-12 md:w-12 bg-primary-6000 hover:bg-primary-700 text-neutral-50 focus:outline-none"
+                  className="flex items-center shadow-md justify-center w-10 rounded-full h-10 md:h-12 md:w-12 bg-primary-6000 hover:bg-primary-700 text-neutral-50 focus:outline-none"
                 >
                   {loader ? (
                     <svg

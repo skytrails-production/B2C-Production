@@ -48,7 +48,7 @@ const BusSearchForm = () => {
     sessionStorage.setItem("SessionExpireTime", new Date());
 
     if (toCity?.CityId === fromCity?.CityId) {
-      console.log("bussubmit");
+      // console.log("bussubmit");
       setShake(true);
       setError(true);
 
@@ -63,7 +63,7 @@ const BusSearchForm = () => {
       OriginId: fromCity.CityId,
     };
 
-    console.log(payload, "clicked");
+    // console.log(payload, "clicked");
     sessionStorage.setItem(
       "busOnewayData",
       JSON.stringify([

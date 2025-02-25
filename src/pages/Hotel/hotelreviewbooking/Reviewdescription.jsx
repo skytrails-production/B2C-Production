@@ -360,7 +360,7 @@ const Flightdetail = () => {
       handleModalClose();
     }
   }, [authenticUser]);
-  console.log(passengerData, "passenger data");
+  // console.log(passengerData, "passenger data");
   const handleClickSavePassenger = () => {
     if (authenticUser !== 200) {
       setIsLoginModalOpen(true);

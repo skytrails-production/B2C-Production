@@ -70,7 +70,6 @@ const Testimonials = ({
   useEffect(() => {
     if (Rating?.length > 0 && title) {
       let newRating = Rating?.filter((item) => {
-
         return title === item?.section;
       });
       setRating(newRating);
@@ -122,7 +121,7 @@ const Testimonials = ({
                       slidesPerView: 3,
                     },
                     1224: {
-                      slidesPerView: 3,
+                      slidesPerView: 4,
                     },
                     0: {
                       slidesPerView: 1,

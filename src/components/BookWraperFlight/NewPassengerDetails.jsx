@@ -245,6 +245,8 @@ const NewPassengerDetails = React.forwardRef(
       validation();
     }, [passengerData]);
 
+    // console.log(passengerData, "passenger data in the new passenger detials");
+
     const formatDate = (date) => {
       const year = date.getFullYear();
       const month = ("0" + (date.getMonth() + 1)).slice(-2);

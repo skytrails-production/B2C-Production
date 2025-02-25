@@ -16,7 +16,7 @@ function EnquiryForm({ isOpen, closeModal, destination }) {
   minDate.setDate(today.getDate() + 5); // Add 5 days to the current date
 
   const [formData, setFormData] = useState({
-    destination: keyword || "",
+    destination: "",
     departureCity: "",
     name: userLoggedIn?.username || "",
     email: userLoggedIn?.email || "",
@@ -140,7 +140,7 @@ function EnquiryForm({ isOpen, closeModal, destination }) {
           <div className="relative w-full max-w-md p-6 space-y-4 bg-white rounded-lg">
             <button
               onClick={() => {
-                // setIsOpen(false); 
+                // setIsOpen(false);
                 closeModal();
                 setPage(1); // Reset to Page 1
                 setErrors({}); // Clear errors

@@ -17,12 +17,32 @@ export const hotelActionGRN = (data, page) => {
   }
 };
 
+// fetch few hotel in starting
+
+export const fetchHotelFew = (data) => {
+  return {
+    type: types.HOTEL_SUCCESSGRNFEW,
+    payload: data,
+  };
+};
+
+export const hotelActionGRNFew = (data, page) => {
+  if (data) {
+    // console.log(data, "dataaaaaaaaaaa", page)
+    return {
+      type: types.HOTEL_REQUESTGRNFEW,
+      payload: { data, page },
+    };
+  }
+};
+
+// fetch few hotel in starting
+
 export const singleHotelSuccess = (data) => {
   return {
     type: types.HOTEL_SINGLE_SUCCESS,
     payload: data,
-  }
-
+  };
 };
 export const singleHotelGRN = (data) => {
   if (data) {
@@ -33,13 +53,11 @@ export const singleHotelGRN = (data) => {
   }
 };
 
-
 export const HotelRoomSelectSuccessGRN = (data) => {
   return {
     type: types.HOTEL_ROOMSELECT_SUCCESS,
     payload: data,
-  }
-
+  };
 };
 export const HotelRoomSelectReqGRN = (data) => {
   if (data) {
@@ -50,10 +68,7 @@ export const HotelRoomSelectReqGRN = (data) => {
   }
 };
 
-
-
-
-// gallery 
+// gallery
 
 export const hotelGallerySuccess = (data) => {
   if (data) {
@@ -64,17 +79,13 @@ export const hotelGallerySuccess = (data) => {
   }
 };
 
-
 export const hotelGalleryRequest = (data) => {
   return {
     type: types.HOTEL_GALLERY_REQUEST,
     payload: data,
-  }
-
+  };
 };
-// gallery 
-
-
+// gallery
 
 export const fetchBookRoomHotelGRN = (data) => {
   return {
@@ -98,21 +109,19 @@ export const clearonlyHotelsGRN = () => {
   return {
     type: types.CLEAR_HOTEL_REDUCER_GRN,
   };
-}
-
+};
 
 export const clearHotelReducerGRN = () => {
   return {
     type: types.CLEAR_HOTEL_REDUCER_GRN,
   };
-}
-
+};
 
 export const clearHotelRoomAndGallery = () => {
   return {
     type: types.CLEAR_HOTEL_ROOMGALLERY_GRN,
   };
-}
+};
 export const clearHotelBlockRoom = () => {
   return {
     type: types.CLEAR_HOTEL_BLOCK_ROOM,

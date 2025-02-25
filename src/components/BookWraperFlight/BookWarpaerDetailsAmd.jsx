@@ -64,7 +64,7 @@ const BookWarpaerDetailsAmd = ({
     return formattedTime;
   }
   //   return <div>{JSON.stringify(useFindAirportByCode("BOM"))}</div>;
-  console.log(sesstioResultIndex, "sesstioResultIndex?.flightDetails?.s");
+  // console.log(sesstioResultIndex, "sesstioResultIndex?.flightDetails?.s");
 
   return (
     <>
@@ -419,7 +419,7 @@ const BookWarpaerDetailsAmd = ({
                 </>
               ) : (
                 sesstioResultIndex?.flightDetails?.map((item, index) => {
-                  console.log(item, "itemmmmmmm");
+                  // console.log(item, "itemmmmmmm");
 
                   const timeString =
                     sesstioResultIndex?.flightDetails[index]?.flightInformation

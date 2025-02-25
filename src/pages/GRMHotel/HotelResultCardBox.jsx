@@ -1,17 +1,15 @@
 import dayjs from "dayjs";
-import { Info, MapPin, Utensils } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { Utensils } from "lucide-react";
+import React from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import {
   hotelGalleryRequest,
   singleHotelGRN,
 } from "../../Redux/HotelGRN/hotel";
-import { Modal } from "flowbite-react";
-import HotelNA from "../../images/HotelNA.jpg";
 import ModalMap from "./ModalMap";
 
-const HotelResultCardBox = ({ result, shadoww }) => {
+const HotelResultCardBox = ({ result }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   //   const [showAll, setShowAll] = useState(false);
@@ -63,14 +61,14 @@ const HotelResultCardBox = ({ result, shadoww }) => {
 
   return (
     <div
-      className={`max-w-3xl mx-auto bg-white border border-gray-200 shadow-lg rounded-lg  p-4 relative`}
+      className={`max-w-3xl mx-auto bg-white border border-gray-200 shadow-md rounded-lg  p-4 relative`}
     >
       {/* Left Section: Image */}
 
       {result?.featureHotel && (
-        <div className="absolute top-0 right-0 flex flex-start gap-2 mb-2">
+        <div className="absolute z-0 top-0 right-0 flex flex-start gap-2 mb-2">
           <div className="flex flex-row">
-            <div className="relative bg-orange-500 rounded-se-md rounded-ee-md text-white text-[12px] pe-3 ps-3 py-1 overflow-hidden">
+            <div className="relative bg-orange-500 rounded-bl-xl rounded-tr-md text-white text-[12px] pe-3 ps-3 py-1 overflow-hidden">
               <span>Featured Hotel</span>
               <div className="absolute inset-0   bg-gradient-to-r from-transparent via-white to-transparent opacity-75 blur-md z-10 animate-slide"></div>
             </div>

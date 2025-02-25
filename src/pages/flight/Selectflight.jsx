@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 // import { styled } from "@mui/material/styles";
 import moment from "moment";
 import { FiArrowRight } from "react-icons/fi";
-import FlightLoader from "./FlightLoader/FlightLoader";
-import { useDispatch, useSelector } from "react-redux";
-import ReactPaginate from "react-paginate";
+
+import { useSelector } from "react-redux";
+
 import "../../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import Divider from "@mui/material/Divider";
+
 import "./selectflight.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "@mui/material/Modal";
@@ -14,21 +14,16 @@ import Modal from "@mui/material/Modal";
 import { motion, AnimatePresence } from "framer-motion";
 import { ImCancelCircle } from "react-icons/im";
 // import Swal from "sweetalert2";
-import { clearbookTicketGDS } from "../../Redux/FlightBook/actionFlightBook";
-import {
-  resetAllFareData,
-  setLoading,
-} from "../../Redux/FlightFareQuoteRule/actionFlightQuote";
 import dayjs from "dayjs";
 // import hotelFilter from "../../images/hotelFilter.png"
 import flightNoResult from "../../images/img/flightnoresult.jpg";
 import { Skeleton } from "@mui/material";
-import { Segment } from "@mui/icons-material";
+
 import "./selectflight.css";
 import fromTo from "../../images/fromTo.png";
-import { FaArrowRight } from "react-icons/fa";
+
 import { useAnimation } from "framer-motion";
-import FlightProgressBar from "./FlightProgressBar";
+
 import NoResult from "../../components/NoFlightResult";
 // import { useInView } from 'react-intersection-observer';
 const variants = {

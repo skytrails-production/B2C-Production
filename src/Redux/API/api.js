@@ -285,6 +285,31 @@ function api() {
       return { error: true, errorMessage: error?.message };
     }
   };
+  const kafilaSsrApi = async (fareresponse) => {
+    // let param = Array.isArray(fareresponse?.Param) ? fareresponse?.Param : [fareresponse?.Param]
+    const payload = {
+      IsFareUpdate: fareresponse?.IsFareUpdate,
+      IsAncl: true || fareresponse?.IsAncl,
+      Param: fareresponse?.Param,
+      SelectedFlight: fareresponse?.SelectedFlight,
+      FareBreakup: fareresponse?.FareBreakup,
+      GstData: fareresponse?.GstData,
+      IsAncl: fareresponse?.IsAncl,
+    };
+    try {
+      const response = await axios.post(
+        `${apiURL.baseURL}/skyTrails/api/kafila/kafilaSSR`,
+        payload
+      );
+      // setresponse(response);
+      // setmealdata(response);
+      return response;
+      // console.log(response);
+    } catch (error) {
+      console.error(error, "error in kafila ssr");
+      return { error: true, errorMessage: error };
+    }
+  };
   const fetchAirsel = async (payload) => {
     try {
       const response = await axios({
@@ -562,6 +587,11 @@ function api() {
       `${apiURL.baseURL}/skytrails/holidaypackage/filterbyamount?amount=${payload}`
     );
   };
+  const getAllPackages = (payload) => {
+    return axios.get(
+      `${apiURL.baseURL}/skyTrails/holidaypackage/getdomesticorinternational/${payload}?limit=1000`
+    );
+  };
 
   // holidayCategory details
 
@@ -670,6 +700,18 @@ function api() {
     return axios({
       method: "POST",
       url: `/skyTrails/tboandgrn/searchresults`,
+      // url: `/skyTrails/grnconnect/searchmultihotel`,
+      baseURL: `${apiURL.baseURL}`,
+      data: payload.data,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  };
+  const hotelSearchGRNFew = (payload) => {
+    return axios({
+      method: "POST",
+      url: `/skyTrails/grnconnect/hotelsearch`,
       // url: `/skyTrails/grnconnect/searchmultihotel`,
       baseURL: `${apiURL.baseURL}`,
       data: payload.data,
@@ -934,6 +976,7 @@ function api() {
     flightGetTicketLccReturn,
     hotelSearch,
     hotelSearchGRN,
+    hotelSearchGRNFew,
     hotelsingleDataGRN,
     hotelBookRoomGRN,
     hotelGalleryGRN,
@@ -948,6 +991,7 @@ function api() {
     searchPackageCategory,
     searchPackageCountry,
     searchPackageBudget,
+    getAllPackages,
     getOnePackage,
     bookingHoliday,
     getBusSearch,
@@ -985,6 +1029,7 @@ function api() {
     kafilapnr,
     addBookingDetailsKafila,
     flightSSR,
+    kafilaSsrApi,
   };
 }
 

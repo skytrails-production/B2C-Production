@@ -583,8 +583,8 @@ const HotelGuestDetailsGRN = () => {
             <h2 class="mb-2 text-lg font-semibold text-gray-900 ">
               Guest Details
             </h2>
-            <p className="text-red-800 text-[12px] italic mb-2">
-              Note: The Lead Guest's name must match the name on their PAN Card.
+            <p className="bg-indigo-100 text-gray-800 text-[13px] italic mb-2">
+              Note: The Lead Guest's name must match the Government ID Name.
             </p>
             <div className="">
               {hotelinfoGRN?.rate?.rooms?.map((item, roomIndex) => {

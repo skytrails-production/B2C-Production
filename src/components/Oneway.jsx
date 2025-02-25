@@ -92,7 +92,7 @@ function Oneway() {
   const sendTravelClass = (data2) => {
     setData(data2);
   };
-// console.log(reducerState);
+  // console.log(reducerState);
   const handleTravelerCountChange = (category, value) => {
     if (category === "adult") {
       const newAdultCount = Math.min(Math.max(1, activeIdAdult + value), 9);
@@ -148,8 +148,8 @@ function Oneway() {
       setOpenTravelModal(false);
       setCountPassanger(
         parseInt(activeIdChild) +
-        parseInt(activeIdInfant) +
-        parseInt(activeIdAdult)
+          parseInt(activeIdInfant) +
+          parseInt(activeIdAdult)
       );
     }
   };
@@ -373,7 +373,6 @@ function Oneway() {
     };
   }, [toQuery]);
 
-
   // console.log(toSearchResults, "toSearch Result")
 
   const handleToClick = (result) => {
@@ -417,7 +416,7 @@ function Oneway() {
       // px: activeIdAdult + activeIdChild + activeIdInfant,
       px: activeIdAdult,
     };
-    console.log(payload, "payloaddddedddd")
+    // console.log(payload, "payloaddddedddd")
     SecureStorage.setItem(
       "revisitOnewayData",
       JSON.stringify([
@@ -481,23 +480,22 @@ function Oneway() {
     const tempFrom = { ...selectedFrom };
     const tempSelectedFrom = selectedFrom;
     setSelectedFrom(selectedTo);
-    setFrom(to)
-    setTO(from)
+    setFrom(to);
+    setTO(from);
     setSelectedTo(tempFrom);
   };
   // console.log(reducerState?.logIn?.loginData?.data?.result?.
   //   _id
 
-
   // , "reducerState?.logIn?.loginData?.data?.data?.id")
 
   return (
     <>
-      <section
-        className="oneWayAbsDesign"
-      >
+      <section className="oneWayAbsDesign">
         <Helmet>
-          <title>The Skytrails - Flight Booking, Hotel Booking, Bus Booking</title>
+          <title>
+            The Skytrails - Flight Booking, Hotel Booking, Bus Booking
+          </title>
           <link rel="canonical" href="/" />
           <meta name="description" content="one way flight" />
           <meta
@@ -578,19 +576,16 @@ function Oneway() {
                               {fromSearchResults.map((result1, index) => {
                                 return (
                                   <div
-
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleFromClick(result1);
                                     }}
-                                    className={`${index === cityIndex1 ? "hoverCity" : ""
-                                      }`}
+                                    className={`${
+                                      index === cityIndex1 ? "hoverCity" : ""
+                                    }`}
                                     key={result1._id}
                                   >
-                                    <div
-                                      className="onewayResultBox"
-
-                                    >
+                                    <div className="onewayResultBox">
                                       <div className="onewayResultFirst">
                                         <div>
                                           <FlightTakeoffTwoToneIcon />
@@ -624,8 +619,8 @@ function Oneway() {
                           </div>
                         </div>
                         {fromSearchResults &&
-                          fromSearchResults.length > 0 &&
-                          fromQuery.length >= 2 ? (
+                        fromSearchResults.length > 0 &&
+                        fromQuery.length >= 2 ? (
                           <span
                             className="d-none d-md-block "
                             style={{
@@ -646,7 +641,9 @@ function Oneway() {
                             )}
                           </span>
                         ) : (
-                          <span className="d-none d-md-block ">Airport Name</span>
+                          <span className="d-none d-md-block ">
+                            Airport Name
+                          </span>
                         )}
                       </div>
                     </div>
@@ -771,15 +768,12 @@ function Oneway() {
                                       e.stopPropagation();
                                       handleToClick(result);
                                     }}
-                                    className={`${index === cityIndex ? "hoverCity" : ""
-                                      }`}
+                                    className={`${
+                                      index === cityIndex ? "hoverCity" : ""
+                                    }`}
                                     key={result._id}
-
                                   >
-                                    <div
-                                      className="onewayResultBox"
-
-                                    >
+                                    <div className="onewayResultBox">
                                       <div className="onewayResultFirst">
                                         <div>
                                           <FlightTakeoffTwoToneIcon />
@@ -812,8 +806,8 @@ function Oneway() {
                           </div>
                         </div>
                         {toSearchResults &&
-                          toSearchResults.length > 0 &&
-                          toQuery.length >= 2 ? (
+                        toSearchResults.length > 0 &&
+                        toQuery.length >= 2 ? (
                           <span
                             className="d-none d-md-block "
                             style={{
@@ -834,7 +828,9 @@ function Oneway() {
                             )}
                           </span>
                         ) : (
-                          <span className="d-none d-md-block ">Airport Name</span>
+                          <span className="d-none d-md-block ">
+                            Airport Name
+                          </span>
                         )}
                       </div>
                     </div>
@@ -880,7 +876,9 @@ function Oneway() {
                         >
                           <span>Traveller & Class</span>
                           <p>
-                            <span>{(totalCount === 0 && 1) || totalCount} </span>{" "}
+                            <span>
+                              {(totalCount === 0 && 1) || totalCount}{" "}
+                            </span>{" "}
                             Traveller
                           </p>
                           <div className="d-none d-md-block ">
@@ -999,7 +997,11 @@ function Oneway() {
                 </div>
               </div>
               <div
-                style={{ position: "relative", top: "79px", marginTop: "-45px" }}
+                style={{
+                  position: "relative",
+                  top: "79px",
+                  marginTop: "-45px",
+                }}
                 className="onewaySearch-btn"
               >
                 <button

@@ -1,10 +1,22 @@
 import { takeLatest, call, put } from "redux-saga/effects";
 import userApi from "../API/api";
 
-import { GET_SEARCH_PACKAGE_DATA, GET_SEARCH_PACKAGE_DATA_BUDGET, GET_SEARCH_PACKAGE_DATA_CATEGORY, GET_SEARCH_PACKAGE_DATA_COUNTRY } from "../SearchPackage/actionType";
-import { searchPackageBudget, searchPackageData, searchPackageDataCategory, searchPackageDataTopCountries } from "../SearchPackage/actionSearchPackage";
+import {
+  GET_ALL_PACKAGE_DATA,
+  GET_SEARCH_PACKAGE_DATA,
+  GET_SEARCH_PACKAGE_DATA_BUDGET,
+  GET_SEARCH_PACKAGE_DATA_CATEGORY,
+  GET_SEARCH_PACKAGE_DATA_COUNTRY,
+} from "../SearchPackage/actionType";
+import {
+  searchAllPackage,
+  searchPackageBudget,
+  searchPackageData,
+  searchPackageDataCategory,
+  searchPackageDataTopCountries,
+} from "../SearchPackage/actionSearchPackage";
 
-function* searchResult(action) { 
+function* searchResult(action) {
   try {
     const data = yield call(userApi.searchPackage, action.payload);
     yield put(searchPackageData(data));
@@ -36,9 +48,18 @@ function* searchResultBudget(action) {
     // console.log(error);
   }
 }
+function* getALLResult(action) {
+  try {
+    const data = yield call(userApi.getAllPackages, action.payload);
+    yield put(searchAllPackage(data));
+  } catch (error) {
+    // console.log(error);
+  }
+}
 export function* searchResultWatcher() {
   yield takeLatest(GET_SEARCH_PACKAGE_DATA, searchResult);
   yield takeLatest(GET_SEARCH_PACKAGE_DATA_CATEGORY, searchResultCategory);
   yield takeLatest(GET_SEARCH_PACKAGE_DATA_COUNTRY, searchResultTopCountries);
   yield takeLatest(GET_SEARCH_PACKAGE_DATA_BUDGET, searchResultBudget);
+  yield takeLatest(GET_ALL_PACKAGE_DATA, getALLResult);
 }

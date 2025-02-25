@@ -31,8 +31,6 @@ import {
 } from "../../../Redux/FlightSearch/Return/return";
 import { swalModal } from "../../../utility/swal";
 
-
-
 import { DatePicker, Space } from "antd";
 import dayjs from "dayjs";
 const { RangePicker } = DatePicker;
@@ -85,8 +83,6 @@ const ReturnForm = () => {
     dispatch(returnActionClear());
   }, []);
 
-
-
   useEffect(() => {
     const storedData = SecureStorage.getItem("revisitReturnData");
     const parsedStoredData = JSON?.parse(storedData);
@@ -124,36 +120,26 @@ const ReturnForm = () => {
   const [cityIndex, setcityIndex] = useState(-1);
   const [cityIndex1, setcityIndex1] = useState(-1);
 
-
-
-
-
   // ant design date range picker
 
-  const [newDepartDate, setNewDepartDate] = useState(startDate)
-  const [newReturnDate, setNewReturnDate] = useState(startDate)
+  const [newDepartDate, setNewDepartDate] = useState(startDate);
+  const [newReturnDate, setNewReturnDate] = useState(startDate);
 
   const handleRangeChange = (dates, dateStrings) => {
     if (dates) {
       // console.log("Selected Start Date:", dayjs(dates[0]).format("DD MMM, YY"));
       // console.log("Selected End Date:", dates[1].format("YYYY-MM-DD"));
-      setNewDepartDate(dayjs(dates[0]).format("DD MMM, YY"))
-      setNewReturnDate(dayjs(dates[1]).format("DD MMM, YY"))
+      setNewDepartDate(dayjs(dates[0]).format("DD MMM, YY"));
+      setNewReturnDate(dayjs(dates[1]).format("DD MMM, YY"));
     } else {
       console.log("Selection cleared");
     }
   };
 
-  console.log(newDepartDate)
-  console.log(newReturnDate)
+  // console.log(newDepartDate)
+  // console.log(newReturnDate)
 
-  // ant design date range picker 
-
-
-
-
-
-
+  // ant design date range picker
 
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
@@ -260,8 +246,8 @@ const ReturnForm = () => {
       setOpenTravelModal(false);
       setCountPassanger(
         parseInt(activeIdChild) +
-        parseInt(activeIdInfant) +
-        parseInt(activeIdAdult)
+          parseInt(activeIdInfant) +
+          parseInt(activeIdAdult)
       );
     }
   };
@@ -292,7 +278,6 @@ const ReturnForm = () => {
       document.removeEventListener("mousedown", handleClickOutsideFrom);
     };
   }, []);
-
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutsideFrom);
@@ -378,8 +363,6 @@ const ReturnForm = () => {
     };
   }, [toQuery]);
 
-
-
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutsideTo);
     return () => {
@@ -411,9 +394,6 @@ const ReturnForm = () => {
     };
   }, [isOpen1, cityIndex, maxcity, toSearchResults]);
 
-
-
-
   // ///////////////////////////////////////////////////
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutsideFrom);
@@ -421,7 +401,6 @@ const ReturnForm = () => {
       document.removeEventListener("mousedown", handleClickOutsideFrom);
     };
   }, []);
-
 
   const initialSelectedFromData = {
     AirportCode: "DEL",
@@ -668,8 +647,6 @@ const ReturnForm = () => {
     const formData = new FormData(event.target);
     setDepartureDate(formData.get("departure"));
 
-
-
     const payload = {
       EndUserIp: reducerState?.ip?.ipData,
       TokenId: reducerState?.ip?.tokenData,
@@ -739,8 +716,8 @@ const ReturnForm = () => {
   const handleRoundLogoClick = () => {
     const tempFrom = { ...selectedFrom };
     const tempSelectedFrom = selectedFrom;
-    setFrom(to)
-    setTO(from)
+    setFrom(to);
+    setTO(from);
     setSelectedFrom(selectedTo);
     setSelectedTo(tempFrom);
   };
@@ -765,7 +742,6 @@ const ReturnForm = () => {
         </Helmet>
         <div className="onewaynew">
           <div className=" onewaynewinner">
-
             <form onSubmit={handleOnewaySubmit} style={{ width: "100%" }}>
               <div className="container">
                 <div className="row newonewaydesign">
@@ -837,19 +813,16 @@ const ReturnForm = () => {
                               {fromSearchResults.map((result1, index) => {
                                 return (
                                   <div
-
                                     onClick={(e) => {
                                       e.stopPropagation();
                                       handleFromClick(result1);
                                     }}
-                                    className={`${index === cityIndex1 ? "hoverCity" : ""
-                                      }`}
+                                    className={`${
+                                      index === cityIndex1 ? "hoverCity" : ""
+                                    }`}
                                     key={result1._id}
                                   >
-                                    <div
-                                      className="onewayResultBox"
-
-                                    >
+                                    <div className="onewayResultBox">
                                       <div className="onewayResultFirst">
                                         <div>
                                           <FlightTakeoffTwoToneIcon />
@@ -883,8 +856,8 @@ const ReturnForm = () => {
                           </div>
                         </div>
                         {fromSearchResults &&
-                          fromSearchResults.length > 0 &&
-                          fromQuery.length >= 2 ? (
+                        fromSearchResults.length > 0 &&
+                        fromQuery.length >= 2 ? (
                           <span
                             className="d-none d-md-block "
                             style={{
@@ -905,7 +878,9 @@ const ReturnForm = () => {
                             )}
                           </span>
                         ) : (
-                          <span className="d-none d-md-block ">Airport Name</span>
+                          <span className="d-none d-md-block ">
+                            Airport Name
+                          </span>
                         )}
                       </div>
                     </div>
@@ -952,7 +927,6 @@ const ReturnForm = () => {
                       </svg>
                     </div>
                   </div>
-
 
                   <div className=" col-md-6 col-lg-3">
                     <div className="card">
@@ -1032,15 +1006,12 @@ const ReturnForm = () => {
                                       e.stopPropagation();
                                       handleToClick(result);
                                     }}
-                                    className={`${index === cityIndex ? "hoverCity" : ""
-                                      }`}
+                                    className={`${
+                                      index === cityIndex ? "hoverCity" : ""
+                                    }`}
                                     key={result._id}
-
                                   >
-                                    <div
-                                      className="onewayResultBox"
-
-                                    >
+                                    <div className="onewayResultBox">
                                       <div className="onewayResultFirst">
                                         <div>
                                           <FlightTakeoffTwoToneIcon />
@@ -1073,8 +1044,8 @@ const ReturnForm = () => {
                           </div>
                         </div>
                         {toSearchResults &&
-                          toSearchResults.length > 0 &&
-                          toQuery.length >= 2 ? (
+                        toSearchResults.length > 0 &&
+                        toQuery.length >= 2 ? (
                           <span
                             className="d-none d-md-block "
                             style={{
@@ -1095,7 +1066,9 @@ const ReturnForm = () => {
                             )}
                           </span>
                         ) : (
-                          <span className="d-none d-md-block ">Airport Name</span>
+                          <span className="d-none d-md-block ">
+                            Airport Name
+                          </span>
                         )}
                       </div>
                     </div>
@@ -1117,9 +1090,7 @@ const ReturnForm = () => {
                     </span>
                     {/* </div> */}
                     {/* </div> */}
-
                   </div>
-
 
                   {/* <div className="col-md-6 col-lg-2">
                     <div className="card">
@@ -1145,7 +1116,6 @@ const ReturnForm = () => {
 
                   </div> */}
 
-
                   {/* <div className="col-md-6 col-lg-2">
                     <div className="card">
                       <div className="from-container" id="item-3Return">
@@ -1169,7 +1139,6 @@ const ReturnForm = () => {
                     </div>
                   </div> */}
 
-
                   <div className="col-md-6 col-lg-2">
                     <div className="card">
                       <div className="travellerContainer " id="item-4Return">
@@ -1179,7 +1148,9 @@ const ReturnForm = () => {
                         >
                           <span>Traveller & Class</span>
                           <p>
-                            <span>{(totalCount === 0 && 1) || totalCount} </span>{" "}
+                            <span>
+                              {(totalCount === 0 && 1) || totalCount}{" "}
+                            </span>{" "}
                             Traveller
                           </p>
                           <div className="d-none d-md-block ">
@@ -1295,44 +1266,46 @@ const ReturnForm = () => {
                       </div>
                     </div>
                   </div>
-
-
-
                 </div>
               </div>
 
               <div
-                style={{ position: "relative", top: "80px", marginTop: "-45px" }}
-                className="onewaySearch-btn" id="item-5Return">
-                {loader ?
-                  <button className="searchButt"
+                style={{
+                  position: "relative",
+                  top: "80px",
+                  marginTop: "-45px",
+                }}
+                className="onewaySearch-btn"
+                id="item-5Return"
+              >
+                {loader ? (
+                  <button
+                    className="searchButt"
                     style={{
                       paddingTop: "18px",
                       paddingBottom: "18px",
                       paddingLeft: "50px",
                       paddingRight: "50px",
-                    }}>
-                    <span className='loaderPaylater'></span>
+                    }}
+                  >
+                    <span className="loaderPaylater"></span>
                   </button>
-                  :
-
-                  <button type="submit" className="searchButt"
+                ) : (
+                  <button
+                    type="submit"
+                    className="searchButt"
                     style={{
                       paddingTop: "18px",
                       paddingBottom: "18px",
                       paddingLeft: "50px",
                       paddingRight: "50px",
-                    }}>
+                    }}
+                  >
                     Search
                   </button>
-
-
-                }
+                )}
               </div>
-
-
             </form>
-
           </div>
         </div>
       </section>

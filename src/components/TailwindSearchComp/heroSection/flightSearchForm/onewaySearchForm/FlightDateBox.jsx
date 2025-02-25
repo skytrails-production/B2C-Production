@@ -18,8 +18,10 @@ const FlightDateBox = ({
   onSubmit,
 }) => {
   const today = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
 
-  const [startDate, setStartDate] = useState(today);
+  const [startDate, setStartDate] = useState(tomorrow);
 
   const onChangeDate = (date, closePopover) => {
     setStartDate(date);

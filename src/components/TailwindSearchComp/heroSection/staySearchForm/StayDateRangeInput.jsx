@@ -12,10 +12,12 @@ const StayDatesRangeInput = ({
   onDateChange,
 }) => {
   const today = new Date();
+  const oneDayLater = new Date();
+  oneDayLater.setDate(today.getDate() + 1);
   const twoDaysLater = new Date(today);
   twoDaysLater.setDate(today.getDate() + 2);
 
-  const [startDate, setStartDate] = useState(today);
+  const [startDate, setStartDate] = useState(oneDayLater);
   const [endDate, setEndDate] = useState(twoDaysLater);
 
   const onChangeDate = (dates, closePopover) => {

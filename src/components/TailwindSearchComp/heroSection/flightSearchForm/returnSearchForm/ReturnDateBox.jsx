@@ -32,16 +32,20 @@ const ReturnDateBox = ({
   EndDate,
 }) => {
   const today = convertToISOString(StartDate) || new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1); // Set default to tomorrow
+
+  // const [startDate, setStartDate] = useState(tomorrow);
   const todayDefult = new Date();
 
   // console.log(today, "startDate enddate");
   convertToISOString(StartDate);
 
   const twoDays = new Date(todayDefult);
-  twoDays.setDate(todayDefult.getDate() + 2);
+  twoDays.setDate(todayDefult.getDate() + 3);
   const twoDaysLater = convertToISOString(EndDate) || twoDays;
 
-  const [startDate, setStartDate] = useState(today);
+  const [startDate, setStartDate] = useState(tomorrow);
   const [endDate, setEndDate] = useState(twoDaysLater);
 
   const onChangeDate = (dates, closePopover) => {
@@ -250,7 +254,7 @@ const ReturnDateBox = ({
                   monthsShown={2}
                   showPopperArrow={false}
                   inline
-                  // minDate={today}
+                  minDate={today}
                   renderCustomHeader={(p) => (
                     <DatePickerCustomHeaderTwoMonth {...p} />
                   )}

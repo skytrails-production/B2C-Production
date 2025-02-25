@@ -46,14 +46,14 @@ const ReturnSelectCard = ({
     //     </div>
     //   </div>
     // </div>
-    <div class="w-full transition-all ease-in-out hover:scale-[1.01]  bg-white shadow-sm rounded-lg overflow-hidden p-2 hover:shadow-sm cursor-pointer border">
+    <div class="relative w-full transition-all ease-in-out hover:scale-[1.01]  bg-white shadow-sm rounded-lg  p-2 hover:shadow-sm cursor-pointer border">
       {/* <!-- Flight Image --> */}
 
       {/* <!-- Flight Name --> */}
 
       {/* <!-- Flight Times and Duration --> */}
       {item?.isFreeMeal && (
-        <div className="absolute -top-2 z-50 left-0  px-2 py-0.5 rounded-sm bg-gradient-to-r from-orange-500 font-semibold   to-orange-300">
+        <div className="absolute -top-2 z-0 left-0  px-2 py-0.5 rounded-sm bg-gradient-to-r from-orange-500 font-semibold   to-orange-300">
           <div className="relative flex flex-row items-center gap-1">
             <img src={freeMeal} className="w-4 h-4" alt="" />
             <p className="text-[10px]">Free Meal</p>
@@ -195,6 +195,7 @@ const ReturnSelectCard = ({
           onClick={() => setIsFlightDetail((pre) => !pre)}
           className="text-indigo-600  flex gap-2 items-center font-semibold text-[14px] hover:text-indigo-700 focus:outline-none text-right"
         >
+          {/* <p>{item?.type}</p> */}
           View Details{" "}
           {isFlightDetail ? (
             <ChevronsUp size={16} />

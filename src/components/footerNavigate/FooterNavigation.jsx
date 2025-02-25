@@ -108,6 +108,69 @@ const FooterNavigation = () => {
     navigate(`/Searchresult?adult=${1}&child=${0}&infant=${0}`);
     // }
   }
+  const handleSubmit = async (event) => {
+    sessionStorage.setItem("SessionExpireTime", new Date());
+    let flightClass = { id: 2, value: "Y", label: "Economy" };
+    const searchpy = {
+      from: event.fromDetails.AirportCode,
+      to: event.to.AirportCode,
+      FlightCabinClass: flightClass.value,
+      date: dayjs(todaydate).format("DD MMM, YY"),
+      // returnDate: returnDate,
+    };
+
+    dispatch(searchFlight(searchpy));
+
+    sessionStorage.setItem("adults", 1);
+    sessionStorage.setItem("childs", 0);
+    sessionStorage.setItem("infants", 0);
+    const params = {
+      from: event.fromDetails.AirportCode,
+      to: event.to.AirportCode,
+
+      date: dayjs(todaydate).format("DD MMM, YY"),
+      // retrunDate: returnDate,
+      Adult: 1,
+      Child: 0,
+      Infant: 0,
+      class: JSON.stringify(flightClass),
+      FlightCabinClass: "Y",
+    };
+    const recentSearchesData = {
+      from: event.fromDetails.AirportCode,
+      to: event.to.AirportCode,
+
+      date: dayjs(todaydate).format("DD MMM, YY"),
+      // retrunDate: returnDate,
+      Adult: 1,
+      Child: 0,
+      Infant: 0,
+      class: JSON.stringify(flightClass),
+      FlightCabinClass: "Y",
+      fromDetails: event.fromDetails,
+      toDetails: event.to,
+    };
+    let storedSearches =
+      JSON.parse(localStorage.getItem("homeRecentSearch")) || [];
+    const isDuplicate = storedSearches.some(
+      (search) =>
+        search.date === recentSearchesData.date &&
+        search.from === recentSearchesData.from &&
+        search.to === recentSearchesData.to
+    );
+    if (!isDuplicate) {
+      storedSearches.push(recentSearchesData);
+      if (storedSearches.length > 5) {
+        storedSearches.shift();
+      }
+      localStorage.setItem("homeRecentSearch", JSON.stringify(storedSearches));
+    }
+    const queryString = new URLSearchParams(params).toString();
+
+    navigate(`/flightlist?${queryString}`);
+
+    // dispatch(returnAction(payload));
+  };
   // const navigate = useNavigate();
   //package section
   const [destination, setDestination] = useState("");
@@ -207,7 +270,8 @@ const FooterNavigation = () => {
 
   const handleSearch = (data, type) => {
     const searchMap = {
-      flight: handleOnewaySubmit,
+      // flight: handleOnewaySubmit,
+      flight: handleSubmit,
       hotel: searchHotel,
       package: searchOneHoliday,
     };

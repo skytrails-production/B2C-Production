@@ -875,3 +875,53 @@ input[type="number"] {
     max-width: 1184px;
   }
 }
+
+
+
+
+/* @keyframes color-flow {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+.animate-color-flow {
+  animation: color-flow 2s linear infinite;
+} */
+
+
+@keyframes color-flow {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes progress-animation {
+  0% {
+    width: 0%;
+  }
+  20% {
+    width: 10%;
+  }
+  40% {
+    width: 35%;
+  }
+  60% {
+    width: 50%;
+  }
+  80% {
+    width: 70%;
+  }
+  100% {
+    width: 80%;
+  }
+}
+
+.animated-loader {
+  animation: color-flow 2s linear infinite, progress-animation 5s forwards;
+}

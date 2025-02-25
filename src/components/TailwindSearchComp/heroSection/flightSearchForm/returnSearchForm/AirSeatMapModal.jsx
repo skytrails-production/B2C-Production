@@ -16,6 +16,9 @@ import { Luggage } from "lucide-react";
 import FlightMealTBO from "../../../../flightMealBaggage/FlightMealTBO";
 import FlightBaggageTBO from "../../../../flightMealBaggage/FlightBaggageTBO";
 import { findSeatMealBaggagePrice } from "../../../../../utility/flightUtility/BookwarperUtility";
+import FlightLayoutKafila from "../../../../flightLayout/FlightLayoutKafila";
+import FlightMealKafila from "../../../../flightMealBaggage/FlightMealKafila";
+import FlightBaggageKafila from "../../../../flightMealBaggage/FlightBaggageKafila";
 const AirSeatMapModal = ({
   passengerData,
   isSeatModal,
@@ -31,7 +34,7 @@ const AirSeatMapModal = ({
   const selectedFlight = isOnward ? Onward : Return;
   // console.log(Onward, "return ");
   const tabList =
-    selectedFlight?.type === "TBO"
+    selectedFlight?.type === "TBO" || selectedFlight?.type === "KAFILA"
       ? [
           { tilte: "Seat", icon: <MdOutlineAirlineSeatReclineNormal /> },
           { tilte: "Meal", icon: <MdNoMealsOuline /> },
@@ -56,7 +59,7 @@ const AirSeatMapModal = ({
     : reducerState?.airlineSeatMapNew?.return?.mealsList;
 
   const seatbaggagePrice = findSeatMealBaggagePrice();
-  // console.log(seatbaggagePrice, "seatbaggagePriceee");
+  // console.log(mealsList, "seatbaggagePriceee");
 
   return (
     <Modal
@@ -128,6 +131,9 @@ const AirSeatMapModal = ({
           {seatList && tabIndex == 1 && selectedFlight?.type == "TBO" && (
             <FlightLayoutTVO seatMap={seatList} isOnward={isOnward} />
           )}
+          {seatList && tabIndex == 1 && selectedFlight?.type == "KAFILA" && (
+            <FlightLayoutKafila seatMap={seatList} isOnward={isOnward} />
+          )}
           {/* {data && <FlightLayoutTVO seatMap={data} isOnward={isOnward} />} */}
           {/* {data && !isOnward && (
             <FlightLayoutAMD data={data} isOnward={isOnward} />
@@ -135,27 +141,72 @@ const AirSeatMapModal = ({
           {/* {mealsList && tabIndex == 2 && (
             <FlightMealTBO MealMap={mealsList} isOnward={isOnward} />
           )} */}
-          {tabIndex == 2 && isOnward && (
-            <FlightMealTBO
-              MealMap={mealsList}
-              isOnward={isOnward}
-              isFreeMeal={freeMeal}
-            />
-          )}
-          {tabIndex == 2 && !isOnward && (
-            <FlightMealTBO
-              MealMap={mealsList}
-              isOnward={isOnward}
-              isFreeMeal={freeMeal}
-            />
-          )}
 
-          {baggageList && tabIndex == 3 && isOnward && (
-            <FlightBaggageTBO BaggageMap={baggageList} isOnward={isOnward} />
+          {tabIndex == 2 && isOnward && selectedFlight?.type == "TBO" && (
+            <FlightMealTBO
+              MealMap={mealsList}
+              isOnward={isOnward}
+              isFreeMeal={freeMeal}
+            />
           )}
-          {baggageList && tabIndex == 3 && !isOnward && (
-            <FlightBaggageTBO BaggageMap={baggageList} isOnward={isOnward} />
+          {tabIndex == 2 && !isOnward && selectedFlight?.type == "TBO" && (
+            <FlightMealTBO
+              MealMap={mealsList}
+              isOnward={isOnward}
+              isFreeMeal={freeMeal}
+            />
           )}
+          {mealsList &&
+            tabIndex == 2 &&
+            isOnward &&
+            selectedFlight?.type == "KAFILA" && (
+              <FlightMealKafila
+                MealMap={mealsList}
+                isOnward={isOnward}
+                isFreeMeal={freeMeal}
+              />
+            )}
+          {mealsList &&
+            tabIndex == 2 &&
+            !isOnward &&
+            selectedFlight?.type == "KAFILA" && (
+              <FlightMealKafila
+                MealMap={mealsList}
+                isOnward={isOnward}
+                isFreeMeal={freeMeal}
+              />
+            )}
+
+          {baggageList &&
+            tabIndex == 3 &&
+            isOnward &&
+            selectedFlight?.type == "TBO" && (
+              <FlightBaggageTBO BaggageMap={baggageList} isOnward={isOnward} />
+            )}
+          {baggageList &&
+            tabIndex == 3 &&
+            !isOnward &&
+            selectedFlight?.type == "TBO" && (
+              <FlightBaggageTBO BaggageMap={baggageList} isOnward={isOnward} />
+            )}
+          {baggageList &&
+            tabIndex == 3 &&
+            isOnward &&
+            selectedFlight?.type == "KAFILA" && (
+              <FlightBaggageKafila
+                BaggageMap={baggageList}
+                isOnward={isOnward}
+              />
+            )}
+          {baggageList &&
+            tabIndex == 3 &&
+            !isOnward &&
+            selectedFlight?.type == "KAFILA" && (
+              <FlightBaggageKafila
+                BaggageMap={baggageList}
+                isOnward={isOnward}
+              />
+            )}
         </div>
       </Modal.Body>
       <Modal.Footer className="w-full justify-end py-2">

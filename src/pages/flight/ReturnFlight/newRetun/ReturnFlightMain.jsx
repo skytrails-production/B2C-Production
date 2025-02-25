@@ -267,7 +267,7 @@ const ReturnFlightMain = () => {
         // );
       }
     },
-    [standardizedFlights1]
+    [standardizedFlights1, standardizedFlights2]
   );
   useEffect(() => {
     if (!reducerState?.return?.isLoadingFilter) {
@@ -324,11 +324,11 @@ const ReturnFlightMain = () => {
       setReturnFlights(standardizedFlights2);
       // console.log(loaderFilter, standardizedFlights1, "standardizedFlightsdd");
     }
-  }, [standardizedFlights1]);
+  }, [standardizedFlights1, standardizedFlights2]);
   useEffect(() => {
     dispatch(clearAllFareQuotesRuleAirsel());
   }, []);
-  // console.log(reducerState?.return, jornyFlights, "reducerState");
+  console.log(reducerState, "reducerState");
 
   return (
     <div>

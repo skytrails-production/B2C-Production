@@ -75,7 +75,7 @@ export default function HotelResult({
     if (price >= priceRange[0] && price <= priceRange[1]) {
       return true;
     }
-    return true;
+    return false;
   });
 
   if (sortBy === "lowToHigh") {

@@ -19,16 +19,18 @@ const BusDateBox = ({
   onSubmit,
 }) => {
   const today = new Date();
+  const tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1); // Set default to tomorrow
 
-  const [startDate, setStartDate] = useState(today);
+  const [startDate, setStartDate] = useState(tomorrow);
 
   const onChangeDate = (date, closePopover) => {
     setStartDate(date);
-    if (date) {
-      console.log({
-        checkin: formatDate(date),
-      });
-    }
+    // if (date) {
+    //   console.log({
+    //     checkin: formatDate(date),
+    //   });
+    // }
     closePopover();
   };
 
@@ -49,6 +51,7 @@ const BusDateBox = ({
             {startDate?.toLocaleDateString("en-US", {
               month: "short",
               day: "2-digit",
+              year: "2-digit",
             }) || "Add date"}
           </span>
           <span className="block mt-1 text-[1rem] text-neutral-400 leading-none font-light">

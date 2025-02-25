@@ -3,7 +3,7 @@ import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
 import Home from "./pages/home/Home";
 import BookWrapper from "./pages/flight/Bookwrapper";
 import BookWrapperAmd from "./pages/flight/BookwrapperAmd";
-import BookWrapperAmdNew from "./pages/flight/BookwrapperAmdNew"
+import BookWrapperAmdNew from "./pages/flight/BookwrapperAmdNew";
 // import Searchresult from "./pages/flight/Searchresult";
 import Searchresult from "./pages/flight/flightResult/FlightMain";
 import "./App.css";
@@ -151,6 +151,8 @@ import { faqRatingListReq } from "./Redux/Faq&Rating/actionFaqRating";
 import DownloadHotelPdf from "./components/bookingHistory/DownloadHotelPdf";
 import ResultOnewayMain from "./pages/flight/Oneway/ResultOneway/ResultOnewayMain";
 import OnewayBookingPage from "./pages/flight/Oneway/OnewayPassengerDetails/OnewayBookingPage";
+import AllMainPageHoliday from "./pages/NewPackagePages/AllPackage/AllMainPageHoliday";
+import PageNotFound from "./PageNotFound";
 
 function App() {
   // const location = useLocation();
@@ -329,6 +331,8 @@ function App() {
       </div>
     );
   }
+
+  // console.log(reducerState, "reducer state");
 
   return (
     <div className="background_gradien bg-white">
@@ -529,7 +533,7 @@ function App() {
 
         {/* old hotel routes  */}
 
-        <Route path="hotel" element={<Hotel />}></Route>
+        {/* <Route path="hotel" element={<Hotel />}></Route>
         <Route exact path="/hotel/hotelsearch" element={<Hotelresult />} />
         <Route
           exact
@@ -550,7 +554,7 @@ function App() {
           exact
           path="/hotel/hotelsearch/HotelBooknow/Reviewbooking/GuestDetail/ticket"
           element={<HotelTicketGeneration />}
-        />
+        /> */}
 
         {/* old hotel routes  */}
 
@@ -565,6 +569,10 @@ function App() {
         <Route
           path="/holidaypackages/:type/:keyword"
           element={<HolidayPackageResultMain />}
+        />
+        <Route
+          path="/allpackage/:type/:keyword"
+          element={<AllMainPageHoliday />}
         />
 
         {/* <Route
@@ -611,11 +619,11 @@ function App() {
           path="/bookinghistory/hotelPdf"
           element={<DownloadHotelPdf />}
         ></Route>
-        <Route
+        {/* <Route
           path="/oneWayDummyPnr"
           element={<DummyTicketBookingForm />}
-        ></Route>
-        <Route path="/oneWayDummyHome" element={<DummyPnrHome />}></Route>
+        ></Route> */}
+        {/* <Route path="/oneWayDummyHome" element={<DummyPnrHome />}></Route> */}
         <Route path="/pefaevent" element={<Events />}></Route>
 
         {/* blog route  */}
@@ -653,6 +661,8 @@ function App() {
           path="/trendingPackage"
           element={<SkytailsTrendingPackages />}
         ></Route>
+        <Route path="/my-profile" element={<UserProfile />}></Route>
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
 
       {/* inventory */}
@@ -686,7 +696,6 @@ function App() {
           path="/inventoryForgetPassword"
           element={<InventoryForgetPassword />}
         ></Route>
-        <Route path="/my-profile" element={<UserProfile />}></Route>
 
         <Route
           path="/inventoryDashboard"
@@ -713,17 +722,13 @@ function App() {
         <Route path="/phone" element={<PhoneNumber />}></Route>
         <Route path="/offers" element={<AllOffers />}></Route>
         <Route path="/offerDetail" element={<OfferDetails />}></Route>
-
-        {/* <Route
-          path="/practice"
-          element={<ItenaryPractice/>}
-        ></Route> */}
       </Routes>
 
       {/* complete inventory */}
 
       {/* <Whatsapp /> */}
-      {location.pathname.includes("/holidaypackages") && <GetaCallback />}
+      {location.pathname.includes("/holidaypackages") ||
+        (location.pathname.includes("/allpackage") && <GetaCallback />)}
       {location.pathname !== "/inventoryLogin" &&
         location.pathname !== "/inventoryRegister" &&
         location.pathname !== "/inventoryForgetPassword" &&

@@ -38,6 +38,7 @@ import {
   flightSeatRequestReturn,
 } from "../../../../../Redux/AirlineSeatMapNew/actionAirlineSeatMap";
 import AirSeatMapModal from "./AirSeatMapModal";
+import PaxComponent from "../../../../BookWraperFlight/PaxComponent";
 const NewBookWrapperReturn = () => {
   const [sub, setSub] = useState(false);
   const [passengerData, setPassengerData] = useState([]);
@@ -51,6 +52,7 @@ const NewBookWrapperReturn = () => {
   const reducerState = useSelector((state) => {
     return state;
   });
+  const passengerRef = useRef();
 
   // console.log(V_aliation, "V_aliationV_aliationV_aliation");
   // console.log(reducerState, "reducerState in book wrapper");
@@ -107,7 +109,8 @@ const NewBookWrapperReturn = () => {
       (Onward?.type == "KAFILA" && Return?.type == "KAFILA") ||
       (!Return && Onward?.type == "KAFILA")
     ) {
-      setIsConfirmationModalOpen(true);
+      // setIsConfirmationModalOpen(true);
+      SetAirSeatMapModal(true);
     } else {
       SetAirSeatMapModal(true);
     }
@@ -176,15 +179,31 @@ const NewBookWrapperReturn = () => {
     finalPricee();
   }, [finalPricee]);
 
-  const handleTravelClickOpen = () => {
+  const handleTravelClickOpen = async () => {
     if (authenticUser !== 200) {
       setIsLoginModalOpen(true);
     } else {
-      dispatch(PassengersAction(passengerData));
-      setOpen(true);
-      setReviewTravellerModal(true);
+      try {
+        const isValid = await passengerRef.current.validateForm();
+        if (!isValid) return;
+        const formData = passengerRef.current.getPassengerData();
+        // dispatch(setPassengerData(formData));
+        const localPassengers = [
+          ...(formData.adults?.map((p) => ({ ...p, paxType: 1 })) || []),
+          ...(formData.childs?.map((p) => ({ ...p, paxType: 2 })) || []),
+          ...(formData.infants?.map((p) => ({ ...p, paxType: 3 })) || []),
+        ];
+        setPassengerData(localPassengers);
+
+        dispatch(PassengersAction(localPassengers));
+        setOpen(true);
+        setReviewTravellerModal(true);
+      } catch (err) {
+        console.log(err, "errror ");
+      }
     }
   };
+  console.log(reducerState, "reducer state,");
   const handleModalClose = () => {
     setIsLoginModalOpen(false);
   };
@@ -395,7 +414,7 @@ const NewBookWrapperReturn = () => {
         <div className="container  flex flex-col sm:flex-row gap-3 mt-3 ">
           <div className="w-full sm:w-8/12">
             <FlightDetailBookWraper />
-            <PassengersDetails
+            {/* <PassengersDetails
               sub={sub}
               passengerDataa={passengerData}
               setPassengerDataa={setPassengerData}
@@ -404,13 +423,14 @@ const NewBookWrapperReturn = () => {
               setIsDropdown={setIsDropdown}
               setIsSeatMapOpen={setIsSeatMapOpen}
               ref={formRef}
-            />
+            /> */}
+            <PaxComponent ref={passengerRef} />
             <ContinueBtn
-              valiation={V_aliation}
-              setSub={() => setSub(true)}
-              setReviewTravellerModal={() => setReviewTravellerModal(true)}
+              // valiation={V_aliation}
+              // setSub={() => setSub(true)}
+              // setReviewTravellerModal={() => setReviewTravellerModal(true)}
               handleTravelClickOpen={handleTravelClickOpen}
-              handleFocus={handleFocusForm}
+              // handleFocus={handleFocusForm}
             />
           </div>
           <BookWrapperSummary widdthh={"w-full sm:w-4/12"} />
@@ -428,29 +448,6 @@ const NewBookWrapperReturn = () => {
             closeModalWithYes={() => handleTravelClickYes()}
           />
 
-          {/* <Dialog
-        sx={{ zIndex: "99999" }}
-        disableEscapeKeyDown
-        open={isConfirmationModalOpen}
-      >
-        <DialogContent>Are you Sure Your details are Correct ?</DialogContent>
-        <DialogActions>
-          <div className="flex w-full justify-center items-center gap-2">
-            <button
-              className=" bg-white border-2 border-primary-700 text-primary-700 px-[24px] py-[8px] rounded-md font-semibold"
-              onClick={handleConfirmationModalClose}
-            >
-              Re Check
-            </button>
-            <button
-              className=" bg-primary-700 border-2 border-primary-700 text-white  px-[24px] py-[8px] rounded-md font-semibold"
-              onClick={handlePayment}
-            >
-              Pay Now
-            </button>
-          </div>
-        </DialogActions>
-      </Dialog> */}
           <AirSeatMapModal
             passengerData={passengerData}
             isSeatModal={airSeatMapModal}

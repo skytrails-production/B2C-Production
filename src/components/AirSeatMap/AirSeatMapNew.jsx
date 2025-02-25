@@ -130,16 +130,16 @@ const AirSeatMapNew = ({
     seatMapdataNew.push(result);
     // console.log(seatMapdataNew, "seatMapdataNew");
     setSeatMap(seatMapdataNew);
-    console.log(
-      result?.Air_RetrieveSeatMapReply?.seatmapInformation?.customerCentricData,
-      "result"
-    );
+    // console.log(
+    //   result?.Air_RetrieveSeatMapReply?.seatmapInformation?.customerCentricData,
+    //   "result"
+    // );
     if (
       !result?.Air_RetrieveSeatMapReply?.seatmapInformation?.customerCentricData
     ) {
       isSeat = false;
       setIsSeatsShow({ loading: false, isSeat: isSeat });
-      console.log("false setisSeats", isSeatsShow);
+      // console.log("false setisSeats", isSeatsShow);
       return;
     }
     if (seatMapData?.length == count) {
@@ -215,7 +215,7 @@ const AirSeatMapNew = ({
         seatMapData[i]?.flight_number
       );
     }
-    console.log(isSeatsShow, "isshowseat1");
+    // console.log(isSeatsShow, "isshowseat1");
     setIsSeatsShow({ isSeat: isSeat, loading: false });
   };
   const fetchData = async (depDate, dep, arr, airline, flight_number) => {
@@ -288,11 +288,11 @@ const AirSeatMapNew = ({
     handleData();
   }, [isDropdown]);
 
-  console.log(
-    seatMap?.length,
-    Number(adultCount) + Number(childCount),
-    "traveler length"
-  );
+  // console.log(
+  //   seatMap?.length,
+  //   Number(adultCount) + Number(childCount),
+  //   "traveler length"
+  // );
 
   return seatMap?.length == seatMapData?.length ? (
     <>

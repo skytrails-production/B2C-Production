@@ -101,7 +101,7 @@ const FlightDetail = ({ item }) => {
               </div>
               {layover && (
                 <div className="relative flex justify-center items-center mt-2">
-                  <p className="text-center bg-white  z-10 rounded-full px-3 py-1 text-gray-400 inline-block font-semibold text-sm shadow-md">
+                  <p className="text-center bg-white  z-10 rounded-full px-3 py-1 text-gray-700 inline-block font-semibold text-sm shadow-md">
                     {layover?.toLowerCase()} Layover in{" "}
                     {findAirportByCode(item?.destination)?.name}
                   </p>

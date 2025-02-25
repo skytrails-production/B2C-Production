@@ -51,7 +51,7 @@ const DownloadHotelPdf = () => {
     setTotalChildren(childrenCount);
   }, [pdfData]);
 
-  console.log(pdfData);
+  // console.log(pdfData);
 
   return (
     <>

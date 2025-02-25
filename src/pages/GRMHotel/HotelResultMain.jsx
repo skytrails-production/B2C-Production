@@ -5,11 +5,13 @@ import { FaPen } from "react-icons/fa";
 import HotelFilterBox from "./HotelFilterBox";
 import { EditOutlined } from "@ant-design/icons";
 import HolidayResultSkeleton from "../NewPackagePages/HolidayPackageSearchResult/holidayresultSkeletonPage/HolidayResultSkeleton";
-import HotelMobileFilter from "./HotelMobileFilter";
+// import HotelMobileFilter from "./HotelMobileFilter";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { apiURL } from "../../Constants/constant";
 import ResultSearchForm from "./resultSearchForm/ResultSearchForm";
+// import HotelResultProgressLoader from "./HotelResultProgressLoader";
+import BlurredLoader from "../../components/BlurredLoader";
 
 const HotelResultMain = () => {
   const reducerState = useSelector((state) => state);
@@ -18,6 +20,7 @@ const HotelResultMain = () => {
   const navigate = useNavigate();
   const grnPayload = JSON.parse(sessionStorage.getItem("revisithotel"));
   const cityCode = JSON.parse(sessionStorage.getItem("grnPayload"));
+  // const [secondLoader, setSecondLoader] = useState(false);
 
   useEffect(() => {
     if (
@@ -28,11 +31,13 @@ const HotelResultMain = () => {
         reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels
       );
       setLoader(false);
+      // setSecondLoader(true);
     } else if (
       reducerState?.hotelSearchResultGRN?.ticketData?.data?.data
         ?.no_of_hotels == 0
     ) {
       setLoader(false);
+      // setSecondLoader(true);
     }
   }, [reducerState?.hotelSearchResultGRN?.ticketData]);
 
@@ -51,6 +56,8 @@ const HotelResultMain = () => {
       max: Math.max(...prices),
     };
   };
+
+  // console.log(reducerState, "reducer state in the result main");
 
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 0]);
@@ -130,7 +137,12 @@ const HotelResultMain = () => {
   };
 
   if (loader) {
-    return <HolidayResultSkeleton />;
+    return (
+      <>
+        <BlurredLoader />
+        <HolidayResultSkeleton />
+      </>
+    );
   }
 
   let totalAdults = 0;
@@ -141,13 +153,18 @@ const HotelResultMain = () => {
     totalChildren += room?.children_ages?.length || 0;
   });
 
-  console.log(reducerState, "reducer in the hotel resultttttt");
-
   return (
     <div>
-      <div className="visibleBigHotel">
+      {/* <div className="visibleBigHotel">
         <ResultSearchForm toggleLoader={toggleLoader} />
+      </div> */}
+      <div className=" sticky top-0 left-0 z-40 hidden md:flex  w-full z-3 bg-gradient-to-b from-primary-6000 via-primary-6000 to-primary-6000">
+        {/* <Oneway2 /> */}
+        <div className="container p-2 flex justify-center items-center">
+          <ResultSearchForm toggleLoader={toggleLoader} />
+        </div>
       </div>
+      {/* <HotelResultProgressLoader /> */}
       <div className=" visibleSmall stickyHotelDetails">
         <section
           style={{ borderTop: "1px solid lightgray", background: "white" }}

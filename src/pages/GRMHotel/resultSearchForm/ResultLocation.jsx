@@ -3,15 +3,12 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import ClearDataButton from "../../../components/TailwindSearchComp/heroSection/ClearDataButton";
 import { apiURL } from "../../../Constants/constant";
-// import ClearDataButton from "../ClearDataButton";
-// import { apiURL } from "../../../../Constants/constant";
 
 const ResultLocation = ({
   autoFocus = false,
   placeHolder = "Location",
   desc = "Where are you going?",
   className = "nc-flex-1.5",
-  divHideVerticalLineClass = "left-10 -right-0.5",
   customPadding,
   onLocationSelect,
 }) => {
@@ -28,14 +25,9 @@ const ResultLocation = ({
 
   const [prevValue, setPrevValue] = useState(""); // To temporarily store the previous value
 
-  // Suggested places array (hardcoded)
   const suggestedPlaces = [
     {
       type: "city",
-      // cityCode: "124054",
-      // cityName: "New Delhi",
-      // countryCode: "IN",
-      // countryName: "India",
 
       cityName: "Delhi",
       grnCityCode: "124054",
@@ -343,7 +335,7 @@ const ResultLocation = ({
         </div>
         <div className="flex-grow">
           <input
-            className="block w-full bg-transparent border-none focus:ring-0 p-0 focus:outline-none text-xl md:text-xl lg:text-xl xl:text-xl font-bold placeholder-neutral-800 truncate"
+            className="block w-full bg-transparent text-gray-100 placeholder:text-gray-100 border-none focus:ring-0 p-0 focus:outline-none text-xl md:text-xl lg:text-xl xl:text-xl font-bold placeholder-neutral-800 truncate"
             placeholder={placeHolder}
             value={value}
             autoFocus={showPopover}
@@ -352,7 +344,7 @@ const ResultLocation = ({
             onBlur={handleBlur} // Restore if nothing is selected
             ref={inputRef}
           />
-          <span className="block mt-0.5 text-[1rem] text-neutral-400 font-light">
+          <span className="block mt-0.5 text-[0.8rem] text-gray-100 font-medium">
             <span className="line-clamp-1">{!!value ? placeHolder : desc}</span>
           </span>
           {value && showPopover && (
@@ -360,12 +352,6 @@ const ResultLocation = ({
           )}
         </div>
       </div>
-
-      {showPopover && (
-        <div
-          className={`h-8 absolute self-center top-1/2 -translate-y-1/2 z-0 bg-white ${divHideVerticalLineClass}`}
-        ></div>
-      )}
 
       {showPopover && (
         <div className="absolute left-0 z-40 w-full min-w-[300px] sm:min-w-[500px] bg-white top-full mt-3 py-3 sm:py-6 rounded-3xl shadow-xl max-h-96 overflow-y-auto">

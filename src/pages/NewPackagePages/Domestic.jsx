@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import Heading from "../../components/TailwindSearchComp/shared/Heading";
 import { apiURL } from "../../Constants/constant";
 import DomesticCard from "./DomesticCard";
+import { MoveRight } from "lucide-react";
 
 const Domestic = ({
   heading = "Handpicked Packages for you",
@@ -50,6 +51,10 @@ const Domestic = ({
   const filterOptions = ["DOMESTIC", "INTERNATIONAL"];
 
   // console.log(filteredData, "filtered data");
+
+  const handlenavigate = (e) => {
+    navigate(`/allpackage/category/${e.toLowerCase()}`);
+  };
 
   return (
     <div className={`nc-SectionSliderNewCategories mt-16 mb-12 ${className}`}>
@@ -107,6 +112,15 @@ const Domestic = ({
               ))}
             </Swiper>
           </div>
+        </div>
+
+        <div className="flex justify-center mt-4">
+          <button
+            onClick={(e) => handlenavigate(filterType)}
+            className="flex items-center gap-2  px-4 py-2 font-semibold bg-primary-6000 hover:bg-primary-700 text-white border rounded-3xl "
+          >
+            Show ALL <MoveRight size={16} />
+          </button>
         </div>
       </div>
     </div>

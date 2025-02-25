@@ -23,11 +23,11 @@ const MulticityDateBox = ({
 
   const onChangeDate = (date, closePopover) => {
     setStartDate(date);
-    if (date) {
-      console.log({
-        checkin: formatDate(date),
-      });
-    }
+    // if (date) {
+    //   console.log({
+    //     checkin: formatDate(date),
+    //   });
+    // }
     closePopover();
   };
 

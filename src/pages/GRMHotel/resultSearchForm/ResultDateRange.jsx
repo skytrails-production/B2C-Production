@@ -5,7 +5,6 @@ import DatePicker from "react-datepicker";
 import DatePickerCustomHeaderTwoMonth from "../../../components/TailwindSearchComp/heroSection/DatePickerCustomHeaderTwoMonth";
 import DatePickerCustomDay from "../../../components/TailwindSearchComp/heroSection/DatePickerCustomDay";
 import ClearDataButton from "../../../components/TailwindSearchComp/heroSection/ClearDataButton";
-import dayjs from "dayjs";
 
 const ResultDateRange = ({
   className = "[ lg:nc-flex-2 ]",
@@ -46,7 +45,7 @@ const ResultDateRange = ({
       <div className="flex-grow text-left">
         <span
           // className="block text-2xl font-bold"
-          className="block w-full bg-transparent border-none focus:ring-0 p-0 focus:outline-none text-xl md:text-xl lg:text-xl xl:text-xl font-bold placeholder-neutral-800 truncate"
+          className="block w-full bg-transparent text-gray-100 placeholder:text-gray-100 border-none focus:ring-0 p-0 focus:outline-none text-xl md:text-xl lg:text-xl xl:text-xl font-bold placeholder-neutral-800 truncate"
         >
           {startDate?.toLocaleDateString("en-US", {
             month: "short",
@@ -60,7 +59,7 @@ const ResultDateRange = ({
               })
             : ""}
         </span>
-        <span className="block mt-1 text-[1rem] text-neutral-400 leading-none font-light">
+        <span className="block mt-0.5 text-[0.8rem] text-gray-100 font-medium">
           {"Check in - Check out"}
         </span>
       </div>
@@ -82,9 +81,9 @@ const ResultDateRange = ({
             )}
           </Popover.Button>
 
-          {open && (
+          {/* {open && (
             <div className="h-8 absolute self-center top-1/2 -translate-y-1/2 z-0 -inset-x-0.5 bg-white"></div>
-          )}
+          )} */}
 
           <Transition
             as={Fragment}
@@ -95,7 +94,7 @@ const ResultDateRange = ({
             leaveFrom="opacity-100 translate-y-0"
             leaveTo="opacity-0 translate-y-1"
           >
-            <Popover.Panel className="absolute left-1/2 z-30 mt-[-40px] top-full w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
+            <Popover.Panel className="absolute left-1/2 z-50 mt-[-40px] top-full w-screen max-w-sm -translate-x-1/2 transform px-4 sm:px-0 lg:max-w-3xl">
               <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-black ring-opacity-5 bg-white p-8">
                 <DatePicker
                   selected={startDate}

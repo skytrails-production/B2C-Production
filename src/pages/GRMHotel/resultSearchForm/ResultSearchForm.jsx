@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 
 import dayjs from "dayjs";
-// import { swalModal } from "../../../../utility/swal";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -26,22 +25,13 @@ const ResultSearchForm = ({ toggleLoader }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const reducerState = useSelector((state) => state);
-  //   console.log(reducerState, "reducer state");
 
   const handleRoomDataChange = (roomsData) => {
     setRooms(roomsData);
   };
 
-  // console.log(selectedFrom, "selected from");
-
-  //   useEffect(() => {
-  //     dispatch(clearHotelReducerGRN());
-  //     dispatch(clearHotelReducer());
-  //   }, []);
-
   const handleLocationSelect = (location) => {
     setSelectedFrom(location);
-    // console.log("Selected Location:", location);
   };
 
   const handleDateChange = (dates) => {
@@ -159,22 +149,24 @@ const ResultSearchForm = ({ toggleLoader }) => {
 
   const renderForm = () => {
     return (
-      <form className=" container relative  flex rounded-[10px] shadow-xl mt-3  bg-white ">
-        <ResultLocation
-          className="flex-[1.5]"
-          onLocationSelect={handleLocationSelect}
-          customPadding="p-3"
-        />
-        <div className="self-center border-r-2 border-slate-300  h-12"></div>
-        <ResultDateRange className="flex-1" onDateChange={handleDateChange} />
-        <div className="self-center border-r-2 border-slate-300   h-12"></div>
-        <ResultGuest
-          className="flex-1"
-          onSubmit={handleSubmit}
-          loader={isLoading}
-          onRoomDataChange={handleRoomDataChange}
-          customPadding="p-3"
-        />
+      <form className="w-full relative rounded-[10px]   bg-white/15 shadow-lg backdrop-blur-sm  border-1 border-white/15 ">
+        <div className="flex flex-1 rounded-full">
+          <ResultLocation
+            className="flex-[1.5]"
+            onLocationSelect={handleLocationSelect}
+            customPadding="p-3"
+          />
+          <div className="self-center border-r-2 border-slate-300  h-12"></div>
+          <ResultDateRange className="flex-1" onDateChange={handleDateChange} />
+          <div className="self-center border-r-2 border-slate-300   h-12"></div>
+          <ResultGuest
+            className="flex-1"
+            onSubmit={handleSubmit}
+            loader={isLoading}
+            onRoomDataChange={handleRoomDataChange}
+            customPadding="p-3"
+          />
+        </div>
       </form>
     );
   };

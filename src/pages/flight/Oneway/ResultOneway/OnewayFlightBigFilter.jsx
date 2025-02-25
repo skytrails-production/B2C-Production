@@ -363,7 +363,7 @@ const OnewayFlightBigFilter = ({
     );
   };
   return (
-    <div className="flightFilterMainBox ">
+    <div className="flightFilterMainBox max-h-full">
       <div className="holidayFilterClear">
         <h5
           style={{ cursor: "pointer", fontSize: "15px", fontWeight: "700" }}

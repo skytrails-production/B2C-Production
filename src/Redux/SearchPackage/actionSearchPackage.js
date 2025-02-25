@@ -8,13 +8,11 @@ export const searchPackageData = (data) => {
 };
 
 export const searchPackageAction = (data) => {
-
   return {
     type: types.GET_SEARCH_PACKAGE_DATA,
     payload: data,
-  }
+  };
 };
-
 
 export const searchPackageDataCategory = (data) => {
   return {
@@ -24,11 +22,10 @@ export const searchPackageDataCategory = (data) => {
 };
 
 export const searchPackageActionCategory = (data) => {
-
   return {
     type: types.GET_SEARCH_PACKAGE_DATA_CATEGORY,
     payload: data,
-  }
+  };
 };
 
 export const searchPackageDataTopCountries = (data) => {
@@ -39,11 +36,10 @@ export const searchPackageDataTopCountries = (data) => {
 };
 
 export const searchPackageActionTopCountries = (data) => {
-
   return {
     type: types.GET_SEARCH_PACKAGE_DATA_COUNTRY,
     payload: data,
-  }
+  };
 };
 
 export const searchPackageBudget = (data) => {
@@ -54,11 +50,24 @@ export const searchPackageBudget = (data) => {
 };
 
 export const searchPackageActionBudget = (data) => {
-
   return {
     type: types.GET_SEARCH_PACKAGE_DATA_BUDGET,
     payload: data,
-  }
+  };
+};
+
+export const searchAllPackage = (data) => {
+  return {
+    type: types.SET_ALL_PACKAGE_DATA,
+    payload: data,
+  };
+};
+
+export const searchAllPackageAction = (data) => {
+  return {
+    type: types.GET_ALL_PACKAGE_DATA,
+    payload: data,
+  };
 };
 
 export const clearPackageData = () => {
@@ -66,5 +75,4 @@ export const clearPackageData = () => {
     type: types.CLEAR_PACKAGE_DATA,
     payload: [],
   };
-
 };

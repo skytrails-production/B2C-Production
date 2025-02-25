@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Slider, Checkbox, Flex } from "antd";
+import React, { useState, useRef } from "react";
+import { Slider, Checkbox } from "antd";
 import "../../flightResult/flightBigFilter.scss";
 import "../../../NewPackagePages/HolidayPackageSearchResult/packageResultFilter.scss";
 import { useSelector } from "react-redux";
@@ -238,7 +238,10 @@ const ReturnFlightBigFilter = ({
               const count = stops?.[key]?.count;
 
               let itemShow = isItem ? (
-                <div className="flex justify-between items-center w-full">
+                <div
+                  key={`${key}-${index}`}
+                  className="flex justify-between items-center w-full"
+                >
                   <Checkbox
                     value={index}
                     className="flex-1 w-full"
@@ -259,34 +262,6 @@ const ReturnFlightBigFilter = ({
               return itemShow;
             })}
         </>
-        {/* <div className="flex justify-between items-center w-full">
-          <Checkbox
-            value="0"
-            className="flex-1 w-full"
-            // checked={selectedDays.includes("0-5")}
-            onChange={handleStopChange}
-          >
-            Non-stop
-          </Checkbox>
-          <div className=" flex flex-1 items-center w-[70px] min-w-[50px] gap-1">
-            <p className="text-green-400 text-nowrap">₹ </p>
-            <p className="flex-1">2600</p>
-          </div>
-        </div>
-        <Checkbox
-          value="1"
-          // checked={selectedDays.includes("5-7")}
-          onChange={handleStopChange}
-        >
-          1 Stop
-        </Checkbox>
-        <Checkbox
-          value="2"
-          // checked={selectedDays.includes("5-7")}
-          onChange={handleStopChange}
-        >
-          2 Stop
-        </Checkbox> */}
       </div>
     );
   };
@@ -305,7 +280,10 @@ const ReturnFlightBigFilter = ({
             });
 
             return (
-              <label className="sidebar-label-container  ps-0">
+              <label
+                key={`${title}-${index}`}
+                className="sidebar-label-container  ps-0"
+              >
                 <div className="svgBOx">
                   <input
                     type="checkbox"
@@ -325,10 +303,6 @@ const ReturnFlightBigFilter = ({
             );
           })}
         </div>
-
-        {/* <Divider
-                      sx={{ marginBottom: "15px", marginTop: "15px", backgroundColor: "lightgray" }}
-                    /> */}
       </div>
     );
   };
@@ -340,11 +314,14 @@ const ReturnFlightBigFilter = ({
         <p>Filter By Airlines</p>
         <div className="flight-filter-aireline-item gap-2">
           {Airlines &&
-            Object?.keys(Airlines)?.map((key) => {
+            Object?.keys(Airlines)?.map((key, index) => {
               const Price = Airlines?.[key]?.minPrice;
               // console.log(airlines);
               return (
-                <div className="w-full flex-1 flex justify-between items-center">
+                <div
+                  key={`${key}+${index}`}
+                  className="w-full flex-1 flex justify-between items-center"
+                >
                   <Checkbox
                     value={key}
                     className="w-full flex items-center  "
@@ -419,30 +396,7 @@ const ReturnFlightBigFilter = ({
           </span>
         </div>
       </div>
-      {/* <div className="PackagetagFilters flight-filter-aireline">
-        <p>Filter By Stop's</p>
-        <Checkbox
-          value="0"
-          // checked={selectedDays.includes("0-5")}
-          onChange={handleStopChange}
-        >
-          Non-stop
-        </Checkbox>
-        <Checkbox
-          value="1"
-          // checked={selectedDays.includes("5-7")}
-          onChange={handleStopChange}
-        >
-          1 Stop
-        </Checkbox>
-        <Checkbox
-          value="2"
-          // checked={selectedDays.includes("5-7")}
-          onChange={handleStopChange}
-        >
-          2 Stop
-        </Checkbox>
-      </div> */}
+
       <StopFilter
         handleStopChange={handleStopChange}
         stops={stopsAirline?.JourneyStopes}
@@ -464,30 +418,6 @@ const ReturnFlightBigFilter = ({
         selected={selectedStopsReturn}
       />
 
-      {/* <div className="PackagetagFilters flight-filter-aireline">
-        <p>Return Stop's</p>
-        <Checkbox
-          value="0"
-          // checked={selectedDays.includes("0-5")}
-          onChange={handleStopChangeRetrun}
-        >
-          Non-stop
-        </Checkbox>
-        <Checkbox
-          value="1"
-          // checked={selectedDays.includes("5-7")}
-          onChange={handleStopChangeRetrun}
-        >
-          1 Stop
-        </Checkbox>
-        <Checkbox
-          value="2"
-          // checked={selectedDays.includes("5-7")}
-          onChange={handleStopChangeRetrun}
-        >
-          2 Stop
-        </Checkbox>
-      </div> */}
       <TimeFilter
         title={"Departure Time"}
         handleTimeChange={handleTimeChangeReturn}

@@ -11,6 +11,7 @@ import {
   clearHotelReducerGRN,
   hotelGalleryRequest,
   singleHotelGRN,
+  hotelActionGRNFew,
 } from "../../../../Redux/HotelGRN/hotel";
 import { clearHotelReducer } from "../../../../Redux/Hotel/hotel";
 
@@ -146,6 +147,7 @@ const StaySearchForm = () => {
       };
 
       sessionStorage.setItem("grnPayload", JSON.stringify(payload));
+      dispatch(hotelActionGRNFew(payload));
       dispatch(hotelActionGRN(payload));
       navigate("/st-hotel/hotelresult");
     }

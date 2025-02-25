@@ -1247,13 +1247,13 @@ function FlightLayout({ data }) {
                       </div>
                       <div className="plane-type">
                         <FlightTypes planeNo={d?.index} />
-                        <button
+                        {/* <button
                           onClick={() =>
                             console.log(reducerState, "reducerState")
                           }
                         >
                           reducer state
-                        </button>
+                        </button> */}
                       </div>
                     </div>
 

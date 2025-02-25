@@ -19,6 +19,7 @@ const MainNav = ({ className = "" }) => {
     if (
       path === "/flightlist" ||
       path === "/ReturnResult" ||
+      path === "/st-hotel/hotelresult" ||
       path.includes("/holidaypackages/")
     ) {
       setShowSticky(false);

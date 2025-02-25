@@ -36,7 +36,7 @@ const Events = () => {
               The organizer reserves all rights of admission.
             </li>
             <li className="text-base mb-3 ">
-              Terms and conditions may be updated at the organizer’s discretion.
+              Terms and conditions may be updated at the organizer’s discretion.
             </li>
           </ul>
         </div>
