@@ -222,15 +222,15 @@ const HotelBookRoomGRN = () => {
               onChange={() => handleRoomSelection(index, item)}
             />
           </div>
-          <div className="flex-grow px-3 border-r">
+          <div className="w-full px-3 border-r">
             {item?.rooms?.slice(0, 1)?.map((room, e) => (
               <div key={e}>
-                <p className="truncate w-11/12">{room?.description}</p>
+                <p className="">{room?.description}</p>
                 <p className="">{room?.room_type}</p>
               </div>
             ))}
           </div>
-          <div className="px-3 flex flex-col items-end">
+          <div className="px-3 flex  flex-col items-end w-48">
             <p className="text-md text-purple font-semibold">₹ {item?.price}</p>
             <p className="text-sm text-gray-800 font-semibold">Select Room</p>
           </div>
@@ -465,17 +465,17 @@ const HotelBookRoomGRN = () => {
                   <div className="">
                     <div className=" flex flex-row justify-between mt-2 text-gray-600">
                       <p className="text-sm font-semibold text-gray-600 mb-0">
-                        ₹{" "}
-                        {(
-                          selectedRoom?.price / hotelMainReducer?.no_of_nights
-                        ).toFixed(0)}{" "}
-                        x {hotelMainReducer?.no_of_nights} nights
+                        {" "}
+                        {hotelMainReducer?.no_of_rooms} room{" "}
+                        {hotelMainReducer?.no_of_rooms > 1 ? "s" : ""} x{" "}
+                        {hotelMainReducer?.no_of_nights} nights{" "}
+                        {hotelMainReducer?.no_of_nights > 1 ? "s" : ""}
                       </p>
                       <p className="text-sm font-semibold text-gray-600 mb-0">
                         ₹ {selectedRoom?.price}
                       </p>
                     </div>
-                    <div className=" flex flex-row justify-between mt-2 text-gray-600">
+                    {/* <div className=" flex flex-row justify-between mt-2 text-gray-600">
                       <p className="text-sm font-semibold text-gray-600 mb-0">
                         ₹{" "}
                         {(
@@ -486,9 +486,9 @@ const HotelBookRoomGRN = () => {
                       <p className="text-sm font-semibold text-gray-600 mb-0">
                         ₹ {selectedRoom?.price}
                       </p>
-                    </div>
+                    </div> */}
                   </div>
-                  <hr />
+                  <hr className="border-gray-300" />
 
                   <div className="">
                     <div className=" flex flex-row justify-between mt-2 text-gray-600">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Slider, Checkbox, Flex } from "antd";
-import "../../flightResult/flightBigFilter.scss";
+// import "../../flightResult/flightBigFilter.scss";
 import "../../../NewPackagePages/HolidayPackageSearchResult/packageResultFilter.scss";
 import { useSelector } from "react-redux";
 import {
@@ -309,9 +309,9 @@ const OnewayFlightBigFilter = ({
     // console.log("AirlineFilter", stopsAirline);
     const Airlines = stopsAirline?.Airlines;
     return (
-      <div className="flight-filter-aireline">
-        <p>Filter By Airlines</p>
-        <div className="flight-filter-aireline-item gap-2">
+      <div className="flex flex-col gap-2">
+        <p className="text-sm ">Filter By Airlines</p>
+        <div className="flex flex-col gap-2">
           {Airlines &&
             Object?.keys(Airlines)?.map((key) => {
               const Price = Airlines?.[key]?.minPrice;
@@ -340,13 +340,7 @@ const OnewayFlightBigFilter = ({
                         width={22}
                         height={22}
                       />
-                      <p
-                        style={{
-                          margin: "0px !important",
-                          fontSize: "14px",
-                          fontWeight: "500",
-                        }}
-                      >
+                      <p className="text-base ">
                         {findAirlineByCode(key)?.airlineName}
                       </p>
                     </div>
@@ -363,7 +357,7 @@ const OnewayFlightBigFilter = ({
     );
   };
   return (
-    <div className="flightFilterMainBox max-h-full">
+    <div className=" max-h-screen overflow-y-scroll  top-28 sticky bg-white p-3 shadow-sm  rounded-xl border-1  ">
       <div className="holidayFilterClear">
         <h5
           style={{ cursor: "pointer", fontSize: "15px", fontWeight: "700" }}

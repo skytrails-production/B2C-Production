@@ -614,8 +614,8 @@ const PaxComponent = forwardRef((props, ref) => {
                           type="button"
                           className={`p-2 flex-1 px-4 rounded-l-md  border-b-4 ${
                             passenger.gender === 1
-                              ? "border-primary-6000 bg-indigo-200"
-                              : "bg-gray-100"
+                              ? "border-primary-6000 bg-blue-100"
+                              : "border-1 border-gray-200"
                           }`}
                           onClick={() => handleChange(type, index, "gender", 1)}
                         >
@@ -624,10 +624,10 @@ const PaxComponent = forwardRef((props, ref) => {
                         <div className="border-r-2 h-full"></div>
                         <button
                           type="button"
-                          className={`p-2 flex-1 px-4 rounded-r-md  border-b-4 ${
+                          className={`p-2 flex-1 px-4 rounded-r-md border-b-4 ${
                             passenger.gender === 2
-                              ? "border-primary-6000 bg-indigo-200"
-                              : "bg-gray-100"
+                              ? "border-primary-6000 bg-blue-100"
+                              : "border-1 border-gray-200"
                           }`}
                           onClick={() => handleChange(type, index, "gender", 2)}
                         >

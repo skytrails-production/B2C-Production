@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { Slider, Checkbox } from "antd";
-import "../../flightResult/flightBigFilter.scss";
+// import "../../flightResult/flightBigFilter.scss";
 import "../../../NewPackagePages/HolidayPackageSearchResult/packageResultFilter.scss";
 import { useSelector } from "react-redux";
 import {
@@ -367,7 +367,7 @@ const ReturnFlightBigFilter = ({
     );
   };
   return (
-    <div className="flightFilterMainBox ">
+    <div className=" max-h-screen overflow-y-scroll  top-28 sticky bg-white p-3 shadow-sm  rounded-xl border-1 ">
       <div className="holidayFilterClear">
         <h5
           style={{ cursor: "pointer", fontSize: "15px", fontWeight: "700" }}

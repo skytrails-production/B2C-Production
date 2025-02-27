@@ -170,7 +170,7 @@ const FlightSearchForm = () => {
         >
           Round-trip
         </div>
-        <div
+        {/* <div
           className={`py-1.5 px-4 hidden md:flex items-center rounded-full font-medium text-xs cursor-pointer mr-2 my-1 sm:mr-3 ${
             dropOffLocationType === "multicity"
               ? "bg-black shadow-black/10 shadow-lg text-white"
@@ -179,7 +179,7 @@ const FlightSearchForm = () => {
           onClick={() => setDropOffLocationType("multicity")}
         >
           Multi-city
-        </div>
+        </div> */}
 
         <div className="self-center border-r-2 border-slate-300 hidden md:flex  h-8 mr-2 my-1 sm:mr-3"></div>
         <div className="mr-2 my-1 sm:mr-3 border-2 border-slate-300  rounded-full">

@@ -4,7 +4,7 @@ import { Box } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import StarIcon from "@mui/icons-material/Star";
 import "./review.css";
-import { useDispatch, useSelector, useReducer } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { PassengersAction } from "../../../Redux/Passengers/passenger";
 // import { apiURL } from "../../../Constants/constant";

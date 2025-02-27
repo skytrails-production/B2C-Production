@@ -7,6 +7,7 @@ import { clearHolidayReducer } from "../../../Redux/OnePackageSearchResult/actio
 import AllMainResult from "./AllMainResult";
 import HolidayResultSkeleton from "../HolidayPackageSearchResult/holidayresultSkeletonPage/HolidayResultSkeleton";
 import AllPackageFilter from "./AllPackageFilter";
+import PackageResultFilterMobile from "../HolidayPackageSearchResult/PackageResultFilterMobile";
 
 const AllMainPageHoliday = () => {
   const reducerState = useSelector((state) => state);
@@ -141,7 +142,7 @@ const AllMainPageHoliday = () => {
     setPackagedata(filtered);
   };
 
-  console.log(packageData, "package data");
+  // console.log(packageData, "package data");
 
   const getMinMaxPrices = (Pack) => {
     if (!Pack || Pack.length === 0) {
@@ -252,6 +253,24 @@ const AllMainPageHoliday = () => {
                 onFlightChange={handleFlightChange}
                 hotelIncluded={hotelIncluded}
                 onHotelChange={handleHotelChange}
+                selectedDays={selectedDays}
+                onDaysChange={handleDaysChange}
+                onSearchTermChange={handleSearchTermChange}
+                selectedDestinations={selectedDestinations}
+                setSelectedDestinations={setSelectedDestinations}
+                onClearFilters={handleClearFilters}
+              />
+            </div>
+            <div className="col-lg-12 visibleSmall stickyForMobile">
+              <PackageResultFilterMobile
+                uniqueDestinations={uniqueDestinations}
+                onFilterChange={handleFilterChange}
+                onPriceChange={handlePriceChange}
+                minPrice={min}
+                maxPrice={max}
+                priceRange={priceRange}
+                selectedTag={selectedTag}
+                onTagChange={handleTagChange}
                 selectedDays={selectedDays}
                 onDaysChange={handleDaysChange}
                 onSearchTermChange={handleSearchTermChange}

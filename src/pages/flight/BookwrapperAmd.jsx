@@ -2,25 +2,18 @@ import React, { useEffect, useState, useRef } from "react";
 import { apiURL } from "../../Constants/constant";
 import "./bookwrapper.css";
 import FlightLoader from "./FlightLoader/FlightLoader";
-import fromTo from "../../images/fromTo.png";
 import "bootstrap/dist/css/bootstrap.css";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import { IoPersonSharp } from "react-icons/io5";
 import Box from "@mui/material/Box";
 import DialogContent from "@mui/material/DialogContent";
-import Login from "../../components/Login";
-import InsideNavbar from "../../UI/BigNavbar/InsideNavbar";
 import { motion } from "framer-motion";
 import SecureStorage from "react-secure-storage";
 import lineimg from "../../images/line-01.png";
 import { FiArrowRight } from "react-icons/fi";
 import moment from "moment";
-import {
-  quoteAction,
-  resetFareData,
-  ruleAction,
-} from "../../Redux/FlightFareQuoteRule/actionFlightQuote";
+import { resetFareData } from "../../Redux/FlightFareQuoteRule/actionFlightQuote";
 import "./booknow.css";
 import { useDispatch, useSelector } from "react-redux";
 // import Box from '@mui/material/Box';
@@ -31,16 +24,14 @@ import BookNowLeftAmd from "./BookNowLeftAmd";
 import PaymentLoader from "./FlightLoader/paymentLoader";
 import Flighterror from "./Flighterror";
 import axios from "axios";
-import dayjs from "dayjs";
 import Modal from "@mui/material/Modal";
 import Accordion from "react-bootstrap/Accordion";
-import loginnew from "../../images/login-01.jpg";
+
 import { useNetworkState } from "react-use";
 // import { useLocation } from "react-router-dom";
 import { swalModal } from "../../utility/swal";
 import { XMLParser } from "fast-xml-parser";
-import CloseIcon from "@mui/icons-material/Close";
-import userApi from "../../Redux/API/api";
+
 import {
   validateEmail,
   validateName,
@@ -998,7 +989,7 @@ export default function BookWrapper() {
     dispatch(resetFareData());
   }, [dispatch]);
   useEffect(() => {
-    console.log(airesellRes,"airesll")
+    console.log(airesellRes, "airesll");
     if (airesellRes?.data?.headers?.StatusCode === "UNS") {
       navigate(
         `/Searchresult?adult=${adultCount}&child=${childCount}&infant=${infantCount}`
@@ -2259,10 +2250,6 @@ export default function BookWrapper() {
   if (loaderPayment == false) {
     return (
       <>
-        {/* <div className="mainimgFlightSearch">
-          <InsideNavbar />
-        </div> */}
-
         {!reducerState?.flightFare?.flightQuoteData?.Results === true &&
         ResultIndex?.ResultIndex ? (
           <FlightLoader />

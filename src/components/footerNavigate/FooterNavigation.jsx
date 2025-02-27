@@ -9,7 +9,7 @@ import {
 } from "../../Redux/FlightList/actionFlightList";
 import { searchFlight } from "../../Redux/SearchFlight/actionSearchFlight";
 import dayjs from "dayjs";
-import { hotelActionGRN } from "../../Redux/HotelGRN/hotel";
+import { hotelActionGRN, hotelActionGRNFew } from "../../Redux/HotelGRN/hotel";
 import constants from "./constants";
 
 const FooterNavigation = () => {
@@ -261,6 +261,7 @@ const FooterNavigation = () => {
           },
         ])
       );
+      dispatch(hotelActionGRNFew(payload));
       dispatch(hotelActionGRN(payload));
     }
 

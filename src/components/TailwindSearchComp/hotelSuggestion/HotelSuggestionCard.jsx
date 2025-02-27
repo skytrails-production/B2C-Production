@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
-import { hotelActionGRN } from "../../../Redux/HotelGRN/hotel";
+import {
+  hotelActionGRN,
+  hotelActionGRNFew,
+} from "../../../Redux/HotelGRN/hotel";
 
 const HotelSuggestionCard = ({ className = "", data }) => {
   const navigate = useNavigate();
@@ -82,6 +85,7 @@ const HotelSuggestionCard = ({ className = "", data }) => {
           },
         ])
       );
+      dispatch(hotelActionGRNFew(payload));
       dispatch(hotelActionGRN(payload));
     }
 

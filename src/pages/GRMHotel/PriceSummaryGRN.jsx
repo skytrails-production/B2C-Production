@@ -104,17 +104,18 @@ export default function PriceSummaryGRN(props) {
         <div className="">
           <div className=" flex flex-row justify-between mt-2 text-gray-600">
             <p className="text-sm font-semibold text-gray-600 mb-0">
-              ₹{" "}
-              {(
-                hotelinfoGRN?.rate?.price / hotelMainReducer?.no_of_nights
-              ).toFixed(0)}{" "}
-              x {hotelMainReducer?.no_of_nights} nights
+              {" "}
+              {hotelMainReducer?.no_of_rooms} room{" "}
+              {hotelMainReducer?.no_of_rooms > 1 ? "s" : ""} x{" "}
+              {hotelMainReducer?.no_of_nights} nights{" "}
+              {hotelMainReducer?.no_of_nights > 1 ? "s" : ""}
             </p>
+
             <p className="text-sm font-semibold text-gray-600 mb-0">
               ₹ {hotelinfoGRN?.rate?.price}
             </p>
           </div>
-          <div className=" flex flex-row justify-between mt-2 text-gray-600">
+          {/* <div className=" flex flex-row justify-between mt-2 text-gray-600">
             <p className="text-sm font-semibold text-gray-600 mb-0">
               ₹{" "}
               {(
@@ -125,7 +126,7 @@ export default function PriceSummaryGRN(props) {
             <p className="text-sm font-semibold text-gray-600 mb-0">
               ₹ {hotelinfoGRN?.rate?.price}
             </p>
-          </div>
+          </div> */}
         </div>
 
         <hr />

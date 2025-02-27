@@ -4,7 +4,7 @@ import debounce from "lodash/debounce";
 import starsvg from "./../../images/star.svg";
 import starBlank from "./../../images/starBlank.svg";
 import "../flight/popularfilter.css";
-import { ListFilter } from "lucide-react";
+import { ListFilter, Search } from "lucide-react";
 
 const HotelFilterBox = ({
   onCategoryChange,
@@ -65,8 +65,8 @@ const HotelFilterBox = ({
   };
 
   return (
-    <div className="holidayFilterMainBox ">
-      <div className="holidayFilterClear">
+    <div className=" bg-white p-3 sticky rounded-xl top-28 border-1 shadow-sm overflow-y-scroll max-h-screen ">
+      <div className="my-3 flex flex-col justify-start gap-2">
         <h5
           style={{ cursor: "pointer", fontSize: "15px", fontWeight: "700" }}
           onClick={handleClearFilters}
@@ -75,57 +75,79 @@ const HotelFilterBox = ({
         </h5>
       </div>
 
-      <div className="holidayFilterSearch">
-        <p className="">Search By Name</p>
-        <Input
+      <div className="relative  my-3 flex flex-col justify-start gap-2">
+        {/* <p className="">Search By Name</p> */}
+        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+          <Search size={14} className="text-gray-700" />
+        </div>
+        <input
           type="text"
-          placeholder="Hotel Name"
+          placeholder="Search Hotel Name"
           value={searchTerm}
           onChange={handleSearchChange}
-          className="rounded-md border-1 border-gray-300"
+          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5"
         />
       </div>
 
-      <div className="busDepartureMain" style={{ background: "#fff" }}>
+      <div
+        className="my-3 flex flex-col justify-start gap-2"
+        style={{ background: "#fff" }}
+      >
         <p className="">Sort By Price</p>
-        <div>
-          <label className="sidebar-label-container ps-0">
-            <div className="svgBOx">
-              <input
-                type="checkbox"
-                value="highToLow"
-                checked={sortBy === "highToLow"}
-                onChange={handleSortChange}
-              />
-              <div>
-                <span className="checkedSVG pe-2">
-                  <ListFilter />
-                </span>
-                <span>High to Low</span>
-              </div>
-            </div>
+        <div className="flex flex-row w-full gap-2">
+          <label
+            className={`flex flex-1 flex-col justify-between items-center gap-2 p-1 border-2 rounded-lg cursor-pointer transition-all ${
+              sortBy === "highToLow"
+                ? "border-primary-6000 text-primary-6000"
+                : "border-gray-200 text-gray-600"
+            }`}
+            onClick={handleSortChange}
+          >
+            <input
+              type="checkbox"
+              value="highToLow"
+              checked={sortBy === "highToLow"}
+              onChange={handleSortChange}
+              className="hidden"
+            />
+            <span
+              className={`checkedSVG pe-2 transition-all ${
+                sortBy === "highToLow" ? "text-primary-6000" : "text-gray-600"
+              }`}
+            >
+              <ListFilter size={13} />
+            </span>
+            <span className="text-[12px]">High to Low</span>
           </label>
-
-          <label className="sidebar-label-container ps-0">
-            <div className="svgBOx">
-              <input
-                type="checkbox"
-                value="lowToHigh"
-                checked={sortBy === "lowToHigh"}
-                onChange={handleSortChange}
-              />
-              <div>
-                <span className="checkedSVG pe-2">
-                  <ListFilter className="transform  rotate-180" />
-                </span>
-                <span>Low to High</span>
-              </div>
-            </div>
+          <label
+            className={`flex flex-1 flex-col justify-between items-center gap-2 p-1 border-2 rounded-lg cursor-pointer transition-all ${
+              sortBy === "lowToHigh"
+                ? "border-primary-6000 text-primary-6000"
+                : "border-gray-200 text-gray-600"
+            }`}
+            onClick={handleSortChange}
+          >
+            <input
+              type="checkbox"
+              value="lowToHigh"
+              checked={sortBy === "lowToHigh"}
+              onChange={handleSortChange}
+              className="hidden"
+            />
+            <span
+              className={`checkedSVG pe-2 transition-all ${
+                sortBy === "lowToHigh" ? "text-primary-6000" : "text-gray-600"
+              }`}
+            >
+              {/* <ListFilter  /> */}
+              <ListFilter size={13} className="transform  rotate-180" />
+            </span>
+            <span className="text-[12px]">Low to High</span>
           </label>
         </div>
       </div>
 
-      <div className="PackagetagFilters">
+      <div className="my-3 flex flex-col justify-start gap-2">
         <p>by star Rating</p>
         <Checkbox
           value="3"
@@ -180,7 +202,7 @@ const HotelFilterBox = ({
         </Checkbox>
       </div>
 
-      <div className="holidayFilterSlider">
+      <div className="my-3 flex flex-col justify-start gap-2">
         <p>Filter By Price</p>
         <Slider
           range
@@ -201,7 +223,7 @@ const HotelFilterBox = ({
         </div>
       </div>
 
-      <div className="PackagetagFilters">
+      <div className="my-3 flex flex-col justify-start gap-2">
         <p className="">Filter by Location</p>
 
         {locations.map((location) => (

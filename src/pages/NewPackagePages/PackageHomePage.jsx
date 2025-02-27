@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { clearHolidayReducer } from "../../Redux/OnePackageSearchResult/actionOneSearchPackage";
 import Img from "../../LazyLoading/Img";
 import WhyChooseUs from "../../components/WhyChooseUs";
-import seashore from "../../images/seashore.mp4";
+// import seashore from "../../images/seashore.mp4";
 import seashoreImg from "../../images/seashore.jpg";
 import HolidaySearchForm from "../../components/TailwindSearchComp/heroSection/holidayForm/HolidaySearchForm";
 import Testimonials from "../../components/TailwindSearchComp/testimonials/Testimonials";
@@ -63,7 +63,13 @@ const PackageHomePage = () => {
             autoPlay
             muted
           >
-            <source src={seashore} type="video/mp4" />
+            {/* <source src={seashore} type="video/mp4" /> */}
+            <source
+              src={
+                "https://github.com/The-SkyTrails/Images/raw/refs/heads/main/packagevideo.mp4"
+              }
+              type="video/mp4"
+            />
             Your browser does not support the video tag.
           </video>
           {/* <div className=" z-10"> */}

@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import {
   hotelActionGRN,
   clearHotelReducerGRN,
+  hotelActionGRNFew,
 } from "../../Redux/HotelGRN/hotel";
 import { useDispatch, useSelector } from "react-redux";
 import Hotelmainloading from "../Hotel/hotelLoading/Hotelmainloading";
@@ -217,6 +218,7 @@ const GrnHomeStaticHotel = ({
     };
 
     sessionStorage.setItem("grnPayload", JSON.stringify(payload));
+    dispatch(hotelActionGRNFew(payload));
     dispatch(hotelActionGRN(payload));
     navigate("/st-hotel/hotelresult");
   };
