@@ -36,7 +36,7 @@ const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
   const reducerState = useSelector((state) => state);
   const [newDepartDateCld, setNewDepartDateCld] = useState("");
   const [loader, setLoader] = useState(false);
-
+  const [shake, setShake] = useState(false);
   const navigate = useNavigate();
 
   const handleFromSelect = (location) => {
@@ -162,6 +162,8 @@ const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
       throw error;
     }
   };
+  const [error, setError] = useState(false);
+
   const flightReturnTboAndKafila = async (
     onWardsPayload,
     returnPaylods
@@ -222,6 +224,11 @@ const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
     // console.log(result, "ResultsCombined");
   };
   const handleSubmit = async () => {
+    if (toCity.AirportCode === fromCity.AirportCode) {
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
+      return;
+    }
     sessionStorage.setItem("SessionExpireTime", new Date());
     // console.log(returnDate, departDate, "returnDate departdate");
 
@@ -346,6 +353,15 @@ const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
 
     // dispatch(returnAction(payload));
   };
+  useEffect(() => {
+    if (toCity?.AirportCode == fromCity?.AirportCode && toCity && fromCity) {
+      setError(true);
+      return;
+    } else {
+      setError(false);
+      return;
+    }
+  }, [toCity, fromCity]);
 
   const renderForm = () => {
     return (
@@ -364,6 +380,8 @@ const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
             className="flex-1"
             divHideVerticalLineClass=" -inset-x-0.5"
             onLocationSelect={handleToSelect}
+            error={error}
+            shake={shake}
           />
           <div className="self-center border-r-2 border-slate-300 hidden md:flex h-12"></div>
           <ReturnDateBox

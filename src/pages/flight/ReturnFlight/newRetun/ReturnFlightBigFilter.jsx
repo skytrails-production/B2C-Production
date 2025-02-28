@@ -11,6 +11,7 @@ import {
   IconTime,
 } from "../../../../utility/flightUtility/timeSvg";
 import { findAirlineByCode } from "../../../../utility/flightUtility/BookwarperUtility";
+import { formattedPrice } from "../../../../utility/utils";
 const svgs = [Icon1, Icon2, Icon3, Icon4];
 const ReturnFlightBigFilter = ({
   airlineCodes,
@@ -228,7 +229,7 @@ const ReturnFlightBigFilter = ({
 
     return (
       <div className="PackagetagFilters flight-filter-aireline">
-        <p>Filter By Stop's</p>
+        <p className="font-semibold text-gray-800">Filter By Stop's</p>
         <>
           {stops &&
             Object?.keys(stops)?.map((key, index) => {
@@ -252,10 +253,12 @@ const ReturnFlightBigFilter = ({
                   </Checkbox>
                   <div className=" flex  items-center   gap-1 justify-between p-0 !font-medium">
                     <div className="flex">
-                      <p className="text-green-400 text-nowrap text-sm">₹ </p>
-                      <p className="!font-medium !text-sm">{price}</p>
+                      {/* <p className="text-gray-800 text-nowrap text-sm">₹ </p> */}
+                      <p className="!font-medium text-gray-800 !text-sm">
+                        {formattedPrice(price)}
+                      </p>
                     </div>
-                    <p className="p-0 !text-sm !font-medium">{`(${count})`}</p>
+                    <p className="p-0 !text-sm !font-medium text-gray-800">{`(${count})`}</p>
                   </div>
                 </div>
               ) : null;
@@ -311,8 +314,8 @@ const ReturnFlightBigFilter = ({
     const Airlines = stopsAirline?.Airlines;
     return (
       <div className="flight-filter-aireline">
-        <p>Filter By Airlines</p>
-        <div className="flight-filter-aireline-item gap-2">
+        <p className=" text-gray-800">Filter By Airlines</p>
+        <div className="flight-filter-aireline-item flex flex-col gap-2 ">
           {Airlines &&
             Object?.keys(Airlines)?.map((key, index) => {
               const Price = Airlines?.[key]?.minPrice;
@@ -323,6 +326,7 @@ const ReturnFlightBigFilter = ({
                   className="w-full flex-1 flex justify-between items-center"
                 >
                   <Checkbox
+                    key={`Airlines-${index}`}
                     value={key}
                     className="w-full flex items-center  "
                     checked={airlines.includes(key)}
@@ -356,8 +360,10 @@ const ReturnFlightBigFilter = ({
                     </div>
                   </Checkbox>
                   <div className=" flex flex-1 items-center w-[70px] min-w-[50px] gap-1">
-                    <p className="text-green-400 text-nowrap">₹ </p>
-                    <p className="flex-1">{Price}</p>
+                    {/* <p className="text-gray-700 text-sm text-nowrap ">₹ </p> */}
+                    <p className="flex-1 text-gray-700 text-sm ">
+                      {formattedPrice(Price)}
+                    </p>
                   </div>
                 </div>
               );
@@ -367,17 +373,17 @@ const ReturnFlightBigFilter = ({
     );
   };
   return (
-    <div className=" max-h-screen overflow-y-scroll  top-28 sticky bg-white p-3 shadow-sm  rounded-xl border-1 ">
+    <div className=" max-h-[74vh] overflow-y-scroll  top-28 sticky bg-white p-3  ">
       <div className="holidayFilterClear">
         <h5
-          style={{ cursor: "pointer", fontSize: "15px", fontWeight: "700" }}
+          className=" text-gray-800 cursor-pointer"
           // onClick={handleClearFilters}
         >
           Clear Filters
         </h5>
       </div>
       <div className="holidayFilterSlider flight-filter-aireline mt-3">
-        <p>Filter By Price</p>
+        <p className=" text-gray-800">Filter By Price</p>
         <Slider
           range
           step={400}
@@ -389,10 +395,10 @@ const ReturnFlightBigFilter = ({
 
         <div className="d-flex flex-row justify-content-between align-items-center ">
           <span style={{ fontWeight: "600", fontSize: "13px" }}>
-            ₹ {minPrice}
+            {formattedPrice(minPrice)}
           </span>
           <span style={{ fontWeight: "600", fontSize: "13px" }}>
-            ₹ {maxPrice}
+            {formattedPrice(maxPrice)}
           </span>
         </div>
       </div>

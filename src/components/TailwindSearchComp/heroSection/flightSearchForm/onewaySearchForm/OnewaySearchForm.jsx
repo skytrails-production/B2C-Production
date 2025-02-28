@@ -178,6 +178,11 @@ const OnewaySearchForm = ({ adult, child, infant, flightClass }) => {
   // };
 
   const handleSubmit = async () => {
+    if (toCity.AirportCode === fromCity.AirportCode) {
+      setShake(true);
+      setTimeout(() => setShake(false), 500);
+      return;
+    }
     sessionStorage.setItem("SessionExpireTime", new Date());
 
     const searchpy = {

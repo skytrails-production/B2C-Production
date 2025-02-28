@@ -467,6 +467,7 @@ function App() {
         location.pathname !== "/Package/form" &&
         location.pathname !== "/ReturnResult" &&
         location.pathname !== "/newFlight/newBookedTicket" &&
+        location.pathname !== "/flightlist" &&
         location.pathname !== "/inventoryhotelform" && <Footer />}
     </div>
   );

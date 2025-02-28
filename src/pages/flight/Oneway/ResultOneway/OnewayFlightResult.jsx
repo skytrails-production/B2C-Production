@@ -109,7 +109,7 @@ const OnewayFlightResult = ({ jornyFlights }) => {
 
     return (
       <div
-        className="flex px-[8px] py-[10px] border-1 border-gray-300 bg-indigo-200 rounded-md w-full justify-between items-center
+        className="flex px-[8px] py-[10px] border-1 border-gray-300 bg-white rounded-md w-full justify-between items-center
       "
       >
         <div className="flex flex-row gap-3 items-center">
@@ -122,7 +122,7 @@ const OnewayFlightResult = ({ jornyFlights }) => {
             ({formatDate(currentDate)})
           </div>
         </div>
-        <div className="flex bg-white shadow-md rounded-full items-center justify-center p-1">
+        <div className="flex bg-white shadow-md rounded-full items-center justify-center p-1 border-1">
           <button
             onClick={() => handlePrev()}
             disabled={formatDate(currentDate) === formatDate(today)}

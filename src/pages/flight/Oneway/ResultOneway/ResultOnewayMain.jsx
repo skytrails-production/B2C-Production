@@ -273,7 +273,7 @@ const ResultOnewayMain = () => {
   }, []);
 
   return (
-    <div>
+    <div className="bg-indigo-50 pb-4">
       {/* <div className="flightMainOneWayDiv visibleBig "> */}
       <div className=" sticky top-0 left-0 z-40 hidden md:flex  w-full z-3 bg-gradient-to-b from-primary-6000 via-primary-6000 to-primary-6000">
         {/* <Oneway2 /> */}

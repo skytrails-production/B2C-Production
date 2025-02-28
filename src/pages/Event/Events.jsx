@@ -9,7 +9,9 @@ const Events = () => {
         {/* Background Image */}
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${pefa})` }}
+          style={{
+            backgroundImage: `url(${"https://skytrails.s3.amazonaws.com/randomImages/uploadedFile_1740635542149_pefapostponed.jpg"})`,
+          }}
         ></div>
       </section>
 

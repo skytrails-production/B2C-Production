@@ -17,6 +17,7 @@ import {
   findAirlineByCode,
   findAirportByCode,
 } from "../../../../utility/flightUtility/BookwarperUtility";
+import { formattedPrice } from "../../../../utility/utils";
 
 const ReturnFlightResult = ({ jornyFlights, retrunFlights }) => {
   const navigate = useNavigate();
@@ -133,7 +134,7 @@ const ReturnFlightResult = ({ jornyFlights, retrunFlights }) => {
 
     return (
       <div
-        className="flex px-[8px] py-[10px] border-1 border-gray-300 bg-indigo-200 rounded-md w-full justify-between items-center
+        className="flex px-[8px] py-[10px] border-1 border-gray-300 bg-indigo-50 rounded-md w-full justify-between items-center
       "
       >
         <div className="sm:text-sm md:text-md  xl:text-sm font-medium">
@@ -146,7 +147,7 @@ const ReturnFlightResult = ({ jornyFlights, retrunFlights }) => {
               }`}
         </div>
         <div className="text-[14px]">{formatDate(currentDate)}</div>
-        <div className="flex bg-white shadow-md rounded-full items-center justify-center p-1">
+        <div className="flex bg-white border-1 shadow-md rounded-full items-center justify-center p-1">
           <button
             onClick={() => handlePrev()}
             disabled={
@@ -154,7 +155,7 @@ const ReturnFlightResult = ({ jornyFlights, retrunFlights }) => {
               (!isOnward &&
                 formatDate(new Date(rDate)) === formatDate(new Date(dDate)))
             }
-            className=" border-r-2 border-r-dashed border-gray-300  text-sm font-semibold px-2 text-center hover:text-primary-6000 cursor-pointer disabled:hover:text-gray-500 disabled:text-gray-500"
+            className=" border-r-2 border-r-dashed border-gray-300   text-sm font-semibold px-2 text-center hover:text-primary-6000 cursor-pointer disabled:hover:text-gray-500 disabled:text-gray-500"
           >
             Previous
           </button>
@@ -415,9 +416,10 @@ const ReturnFlightResult = ({ jornyFlights, retrunFlights }) => {
               <div className="flex justify-center gap-2 flex-col items-center">
                 <div>
                   <p className="text-xl font-bold ">
-                    ₹{" "}
-                    {parseInt(selectedFlights?.onward?.price) +
-                      parseInt(selectedFlights?.return?.price)}
+                    {formattedPrice(
+                      parseInt(selectedFlights?.onward?.price) +
+                        parseInt(selectedFlights?.return?.price)
+                    )}
                   </p>
                   {/* <p className="text-xs">Extra 64% off</p> */}
                 </div>

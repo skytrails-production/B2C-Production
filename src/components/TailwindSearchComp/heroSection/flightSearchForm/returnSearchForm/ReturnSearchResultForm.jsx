@@ -132,6 +132,9 @@ const ReturnSearchResultForm = () => {
     navigate(`/ReturnResult?${queryString}`);
   };
   const handleSubmitt = async () => {
+    if (to === from) {
+      return;
+    }
     sessionStorage.setItem("SessionExpireTime", new Date());
     const payload = {
       EndUserIp: reducerState?.ip?.ipData,

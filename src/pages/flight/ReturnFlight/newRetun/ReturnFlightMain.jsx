@@ -33,10 +33,14 @@ const ReturnFlightMain = () => {
   const [airports, setAirports] = useState([]);
   const [stopsAirline, setStopsAirline] = useState(null);
   const [standardizedFlights1, setStandardizedFlights1] = useState(
-    reducerState?.return?.returnData?.[0]?.journeyFlight || []
+    reducerState?.return?.returnData?.[0]?.journeyFlight ||
+      reducerState?.return?.returnData?.journeyFlight ||
+      []
   );
   const [standardizedFlights2, setStandardizedFlights2] = useState(
-    reducerState?.return?.returnData?.[0]?.returnFlight || []
+    reducerState?.return?.returnData?.[0]?.returnFlight ||
+      reducerState?.return?.returnData?.returnFlight ||
+      []
   );
 
   const [jornyFlights, setJornyFlights] = useState([]);
@@ -274,16 +278,24 @@ const ReturnFlightMain = () => {
       setLoaderFilter(false);
       // calculatePriceRange();
       setStandardizedFlights1(
-        reducerState?.return?.returnData?.[0]?.journeyFlight || []
+        reducerState?.return?.returnData?.[0]?.journeyFlight ||
+          reducerState?.return?.returnData?.[0]?.journeyFlight ||
+          []
       );
       setStandardizedFlights2(
-        reducerState?.return?.returnData?.[0]?.returnFlight || []
+        reducerState?.return?.returnData?.[0]?.returnFlight ||
+          reducerState?.return?.returnData?.returnFlight ||
+          []
       );
       setJornyFlights(
-        reducerState?.return?.returnData?.[0]?.journeyFlight || []
+        reducerState?.return?.returnData?.[0]?.journeyFlight ||
+          reducerState?.return?.returnData?.journeyFlight ||
+          []
       );
       setReturnFlights(
-        reducerState?.return?.returnData?.[0]?.returnFlight || []
+        reducerState?.return?.returnData?.[0]?.returnFlight ||
+          reducerState?.return?.returnData?.returnFlight ||
+          []
       );
     } else {
       setLoaderFilter(true);
@@ -292,18 +304,30 @@ const ReturnFlightMain = () => {
     if (!reducerState?.return?.isLoading) {
       setLoader(false);
       setStandardizedFlights1(
-        reducerState?.return?.returnData?.[0]?.journeyFlight || []
+        reducerState?.return?.returnData?.[0]?.journeyFlight ||
+          reducerState?.return?.returnData?.journeyFlight ||
+          []
       );
       setStandardizedFlights2(
-        reducerState?.return?.returnData?.[0]?.returnFlight || []
+        reducerState?.return?.returnData?.[0]?.returnFlight ||
+          reducerState?.return?.returnData?.returnFlight ||
+          []
       );
       if (reducerState?.return?.isLoadingFilter) {
         // console.log(
         //   "inside filterloding",
         //   reducerState?.return?.returnData?.journeyFlight
         // );
-        setJornyFlights(reducerState?.return?.returnData?.journeyFlight || []);
-        setReturnFlights(reducerState?.return?.returnData?.returnFlight || []);
+        setJornyFlights(
+          reducerState?.return?.returnData?.journeyFlight ||
+            reducerState?.return?.returnData?.[0]?.journeyFlight ||
+            []
+        );
+        setReturnFlights(
+          reducerState?.return?.returnData?.returnFlight ||
+            reducerState?.return?.returnData?.[0]?.returnFlight ||
+            []
+        );
       }
     } else {
       setLoader(true);
@@ -322,7 +346,11 @@ const ReturnFlightMain = () => {
     ) {
       setJornyFlights(standardizedFlights1);
       setReturnFlights(standardizedFlights2);
-      // console.log(loaderFilter, standardizedFlights1, "standardizedFlightsdd");
+      console.log(
+        standardizedFlights1,
+        standardizedFlights2,
+        "standardizedFlightsdd"
+      );
     }
   }, [standardizedFlights1, standardizedFlights2]);
   useEffect(() => {
@@ -331,7 +359,7 @@ const ReturnFlightMain = () => {
   console.log(reducerState, "reducerState");
 
   return (
-    <div>
+    <div className="bg-indigo-50">
       {/* <div className="flightMainOneWayDiv visibleBig "> */}
       <div className="sticky top-0 left-0 z-40 hidden md:flex  w-full z-3 bg-gradient-to-b from-primary-6000 via-primary-6000 to-primary-6000">
         {/* <Oneway2 /> */}

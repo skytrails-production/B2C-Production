@@ -11,6 +11,7 @@ import {
   IconTime,
 } from "../../../../utility/flightUtility/timeSvg";
 import { findAirlineByCode } from "../../../../utility/flightUtility/BookwarperUtility";
+import { formattedPrice } from "../../../../utility/utils";
 const svgs = [Icon1, Icon2, Icon3, Icon4];
 
 const OnewayFlightBigFilter = ({
@@ -229,7 +230,7 @@ const OnewayFlightBigFilter = ({
 
     return (
       <div className="PackagetagFilters flight-filter-aireline">
-        <p>Filter By Stop's</p>
+        <p className=" text-gray-800 font-medium">Filter By Stop's</p>
         <>
           {stops &&
             Object?.keys(stops)?.map((key, index) => {
@@ -241,6 +242,7 @@ const OnewayFlightBigFilter = ({
               let itemShow = isItem ? (
                 <div className="flex justify-between items-center w-full">
                   <Checkbox
+                    key={`stops-${index}`}
                     value={index}
                     className="flex-1 w-full"
                     checked={selected?.includes(index)}
@@ -250,8 +252,10 @@ const OnewayFlightBigFilter = ({
                   </Checkbox>
                   <div className=" flex  items-center   gap-1 justify-between p-0 !font-medium">
                     <div className="flex">
-                      <p className="text-green-400 text-nowrap text-sm">₹ </p>
-                      <p className="!font-medium !text-sm">{price}</p>
+                      {/* <p className="text-gray-800 text-nowrap text-sm">₹ </p> */}
+                      <p className="text-gray-800 text-nowrap text-sm">
+                        {formattedPrice(price)}
+                      </p>
                     </div>
                     <p className="p-0 !text-sm !font-medium">{`(${count})`}</p>
                   </div>
@@ -278,7 +282,10 @@ const OnewayFlightBigFilter = ({
             });
 
             return (
-              <label className="sidebar-label-container  ps-0">
+              <label
+                key={`SvgComponent-${index}`}
+                className="sidebar-label-container  ps-0"
+              >
                 <div className="svgBOx">
                   <input
                     type="checkbox"
@@ -310,44 +317,41 @@ const OnewayFlightBigFilter = ({
     const Airlines = stopsAirline?.Airlines;
     return (
       <div className="flex flex-col gap-2">
-        <p className="text-sm ">Filter By Airlines</p>
+        <p className="text-sm text-gray-800 font-medium">Filter By Airlines</p>
         <div className="flex flex-col gap-2">
           {Airlines &&
-            Object?.keys(Airlines)?.map((key) => {
+            Object?.keys(Airlines)?.map((key, index) => {
               const Price = Airlines?.[key]?.minPrice;
               // console.log(airlines);
               return (
-                <div className="w-full flex-1 flex justify-between items-center">
+                <div
+                  key={`Airlines-${index}`}
+                  className="w-full flex-1 flex justify-between items-center"
+                >
                   <Checkbox
+                    key={`Airlinesc-${index}`}
                     value={key}
                     className="w-full flex items-center  "
                     checked={airlines.includes(key)}
                     onChange={handleAirlineChange}
                   >
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        margin: "0px",
-                        padding: "0px",
-                        gap: "5px",
-                      }}
-                    >
+                    <div className="flex items-center gap-2">
                       <img
                         src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${key}.png`}
                         alt="flight"
-                        style={{ borderRadius: "8px" }}
                         width={22}
                         height={22}
+                        className=" rounded-md"
                       />
-                      <p className="text-base ">
+                      <p className="text-sm font-medium">
                         {findAirlineByCode(key)?.airlineName}
                       </p>
                     </div>
                   </Checkbox>
                   <div className=" flex flex-1 items-center w-[70px] min-w-[50px] gap-1">
-                    <p className="text-green-400 text-nowrap">₹ </p>
-                    <p className="flex-1">{Price}</p>
+                    <p className="flex-1  text-gray-800 text-sm font-medium">
+                      {formattedPrice(Price)}
+                    </p>
                   </div>
                 </div>
               );
@@ -357,17 +361,18 @@ const OnewayFlightBigFilter = ({
     );
   };
   return (
-    <div className=" max-h-screen overflow-y-scroll  top-28 sticky bg-white p-3 shadow-sm  rounded-xl border-1  ">
+    <div className=" max-h-screen overflow-y-scroll  top-28 sticky bg-white p-3  ">
       <div className="holidayFilterClear">
         <h5
-          style={{ cursor: "pointer", fontSize: "15px", fontWeight: "700" }}
+          className=" cursor-pointer font-semibold text-gray-800"
+
           // onClick={handleClearFilters}
         >
           Clear Filters
         </h5>
       </div>
       <div className="holidayFilterSlider flight-filter-aireline mt-3">
-        <p>Filter By Price</p>
+        <p className="text-gray-800 font-medium">Filter By Price</p>
         <Slider
           range
           step={400}
@@ -378,11 +383,11 @@ const OnewayFlightBigFilter = ({
         />
 
         <div className="d-flex flex-row justify-content-between align-items-center ">
-          <span style={{ fontWeight: "600", fontSize: "13px" }}>
-            ₹ {minPrice}
+          <span className="text-gray-800 text-sm font-medium">
+            {formattedPrice(minPrice)}
           </span>
-          <span style={{ fontWeight: "600", fontSize: "13px" }}>
-            ₹ {maxPrice}
+          <span className="text-gray-800  text-sm font-medium">
+            {formattedPrice(maxPrice)}
           </span>
         </div>
       </div>

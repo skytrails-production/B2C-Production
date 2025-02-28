@@ -3,6 +3,7 @@ import ViewDetails from "./ViewDetails";
 import { ChevronsDown, ChevronsUp } from "lucide-react";
 import { findAirportByCode } from "../../../../utility/flightUtility/BookwarperUtility";
 import freeMeal from "../../../../images/freemeal.png";
+import { formattedPrice } from "../../../../utility/utils";
 
 const ReturnSelectCard = ({
   item,
@@ -46,7 +47,7 @@ const ReturnSelectCard = ({
     //     </div>
     //   </div>
     // </div>
-    <div class="relative w-full transition-all ease-in-out hover:scale-[1.01]  bg-white shadow-sm rounded-lg  p-2 hover:shadow-sm cursor-pointer border">
+    <div class="relative w-full transition-all ease-in-out hover:scale-[1.01]  bg-white    p-2 hover:shadow-sm cursor-pointer ">
       {/* <!-- Flight Image --> */}
 
       {/* <!-- Flight Name --> */}
@@ -65,7 +66,7 @@ const ReturnSelectCard = ({
         onClick={() => handleSelectedChange(type, item, index)}
         class="flex justify-between mt-4"
       >
-        <div>
+        <div className="flex flex-col gap-2">
           <img
             class="w-[30px] h-[30px] object-cover rounded-md"
             src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.flightName}.png`}
@@ -161,7 +162,7 @@ const ReturnSelectCard = ({
               isSelectedIndex ? "text-indigo-600" : "text-gray-700"
             }`}
           >
-            ₹{item.price}
+            {formattedPrice(item.price)}
           </p>
         </div>
       </div>

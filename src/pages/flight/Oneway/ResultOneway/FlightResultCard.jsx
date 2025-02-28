@@ -49,7 +49,7 @@ const FlightResultCard = ({
 
   const [isFlightDetail, setIsFlightDetail] = useState(false);
   return (
-    <div class="w-full relative transition-all ease-in-out hover:scale-[1.01] bg-white shadow-sm rounded-lg  p-3 px-3 hover:shadow-sm cursor-pointer border">
+    <div class="w-full relative transition-all ease-in-out hover:scale-[1.01] bg-white   p-3 px-3 hover:shadow-sm cursor-pointer ">
       {item?.isFreeMeal && (
         <div className="absolute -top-2 z-50 left-0  px-2 py-0.5 rounded-sm bg-gradient-to-r from-orange-500 font-semibold   to-orange-300">
           <div className="relative flex flex-row items-center gap-1">
