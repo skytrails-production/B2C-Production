@@ -4,7 +4,7 @@ import AvatarDropdown from "../../components/TailwindSearchComp/mainNav/AvatarDr
 import { useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
-import { BedDouble, BusFront, Plane, TentTree } from "lucide-react";
+import { BedDouble, BusFront, Phone, Plane, TentTree } from "lucide-react";
 // import { FaIdCard } from "react-icons/fa";
 
 const MainNav = ({ className = "" }) => {
@@ -217,14 +217,27 @@ const MainNav = ({ className = "" }) => {
             </ul>
           </div> */}
 
-          <div className="flex md:flex flex-shrink-0 justify-end flex-1 lg:flex-none text-neutral-700 ">
-            <div className="hidden lg:flex space-x-1">
-              <AvatarDropdown />
+          {path === "/allpackage/category/domestic" ||
+          path === "/allpackage/category/international" ||
+          path.includes("packageresult/allresult") ? (
+            <div className="flex items-center">
+              <a
+                href="tel:+919209793097"
+                className="px-3 py-2 bg-indigo-200 rounded-full text-gray-700 no-underline decoration-black font-semibold flex items-center gap-1"
+              >
+                <Phone size={15} /> +91-9209793097
+              </a>
             </div>
-            <div className="flex space-x-2 lg:hidden">
-              <AvatarDropdown />
+          ) : (
+            <div className="flex md:flex flex-shrink-0 justify-end flex-1 lg:flex-none text-neutral-700 ">
+              <div className="hidden lg:flex space-x-1">
+                <AvatarDropdown />
+              </div>
+              <div className="flex space-x-2 lg:hidden">
+                <AvatarDropdown />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

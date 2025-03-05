@@ -4,7 +4,7 @@ import { Select, Slider, Checkbox, Input, Button } from "antd";
 import debounce from "lodash/debounce";
 const { Option } = Select;
 
-const AllPackageFilter = ({
+const ThemeFilter = ({
   uniqueDestinations,
   onFilterChange,
   onPriceChange,
@@ -272,4 +272,4 @@ const AllPackageFilter = ({
   );
 };
 
-export default AllPackageFilter;
+export default ThemeFilter;

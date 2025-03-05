@@ -411,10 +411,11 @@ const NewBookWrapperReturn = () => {
       {!lastFinalPrice ? (
         <FlightItineraryLoader />
       ) : (
-        <div className="container  flex flex-col sm:flex-row gap-3 mt-3 ">
-          <div className="w-full sm:w-8/12">
-            <FlightDetailBookWraper />
-            {/* <PassengersDetails
+        <div className="bg-indigo-50 pb-6">
+          <div className="container  flex flex-col sm:flex-row gap-3 pt-3 ">
+            <div className="w-full sm:w-8/12">
+              <FlightDetailBookWraper />
+              {/* <PassengersDetails
               sub={sub}
               passengerDataa={passengerData}
               setPassengerDataa={setPassengerData}
@@ -424,36 +425,37 @@ const NewBookWrapperReturn = () => {
               setIsSeatMapOpen={setIsSeatMapOpen}
               ref={formRef}
             /> */}
-            <PaxComponent ref={passengerRef} />
-            <ContinueBtn
-              // valiation={V_aliation}
-              // setSub={() => setSub(true)}
-              // setReviewTravellerModal={() => setReviewTravellerModal(true)}
-              handleTravelClickOpen={handleTravelClickOpen}
-              // handleFocus={handleFocusForm}
+              <PaxComponent ref={passengerRef} />
+              <ContinueBtn
+                // valiation={V_aliation}
+                // setSub={() => setSub(true)}
+                // setReviewTravellerModal={() => setReviewTravellerModal(true)}
+                handleTravelClickOpen={handleTravelClickOpen}
+                // handleFocus={handleFocusForm}
+              />
+            </div>
+            <BookWrapperSummary widdthh={"w-full sm:w-4/12"} />
+            <Authentic isOpen={isLoginModalOpen} onClose={handleModalClose} />
+            <ReckeckPayment
+              isConfirmationModalOpen={isConfirmationModalOpen}
+              handleConfirmationModalClose={handleConfirmationModalClose}
+              handlePayment={handlePayment}
+              // handlePayment={handleBookingProcess}
+            />
+            <ReviewTravellerFlight
+              passengerData={passengerData}
+              isModal={reviewTravellerModal}
+              closeModal={() => setReviewTravellerModal(false)}
+              closeModalWithYes={() => handleTravelClickYes()}
+            />
+
+            <AirSeatMapModal
+              passengerData={passengerData}
+              isSeatModal={airSeatMapModal}
+              closeSeatModal={() => SetAirSeatMapModal(false)}
+              handleSkipToPayment={() => handleSkipToPayment()}
             />
           </div>
-          <BookWrapperSummary widdthh={"w-full sm:w-4/12"} />
-          <Authentic isOpen={isLoginModalOpen} onClose={handleModalClose} />
-          <ReckeckPayment
-            isConfirmationModalOpen={isConfirmationModalOpen}
-            handleConfirmationModalClose={handleConfirmationModalClose}
-            handlePayment={handlePayment}
-            // handlePayment={handleBookingProcess}
-          />
-          <ReviewTravellerFlight
-            passengerData={passengerData}
-            isModal={reviewTravellerModal}
-            closeModal={() => setReviewTravellerModal(false)}
-            closeModalWithYes={() => handleTravelClickYes()}
-          />
-
-          <AirSeatMapModal
-            passengerData={passengerData}
-            isSeatModal={airSeatMapModal}
-            closeSeatModal={() => SetAirSeatMapModal(false)}
-            handleSkipToPayment={() => handleSkipToPayment()}
-          />
         </div>
       )}
     </>

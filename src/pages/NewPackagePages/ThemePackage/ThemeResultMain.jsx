@@ -1,28 +1,21 @@
 import React, { useState, useEffect } from "react";
-import PackageResultFilter from "./PackageResultFilter";
-import HolidayResult from "./HolidayResult";
-import "./holidayResult.scss";
 import { useParams } from "react-router-dom";
-import { apiURL } from "../../../Constants/constant";
 import { useDispatch, useSelector } from "react-redux";
 import { FaPen } from "react-icons/fa";
-import {
-  searchPackageAction,
-  searchPackageActionBudget,
-  searchPackageActionCategory,
-  searchPackageActionTopCountries,
-} from "../../../Redux/SearchPackage/actionSearchPackage";
-import PackageResultFilterMobile from "./PackageResultFilterMobile";
-import HolidayResultSkeleton from "./holidayresultSkeletonPage/HolidayResultSkeleton";
+import { searchThemePackageAction } from "../../../Redux/SearchPackage/actionSearchPackage";
 import { clearHolidayReducer } from "../../../Redux/OnePackageSearchResult/actionOneSearchPackage";
-import PackageResultSearchFormMain from "../PackageResultSearchFormMain";
-import Navbar from "../../navbar/Navbar";
+import HolidayResultSkeleton from "../HolidayPackageSearchResult/holidayresultSkeletonPage/HolidayResultSkeleton";
 
-const HolidayPackageResultMain = () => {
+import PackageResultFilterMobile from "../HolidayPackageSearchResult/PackageResultFilterMobile";
+import ThemeFilter from "./ThemeFilter";
+import ThemeResult from "./ThemeResult";
+
+const ThemeResultMain = () => {
   const reducerState = useSelector((state) => state);
   const [priceRange, setPriceRange] = useState([0, 0]);
   const [selectedTag, setSelectedTag] = useState(null);
   const [flightIncluded, setFlightIncluded] = useState(null);
+  const [hotelIncluded, setHotelIncluded] = useState(null);
   const [selectedDays, setSelectedDays] = useState([]);
   const [packageData, setPackagedata] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -30,53 +23,28 @@ const HolidayPackageResultMain = () => {
   const [loading, setLoading] = useState(true);
   const [tooManyFilter, setToomanyFilter] = useState(false);
   const [isFilterApplied, setIsFilterApplied] = useState(false);
-  const [data, setData] = useState([]);
-  const { keyword, type } = useParams();
+
+  const { queryParam } = useParams();
   const dispatch = useDispatch();
 
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(
-        `${apiURL.baseURL}/skyTrails/package/getPackageCityData?keyword=${keyword}`
-      );
-      const result = await response.json();
-      setData(result?.data);
-      setLoading(false);
-    } catch (error) {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchData();
     dispatch(clearHolidayReducer());
   }, []);
+
   useEffect(() => {
     setLoading(true);
-  }, [keyword]);
+  }, [queryParam]);
 
   useEffect(() => {
-    if (type == "cities") {
-      dispatch(searchPackageAction(keyword));
-    }
-    if (type == "category") {
-      dispatch(searchPackageActionCategory(keyword));
-    }
-    if (type == "country") {
-      dispatch(searchPackageActionTopCountries(keyword));
-    }
-    if (type == "budget") {
-      dispatch(searchPackageActionBudget(keyword));
-    }
-    sessionStorage.setItem("searchPackageData", JSON.stringify(keyword));
-  }, [dispatch, keyword, type]);
+    // if (type == "category") {
+    dispatch(searchThemePackageAction(queryParam)); //please guide me what to send here
+    // }
+
+    sessionStorage.setItem("searchPackageData", JSON.stringify(queryParam));
+  }, [dispatch, queryParam]);
 
   const Package =
-    reducerState?.searchResult?.packageSearchResult?.data?.data ||
-    reducerState?.searchResult?.packageSearchResult?.data?.results ||
-    reducerState?.searchResult?.packageSearchResult?.data?.data ||
-    [];
+    reducerState?.searchResult?.packageSearchResult?.data?.data || [];
 
   useEffect(() => {
     if (Package.length > 0) {
@@ -84,8 +52,6 @@ const HolidayPackageResultMain = () => {
       setPackagedata(Package);
     }
   }, [Package]);
-
-  console.log(Package, "package");
 
   const uniqueDestinations =
     Package?.length > 0
@@ -103,6 +69,7 @@ const HolidayPackageResultMain = () => {
     priceRange,
     tag,
     includeFlight,
+    includeHotel,
     days
   ) => {
     let filtered = Package;
@@ -125,6 +92,19 @@ const HolidayPackageResultMain = () => {
       } else if (includeFlight === "no-flight") {
         filtered = filtered?.filter(
           (pkg) => !pkg?.inclusions?.some((t) => t.flight === "true")
+        );
+        setIsFilterApplied(true);
+      }
+    }
+    if (includeHotel) {
+      if (includeHotel === "hotel") {
+        filtered = filtered?.filter((pkg) =>
+          pkg?.inclusions?.some((t) => t.hotel === "true")
+        );
+        setIsFilterApplied(true);
+      } else if (includeHotel === "no-hotel") {
+        filtered = filtered?.filter(
+          (pkg) => !pkg?.inclusions?.some((t) => t.hotel === "true")
         );
         setIsFilterApplied(true);
       }
@@ -160,6 +140,8 @@ const HolidayPackageResultMain = () => {
 
     setPackagedata(filtered);
   };
+
+  // console.log(packageData, "package data");
 
   const getMinMaxPrices = (Pack) => {
     if (!Pack || Pack.length === 0) {
@@ -198,6 +180,9 @@ const HolidayPackageResultMain = () => {
   const handleFlightChange = (value) => {
     setFlightIncluded(value);
   };
+  const handleHotelChange = (value) => {
+    setHotelIncluded(value);
+  };
 
   const handleDaysChange = (value) => {
     setSelectedDays((prev) =>
@@ -214,6 +199,7 @@ const HolidayPackageResultMain = () => {
     setPriceRange([min, max]);
     setSelectedTag(null);
     setFlightIncluded(null);
+    setHotelIncluded(null);
     setSelectedDays([]);
     setSearchTerm("");
     setSelectedDestinations([]);
@@ -233,27 +219,28 @@ const HolidayPackageResultMain = () => {
 
   return (
     <div>
-      <Navbar />
-      <PackageResultSearchFormMain cityData={data} />
-      <>
-        <div className="container px-0">
-          <div className="row">
-            <div className="">
-              {Object.keys(data).length > 0 && (
-                <div className="w-full py-4 mb-3 rounded-md">
-                  <h4 className="font-bold text-black">
-                    {data?.cityName} Tour Packages
-                  </h4>
-                  <p>{data?.description}</p>
-                </div>
-              )}
-            </div>
-          </div>
+      {/* <Navbar /> */}
+
+      <div
+        style={{
+          backgroundImage: `url(https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)`,
+        }}
+        className="flightMainBox relative py-16 bg-purple-200 bg-[radial-gradient(circle,_rgba(70,81,229,1)_0%,_rgba(101,102,214,1)_100%)] hidden md:flex flex-col justify-center bg-cover bg-center bg-no-repeat"
+      >
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-50 z-0"></div>
+
+        <div className="relative z-10">
+          <h2 className="text-center font-bold text-white pb-8">
+            {queryParam?.split("=")[0]} Packages
+          </h2>
         </div>
+      </div>
+      <>
         <div className="container ">
           <div className="mt-3 row">
             <div className="p-0 col-lg-3 visibleBig">
-              <PackageResultFilter
+              <ThemeFilter
                 uniqueDestinations={uniqueDestinations}
                 onFilterChange={handleFilterChange}
                 onPriceChange={handlePriceChange}
@@ -264,6 +251,8 @@ const HolidayPackageResultMain = () => {
                 flightIncluded={flightIncluded}
                 onTagChange={handleTagChange}
                 onFlightChange={handleFlightChange}
+                hotelIncluded={hotelIncluded}
+                onHotelChange={handleHotelChange}
                 selectedDays={selectedDays}
                 onDaysChange={handleDaysChange}
                 onSearchTermChange={handleSearchTermChange}
@@ -272,37 +261,36 @@ const HolidayPackageResultMain = () => {
                 onClearFilters={handleClearFilters}
               />
             </div>
-            {/* <div className="col-lg-12 visibleSmall stickyForMobile">
-            <PackageResultFilterMobile
-              uniqueDestinations={uniqueDestinations}
-              onFilterChange={handleFilterChange}
-              onPriceChange={handlePriceChange}
-              minPrice={min}
-              maxPrice={max}
-              priceRange={priceRange}
-              selectedTag={selectedTag}
-              onTagChange={handleTagChange}
-              selectedDays={selectedDays}
-              onDaysChange={handleDaysChange}
-              onSearchTermChange={handleSearchTermChange}
-              selectedDestinations={selectedDestinations}
-              setSelectedDestinations={setSelectedDestinations}
-              onClearFilters={handleClearFilters}
-            />
-          </div> */}
-
+            <div className="col-lg-12 visibleSmall  sticky top-20 z-10 py-3 bg-white border-b border-t mb-3">
+              <PackageResultFilterMobile
+                uniqueDestinations={uniqueDestinations}
+                onFilterChange={handleFilterChange}
+                onPriceChange={handlePriceChange}
+                minPrice={min}
+                maxPrice={max}
+                priceRange={priceRange}
+                selectedTag={selectedTag}
+                onTagChange={handleTagChange}
+                selectedDays={selectedDays}
+                onDaysChange={handleDaysChange}
+                onSearchTermChange={handleSearchTermChange}
+                selectedDestinations={selectedDestinations}
+                setSelectedDestinations={setSelectedDestinations}
+                onClearFilters={handleClearFilters}
+              />
+            </div>
             {tooManyFilter ? (
               <div className="col-lg-9">
                 <div className="noHotels">
                   <h3>Too many filter Applied !</h3>
-                  <p>
+                  <p className="flex gap-2 items-center justify-center">
                     Please remove some <FaPen />
                   </p>
                 </div>
               </div>
             ) : (
               <div className="col-lg-9">
-                <HolidayResult
+                <ThemeResult
                   packages={packageData}
                   searchTerm={searchTerm}
                   priceRange={priceRange}
@@ -316,4 +304,4 @@ const HolidayPackageResultMain = () => {
   );
 };
 
-export default HolidayPackageResultMain;
+export default ThemeResultMain;

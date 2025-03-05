@@ -132,7 +132,7 @@ const RecentSearches = () => {
             return (
               <div
                 key={index}
-                className="bg-white p-2 rounded-lg border shadow-md flex gap-2 justify-between items-center cursor-pointer hover:bg-blue-100 transition duration-200"
+                className="bg-white relative p-2 rounded-lg border shadow-md flex gap-2 justify-between group items-center cursor-pointer hover:bg-blue-100 transition duration-200"
                 onClick={() => handleSubmit(search)}
               >
                 <div>
@@ -149,8 +149,8 @@ const RecentSearches = () => {
                     {search?.Infant} Infant
                   </p>
                 </div>
-                <div className="flex items-center justify-end">
-                  <span className="bg-primary-6000 hover:bg-primary-700 text-white rounded-full w-8 h-8 flex items-center justify-center">
+                <div className="flex items-center justify-end absolute bottom-0 right-0">
+                  <span className="bg-primary-6000 hover:bg-primary-70  rounded-tl-full text-white group-hover:scale-[1.1] transition-all duration-200 ease-in-out  w-8 h-8 flex items-center justify-center">
                     →
                   </span>
                 </div>

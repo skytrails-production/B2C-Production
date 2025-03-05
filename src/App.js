@@ -89,6 +89,7 @@ import ResultOnewayMain from "./pages/flight/Oneway/ResultOneway/ResultOnewayMai
 import OnewayBookingPage from "./pages/flight/Oneway/OnewayPassengerDetails/OnewayBookingPage";
 import AllMainPageHoliday from "./pages/NewPackagePages/AllPackage/AllMainPageHoliday";
 import PageNotFound from "./PageNotFound";
+import ThemeResultMain from "./pages/NewPackagePages/ThemePackage/ThemeResultMain";
 
 function App() {
   // const location = useLocation();
@@ -305,6 +306,10 @@ function App() {
         <Route
           path="/allpackage/:type/:keyword"
           element={<AllMainPageHoliday />}
+        />
+        <Route
+          path="/packageresult/allresult/:queryParam"
+          element={<ThemeResultMain />}
         />
 
         <Route

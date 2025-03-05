@@ -150,7 +150,7 @@ const PackageResultCard = ({ data, shadoww }) => {
           <h2 className="text-base mb-2 font-semibold text-gray-800 truncate">
             {data?.title}
           </h2>
-          <div className="flex items-center mb-2">
+          {/* <div className="flex items-center mb-2">
             <div className="flex text-yellow-400">
               <i class="fa-solid fa-star"></i>
               <i class="fa-solid fa-star"></i>
@@ -162,7 +162,7 @@ const PackageResultCard = ({ data, shadoww }) => {
               {" "}
               ({randomReviews} Reviews)
             </span>
-          </div>
+          </div> */}
 
           <div className="flex justify-between mb-2">
             {/* Tooltip for 1 Country 2 Cities */}

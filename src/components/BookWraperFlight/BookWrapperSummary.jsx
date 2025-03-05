@@ -105,7 +105,7 @@ const BookWrapperSummary = ({ widdthh }) => {
 
   return (
     <div className={`${widdthh}`}>
-      <div className="top-24 rounded-md  border-1 border-gray-200 overflow-y-scroll p-4 sticky">
+      <div className="top-24  bg-white shadow-sm border-gray-200 overflow-y-scroll p-4 sticky">
         <div className="bg-white flex flex-col rounded-md gap-2">
           <div className="p-2 md:px-4 py-2">
             <p className="text-lg font-bold">FARE SUMMARY</p>

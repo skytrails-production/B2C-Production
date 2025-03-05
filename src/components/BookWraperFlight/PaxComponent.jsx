@@ -287,7 +287,7 @@ const PaxComponent = forwardRef((props, ref) => {
     if (!data || !data.length) return null;
 
     return (
-      <div className="p-3">
+      <div className="p-3 bg-white">
         <h2 className="text-lg font-semibold mb-2 capitalize">{type}</h2>
         {data.map((passenger, index) => (
           <div
@@ -824,11 +824,9 @@ const PaxComponent = forwardRef((props, ref) => {
 
   return (
     <div className="">
-      <div className="rounded-2xl  border-1 border-gray-200 mt-4">
+      <div className="shadow-sm  border-gray-200 mt-4">
         <p
-          className={` ${
-            isAccordionVisible ? "rounded-ss-2xl rounded-se-2xl" : "rounded-2xl"
-          }  text-gray-700 p-2 px-4 bg-gradient-to-r from-blue-100 via-blue-100  to-blue-50  text-lg font-bold cursor-pointer flex justify-between items-center transition-all duration-200 ease-in-out `}
+          className={`   text-gray-700 p-2 px-4 bg-indigo-200 text-lg font-bold cursor-pointer flex justify-between items-center transition-all duration-200 ease-in-out `}
           onClick={() => setIsAccordionVisible((prev) => !prev)}
         >
           Passenger Details
@@ -863,7 +861,7 @@ const PaxComponent = forwardRef((props, ref) => {
           Please enter a valid Mobile Number
         </div>
       )}
-      <div className="mt-4 border rounded-xl p-3">
+      <div className="mt-4 border rounded-xl p-3 bg-white">
         <p className="text-base font-medium mb-3">
           Your Booking details will be sent to
         </p>

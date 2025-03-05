@@ -154,7 +154,7 @@ const HotelResultMain = () => {
   });
 
   return (
-    <div>
+    <div className="bg-indigo-50">
       {/* <div className="visibleBigHotel">
         <ResultSearchForm toggleLoader={toggleLoader} />
       </div> */}

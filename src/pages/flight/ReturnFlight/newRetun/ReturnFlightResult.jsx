@@ -134,7 +134,7 @@ const ReturnFlightResult = ({ jornyFlights, retrunFlights }) => {
 
     return (
       <div
-        className="flex px-[8px] py-[10px] border-1 border-gray-300 bg-indigo-50 rounded-md w-full justify-between items-center
+        className="flex px-[8px] py-[10px] border-1 border-gray-300 bg-white rounded-md w-full justify-between items-center
       "
       >
         <div className="sm:text-sm md:text-md  xl:text-sm font-medium">

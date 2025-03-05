@@ -70,6 +70,20 @@ export const searchAllPackageAction = (data) => {
   };
 };
 
+export const searchThemePackage = (data) => {
+  return {
+    type: types.SET_THEME_PACKAGE_DATA,
+    payload: data,
+  };
+};
+
+export const searchThemePackageAction = (data) => {
+  return {
+    type: types.GET_THEME_PACKAGE_DATA,
+    payload: data,
+  };
+};
+
 export const clearPackageData = () => {
   return {
     type: types.CLEAR_PACKAGE_DATA,

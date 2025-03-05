@@ -170,18 +170,32 @@ const PackageResultFilter = ({
           Honeymoon
         </Checkbox>
         <Checkbox
-          value="anniversary"
-          checked={selectedTag === "anniversary"}
-          onChange={handleTagChange}
-        >
-          Anniversary
-        </Checkbox>
-        <Checkbox
           value="family"
           checked={selectedTag === "family"}
           onChange={handleTagChange}
         >
           Family
+        </Checkbox>
+        <Checkbox
+          value="family"
+          checked={selectedTag === "luxury"}
+          onChange={handleTagChange}
+        >
+          Luxury
+        </Checkbox>
+        <Checkbox
+          value="family"
+          checked={selectedTag === "budget"}
+          onChange={handleTagChange}
+        >
+          Budget
+        </Checkbox>
+        <Checkbox
+          value="anniversary"
+          checked={selectedTag === "group"}
+          onChange={handleTagChange}
+        >
+          Group
         </Checkbox>
         <Checkbox
           value="couples"
@@ -196,13 +210,6 @@ const PackageResultFilter = ({
           onChange={handleTagChange}
         >
           Solo
-        </Checkbox>
-        <Checkbox
-          value="group"
-          checked={selectedTag === "group"}
-          onChange={handleTagChange}
-        >
-          Group
         </Checkbox>
       </div>
       <div className="PackagetagFilters">

@@ -60,9 +60,7 @@ const HotelResultCardBox = ({ result }) => {
   }&hl=en&z=14&output=embed`;
 
   return (
-    <div
-      className={`max-w-3xl mx-auto bg-white border border-gray-200 shadow-md rounded-lg  p-4 relative`}
-    >
+    <div className={`max-w-3xl mx-auto bg-white shadow-sm p-4 relative`}>
       {/* Left Section: Image */}
 
       {result?.featureHotel && (

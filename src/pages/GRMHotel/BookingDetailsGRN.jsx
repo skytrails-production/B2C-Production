@@ -48,18 +48,20 @@ const BookingDetailsGRN = () => {
           <HotelSelectRoomSkeleton />
         </>
       ) : (
-        <div className="my-4 md:pb-8 bg-white">
-          <div className="container">
-            <div className="row">
-              <HotelGalleryCarousel data={hotelGallery} />
-            </div>
-
-            <div className="row mt-3">
-              <div className="col-lg-8">
-                <HotelGuestDetailsGRN ref={formRef} />
+        <div className="bg-indigo-50">
+          <div className="py-4 md:pb-8 bg-white">
+            <div className="container">
+              <div className="row">
+                <HotelGalleryCarousel data={hotelGallery} />
               </div>
-              <div className="col-lg-4">
-                <PriceSummaryGRN />
+
+              <div className="row mt-3">
+                <div className="col-lg-8">
+                  <HotelGuestDetailsGRN ref={formRef} />
+                </div>
+                <div className="col-lg-4">
+                  <PriceSummaryGRN />
+                </div>
               </div>
             </div>
           </div>

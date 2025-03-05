@@ -200,6 +200,7 @@ const AllMainPageHoliday = () => {
     setPriceRange([min, max]);
     setSelectedTag(null);
     setFlightIncluded(null);
+    setHotelIncluded(null);
     setSelectedDays([]);
     setSearchTerm("");
     setSelectedDestinations([]);
@@ -218,7 +219,7 @@ const AllMainPageHoliday = () => {
   }
 
   return (
-    <div>
+    <div className="mb-4">
       {/* <Navbar /> */}
 
       <div
@@ -261,7 +262,7 @@ const AllMainPageHoliday = () => {
                 onClearFilters={handleClearFilters}
               />
             </div>
-            <div className="col-lg-12 visibleSmall stickyForMobile">
+            <div className="col-lg-12 visibleSmall  sticky top-20 z-10 py-3 bg-white border-b border-t mb-3">
               <PackageResultFilterMobile
                 uniqueDestinations={uniqueDestinations}
                 onFilterChange={handleFilterChange}

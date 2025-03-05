@@ -121,14 +121,17 @@ export const returnReducer = (state = initState, action) => {
 
       const standardizedFlightsTbo2 = payload?.returnFlight?.sortedFinalRes
         ? payload?.returnFlight?.sortedFinalRes
-          ?.map((response) => standardizeFlightResponse(response))
-          .filter((flight) => flight !== null)
+            ?.map((response) => standardizeFlightResponse(response))
+            .filter((flight) => flight !== null)
         : []; // Filter out any null results
       // console.log(standardizedFlightsTbo1, "datafffTBO")
       // const newJourneyFlight = [...state?.returnData?.journeyFlight, ...payload?.journeyFlight?.sortedFinalRes]
       // const newReturnFlight = [...state?.returnData?.returnFlight, ...payload?.returnFlight?.sortedFinalRes]
-      console.log(state?.returnData?.journeyFlight,
-        standardizedFlightsTbo1, "standardizedFlightsTbo")
+      console.log(
+        state?.returnData?.journeyFlight,
+        standardizedFlightsTbo1,
+        "standardizedFlightsTbo"
+      );
 
       const newJourneyFlight = [
         ...(state?.returnData?.journeyFlight || []),
@@ -136,7 +139,7 @@ export const returnReducer = (state = initState, action) => {
       ];
 
       const newReturnFlight = [
-        ... (state?.returnData?.returnFlight || []),
+        ...(state?.returnData?.returnFlight || []),
         ...standardizedFlightsTbo2,
       ];
       // console.log("sorteddata", newJourneyFlight, "newJourneyFlight")

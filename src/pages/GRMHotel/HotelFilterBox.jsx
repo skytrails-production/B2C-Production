@@ -65,7 +65,7 @@ const HotelFilterBox = ({
   };
 
   return (
-    <div className=" bg-white p-3 sticky rounded-xl top-28 border-1 shadow-sm overflow-y-scroll max-h-screen ">
+    <div className=" bg-white p-3 sticky shadow-md top-28 overflow-y-scroll max-h-[75vh] ">
       <div className="my-3 flex flex-col justify-start gap-2">
         <h5
           style={{ cursor: "pointer", fontSize: "15px", fontWeight: "700" }}

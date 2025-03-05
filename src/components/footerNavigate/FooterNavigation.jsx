@@ -324,7 +324,7 @@ const FooterNavigation = () => {
   }, [pathname]);
 
   return (
-    <div className="custom-container flex flex-col gap-7">
+    <div className="custom-container flex flex-col mb-4 gap-7">
       {footerData?.map((item) => {
         return (
           <div className="flex  text-sm font-semibold flex-wrap flex-col ">

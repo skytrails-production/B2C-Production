@@ -7,6 +7,7 @@ import {
   GET_SEARCH_PACKAGE_DATA_BUDGET,
   GET_SEARCH_PACKAGE_DATA_CATEGORY,
   GET_SEARCH_PACKAGE_DATA_COUNTRY,
+  GET_THEME_PACKAGE_DATA,
 } from "../SearchPackage/actionType";
 import {
   searchAllPackage,
@@ -14,6 +15,7 @@ import {
   searchPackageData,
   searchPackageDataCategory,
   searchPackageDataTopCountries,
+  searchThemePackage,
 } from "../SearchPackage/actionSearchPackage";
 
 function* searchResult(action) {
@@ -56,10 +58,19 @@ function* getALLResult(action) {
     // console.log(error);
   }
 }
+function* getThemeResult(action) {
+  try {
+    const data = yield call(userApi.getThemePackages, action.payload);
+    yield put(searchThemePackage(data));
+  } catch (error) {
+    // console.log(error);
+  }
+}
 export function* searchResultWatcher() {
   yield takeLatest(GET_SEARCH_PACKAGE_DATA, searchResult);
   yield takeLatest(GET_SEARCH_PACKAGE_DATA_CATEGORY, searchResultCategory);
   yield takeLatest(GET_SEARCH_PACKAGE_DATA_COUNTRY, searchResultTopCountries);
   yield takeLatest(GET_SEARCH_PACKAGE_DATA_BUDGET, searchResultBudget);
   yield takeLatest(GET_ALL_PACKAGE_DATA, getALLResult);
+  yield takeLatest(GET_THEME_PACKAGE_DATA, getThemeResult);
 }

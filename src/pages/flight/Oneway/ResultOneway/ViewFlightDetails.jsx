@@ -51,7 +51,7 @@ const FlightDetail = ({ item }) => {
                     {findAirportByCode(item?.destination)?.name}
                   </p>
                 </div>
-                <div className="flex w-full bg-gray-100 justify-between border border-dashed p-2.5 rounded-md shadow-sm">
+                <div className="flex w-full bg-gray-100 justify-between  p-2.5 rounded-md shadow-sm">
                   <div className="flex flex-1 flex-col items-start justify-center gap-2">
                     <img
                       src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${item?.flightName}.png`}

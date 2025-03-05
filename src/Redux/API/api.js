@@ -592,6 +592,11 @@ function api() {
       `${apiURL.baseURL}/skyTrails/holidaypackage/getdomesticorinternational/${payload}?limit=1000`
     );
   };
+  const getThemePackages = (payload) => {
+    return axios.get(
+      `${apiURL.baseURL}/skytrails/holidaypackage/specialtagfilter?${payload}`
+    );
+  };
 
   // holidayCategory details
 
@@ -992,6 +997,7 @@ function api() {
     searchPackageCountry,
     searchPackageBudget,
     getAllPackages,
+    getThemePackages,
     getOnePackage,
     bookingHoliday,
     getBusSearch,

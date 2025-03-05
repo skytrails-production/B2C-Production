@@ -170,7 +170,7 @@ const FlightDetailsBookWraperCard = ({ type, flight }) => {
 
   // console.log(flightDetail, "flightDetailAMDd");
   return (
-    <div className="bg-gray-100  flex flex-col gap-2 px-2 md:px-4 py-2">
+    <div className="bg-white flex flex-col gap-2 px-2 md:px-4 py-2">
       <div className="flex flex-col ">
         <div className="flex gap-2 items-center">
           <p className="text-sm  md:text-base bg-primary-700 text-white rounded-md py-1 px-2">

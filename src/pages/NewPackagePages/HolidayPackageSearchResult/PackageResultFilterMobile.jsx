@@ -346,18 +346,32 @@ const PackageResultFilterMobile = ({
               Honeymoon
             </Checkbox>
             <Checkbox
-              value="anniversary"
-              checked={localSelectedTag === "anniversary"}
-              onChange={handleTagChange}
-            >
-              Anniversary
-            </Checkbox>
-            <Checkbox
               value="family"
               checked={localSelectedTag === "family"}
               onChange={handleTagChange}
             >
               Family
+            </Checkbox>
+            <Checkbox
+              value="family"
+              checked={localSelectedTag === "luxury"}
+              onChange={handleTagChange}
+            >
+              Luxury
+            </Checkbox>
+            <Checkbox
+              value="family"
+              checked={localSelectedTag === "budget"}
+              onChange={handleTagChange}
+            >
+              Budget
+            </Checkbox>
+            <Checkbox
+              value="anniversary"
+              checked={localSelectedTag === "group"}
+              onChange={handleTagChange}
+            >
+              Group
             </Checkbox>
             <Checkbox
               value="couples"
@@ -372,13 +386,6 @@ const PackageResultFilterMobile = ({
               onChange={handleTagChange}
             >
               Solo
-            </Checkbox>
-            <Checkbox
-              value="group"
-              checked={localSelectedTag === "group"}
-              onChange={handleTagChange}
-            >
-              Group
             </Checkbox>
           </div>
         </Modal>

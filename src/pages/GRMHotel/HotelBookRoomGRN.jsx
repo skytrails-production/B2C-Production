@@ -288,7 +288,7 @@ const HotelBookRoomGRN = () => {
       {loader ? (
         <HotelSelectRoomSkeleton />
       ) : (
-        <div className="my-4 bg-white">
+        <div className="py-4 bg-indigo-50">
           <div className="container">
             <div className="row">
               <HotelGalleryCarousel data={hotelGallery} />
@@ -353,7 +353,7 @@ const HotelBookRoomGRN = () => {
                   {filterOptions.map((type) => (
                     <button
                       key={type}
-                      className={`relative px-[1.8rem] py-2 font-semibold text-sm md:text-md lg:text-md xl:text-md ${
+                      className={`bg-white relative px-[1.8rem] py-2 font-semibold text-sm md:text-md lg:text-md xl:text-md ${
                         filterType === type
                           ? "  text-indigo-700 shadow-md border-2 border-indigo-700 rounded-md"
                           : "text-gray-500 border-2 rounded-md"
@@ -421,7 +421,7 @@ const HotelBookRoomGRN = () => {
               </div>
 
               <div className="col-lg-4 ">
-                <div className=" top-24 rounded-md shadow-sm border overflow-y-scroll p-7 sticky">
+                <div className=" top-24 rounded-md shadow-sm border overflow-y-scroll p-7 bg-white sticky">
                   <div className=" flex flex-col w-full border rounded-md">
                     <div className=" flex flex-row justify-center items-center">
                       <div className="p-3 w-full border-b flex flex-col gap-2 justify-center items-center">

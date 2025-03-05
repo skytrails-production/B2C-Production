@@ -59,10 +59,11 @@ body {
     font-size: 13px;
   }
 
-  #root {
+  /* #root {
     overflow-x: hidden;
+    overflow-y: unset;
     background: #f8f8f8;
-  }
+  } */
 }
 
 .mainimgHotelSearchResult {
