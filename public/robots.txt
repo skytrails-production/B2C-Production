@@ -1,4 +1,17 @@
 User-agent: *
+
+Disallow: 
+Crawl-delay: 120
+Disallow: /cgi-bin/
+Disallow: back.theskytrails.com
+Disallow: crm.theskytrails.com
+Disallow: dev.theskytrails.com
+Disallow: travelcrm.theskytrails.com
+Disallow: hrms.theskytrails.com
+Disallow: b2b.theskytrails.com
+Disallow: demo.theskytrails.com
+Disallow: agent.theskytrails.com
+Disallow: mail.theskytrails.com
 Disallow: /private/
 Disallow: /temporary/
-Allow: /public/
+Sitemap: https://theskytrails.com/sitemap.xml

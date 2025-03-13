@@ -351,11 +351,11 @@ function App() {
         <Route path="/pefaevent" element={<Events />}></Route>
 
         {/* blog route  */}
-        <Route
+        {/* <Route
           path="/blogDetails/:keyword"
           element={<BlogDetailsSingle />}
         ></Route>
-        <Route path="/skytrailsblogs" element={<AllBlogs />}></Route>
+        <Route path="/skytrailsblogs" element={<AllBlogs />}></Route> */}
 
         <Route path="/payLaterDetails" element={<PaylaterDetails />}></Route>
         <Route
