@@ -1,3 +1,5 @@
+/* global fbq */
+
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -135,6 +137,13 @@ const HolidayEnquiryForm = ({ onePackage, filterType }) => {
     }
 
     // console.log(formData, 'formData');
+
+    if (typeof fbq === "function") {
+      console.log("clicked");
+      fbq("track", "Lead", { currency: "INR", value: 30.0 });
+    } else {
+      console.warn("Facebook Pixel (fbq) is not loaded.");
+    }
 
     const validationResult = validateForm(formData);
     // console.log(validationResult, 'validationResult');

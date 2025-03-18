@@ -41,6 +41,8 @@ import BookingReviewGRN from "./pages/GRMHotel/BookingReviewGRN";
 import HotelTicketDB from "./pages/GRMHotel/HotelTicketDB";
 import HotelBookRoomGRN from "./pages/GRMHotel/HotelBookRoomGRN";
 import { ipAction, tokenAction } from "./Redux/IP/actionIp";
+import DummyTicketBookingForm from "./components/DummyTicketBookingForm";
+import DummyPnrHome from "./components/DummyPnrHome";
 import BlogDetailsSingle from "./pages/home/BlogDetailsSingle";
 import PaylaterDetails from "./Mihuru/PaylaterDetails";
 import VerifyPayLater from "./Mihuru/VerifyPayLater";
@@ -347,6 +349,12 @@ function App() {
           path="/bookinghistory/hotelPdf"
           element={<DownloadHotelPdf />}
         ></Route>
+
+        {/* <Route
+          path="/oneWayDummyPnr"
+          element={<DummyTicketBookingForm />}
+        ></Route>
+        <Route path="/oneWayDummyHome" element={<DummyPnrHome />}></Route> */}
 
         <Route path="/pefaevent" element={<Events />}></Route>
 

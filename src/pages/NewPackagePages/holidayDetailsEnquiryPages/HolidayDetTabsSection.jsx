@@ -297,7 +297,7 @@ const HolidayDetTabsSection = ({ packageData, setIsOpen, stayType }) => {
           </div>
         )}
         {filteredActivities?.map((act, ae) => (
-          <div>
+          <div key={ae}>
             <div className="my-3">
               <span className="text-sm font-semibold ">{act?.title}</span>
             </div>

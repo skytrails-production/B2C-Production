@@ -8,12 +8,95 @@ import playstoreSVG from "../images/download/playstoreSVG.svg";
 import mainLogo from "../images/newlogo.png";
 import "./footer.scss";
 import Img from "../LazyLoading/Img";
-
+import { apiURL } from "../Constants/constant";
+import { load } from "@cashfreepayments/cashfree-js";
+import SecureStorage from "react-secure-storage";
+import axios from "axios";
 const Footer = () => {
   const navigate = useNavigate();
-
+  let cashfree;
+  var initializeSDK = async function () {
+    cashfree = await load({
+      mode: "production",
+      // mode: "sandbox",
+    });
+  };
+  initializeSDK();
   const handleDummyTicketBooking = () => {
     navigate("/oneWayDummyPnr");
+  };
+
+  let orderId1 = "";
+
+  const handlePayment = async () => {
+    const token = SecureStorage?.getItem("jwtToken");
+    console.log(token, "token");
+    const cashpayload = {
+      phone: "9801540172",
+      // amount: Number(finalAmount).toFixed(0),
+      amount: 1,
+      email: "shaanunplugged1234@gmail.com",
+      productinfo: "ticket",
+      bookingType: "HOTELS",
+    };
+    try {
+      console.log("Cashfree Started");
+      const response = await axios({
+        method: "post",
+        url: `${apiURL.baseURL}/skyTrails/api/transaction/makeCashfreePayment`,
+        data: cashpayload,
+        headers: {
+          "Content-Type": "application/json",
+          token: token,
+        },
+      });
+      console.log("Cashfree Response", response);
+      if (response.status === 200) {
+        const data = response.data.result;
+        console.log("Cashfree Response 1", data);
+        console.log("Cashfree Session ID", data.payment_session_id);
+        console.log("Cashfree Order ID", data.order_id);
+        // paymentLoader(false);
+        orderId1 = response.data.result.order_id;
+        doPayment(response.data.result.payment_session_id);
+        // proceedPayment(data.result.access, "prod", data.result.key);
+        console.log("API call successful:", orderId1);
+      } else {
+        console.error("API call failed with status:", response.status);
+        console.error("Error details:", response.data); // Use 'response.data' for error details
+      }
+    } catch (error) {
+      // Handle network errors or exceptions
+      console.error("API call failed with an exception:", error);
+    }
+  };
+
+  const doPayment = async (sessionID) => {
+    let checkoutOptions = {
+      // paymentSessionId:
+      //   "session_F3qfjRlZhVXsIHEI57e2gBkYGmusQLYttDc2frS-yf-HduxICMtjm18F-5wLXlcPHBKJxudeJpZxUtcZBpZRDuKfMpG8HPmGV48uwz3jJi10mYn75eN9KplhWwpaymentpayment",
+      paymentSessionId: sessionID,
+      redirectTarget: "_modal",
+    };
+    cashfree.checkout(checkoutOptions).then((result) => {
+      if (result.error) {
+        console.log(
+          "User has closed the popup or there is some payment error, Check for Payment Status"
+        );
+        sessionStorage.removeItem("couponCode");
+        // toggleState(false);
+        console.log(result.error);
+        console.error("error occured");
+      }
+      if (result.redirect) {
+        console.log("Payment will be redirected");
+        console.log(result, "result in redirecting");
+      }
+      if (result.paymentDetails) {
+        console.log("Payment has been completed, Check for Payment Status");
+        console.log(result, "whole result in payment details");
+      }
+    });
   };
   return (
     <section className=" footers bg-indigo-200">
@@ -119,6 +202,12 @@ const Footer = () => {
               <Link to="mailto:holidays@theskytrails.com">
                 holidays@theskytrails.com
               </Link>
+              <button
+                className="bg-transparent px-3 py-1 rounded-md text-white font-semibold"
+                onClick={handlePayment}
+              >
+                .
+              </button>
             </div>
           </div>
         </div>
