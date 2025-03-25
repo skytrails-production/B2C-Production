@@ -16,10 +16,19 @@ import axios from "axios";
 import { swalModal } from "../../../../utility/swal";
 import { hotelBookRoomAction } from "../../../../Redux/Hotel/hotel";
 import ModalMap from "../../ModalMap";
+import { load } from "@cashfreepayments/cashfree-js";
 
 const TboBookingHotel = ({ toggleState }) => {
   const reducerState = useSelector((state) => state);
-  const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
+  // const apiUrlPayment = `${apiURL.baseURL}/skyTrails/api/transaction/easebussPayment`;
+  let cashfree;
+  var initializeSDK = async function () {
+    cashfree = await load({
+      mode: "production",
+      // mode: "sandbox",
+    });
+  };
+  initializeSDK();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -125,7 +134,7 @@ const TboBookingHotel = ({ toggleState }) => {
       reducerState?.hotelSearchResult?.bookRoom?.BookResult?.Error
         ?.ErrorCode !== undefined
     ) {
-      refundAmount();
+      // refundAmount();
       setLoadingButton(false);
       swalModal(
         "py",
@@ -232,52 +241,56 @@ const TboBookingHotel = ({ toggleState }) => {
     setCouponValue(code);
   };
 
+  let orderId1 = "";
+
   const handlePayment = async () => {
     setPaymentLoading(true);
-    setIsDisableScroll(true);
-    // setSub(true);
+    // setIsDisableScroll(true);
     setLoaderPayment1(true);
+
     if (!checkSearchTime()) {
       navigate("/st-hotel");
       return;
     } else {
-      sessionStorage.setItem("ammo", Number(finalAmount).toFixed(0));
       const token = SecureStorage?.getItem("jwtToken");
-      const payload = {
-        firstname: passenger?.[0]?.FirstName,
+      sessionStorage.setItem("ammo", Number(finalAmount).toFixed(0));
+      const cashpayload = {
         phone: passenger?.[0]?.Phoneno,
-        // amount: 1,
         amount: Number(finalAmount).toFixed(0),
+        // amount: 1,
         email: passenger?.[0]?.Email,
         productinfo: "ticket",
         bookingType: "HOTELS",
-        surl: `${apiURL.baseURL}/skyTrails/successVerifyApi?merchantTransactionId=`,
-        furl: `${apiURL.baseURL}/skyTrails/paymentFailure?merchantTransactionId=`,
       };
-
       try {
-        const response = await fetch(apiUrlPayment, {
-          method: "POST",
+        console.log("Cashfree Started");
+        const response = await axios({
+          method: "post",
+          url: `${apiURL.baseURL}/skyTrails/api/transaction/makeCashfreePayment`,
+          data: cashpayload,
           headers: {
             "Content-Type": "application/json",
             token: token,
           },
-          body: JSON.stringify(payload),
         });
-
-        if (response.ok) {
-          const data = await response.json();
-
-          proceedPayment(data.result.access, "prod", data.result.key);
+        console.log("Cashfree Response", response);
+        if (response.status === 200) {
+          const data = response.data.result;
+          console.log("Cashfree Response 1", data);
+          console.log("Cashfree Session ID", data.payment_session_id);
+          console.log("Cashfree Order ID", data.order_id);
+          // paymentLoader(false);
+          orderId1 = response.data.result.order_id;
+          doPayment(response.data.result.payment_session_id);
+          // proceedPayment(data.result.access, "prod", data.result.key);
+          console.log("API call successful:", orderId1);
         } else {
           console.error("API call failed with status:", response.status);
-          const errorData = await response.json();
-          console.error("Error details:", errorData);
-          setIsDisableScroll(false);
+          console.error("Error details:", response.data); // Use 'response.data' for error details
         }
       } catch (error) {
-        console.error("API call failed with an exception:", error.message);
-        setIsDisableScroll(false);
+        // Handle network errors or exceptions
+        console.error("API call failed with an exception:", error);
       } finally {
         setPaymentLoading(false);
         setLoaderPayment1(false);
@@ -285,50 +298,78 @@ const TboBookingHotel = ({ toggleState }) => {
     }
   };
 
-  const proceedPayment = (accessKey, env, key) => {
-    const easebuzzCheckout = new window.EasebuzzCheckout(key, env);
-    const options = {
-      access_key: `${accessKey}`,
-      onResponse: async (response) => {
-        if (response.status === "success") {
-          try {
-            const easeBuzzPayId = response.easepayid;
-            setRefundTxnId(response.easepayid);
-            const verifyResponse = await axios.post(
-              `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`,
-              { easeBuzzPayId: easeBuzzPayId }
-            );
-            setLoaderPayment(true);
-            setLoadingButton(true);
-            // couponconfirmation3();
-            // couponconfirmation3();
-          } catch (error) {
-            console.error("Error verifying payment:", error);
-            // Handle error
-          }
-        } else {
-          try {
-            const verifyResponse = await axios.post(
-              `${apiURL.baseURL}/skyTrails/api/transaction/paymentFailure?merchantTransactionId=${response.txnid}`
-            );
-            swalModal("hotel", verifyResponse.data.responseMessage, false);
-
-            sessionStorage.removeItem("couponCode");
-            toggleState(false);
-            // setCouponAmountFun(null);
-          } catch (error) {
-            console.error("Error verifying payment:", error);
-            // Handle error
-          } finally {
-            setIsDisableScroll(false);
-          }
-        }
-      },
-      theme: "#123456",
+  const doPayment = async (sessionID) => {
+    let checkoutOptions = {
+      // paymentSessionId:
+      //   "session_F3qfjRlZhVXsIHEI57e2gBkYGmusQLYttDc2frS-yf-HduxICMtjm18F-5wLXlcPHBKJxudeJpZxUtcZBpZRDuKfMpG8HPmGV48uwz3jJi10mYn75eN9KplhWwpaymentpayment",
+      paymentSessionId: sessionID,
+      redirectTarget: "_modal",
     };
-
-    easebuzzCheckout.initiatePayment(options);
+    cashfree.checkout(checkoutOptions).then((result) => {
+      if (result.error) {
+        // console.log(
+        //   "User has closed the popup or there is some payment error, Check for Payment Status"
+        // );
+        swalModal("hotel", "Some error occured !", false);
+        sessionStorage.removeItem("couponCode");
+        toggleState(false);
+        console.log(result.error);
+      }
+      if (result.redirect) {
+        console.log("Payment will be redirected");
+      }
+      if (result.paymentDetails) {
+        console.log("Payment has been completed, Check for Payment Status");
+        console.log(result.paymentDetails.paymentMessage);
+        setLoaderPayment(true);
+        setLoadingButton(true);
+      }
+    });
   };
+  // const proceedPayment = (accessKey, env, key) => {
+  //   const easebuzzCheckout = new window.EasebuzzCheckout(key, env);
+  //   const options = {
+  //     access_key: `${accessKey}`,
+  //     onResponse: async (response) => {
+  //       if (response.status === "success") {
+  //         try {
+  //           const easeBuzzPayId = response.easepayid;
+  //           setRefundTxnId(response.easepayid);
+  //           const verifyResponse = await axios.post(
+  //             `${apiURL.baseURL}/skyTrails/api/transaction/paymentSuccess?merchantTransactionId=${response.txnid}`,
+  //             { easeBuzzPayId: easeBuzzPayId }
+  //           );
+  //           setLoaderPayment(true);
+  //           setLoadingButton(true);
+  //           // couponconfirmation3();
+  //           // couponconfirmation3();
+  //         } catch (error) {
+  //           console.error("Error verifying payment:", error);
+  //           // Handle error
+  //         }
+  //       } else {
+  //         try {
+  //           const verifyResponse = await axios.post(
+  //             `${apiURL.baseURL}/skyTrails/api/transaction/paymentFailure?merchantTransactionId=${response.txnid}`
+  //           );
+  //           swalModal("hotel", verifyResponse.data.responseMessage, false);
+
+  //           sessionStorage.removeItem("couponCode");
+  //           toggleState(false);
+  //           // setCouponAmountFun(null);
+  //         } catch (error) {
+  //           console.error("Error verifying payment:", error);
+  //           // Handle error
+  //         } finally {
+  //           setIsDisableScroll(false);
+  //         }
+  //       }
+  //     },
+  //     theme: "#123456",
+  //   };
+
+  //   easebuzzCheckout.initiatePayment(options);
+  // };
   //   for payment
 
   const mapUrl = `https://maps.google.com/maps?q=${

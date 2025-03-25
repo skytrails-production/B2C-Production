@@ -92,6 +92,9 @@ import OnewayBookingPage from "./pages/flight/Oneway/OnewayPassengerDetails/Onew
 import AllMainPageHoliday from "./pages/NewPackagePages/AllPackage/AllMainPageHoliday";
 import PageNotFound from "./PageNotFound";
 import ThemeResultMain from "./pages/NewPackagePages/ThemePackage/ThemeResultMain";
+import VisaHome from "./pages/visa/VisaHome";
+import VisaForm1 from "./pages/visa/VisaForm1";
+import VisaForm from "./pages/visa/VisaForm2";
 
 function App() {
   // const location = useLocation();
@@ -315,7 +318,8 @@ function App() {
         />
 
         <Route
-          path="/holidaypackages/packagedetails"
+          // path="/holidaypackages/packagedetails"
+          path="/holidaypackages/packagedetails/:destinationDays"
           element={<HolidayDetailsEnquiry />}
         />
 
@@ -358,6 +362,16 @@ function App() {
 
         <Route path="/pefaevent" element={<Events />}></Route>
 
+        {/* visa routes new  */}
+
+        <Route path="/visa" element={<VisaHome />}></Route>
+        <Route path="/visa/userdetails" element={<VisaForm1 />}></Route>
+        <Route
+          path="/visa/userdetails/visadetails"
+          element={<VisaForm />}
+        ></Route>
+        {/* <Route path="/visa/clientdetails" element={<VisaForm />}></Route> */}
+
         {/* blog route  */}
         {/* <Route
           path="/blogDetails/:keyword"
@@ -365,7 +379,7 @@ function App() {
         ></Route>
         <Route path="/skytrailsblogs" element={<AllBlogs />}></Route> */}
 
-        <Route path="/payLaterDetails" element={<PaylaterDetails />}></Route>
+        {/* <Route path="/payLaterDetails" element={<PaylaterDetails />}></Route>
         <Route
           path="/payLaterDetails/verifyOtp"
           element={<VerifyPayLater />}
@@ -381,7 +395,7 @@ function App() {
         <Route
           path="/mihurupaymentsuccess"
           element={<MihuruPaymentSuccess />}
-        ></Route>
+        ></Route> */}
 
         {/* random payment  */}
         <Route path="/packagepayment" element={<RandomPayment />}></Route>
@@ -481,7 +495,10 @@ function App() {
         location.pathname !== "/ReturnResult" &&
         location.pathname !== "/newFlight/newBookedTicket" &&
         location.pathname !== "/flightlist" &&
-        location.pathname !== "/inventoryhotelform" && <Footer />}
+        location.pathname !== "/inventoryhotelform" &&
+        location.pathname !== "/visa" &&
+        location.pathname !== "/visa/userdetails" &&
+        location.pathname !== "/visa/userdetails/visadetails" && <Footer />}
     </div>
   );
 }

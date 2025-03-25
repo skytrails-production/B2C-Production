@@ -58,6 +58,9 @@ const MainNav = ({ className = "" }) => {
     if (type === "bus") {
       navigate("/bus");
     }
+    if (type === "visa") {
+      navigate("/visa");
+    }
   };
 
   return (
@@ -153,10 +156,21 @@ const MainNav = ({ className = "" }) => {
                 </div>
                 Buses
               </li>
-              <li className="flex-shrink-0 flex gap-1 py-1 ps-2 sm:pe-2  xl:pe-3 rounded-full items-center cursor-pointer text-[12px] lg:text-[13px] xl:text-lg font-medium bg-gray-100">
-                {/* {visaInactive} */}
+              <li
+                className={`flex-shrink-0 flex gap-1 py-1 ps-2 sm:pe-2  xl:pe-3 rounded-full items-center cursor-pointer text-[12px] lg:text-[13px] xl:text-lg font-medium ${
+                  isActive("/visa") ? "bg-indigo-200 " : " bg-gray-100"
+                }`}
+                onClick={() => navigationHandler("visa")}
+              >
                 <div className="w-8 h-8 shadow-md  flex items-center justify-center rounded-full p-2 bg-white">
-                  {/* <IdCard size={18} /> */}
+                  <i class="fa-regular fa-address-card text-sm"></i>
+                </div>
+                Visa
+              </li>
+              {/* <li className="flex-shrink-0 flex gap-1 py-1 ps-2 sm:pe-2  xl:pe-3 rounded-full items-center cursor-pointer text-[12px] lg:text-[13px] xl:text-lg font-medium bg-gray-100">
+                
+                <div className="w-8 h-8 shadow-md  flex items-center justify-center rounded-full p-2 bg-white">
+                 
                   <i class="fa-regular fa-address-card text-sm"></i>
                 </div>
                 <Link
@@ -166,7 +180,7 @@ const MainNav = ({ className = "" }) => {
                 >
                   Visa
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </div>
           {/* <div className="hidden md:flex justify-center items-center flex-1 space-x-3 sm:space-x-8 lg:space-x-10">

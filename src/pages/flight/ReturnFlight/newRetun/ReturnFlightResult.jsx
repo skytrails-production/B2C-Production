@@ -18,8 +18,14 @@ import {
   findAirportByCode,
 } from "../../../../utility/flightUtility/BookwarperUtility";
 import { formattedPrice } from "../../../../utility/utils";
+import NoResult from "./NoResult";
 
-const ReturnFlightResult = ({ jornyFlights, retrunFlights }) => {
+const ReturnFlightResult = ({
+  jornyFlights,
+  retrunFlights,
+  handleClearAllFilter,
+  activeFilterLabels,
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   // console.log(jornyFlights, retrunFlights, "jornreturnFlightResult");
@@ -282,8 +288,11 @@ const ReturnFlightResult = ({ jornyFlights, retrunFlights }) => {
   };
 
   return (
-    <div className="flex w-full gap-2 flex-col h-full">
-      {/* <div className="flex justify-between items-center w-full ">
+    <>
+      {selectedFlights?.onward?.flightName &&
+      selectedFlights?.return?.flightName ? (
+        <div className="flex w-full gap-2 flex-col h-full">
+          {/* <div className="flex justify-between items-center w-full ">
         <div className="flex gap-2 items-center">
           <div className="text-sm">Sort By:</div>
           <div
@@ -310,130 +319,137 @@ const ReturnFlightResult = ({ jornyFlights, retrunFlights }) => {
         </div>
         <div>Recommended</div>
       </div> */}
-      <div className="flex gap-2 w-full h-full">
-        <MainCard
-          data={jornyFlights}
-          chepest={isChepest}
-          isOnward={true}
-          handleSelectedChange={handleSelectedFlightChange}
-          selectedIndex={selectedIndex}
-        />
-        <MainCard
-          data={retrunFlights}
-          chepest={isChepest}
-          isOnward={false}
-          handleSelectedChange={handleSelectedFlightChange}
-          selectedIndex={selectedIndex}
-        />
-      </div>
-      {selectedFlights?.onward?.flightName &&
-        selectedFlights?.return?.flightName && (
-          <div className=" sticky w-[100%+30px] bottom-0 z-50 bg-indigo-800  p-3 shadow-2xl rounded-t-2xl flex text-white justify-between gap-2  ">
-            <div className="flex justify-between flex-1 gap-2">
-              <div className="flex-1  border-r-2 border-white">
-                <div className="flex gap-2">
-                  <p className=" font-bold">Onward</p>
-                  <p>
-                    •{" "}
-                    {
-                      findAirlineByCode(selectedFlights?.onward?.flightName)
-                        ?.airlineName
-                    }
-                  </p>
-                  <p>
-                    • {selectedFlights?.onward?.flightName}{" "}
-                    {selectedFlights?.onward?.flightNumber}
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <div className=" content-center">
-                    <img
-                      src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${selectedFlights?.onward?.flightName}.png`}
-                      alt=""
-                      className=" rounded-lg"
-                      width="30px"
-                      height="30px"
-                    />
-                  </div>
-                  <div>
-                    <p className=" content-center text-2xl font-bold  flex items-center ">
-                      {selectedFlights?.onward?.departureTime}
-                      <HiArrowNarrowRight />
-                      {selectedFlights?.onward?.arrivalTime}
-                    </p>
-                    <p className="text-sm font-light">
-                      {selectedFlights?.onward?.layover} •
-                      {selectedFlights?.onward?.stopes == 0
-                        ? "Non-stop"
-                        : `${selectedFlights?.onward?.stopes} stop`}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="flex-1  border-r-2 border-white">
-                <div className="flex gap-2">
-                  <p className=" font-bold">Return</p>
-                  <p>
-                    •{" "}
-                    {
-                      findAirlineByCode(selectedFlights?.return?.flightName)
-                        ?.airlineName
-                    }
-                  </p>
-                  <p>
-                    • {selectedFlights?.return?.flightName}{" "}
-                    {selectedFlights?.return?.flightNumber}
-                  </p>
-                </div>
-                <div className="flex gap-2">
-                  <div className=" content-center">
-                    <img
-                      src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${selectedFlights?.return?.flightName}.png`}
-                      alt=""
-                      className=" rounded-lg"
-                      width="30px"
-                      height="30px"
-                    />
-                  </div>
-                  <div>
-                    <p className=" content-center text-2xl font-bold  flex items-center ">
-                      {selectedFlights?.return?.departureTime}
-                      <HiArrowNarrowRight />
-                      {selectedFlights?.return?.arrivalTime}
-                    </p>
-                    <p className="text-sm font-light">
-                      {selectedFlights?.return?.layover} •
-                      {selectedFlights?.return?.stopes == 0
-                        ? "Non-stop"
-                        : `${selectedFlights?.return?.stopes} stop`}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="">
-              {/* <p>Flight Details</p> */}
-              <div className="flex justify-center gap-2 flex-col items-center">
-                <div>
-                  <p className="text-xl font-bold ">
-                    {formattedPrice(
-                      parseInt(selectedFlights?.onward?.price) +
-                        parseInt(selectedFlights?.return?.price)
-                    )}
-                  </p>
-                  {/* <p className="text-xs">Extra 64% off</p> */}
-                </div>
-                <div
-                  onClick={() => handleBook()}
-                  className="bg-white rounded-full px-4 justify-center items-center py-1 text-center text-indigo-600 font-bold content-center"
-                >
-                  <button className="text-center">Book</button>
-                </div>
-              </div>
-            </div>
+          <div className="flex gap-2 w-full h-full">
+            <MainCard
+              data={jornyFlights}
+              chepest={isChepest}
+              isOnward={true}
+              handleSelectedChange={handleSelectedFlightChange}
+              selectedIndex={selectedIndex}
+            />
+            <MainCard
+              data={retrunFlights}
+              chepest={isChepest}
+              isOnward={false}
+              handleSelectedChange={handleSelectedFlightChange}
+              selectedIndex={selectedIndex}
+            />
           </div>
-        )}
-    </div>
+          {selectedFlights?.onward?.flightName &&
+            selectedFlights?.return?.flightName && (
+              <div className=" sticky w-[100%+30px] bottom-0 z-50 bg-indigo-800  p-3 shadow-2xl rounded-t-2xl flex text-white justify-between gap-2  ">
+                <div className="flex justify-between flex-1 gap-2">
+                  <div className="flex-1  border-r-2 border-white">
+                    <div className="flex gap-2">
+                      <p className=" font-bold">Onward</p>
+                      <p>
+                        •{" "}
+                        {
+                          findAirlineByCode(selectedFlights?.onward?.flightName)
+                            ?.airlineName
+                        }
+                      </p>
+                      <p>
+                        • {selectedFlights?.onward?.flightName}{" "}
+                        {selectedFlights?.onward?.flightNumber}
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <div className=" content-center">
+                        <img
+                          src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${selectedFlights?.onward?.flightName}.png`}
+                          alt=""
+                          className=" rounded-lg"
+                          width="30px"
+                          height="30px"
+                        />
+                      </div>
+                      <div>
+                        <p className=" content-center text-2xl font-bold  flex items-center ">
+                          {selectedFlights?.onward?.departureTime}
+                          <HiArrowNarrowRight />
+                          {selectedFlights?.onward?.arrivalTime}
+                        </p>
+                        <p className="text-sm font-light">
+                          {selectedFlights?.onward?.layover} •
+                          {selectedFlights?.onward?.stopes == 0
+                            ? "Non-stop"
+                            : `${selectedFlights?.onward?.stopes} stop`}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex-1  border-r-2 border-white">
+                    <div className="flex gap-2">
+                      <p className=" font-bold">Return</p>
+                      <p>
+                        •{" "}
+                        {
+                          findAirlineByCode(selectedFlights?.return?.flightName)
+                            ?.airlineName
+                        }
+                      </p>
+                      <p>
+                        • {selectedFlights?.return?.flightName}{" "}
+                        {selectedFlights?.return?.flightNumber}
+                      </p>
+                    </div>
+                    <div className="flex gap-2">
+                      <div className=" content-center">
+                        <img
+                          src={`https://raw.githubusercontent.com/The-SkyTrails/Images/main/FlightImages/${selectedFlights?.return?.flightName}.png`}
+                          alt=""
+                          className=" rounded-lg"
+                          width="30px"
+                          height="30px"
+                        />
+                      </div>
+                      <div>
+                        <p className=" content-center text-2xl font-bold  flex items-center ">
+                          {selectedFlights?.return?.departureTime}
+                          <HiArrowNarrowRight />
+                          {selectedFlights?.return?.arrivalTime}
+                        </p>
+                        <p className="text-sm font-light">
+                          {selectedFlights?.return?.layover} •
+                          {selectedFlights?.return?.stopes == 0
+                            ? "Non-stop"
+                            : `${selectedFlights?.return?.stopes} stop`}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="">
+                  {/* <p>Flight Details</p> */}
+                  <div className="flex justify-center gap-2 flex-col items-center">
+                    <div>
+                      <p className="text-xl font-bold ">
+                        {formattedPrice(
+                          parseInt(selectedFlights?.onward?.price) +
+                            parseInt(selectedFlights?.return?.price)
+                        )}
+                      </p>
+                      {/* <p className="text-xs">Extra 64% off</p> */}
+                    </div>
+                    <div
+                      onClick={() => handleBook()}
+                      className="bg-white rounded-full px-4 justify-center items-center py-1 text-center text-indigo-600 font-bold content-center"
+                    >
+                      <button className="text-center">Book</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+        </div>
+      ) : (
+        <NoResult
+          handleClearAllFilter={handleClearAllFilter}
+          activeFilterLabels={activeFilterLabels}
+        />
+      )}
+    </>
   );
 };
 

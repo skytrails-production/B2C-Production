@@ -8,8 +8,13 @@ import {
   findAirportByCode,
 } from "../../../../utility/flightUtility/BookwarperUtility";
 import FlightResultCard from "./FlightResultCard";
+import NoResult from "../../ReturnFlight/newRetun/NoResult";
 
-const OnewayFlightResult = ({ jornyFlights }) => {
+const OnewayFlightResult = ({
+  jornyFlights,
+  handleClearAllFilter,
+  activeFilterLabels,
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isChepest, setIsChepest] = useState(true);
@@ -29,29 +34,20 @@ const OnewayFlightResult = ({ jornyFlights }) => {
   }, [jornyFlights]);
   // console.log(selectedFlights, "selected flights");
   function handleSelectedFlightChange(type, flight, index) {
-    // console.log(
-    //   type,
-    //   flight,
-    //   index,
-    //   "handleSelectedFlightChangeff",
-    //   selectedFlights
-    // );
     setSelectedFlights((pre) => {
       const newObj = { ...pre };
       newObj[type] = flight;
-      // console.log(newObj, "newobject");
+
       return newObj;
     });
     setSelectedIndex((pre) => {
       const newObj = { ...pre };
       newObj[type] = index;
-      // console.log(newObj, "newobjectindex");
+
       return newObj;
     });
   }
   const CardTop = ({ isOnward }) => {
-    // const searchFlight = useSelector((state) => state?.searchFlight);
-
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
     const from = queryParams.get("from");
@@ -147,7 +143,6 @@ const OnewayFlightResult = ({ jornyFlights }) => {
     handleSelectedChange,
     selectedIndex,
   }) => {
-    // console.log(data, "dtaaaaaaaaaa");
     const [sortedData, setSortedData] = useState(data);
 
     const filterType = {
@@ -160,10 +155,7 @@ const OnewayFlightResult = ({ jornyFlights }) => {
 
     const [selectedType, setSelectedType] = useState("price");
 
-    // console.log(sortedData, "sorted data in the oneway result");
-
     const handleFilter = (key) => {
-      // console.log(key, sortedData, "keyclick");
       setSelectedType(key);
 
       const filterAirline = sortedData.sort((a, b) => {
@@ -178,10 +170,8 @@ const OnewayFlightResult = ({ jornyFlights }) => {
         sortItem2 = b?.[key];
         switch (key) {
           case "price":
-            // console.log("price");
             return a?.price - b?.price;
           case "flightName":
-            // console.log("flightName");
             return a?.flightName.localeCompare(b?.flightName);
           case "layover":
             return parseLayover(a?.layover) - parseLayover(b?.layover);
@@ -197,7 +187,6 @@ const OnewayFlightResult = ({ jornyFlights }) => {
             return timeC[0] * 60 + timeC[1] - (timeD[0] * 60 + timeD[1]);
         }
       });
-      // console.log(filterAirline, "filterAirline");
 
       setSortedData(filterAirline);
     };
@@ -228,7 +217,6 @@ const OnewayFlightResult = ({ jornyFlights }) => {
         </div>
         <div className="flex flex-col gap-3">
           {data?.map((item, index) => {
-            // console.log(item, "itemfilghtname");
             return (
               <FlightResultCard
                 handleSelectedChange={handleSelectedChange}
@@ -250,17 +238,26 @@ const OnewayFlightResult = ({ jornyFlights }) => {
   };
 
   return (
-    <div className="flex w-full gap-2 flex-col h-full">
-      <div className="flex gap-2 w-full h-full">
-        <MainCard
-          data={jornyFlights}
-          chepest={isChepest}
-          isOnward={true}
-          handleSelectedChange={handleSelectedFlightChange}
-          selectedIndex={selectedIndex}
+    <>
+      {selectedFlights?.onward?.flightName ? (
+        <div className="flex w-full gap-2 flex-col h-full">
+          <div className="flex gap-2 w-full h-full">
+            <MainCard
+              data={jornyFlights}
+              chepest={isChepest}
+              isOnward={true}
+              handleSelectedChange={handleSelectedFlightChange}
+              selectedIndex={selectedIndex}
+            />
+          </div>
+        </div>
+      ) : (
+        <NoResult
+          handleClearAllFilter={handleClearAllFilter}
+          activeFilterLabels={activeFilterLabels}
         />
-      </div>
-    </div>
+      )}
+    </>
   );
 };
 

@@ -24,210 +24,23 @@ const OnewayFlightBigFilter = ({
   maxDuration,
   durationRange,
   stopsAirline,
+  airlines,
+  handleAirlineChange,
+  selectedStops,
+
+  selectedTimes,
+
+  selectedLandingTimes,
+
+  setSelectedTimes,
+
+  setSelectedLandingTimes,
+
+  handleCheckboxChange,
+  handleStopChange,
+  handlePriceChange,
 }) => {
-  const [selectedCodes, setSelectedCodes] = useState([]);
-  const [selectedStops, setSelectedStops] = useState([]);
-  const [selectedStopsReturn, setSelectedStopsRetrun] = useState([]);
-  const [currentPriceRange, setCurrentPriceRange] = useState(priceRange);
-
-  const [currentDurationRange, setCurrentDurationRange] =
-    useState(durationRange);
-  const [selectedTimes, setSelectedTimes] = useState([]);
-  const [selectedTimesReturn, setSelectedTimesReturn] = useState([]);
-  const [selectedLandingTimes, setSelectedLandingTimes] = useState([]);
-  const [selectedLandingTimesReturn, setSelectedLandingTimesReturn] = useState(
-    []
-  );
-  const debounceTimer = useRef(null); // Use ref to store the timer
-  const flightList = useSelector((state) => state?.flightList);
-  const [airlines, setAirlines] = useState([]);
-  const [airports, setAirports] = useState([]);
-  const handlePriceChange = (value) => {
-    // Update the price range state
-    setCurrentPriceRange(value);
-
-    // Clear any existing timer
-    if (debounceTimer.current) {
-      clearTimeout(debounceTimer.current);
-    }
-
-    // Set a new timer to delay the filter function
-    debounceTimer.current = setTimeout(() => {
-      onFilter(
-        selectedCodes,
-        selectedStops,
-        value, // Use the latest price range
-        selectedTimes,
-        selectedLandingTimes,
-        currentDurationRange,
-        selectedStopsReturn,
-        selectedTimesReturn,
-        selectedLandingTimesReturn,
-        airlines
-      );
-    }, 300); // 300ms delay (adjust as needed)
-  };
-  const handleAirlineChange = (event) => {
-    const { value, checked } = event.target;
-    // console.log(value, checked, "valueChecked");
-    const airlineValue = value;
-    setAirlines((prev) => {
-      const updateAirline = checked
-        ? [...prev, airlineValue]
-        : prev.filter((air) => air !== airlineValue);
-      onFilter(
-        selectedCodes,
-        selectedStops,
-        currentPriceRange,
-        selectedTimes,
-        selectedLandingTimes,
-        currentDurationRange,
-        selectedStopsReturn,
-        selectedTimesReturn,
-        selectedLandingTimesReturn,
-        updateAirline
-      );
-      // console.log(updateAirline, "updateAirline");
-      return updateAirline;
-    }); // 300ms delay (adjust as needed)
-  };
-  const handleStopChange = (event) => {
-    const { value, checked } = event.target;
-    const stopValue = parseInt(value, 10);
-    setSelectedStops((prev) => {
-      const updateStop = checked
-        ? [...prev, stopValue]
-        : prev.filter((stop) => stop !== stopValue);
-      onFilter(
-        selectedCodes,
-        updateStop,
-        currentPriceRange,
-        selectedTimes,
-        selectedLandingTimes,
-        currentDurationRange,
-        selectedStopsReturn,
-        selectedTimesReturn,
-        selectedLandingTimesReturn,
-        airlines
-      );
-      return updateStop;
-    });
-  };
-  const handleStopChangeRetrun = (event) => {
-    const { value, checked } = event.target;
-    const stopValue = parseInt(value, 10);
-    setSelectedStopsRetrun((prev) => {
-      const updateStopsreturn = checked
-        ? [...prev, stopValue]
-        : prev.filter((stop) => stop !== stopValue);
-      onFilter(
-        selectedCodes,
-        selectedStops,
-        currentPriceRange,
-        selectedTimes,
-        selectedLandingTimes,
-        currentDurationRange,
-        updateStopsreturn,
-        selectedTimesReturn,
-        selectedLandingTimesReturn,
-        airlines
-      );
-      return updateStopsreturn;
-    });
-  };
-  const handleTimeChange = (event) => {
-    const { value, checked } = event.target;
-    const timeRange = value.split("-").map((v) => parseInt(v, 10));
-    setSelectedTimes((prev) => {
-      const updateSelectedTimes = checked
-        ? [...prev, timeRange]
-        : prev.filter((range) => range.join("-") !== value);
-      // console.log(updateSelectedTimes, "updateSelectedTimes");
-      onFilter(
-        selectedCodes,
-        selectedStops,
-        currentPriceRange,
-        updateSelectedTimes,
-        selectedLandingTimes,
-        currentDurationRange,
-        selectedStopsReturn,
-        selectedTimesReturn,
-        selectedLandingTimesReturn,
-        airlines
-      );
-      return updateSelectedTimes;
-    });
-  };
-  const handleTimeChangeReturn = (event) => {
-    const { value, checked } = event.target;
-    const timeRange = value.split("-").map((v) => parseInt(v, 10));
-    setSelectedTimesReturn((prev) => {
-      const updateSelectedTimesReturn = checked
-        ? [...prev, timeRange]
-        : prev.filter((range) => range.join("-") !== value);
-      onFilter(
-        selectedCodes,
-        selectedStops,
-        currentPriceRange,
-        selectedTimes,
-        selectedLandingTimes,
-        currentDurationRange,
-        selectedStopsReturn,
-        updateSelectedTimesReturn,
-        selectedLandingTimesReturn,
-        airlines
-      );
-      return updateSelectedTimesReturn;
-    });
-  };
-  const handleLandingTimeChange = (event) => {
-    const { value, checked } = event.target;
-    const timeRange = value.split("-").map((v) => parseInt(v, 10));
-    setSelectedLandingTimes((prev) => {
-      const updateSelectedLandingTimes = checked
-        ? [...prev, timeRange]
-        : prev.filter((range) => range.join("-") !== value);
-      onFilter(
-        selectedCodes,
-        selectedStops,
-        currentPriceRange,
-        selectedTimes,
-        updateSelectedLandingTimes,
-        currentDurationRange,
-        selectedStopsReturn,
-        selectedTimesReturn,
-        selectedLandingTimesReturn,
-        airlines
-      );
-      return updateSelectedLandingTimes;
-    });
-  };
-  const handleLandingTimeChangeReturn = (event) => {
-    const { value, checked } = event.target;
-    const timeRange = value.split("-").map((v) => parseInt(v, 10));
-    setSelectedLandingTimesReturn((prev) => {
-      const updateLandingTimesReturn = checked
-        ? [...prev, timeRange]
-        : prev.filter((range) => range.join("-") !== value);
-      onFilter(
-        selectedCodes,
-        selectedStops,
-        currentPriceRange,
-        selectedTimes,
-        selectedLandingTimes,
-        currentDurationRange,
-        selectedStopsReturn,
-        selectedTimesReturn,
-        updateLandingTimesReturn,
-        airlines
-      );
-
-      return updateLandingTimesReturn;
-    });
-  };
   const StopFilter = ({ handleStopChange, stops, selected }) => {
-    // console.log(handleStopChange, stops, selected, "handleStopChange");
-
     return (
       <div className="PackagetagFilters flight-filter-aireline">
         <p className=" text-gray-800 font-medium">Filter By Stop's</p>
@@ -267,7 +80,13 @@ const OnewayFlightBigFilter = ({
       </div>
     );
   };
-  const TimeFilter = ({ title, handleTimeChange, selected }) => {
+  const TimeFilter = ({
+    title,
+    handleTimeChange,
+    selected,
+    stateUpdater,
+    filterKey,
+  }) => {
     return (
       <div className="busDepartureMain">
         <h2 className="sidebar-title">{title}</h2>
@@ -289,7 +108,10 @@ const OnewayFlightBigFilter = ({
                 <div className="svgBOx">
                   <input
                     type="checkbox"
-                    onChange={handleTimeChange}
+                    // onChange={handleTimeChange}
+                    onChange={(e) =>
+                      handleTimeChange(e, stateUpdater, filterKey)
+                    }
                     value={IconTime?.[index]?.value}
                     name="departTime"
                     checked={exists}
@@ -305,15 +127,10 @@ const OnewayFlightBigFilter = ({
             );
           })}
         </div>
-
-        {/* <Divider
-                      sx={{ marginBottom: "15px", marginTop: "15px", backgroundColor: "lightgray" }}
-                    /> */}
       </div>
     );
   };
   const AirlineFilter = () => {
-    // console.log("AirlineFilter", stopsAirline);
     const Airlines = stopsAirline?.Airlines;
     return (
       <div className="flex flex-col gap-2">
@@ -322,7 +139,7 @@ const OnewayFlightBigFilter = ({
           {Airlines &&
             Object?.keys(Airlines)?.map((key, index) => {
               const Price = Airlines?.[key]?.minPrice;
-              // console.log(airlines);
+
               return (
                 <div
                   key={`Airlines-${index}`}
@@ -378,7 +195,7 @@ const OnewayFlightBigFilter = ({
           step={400}
           min={minPrice}
           max={maxPrice}
-          value={currentPriceRange}
+          value={priceRange}
           onChange={handlePriceChange}
         />
 
@@ -399,13 +216,19 @@ const OnewayFlightBigFilter = ({
       />
       <TimeFilter
         title={"Departure Time"}
-        handleTimeChange={handleTimeChange}
+        // handleTimeChange={handleTimeChange}
+        handleTimeChange={handleCheckboxChange}
         selected={selectedTimes}
+        stateUpdater={setSelectedTimes}
+        filterKey={"selectedTimes"}
       />
       <TimeFilter
         title={"Arrival Time"}
-        handleTimeChange={handleLandingTimeChange}
+        // handleTimeChange={handleLandingTimeChange}
+        handleTimeChange={handleCheckboxChange}
         selected={selectedLandingTimes}
+        stateUpdater={setSelectedLandingTimes}
+        filterKey={"selectedLandingTimes"}
       />
       <AirlineFilter />
     </div>

@@ -59,14 +59,23 @@ const PackageResultCard = ({ data, shadoww }) => {
     setWishlist(data?.wishlist?.some((item) => item === userId));
   }, [data?.wishlist]);
 
+  let str = (data?.country || []).slice(0, 2).join(" ");
+
+  // console.log(str, "str", data.country);
   const searchOneHoliday = (id) => {
-    navigate(`/holidaypackages/packagedetails?packageId=${id}`);
+    navigate(
+      `/holidaypackages/packagedetails/${str}${data?.days}days${
+        data?.days - 1
+      }nights/?packageId=${id}`
+    );
   };
 
   const filteredInclusions = data?.inclusions?.filter((item) => {
     const value = Object.values(item)[0];
     return value === "true" || value === true;
   });
+
+  // console.log(data, "data");
 
   const addRemoveWishlist = async (packageId) => {
     if (authenticUser !== 200) {

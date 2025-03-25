@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import OnewayFlightResult from "./OnewayFlightResult";
 import ReturnFlightSleletonBigRight from "../../ReturnFlight/newRetun/ReturnFlightSleletonBigRight";
 // import ReturnFlightSleletonBig from "./ReturnFlightSleletonBig";
@@ -27,9 +27,16 @@ const ResultOnewayMain = () => {
   const [standardizedFlights1, setStandardizedFlights1] = useState(
     reducerState?.return?.returnData?.[0]?.journeyFlight || []
   );
-  //   const [standardizedFlights2, setStandardizedFlights2] = useState(
-  //     reducerState?.return?.returnData?.[0]?.returnFlight || []
-  //   );
+  const [airlines, setAirlines] = useState([]);
+  const [selectedStops, setSelectedStops] = useState([]);
+  const [selectedStopsReturn, setSelectedStopsRetrun] = useState([]);
+  const [selectedTimes, setSelectedTimes] = useState([]);
+  const [selectedTimesReturn, setSelectedTimesReturn] = useState([]);
+  const [selectedLandingTimes, setSelectedLandingTimes] = useState([]);
+  const [selectedLandingTimesReturn, setSelectedLandingTimesReturn] = useState(
+    []
+  );
+  const debounceTimer = useRef(null);
 
   const [jornyFlights, setJornyFlights] = useState([]);
   //   const [retrunFlights, setReturnFlights] = useState([]);
@@ -44,11 +51,7 @@ const ResultOnewayMain = () => {
       oneStop: { count: 0, minPrice: Infinity },
       moreThanOneStop: { count: 0, minPrice: Infinity },
     };
-    // let stopesReturn = {
-    //   nonStop: { count: 0, minPrice: Infinity },
-    //   oneStop: { count: 0, minPrice: Infinity },
-    //   moreThanOneStop: { count: 0, minPrice: Infinity },
-    // };
+
     let Airlines = {};
     const findStopes = (flight, stopes) => {
       if (flight.stopes == 0) {
@@ -90,14 +93,7 @@ const ResultOnewayMain = () => {
       findStopes(flight, stopes);
       findAireLine(flight, Airlines, price);
     });
-    // standardizedFlights2?.forEach((flight) => {
-    //   let price = flight.price;
-    //   let dur = flight.layover;
-    //   min = Math.min(min, price);
-    //   max = Math.max(max, price);
-    //   findStopes(flight, stopesReturn);
-    //   findAireLine(flight, Airlines, price);
-    // });
+
     let newStopsAirline = {
       JourneyStopes: stopes,
       //   ReturnStopes: stopesReturn,
@@ -170,56 +166,162 @@ const ResultOnewayMain = () => {
           );
         });
 
-        // const filteredReturn = standardizedFlights2?.filter((flight) => {
-        //   let airCode = flight?.flightName;
-        //   let stops = flight?.stopes;
-        //   let price = flight?.price;
-        //   const matchprice =
-        //     !priceRange ||
-        //     (price >= priceRange?.[0] && price <= priceRange?.[1]);
-
-        //   const matchAirline =
-        //     airlineCodes?.length === 0 || airlineCodes?.includes(airCode);
-
-        //   const matchStops =
-        //     selectedStopsReturn?.length === 0 ||
-        //     selectedStopsReturn?.includes(stops);
-
-        //   const matchTime =
-        //     selectedTimesReturn?.length === 0 ||
-        //     selectedTimesReturn?.some((timeRange) => {
-        //       const [startHour, endHour] = timeRange;
-        //       const flightHour = parseInt(
-        //         flight?.departureTime?.split(":")[0],
-        //         10
-        //       );
-        //       return flightHour >= startHour && flightHour <= endHour;
-        //     });
-        //   const matchArrivalTime =
-        //     selectedArrivalTimesReturn?.length === 0 ||
-        //     selectedArrivalTimesReturn?.some((timeRange) => {
-        //       const [startHour, endHour] = timeRange;
-        //       const flightHour = parseInt(
-        //         flight?.arrivalTime?.split(":")[0],
-        //         10
-        //       );
-        //       return flightHour >= startHour && flightHour <= endHour;
-        //     });
-        //   return (
-        //     matchprice &&
-        //     matchStops &&
-        //     matchTime &&
-        //     matchArrivalTime &&
-        //     matchAirline
-        //   );
-        // });
-
         setJornyFlights([...filteredJorny]);
         // setReturnFlights([...filteredReturn]);
       }
     },
     [standardizedFlights1]
   );
+  const handleCheckboxChange = (event, stateUpdater, filterKey) => {
+    const { value, checked } = event.target;
+    console.log(value, checked, "valueChecked");
+    const timeRange = value.split("-").map((v) => parseInt(v, 10));
+
+    stateUpdater((prev) => {
+      const updatedValues = checked
+        ? [...prev, timeRange]
+        : prev.filter((range) => range.join("-") !== value);
+      applyFilter({ filterKey, updatedValues });
+      return updatedValues;
+    });
+  };
+  const handleAirlineChange = (event) => {
+    const { value, checked } = event.target;
+    // console.log(value, checked, "valueChecked");
+    const airlineValue = value;
+    let updateAirline;
+    setAirlines((prev) => {
+      updateAirline = checked
+        ? [...prev, airlineValue]
+        : prev.filter((air) => air !== airlineValue);
+      applyFilter({ filterKey: "airlines", updatedValues: updateAirline });
+
+      return updateAirline;
+    }); // 300ms delay (adjust as needed)
+  };
+  const handlePriceChange = (value) => {
+    // Update the price range state
+    setPriceRange(value);
+
+    // Clear any existing timer
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    // Set a new timer to delay the filter function
+    debounceTimer.current = setTimeout(() => {
+      applyFilter({ filterKey: "priceRange", updatedValues: value });
+    }, 300); // 300ms delay (adjust as needed)
+  };
+  const handleStopChange = (event) => {
+    const { value, checked } = event.target;
+    const stopValue = parseInt(value, 10);
+    setSelectedStops((prev) => {
+      const updateStop = checked
+        ? [...prev, stopValue]
+        : prev.filter((stop) => stop !== stopValue);
+      applyFilter({
+        filterKey: "selectedStops",
+        updatedValues: updateStop,
+      });
+      return updateStop;
+    });
+  };
+
+  const applyFilter = ({ filterKey, updatedValues }) => {
+    handleFilter(
+      [],
+      filterKey === "selectedStops" ? updatedValues : selectedStops,
+      filterKey === "priceRange" ? priceRange : priceRange,
+      filterKey === "selectedTimes" ? updatedValues : selectedTimes,
+      filterKey === "selectedLandingTimes"
+        ? updatedValues
+        : selectedLandingTimes,
+      [],
+      filterKey === "selectedStopsReturn" ? updatedValues : selectedStopsReturn,
+      filterKey === "selectedTimesReturn" ? updatedValues : selectedTimesReturn,
+      filterKey === "selectedLandingTimesReturn"
+        ? updatedValues
+        : selectedLandingTimesReturn,
+      filterKey === "airlines" ? updatedValues : airlines
+    );
+  };
+  const activeFilterLabels = {
+    selectedStops: {
+      isApplied: selectedStops.length > 0 ? true : false,
+      title: "Stops",
+    },
+    selectedStopsReturn: {
+      isApplied: selectedStopsReturn.length > 0 ? true : false,
+      title: "Return Stops",
+    },
+    selectedTimes: {
+      isApplied: selectedTimes.length > 0 ? true : false,
+      title: "Departure Time",
+    },
+    selectedTimesReturn: {
+      isApplied: selectedTimesReturn.length > 0 ? true : false,
+      title: "Return Departure Time",
+    },
+    selectedLandingTimes: {
+      isApplied: selectedLandingTimes.length > 0 ? true : false,
+      title: "Arrival Time",
+    },
+    selectedLandingTimesReturn: {
+      isApplied: selectedLandingTimesReturn.length > 0 ? true : false,
+      title: "Return Arrival Time",
+    },
+    airlines: {
+      isApplied: airlines.length > 0 ? true : false,
+      title: "Airlines",
+    },
+    priceRange: {
+      isApplied: true,
+      title: "Price Range",
+    },
+  };
+  const handleClearAllFilter = (filterKey) => {
+    console.log(filterKey, "filterKey");
+
+    handleFilter(
+      [],
+      ["All", "selectedStops"].includes(filterKey) ? [] : selectedStops,
+      ["All", "priceRange"].includes(filterKey)
+        ? [minPrice, maxPrice]
+        : priceRange,
+      ["All", "selectedTimes"].includes(filterKey) ? [] : selectedTimes,
+      ["All", "selectedLandingTimes"].includes(filterKey)
+        ? []
+        : selectedLandingTimes,
+      [],
+      ["All", "selectedStopsReturn"].includes(filterKey)
+        ? []
+        : selectedStopsReturn,
+      ["All", "selectedTimesReturn"].includes(filterKey)
+        ? []
+        : selectedTimesReturn,
+      ["All", "selectedLandingTimesReturn"].includes(filterKey)
+        ? []
+        : selectedLandingTimesReturn,
+      ["All", "airlines"].includes(filterKey) ? [] : airlines
+    );
+
+    if (["All", "airlines"].includes(filterKey)) setAirlines([]);
+    if (["All", "selectedStops"].includes(filterKey)) setSelectedStops([]);
+    if (["All", "selectedStopsReturn"].includes(filterKey))
+      setSelectedStopsRetrun([]);
+    if (["All", "selectedTimes"].includes(filterKey)) setSelectedTimes([]);
+    if (["All", "selectedTimesReturn"].includes(filterKey))
+      setSelectedTimesReturn([]);
+    if (["All", "selectedLandingTimes"].includes(filterKey))
+      setSelectedLandingTimes([]);
+    if (["All", "selectedLandingTimesReturn"].includes(filterKey))
+      setSelectedLandingTimesReturn([]);
+    if (["All", "priceRange"].includes(filterKey))
+      setPriceRange([minPrice, maxPrice]);
+
+    // console.log("clear all filters");
+  };
   useEffect(() => {
     if (!reducerState?.return?.isLoadingFilter) {
       setLoaderFilter(false);
@@ -324,8 +426,20 @@ const ResultOnewayMain = () => {
                   minDuration={minDuration}
                   maxDuration={maxDuration}
                   durationRange={durationRange}
+                  selectedStops={selectedStops}
+                  selectedStopsReturn={selectedStopsReturn}
+                  selectedTimes={selectedTimes}
+                  selectedTimesReturn={selectedTimesReturn}
+                  selectedLandingTimes={selectedLandingTimes}
+                  handleCheckboxChange={handleCheckboxChange}
                   onFilter={handleFilter}
+                  airlines={airlines}
                   stopsAirline={stopsAirline}
+                  handleAirlineChange={handleAirlineChange}
+                  handlePriceChange={handlePriceChange}
+                  handleStopChange={handleStopChange}
+                  setSelectedTimes={setSelectedTimes}
+                  setSelectedLandingTimes={setSelectedLandingTimes}
                 />
               ) : (
                 <ReturnFlightSleletonBig />
@@ -337,6 +451,8 @@ const ResultOnewayMain = () => {
                 <OnewayFlightResult
                   jornyFlights={jornyFlights}
                   //   retrunFlights={retrunFlights}
+                  handleClearAllFilter={handleClearAllFilter}
+                  activeFilterLabels={activeFilterLabels}
                 />
               ) : (
                 <ReturnFlightSleletonBigRight />

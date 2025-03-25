@@ -132,7 +132,7 @@ const RecentSearches = () => {
             return (
               <div
                 key={index}
-                className="bg-white relative p-2 rounded-lg border shadow-md flex gap-2 justify-between group items-center cursor-pointer hover:bg-blue-100 transition duration-200"
+                className="bg-white relative p-2.5 pr-8 rounded-lg border shadow-md flex gap-2 justify-between group items-center cursor-pointer hover:bg-blue-100 transition duration-200 pr"
                 onClick={() => handleSubmit(search)}
               >
                 <div>

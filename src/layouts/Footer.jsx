@@ -175,8 +175,8 @@ const Footer = () => {
             <div className="footerSingleBoxContentLinks">
               <h4>About us</h4>
               <Link to="aboutus">About Skytrails</Link>
-              <Link to="/skytrailsblogs"> Blogs</Link>
-              <Link to="/oneWayDummyHome"> Dummy Pnr</Link>
+              {/* <Link to="/skytrailsblogs"> Blogs</Link> */}
+              {/* <Link to="/oneWayDummyHome"> Dummy Pnr</Link> */}
               <Link to="/career"> Career</Link>
             </div>
           </div>
@@ -202,12 +202,12 @@ const Footer = () => {
               <Link to="mailto:holidays@theskytrails.com">
                 holidays@theskytrails.com
               </Link>
-              <button
+              {/* <button
                 className="bg-transparent px-3 py-1 rounded-md text-white font-semibold"
                 onClick={handlePayment}
               >
                 .
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
