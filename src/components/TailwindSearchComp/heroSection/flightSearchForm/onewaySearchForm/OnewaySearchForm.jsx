@@ -240,7 +240,9 @@ const OnewaySearchForm = ({ adult, child, infant, flightClass }) => {
     }
     const queryString = new URLSearchParams(params).toString();
 
-    navigate(`/flightlist?${queryString}`);
+    navigate(
+      `/flight-details/one-way/${fromCity.AirportCode}-${toCity.AirportCode}/adt${adult}chd${child}inf${infant}?${queryString}`
+    );
 
     // dispatch(returnAction(payload));
   };

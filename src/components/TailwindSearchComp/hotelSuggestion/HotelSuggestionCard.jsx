@@ -89,7 +89,7 @@ const HotelSuggestionCard = ({ className = "", data }) => {
       dispatch(hotelActionGRN(payload));
     }
 
-    navigate("/st-hotel/hotelresult");
+    navigate(`/st-hotel/hotelresult/${event?.cityName}`);
     // }
   }
 

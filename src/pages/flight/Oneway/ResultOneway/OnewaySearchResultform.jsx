@@ -184,7 +184,9 @@ const OnewaySearchResultform = () => {
     };
     const queryString = new URLSearchParams(params).toString();
 
-    navigate(`/flightlist?${queryString}`);
+    navigate(
+      `/flight-details/one-way/${from}-${to}/adt${Adult}chd${Child}inf${infant}?${queryString}`
+    );
     // navigate("/ReturnResult");
   };
   useEffect(() => {

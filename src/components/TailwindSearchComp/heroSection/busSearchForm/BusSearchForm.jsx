@@ -83,7 +83,7 @@ const BusSearchForm = () => {
       ])
     );
 
-    navigate("/busresult");
+    navigate(`/busresult/${fromCity.CityName}-${toCity.CityName}`);
     dispatch(busSearchAction(payload));
   };
 

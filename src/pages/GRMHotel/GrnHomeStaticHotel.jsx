@@ -220,7 +220,7 @@ const GrnHomeStaticHotel = ({
     sessionStorage.setItem("grnPayload", JSON.stringify(payload));
     dispatch(hotelActionGRNFew(payload));
     dispatch(hotelActionGRN(payload));
-    navigate("/st-hotel/hotelresult");
+    navigate(`/st-hotel/hotelresult/${param.cityName}`);
   };
 
   return (

@@ -129,7 +129,9 @@ const ReturnSearchResultForm = () => {
     };
     const queryString = new URLSearchParams(params).toString();
 
-    navigate(`/ReturnResult?${queryString}`);
+    navigate(
+      `/ReturnResult/${from}-${to}/${departDate}/adt${adult}chd${child}inf${infant}?${queryString}`
+    );
   };
   const handleSubmitt = async () => {
     if (to === from) {
@@ -218,7 +220,9 @@ const ReturnSearchResultForm = () => {
     };
     const queryString = new URLSearchParams(params).toString();
 
-    navigate(`/ReturnResult?${queryString}`);
+    navigate(
+      `/flight-details/round-trip/${from}-${to}/adt${adult}chd${child}inf${infant}?${queryString}`
+    );
   };
   useEffect(() => {
     handleSubmitt();

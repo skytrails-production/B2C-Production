@@ -39,6 +39,9 @@ import {
 } from "../../../../../Redux/AirlineSeatMapNew/actionAirlineSeatMap";
 import AirSeatMapModal from "./AirSeatMapModal";
 import PaxComponent from "../../../../BookWraperFlight/PaxComponent";
+import { checkSearchTime } from "../../../../../utility/utils";
+import { load } from "@cashfreepayments/cashfree-js";
+
 const NewBookWrapperReturn = () => {
   const [sub, setSub] = useState(false);
   const [passengerData, setPassengerData] = useState([]);
@@ -47,6 +50,20 @@ const NewBookWrapperReturn = () => {
   const [isDropdown, setIsDropdown] = useState(false);
   const [toggle, setToggle] = useState(false);
   const [open, setOpen] = React.useState(false);
+  const [loadingButton, setLoadingButton] = useState(false);
+  const navigate = useNavigate();
+
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  let cashfree;
+
+  var initializeSDK = async function () {
+    cashfree = await load({
+      // mode: "sandbox",
+      mode: "production",
+    });
+  };
+
+  initializeSDK();
   // const [finalAmount, setFinalAmount] = useState(1);
   const dispatch = useDispatch();
   const reducerState = useSelector((state) => {
@@ -74,6 +91,7 @@ const NewBookWrapperReturn = () => {
   const [airSeatMapModal, SetAirSeatMapModal] = useState(false);
   const [reviewTravellerModal, setReviewTravellerModal] = useState(false);
   const [openSSR, setOpenSSR] = useState(false);
+  // const navigate = useNavigate();
 
   const markUP =
     reducerState?.markup?.markUpData?.data?.result?.[0]?.flightMarkup;
@@ -313,6 +331,93 @@ const NewBookWrapperReturn = () => {
     // Initiate payment on button click
     easebuzzCheckout.initiatePayment(options);
   };
+  let orderId1 = "";
+
+  const handlePaymentt = async () => {
+    setPaymentLoading(true);
+    // setIsDisableScroll(true);
+    setLoaderPayment1(true);
+
+    if (!checkSearchTime()) {
+      navigation("/");
+      return;
+    } else {
+      const token = SecureStorage?.getItem("jwtToken");
+      sessionStorage.setItem("ammo", Number(lastFinalPrice).toFixed(0));
+      const cashpayload = {
+        phone: passengerData?.[0]?.ContactNo,
+        amount: lastFinalPrice,
+        // amount: 1,
+        email: passengerData?.[0]?.email,
+        productinfo: "ticket",
+        bookingType: "FLIGHTS",
+      };
+
+      try {
+        // console.log("Cashfree Started");
+        const response = await axios({
+          method: "post",
+          url: `${apiURL.baseURL}/skyTrails/api/transaction/makeCashfreePayment`,
+          data: cashpayload,
+          headers: {
+            "Content-Type": "application/json",
+            token: token,
+          },
+        });
+        // console.log("Cashfree Response", response);
+        if (response.status === 200) {
+          // const data = response.data.result;
+          // console.log("Cashfree Response 1", data);
+          // console.log("Cashfree Session ID", data.payment_session_id);
+          // console.log("Cashfree Order ID", data.order_id);
+          // paymentLoader(false);
+          orderId1 = response.data.result.order_id;
+
+          doPayment(response.data.result.payment_session_id);
+          console.log("API call successful:", orderId1);
+        } else {
+          console.error("API call failed with status:", response.status);
+          console.error("Error details:", response.data); // Use 'response.data' for error details
+        }
+      } catch (error) {
+        // Handle network errors or exceptions
+        console.error("API call failed with an exception:", error);
+      } finally {
+        setPaymentLoading(false);
+        setLoaderPayment1(false);
+      }
+    }
+  };
+
+  const doPayment = async (sessionID) => {
+    let checkoutOptions = {
+      paymentSessionId: sessionID,
+      // paymentSessionId:
+      //   "session_GYXBwcY2w2c503t-jNVo7aTXmcOnSJaby8-slzetoI5it4ZINNU98BbU_fb0wTxZAQahGqynh9Pw3J_sC2Wviyr0YQVyM4NYxc7VB1GNWIZcSVlYEvgKcUNvfwpaymentpayment",
+      redirectTarget: "_modal",
+    };
+    cashfree.checkout(checkoutOptions).then((result) => {
+      if (result.error) {
+        // console.log(
+        //   "User has closed the popup or there is some payment error, Check for Payment Status"
+        // );
+        console.log(result.error);
+        swalModal("py", "Some error occured !", false);
+        sessionStorage.removeItem("couponCode");
+        // toggleState(false);
+        // cashfree.dropCheckout();
+      }
+      if (result.redirect) {
+        console.log("Payment will be redirected");
+      }
+      if (result.paymentDetails) {
+        console.log("Payment has been completed, Check for Payment Status");
+        console.log(result.paymentDetails.paymentMessage);
+        setLoaderPayment(true);
+        setLoadingButton(true);
+      }
+    });
+  };
   const handleBookingProcess = () => {
     dispatch(fetchFlightBookRequestOneway("onward"));
     if (Return) {
@@ -327,7 +432,8 @@ const NewBookWrapperReturn = () => {
   useEffect(() => {
     if (loaderPayment == true) {
       handleBookingProcess();
-      // console.log("payment sucessfully completed");
+
+      console.log("payment sucessfully completed");
     }
   }, [loaderPayment]);
   useState(() => {
@@ -439,7 +545,8 @@ const NewBookWrapperReturn = () => {
             <ReckeckPayment
               isConfirmationModalOpen={isConfirmationModalOpen}
               handleConfirmationModalClose={handleConfirmationModalClose}
-              handlePayment={handlePayment}
+              // handlePayment={handlePayment}
+              handlePayment={handlePaymentt}
               // handlePayment={handleBookingProcess}
             />
             <ReviewTravellerFlight

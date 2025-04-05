@@ -210,7 +210,7 @@ function App() {
 
       <Routes>
         <Route index element={<Home />}></Route>
-        <Route path="/ReturnResult" element={<ReturnResult />}></Route>
+        <Route path="/flight-details/round-trip/:city/:passengers" element={<ReturnResult />}></Route>
         <Route
           path="/ReturnResultNew/PassengerDetails"
           element={<BookWrapperReturn />}
@@ -234,7 +234,7 @@ function App() {
         ></Route>
 
         <Route path="reviews" element={<Reviews />}></Route>
-        <Route path="flightlist" element={<ResultOnewayMain />}></Route>
+        <Route path="/flight-details/one-way/:city/:passengers" element={<ResultOnewayMain />}></Route>
         <Route
           path="/flightlist/passengerdetails"
           element={<OnewayBookingPage />}
@@ -251,7 +251,7 @@ function App() {
         <Route path="/download" element={<Download />} />
 
         <Route path="/st-hotel" element={<GrmHotelHome />}></Route>
-        <Route path="/st-hotel/hotelresult" element={<HotelResultMain />} />
+        <Route path="/st-hotel/hotelresult/:cityName" element={<HotelResultMain />} />
         <Route
           path="/st-hotel/hotelresult/selectroom"
           element={<HotelBookRoomGRN />}
@@ -339,7 +339,7 @@ function App() {
           path="/BusBookingConfirmation"
           element={<BusBookingConfirmation />}
         ></Route>
-        <Route path="/busresult" element={<BusResultMain />}></Route>
+        <Route path="/busresult/:city" element={<BusResultMain />}></Route>
 
         <Route path="termAndCondition" element={<TermandCondition />}></Route>
         <Route path="refundPolicy" element={<RefundPolicy />}></Route>
@@ -468,7 +468,7 @@ function App() {
         location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
         location.pathname !== "/inventoryhotelform" &&
-        location.pathname !== "/ReturnResult" && (
+        location.pathname !== "/flight-details/round-trip" && (
           // location.pathname !== "/newFlight/newBookedTicket" &&
           <Whatsapp />
         )}
@@ -479,7 +479,7 @@ function App() {
         location.pathname !== "/inventoryDashboard" &&
         location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
-        location.pathname !== "/ReturnResult" &&
+        location.pathname !== "/flight-details/round-trip" &&
         location.pathname !== "/newFlight/newBookedTicket" &&
         location.pathname !== "/inventoryhotelform" && <ScrollToTop />}
 
@@ -492,7 +492,8 @@ function App() {
         location.pathname !== "/inventoryDashboard" &&
         location.pathname !== "/phone" &&
         location.pathname !== "/Package/form" &&
-        location.pathname !== "/ReturnResult" &&
+        // location.pathname !== "/flight-details/round-trip" &&
+        !location.pathname.includes("/flight-details") &&
         location.pathname !== "/newFlight/newBookedTicket" &&
         location.pathname !== "/flightlist" &&
         location.pathname !== "/inventoryhotelform" &&

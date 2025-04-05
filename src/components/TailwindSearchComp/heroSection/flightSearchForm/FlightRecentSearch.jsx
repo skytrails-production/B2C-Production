@@ -116,7 +116,9 @@ const RecentSearches = () => {
     // }
     const queryString = new URLSearchParams(params).toString();
 
-    navigate(`/flightlist?${queryString}`);
+    navigate(
+      `/flight-details/one-way/${search?.from}-${search?.to}/adt1-chd-1-inf1?${queryString}`
+    );
 
     // dispatch(returnAction(payload));
   };

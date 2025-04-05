@@ -108,7 +108,9 @@ const FlightSuggestCard = ({ className = "", data }) => {
     };
     const queryString = new URLSearchParams(params).toString();
 
-    navigate(`/flightlist?${queryString}`);
+    navigate(
+      `/flight-details/one-way/${event?.fromDetails?.AirportCode}-${event?.to?.AirportCode}/adt1-chd-2-inf-3?${queryString}`
+    );
 
     // dispatch(returnAction(payload));
   };

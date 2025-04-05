@@ -349,7 +349,9 @@ const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
     };
     const queryString = new URLSearchParams(params).toString();
 
-    navigate(`/ReturnResult?${queryString}`);
+    navigate(
+      `/flight-details/round-trip/${fromCity.AirportCode}-${toCity.AirportCode}/adt${adult}chd${child}inf${infant}?${queryString}`
+    );
 
     // dispatch(returnAction(payload));
   };

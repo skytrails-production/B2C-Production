@@ -149,7 +149,7 @@ const StaySearchForm = () => {
       sessionStorage.setItem("grnPayload", JSON.stringify(payload));
       dispatch(hotelActionGRNFew(payload));
       dispatch(hotelActionGRN(payload));
-      navigate("/st-hotel/hotelresult");
+      navigate(`/st-hotel/hotelresult/hotels-in-${selectedFrom.cityName}`);
     }
   };
 

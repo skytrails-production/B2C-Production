@@ -114,7 +114,9 @@ const ReturnFlightResult = ({
       };
       const queryString = new URLSearchParams(params).toString();
 
-      navigate(`/ReturnResult?${queryString}`);
+      navigate(
+        `/flight-details/round-trip/${from}-${to}/adt${Adult}chd${Child}inf${Infant}?${queryString}`
+      );
     };
 
     const handlePrev = () => {
