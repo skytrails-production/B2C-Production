@@ -13,15 +13,6 @@ const Hotelhome = () => {
   return (
     <motion.div className="hotel_banner">
       <Helmet>
-        {/* <title>
-          The Skytrails - Hotel Booking, Flight Booking, Bus Booking
-        </title>
-        <link rel="canonical" href="/hotel" />
-        <meta name="description" content="hotel" />
-        <meta
-          name="keywords"
-          content="hotel,romantic getaways,family-hotels,luxury hotels,budget-friendly accommodations,pet-friendly hotels ,book hotels online,hotel deals,best hotel offers,last minute hotel booking,compare hotel prices "
-        /> */}
         <title>
           Discover the Best Hotel Offers and Save More with The SkyTrails
         </title>

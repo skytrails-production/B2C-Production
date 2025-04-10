@@ -10,11 +10,12 @@ import {
   standardizeFlightFareResponse,
   standardizeFlightBaggageResponse,
 } from "../../../../utility/flightUtility/standardizeFlightResponse";
+
+import { AlarmClock } from "lucide-react";
 import {
   findAirlineByCode,
   findAirportByCode,
 } from "../../../../utility/flightUtility/BookwarperUtility";
-import { AlarmClock } from "lucide-react";
 // const Tabs = ["Flight Information", "Fare Details", "Baggage", "Cancellation"];
 const Tabs = ["Flight Information", "Fare Details", "Baggage"];
 

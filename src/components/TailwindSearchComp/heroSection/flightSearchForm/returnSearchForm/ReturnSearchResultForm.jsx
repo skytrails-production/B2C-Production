@@ -1,27 +1,9 @@
 import React, { useState, useEffect, Fragment } from "react";
 
-// import FlightLocationFrom from "../FlightLocationFrom";
-// import FlightLocationTo from "../FlightLocationTo";
-// import ReturnDateBox from "./ReturnDateBox";
-
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 
-// import { ipAction, tokenAction } from "../../../../../Redux/IP/actionIp";
-// import {
-//   returnAction,
-//   returnActionClear,
-// } from "../../../../../Redux/FlightSearch/Return/return";
-// import { swalModal } from "../../../../../utility/swal";
-// import { clearbookTicketGDS } from "../../../../../Redux/FlightBook/actionFlightBook";
-// import { resetAllFareData } from "../../../../../Redux/FlightFareQuoteRule/actionFlightQuote";
-// import { apiURL } from "../../../../../Constants/constant";
-// import axios from "axios";
-// import {
-//   returnActionSearchAmd,
-//   returnActionSearchTboKafila,
-// } from "../../../../../Redux/FlightSearch/Return/return";
 import {
   amadeusSearchRequest,
   tbo_kafila_SearchRequest,

@@ -376,90 +376,78 @@ const ResultOnewayMain = () => {
 
   return (
     <div className="bg-indigo-50 pb-4">
-      {/* <div className="flightMainOneWayDiv visibleBig "> */}
-      <div className=" sticky top-0 left-0 z-40 hidden md:flex  w-full z-3 bg-gradient-to-b from-primary-6000 via-primary-6000 to-primary-6000">
-        {/* <Oneway2 /> */}
-        <div className="container p-2 flex justify-center items-center">
+      <div className="sticky top-0 left-0 z-40 hidden md:flex w-full bg-primary-700 shadow-md">
+        <div className="container mx-auto px-4 py-2 flex justify-center items-center">
           <OnewaySearchResultform />
         </div>
       </div>
-      {/* </div> */}
-      <div className=" visibleSmall stickyHotelDetails">
-        <section
-          style={{ borderTop: "1px solid lightgray", background: "white" }}
-        >
-          <div className="container ">
-            <div className="smallHotelEditBox">
-              <div className="smallHotelEditDetails">
-                <p>
-                  {/* {`${flightDetails?.from?.name}-${flightDetails?.to?.name}`} */}
-                </p>
-                <span>
-                  {/* {formattedDate} |{travller == 1 ? "Room" : "Rooms"} |{" "}
-                  {travller} Guests */}
-                </span>
-              </div>
-              <div
-                onClick={() => {
-                  navigate("/");
-                }}
-              >
-                <EditOutlined />
-              </div>
-            </div>
+
+      <div className="md:hidden sticky top-0 bg-white border-t border-gray-300 z-30">
+        <div className="container mx-auto px-4 py-2 flex justify-between items-center">
+          <div>
+            <p className="text-sm font-medium text-gray-800">
+              {/* `${flightDetails?.from?.name}-${flightDetails?.to?.name}` */}
+            </p>
+            <span className="text-xs text-gray-600">
+              {/* {formattedDate} | {travller} {travller === 1 ? "Room" : "Rooms"} | {traveller} Guests */}
+            </span>
           </div>
-        </section>
+          <div
+            className="cursor-pointer text-primary-700"
+            onClick={() => navigate("/")}
+          >
+            <EditOutlined />
+          </div>
+        </div>
       </div>
 
-      <div className="container mt-3">
-        {true && (
-          <div className="row">
-            <div className="col-lg-3 visibleBig p-0">
-              {!loaderFilter &&
-              minPrice !== Infinity &&
-              maxPrice !== -Infinity ? (
-                <OnewayFlightBigFilter
-                  airlineCodes={airlineCodes}
-                  minPrice={minPrice}
-                  maxPrice={maxPrice}
-                  priceRange={priceRange}
-                  minDuration={minDuration}
-                  maxDuration={maxDuration}
-                  durationRange={durationRange}
-                  selectedStops={selectedStops}
-                  selectedStopsReturn={selectedStopsReturn}
-                  selectedTimes={selectedTimes}
-                  selectedTimesReturn={selectedTimesReturn}
-                  selectedLandingTimes={selectedLandingTimes}
-                  handleCheckboxChange={handleCheckboxChange}
-                  onFilter={handleFilter}
-                  airlines={airlines}
-                  stopsAirline={stopsAirline}
-                  handleAirlineChange={handleAirlineChange}
-                  handlePriceChange={handlePriceChange}
-                  handleStopChange={handleStopChange}
-                  setSelectedTimes={setSelectedTimes}
-                  setSelectedLandingTimes={setSelectedLandingTimes}
-                />
-              ) : (
-                <ReturnFlightSleletonBig />
-              )}
-            </div>
-
-            <div className="col-lg-9">
-              {!loader ? (
-                <OnewayFlightResult
-                  jornyFlights={jornyFlights}
-                  //   retrunFlights={retrunFlights}
-                  handleClearAllFilter={handleClearAllFilter}
-                  activeFilterLabels={activeFilterLabels}
-                />
-              ) : (
-                <ReturnFlightSleletonBigRight />
-              )}
-            </div>
+      {/* Main Content */}
+      <div className="container mx-auto mt-4 px-4">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
+          <div className="hidden lg:block lg:col-span-3">
+            {!loaderFilter &&
+            minPrice !== Infinity &&
+            maxPrice !== -Infinity ? (
+              <OnewayFlightBigFilter
+                airlineCodes={airlineCodes}
+                minPrice={minPrice}
+                maxPrice={maxPrice}
+                priceRange={priceRange}
+                minDuration={minDuration}
+                maxDuration={maxDuration}
+                durationRange={durationRange}
+                selectedStops={selectedStops}
+                selectedStopsReturn={selectedStopsReturn}
+                selectedTimes={selectedTimes}
+                selectedTimesReturn={selectedTimesReturn}
+                selectedLandingTimes={selectedLandingTimes}
+                handleCheckboxChange={handleCheckboxChange}
+                onFilter={handleFilter}
+                airlines={airlines}
+                stopsAirline={stopsAirline}
+                handleAirlineChange={handleAirlineChange}
+                handlePriceChange={handlePriceChange}
+                handleStopChange={handleStopChange}
+                setSelectedTimes={setSelectedTimes}
+                setSelectedLandingTimes={setSelectedLandingTimes}
+              />
+            ) : (
+              <ReturnFlightSleletonBig />
+            )}
           </div>
-        )}
+
+          <div className="col-span-12 lg:col-span-9">
+            {!loader ? (
+              <OnewayFlightResult
+                jornyFlights={jornyFlights}
+                handleClearAllFilter={handleClearAllFilter}
+                activeFilterLabels={activeFilterLabels}
+              />
+            ) : (
+              <ReturnFlightSleletonBigRight />
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
