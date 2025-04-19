@@ -45,7 +45,7 @@ const VisaHome = () => {
           }}
         ></div>
       </motion.div>
-      <div className="mx-auto max-w-3xl h-screen py-28 sm:py-36 lg:py-36">
+      <div className="mx-auto max-w-3xl h-screen py-28 sm:py-36 lg:py-24">
         <motion.div
           initial={{ scale: 0 }}
           animate={{ scale: 1 }}

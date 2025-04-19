@@ -1,40 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset
-      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
-            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap-image/1.1"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap-image/1.1
+        http://www.sitemaps.org/schemas/sitemap-image/1.1/sitemap-image.xsd">
 
-<url>
-        <loc>https://www.theskytrails.com/</loc>
+    <url>
+        <loc>https://theskytrails.com/</loc>
         <lastmod>2024-10-01</lastmod>
+        <changefreq>daily</changefreq>
         <priority>1.0</priority>
-</url>    
-<url>
-        <loc>https://www.theskytrails.com/st-hotel</loc>
+    </url>
+    
+    <url>
+        <loc>https://theskytrails.com/st-hotel</loc>
         <lastmod>2024-10-01</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.8</priority>
-</url>
-<url>
-        <loc>https://www.theskytrails.com/holidaypackages</loc>
+    </url>
+
+    <url>
+        <loc>https://theskytrails.com/holidaypackages</loc>
         <lastmod>2024-10-01</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.8</priority>
-</url>
-<url>
-        <loc>https://www.theskytrails.com/bus</loc>
+    </url>
+
+    <url>
+        <loc>https://theskytrails.com/bus</loc>
         <lastmod>2024-10-01</lastmod>
+        <changefreq>weekly</changefreq>
         <priority>0.8</priority>
-</url>
-<url>
-        <loc>https://www.theskytrails.com/aboutus</loc>
+    </url>
+
+    <url>
+        <loc>https://theskytrails.com/aboutus</loc>
         <lastmod>2024-10-01</lastmod>
-        <priority>0.8</priority>
-</url>
-<url>
-        <loc>https://www.theskytrails.com/contactus</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
+
+    <url>
+        <loc>https://theskytrails.com/contactus</loc>
         <lastmod>2024-10-01</lastmod>
-        <priority>0.8</priority>
-</url>
+        <changefreq>monthly</changefreq>
+        <priority>0.7</priority>
+    </url>
 
 
     <!-- Add more URLs as needed -->

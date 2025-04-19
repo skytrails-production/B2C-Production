@@ -26,6 +26,8 @@ import {
   tbo_kafila_SearchRequest,
 } from "../../../../../Redux/FlightSearch/Return/return";
 import { searchFlight } from "../../../../../Redux/SearchFlight/actionSearchFlight";
+import ReturnDepartDate from "./ReturnDepartDate";
+import ReturnEndDate from "./ReturnEndDate";
 const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
   // console.log(flightClass, "flightclass");
   const [fromCity, setFromCity] = useState(null);
@@ -38,6 +40,8 @@ const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
   const [loader, setLoader] = useState(false);
   const [shake, setShake] = useState(false);
   const navigate = useNavigate();
+
+  // console.log(departDate, returnDate, "depart date return date");
 
   const handleFromSelect = (location) => {
     setFromCity(location);
@@ -105,9 +109,11 @@ const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
     reducerState?.return?.returnData?.data?.data?.Response?.Error?.ErrorCode,
   ]);
 
-  const handleDateChange = (dates) => {
+  const handleStartDateChange = (dates) => {
     setDepartDate(dayjs(dates.startDate).format("DD MMM, YY"));
-    setReturnDate(dayjs(dates.endDate).format("DD MMM, YY"));
+  };
+  const handleEndDateChange = (dates) => {
+    setReturnDate(dayjs(dates.startDate).format("DD MMM, YY"));
   };
 
   const totalCount = adult + child + infant;
@@ -386,12 +392,25 @@ const ReturnSearchForm = ({ adult, child, infant, flightClass }) => {
             shake={shake}
           />
           <div className="self-center border-r-2 border-slate-300 hidden md:flex h-12"></div>
-          <ReturnDateBox
+          {/* <ReturnDateBox
+            className="flex-1"
+            onSubmit={handleSubmit}
+            onDateChange={handleDateChange} 
+            loader={loader}
+          /> */}
+          <ReturnDepartDate
+            // selectsRange={dropOffLocationType !== "oneWay"}
+            className="flex-1"
+            // onSubmit={handleSubmit}
+            onStartDateChange={handleStartDateChange}
+          />
+          <div className="self-center border-r-2 border-slate-300 hidden md:flex h-12"></div>
+          <ReturnEndDate
             // selectsRange={dropOffLocationType !== "oneWay"}
             className="flex-1"
             onSubmit={handleSubmit}
-            onDateChange={handleDateChange}
-            loader={loader}
+            onEndDateChange={handleEndDateChange}
+            minDateEnd={departDate}
           />
         </div>
       </form>

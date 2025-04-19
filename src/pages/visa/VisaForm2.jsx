@@ -28,6 +28,7 @@ const VisaForm = () => {
   const access_token = sessionStorage.getItem("visaToken");
   const bearer_token = sessionStorage.getItem("tokExchng");
   const applicantUId = sessionStorage.getItem("appUid");
+  const storedData = JSON.parse(sessionStorage.getItem("visaClient"));
 
   const [payload, setPayload] = useState({
     passportCountry: null,
@@ -79,6 +80,38 @@ const VisaForm = () => {
   const handleDateChange2 = (dates) => {
     setArrivalDate(dayjs(dates.startDate).format("DD-MM-YYYY"));
   };
+
+  // skytrails history
+
+  const historyPayload = {
+    firstName: storedData?.applicant?.firstName,
+    lastName: storedData?.applicant?.lastName,
+    email: storedData?.applicant?.email,
+    sex: storedData?.applicant?.sex,
+    mobileNumber: {
+      phone: storedData?.applicant?.phone,
+    },
+    address: storedData?.applicant?.address,
+    depCountyName: payload?.travelingFrom?.label,
+    arrCountyName: payload?.travelingTo?.label,
+    fromDate: departDate,
+    toDate: arrivalDate,
+    visaType: payload?.visaCategory,
+    fee: {
+      processingFee: 100,
+      platformFee: 999,
+    },
+  };
+
+  const savetodb = async () => {
+    const res = await axios.post(
+      `${apiURL.baseURL}/skyTrails/api/visa/applyForAiVisa`,
+      historyPayload,
+      { headers: { "Content-Type": "application/json" } }
+    );
+    console.log(res, "response of history");
+  };
+  // skytrails history
 
   const handlePayNow = async () => {
     setIsProcessing(true);
@@ -135,7 +168,9 @@ const VisaForm = () => {
 
   const handlePayment = async () => {
     const token = SecureStorage?.getItem("jwtToken");
-    const storedData = JSON.parse(sessionStorage.getItem("visaClient"));
+
+    savetodb();
+
     const cashpayload = {
       phone: storedData?.applicant?.phone,
       amount: 1,

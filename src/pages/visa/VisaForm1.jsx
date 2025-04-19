@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { Country, State, City } from "country-state-city";
 import axios from "axios";
 import { apiURL } from "../../Constants/constant";
+import Authentic from "../Auth/Authentic";
+import { useSelector } from "react-redux";
+import { motion } from "motion/react";
 
 const VisaForm1 = () => {
   const navigate = useNavigate();
+  const reducerState = useSelector((state) => state);
+  const authenticUser = reducerState?.logIn?.loginData?.status;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const token = sessionStorage.getItem("visaToken");
@@ -22,8 +27,28 @@ const VisaForm1 = () => {
     pin: "",
   });
 
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  const handleModalClose = () => {
+    setIsLoginModalOpen(false);
+  };
+
+  useEffect(() => {
+    if (authenticUser === 200) {
+      handleModalClose();
+    }
+  }, [authenticUser]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // console.log("jrunnnns");
+    if (authenticUser !== 200) {
+      // console.log("jrunnnns");
+      setIsLoginModalOpen(true);
+      return;
+    }
+
     setIsSubmitting(true);
     setError(null);
 
@@ -139,9 +164,12 @@ const VisaForm1 = () => {
         ></div>
       </div>
 
-      <form
+      <motion.form
         onSubmit={handleSubmit}
-        className="bg-white rounded-lg shadow-xl max-w-5xl mx-auto px-4 p-8"
+        className="bg-white relative rounded-lg shadow-xl max-w-5xl mx-auto px-4 p-8"
+        initial={{ scale: 0.9 }}
+        animate={{ scale: 1 }}
+        transition={{ delay: 0.2, duration: 1 }}
       >
         <h2 className="text-2xl font-bold text-gray-900 mb-6">
           Applicant Information
@@ -342,7 +370,14 @@ const VisaForm1 = () => {
             )}
           </button>
         </div>
-      </form>
+      </motion.form>
+
+      <Authentic
+        isOpen={isLoginModalOpen}
+        onClose={handleModalClose}
+        // isLogoutOpen={logoutModalVisible}
+        // onLogoutClose={closeLogoutModal}
+      />
     </div>
   );
 };

@@ -14,6 +14,8 @@ import {
   hotelActionGRNFew,
 } from "../../../../Redux/HotelGRN/hotel";
 import { clearHotelReducer } from "../../../../Redux/Hotel/hotel";
+import StayStartDate from "./StayStartDate";
+import StayEndDate from "./StayEndDate";
 
 const StaySearchForm = () => {
   const [rooms, setRooms] = useState([]);
@@ -42,10 +44,14 @@ const StaySearchForm = () => {
     // console.log("Selected Location:", location);
   };
 
-  const handleDateChange = (dates) => {
+  const handleStartDateChange = (dates) => {
     setCheckinDate(dates.startDate);
-    setCheckoutDate(dates.endDate);
   };
+  const handleEndDateChange = (dates) => {
+    setCheckoutDate(dates.startDate);
+  };
+
+  console.log(checkinDate, checkoutDate, "check in checkout");
 
   const selectedSingleHotel =
     reducerState?.hotelSearchResultGRN?.ticketData?.data?.data?.hotels?.filter(
@@ -161,9 +167,19 @@ const StaySearchForm = () => {
           onLocationSelect={handleLocationSelect}
         />
         <div className="self-center border-r-2 border-slate-300 hidden md:flex h-12"></div>
-        <StayDatesRangeInput
+        {/* <StayDatesRangeInput
           className="flex-1"
           onDateChange={handleDateChange}
+        /> */}
+        <StayStartDate
+          className="flex-1"
+          onStartDateChange={handleStartDateChange}
+        />
+        <div className="self-center border-r-2 border-slate-300 hidden md:flex h-12"></div>
+        <StayEndDate
+          className="flex-1"
+          onEndDateChange={handleEndDateChange}
+          minDateEnd={checkinDate}
         />
         <div className="self-center border-r-2 border-slate-300  hidden md:flex   h-12"></div>
         <GuestsInput
